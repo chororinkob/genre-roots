@@ -488,6 +488,14 @@ const LINKS = [
   {s:"experimental_elec",t:"chiptune",  w:45, desc:"ゲーム機音源の電子音楽化"},
 ];
 
+// ===== INFLUENCE SCORE → NODE RADIUS =====
+NODES.forEach(n => {
+  n.influence = LINKS.filter(l => l.s === n.id).reduce((sum, l) => sum + l.w, 0);
+});
+const maxInfluence = Math.max(...NODES.map(n => n.influence));
+const rScale = d3.scaleSqrt().domain([0, maxInfluence]).range([8, 28]);
+NODES.forEach(n => { n.r = Math.max(8, rScale(n.influence)); });
+
 // ===== CATEGORY COLORS =====
 const CAT_COLOR = {
   roots:      "#888",
@@ -537,7 +545,7 @@ const simulation = d3.forceSimulation(NODES)
   .force("link", d3.forceLink(linkData).id(d=>d.id).distance(d => 120 - d.w * 0.5).strength(0.4))
   .force("charge", d3.forceManyBody().strength(-350))
   .force("center", d3.forceCenter(w/2, h/2))
-  .force("collision", d3.forceCollide(22))
+  .force("collision", d3.forceCollide(d => d.r + 5))
   .alphaDecay(0.02);
 
 const link = g.append("g").selectAll("line")
@@ -575,7 +583,7 @@ const node = g.append("g").selectAll("g")
     .on("end",   (e,d) => { if(!e.active) simulation.alphaTarget(0); }));
 
 node.append("circle")
-  .attr("r", d => d.suno ? 18 : 13)
+  .attr("r", d => d.r)
   .attr("fill", d => CAT_COLOR[d.cat] || "#555")
   .attr("class", d => d.suno ? "suno" : "")
   .attr("fill-opacity", d => d.suno ? 0.92 : 0.72);
@@ -583,14 +591,14 @@ node.append("circle")
 node.append("text")
   .text(d => d.label.split("\n")[0])
   .attr("dy", d => d.label.includes("\n") ? -3 : 1)
-  .style("font-size", d => d.suno ? "11px" : "10px")
+  .style("font-size", d => Math.max(9, Math.min(13, d.r * 0.55)) + "px")
   .style("font-weight", d => d.suno ? "700" : "400")
   .style("fill", d => d.suno ? "#FFD700" : "#eee");
 
 node.filter(d => d.label.includes("\n")).append("text")
   .text(d => d.label.split("\n")[1])
   .attr("dy", 11)
-  .style("font-size", d => d.suno ? "11px" : "10px")
+  .style("font-size", d => Math.max(9, Math.min(13, d.r * 0.55)) + "px")
   .style("font-weight", d => d.suno ? "700" : "400")
   .style("fill", d => d.suno ? "#FFD700" : "#eee");
 
@@ -680,13 +688,13 @@ simulation.on("tick", () => {
     .attr("x2", d => {
       const dx = d.target.x - d.source.x, dy = d.target.y - d.source.y;
       const dist = Math.sqrt(dx*dx + dy*dy) || 1;
-      const r = (d.target.suno ? 18 : 13) + 7;
+      const r = d.target.r + 7;
       return dist > r ? d.target.x - dx/dist * r : d.target.x;
     })
     .attr("y2", d => {
       const dx = d.target.x - d.source.x, dy = d.target.y - d.source.y;
       const dist = Math.sqrt(dx*dx + dy*dy) || 1;
-      const r = (d.target.suno ? 18 : 13) + 7;
+      const r = d.target.r + 7;
       return dist > r ? d.target.y - dy/dist * r : d.target.y;
     });
   node.attr("transform", d => `translate(${d.x},${d.y})`);
