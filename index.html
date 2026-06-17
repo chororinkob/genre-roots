@@ -107,7 +107,7 @@ svg { width: 100vw; height: 100vh; }
   <div class="legend-item" data-cat="synthwave"><div class="legend-dot" style="background:#6A1B9A"></div><span class="legend-label">シンセウェーブ系</span></div>
   <div class="legend-item" data-cat="hiphop"><div class="legend-dot" style="background:#2E7D32"></div><span class="legend-label">ヒップホップ系</span></div>
   <div class="legend-sep"></div>
-  <div class="legend-item" data-cat="suno"><div class="suno-ring"></div><span class="legend-label">Sunoタグ登録済み</span></div>
+  <div class="legend-item" data-cat="suno"><div class="suno-ring"></div><span class="legend-label">Suno有効タグ</span></div>
 </div>
 </div>
 
@@ -600,7 +600,7 @@ node.on("click", (e, d) => {
 
   const name = d.label.replace("\n", " ");
   spTag.textContent = name;
-  spSunoW.innerHTML = d.suno ? '<span class="sp-suno">Sunoタグ登録済み</span>' : '';
+  spSunoW.innerHTML = d.suno ? '<span class="sp-suno">Suno有効タグ</span>' : '';
   spEra.textContent  = d.era ? `発祥時期：${d.era}` : '';
   spDesc.textContent = d.desc || '（説明なし）';
 
