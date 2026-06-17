@@ -58,7 +58,7 @@ svg { width: 100vw; height: 100vh; }
 .node circle.suno { stroke: #FFD700; stroke-width: 2.5; }
 .node text { pointer-events: none; font-size: 11px; fill: #eee; text-anchor: middle; dominant-baseline: central; }
 .node.highlighted circle { stroke: #fff !important; stroke-width: 3 !important; }
-.link-label { font-size: 10px; fill: #fff; pointer-events: none; font-weight: 700; }
+.link-label { font-size: 20px; fill: #fff; pointer-events: none; font-weight: 700; }
 .link-label-bg { fill: rgba(26,26,46,0.82); pointer-events: none; }
 
 @keyframes cat-pulse {
@@ -563,9 +563,9 @@ const linkLabelG = g.append("g").selectAll("g")
 
 linkLabelG.append("rect")
   .attr("class", "link-label-bg")
-  .attr("rx", 2).attr("ry", 2)
-  .attr("width", 24).attr("height", 12)
-  .attr("x", -12).attr("y", -9);
+  .attr("rx", 3).attr("ry", 3)
+  .attr("width", 48).attr("height", 24)
+  .attr("x", -24).attr("y", -15);
 
 linkLabelG.append("text")
   .attr("class", "link-label")
@@ -591,14 +591,14 @@ node.append("circle")
 node.append("text")
   .text(d => d.label.split("\n")[0])
   .attr("dy", d => d.label.includes("\n") ? -3 : 1)
-  .style("font-size", d => Math.max(9, Math.min(13, d.r * 0.55)) + "px")
+  .style("font-size", d => Math.max(18, Math.min(26, d.r * 0.5)) + "px")
   .style("font-weight", d => d.suno ? "700" : "400")
   .style("fill", d => d.suno ? "#FFD700" : "#eee");
 
 node.filter(d => d.label.includes("\n")).append("text")
   .text(d => d.label.split("\n")[1])
-  .attr("dy", 11)
-  .style("font-size", d => Math.max(9, Math.min(13, d.r * 0.55)) + "px")
+  .attr("dy", 22)
+  .style("font-size", d => Math.max(18, Math.min(26, d.r * 0.5)) + "px")
   .style("font-weight", d => d.suno ? "700" : "400")
   .style("fill", d => d.suno ? "#FFD700" : "#eee");
 
