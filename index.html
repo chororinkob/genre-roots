@@ -286,28 +286,86 @@ const NODES = [
     roots_story:"1990年代、アンビエントの細分化の中で水をテーマにした作品が一つのカテゴリとして認識され始めた。Biosphere（ノルウェー）の「Substrata」(1997)は北極の海中をイメージさせる作品でジャンルの金字塔。Aphex Twin「Selected Ambient Works Volume II」(1994)の一部トラックも水中的な質感を持つ。Irresistible Force「Global Chillage」(1994)は海の音をサンプリングした初期の例。Alio Die（イタリア）は水の音と有機的なテクスチャーを融合。近年ではハイドロフォン（水中マイク）を使った実際の海中録音を素材にするアーティストも増えている。"},
 
   // ハウス系
-  {id:"chicago_house",   label:"Chicago House",   cat:"house", era:"1983", suno:false, desc:"シカゴで誕生したハウスの原型。ディスコのスピードアップとシンセの融合。"},
-  {id:"deep_house",      label:"Deep House",      cat:"house", era:"1986", suno:false, desc:"よりジャジーで深みのあるハウス。ソウルフルなボーカル。"},
-  {id:"acid_house",      label:"Acid House",      cat:"house", era:"1987", suno:false, desc:"TB-303のうねるベース音が特徴。UKレイブカルチャーの発端。"},
-  {id:"funky_house",     label:"Funky House",     cat:"house", era:"1990s", suno:true,  desc:"ファンキーなギターとグルーヴィーなビートのハウス。"},
-  {id:"uk_garage",       label:"UK Garage",       cat:"house", era:"1996", suno:false, desc:"UKで発展したガレージハウス。シャッフルリズムと歌物が特徴。"},
-  {id:"two_step",        label:"2-Step",           cat:"house", era:"1997", suno:true,  desc:"UK Garageのサブジャンル。跳ねるリズムパターン。"},
-  {id:"speed_garage",    label:"Speed Garage",    cat:"house", era:"1996", suno:true,  desc:"UK Garageの速くて重いサブジャンル。"},
-  {id:"progressive_house",label:"Progressive\nHouse", cat:"house", era:"1991", suno:false, desc:"長いビルドアップと展開を持つハウス。トランスに影響。"},
-  {id:"electro_house",   label:"Electro House",   cat:"house", era:"2000s", suno:false, desc:"エレクトロのベースラインとハウスのビートが融合。Big Room Houseの親。"},
-  {id:"big_room",        label:"Big Room House",  cat:"house", era:"2010s", suno:false, desc:"フェスティバル向けの大規模ハウス。EDMの中心的スタイル。"},
-  {id:"moombahton",      label:"Moombahton",      cat:"house", era:"2010", suno:true,  desc:"Dutch Houseのテンポを落とした形。レゲトンのリズムと融合。"},
+  {id:"chicago_house", label:"Chicago House", cat:"house", era:"1983", suno:false,
+    desc:"ディスコの4つ打ちビートをシンセサイザーとドラムマシンで再構築した、ダンスミュージックの新しい形。ドンドンドンドンと刻む規則正しいキックの上に、温かみのあるシンセパッド、ソウルフルなボーカルサンプル、シンプルなベースラインが乗る。テンポはBPM 118〜128でまさに踊るために最適化されている。ディスコの華やかさを最小限の機材で再現した、手作り感と高揚感が共存するサウンド。フロアが一体になる多幸感がこの音楽の本質。",
+    roots_story:"1983〜84年、シカゴのゲイクラブ「The Warehouse」のDJ Frankie Knucklesがディスコレコードにドラムマシンのビートを重ね、テンポを上げて再構築するプレイを始めた。クラブの名前から「House Music」と呼ばれるようになった。Jesse Saunders「On and On」(1984)が最初のハウスレコードとされる。Marshall Jeffersonは「Move Your Body」(1986)でピアノハウスを確立。Larry Heardは「Can You Feel It」(1986)でディープハウスの原型を作った。Trax RecordsとDJ International Recordsがシカゴハウスの2大レーベルとなった。"},
+
+  {id:"deep_house", label:"Deep House", cat:"house", era:"1986", suno:false,
+    desc:"ハウスミュージックの中でも最も「聴かせる」スタイル。ジャジーなコード進行、柔らかく温かいシンセパッド、深みのあるベースライン、ソウルフルなボーカルが、洗練された大人の空間を演出する。テンポはBPM 118〜125とハウスの中ではやや遅めで、激しく踊るよりも体を揺らして心地よくなる音楽。夜のラウンジやビーチサイドのバーが似合う。派手さはないが、何時間聴いても疲れない上質なグルーヴが魅力。",
+    roots_story:"1986年、シカゴのLarry Heard（Mr. Fingers）が「Can You Feel It」「Mystery of Love」をリリースし、ハウスに深みと感情を持ち込んだ。従来のシカゴハウスよりもテンポを落とし、ジャズやソウルの要素を取り入れたこのスタイルが「ディープハウス」と呼ばれるようになった。Ron Trentはよりスピリチュアルな方向を追求。Kerri Chandlerはニューヨークから独自のディープサウンドを発信。2010年代にはDisclosureの「Latch」がメインストリームでヒットし、ディープハウスが広く認知された。"},
+
+  {id:"acid_house", label:"Acid House", cat:"house", era:"1987", suno:false,
+    desc:"Roland TB-303ベースラインシンセサイザーの「ビヨヨヨーン」とうねる独特の音色が主役。フィルターを開閉することで生まれるヌルヌルと粘りつくような電子音が、4つ打ちビートの上で催眠的にうねり続ける。テンポはBPM 120〜130。聴いていると脳が溶けるようなトリッピーな感覚があり、意識が変容するようなサイケデリックな体験を生む。スマイリーフェイスのロゴに象徴される享楽的なエネルギーに満ちた音楽。",
+    roots_story:"1987年、シカゴのDJ Pierre、Spanky、Herbが偶然TB-303（本来はベース伴奏用の不人気機材）のツマミをいじっていた時に、あの独特の「アシッド」サウンドを発見。「Acid Tracks」としてTrax Recordsからリリースされ、新しいサウンドの幕が開けた。この音がイギリスに渡り、1988年の「セカンド・サマー・オブ・ラブ」と呼ばれるレイブムーブメントを引き起こした。数万人規模の違法レイブパーティーがイギリス各地で開催され、社会現象に。スマイリーフェイスがシンボルとなり、アシッドハウスは音楽だけでなく文化革命となった。"},
+
+  {id:"funky_house", label:"Funky House", cat:"house", era:"1990s", suno:true,
+    desc:"ファンクのグルーヴとハウスの4つ打ちが融合した、底抜けにノリのいいダンスミュージック。チャカチャカしたカッティングギター、スラップベース風のベースライン、ファンキーなホーンのサンプルが4つ打ちキックの上で踊る。テンポはBPM 125前後。とにかく楽しくて明るく、深刻さゼロ。聴いた瞬間に笑顔になれるようなパーティーミュージックで、クラブの盛り上がりを最大化する。難しいことを考えずに踊り狂うための音楽。",
+    roots_story:"1990年代後半にイギリスで流行が本格化。ハウスの4つ打ちにファンクやディスコのサンプルを大量に取り入れたスタイルで、特にUKのクラブシーンで人気を博した。DJ Sneak、Roger Sanchezが初期の主要アーティスト。イギリスではKenny Dopeが人気を集め、Defected Recordsがレーベルとして中心的な存在に。Purple Music（スイス）も重要なレーベル。2000年代にはDavid Guettaらがよりポップな方向へ発展させ、メインストリームのダンスポップへの橋渡し役となった。"},
+
+  {id:"uk_garage", label:"UK Garage", cat:"house", era:"1996", suno:false,
+    desc:"シャッフルする跳ねたリズム、R&B風のセクシーなボーカル、パンチのあるベースラインが特徴のUK独自のダンスミュージック。ハウスの4つ打ちをベースにしつつ、リズムを崩して「タッタタ・タッタタ」と跳ねさせることでグルーヴを生む。テンポはBPM 130前後。洗練されていてストリート感もあり、チャラいけどカッコいい。シャンパンを片手にクラブで踊るような都会的な空気感が漂う。UKの独自進化を象徴するジャンル。",
+    roots_story:"1990年代半ば、ニューヨークのガレージハウス（Paradise GarageのLarry Levanに由来）がイギリスに渡り、独自に変容した。Todd Edwards（アメリカ）のボーカルを細切れにサンプリングする手法がUKのプロデューサーに大きな影響を与えた。MJ Cole「Sincere」(2000)、Artful Dodger ft. Craig David「Re-Rewind」(1999)がメインストリームでヒット。Craig Davidはこのジャンルから世界的スターに。London系のクラブ（Twice As Nice等）が拠点となり、後に2-Step、Speed Garageに分岐。さらにそこからダブステップとグライムが誕生した。"},
+
+  {id:"two_step", label:"2-Step", cat:"house", era:"1997", suno:true,
+    desc:"UK Garageの中でもリズムの跳ね方が極端に強調されたスタイル。4つ打ちの2拍目と4拍目のキックを抜くことで生まれる「空白」がスウィング感を最大化し、体が勝手にステップを踏み始めるようなリズム。R&B的な甘いボーカル、シャリシャリしたハイハット、ベースの「ブン」という弾み。テンポはBPM 130前後だが、跳ねるリズムのおかげで体感的にはもっと軽快。都会的でスタイリッシュ、夜の街を歩くBGMにぴったり。",
+    roots_story:"1997年頃、UK Garageのプロデューサーたちがキックパターンを実験する中で、4つ打ちの一部を抜くことで独特のスウィング感を生むスタイルが確立された。名前は「2拍子ステップ」に由来。MJ Cole、Zed Bias、El-Bが代表的プロデューサー。2000年前後のUKチャートを席巻し、Artful Dodger、Sweet Female Attitudeらがヒットを連発。Craig Davidのデビューアルバム「Born to Do It」(2000)は2-Stepの集大成的作品。2010年代にはJames Blake、Disclosureが2-Stepの要素を現代的に再解釈した。"},
+
+  {id:"speed_garage", label:"Speed Garage", cat:"house", era:"1996", suno:true,
+    desc:"UK Garageのベースラインを極端に太く重くしたスタイル。「ブルルルル」とうねるワブリーなベースが全身を振動させ、タイトでスピーディーなリズムが疾走感を生む。テンポはBPM 130〜140とガレージの中では速め。ダブの重低音とガレージの跳ねるリズムが同居する、ヘッドバンキングしながら腰も動くような二刀流のグルーヴ。重くてスピーディー、都会の地下を猛スピードで走り抜けるような音楽。",
+    roots_story:"1996〜97年、UK Garageのプロデューサーたちがベースラインをより重く、うねるように加工し始めた。Armand Van Helden「Sugar」のリミックス(1997)がスピードガレージの代表曲としてよく挙げられる。187 Lockdown「Gunman」もジャンルを代表する一曲。Dreem Teem、DJ Narrows、DJ Eternityらがスタイルを発展。ベースの重さを追求する方向はこの後UK Garageからさらに低速化・重量化されてダブステップへと進化していく、重要な通過点となった。"},
+
+  {id:"progressive_house", label:"Progressive\nHouse", cat:"house", era:"1991", suno:false,
+    desc:"長い時間をかけてじわじわと盛り上がっていく、壮大な展開を持つハウス。1曲の中で少しずつ要素を足し引きしながらクライマックスに向かう「ビルドアップ」が最大の特徴。シンセのパッドが幾層にも重なり、フィルターが徐々に開いていく高揚感は、まるで夜明けを待つような体験。テンポはBPM 124〜130。聴いていると時間を忘れる没入感があり、DJセットの中で真価を発揮する。即効性よりも旅のような体験を提供する音楽。",
+    roots_story:"1991年頃、ハウスミュージックがよりドラマチックで展開のある方向へ進化。Sasha & John Digweedのコンビが「Renaissance」ミックスシリーズ（1994〜）で長い展開のDJプレイを確立し、ジャンルの代名詞的存在に。Leftfield「Leftism」(1995)、Underworld「Born Slippy .NUXX」(1996)も重要作品。2000年代にはDeadmau5がシンプルでメロディアスなプログレッシブハウスでEDMシーンに参入。Eric Prydz「Call on Me」(2004)はメインストリームでの大ヒット。現在もアンダーグラウンドからメインストリームまで幅広く支持されている。"},
+
+  {id:"electro_house", label:"Electro House", cat:"house", era:"2000s", suno:false,
+    desc:"ハウスのビートにエレクトロの鋭いシンセ音とディストーションを注入した、攻撃的でエネルギッシュなスタイル。歪んだベースライン、ギラギラしたシンセのリード音、ドカンと落ちるドロップが特徴。テンポはBPM 125〜130。プログレッシブハウスのようにゆっくり盛り上がるのではなく、ビルドアップからドロップへの「落差」で一気にフロアを爆発させる。大音量で浴びるのが最高のサウンド。フェスティバルのメインステージ向け。",
+    roots_story:"2000年代前半、ハウスとエレクトロの境界が崩れ始めた。Justice「†」(2007)はフランスから登場したエレクトロハウスの金字塔で、ロック的な歪みと攻撃性をダンスミュージックに持ち込んだ。Benny Benassi「Satisfaction」(2002)は初期の代表曲。Daft Punk「Human After All」(2005)も影響を与えた。Skrillex、Feed Me、Wolfgang Gartnerらが2010年前後にスタイルを発展。EDMブームの最中ではビッグルームハウスと合流し、フェスティバルEDMの主要な構成要素となった。"},
+
+  {id:"big_room", label:"Big Room House", cat:"house", era:"2010s", suno:false,
+    desc:"数万人収容のフェスティバル会場で最大のインパクトを出すために設計された、極めて分かりやすいダンスミュージック。シンプルで覚えやすいシンセのリフ、長いビルドアップ、そして「ドーン！」と落ちる大きなドロップの繰り返し。テンポはBPM 126〜130。繊細さよりもインパクト、複雑さよりもシンプルさを追求。巨大なスピーカーから放たれる重低音と花火や照明の演出で、フェスの群衆を一斉にジャンプさせる。体験型エンターテイメントとしての音楽。",
+    roots_story:"2010年代前半、Hardwell、Dimitri Vegas & Like Mike、Martin Garrixらオランダ・ベルギーのDJ/プロデューサーが確立。Martin Garrixが17歳で発表した「Animals」(2013)がジャンルを象徴する大ヒットとなった。Tomorrowland、Ultra Music Festivalなどの巨大EDMフェスティバルの成長と完全にシンクロしており、フェスのメインステージで最大のインパクトを出すことに最適化されたスタイル。Spinnin' Records、Revealed Recordingsが主要レーベル。2010年代半ばにはピークを過ぎ、より多様なサウンドへシフトしていった。"},
+
+  {id:"moombahton", label:"Moombahton", cat:"house", era:"2010", suno:true,
+    desc:"レゲトンのゆったりしたデンボウリズム（ドッ・カッ・ドド・カッ）をハウスのプロダクションで磨き上げた、腰が勝手に動くラテン系ダンスミュージック。テンポはBPM 108前後とハウスよりかなり遅く、その分ベースの一発一発が重く響く。シンセのキラキラした音色とラテン的なパーカッションが夏の空気を運ぶ。攻撃的すぎず、おしゃれすぎず、老若男女が自然に体を揺らせる間口の広さがある。BBQパーティーやプールサイドが似合う陽気な音楽。",
+    roots_story:"2009年、アメリカのDJ/プロデューサーDave Nadaがパーティーで思いつきでDutch Houseのトラックを半分のテンポ（BPM 108）に落としてプレイしたところ、予想外にフロアが盛り上がった。レゲトンのテンポと一致したこの発見から「Moombahton」が命名された（レゲトンの曲「Moombah」に由来）。Dillon Francis、Munchi（オランダ）がスタイルを発展。Major Lazer（Diplo）はムーンバートンの要素を取り入れてグローバルヒットを連発し、ジャンルの知名度を大きく上げた。ラテン音楽とEDMの架け橋となった。"},
 
   // テクノ系
-  {id:"detroit_techno",  label:"Detroit Techno",  cat:"techno", era:"1985", suno:false, desc:"デトロイトの3人組(Belleville Three)が創始。ミニマルで未来的。"},
-  {id:"techno",          label:"Techno",          cat:"techno", era:"1988", suno:false, desc:"デトロイト発。4つ打ちと繰り返しビートのダンス音楽。"},
-  {id:"acid_techno",     label:"Acid Techno",     cat:"techno", era:"1988", suno:true,  desc:"TB-303のアシッドサウンドとテクノが融合。"},
-  {id:"hard_techno",     label:"Hard Techno",     cat:"techno", era:"1990s", suno:true,  desc:"より速く・激しいテクノ。"},
-  {id:"minimal_techno",  label:"Minimal Techno",  cat:"techno", era:"1990s", suno:true,  desc:"極限まで要素を削ぎ落としたテクノ。ベルリンシーンで発展。"},
-  {id:"industrial_techno",label:"Industrial\nTechno",cat:"techno", era:"1990s", suno:true, desc:"インダストリアルの攻撃性とテクノが融合。"},
-  {id:"dub_techno",      label:"Dub Techno",      cat:"techno", era:"1994", suno:true,  desc:"ダブのエコー処理とテクノが融合。Basic Channelが代表。"},
-  {id:"intelligent_techno",label:"Intelligent\nTechno",cat:"techno", era:"1990s", suno:true, desc:"知的・実験的なテクノ。IDMに近い。"},
-  {id:"schranz",         label:"Schranz",         cat:"techno", era:"1990s", suno:true,  desc:"ドイツ発の超高速・轟音テクノ。Works in Progressが代表。"},
+  {id:"detroit_techno", label:"Detroit Techno", cat:"techno", era:"1985", suno:false,
+    desc:"機械的な正確さと人間的な感情が共存する、未来的でメランコリックな電子音楽。シンセサイザーのクリスタルのような音色、精密に打ち込まれた4つ打ちビート、深いリバーブに包まれたパッドが、荒廃した工業都市デトロイトの寂寥感と未来への希望を同時に表現する。テンポはBPM 125〜135。冷たいのに温かい、機械的なのに感情的という矛盾がこの音楽の核心。宇宙と都市の風景が重なる、孤独で美しいサウンド。",
+    roots_story:"1985年、デトロイトの3人の高校の同級生「ベルヴィル・スリー」がジャンルを創始。Juan Atkins「No UFOs」(1985)が最初のテクノレコードとされる。KraftwerkとParliament/Funkadelicを等しく愛した彼らは、ヨーロッパの電子音楽とアメリカのファンクを融合させた。Derrick May「Strings of Life」(1987)は「テクノの国歌」と呼ばれ、ピアノの旋律が機械ビートの上で感動的に響く名曲。Kevin Saundersonは「Big Fun」をポップヒットさせた。彼らの音楽がイギリス・ヨーロッパに渡り、ベルリンを中心とした世界的なテクノシーンを生んだ。"},
+
+  {id:"techno", label:"Techno", cat:"techno", era:"1988", suno:false,
+    desc:"4つ打ちキックの反復を基盤に、シンセサイザーの無機質な音色とミニマルな構成で構築されるダンスミュージック。同じパターンが延々と繰り返される中で、微細な音の変化やフィルターの開閉が催眠的なトランス状態を生む。テンポはBPM 125〜145と幅広い。装飾を排した禁欲的なサウンドで、歌やメロディはほぼない。深夜のクラブで大音量に身を委ねると、体がビートに同期して思考が消える没入体験が得られる。暗い箱の中で踊り続けるための機能的音楽。",
+    roots_story:"デトロイトで誕生したテクノが1988年頃にヨーロッパに渡り、特にベルリンの壁崩壊(1989)後の旧東ベルリンで爆発的に広がった。放棄された建物が不法クラブとなり、東西統合の混乱と自由のエネルギーがテクノと結びついた。Tresorクラブ(1991年開店)がベルリンテクノの拠点となり、Jeff Mills、Robert Hood（デトロイト勢）とSven Väth、Richie Hawtin（ヨーロッパ勢）が交流。Berghainクラブ（2004年〜）は世界最高峰のテクノクラブとして君臨。Love Paradeフェスティバル(1989〜)は100万人以上を集める社会現象に。テクノはベルリンの文化的アイデンティティそのものとなった。"},
+
+  {id:"acid_techno", label:"Acid Techno", cat:"techno", era:"1988", suno:true,
+    desc:"TB-303のうねるアシッドサウンドをテクノの硬質なビートに乗せた、攻撃的でサイケデリックなスタイル。グニョグニョと歪みながらフィルターが開閉するベースラインが脳を直接揺さぶり、正確無比な4つ打ちキックが体を前に押し出す。テンポはBPM 130〜145とテクノの中でもやや速め。アシッドハウスのトリッピーさとテクノの硬さが共存し、暗いクラブで浴びると視覚的な効果すら感じるような強烈な音響体験。容赦ない反復が恍惚を生む。",
+    roots_story:"アシッドハウスの発明（1987年）とほぼ同時に、TB-303のサウンドをよりハードでテクノ寄りに使うアーティストが現れた。ロンドンではSpiral Tribe（フリーパーティー集団）がアシッドテクノをスクワットパーティーやフリーレイブで演奏し、体制への抵抗の音楽としての側面を持った。Chris Liberator、Dave the Drummerらがロンドンのアシッドテクノシーンを牽引。Hardfloorはドイツからよりメロディアスなアシッドテクノを発信。Stay Up Foreverレーベルがジャンルの拠点に。現在もアンダーグラウンドシーンで根強い人気がある。"},
+
+  {id:"hard_techno", label:"Hard Techno", cat:"techno", era:"1990s", suno:true,
+    desc:"テクノの反復ビートをより速く、よりラウドに、より攻撃的にしたスタイル。歪んだキックドラムが腹にズシンと来る重量感で連打され、金属的なパーカッションが容赦なく叩きつける。テンポはBPM 140〜155と速く、エネルギーの放出を全力で追求する。繊細さゼロ、容赦なし。大音量で浴びると音が物理的な力に変わり、体が否応なく動かされる。暗くて激しいクラブの奥で、汗まみれになって踊り続ける人々のための音楽。",
+    roots_story:"1990年代、テクノの速度と激しさを追求するアーティストが増加。フランクフルトのシーンが初期の中心で、Sven Väthが拠点としたCocoonクラブが重要な役割を果たした。Chris Liebing、Adam Beyerがハードテクノの代名詞的存在に。Ben Sims、Speedy Jも重要なアーティスト。2000年代にはAmalgamate、CLR（Chris Liebing Records）、Drumcode（Adam Beyer）が主要レーベルとして確立。2020年代には若い世代のDJ（VTSS、999999999等）がさらに過激なスタイルを追求し、ジャンルは再び勢いを増している。"},
+
+  {id:"minimal_techno", label:"Minimal Techno", cat:"techno", era:"1990s", suno:true,
+    desc:"音を極限まで削ぎ落とし、最小限の要素だけで成立するテクノ。キック、ハイハット、1〜2種類のパーカッション音だけで構成されることも珍しくない。その「ない」ことの美学の中で、わずかな音の変化——フィルターの微調整、クリックの位置のずれ——が巨大な出来事になる。テンポはBPM 120〜130でゆったりめ。聴き始めは「何もない」と感じるが、耳が慣れると微細な変化の宇宙が見えてくる。静寂の中の豊かさ、引き算の美学。",
+    roots_story:"1990年代半ば、ベルリンのBasic Channel（Moritz von Oswald & Mark Ernestus）がダブの残響感とテクノのミニマリズムを融合させ、ダブテクノ/ミニマルの方向性を示した。Robert Hood（デトロイト）は「Minimal Nation」(1994)で「ミニマルテクノ」という言葉を定義。Richie HawtinはPlastikmanプロジェクトで極端にストリップダウンしたテクノを追求。2000年代にはRicardo Villalobos、Luciano（チリ）がミニマルにラテンの要素を加えた「ミニマルハウス」で世界を席巻。ベルリンのBerghain/Panorama Barがミニマルテクノの聖地として機能した。"},
+
+  {id:"industrial_techno", label:"Industrial\nTechno", cat:"techno", era:"1990s", suno:true,
+    desc:"工場の轟音と機械の振動をそのままダンスフロアに持ち込んだような、極めて攻撃的なテクノ。歪んだキック、金属を叩きつけるようなパーカッション、不穏なノイズがBPM 130〜145で容赦なく叩きつける。インダストリアルの不気味さ・暴力性とテクノの反復構造が完全に融合しており、工業地帯の灰色の美学がダンスミュージックになったようなサウンド。暗闘的な緊張感と圧倒的な音圧の中に、不思議な快感がある。",
+    roots_story:"1990年代、インダストリアル音楽とテクノの合流が本格化。Surgeon（バーミンガム）とRegis（同）がBirmingham Technoとして知られるハードで暗いスタイルを確立し、Downwardsレーベルを設立。Ansome、Blawan、Paula Templeらが2010年代に新世代のインダストリアルテクノを牽引。Perc Traxレーベルも重要。2010年代後半にはBerghainクラブのブッキングポリシーの影響もあり、インダストリアルテクノはテクノシーン全体のトレンドとなった。Kobosil、SPFDJ、I Hate Modelsらが現在の中心アーティスト。"},
+
+  {id:"dub_techno", label:"Dub Techno", cat:"techno", era:"1994", suno:true,
+    desc:"テクノのミニマルなビートにダブの深い残響（リバーブとディレイ）を重ねた、瞑想的で幻想的なサウンド。コードが霧のように空間に広がり、キックとハイハットが奥まった場所からぼんやりと聞こえてくる。すべての音がエコーの海に溶け込み、輪郭がぼやけていく心地よさがある。テンポはBPM 120〜128でゆったり。深夜から明け方にかけて、意識が朦朧とする時間帯に完璧にフィットする。眠りに落ちる直前の意識の状態を音にしたような音楽。",
+    roots_story:"1994年、ベルリンのBasic Channel（Moritz von Oswald & Mark Ernestus）が自主レーベルから発表した一連の12インチシングルでダブテクノを確立。ジャマイカのダブのエコー処理とデトロイトテクノのミニマリズムを融合させた独自のサウンドは、一聴してそれとわかる唯一無二のものだった。Chain Reactionレーベル（Basic Channelの傘下）にはMikkel Metal、Vladislav Delay、Monolakeらが集結。DeepChord（アメリカ）は「Liumin」(2007)で環境音とダブテクノを融合。日本のShinichi Atobe「Ship-Scope」(2001)も傑作とされる。"},
+
+  {id:"intelligent_techno", label:"Intelligent\nTechno", cat:"techno", era:"1990s", suno:true,
+    desc:"踊ることよりも「聴くこと」に重きを置いたテクノ。複雑に組み合わされたリズムパターン、予測不能な音の配置、緻密な音響デザインが知的好奇心を刺激する。ビートはあるが不規則で、聴いていると脳が音のパズルを解こうとする面白さがある。テンポは様々。イヤホンで細部まで聴き込むと新しい発見がある、何度聴いても飽きない奥深さ。踊るためではなく考えるための電子音楽。ソファに座って深夜に一人で聴くのが最高のシチュエーション。",
+    roots_story:"1990年代初頭、Warp Records（イギリス）が「Artificial Intelligence」シリーズ(1992〜)をリリースし、「ソファで聴く電子音楽」というコンセプトを打ち出した。Autechre、Aphex Twin、Black Dog、B12らが所属し、IDM（Intelligent Dance Music）というジャンル名が生まれた。Aphex Twin「Selected Ambient Works 85-92」(1992)は電子音楽史上の傑作。Autechreは極端に複雑なリズムプログラミングで知られ、作品ごとにさらに抽象的な方向へ進んだ。Boards of Canada、Plaid、Squarepusherらもジャンルの重要人物。"},
+
+  {id:"schranz", label:"Schranz", cat:"techno", era:"1990s", suno:true,
+    desc:"テクノをさらにハードに、さらに速く、さらにうるさくした極限のスタイル。極端に歪んだキック、金切り声のようなシンセ、鉄板を引っかくようなノイズがBPM 145〜160の超高速で叩きつけられる。「シュランツ」はドイツ語でギシギシ軋む音を表す擬音語。繊細さは皆無だが、その暴力的な音圧の中に奇妙な爽快感がある。巨大なサウンドシステムで浴びると、音が皮膚を突き抜けて内臓を揺さぶる物理的な体験になる。",
+    roots_story:"1990年代半ば、ドイツ（特にフランクフルト周辺）のハードテクノシーンから派生。Chris Liebing、DJ Rush（シカゴ出身だがドイツで活躍）が初期の主要アーティスト。名前の由来はドイツのDJ Zenkerが使い始めた俗語とされる。StreetparadeやMayday等のドイツ/オーストリアの大型レイブで特に人気を博した。CLR Records、Works Recordsが主要レーベル。2000年代以降は「ハードテクノ」という呼称に吸収されていく傾向があるが、その超攻撃的な美学は現在のインダストリアルテクノにも受け継がれている。"},
   {id:"techno_kayo",     label:"Techno Kayō",     cat:"techno", era:"1980s", suno:true,  desc:"日本の歌謡曲とテクノが融合。YMOが代表的存在。"},
 
   // トランス系
