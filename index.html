@@ -12,7 +12,8 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
 #header h1 { font-size: 15px; font-weight: 700; color: #fff; white-space: nowrap; }
 #header .sub { font-size: 12px; color: #888; }
 
-#legend { position: fixed; top: 50px; right: 14px; z-index: 20; background: rgba(15,15,26,0.88); border: 1px solid #333; border-radius: 8px; padding: 10px 12px; font-size: 12px; min-width: 160px; }
+#left-sidebar { position: fixed; top: 50px; left: 14px; bottom: 10px; z-index: 20; width: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+#legend { background: rgba(15,15,26,0.88); border: 1px solid #333; border-radius: 8px; padding: 10px 12px; font-size: 12px; }
 #legend h3 { font-size: 11px; color: #aaa; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
 .legend-item { display: flex; align-items: center; gap: 7px; margin-bottom: 5px; }
 .legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
@@ -20,7 +21,7 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
 .legend-sep { border-top: 1px solid #333; margin: 8px 0; }
 .suno-ring { width: 12px; height: 12px; border-radius: 50%; border: 2px solid #FFD700; flex-shrink: 0; }
 
-#controls { position: fixed; top: 50px; left: 14px; z-index: 20; background: rgba(15,15,26,0.88); border: 1px solid #333; border-radius: 8px; padding: 10px 12px; font-size: 12px; width: 200px; }
+#controls { background: rgba(15,15,26,0.88); border: 1px solid #333; border-radius: 8px; padding: 10px 12px; font-size: 12px; }
 #controls h3 { font-size: 11px; color: #aaa; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
 #search { width: 100%; padding: 5px 8px; background: #1a1a2e; border: 1px solid #444; border-radius: 5px; color: #eee; font-size: 12px; margin-bottom: 8px; }
 #search::placeholder { color: #666; }
@@ -78,6 +79,7 @@ svg { width: 100vw; height: 100vh; }
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
 </div>
 
+<div id="left-sidebar">
 <div id="controls">
   <h3>検索 / フィルター</h3>
   <input id="search" type="text" placeholder="ジャンル名を検索..." />
@@ -106,6 +108,7 @@ svg { width: 100vw; height: 100vh; }
   <div class="legend-item" data-cat="hiphop"><div class="legend-dot" style="background:#2E7D32"></div><span class="legend-label">ヒップホップ系</span></div>
   <div class="legend-sep"></div>
   <div class="legend-item" data-cat="suno"><div class="suno-ring"></div><span class="legend-label">Sunoタグ登録済み</span></div>
+</div>
 </div>
 
 <div id="side-panel">
