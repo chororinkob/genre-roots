@@ -493,8 +493,8 @@ NODES.forEach(n => {
   n.influence = LINKS.filter(l => l.s === n.id).reduce((sum, l) => sum + l.w, 0);
 });
 const maxInfluence = Math.max(...NODES.map(n => n.influence));
-const rScale = d3.scaleSqrt().domain([0, maxInfluence]).range([8, 28]);
-NODES.forEach(n => { n.r = Math.max(8, rScale(n.influence)); });
+const rScale = d3.scaleSqrt().domain([0, maxInfluence]).range([28, 112]);
+NODES.forEach(n => { n.r = Math.max(28, rScale(n.influence)); });
 
 // ===== CATEGORY COLORS =====
 const CAT_COLOR = {
