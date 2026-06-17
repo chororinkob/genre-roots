@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>音楽ジャンル系譜グラフ</title>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; background: #1a1a2e; color: #eee; overflow: hidden; }
+
+#header { position: fixed; top: 0; left: 0; right: 0; z-index: 20; background: rgba(15,15,26,0.92); padding: 10px 16px; display: flex; align-items: center; gap: 16px; border-bottom: 1px solid #333; }
+#header h1 { font-size: 15px; font-weight: 700; color: #fff; white-space: nowrap; }
+#header .sub { font-size: 12px; color: #888; }
+
+#legend { position: fixed; top: 50px; right: 14px; z-index: 20; background: rgba(15,15,26,0.88); border: 1px solid #333; border-radius: 8px; padding: 10px 12px; font-size: 12px; min-width: 160px; }
+#legend h3 { font-size: 11px; color: #aaa; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+.legend-item { display: flex; align-items: center; gap: 7px; margin-bottom: 5px; }
+.legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+.legend-label { color: #ccc; font-size: 11px; }
+.legend-sep { border-top: 1px solid #333; margin: 8px 0; }
+.suno-ring { width: 12px; height: 12px; border-radius: 50%; border: 2px solid #FFD700; flex-shrink: 0; }
+
+#controls { position: fixed; top: 50px; left: 14px; z-index: 20; background: rgba(15,15,26,0.88); border: 1px solid #333; border-radius: 8px; padding: 10px 12px; font-size: 12px; width: 200px; }
+#controls h3 { font-size: 11px; color: #aaa; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+#search { width: 100%; padding: 5px 8px; background: #1a1a2e; border: 1px solid #444; border-radius: 5px; color: #eee; font-size: 12px; margin-bottom: 8px; }
+#search::placeholder { color: #666; }
+.filter-btn { display: inline-block; padding: 3px 8px; border-radius: 4px; border: 1px solid #444; background: #1a1a2e; color: #ccc; font-size: 11px; cursor: pointer; margin: 2px 2px 2px 0; }
+.filter-btn.active { background: #FFD700; color: #000; border-color: #FFD700; font-weight: 700; }
+
+/* hover tooltip (軽量版) */
+#tooltip { position: fixed; background: rgba(20,20,40,0.92); border: 1px solid #555; border-radius: 6px; padding: 6px 10px; font-size: 12px; pointer-events: none; display: none; z-index: 30; white-space: nowrap; color: #eee; }
+
+/* 右サイドパネル */
+#side-panel { position: fixed; right: 0; top: 50px; bottom: 0; width: 320px; background: #16162a; border-left: 1px solid #444; padding: 0; overflow-y: auto; z-index: 25; display: none; font-size: 13px; }
+#sp-header { position: sticky; top: 0; background: #1e1e38; padding: 14px 16px 10px; border-bottom: 1px solid #333; display: flex; align-items: flex-start; gap: 8px; }
+#sp-tag { font-size: 18px; font-weight: 700; color: #fff; flex: 1; line-height: 1.3; }
+#sp-copy { padding: 4px 10px; background: #2a2a50; border: 1px solid #555; border-radius: 5px; color: #ccc; font-size: 11px; cursor: pointer; white-space: nowrap; }
+#sp-copy:hover { background: #3a3a70; color: #fff; }
+#sp-close { padding: 4px 8px; background: none; border: none; color: #888; font-size: 18px; cursor: pointer; line-height: 1; }
+#sp-close:hover { color: #fff; }
+#sp-body { padding: 14px 16px; }
+.sp-suno { display: inline-block; background: #FFD700; color: #000; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 10px; margin-bottom: 10px; }
+.sp-era { font-size: 11px; color: #888; margin-bottom: 10px; }
+.sp-section { margin-bottom: 14px; }
+.sp-section h4 { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: #888; margin-bottom: 6px; border-bottom: 1px solid #2a2a50; padding-bottom: 4px; }
+.sp-section p { color: #ccc; line-height: 1.6; font-size: 13px; }
+.sp-influence-row { display: flex; align-items: baseline; gap: 6px; margin-bottom: 4px; font-size: 12px; color: #bbb; }
+.sp-influence-row .pct { font-weight: 700; color: #7ecfff; font-size: 11px; min-width: 32px; }
+.sp-influence-row .reason { color: #888; font-size: 11px; }
+#sp-yt-link { display: block; margin-top: 6px; padding: 8px 12px; background: #cc0000; color: #fff; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 700; text-align: center; }
+#sp-yt-link:hover { background: #e60000; }
+
+svg { width: 100vw; height: 100vh; }
+.link { stroke-opacity: 0.45; fill: none; }
+.link:hover { stroke-opacity: 0.9; }
+.node circle { cursor: pointer; stroke-width: 2; }
+.node circle.suno { stroke: #FFD700; stroke-width: 2.5; }
+.node text { pointer-events: none; font-size: 11px; fill: #eee; text-anchor: middle; dominant-baseline: central; }
+.node.highlighted circle { stroke: #fff !important; stroke-width: 3 !important; }
+.link-label { font-size: 10px; fill: #fff; pointer-events: none; font-weight: 700; }
+.link-label-bg { fill: rgba(26,26,46,0.82); pointer-events: none; }
+
+@keyframes cat-pulse {
+  0%   { stroke: #ffffff; stroke-width: 3; }
+  50%  { stroke: #ffffff; stroke-width: 8; filter: drop-shadow(0 0 10px #fff) drop-shadow(0 0 20px rgba(255,255,255,0.6)); }
+  100% { stroke: #ffffff; stroke-width: 3; }
+}
+.node.cat-highlight circle { animation: cat-pulse 0.85s ease-in-out infinite !important; stroke: #fff !important; }
+.node.cat-dim { opacity: 0.1; pointer-events: none; }
+.legend-item[data-cat] { cursor: pointer; padding: 2px 5px; border-radius: 4px; margin-left: -5px; transition: background 0.15s; }
+.legend-item[data-cat]:hover { background: rgba(255,255,255,0.12); }
+</style>
+</head>
+<body>
+
+<div id="header">
+  <h1>音楽ジャンル系譜グラフ（電子音楽系）</h1>
+  <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
+</div>
+
+<div id="controls">
+  <h3>検索 / フィルター</h3>
+  <input id="search" type="text" placeholder="ジャンル名を検索..." />
+  <div>
+    <span class="filter-btn active" data-filter="all">すべて</span>
+    <span class="filter-btn" data-filter="suno">Sunoタグのみ</span>
+  </div>
+</div>
+
+<div id="legend">
+  <h3>カテゴリ</h3>
+  <div class="legend-item" data-cat="roots"><div class="legend-dot" style="background:#888"></div><span class="legend-label">ルーツジャンル</span></div>
+  <div class="legend-item" data-cat="early_elec"><div class="legend-dot" style="background:#5C7CFA"></div><span class="legend-label">初期電子音楽</span></div>
+  <div class="legend-item" data-cat="synthpop"><div class="legend-dot" style="background:#845EF7"></div><span class="legend-label">シンセポップ系</span></div>
+  <div class="legend-item" data-cat="industrial"><div class="legend-dot" style="background:#495057"></div><span class="legend-label">インダストリアル系</span></div>
+  <div class="legend-item" data-cat="ambient"><div class="legend-dot" style="background:#607D8B"></div><span class="legend-label">アンビエント系</span></div>
+  <div class="legend-item" data-cat="house"><div class="legend-dot" style="background:#9C27B0"></div><span class="legend-label">ハウス系</span></div>
+  <div class="legend-item" data-cat="techno"><div class="legend-dot" style="background:#1565C0"></div><span class="legend-label">テクノ系</span></div>
+  <div class="legend-item" data-cat="trance"><div class="legend-dot" style="background:#00838F"></div><span class="legend-label">トランス系</span></div>
+  <div class="legend-item" data-cat="hardcore"><div class="legend-dot" style="background:#C62828"></div><span class="legend-label">ハードコア系</span></div>
+  <div class="legend-item" data-cat="dnb"><div class="legend-dot" style="background:#E65100"></div><span class="legend-label">DnB / ジャングル系</span></div>
+  <div class="legend-item" data-cat="dubstep"><div class="legend-dot" style="background:#5D4037"></div><span class="legend-label">ダブステップ系</span></div>
+  <div class="legend-item" data-cat="eurodance"><div class="legend-dot" style="background:#AD1457"></div><span class="legend-label">ユーロダンス系</span></div>
+  <div class="legend-item" data-cat="edm"><div class="legend-dot" style="background:#F9A825"></div><span class="legend-label">EDM系</span></div>
+  <div class="legend-item" data-cat="synthwave"><div class="legend-dot" style="background:#6A1B9A"></div><span class="legend-label">シンセウェーブ系</span></div>
+  <div class="legend-item" data-cat="hiphop"><div class="legend-dot" style="background:#2E7D32"></div><span class="legend-label">ヒップホップ系</span></div>
+  <div class="legend-sep"></div>
+  <div class="legend-item" data-cat="suno"><div class="suno-ring"></div><span class="legend-label">Sunoタグ登録済み</span></div>
+</div>
+
+<div id="side-panel">
+  <div id="sp-header">
+    <span id="sp-tag"></span>
+    <button id="sp-copy">コピー</button>
+    <button id="sp-close">✕</button>
+  </div>
+  <div id="sp-body">
+    <div id="sp-suno-wrap"></div>
+    <div id="sp-era" class="sp-era"></div>
+    <div class="sp-section" id="sp-desc-sec">
+      <h4>音楽性・特徴</h4>
+      <p id="sp-desc"></p>
+    </div>
+    <div class="sp-section" id="sp-in-sec">
+      <h4>影響を受けたジャンル（ルーツ）</h4>
+      <div id="sp-in"></div>
+    </div>
+    <div class="sp-section" id="sp-out-sec">
+      <h4>影響を与えたジャンル</h4>
+      <div id="sp-out"></div>
+    </div>
+    <div class="sp-section">
+      <h4>YouTube検索</h4>
+      <a id="sp-yt-link" target="_blank" rel="noopener">▶ YouTubeで「〇〇」を検索</a>
+    </div>
+  </div>
+</div>
+<div id="tooltip"></div>
+<svg id="graph"></svg>
+
+<script>
+// ===== DATA =====
+const NODES = [
+  // ルーツ
+  {id:"jazz",       label:"Jazz",           cat:"roots", era:"1900s", suno:false, desc:"20世紀初頭のアメリカ発。即興演奏と複雑なハーモニーが特徴。ハウス・DnBなど多くの電子音楽に影響。"},
+  {id:"blues",      label:"Blues",          cat:"roots", era:"1900s", suno:false, desc:"アメリカ南部の黒人音楽。ロック・ファンク・ソウルの源流。"},
+  {id:"funk",       label:"Funk",           cat:"roots", era:"1960s", suno:false, desc:"強烈なグルーヴとシンコペーションが特徴。ディスコ・ハウス・ヒップホップの直接的な源流。"},
+  {id:"disco",      label:"Disco",          cat:"roots", era:"1970s", suno:false, desc:"1970年代のダンスミュージック。4つ打ちビートとオーケストレーション。ハウスの直接の親。"},
+  {id:"soul",       label:"Soul",           cat:"roots", era:"1960s", suno:false, desc:"ゴスペル・R&Bから派生。感情豊かなボーカルと洗練されたアレンジ。"},
+  {id:"reggae",     label:"Reggae",         cat:"roots", era:"1960s", suno:false, desc:"ジャマイカ発。オフビートのリズムと重い低音。ダブ・ダブステップの源流。"},
+  {id:"punk",       label:"Punk Rock",      cat:"roots", era:"1970s", suno:false, desc:"1970年代後半の反体制ロック。インダストリアル・ニューウェーブに影響。"},
+  {id:"hiphop",     label:"Hip Hop",        cat:"roots", era:"1970s", suno:false, desc:"1970年代NYブロンクス発。サンプリング・ラップ・ブレイクビート。ジャングル・Lo-fiの源流。"},
+  {id:"newage",     label:"New Age",        cat:"roots", era:"1970s", suno:false, desc:"瞑想・ヒーリング向けのゆったりした音楽。アンビエントと密接。"},
+  {id:"classical",  label:"Classical",      cat:"roots", era:"~1900", suno:false, desc:"西洋クラシック音楽。ネオクラシカルダークウェーブ・アンビエントに影響。"},
+
+  // 初期電子音楽
+  {id:"musique_concrete", label:"Musique\nConcrète", cat:"early_elec", era:"1948", suno:false, desc:"テープ録音を素材にした実験音楽。ノイズ・グリッチの源流。"},
+  {id:"experimental_elec",label:"Experimental\nElectronic", cat:"early_elec", era:"1950s", suno:false, desc:"シンセサイザーを使った初期実験音楽。すべての電子音楽の土台。"},
+  {id:"krautrock",  label:"Krautrock",      cat:"early_elec", era:"1968", suno:false, desc:"1960年代末のドイツのロック。繰り返しリズムと電子音が特徴。テクノ・アンビエントの直接の親。"},
+  {id:"dub",        label:"Dub",            cat:"early_elec", era:"1970s", suno:true,  desc:"レゲエをスタジオで加工した音楽。重い低音とエコー。ダブステップの直接の親。"},
+
+  // シンセポップ系
+  {id:"new_wave",   label:"New Wave",       cat:"synthpop", era:"1977", suno:false, desc:"パンクの後に来たポップ化・電子化の流れ。シンセポップ・コールドウェーブの親。"},
+  {id:"electro",    label:"Electro",        cat:"synthpop", era:"1982", suno:false, desc:"テクノロジーとファンクが融合。808の機械的ビートが特徴。マイアミベース・エレクトロポップへ。"},
+  {id:"synth_pop",  label:"Synth Pop",      cat:"synthpop", era:"1978", suno:true,  desc:"シンセサイザー主体のポップス。Kraftwerk・New Orderが代表。"},
+  {id:"electropop", label:"Electropop",     cat:"synthpop", era:"2000s", suno:true,  desc:"シンセポップの現代版。よりポップで明るいサウンド。"},
+
+  // インダストリアル系
+  {id:"industrial", label:"Industrial",     cat:"industrial", era:"1977", suno:false, desc:"Throbbing Gristleが創始。機械的・攻撃的なノイズ音楽。"},
+  {id:"ebm",        label:"EBM",            cat:"industrial", era:"1981", suno:false, desc:"Electronic Body Music。インダストリアルと4つ打ちが融合。テクノに大きな影響。"},
+  {id:"post_punk",  label:"Post-Punk",      cat:"industrial", era:"1978", suno:false, desc:"パンクの後継。実験的でダークな方向へ。コールドウェーブ・ダークウェーブの親。"},
+  {id:"coldwave",   label:"Coldwave",       cat:"industrial", era:"1979", suno:true,  desc:"フランス・ベルギー発のポストパンク。冷たく暗い電子音。"},
+  {id:"darkwave",   label:"Darkwave",       cat:"industrial", era:"1980s", suno:false, desc:"ゴシック・ポストパンクから派生。暗く神秘的な雰囲気。"},
+  {id:"gothic_rock",label:"Gothic Rock",    cat:"industrial", era:"1979", suno:false, desc:"パンクから派生したダークなロック。ダークウェーブの親。"},
+  {id:"neoclassical_dw",label:"Neoclassical\nDarkwave", cat:"industrial", era:"1990s", suno:true, desc:"クラシックとダークウェーブが融合。弦楽器と暗い電子音。"},
+  {id:"ethereal_wave",   label:"Ethereal Wave",    cat:"industrial", era:"1980s", suno:true,  desc:"ダークウェーブから派生。幻想的・夢幻的な女性ボーカルが特徴。"},
+  {id:"harsh_noise",     label:"Harsh Noise",      cat:"industrial", era:"1980s", suno:true,  desc:"極端なノイズ音楽。聴覚限界を試すような壁面音響。"},
+
+  // アンビエント系
+  {id:"ambient",    label:"Ambient",        cat:"ambient", era:"1978", suno:false, desc:"Brian Enoが確立。環境音楽。聴取者が意識せずに聴ける音楽を目指す。"},
+  {id:"dark_ambient",    label:"Dark Ambient",    cat:"ambient", era:"1980s", suno:true,  desc:"暗く不穏な雰囲気のアンビエント。インダストリアルと融合した形。"},
+  {id:"space_ambient",   label:"Space Ambient",   cat:"ambient", era:"1970s", suno:true,  desc:"宇宙的・広大なスケール感のアンビエント。"},
+  {id:"ritual_ambient",  label:"Ritual Ambient",  cat:"ambient", era:"1980s", suno:true,  desc:"儀式的・呪術的な雰囲気のアンビエント。"},
+  {id:"horror_ambient",  label:"Horror Ambient",  cat:"ambient", era:"1980s", suno:true,  desc:"ホラー映画的な恐怖感を演出するアンビエント。"},
+  {id:"underwater_ambient",label:"Underwater\nAmbient",cat:"ambient", era:"1990s", suno:true, desc:"水中・海底をイメージさせるアンビエント。"},
+
+  // ハウス系
+  {id:"chicago_house",   label:"Chicago House",   cat:"house", era:"1983", suno:false, desc:"シカゴで誕生したハウスの原型。ディスコのスピードアップとシンセの融合。"},
+  {id:"deep_house",      label:"Deep House",      cat:"house", era:"1986", suno:false, desc:"よりジャジーで深みのあるハウス。ソウルフルなボーカル。"},
+  {id:"acid_house",      label:"Acid House",      cat:"house", era:"1987", suno:false, desc:"TB-303のうねるベース音が特徴。UKレイブカルチャーの発端。"},
+  {id:"funky_house",     label:"Funky House",     cat:"house", era:"1990s", suno:true,  desc:"ファンキーなギターとグルーヴィーなビートのハウス。"},
+  {id:"uk_garage",       label:"UK Garage",       cat:"house", era:"1996", suno:false, desc:"UKで発展したガレージハウス。シャッフルリズムと歌物が特徴。"},
+  {id:"two_step",        label:"2-Step",           cat:"house", era:"1997", suno:true,  desc:"UK Garageのサブジャンル。跳ねるリズムパターン。"},
+  {id:"speed_garage",    label:"Speed Garage",    cat:"house", era:"1996", suno:true,  desc:"UK Garageの速くて重いサブジャンル。"},
+  {id:"progressive_house",label:"Progressive\nHouse", cat:"house", era:"1991", suno:false, desc:"長いビルドアップと展開を持つハウス。トランスに影響。"},
+  {id:"electro_house",   label:"Electro House",   cat:"house", era:"2000s", suno:false, desc:"エレクトロのベースラインとハウスのビートが融合。Big Room Houseの親。"},
+  {id:"big_room",        label:"Big Room House",  cat:"house", era:"2010s", suno:false, desc:"フェスティバル向けの大規模ハウス。EDMの中心的スタイル。"},
+  {id:"moombahton",      label:"Moombahton",      cat:"house", era:"2010", suno:true,  desc:"Dutch Houseのテンポを落とした形。レゲトンのリズムと融合。"},
+
+  // テクノ系
+  {id:"detroit_techno",  label:"Detroit Techno",  cat:"techno", era:"1985", suno:false, desc:"デトロイトの3人組(Belleville Three)が創始。ミニマルで未来的。"},
+  {id:"techno",          label:"Techno",          cat:"techno", era:"1988", suno:false, desc:"デトロイト発。4つ打ちと繰り返しビートのダンス音楽。"},
+  {id:"acid_techno",     label:"Acid Techno",     cat:"techno", era:"1988", suno:true,  desc:"TB-303のアシッドサウンドとテクノが融合。"},
+  {id:"hard_techno",     label:"Hard Techno",     cat:"techno", era:"1990s", suno:true,  desc:"より速く・激しいテクノ。"},
+  {id:"minimal_techno",  label:"Minimal Techno",  cat:"techno", era:"1990s", suno:true,  desc:"極限まで要素を削ぎ落としたテクノ。ベルリンシーンで発展。"},
+  {id:"industrial_techno",label:"Industrial\nTechno",cat:"techno", era:"1990s", suno:true, desc:"インダストリアルの攻撃性とテクノが融合。"},
+  {id:"dub_techno",      label:"Dub Techno",      cat:"techno", era:"1994", suno:true,  desc:"ダブのエコー処理とテクノが融合。Basic Channelが代表。"},
+  {id:"intelligent_techno",label:"Intelligent\nTechno",cat:"techno", era:"1990s", suno:true, desc:"知的・実験的なテクノ。IDMに近い。"},
+  {id:"schranz",         label:"Schranz",         cat:"techno", era:"1990s", suno:true,  desc:"ドイツ発の超高速・轟音テクノ。Works in Progressが代表。"},
+  {id:"techno_kayo",     label:"Techno Kayō",     cat:"techno", era:"1980s", suno:true,  desc:"日本の歌謡曲とテクノが融合。YMOが代表的存在。"},
+
+  // トランス系
+  {id:"trance",          label:"Trance",          cat:"trance", era:"1990", suno:false, desc:"繰り返しのメロディとビルドアップ・ドロップ構造。トランス状態を誘う音楽。"},
+  {id:"goa_trance",      label:"Goa Trance",      cat:"trance", era:"1989", suno:true,  desc:"インドのゴア発。サイケデリックな電子音とスピリチュアルな雰囲気。"},
+  {id:"psytrance",       label:"Psychedelic\nTrance", cat:"trance", era:"1990s", suno:true, desc:"ゴアトランスから派生。より多様化・高速化した形。"},
+  {id:"acid_trance",     label:"Acid Trance",     cat:"trance", era:"1992", suno:true,  desc:"TB-303のアシッドサウンドとトランスが融合。"},
+  {id:"euro_trance",     label:"Euro Trance",     cat:"trance", era:"1995", suno:true,  desc:"ヨーロッパ発のポップなトランス。キャッチーなメロディ。"},
+  {id:"euphoric_trance", label:"Euphoric Trance", cat:"trance", era:"1990s", suno:true,  desc:"高揚感・感動を最大化したトランス。"},
+  {id:"nrg_trance",      label:"NRG Trance",      cat:"trance", era:"1990s", suno:true,  desc:"エネルギッシュで速いトランス。Hard Tranceと近い。"},
+  {id:"progressive_trance",label:"Progressive\nTrance",cat:"trance", era:"1993", suno:false, desc:"長い展開とグラデーション的なビルドアップ。"},
+
+  // ハードコア系
+  {id:"rave",            label:"Rave",            cat:"hardcore", era:"1988", suno:false, desc:"UKのレイブカルチャー。Acid Houseから派生した大規模パーティー文化。"},
+  {id:"hardcore_rave",   label:"Hardcore Rave",   cat:"hardcore", era:"1990", suno:false, desc:"レイブのより速く激しいスタイル。ガバ・ハッピーハードコアの親。"},
+  {id:"happy_hardcore",  label:"Happy Hardcore",  cat:"hardcore", era:"1991", suno:false, desc:"高速で明るくポップなハードコア。ピッチの上がったボーカル。"},
+  {id:"gabber",          label:"Gabber",          cat:"hardcore", era:"1992", suno:true,  desc:"オランダ発の超高速・歪んだキック。180BPM以上の暴力的サウンド。"},
+  {id:"speedcore",       label:"Speedcore",       cat:"hardcore", era:"1993", suno:true,  desc:"ガバをさらに高速化。300BPM以上に達することも。"},
+  {id:"breakcore",       label:"Breakcore",       cat:"hardcore", era:"1994", suno:true,  desc:"ブレイクビートを細断・再構成した混沌とした音楽。"},
+  {id:"hardcore_edm",    label:"Hardcore EDM",    cat:"hardcore", era:"2000s", suno:true,  desc:"現代的なハードコアスタイル。メロディアスな要素も持つ。"},
+  {id:"mainstream_hardcore",label:"Mainstream\nHardcore",cat:"hardcore", era:"2000s", suno:true, desc:"よりポップでアクセスしやすいハードコア。"},
+  {id:"hardstyle",       label:"Hardstyle",       cat:"hardcore", era:"2000", suno:true,  desc:"オランダ発。跳ねるリバースベースキックが特徴。"},
+  {id:"j_core",          label:"J-Core",          cat:"hardcore", era:"2000s", suno:true,  desc:"日本のアニメ・ゲーム文化と融合したハッピーハードコア。"},
+  {id:"nitzhonot",       label:"Nitzhonot",       cat:"hardcore", era:"1990s", suno:true,  desc:"イスラエル発のトランス系ハードコア。中東的なメロディ。"},
+  {id:"hands_up",        label:"Hands Up",        cat:"hardcore", era:"2000s", suno:true,  desc:"ユーロダンスとハードコアの中間。明るくキャッチーなシンセ。"},
+  {id:"hardwave",        label:"Hardwave",        cat:"hardcore", era:"2010s", suno:true,  desc:"シンセウェーブとハードコアが融合。ダークでレトロな攻撃性。"},
+
+  // DnB / ジャングル系
+  {id:"breakbeat",       label:"Breakbeat",       cat:"dnb", era:"1988", suno:false, desc:"サンプリングしたドラムブレイクを使った音楽。ジャングル・ビッグビートの親。"},
+  {id:"jungle",          label:"Jungle",          cat:"dnb", era:"1992", suno:false, desc:"UK発。高速なブレイクビートとレゲエの重い低音が融合。DnBの直接の親。"},
+  {id:"dnb",             label:"Drum and Bass",   cat:"dnb", era:"1994", suno:false, desc:"ジャングルが進化。170BPM前後の高速ビートとヘビーなベース。"},
+  {id:"liquid_dnb",      label:"Liquid DnB",      cat:"dnb", era:"1990s", suno:true,  desc:"メロディアスで聴きやすいDnB。ジャジーな要素も。"},
+  {id:"neurofunk",       label:"Neurofunk",       cat:"dnb", era:"1998", suno:true,  desc:"機能的・テクニカルなDnB。複雑なベース変調が特徴。"},
+  {id:"drumstep",        label:"Drumstep",        cat:"dnb", era:"2010s", suno:true,  desc:"DnBのリズムとダブステップのベースが融合。"},
+  {id:"drumfunk",        label:"Drumfunk",        cat:"dnb", era:"2000s", suno:true,  desc:"生ドラムをサンプリングした有機的なDnB。"},
+  {id:"darkstep",        label:"Darkstep",        cat:"dnb", era:"1990s", suno:true,  desc:"暗く重いDnB。インダストリアルな要素も。"},
+
+  // ダブステップ系
+  {id:"dubstep",         label:"Dubstep",         cat:"dubstep", era:"2001", suno:true,  desc:"UK Garageとダブが融合。140BPMの重いウォブルベースが特徴。"},
+  {id:"deep_dubstep",    label:"Deep Dubstep",    cat:"dubstep", era:"2000s", suno:true,  desc:"より深みがあり落ち着いたダブステップ。"},
+  {id:"wobble_bass",     label:"Wobble Bass",     cat:"dubstep", era:"2000s", suno:true,  desc:"うねるLFO変調ベース。ダブステップの象徴的サウンド。"},
+  {id:"post_dubstep",    label:"Post-Dubstep",    cat:"dubstep", era:"2010s", suno:true,  desc:"ダブステップの影響を受けつつ実験的に発展したスタイル。"},
+  {id:"future_bass",     label:"Future Bass",     cat:"dubstep", era:"2012", suno:true,  desc:"ポスト・ダブステップ的な明るく感情的なサウンド。"},
+
+  // ユーロダンス系
+  {id:"hi_nrg",          label:"Hi-NRG",          cat:"eurodance", era:"1977", suno:true,  desc:"高エネルギーなディスコ派生。ユーロダンスの重要な親。"},
+  {id:"italo_disco",     label:"Italo Disco",     cat:"eurodance", era:"1977", suno:true,  desc:"イタリア発のシンセサイザーを多用したディスコ。ユーロビートの直接の親。"},
+  {id:"eurodance",       label:"Eurodance",       cat:"eurodance", era:"1989", suno:true,  desc:"ヨーロッパ発の高速ダンスポップ。4つ打ちとラップが共存。"},
+  {id:"eurobeat",        label:"Eurobeat",        cat:"eurodance", era:"1990s", suno:true,  desc:"超高速イタロディスコ。日本のパラパラと頭文字Dで有名。"},
+  {id:"j_eurobeat",      label:"J-Eurobeat",      cat:"eurodance", era:"1990s", suno:true,  desc:"日本向けにローカライズされたユーロビート。"},
+  {id:"parapara_eurobeat",label:"Parapara\nEurobeat", cat:"eurodance", era:"1999", suno:true, desc:"パラパラダンス向けのユーロビート。日本特有の文化。"},
+
+  // EDM系
+  {id:"edm",             label:"EDM",             cat:"edm", era:"2010s", suno:false, desc:"Electronic Dance Music。商業的な電子ダンス音楽の総称。"},
+  {id:"festival_edm",    label:"Festival EDM",    cat:"edm", era:"2010s", suno:true,  desc:"大型フェスティバル向けの派手なEDM。"},
+  {id:"melodic_edm",     label:"Melodic EDM",     cat:"edm", era:"2010s", suno:true,  desc:"感情的なメロディを重視したEDM。"},
+  {id:"dark_edm",        label:"Dark EDM",        cat:"edm", era:"2010s", suno:true,  desc:"ダークで重厚なEDM。"},
+  {id:"heavy_edm",       label:"Heavy EDM",       cat:"edm", era:"2010s", suno:true,  desc:"ヘビーなベースドロップを持つEDM。"},
+  {id:"pop_edm",         label:"Pop EDM",         cat:"edm", era:"2010s", suno:true,  desc:"ポップスとEDMが融合。チャートヒット向け。"},
+  {id:"edm_trap",        label:"EDM Trap",        cat:"edm", era:"2012", suno:true,  desc:"トラップのリズムとEDMのシンセが融合。"},
+
+  // シンセウェーブ系
+  {id:"synthwave",       label:"Synthwave",       cat:"synthwave", era:"2000s", suno:false, desc:"1980年代のシンセポップ・映画音楽へのオマージュ。Drive等のサントラで有名になった。"},
+  {id:"retrowave",       label:"Retrowave",       cat:"synthwave", era:"2000s", suno:false, desc:"シンセウェーブとほぼ同義。レトロな80年代美学。"},
+  {id:"vaporwave",       label:"Vaporwave",       cat:"synthwave", era:"2010", suno:false, desc:"80-90年代のBGMをスローダウン・加工したインターネット音楽。"},
+  {id:"darksynth",       label:"Darksynth",       cat:"synthwave", era:"2010s", suno:false, desc:"シンセウェーブの暗く攻撃的なサブジャンル。"},
+  {id:"sovietwave",      label:"Sovietwave",      cat:"synthwave", era:"2010s", suno:true,  desc:"旧ソ連の美学とシンセウェーブが融合。郷愁と冷戦的雰囲気。"},
+
+  // ヒップホップ系
+  {id:"lofi_hiphop",     label:"Lo-fi Hip Hop",  cat:"hiphop", era:"1990s", suno:true,  desc:"ローファイなサウンドのヒップホップ。チルな学習用BGMとして有名。"},
+  {id:"miami_bass",      label:"Miami Bass",      cat:"hiphop", era:"1985", suno:true,  desc:"フロリダ発。808の超低音ベースと性的な歌詞が特徴。"},
+  {id:"baile_funk",      label:"Baile Funk",      cat:"hiphop", era:"1980s", suno:true,  desc:"ブラジル発。マイアミベースがブラジルで変容した形。"},
+  {id:"trap",            label:"Trap",            cat:"hiphop", era:"2000s", suno:false, desc:"南部ヒップホップ。ハイハットの細かいパターンと808ベース。EDM Trapの親。"},
+
+  // チップチューン
+  {id:"chiptune",        label:"Chiptune",        cat:"chiptune", era:"1980s", suno:true,  desc:"ゲーム機・マイコンのサウンドチップで作った音楽。8ビット的な音色。"},
+];
+
+const LINKS = [
+  // ルーツ → 電子音楽
+  {s:"funk",        t:"disco",           w:75, desc:"ディスコはファンクの4つ打ち化"},
+  {s:"blues",       t:"funk",            w:60, desc:"ファンクはブルースのリズム強調"},
+  {s:"jazz",        t:"soul",            w:50, desc:"ソウルはジャズの大衆化"},
+  {s:"soul",        t:"funk",            w:60, desc:"ファンクはソウルの過激化"},
+  {s:"disco",       t:"chicago_house",   w:70, desc:"ディスコをシカゴのDJが再構築"},
+  {s:"funk",        t:"chicago_house",   w:30, desc:"グルーヴ感を継承"},
+  {s:"jazz",        t:"chicago_house",   w:15, desc:"ジャジーな要素"},
+  {s:"reggae",      t:"dub",             w:85, desc:"ダブはレゲエのスタジオ加工版"},
+  {s:"punk",        t:"post_punk",       w:70, desc:"パンクの実験化・深化"},
+  {s:"punk",        t:"industrial",      w:45, desc:"反体制的精神を継承"},
+  {s:"hiphop",      t:"breakbeat",       w:70, desc:"ブレイクビートはヒップホップの核"},
+  {s:"hiphop",      t:"lofi_hiphop",     w:65, desc:"ヒップホップのチル版"},
+  {s:"hiphop",      t:"miami_bass",      w:50, desc:"南部ヒップホップへの派生"},
+  {s:"miami_bass",  t:"baile_funk",      w:60, desc:"マイアミベースがブラジルへ"},
+  {s:"hiphop",      t:"trap",            w:70, desc:"南部ヒップホップの進化"},
+  {s:"trap",        t:"edm_trap",        w:60, desc:"トラップのEDM化"},
+  {s:"newage",      t:"ambient",         w:50, desc:"ニューエイジとアンビエントは密接"},
+  {s:"classical",   t:"neoclassical_dw", w:55, desc:"クラシックの要素を取り込む"},
+
+  // 初期電子音楽
+  {s:"musique_concrete",   t:"experimental_elec", w:70, desc:"実験電子音楽の礎"},
+  {s:"experimental_elec",  t:"krautrock",         w:50, desc:"電子楽器をロックに導入"},
+  {s:"experimental_elec",  t:"ambient",           w:60, desc:"Brian Enoが確立"},
+  {s:"krautrock",  t:"detroit_techno",  w:55, desc:"繰り返しリズム・機械感を継承"},
+  {s:"krautrock",  t:"synth_pop",       w:50, desc:"Kraftwerkを介して"},
+  {s:"krautrock",  t:"industrial",      w:35, desc:"実験性・機械的要素"},
+  {s:"dub",        t:"dub_techno",      w:65, desc:"ダブのエコー処理をテクノへ"},
+  {s:"dub",        t:"dubstep",         w:50, desc:"重い低音・エコーの継承"},
+
+  // シンセポップ系
+  {s:"new_wave",   t:"synth_pop",       w:65, desc:"ニューウェーブの電子化"},
+  {s:"new_wave",   t:"coldwave",        w:60, desc:"ニューウェーブのダーク化"},
+  {s:"experimental_elec", t:"synth_pop",w:40, desc:"シンセサイザー技術"},
+  {s:"synth_pop",  t:"electropop",      w:75, desc:"シンセポップの現代化"},
+  {s:"synth_pop",  t:"synthwave",       w:65, desc:"80年代シンセポップへのオマージュ"},
+  {s:"synth_pop",  t:"techno_kayo",     w:45, desc:"日本の歌謡曲×テクノの起源"},
+  {s:"disco",      t:"italo_disco",     w:55, desc:"ディスコのイタリア電子化"},
+  {s:"disco",      t:"hi_nrg",          w:60, desc:"ディスコのエネルギッシュ化"},
+  {s:"funk",       t:"electro",         w:45, desc:"ファンクの電子化"},
+  {s:"electro",    t:"miami_bass",      w:55, desc:"808ベースのフロリダ進化"},
+  {s:"electro",    t:"electropop",      w:40, desc:"エレクトロのポップ化"},
+
+  // インダストリアル系
+  {s:"industrial", t:"ebm",             w:65, desc:"インダストリアルのダンス化"},
+  {s:"ebm",        t:"detroit_techno",  w:45, desc:"EBMのリズム感がテクノに影響"},
+  {s:"post_punk",  t:"coldwave",        w:70, desc:"ポストパンクのフランス的冷感"},
+  {s:"post_punk",  t:"darkwave",        w:65, desc:"ポストパンクのゴシック化"},
+  {s:"post_punk",  t:"industrial",      w:50, desc:"実験的・反体制的精神"},
+  {s:"gothic_rock",t:"darkwave",        w:70, desc:"ゴシックロックの電子化"},
+  {s:"darkwave",   t:"ethereal_wave",   w:65, desc:"ダークウェーブの幻想的な方向"},
+  {s:"darkwave",   t:"coldwave",        w:55, desc:"関連スタイル、互いに影響"},
+  {s:"darkwave",   t:"neoclassical_dw", w:60, desc:"ダークウェーブのクラシック融合"},
+  {s:"industrial", t:"dark_ambient",    w:55, desc:"インダストリアルの静的・暗い側面"},
+  {s:"musique_concrete",t:"harsh_noise",w:50, desc:"ノイズ音楽の源流"},
+
+  // アンビエント系
+  {s:"ambient",    t:"dark_ambient",    w:70, desc:"アンビエントのダーク化"},
+  {s:"ambient",    t:"space_ambient",   w:65, desc:"宇宙的方向への派生"},
+  {s:"ambient",    t:"ritual_ambient",  w:60, desc:"儀式的・呪術的方向"},
+  {s:"ambient",    t:"horror_ambient",  w:55, desc:"ホラー的方向"},
+  {s:"ambient",    t:"underwater_ambient",w:55, desc:"水中的方向"},
+  {s:"dark_ambient",t:"horror_ambient", w:60, desc:"ダークアンビエントのホラー特化"},
+  {s:"dark_ambient",t:"ritual_ambient", w:55, desc:"暗さを儀式的に昇華"},
+
+  // ハウス系
+  {s:"chicago_house",t:"deep_house",    w:70, desc:"シカゴハウスのジャジー化"},
+  {s:"chicago_house",t:"acid_house",    w:75, desc:"TB-303を使ったシカゴ発"},
+  {s:"chicago_house",t:"funky_house",   w:60, desc:"ファンキーな方向への発展"},
+  {s:"chicago_house",t:"progressive_house",w:60, desc:"より構成的な方向"},
+  {s:"acid_house", t:"rave",            w:80, desc:"アシッドハウスがレイブ文化を生む"},
+  {s:"acid_house", t:"trance",          w:55, desc:"アシッドハウスのトランス化"},
+  {s:"acid_house", t:"acid_techno",     w:50, desc:"アシッドサウンドの高速化"},
+  {s:"uk_garage",  t:"two_step",        w:80, desc:"UK Garageのリズム変形"},
+  {s:"uk_garage",  t:"speed_garage",    w:75, desc:"UK Garageの高速重低音版"},
+  {s:"uk_garage",  t:"dubstep",         w:60, desc:"UK Garageが低速化・重くなった"},
+  {s:"progressive_house",t:"trance",    w:50, desc:"プログレッシブハウスとトランスは近接"},
+  {s:"electro_house",t:"big_room",      w:75, desc:"エレクトロハウスの大型化"},
+  {s:"big_room",   t:"festival_edm",    w:70, desc:"フェスティバル化したビッグルーム"},
+  {s:"chicago_house",t:"uk_garage",     w:55, desc:"ハウスがUKで変容"},
+  {s:"disco",      t:"hi_nrg",          w:55, desc:"ディスコの高エネルギー化"},
+  {s:"chicago_house",t:"electro_house", w:45, desc:"ハウスの電子化"},
+  {s:"chicago_house",t:"moombahton",    w:40, desc:"ハウスのレゲトン融合"},
+
+  // テクノ系
+  {s:"detroit_techno",t:"techno",       w:90, desc:"デトロイトテクノがテクノの原型"},
+  {s:"techno",     t:"acid_techno",     w:70, desc:"TB-303を使ったテクノ"},
+  {s:"techno",     t:"hard_techno",     w:70, desc:"テクノの過激化"},
+  {s:"techno",     t:"minimal_techno",  w:65, desc:"テクノの最小化"},
+  {s:"techno",     t:"industrial_techno",w:65, desc:"インダストリアル要素との融合"},
+  {s:"techno",     t:"intelligent_techno",w:60, desc:"実験的・知的方向"},
+  {s:"techno",     t:"schranz",         w:65, desc:"テクノの極限高速化"},
+  {s:"dub_techno", t:"minimal_techno",  w:50, desc:"ダブテクノのミニマル化"},
+
+  // トランス系
+  {s:"trance",     t:"goa_trance",      w:70, desc:"インドゴアのシーンで発展"},
+  {s:"goa_trance", t:"psytrance",       w:85, desc:"ゴアトランスが世界に広まった"},
+  {s:"trance",     t:"acid_trance",     w:65, desc:"TB-303サウンドとの融合"},
+  {s:"trance",     t:"euro_trance",     w:70, desc:"ヨーロッパのポップなトランス"},
+  {s:"trance",     t:"euphoric_trance", w:65, desc:"感動的・高揚的方向"},
+  {s:"trance",     t:"nrg_trance",      w:65, desc:"エネルギッシュ・高速方向"},
+  {s:"trance",     t:"progressive_trance",w:65, desc:"長い展開を持つ方向"},
+  {s:"euro_trance",t:"euphoric_trance", w:60, desc:"ユーロトランスの感動特化"},
+
+  // ハードコア系
+  {s:"acid_house", t:"hardcore_rave",   w:60, desc:"アシッドハウスの高速過激化"},
+  {s:"rave",       t:"hardcore_rave",   w:70, desc:"レイブカルチャーの極端化"},
+  {s:"hardcore_rave",t:"happy_hardcore",w:70, desc:"ハードコアの明るい方向"},
+  {s:"hardcore_rave",t:"gabber",        w:70, desc:"オランダ流の過激化"},
+  {s:"hardcore_rave",t:"breakcore",     w:60, desc:"ブレイクビートの解体"},
+  {s:"hardcore_rave",t:"hardcore_edm",  w:60, desc:"現代的なハードコア"},
+  {s:"happy_hardcore",t:"j_core",       w:70, desc:"日本のアニメ文化と融合"},
+  {s:"gabber",     t:"speedcore",       w:75, desc:"ガバのさらなる高速化"},
+  {s:"gabber",     t:"hardstyle",       w:60, desc:"ガバのリズムが変容"},
+  {s:"trance",     t:"nitzhonot",       w:50, desc:"トランスのイスラエル変容"},
+  {s:"eurodance",  t:"hands_up",        w:55, desc:"ユーロダンスのハードコア融合"},
+  {s:"synthwave",  t:"hardwave",        w:50, desc:"シンセウェーブの攻撃的化"},
+  {s:"hardcore_rave",t:"mainstream_hardcore",w:50, desc:"ハードコアの大衆化"},
+
+  // DnB/ジャングル系
+  {s:"breakbeat",  t:"jungle",          w:75, desc:"ブレイクビートの高速化"},
+  {s:"reggae",     t:"jungle",          w:35, desc:"レゲエのサウンドシステム文化"},
+  {s:"dub",        t:"jungle",          w:25, desc:"重い低音の継承"},
+  {s:"hiphop",     t:"jungle",          w:30, desc:"サンプリング文化の継承"},
+  {s:"jungle",     t:"dnb",             w:90, desc:"ジャングルが進化してDnBに"},
+  {s:"dnb",        t:"liquid_dnb",      w:70, desc:"DnBのメロディアス化"},
+  {s:"dnb",        t:"neurofunk",       w:65, desc:"DnBのテクニカル化"},
+  {s:"dnb",        t:"drumstep",        w:60, desc:"DnB×ダブステップ"},
+  {s:"dnb",        t:"drumfunk",        w:60, desc:"生ドラムを使ったDnB"},
+  {s:"dnb",        t:"darkstep",        w:65, desc:"DnBのダーク・ヘビー化"},
+
+  // ダブステップ系
+  {s:"dubstep",    t:"deep_dubstep",    w:75, desc:"ダブステップの深化"},
+  {s:"dubstep",    t:"wobble_bass",     w:85, desc:"ウォブルベースはダブステップの象徴"},
+  {s:"dubstep",    t:"post_dubstep",    w:70, desc:"ダブステップ以降の実験"},
+  {s:"dubstep",    t:"drumstep",        w:55, desc:"DnBとの融合"},
+  {s:"post_dubstep",t:"future_bass",    w:70, desc:"ポストダブステップの感情的進化"},
+
+  // ユーロダンス系
+  {s:"hi_nrg",     t:"eurodance",       w:60, desc:"Hi-NRGのポップ化・高速化"},
+  {s:"italo_disco",t:"eurobeat",        w:75, desc:"イタロディスコの高速化"},
+  {s:"italo_disco",t:"eurodance",       w:55, desc:"イタロディスコの現代化"},
+  {s:"eurodance",  t:"eurobeat",        w:60, desc:"ユーロダンスとユーロビートは姉妹"},
+  {s:"eurobeat",   t:"j_eurobeat",      w:85, desc:"日本向けにローカライズ"},
+  {s:"eurobeat",   t:"parapara_eurobeat",w:80, desc:"パラパラダンスと一体化"},
+  {s:"j_eurobeat", t:"parapara_eurobeat",w:70, desc:"J-ユーロビートの文化的文脈"},
+
+  // EDM系
+  {s:"chicago_house",t:"edm",           w:35, desc:"ハウスはEDMの重要な柱"},
+  {s:"trance",     t:"edm",             w:30, desc:"トランスはEDMの重要な柱"},
+  {s:"big_room",   t:"festival_edm",    w:70, desc:"ビッグルームのフェス展開"},
+  {s:"festival_edm",t:"melodic_edm",    w:60, desc:"感動的な方向"},
+  {s:"festival_edm",t:"dark_edm",       w:55, desc:"ダークな方向"},
+  {s:"festival_edm",t:"heavy_edm",      w:55, desc:"ヘビーな方向"},
+  {s:"festival_edm",t:"pop_edm",        w:60, desc:"ポップな方向"},
+
+  // シンセウェーブ系
+  {s:"synthwave",  t:"retrowave",       w:85, desc:"ほぼ同義語のスタイル"},
+  {s:"synthwave",  t:"darksynth",       w:60, desc:"シンセウェーブの暗い方向"},
+  {s:"synthwave",  t:"sovietwave",      w:50, desc:"旧ソ連美学との融合"},
+  {s:"vaporwave",  t:"synthwave",       w:40, desc:"ヴェイパーウェーブとシンセウェーブの相互影響"},
+
+  // チップチューン
+  {s:"experimental_elec",t:"chiptune",  w:45, desc:"ゲーム機音源の電子音楽化"},
+];
+
+// ===== CATEGORY COLORS =====
+const CAT_COLOR = {
+  roots:      "#888",
+  early_elec: "#5C7CFA",
+  synthpop:   "#845EF7",
+  industrial: "#607080",
+  ambient:    "#607D8B",
+  house:      "#9C27B0",
+  techno:     "#1565C0",
+  trance:     "#00838F",
+  hardcore:   "#C62828",
+  dnb:        "#E65100",
+  dubstep:    "#5D4037",
+  eurodance:  "#AD1457",
+  edm:        "#F57F17",
+  synthwave:  "#6A1B9A",
+  hiphop:     "#2E7D32",
+  chiptune:   "#00695C",
+};
+
+// ===== GRAPH SETUP =====
+const svg = d3.select("#graph");
+const w = window.innerWidth, h = window.innerHeight;
+const g = svg.append("g");
+
+svg.call(d3.zoom().scaleExtent([0.05, 6]).on("zoom", e => g.attr("transform", e.transform)));
+
+// arrow markers per category
+Object.entries(CAT_COLOR).forEach(([cat, color]) => {
+  svg.append("defs").append("marker")
+    .attr("id", `arrow-${cat}`)
+    .attr("viewBox", "0 -4 8 8")
+    .attr("refX", 8).attr("refY", 0)
+    .attr("markerWidth", 5).attr("markerHeight", 5)
+    .attr("orient", "auto")
+    .append("path")
+    .attr("d", "M0,-4L8,0L0,4")
+    .attr("fill", color)
+    .attr("opacity", 0.7);
+});
+
+const nodeMap = Object.fromEntries(NODES.map(n => [n.id, n]));
+
+const linkData = LINKS.map(l => ({...l, source: l.s, target: l.t}));
+
+const simulation = d3.forceSimulation(NODES)
+  .force("link", d3.forceLink(linkData).id(d=>d.id).distance(d => 120 - d.w * 0.5).strength(0.4))
+  .force("charge", d3.forceManyBody().strength(-350))
+  .force("center", d3.forceCenter(w/2, h/2))
+  .force("collision", d3.forceCollide(22))
+  .alphaDecay(0.02);
+
+const link = g.append("g").selectAll("line")
+  .data(linkData)
+  .join("line")
+  .attr("class", "link")
+  .attr("stroke", d => CAT_COLOR[nodeMap[d.s]?.cat] || "#555")
+  .attr("stroke-width", d => 0.5 + d.w / 60)
+  .attr("marker-end", d => `url(#arrow-${nodeMap[d.s]?.cat || "roots"})`);
+
+// edge label group: background rect + text
+const linkLabelG = g.append("g").selectAll("g")
+  .data(linkData)
+  .join("g");
+
+linkLabelG.append("rect")
+  .attr("class", "link-label-bg")
+  .attr("rx", 2).attr("ry", 2)
+  .attr("width", 24).attr("height", 12)
+  .attr("x", -12).attr("y", -9);
+
+linkLabelG.append("text")
+  .attr("class", "link-label")
+  .attr("text-anchor", "middle")
+  .attr("dominant-baseline", "central")
+  .text(d => d.w + "%");
+
+const node = g.append("g").selectAll("g")
+  .data(NODES)
+  .join("g")
+  .attr("class", "node")
+  .call(d3.drag()
+    .on("start", (e,d) => { if(!e.active) simulation.alphaTarget(0.3).restart(); d.fx=d.x; d.fy=d.y; })
+    .on("drag",  (e,d) => { d.fx=e.x; d.fy=e.y; })
+    .on("end",   (e,d) => { if(!e.active) simulation.alphaTarget(0); }));
+
+node.append("circle")
+  .attr("r", d => d.suno ? 18 : 13)
+  .attr("fill", d => CAT_COLOR[d.cat] || "#555")
+  .attr("class", d => d.suno ? "suno" : "")
+  .attr("fill-opacity", d => d.suno ? 0.92 : 0.72);
+
+node.append("text")
+  .text(d => d.label.split("\n")[0])
+  .attr("dy", d => d.label.includes("\n") ? -3 : 1)
+  .style("font-size", d => d.suno ? "11px" : "10px")
+  .style("font-weight", d => d.suno ? "700" : "400")
+  .style("fill", d => d.suno ? "#FFD700" : "#eee");
+
+node.filter(d => d.label.includes("\n")).append("text")
+  .text(d => d.label.split("\n")[1])
+  .attr("dy", 11)
+  .style("font-size", d => d.suno ? "11px" : "10px")
+  .style("font-weight", d => d.suno ? "700" : "400")
+  .style("fill", d => d.suno ? "#FFD700" : "#eee");
+
+// hover: 軽量ツールチップ（ジャンル名のみ）
+const tooltip = document.getElementById("tooltip");
+node.on("mouseover", (e, d) => {
+  tooltip.textContent = d.label.replace("\n", " ");
+  tooltip.style.display = "block";
+  tooltip.style.left = (e.pageX + 14) + "px";
+  tooltip.style.top  = (e.pageY - 10) + "px";
+})
+.on("mousemove", e => {
+  tooltip.style.left = (e.pageX + 14) + "px";
+  tooltip.style.top  = (e.pageY - 10) + "px";
+})
+.on("mouseout", () => tooltip.style.display = "none");
+
+// click: 右サイドパネルを開く
+const panel     = document.getElementById("side-panel");
+const spTag     = document.getElementById("sp-tag");
+const spCopy    = document.getElementById("sp-copy");
+const spClose   = document.getElementById("sp-close");
+const spSunoW   = document.getElementById("sp-suno-wrap");
+const spEra     = document.getElementById("sp-era");
+const spDesc    = document.getElementById("sp-desc");
+const spIn      = document.getElementById("sp-in");
+const spOut     = document.getElementById("sp-out");
+const spYt      = document.getElementById("sp-yt-link");
+
+let dragMoved = false;
+node.on("mousedown.drag", null);  // 既存drag再バインド前にリセット
+node.call(d3.drag()
+  .on("start", (e,d) => { dragMoved=false; if(!e.active) simulation.alphaTarget(0.3).restart(); d.fx=d.x; d.fy=d.y; })
+  .on("drag",  (e,d) => { dragMoved=true; d.fx=e.x; d.fy=e.y; })
+  .on("end",   (e,d) => { if(!e.active) simulation.alphaTarget(0); }));
+
+node.on("click", (e, d) => {
+  if(dragMoved) return; // ドラッグ後のクリックは無視
+  e.stopPropagation();
+
+  const name = d.label.replace("\n", " ");
+  spTag.textContent = name;
+  spSunoW.innerHTML = d.suno ? '<span class="sp-suno">Sunoタグ登録済み</span>' : '';
+  spEra.textContent  = d.era ? `発祥時期：${d.era}` : '';
+  spDesc.textContent = d.desc || '（説明なし）';
+
+  // ルーツ
+  const incoming = LINKS.filter(l => l.t === d.id);
+  spIn.innerHTML = incoming.length
+    ? incoming.map(l => `<div class="sp-influence-row"><span class="pct">${l.w}%</span><b>${nodeMap[l.s]?.label?.replace("\n"," ")}</b><span class="reason">— ${l.desc||''}</span></div>`).join('')
+    : '<span style="color:#666">なし（ルーツジャンル）</span>';
+
+  // 影響先
+  const outgoing = LINKS.filter(l => l.s === d.id);
+  spOut.innerHTML = outgoing.length
+    ? outgoing.map(l => `<div class="sp-influence-row"><span class="pct">${l.w}%</span><b>${nodeMap[l.t]?.label?.replace("\n"," ")}</b><span class="reason">— ${l.desc||''}</span></div>`).join('')
+    : '<span style="color:#666">（データなし）</span>';
+
+  // YouTube
+  const q = encodeURIComponent(name + " music genre");
+  spYt.href = `https://www.youtube.com/results?search_query=${q}`;
+  spYt.textContent = `▶ YouTubeで「${name}」を検索`;
+
+  // コピー
+  spCopy.onclick = () => { navigator.clipboard.writeText(d.id).then(() => { spCopy.textContent='コピー済み'; setTimeout(()=>spCopy.textContent='コピー', 1500); }); };
+
+  panel.style.display = "block";
+});
+
+spClose.onclick = () => panel.style.display = "none";
+svg.on("click", () => panel.style.display = "none");
+
+simulation.on("tick", () => {
+  link
+    .attr("x1", d => d.source.x)
+    .attr("y1", d => d.source.y)
+    .attr("x2", d => {
+      const dx = d.target.x - d.source.x, dy = d.target.y - d.source.y;
+      const dist = Math.sqrt(dx*dx + dy*dy) || 1;
+      const r = (d.target.suno ? 18 : 13) + 7;
+      return dist > r ? d.target.x - dx/dist * r : d.target.x;
+    })
+    .attr("y2", d => {
+      const dx = d.target.x - d.source.x, dy = d.target.y - d.source.y;
+      const dist = Math.sqrt(dx*dx + dy*dy) || 1;
+      const r = (d.target.suno ? 18 : 13) + 7;
+      return dist > r ? d.target.y - dy/dist * r : d.target.y;
+    });
+  node.attr("transform", d => `translate(${d.x},${d.y})`);
+  linkLabelG.attr("transform", d =>
+    `translate(${(d.source.x + d.target.x)/2},${(d.source.y + d.target.y)/2})`
+  );
+});
+
+// Search
+document.getElementById("search").addEventListener("input", e => {
+  const q = e.target.value.toLowerCase();
+  node.classed("highlighted", d => q.length > 0 && (d.id.includes(q) || d.label.toLowerCase().includes(q)));
+  node.select("circle").attr("opacity", d => {
+    if(!q) return 1;
+    return (d.id.includes(q) || d.label.toLowerCase().includes(q)) ? 1 : 0.25;
+  });
+});
+
+// Legend hover: カテゴリにカーソルを乗せると対応ノードをパルス点灯、他を暗く
+document.querySelectorAll('.legend-item[data-cat]').forEach(item => {
+  const cat = item.dataset.cat;
+  item.addEventListener('mouseenter', () => {
+    if (cat === 'suno') {
+      node.classed('cat-highlight', d => d.suno);
+      node.classed('cat-dim',       d => !d.suno);
+    } else {
+      node.classed('cat-highlight', d => d.cat === cat);
+      node.classed('cat-dim',       d => d.cat !== cat);
+    }
+  });
+  item.addEventListener('mouseleave', () => {
+    node.classed('cat-highlight', false);
+    node.classed('cat-dim',       false);
+  });
+});
+
+// Filter
+document.querySelectorAll(".filter-btn").forEach(btn => {
+  btn.addEventListener("click", e => {
+    document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    const f = btn.dataset.filter;
+    node.style("display", d => {
+      if(f === "all") return null;
+      if(f === "suno") return d.suno ? null : "none";
+      return null;
+    });
+    link.style("display", d => {
+      if(f !== "suno") return null;
+      return (nodeMap[d.s]?.suno && nodeMap[d.t]?.suno) ? null : "none";
+    });
+  });
+});
+</script>
+</body>
+</html>
