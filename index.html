@@ -124,6 +124,10 @@ svg { width: 100vw; height: 100vh; }
       <h4>音楽性・特徴</h4>
       <p id="sp-desc"></p>
     </div>
+    <div class="sp-section" id="sp-roots-story-sec">
+      <h4>ルーツの経緯</h4>
+      <p id="sp-roots-story"></p>
+    </div>
     <div class="sp-section" id="sp-in-sec">
       <h4>影響を受けたジャンル（ルーツ）</h4>
       <div id="sp-in"></div>
@@ -145,16 +149,45 @@ svg { width: 100vw; height: 100vh; }
 // ===== DATA =====
 const NODES = [
   // ルーツ
-  {id:"jazz",       label:"Jazz",           cat:"roots", era:"1900s", suno:false, desc:"20世紀初頭のアメリカ発。即興演奏と複雑なハーモニーが特徴。ハウス・DnBなど多くの電子音楽に影響。"},
-  {id:"blues",      label:"Blues",          cat:"roots", era:"1900s", suno:false, desc:"アメリカ南部の黒人音楽。ロック・ファンク・ソウルの源流。"},
-  {id:"funk",       label:"Funk",           cat:"roots", era:"1960s", suno:false, desc:"強烈なグルーヴとシンコペーションが特徴。ディスコ・ハウス・ヒップホップの直接的な源流。"},
-  {id:"disco",      label:"Disco",          cat:"roots", era:"1970s", suno:false, desc:"1970年代のダンスミュージック。4つ打ちビートとオーケストレーション。ハウスの直接の親。"},
-  {id:"soul",       label:"Soul",           cat:"roots", era:"1960s", suno:false, desc:"ゴスペル・R&Bから派生。感情豊かなボーカルと洗練されたアレンジ。"},
-  {id:"reggae",     label:"Reggae",         cat:"roots", era:"1960s", suno:false, desc:"ジャマイカ発。オフビートのリズムと重い低音。ダブ・ダブステップの源流。"},
-  {id:"punk",       label:"Punk Rock",      cat:"roots", era:"1970s", suno:false, desc:"1970年代後半の反体制ロック。インダストリアル・ニューウェーブに影響。"},
-  {id:"hiphop",     label:"Hip Hop",        cat:"roots", era:"1970s", suno:false, desc:"1970年代NYブロンクス発。サンプリング・ラップ・ブレイクビート。ジャングル・Lo-fiの源流。"},
-  {id:"newage",     label:"New Age",        cat:"roots", era:"1970s", suno:false, desc:"瞑想・ヒーリング向けのゆったりした音楽。アンビエントと密接。"},
-  {id:"classical",  label:"Classical",      cat:"roots", era:"~1900", suno:false, desc:"西洋クラシック音楽。ネオクラシカルダークウェーブ・アンビエントに影響。"},
+  {id:"jazz", label:"Jazz", cat:"roots", era:"1900s", suno:false,
+    desc:"20世紀初頭にアメリカ南部で誕生した音楽。即興演奏（インプロヴィゼーション）と複雑なコード進行・ハーモニーが最大の特徴。スウィング感のあるリズム、ブルーノート・スケール、コール・アンド・レスポンスなどの技法を持つ。ビバップ、クールジャズ、フリージャズなど無数のサブジャンルに分岐し、ハウス・ドラムンベース・Lo-fiなど多くの電子音楽にもサンプリングやコード感覚を通じて深い影響を与えた。",
+    roots_story:"19世紀末〜20世紀初頭、ニューオーリンズの黒人コミュニティでブルース、ラグタイム、ゴスペル、マーチングバンドの要素が融合して誕生した。Buddy Bolden、King Oliver、Louis Armstrongらが初期のスタイルを確立。1920年代にシカゴ・NYへ広がり「ジャズ・エイジ」と呼ばれる社会現象に。Duke Ellington、Charlie Parker、Miles Davisらが時代ごとに革新を起こし、ビバップ→クールジャズ→フリージャズと進化。その即興精神とハーモニーの豊かさは、後のあらゆるポピュラー音楽の基盤となった。"},
+
+  {id:"blues", label:"Blues", cat:"roots", era:"1900s", suno:false,
+    desc:"アメリカ南部の黒人労働者の歌から生まれた音楽。12小節ブルース進行、ブルーノート（♭3・♭5・♭7）、コール・アンド・レスポンス形式が基本構造。ギター・ハーモニカ・ピアノを中心とした楽器編成で、感情を込めた歌唱が特徴。デルタ・ブルース、シカゴ・ブルース、エレクトリック・ブルースなどの地域スタイルがあり、ロック、ファンク、ソウル、R&Bなど現代ポピュラー音楽のほぼすべてのルーツとなった。",
+    roots_story:"19世紀後半、ミシシッピ・デルタ地域のアフリカ系アメリカ人の労働歌（ワークソング）、フィールドハラー、スピリチュアルが融合して形成された。Robert Johnsonの伝説的な「クロスロード」の逸話に象徴されるデルタ・ブルースが原型。1940年代にMuddy WatersやHowlin' Wolfがシカゴに移住し、エレキギターとバンド編成を導入してシカゴ・ブルースを確立。B.B. Kingは洗練されたギタープレイで「ブルースの王」と呼ばれた。このシカゴ・ブルースをイギリスの若者が聴いてロックンロールが生まれ、音楽史全体を変えた。"},
+
+  {id:"funk", label:"Funk", cat:"roots", era:"1960s", suno:false,
+    desc:"リズムを最優先にした強烈なグルーヴ・ミュージック。「ワン」（1拍目）を強調したシンコペーション、スラップベース、カッティングギター、ホーンセクションが特徴的なサウンドを形成する。楽曲はリフとグルーヴの反復を中心に構成され、メロディよりもリズムの快感を追求する。ディスコ、ハウス、ヒップホップ、ドラムンベースなどの電子音楽に直接的なビート感覚とサンプリング素材を提供した最重要ルーツの一つ。",
+    roots_story:"1960年代半ば、James Brownが「Papa's Got a Brand New Bag」(1965)で従来のR&Bから脱却し、リズムを前面に押し出した革命的なサウンドを生み出した。「ファンクの帝王」と呼ばれた彼の「1拍目を強調する」スタイルは音楽の概念を変えた。Sly and the Family Stoneはサイケデリック・ロックと融合させ、Parliament/FunkadelicのGeorge Clintonは宇宙的な世界観の「Pファンク」を確立。Bootsy Collins、Earth, Wind & Fire、Tower of Powerらがジャンルを拡張した。ファンクのブレイクビーツは後にヒップホップのサンプリング素材として無数に引用された。"},
+
+  {id:"disco", label:"Disco", cat:"roots", era:"1970s", suno:false,
+    desc:"1970年代を代表するダンスミュージック。一定テンポの4つ打ちキック（BPM 110〜130）、オープンハイハット、弦楽アレンジ、オクターブを行き来するベースラインが典型的サウンド。華やかなオーケストレーションとソウルフルなボーカルを特徴とし、ナイトクラブ文化と密接に結びついている。ハウスミュージックの直接の親であり、4つ打ちビートの概念を電子音楽全体に伝播させた最も重要なジャンルの一つ。",
+    roots_story:"1970年代初頭、NYのゲイ・黒人・ラテン系コミュニティのアンダーグラウンドクラブで誕生。DJ David Mancusoの「The Loft」やNicky Sianoの「The Gallery」が初期の拠点。Donna Summer「I Feel Love」(1977, Giorgio Moroder制作)はシンセサイザーを全面導入し電子音楽への橋渡しとなった。Bee Gees「Saturday Night Fever」(1977)で大衆化。しかし1979年の「Disco Demolition Night」事件に象徴されるバックラッシュで地上から姿を消す。だがシカゴのDJ達がディスコのビートをシンセで再構築し、ハウスミュージックとして再生させた。"},
+
+  {id:"soul", label:"Soul", cat:"roots", era:"1960s", suno:false,
+    desc:"ゴスペルの情熱的な歌唱法とR&Bのリズムが融合した音楽。感情を込めた力強いボーカル表現が最大の特徴で、メリスマ（装飾的な節回し）、シャウト、ファルセットなどの歌唱技法を駆使する。ホーンセクション、オルガン、洗練されたコーラスアレンジを伴い、Motown・Stax・Philadelphiaなど各レーベルが独自のサウンドを確立した。ファンク、ディスコ、R&B、ヒップホップなど後続ジャンルのボーカル表現の基盤。",
+    roots_story:"1950年代後半、Ray Charlesがゴスペルの歌唱スタイルを世俗的な歌詞に持ち込み「ソウルの父」と呼ばれた。Sam Cookeは洗練されたポップ寄りのソウルを、James Brownはよりリズミックなソウルを追求（後にファンクへ発展）。1960年代、Motownレコード（デトロイト）はSupremes、Temptations、Marvin Gayeらでポップ市場を制覇。Staxレコード（メンフィス）はOtis Redding、Booker T.らの泥臭いサザンソウルを発信。Aretha Franklinは「ソウルの女王」として君臨した。1970年代にはPhilly Soulが洗練されたストリングスを導入し、これがディスコへの直接の布石となった。"},
+
+  {id:"reggae", label:"Reggae", cat:"roots", era:"1960s", suno:false,
+    desc:"ジャマイカ発の音楽で、オフビート（裏拍）を強調する独特のリズムパターンが最大の特徴。重く深いベースライン、スカンク・ギター（チャカチャカとした裏打ちカッティング）、ゆったりしたテンポ（BPM 60〜90）が基本構造。ラスタファリ思想と結びつき、社会的メッセージを歌詞に込めることが多い。ダブ（スタジオでのリミックス技法）を生み出し、これがダブステップ、トリップホップなど多くの電子音楽の源流となった。",
+    roots_story:"1960年代後半、ジャマイカでスカ→ロックステディの進化を経て誕生。Toots and the Maytalsが「Do the Reggay」(1968)で初めて「レゲエ」という言葉を使用。Bob Marleyとthe Wailersが世界的なスターとなり、レゲエをグローバルな音楽に押し上げた。「No Woman, No Cry」「One Love」などの楽曲は今も世界中で愛される。同時期にLee \"Scratch\" Perryやking Tubbyがスタジオで録音テープを加工する「ダブ」技法を発明。これはリバーブ、ディレイ、エフェクト処理による音響実験であり、後の電子音楽・リミックス文化の原点となった。"},
+
+  {id:"punk", label:"Punk Rock", cat:"roots", era:"1970s", suno:false,
+    desc:"1970年代後半に登場した反体制・DIYのロック。3コード中心のシンプルな楽曲構成、速いテンポ、攻撃的な歌唱、短い演奏時間が特徴。技術的な巧みさよりも「誰でも楽器を持てばバンドができる」という精神を重視した。ファッションや態度を含むサブカルチャーとしても大きな影響力を持ち、ポストパンク、ニューウェーブ、ハードコア、インダストリアルなど多くの後続ジャンルの精神的・音楽的な土台を形成した。",
+    roots_story:"1974〜76年、NYのCBGBというライブハウスでRamones、Television、Patti Smithらが従来のロックの複雑さを拒絶したシンプルで攻撃的な音楽を演奏。ほぼ同時期にロンドンでSex Pistolsが「Anarchy in the U.K.」(1976)でデビューし、社会的衝撃を与えた。マネージャーMalcolm McLarenがファッションと反体制思想を結びつけ、パンクを音楽を超えた文化運動に変えた。The Clashは政治的メッセージとレゲエなど多様な要素を取り入れ「パンクの良心」と呼ばれた。パンクは長くは持たなかったが、そのDIY精神はポストパンク、ニューウェーブ、インダストリアルへ受け継がれ、電子音楽への扉を開いた。"},
+
+  {id:"hiphop", label:"Hip Hop", cat:"roots", era:"1970s", suno:false,
+    desc:"1970年代にNYブロンクスで誕生した文化・音楽。DJによるブレイクビーツの反復、MCのラップ（韻を踏んだ語り）、サンプリング（既存音源の再利用）が音楽的な3本柱。ドラムマシン（特にRoland TR-808）の重低音、スクラッチ、ビートジャグリングなどのターンテーブリズム技法を開発した。グラフィティ、ブレイクダンスを含む4大要素で構成される総合文化。ジャングル、ドラムンベース、トリップホップ、グライム、Lo-fiなど電子音楽の多くのサブジャンルに直接影響を与えた。",
+    roots_story:"1973年8月11日、DJ Kool Hercがブロンクスのアパートのパーティでファンクレコードのブレイク部分（ドラムだけの間奏）を2枚のレコードで交互に繰り返す「ブレイクビーツ」を発明。これがヒップホップの起源とされる。Grandmaster FlashはスクラッチやビートジャグリングなどのDJ技法を開発。Afrika Bambaataaはファンクにシンセサイザーを導入した「Planet Rock」(1982)でエレクトロとヒップホップを架橋した。Run-D.M.C.がロックと融合させメインストリームへ。Public Enemyは政治的メッセージを、N.W.A.はギャングスタ・ラップを確立。サンプリング文化は電子音楽全般のリミックス・マッシュアップ文化の基盤となった。"},
+
+  {id:"newage", label:"New Age", cat:"roots", era:"1970s", suno:false,
+    desc:"瞑想、ヒーリング、リラクゼーションを目的とした穏やかな音楽。シンセサイザーのパッド音、自然音（水流、鳥のさえずり）、アコースティック楽器（ハープ、フルート、ピアノ）を多用する。メロディは控えめで反復的、テンポはゆったりとし、リズムを排除することも多い。調性は明るく浮遊感があり、聴取者にリラックスや精神的安定をもたらすことを意図する。アンビエントと領域が重なりつつも、よりメロディアスでアクセスしやすい点が異なる。",
+    roots_story:"1970年代、Brian Enoのアンビエント実験とは別の流れとして、スピリチュアリズムやニューエイジ思想と結びついた音楽が形成された。ドイツのKlaus Schulze、Tangerine Dreamの電子音楽、日本の喜多郎のシンセサイザー作品が初期の代表格。Windham Hillレコード（1976年設立）がアコースティックなニューエイジを確立し、George Winston、Will Ackermannらがピアノ・ギター主体の作品で人気を得た。Enya「Orinoco Flow」(1988)が世界的ヒットとなりジャンルを大衆化。1987年にはグラミー賞にニューエイジ部門が新設された。スパやヨガスタジオのBGMとしても広く浸透し、後のチルアウト・アンビエント文化の下地を作った。"},
+
+  {id:"classical", label:"Classical", cat:"roots", era:"~1900", suno:false,
+    desc:"数世紀にわたる西洋芸術音楽の総称。厳密な楽譜による作曲、オーケストラ編成、対位法・和声法・ソナタ形式などの高度な理論体系が特徴。バロック（バッハ）、古典派（モーツァルト、ベートーヴェン）、ロマン派（ショパン、ワーグナー）、近現代（ドビュッシー、ストラヴィンスキー）と時代ごとに変遷。電子音楽への影響は深く、ネオクラシカルダークウェーブ、アンビエント、映画音楽、さらにはEDMのビルドアップ構成にまでその構造美が受け継がれている。",
+    roots_story:"千年以上の歴史を持つ西洋音楽の伝統。電子音楽との接点は20世紀初頭から始まる。Claude Debussyの印象主義音楽（1890年代〜）は調性の束縛を緩め、後のアンビエントの浮遊感に影響。Arnold Schoenbergの十二音技法（1920年代）は従来の調性を解体し、実験音楽への道を開いた。Karlheinz Stockhausen（1950年代〜）は電子音響を正統的な作曲技法に取り入れた最初の主要な作曲家で、Kraftwerkからビョークまで多大な影響を与えた。Philip Glass、Steve Reichらのミニマル音楽（1960年代〜）は反復構造でテクノ・アンビエントの直接の先駆けとなった。"},
 
   // 初期電子音楽
   {id:"musique_concrete", label:"Musique\nConcrète", cat:"early_elec", era:"1948", suno:false, desc:"テープ録音を素材にした実験音楽。ノイズ・グリッチの源流。"},
@@ -603,6 +636,16 @@ node.on("click", (e, d) => {
   spSunoW.innerHTML = d.suno ? '<span class="sp-suno">Suno有効タグ</span>' : '';
   spEra.textContent  = d.era ? `発祥時期：${d.era}` : '';
   spDesc.textContent = d.desc || '（説明なし）';
+
+  // ルーツの経緯
+  const spRootsStory = document.getElementById("sp-roots-story");
+  const spRootsStorySec = document.getElementById("sp-roots-story-sec");
+  if (d.roots_story) {
+    spRootsStory.textContent = d.roots_story;
+    spRootsStorySec.style.display = '';
+  } else {
+    spRootsStorySec.style.display = 'none';
+  }
 
   // ルーツ
   const incoming = LINKS.filter(l => l.t === d.id);
