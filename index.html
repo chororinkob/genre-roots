@@ -369,79 +369,241 @@ const NODES = [
   {id:"techno_kayo",     label:"Techno Kayō",     cat:"techno", era:"1980s", suno:true,  desc:"日本の歌謡曲とテクノが融合。YMOが代表的存在。"},
 
   // トランス系
-  {id:"trance",          label:"Trance",          cat:"trance", era:"1990", suno:false, desc:"繰り返しのメロディとビルドアップ・ドロップ構造。トランス状態を誘う音楽。"},
-  {id:"goa_trance",      label:"Goa Trance",      cat:"trance", era:"1989", suno:true,  desc:"インドのゴア発。サイケデリックな電子音とスピリチュアルな雰囲気。"},
-  {id:"psytrance",       label:"Psychedelic\nTrance", cat:"trance", era:"1990s", suno:true, desc:"ゴアトランスから派生。より多様化・高速化した形。"},
-  {id:"acid_trance",     label:"Acid Trance",     cat:"trance", era:"1992", suno:true,  desc:"TB-303のアシッドサウンドとトランスが融合。"},
-  {id:"euro_trance",     label:"Euro Trance",     cat:"trance", era:"1995", suno:true,  desc:"ヨーロッパ発のポップなトランス。キャッチーなメロディ。"},
-  {id:"euphoric_trance", label:"Euphoric Trance", cat:"trance", era:"1990s", suno:true,  desc:"高揚感・感動を最大化したトランス。"},
-  {id:"nrg_trance",      label:"NRG Trance",      cat:"trance", era:"1990s", suno:true,  desc:"エネルギッシュで速いトランス。Hard Tranceと近い。"},
-  {id:"progressive_trance",label:"Progressive\nTrance",cat:"trance", era:"1993", suno:false, desc:"長い展開とグラデーション的なビルドアップ。"},
+  {id:"trance", label:"Trance", cat:"trance", era:"1990", suno:false,
+    desc:"名前の通り、聴く者を恍惚（トランス）状態に導く音楽。長いビルドアップで徐々にテンションを上げ、ブレイクダウンで一瞬の静寂を作り、そこからメインメロディが戻る瞬間の爆発的な高揚感がこのジャンルの真骨頂。キラキラしたシンセのアルペジオ、壮大なパッド、感動的なメロディラインが4つ打ちビートに乗る。テンポはBPM 130〜150。鳥肌が立つような感動と、ひたすら踊り続ける陶酔感を同時に与えてくれる、感情を揺さぶるダンスミュージック。",
+    roots_story:"1990年頃、テクノとアシッドハウスの影響下でドイツ・ベルギー・オランダで発生。Sven Väthがフランクフルトのシーンを牽引し、Paul van Dyk、DJ Tiësto、Armin van Buurenがジャンルを世界レベルに押し上げた。Robert Miles「Children」(1996)は世界的大ヒット。A State of Trance（Armin van Buurenのラジオ番組、2001年〜）は1000回以上放送が続く長寿番組に。2000年代にはトランスの細分化が進み、プログレッシブ、アップリフティング、サイケデリックなど無数のサブジャンルが生まれた。"},
+
+  {id:"goa_trance", label:"Goa Trance", cat:"trance", era:"1989", suno:true,
+    desc:"インドの香辛料のようにスパイシーで、サイケデリックな渦に引き込まれる電子音楽。うねるシンセラインが蛇のように絡み合い、インド風のスケール（音階）やサンプルが神秘的な空気を加える。テンポはBPM 140〜150と速めで、ビートが止まることなく延々と続く。聴いていると意識が拡張していくような、万華鏡を覗いているような体験。ネオンカラーのビジュアルアートと一体化した、精神を解放するためのトランス音楽。",
+    roots_story:"1960年代からヒッピーの聖地だったインド・ゴア州のビーチで、1980年代後半にDJ Laurent、Goa Gil（アメリカ人）らがアシッドハウスやEBMをビーチパーティーでプレイし始めた。インドの文化的環境とサイケデリック体験が融合し、独自のサウンドが形成された。Astral Projection（イスラエル）、Hallucinogen（Simon Posford, イギリス）、Juno Reactor（イギリス）が代表的アーティスト。イスラエルからの旅行者が多くゴアを訪れたことから、イスラエルは今もサイトランスの最大の市場の一つ。"},
+
+  {id:"psytrance", label:"Psychedelic\nTrance", cat:"trance", era:"1990s", suno:true,
+    desc:"ゴアトランスの精神性を受け継ぎつつ、より洗練されたプロダクションとバリエーションを持つサイケデリックな電子音楽。高速で駆け抜けるベースライン、次々と変化するシンセのテクスチャー、宇宙的なSE（効果音）がBPM 140〜155の疾走感の上で万華鏡のように展開する。聴覚の端から端まで音で埋め尽くされる情報量の多さが、脳を心地よく圧倒する。野外フェスの星空の下で体験するのが理想的な、精神旅行のための音楽。",
+    roots_story:"1990年代半ば、ゴアトランスがインドのゴアビーチから世界に広がり、より多様なスタイルに発展した。Infected Mushroom（イスラエル）はサイトランスを最もポピュラーにしたアーティストで、ロックやメタルの要素も取り入れた。Shpongle（Simon Posford & Raja Ram）はワールドミュージックとの融合で唯一無二の世界を構築。Boom Festival（ポルトガル）、Ozora Festival（ハンガリー）が世界的なサイトランスフェスとして知られる。フルオン、ダークサイ、プログレッシブサイ、フォレストなど無数のサブジャンルに細分化された。"},
+
+  {id:"acid_trance", label:"Acid Trance", cat:"trance", era:"1992", suno:true,
+    desc:"TB-303のうねるアシッドサウンドとトランスの高揚感が合体した、トリッピーで陶酔的なスタイル。グニョグニョと変形するアシッドベースラインが催眠的に繰り返され、トランス特有のブレイクダウン→ビルドアップの構成でさらに恍惚感を増幅させる。テンポはBPM 135〜145。アシッドハウスよりハードで速く、トランスより粘りけがある。液体が沸騰するような音のテクスチャーが脳を直撃する、化学反応的な電子音楽。",
+    roots_story:"1992年頃、ヨーロッパのトランスシーンでTB-303のサウンドがトランスの文脈で使われ始めた。Hardfloor「Acperience」(1992)がジャンルの金字塔として広く認知されている。Phuture 303、Emmanuel Top（フランス）、Kai Tracid（ドイツ）が代表的アーティスト。Acid Tranceはトランスの中でもアンダーグラウンド寄りのスタイルとして位置づけられ、1990年代のレイブカルチャーと密接に結びついていた。2010年代後半にはアシッドサウンドのリバイバルとともに再び注目されている。"},
+
+  {id:"euro_trance", label:"Euro Trance", cat:"trance", era:"1995", suno:true,
+    desc:"トランスのエッセンスをポップスのフォーマットに落とし込んだ、キャッチーで親しみやすいダンスミュージック。覚えやすいシンセのメロディ、女性ボーカルの歌もの、明快なサビ構成で、専門知識がなくても一発で「いい曲」と感じられる間口の広さがある。テンポはBPM 135〜145。感動的なブレイクダウンと爆発的なドロップがあり、フロアで手を上げて叫びたくなる。クラブ初心者でも楽しめる、トランスの大衆化バージョン。",
+    roots_story:"1995年頃、ドイツ・オランダを中心にトランスのポップ化が進んだ。DJ Tiësto、Ferry Corsten、Above & Beyondが代表的アーティスト。ATB「9PM (Till I Come)」(1999)はユーロトランスの代表曲で世界中でヒット。Cascadaはボーカルトランスでチャートを席巻。Armin van Buurenの「A State of Trance」ラジオ番組がジャンルの普及に大きく貢献。2000年代にはPaul Oakenfold、Tiësto「Elements of Life」ツアーなど大規模なスタジアム公演も実現。EDMブームの先駆けでもあった。"},
+
+  {id:"euphoric_trance", label:"Euphoric Trance", cat:"trance", era:"1990s", suno:true,
+    desc:"トランスの中でも「感動」に全振りしたスタイル。天に昇るようなメロディ、壮大なストリングスパッド、感情を込めたボーカルが、長いビルドアップの果てに解き放たれる瞬間の多幸感は圧巻。テンポはBPM 136〜142。聴いていると理由もなく涙が出てきたり、無性に走り出したくなったりする、感情を極限まで増幅させる音楽。フェスの大トリでプレイされると数万人が同時に手を上げる光景が生まれる。感動のジェットコースター。",
+    roots_story:"1990年代後半〜2000年代にトランスの「泣きメロ」を追求する方向が確立。Above & Beyondが最も影響力のあるアーティストで、「Sun & Moon」(2011)、「Thing Called Love」は「泣けるトランス」の代名詞。Gareth Emery、Andrew Rayel、Aly & Filaもジャンルの中心人物。Anjunabeatsレーベル（Above & Beyond主宰）がユーフォリックトランスの総本山。「ABGT（Above & Beyond Group Therapy）」イベントは世界各地で開催され、感動と一体感を売りにしたコミュニティを形成している。"},
+
+  {id:"nrg_trance", label:"NRG Trance", cat:"trance", era:"1990s", suno:true,
+    desc:"その名の通りエネルギー（NRG=Energy）を全開にしたトランス。ハードトランスとほぼ同義で、テンポはBPM 140〜155と速い。キックは重くパンチがあり、シンセのリードは鋭くて攻撃的。感動的な要素よりも「ぶちあがる」勢いを重視し、フロアの熱量を最大化する。聴いていると全力疾走している時のような心拍数の上昇を感じる。叙情性よりもアドレナリン、優しさよりも力強さ。拳を突き上げて踊るためのハイオクタン燃料のような音楽。",
+    roots_story:"1990年代半ば〜後半、トランスの速度とエネルギーを追求する方向で発展。Scooterはドイツのハードトランス/NRGの代表格で、「Hyper Hyper」(1994)が大ヒット。日本ではパラパラダンスと結びついて独自の人気を博した。Yoji Biomehanika（日本）はNRGトランスの世界的なスターとなり、日本のクラブシーンを代表するDJに。Hennes & Cold、Cosmic Gate（初期）、Pulsedriver（ドイツ）らも重要。Tidy Traxレーベル（イギリス）がNRGトランスの拠点だった。"},
+
+  {id:"progressive_trance", label:"Progressive\nTrance", cat:"trance", era:"1993", suno:false,
+    desc:"トランスの高揚感をよりゆっくり、より壮大に展開するスタイル。一般的なトランスのような急激なドロップではなく、何分もかけてじわじわと音を重ね、気づいたら恍惚の頂点にいるような構成。テンポはBPM 128〜138とトランスの中ではやや遅め。繊細なアルペジオ、うねるベースライン、広がりのあるパッドがグラデーション的に変化していく。聴いていると時間感覚が消え、音の流れに身を委ねる深い没入感がある。DJセットの流れの中で真価を発揮する。",
+    roots_story:"1993年頃、プログレッシブハウスとトランスの境界で発展。Sasha & Digweedの長時間DJセットがジャンルの美学を体現した。Airwave（ベルギー）、Cygnus X（ドイツ）が初期の代表。2000年代後半〜2010年代にはEric Prydz（Pryda名義）が最も影響力のあるプログレッシブトランス/ハウスのアーティストに。Markus Schulz、Max Graham、John Digweedらがスタイルを発展。Iboga Records（デンマーク）、Sudbeat（Hernan Cattaneo）が重要レーベル。サイトランスのプログレッシブ版（プログレッシブサイ）も関連ジャンルとして存在する。"},
 
   // ハードコア系
-  {id:"rave",            label:"Rave",            cat:"hardcore", era:"1988", suno:false, desc:"UKのレイブカルチャー。Acid Houseから派生した大規模パーティー文化。"},
-  {id:"hardcore_rave",   label:"Hardcore Rave",   cat:"hardcore", era:"1990", suno:false, desc:"レイブのより速く激しいスタイル。ガバ・ハッピーハードコアの親。"},
-  {id:"happy_hardcore",  label:"Happy Hardcore",  cat:"hardcore", era:"1991", suno:false, desc:"高速で明るくポップなハードコア。ピッチの上がったボーカル。"},
-  {id:"gabber",          label:"Gabber",          cat:"hardcore", era:"1992", suno:true,  desc:"オランダ発の超高速・歪んだキック。180BPM以上の暴力的サウンド。"},
-  {id:"speedcore",       label:"Speedcore",       cat:"hardcore", era:"1993", suno:true,  desc:"ガバをさらに高速化。300BPM以上に達することも。"},
-  {id:"breakcore",       label:"Breakcore",       cat:"hardcore", era:"1994", suno:true,  desc:"ブレイクビートを細断・再構成した混沌とした音楽。"},
-  {id:"hardcore_edm",    label:"Hardcore EDM",    cat:"hardcore", era:"2000s", suno:true,  desc:"現代的なハードコアスタイル。メロディアスな要素も持つ。"},
-  {id:"mainstream_hardcore",label:"Mainstream\nHardcore",cat:"hardcore", era:"2000s", suno:true, desc:"よりポップでアクセスしやすいハードコア。"},
-  {id:"hardstyle",       label:"Hardstyle",       cat:"hardcore", era:"2000", suno:true,  desc:"オランダ発。跳ねるリバースベースキックが特徴。"},
-  {id:"j_core",          label:"J-Core",          cat:"hardcore", era:"2000s", suno:true,  desc:"日本のアニメ・ゲーム文化と融合したハッピーハードコア。"},
-  {id:"nitzhonot",       label:"Nitzhonot",       cat:"hardcore", era:"1990s", suno:true,  desc:"イスラエル発のトランス系ハードコア。中東的なメロディ。"},
-  {id:"hands_up",        label:"Hands Up",        cat:"hardcore", era:"2000s", suno:true,  desc:"ユーロダンスとハードコアの中間。明るくキャッチーなシンセ。"},
-  {id:"hardwave",        label:"Hardwave",        cat:"hardcore", era:"2010s", suno:true,  desc:"シンセウェーブとハードコアが融合。ダークでレトロな攻撃性。"},
+  {id:"rave", label:"Rave", cat:"hardcore", era:"1988", suno:false,
+    desc:"数千人が倉庫や野原に集まり、爆音の電子音楽で朝まで踊り続ける——その体験そのものが「レイブ」。音楽的にはアシッドハウスを土台に、より速く、より激しく、よりトリッピーに発展したサウンド。ピアノのスタブ音、ブレイクビート、ホイッスルの音、「Acieeed!」という叫び声がフロアに響く。テンポはBPM 130〜145。音楽というよりも集団的な恍惚体験であり、一体感と自由の空間。汗と笑顔と低音に包まれる原始的な祝祭。",
+    roots_story:"1988年、イギリスで「セカンド・サマー・オブ・ラブ」が勃発。アシッドハウスのレコードがイビサ島から持ち込まれ、ロンドン・マンチェスターで違法パーティーが急増した。Shoom（Danny Rampling主催）、Trip（Nicky Holloway）、Spectrum（Paul Oakenfold）が初期の伝説的クラブイベント。数万人規模の野外レイブが社会問題化し、イギリス政府は1994年にCriminal Justice Act（反復ビートの野外パーティーを違法化する法律）を制定。The Prodigy、Orbital、The Shamenがレイブ文化を体現するアーティストとして活躍した。"},
+
+  {id:"hardcore_rave", label:"Hardcore Rave", cat:"hardcore", era:"1990", suno:false,
+    desc:"レイブのテンポをさらに上げ、キックの歪みを増し、すべてを「もっと激しく」にした暴力的な加速進化形。テンポはBPM 160〜180以上。歪んだキックドラムが全身を叩き、シンセが金切り声を上げ、スネアが銃声のように炸裂する。速すぎて通常のダンスは不可能で、体を上下に揺さぶるか腕を振り回すのが踊り方。極端に攻撃的なのにどこか祝祭的な陽気さがあり、そのギャップが中毒性を生む。限界を超えた速さの中の快感。",
+    roots_story:"1990年頃、レイブシーンの一部がより速くより激しい方向へ進化。オランダではロッテルダムのRotterdam Records、Mokum Recordsが拠点となり、ガバへ発展。イギリスではKniteforce Records周辺で「ハッピーハードコア」方向へ分岐。初期はレイブの延長線上にあったが、テンポの高速化と音の過激化で独自のジャンルとして分離。The Prodigy「Experience」(1992)はレイブとハードコアの境界を行き来する名盤。この流れからガバ、ハッピーハードコア、スピードコアなど多数のサブジャンルが枝分かれした。"},
+
+  {id:"happy_hardcore", label:"Happy Hardcore", cat:"hardcore", era:"1991", suno:false,
+    desc:"ハードコアの高速ビートに、驚くほど明るくポップな要素を組み合わせた奇妙な化学反応。ピッチを上げて子供のように可愛くなったボーカル、キラキラしたピアノのフレーズ、ユーロビート的なシンセメロディがBPM 160〜180の超高速で突っ走る。怒りも暗さもゼロ、ひたすらハッピー。頭がおかしくなりそうなほど速いのに陽気で、聴いていると笑ってしまう不思議なジャンル。砂糖に砂糖をかけたような過剰な甘さが癖になる。",
+    roots_story:"1991〜92年頃、イギリスのレイブシーンからダーク/ハードな方向とは逆に、明るく楽しい方向へ進んだ一派が登場。DJ Hixxy、DJ Dougal、DJ Sy、Breezがジャンルの中心人物。Kniteforce Records、Essential Platinumが主要レーベル。ピッチアップされたボーカル（通常の曲を速く再生した結果生まれる「チープマンク」効果）が最大のトレードマーク。日本では特に人気が高く、J-Coreの直接の親となった。2000年代にはUK Hardcore、Freeform Hardcoreとして洗練されたスタイルが生まれた。"},
+
+  {id:"gabber", label:"Gabber", cat:"hardcore", era:"1992", suno:true,
+    desc:"極端に歪んだキックドラムの「バスドラム」が腹に突き刺さる、オランダ発の暴力的ダンスミュージック。テンポはBPM 160〜200以上。歪みきったキックの一発一発が凶器のように重く、その上にインダストリアルなノイズや叫び声が乗る。スキンヘッド、ナイキのエアマックス、オーストラリア製のトレーニングウェアという独特のファッションと結びつき、サッカーのフーリガン文化とも重なった。暴力的なのにフロアは妙に友好的という不思議な文化。",
+    roots_story:"1992年、オランダのロッテルダムでPaul Elstak、DJ Rob、Buzz Fuzz、The Prophet（通称「Rotterdam Terror Corps」周辺）がジャンルを確立。「Gabber」はオランダ語（イディッシュ語由来）で「仲間」の意味。Thunderdomeイベントシリーズ（1992年〜）がガバの聖地となり、数万人を動員。Rotterdam Records、Mokum Recordsが主要レーベル。オランダでは一時メインストリームに浸透し、チャートヒットも生まれた。2020年代にはガバキックのリバイバルがEDM/ポップシーンでも起きている。"},
+
+  {id:"speedcore", label:"Speedcore", cat:"hardcore", era:"1993", suno:true,
+    desc:"人間が認識できる限界に挑戦するかのような超高速電子音楽。テンポはBPM 300以上、極端なものは1000BPMを超える。歪みきったキックが機関銃のように連射され、ノイズの壁が聴覚を圧倒する。メロディやハーモニーは皆無で、純粋な速度と音圧の暴力。もはや「踊る」ことは不可能で、頭を振るか立ち尽くすかのどちらか。聴覚的な極限体験であり、エクストリームスポーツに近い感覚。「速さ」そのものが目的化した音楽の極北。",
+    roots_story:"1993年頃、ガバの高速化をさらに推し進めたアーティストたちが登場。Disciples of Annihilation、Noisecreator（オランダ）が初期の代表。ドイツのPlanet Core Productionsレーベルが拠点の一つに。日本のm1dy（ミディ）はスピードコアの世界的な重要人物で、独自のユーモアを交えたスタイルで知られる。さらに極端なサブジャンルとしてExtratone（BPM 1000以上）、Splittercore（BPM 600〜1000）も存在する。商業的成功とは無縁だが、極限を追求するコミュニティとして根強く続いている。"},
+
+  {id:"breakcore", label:"Breakcore", cat:"hardcore", era:"1994", suno:true,
+    desc:"ブレイクビート（ドラムのフレーズ）を細かく切り刻み、予測不能な順序で再構築した、カオスそのものの電子音楽。「ドタバタ」「ズダダダダ」と暴走するドラムが突然止まったり方向転換したりする、音のジェットコースター。テンポは高速（BPM 160〜200以上）だが一定ではなく、加速と減速を繰り返す。ジャングル、ガバ、ノイズ、クラシック、ジャズ、アニメサンプルなど何でも素材にする雑食性。混沌の中に奇妙な美しさと知性が潜む、反逆の音楽。",
+    roots_story:"1994年頃、ジャングル/ドラムンベースのブレイクビーツをより過激に解体・再構築するスタイルが出現。Venetian Snares（カナダ）は7拍子のブレイクコアなど実験的な作品で批評家の絶賛を浴びた。Squarepusher、μ-Ziq（イギリス）はIDMとの境界で活動。ドイツのDigital Hardcore Recordings（Alec Empire主宰のAtari Teenage Riot）はパンク/ノイズとブレイクコアを融合。日本ではGoreshit、DJ Technorchがシーンの重要人物。Peace Off Records（フランス）、Ad Noiseam（ベルリン）が主要レーベル。"},
+
+  {id:"hardcore_edm", label:"Hardcore EDM", cat:"hardcore", era:"2000s", suno:true,
+    desc:"ハードコアの攻撃性を現代的なEDMプロダクションで磨き上げた、高品質で聴きやすいハードコア。歪んだキックとメロディアスなシンセが共存し、感動的なブレイクダウンから暴力的なドロップへ落ちる落差が快感。テンポはBPM 150〜180。旧来のハードコアの粗さを洗い落とし、フェスティバルのメインステージでも映える派手さがある。激しいけれど美しい、暴力的だけどエモーショナル。ハードコア入門に最適なスタイル。",
+    roots_story:"2000年代、ハードコアシーンが成熟し、プロダクション品質が飛躍的に向上。Angerfist（オランダ）は仮面を被ったキャラクターで世界的スターに。Miss K8、Nosferatu、Tha Playahらが現代ハードコアシーンを牽引。Thunderdome、Masters of Hardcoreなどの大型イベントが継続開催。Q-danceイベント会社がハードコア/ハードスタイルの大型イベントを世界展開。YouTube・SoundCloudの普及でシーンが国際化し、南米やアジアにもファン層が拡大した。"},
+
+  {id:"mainstream_hardcore", label:"Mainstream\nHardcore", cat:"hardcore", era:"2000s", suno:true,
+    desc:"ハードコアをよりポップでアクセスしやすくしたスタイル。キャッチーなメロディ、歌えるボーカルフック、分かりやすい曲構成で、ハードコア初心者でも即座に楽しめる。テンポはBPM 160〜175。歪んだキックは健在だが、その上に乗るメロディがポップソング並みに覚えやすい。ハードスタイルとガバの中間的なポジションで、フェスティバルでは「みんなが知ってる曲」として盛り上がりのピークを作る。ハードコア版のヒットチャート音楽。",
+    roots_story:"2000年代、オランダのハードコアシーンでよりメロディアスで大衆的な方向性が確立。Evil Activities、Headhunterz（後にハードスタイルへ移行）、Korsakovが代表。Art of Danceイベント会社がDefqon.1フェスティバルでハードコア/ハードスタイルのメインストリーム化を推進。Neophyte RecordsやTraxtorm Recordsが主要レーベル。オランダではテレビ番組やラジオでもハードコアが流れるほど市民権を得ており、他国のシーンとは一線を画すメインストリーム化を実現した。"},
+
+  {id:"hardstyle", label:"Hardstyle", cat:"hardcore", era:"2000", suno:true,
+    desc:"「リバースベース」と呼ばれる独特のキック音が最大の個性。キックが「ドゥーン」と歪みながら跳ねるように鳴り、その一発一発に体が持ち上げられるような浮遊感がある。テンポはBPM 150前後。メロディは感動的で壮大、ブレイクダウンでは美しいピアノやストリングスが流れ、そこからリバースベースが戻る瞬間の爆発力は圧巻。ハードコアの攻撃性とトランスの感動を兼ね備えた、フェスティバルの花形ジャンル。",
+    roots_story:"2000年頃、オランダでガバのテンポを少し落とし（BPM 150前後）、メロディアスな要素を加えたスタイルとして誕生。The Prophet、Dana、Showtek（初期）が先駆者。Headhunterzは「感動するハードスタイル」を確立し、ジャンルを世界に広めた最重要人物。Defqon.1、Qlimax（Q-dance主催）が世界最大級のハードスタイルフェスとなり、数万人を動員。Scantraxx、Dirty Workz、Fusionが主要レーベル。2010年代には「ロースタイル」（より暗く重いスタイル）も台頭した。"},
+
+  {id:"j_core", label:"J-Core", cat:"hardcore", era:"2000s", suno:true,
+    desc:"日本のアニメ・ゲーム文化とハッピーハードコアが融合した、世界でも独特な電子音楽。アニメソング的な可愛らしい女性ボーカル、ゲーム音楽的なチップチューン要素、キラキラしたシンセが超高速ビート（BPM 170〜200）の上で弾ける。暗さや攻撃性は皆無で、ひたすらカラフルで楽しい。アニメの変身シーンや必殺技のBGMのような高揚感がある。日本のオタク文化が生んだ、世界に輸出されたユニークなハードコア。",
+    roots_story:"2000年代、日本の同人音楽シーンからハードコアテクノとアニメ/ゲーム文化を融合させたアーティストが台頭。t+pazolite、DJ Shimamura、Noizenecio、P*Light、Camellia（かめりあ）が代表格。コミックマーケット（コミケ）やM3（音系同人即売会）が作品発表の場となり、HARDCORE TANO*Cなどのレーベル/イベントがシーンを組織化した。音楽ゲーム（beatmania IIDX、SOUND VOLTEXなど）との親和性が高く、ゲームを通じて海外ファンが急増。Camelliaは海外のリズムゲーム「osu!」で絶大な人気を誇り、J-Coreの国際的認知度を飛躍的に高めた。"},
+
+  {id:"nitzhonot", label:"Nitzhonot", cat:"hardcore", era:"1990s", suno:true,
+    desc:"中東風のスケール（音階）とトランスの陶酔感が融合した、エキゾチックで独特なサウンド。アラビア風の旋律がシンセで奏でられ、4つ打ちビートの上でうねる。テンポはBPM 140〜155。西洋の電子音楽とは明らかに異なる音階が新鮮で、砂漠の夜空の下での儀式のような神秘的な空気がある。メロディはキャッチーで、一度聴いたら忘れられない独特のフックを持つ。トランスの高揚感に中東のスパイスを効かせた、唯一無二のスタイル。",
+    roots_story:"1990年代、イスラエルのトランスシーンから派生。「ニツォノット」はヘブライ語で「きらめき」の意味。Astrix（イスラエル）、Infected Mushroom、Vini Viciが関連アーティスト。イスラエルではゴアトランスが1990年代から非常に人気が高く、兵役を終えた若者がインドのゴアに旅行しトランス文化を持ち帰ったことが背景にある。ニツォノットはそのイスラエルのトランスシーンから生まれた、より速くてメロディアスなスタイル。HOMmega Productions、Phonokol Recordsが主要レーベル。"},
+
+  {id:"hands_up", label:"Hands Up", cat:"hardcore", era:"2000s", suno:true,
+    desc:"ユーロダンスのキャッチーさとハードコアのエネルギーを折衷した、フロア向けの高速ダンスポップ。覚えやすいシンセのメロディ、女性ボーカルの歌もの、パンチのあるキックがBPM 140〜150で疾走する。名前の通り「手を上げろ！」と煽るような直球のノリで、考える前に体が反応する分かりやすさ。ユーロトランスより速く、ハードスタイルよりポップ。クラブで最も盛り上がる瞬間を切り取ったような、純粋なパーティーミュージック。",
+    roots_story:"2000年代前半、ドイツを中心にユーロダンス/ユーロトランスの流れから発展。Scooter（ドイツ）は「Maria (I Like It Loud)」等のヒットでハンズアップの代表的存在。Cascada「Everytime We Touch」(2005)は世界的大ヒットとなり、ジャンルの認知度を飛躍的に高めた。DJ Manian、ItaloBrothers、Basshunterも主要アーティスト。Zooland Records、Yawa Recordingsが拠点レーベル。日本のパラパラやユーロビートシーンとも親和性が高い。"},
+
+  {id:"hardwave", label:"Hardwave", cat:"hardcore", era:"2010s", suno:true,
+    desc:"1980年代のシンセウェーブのレトロな美学に、ハードコアの攻撃性を注入した、ダークでノスタルジックなスタイル。80年代SFのシンセサウンドがネオンのように光りながら、歪んだキックとハードなベースラインが夜の闇を切り裂く。テンポはBPM 140〜165。サイバーパンク映画のカーチェイスシーンのBGMのような、スリリングでスタイリッシュなサウンド。レトロとアグレッシブの融合が生む独特のかっこよさがある。",
+    roots_story:"2010年代半ば、シンセウェーブの美学とハードコア/ハードスタイルの攻撃性を融合させたスタイルとして登場。KLOUD、Extra Terra、Stoned Level、1788-Lが代表的アーティスト。Synthwave/RetrowaveコミュニティとHardcore/Hardstyleコミュニティの交差点で生まれた比較的新しいジャンル。NewRetroWave YouTubeチャンネルなどシンセウェーブの発信プラットフォームで注目を集めた。映画「ブレードランナー」的なサイバーパンク美学とダンスフロアの攻撃性を兼ね備えた、ニッチだが成長中のジャンル。"},
 
   // DnB / ジャングル系
-  {id:"breakbeat",       label:"Breakbeat",       cat:"dnb", era:"1988", suno:false, desc:"サンプリングしたドラムブレイクを使った音楽。ジャングル・ビッグビートの親。"},
-  {id:"jungle",          label:"Jungle",          cat:"dnb", era:"1992", suno:false, desc:"UK発。高速なブレイクビートとレゲエの重い低音が融合。DnBの直接の親。"},
-  {id:"dnb",             label:"Drum and Bass",   cat:"dnb", era:"1994", suno:false, desc:"ジャングルが進化。170BPM前後の高速ビートとヘビーなベース。"},
-  {id:"liquid_dnb",      label:"Liquid DnB",      cat:"dnb", era:"1990s", suno:true,  desc:"メロディアスで聴きやすいDnB。ジャジーな要素も。"},
-  {id:"neurofunk",       label:"Neurofunk",       cat:"dnb", era:"1998", suno:true,  desc:"機能的・テクニカルなDnB。複雑なベース変調が特徴。"},
-  {id:"drumstep",        label:"Drumstep",        cat:"dnb", era:"2010s", suno:true,  desc:"DnBのリズムとダブステップのベースが融合。"},
-  {id:"drumfunk",        label:"Drumfunk",        cat:"dnb", era:"2000s", suno:true,  desc:"生ドラムをサンプリングした有機的なDnB。"},
-  {id:"darkstep",        label:"Darkstep",        cat:"dnb", era:"1990s", suno:true,  desc:"暗く重いDnB。インダストリアルな要素も。"},
+  {id:"breakbeat", label:"Breakbeat", cat:"dnb", era:"1988", suno:false,
+    desc:"ドラムの「ブレイク」（間奏のドラムソロ部分）をサンプリングしてループさせた、ファンキーで跳ねるリズムが特徴。4つ打ちと違い、キックとスネアが不均等に配置されたシンコペーションのあるパターンで、人間的な「揺れ」がある。テンポはBPM 120〜140と幅広い。ヒップホップのサンプリング文化とダンスミュージックの融合点にあり、首を縦に振りたくなるグルーヴと踊れるテンポを両立させている。4つ打ちに飽きた耳に新鮮なリズム体験。",
+    roots_story:"1980年代後半、ヒップホップのDJたちがファンクやソウルのレコードからドラムブレイクをサンプリングしてループさせる手法が、ダンスミュージックに応用された。「Amen Break」（The Winstons「Amen, Brother」の6秒間のドラムソロ）は最もサンプリングされたブレイクで、ジャングル・DnBの根幹となった。The Chemical Brothers、Fatboy Slim、The Prodigyが「ビッグビート」としてブレイクビーツをロックと融合させ、1990年代後半にメインストリームで大ヒット。Fatboy Slim「The Rockafeller Skank」(1998)が代表曲。"},
+
+  {id:"jungle", label:"Jungle", cat:"dnb", era:"1992", suno:false,
+    desc:"超高速で細かく刻まれたブレイクビーツが嵐のように吹き荒れ、その下で地を這うような重い低音のベースラインがゆっくりとうねる。この速いドラムと遅いベースの二層構造がジャングル最大の個性。テンポはBPM 160〜175と非常に速いが、ベースの動きはゆったりしているため、聴感上は速さと重さが同居する不思議な感覚。レゲエ/ダブのサンプル、ラスタ的なMCの語りが挟まることも。都市の夜のエネルギーを凝縮したような、荒々しく原始的な音楽。",
+    roots_story:"1992年頃、ロンドンのレイブ/ハードコアシーンからブレイクビートを高速化し、レゲエ/ダブの重低音を組み合わせたスタイルが誕生。カリブ系移民コミュニティの影響が色濃く、レゲエのサウンドシステム文化とレイブが出会った結果生まれた。Goldie「Timeless」(1995)は90分に及ぶオーケストラル・ジャングルの金字塔。LTJ Bukem、DJ Ron、Ronisize & Reprazentが代表アーティスト。パイレーツラジオ（違法FM局）がジャングルの普及に重要な役割を果たし、Kool FM、Rinse FMが伝説的な存在。"},
+
+  {id:"dnb", label:"Drum and Bass", cat:"dnb", era:"1994", suno:false,
+    desc:"ジャングルの荒々しさを洗練させ、よりタイトで緻密にしたスタイル。BPM 170前後の高速ブレイクビーツと、ヘヴィーなベースラインの二層構造はジャングルを継承しつつ、より音響的に洗練されている。ドラムのプログラミングは極めて精密で、微妙なゴーストノートやハイハットの配置に職人技が光る。エネルギッシュでありながら知的、攻撃的でありながら美しい。夜のドライブで高速道路を飛ばしている時のスピード感と集中力が似合う音楽。",
+    roots_story:"1994〜95年頃、ジャングルがより構造的で制作重視のスタイルへ進化。「ドラムンベース」という名前はGoldieやFabio & Grooveriderが推進した呼称。Andy C（Ram Records主宰）はDnBの「ゴッドファーザー」的存在で、20年以上シーンの頂点に君臨。Roni Size「New Forms」(1997)はマーキュリー賞を受賞し、DnBの芸術的評価を高めた。High Contrast、Chase & Status、Sub Focusがよりメインストリーム寄りのDnBで人気を得た。Hospital Records、RAM Records、Metalheadzが三大レーベル。"},
+
+  {id:"liquid_dnb", label:"Liquid DnB", cat:"dnb", era:"1990s", suno:true,
+    desc:"DnBの中で最も美しく聴きやすいスタイル。ジャジーなピアノ、ソウルフルなボーカルサンプル、柔らかいシンセパッドが高速ブレイクビートの上で優雅に流れる。速いテンポ（BPM 170前後）にもかかわらず、不思議と穏やかで心地よい。朝日が差し込むような温かさと、夏の夕暮れのような切なさが同居する。DnBの入門に最適で、BGMとしても成立するメロディアスさがある。リキッド（液体）の名の通り、サラサラと流れるような美しいサウンド。",
+    roots_story:"1990年代後半、LTJ Bukemが自身のGood Looking Recordsから発表した作品群でリキッドDnBの方向性を確立。「Logical Progression」(1996)コンピレーションが金字塔。Calibre「Even If」はリキッドDnBの名曲として広く知られる。High Contrast（Hospital Records）は「If We Ever」などのヒットでジャンルを一般化。London Elektricity、Netsky（ベルギー）、Danny Byrdも主要アーティスト。Hospital Recordsがリキッドの総本山で、「Hospitality」イベントシリーズを世界各地で展開している。"},
+
+  {id:"neurofunk", label:"Neurofunk", cat:"dnb", era:"1998", suno:true,
+    desc:"DnBの中で最も攻撃的でテクニカルなスタイル。ベースラインが生き物のように変形し、グニョグニョ、ギャリギャリ、ブルブルと聴いたことのない音色を次々に繰り出す。複雑なベースデザインとサウンドデザインが最大の聴きどころで、「どうやってこの音を作っているのか」と考えさせられる技術的な面白さがある。テンポはBPM 170前後。暗く、冷たく、機械的。SF映画のバトルシーンのような緊迫感と攻撃性に満ちた音楽。",
+    roots_story:"1998年頃、Ed Rush & Optical「Wormhole」アルバムがニューロファンクの金字塔として広く認められている。「Virus Recordings」レーベル（Ed Rush & Optical主宰）がジャンルの拠点に。Noisia（オランダの3人組）は「ベースデザインの革命家」として2000〜2010年代のニューロファンクを定義した。Mefjus、The Upbeats、Phace & Misanthropが現在の主要アーティスト。Vision Recordings（Noisia）、Blackout Music、Eatbrain Recordsが重要レーベル。プロダクション技術の高さからCM・映画・ゲームのサウンドデザインにも影響を与えている。"},
+
+  {id:"drumstep", label:"Drumstep", cat:"dnb", era:"2010s", suno:true,
+    desc:"DnBの高速ブレイクビーツ（BPM 170前後）にダブステップの極太ウォブルベースを組み合わせた、二つのジャンルのハイブリッド。DnBのスピード感とダブステップの重低音インパクトを同時に浴びるような、暴力的なまでにパワフルなサウンド。ドロップの瞬間、高速ドラムと重低音ベースが同時に襲いかかる衝撃は圧倒的。フェスティバルやライブイベントでの破壊力を追求した、エネルギーの爆発。",
+    roots_story:"2010年代前半、DnBとダブステップの両シーンで活動するアーティストが自然発生的にスタイルを融合。Excision（カナダ）が最も知名度の高いドラムステップのアーティストで、「X Rated」「Existence VIP」が代表曲。KJ Sawka（ドラマー/プロデューサー）、Barely Alive、Pegboard Nerdsも重要。Monstercat、Rottun Recordingsが主要レーベル。EDMフェスティバルのベースミュージックステージで特に人気が高く、ダブステップとDnBのクロスオーバー層に支持されている。"},
+
+  {id:"drumfunk", label:"Drumfunk", cat:"dnb", era:"2000s", suno:true,
+    desc:"生ドラム（特にジャズやファンクのレコード）をサンプリングし、有機的で温かみのあるリズムパターンを構築するDnBのスタイル。打ち込みドラムの冷たさとは対照的に、人間の演奏の微妙な揺れやダイナミクスが残っており、聴いていて心地よい。ベースは控えめで、ドラムのグルーヴそのものが主役。テンポはBPM 170前後だが、有機的なリズムのおかげで体感的にはもっとリラックスした印象。ドラムの美しさに集中する、職人気質の音楽。",
+    roots_story:"2000年代、Paradox（イギリス）がドラムファンクの創始者として広く認められている。ファンクやジャズのレコードから複雑なドラムパターンをサンプリングし、細かく切り刻んで再構成する手法を確立。Fanu（フィンランド）、Alaska、Mikal、Bomarr Monkも重要アーティスト。Paradoxの自主レーベルOffset Recordingsがジャンルの拠点。Reinforced Records（4hero主宰の伝説的レーベル）もドラムファンク的な作品を多数リリースした。ミニマルなアプローチが特徴で、大きなシーンを形成してはいないが、DnBファンの間で根強い支持がある。"},
+
+  {id:"darkstep", label:"Darkstep", cat:"dnb", era:"1990s", suno:true,
+    desc:"DnBの中で最も暗く、重く、攻撃的なスタイル。歪んだベースが地獄の底から唸りを上げ、インダストリアルなノイズとメタリックなパーカッションが闇を切り裂く。ブレイクビーツは激しく叩きつけられ、一切の温かみを排除した冷酷なサウンドスケープ。テンポはBPM 170〜180。ホラー映画のサウンドトラックとDnBが融合したような、恐怖と興奮が入り混じる音楽。暗闘的なクラブの奥で、闇に溶け込んで聴くべき音楽。",
+    roots_story:"1990年代後半、DnBのダークサイドを追求するアーティストが現れた。Technical Itch「The Rukus」はダークステップの初期の代表曲。Current Value（ドイツ）はニューロファンクとの境界で極めて攻撃的なサウンドを展開。Dylan、Limewax、Counterstrike（南アフリカ）も主要アーティスト。Position Chrome、Obscene Recordings、PRSPCT Recordings（オランダ）が重要レーベル。クロスブリード（DnBとガバの融合）やインダストリアルDnBとも重なる領域があり、ハードコアシーンとのクロスオーバーも活発。"},
 
   // ダブステップ系
-  {id:"dubstep",         label:"Dubstep",         cat:"dubstep", era:"2001", suno:true,  desc:"UK Garageとダブが融合。140BPMの重いウォブルベースが特徴。"},
-  {id:"deep_dubstep",    label:"Deep Dubstep",    cat:"dubstep", era:"2000s", suno:true,  desc:"より深みがあり落ち着いたダブステップ。"},
-  {id:"wobble_bass",     label:"Wobble Bass",     cat:"dubstep", era:"2000s", suno:true,  desc:"うねるLFO変調ベース。ダブステップの象徴的サウンド。"},
-  {id:"post_dubstep",    label:"Post-Dubstep",    cat:"dubstep", era:"2010s", suno:true,  desc:"ダブステップの影響を受けつつ実験的に発展したスタイル。"},
-  {id:"future_bass",     label:"Future Bass",     cat:"dubstep", era:"2012", suno:true,  desc:"ポスト・ダブステップ的な明るく感情的なサウンド。"},
+  {id:"dubstep", label:"Dubstep", cat:"dubstep", era:"2001", suno:true,
+    desc:"ハーフテンポのリズム（BPM 140だが体感は70BPMのように遅く感じる）に、地震のような重低音ベースが乗る。「ウォブルベース」と呼ばれるLFOで変調されたベースがブルブルブルと振動し、スピーカーが壊れそうなほどの低音圧が全身を揺さぶる。スネアが裏拍（3拍目）に来る独特のリズムパターンで、ゆったりと首を振りながら聴くスタイル。ダブの空間的な残響感と、ガレージの跳ねるリズムが出会った、重くて深い音楽。",
+    roots_story:"2001年頃、ロンドン南部のクロイドン周辺でUK Garageの重低音を追求する方向が独自のジャンルに発展。Skream「Midnight Request Line」(2005)、Benga、Digital Mystikzが初期の三大アーティスト。FWD>>（Forward）クラブナイトとRinse FMが初期シーンの拠点。2010年にSkrillexがアメリカで「ブロステップ」と呼ばれるより攻撃的なスタイルを爆発的にヒットさせ、ダブステップは世界的ムーブメントに。ただし元祖UKダブステップのファンからは「あれはダブステップではない」との論争も起きた。"},
+
+  {id:"deep_dubstep", label:"Deep Dubstep", cat:"dubstep", era:"2000s", suno:true,
+    desc:"ダブステップの中でも静かで深い、瞑想的なスタイル。派手なウォブルベースではなく、サブベース（超低周波のベース）がじわーっと空間を満たし、スパースなリズムとダブ的な残響が幽玄な空気を作る。テンポはBPM 140だが、音数が少ないため体感的にはもっと遅い。暗い部屋で大音量のサブウーファーから流れると、体の内側からマッサージされるような感覚。攻撃性ゼロ、深さ最大。ダブステップの本来のルーツに最も近いスタイル。",
+    roots_story:"ダブステップの初期スタイルをそのまま発展させた方向。Mala（Digital Mystikz）が最重要人物で、ジャマイカのダブとの直接的な繋がりを保ち続けた。DMZ（Deep Medi Musik）レーベルがディープダブステップの総本山。Kode9 & The Spaceape（Hyperdub Records）は知的でSF的なアプローチで批評家の絶賛を受けた。Truth（ニュージーランド）、Commodo、Egoless、J:Kenzoも重要アーティスト。ブロステップの商業的成功の裏で、ディープダブステップは一貫してアンダーグラウンドで独自の美学を守り続けている。"},
+
+  {id:"wobble_bass", label:"Wobble Bass", cat:"dubstep", era:"2000s", suno:true,
+    desc:"「ワブワブワブ」と揺れるベース音が主役の、ダブステップを象徴するサウンド。LFO（低周波発振器）でベースの音色を高速で変調させることで生まれるこの独特の「うねり」は、聴いたら一発でダブステップとわかるアイコニックな音。テンポはBPM 140。ベースが生き物のようにうねり、形を変え、時にグロテスクなほど歪む。サブウーファーが物理的に空気を動かし、体中の内臓が振動する感覚は大音量でしか味わえない。低音の暴力。",
+    roots_story:"ウォブルベースのサウンドが広く認知されたのは、Caspa & Rusko「Cockney Thug」(2006)やRusko「Woo Boost」(2008)の頃。Caspa、Rusko、Doctor Pがウォブルベースを前面に押し出したスタイルの先駆者。2010年以降、Skrillexが「Scary Monsters and Nice Sprites」(2010)で極端に攻撃的なウォブルベースを世界的に普及させた。「ブロステップ」と呼ばれるこのスタイルはダブステップの大衆化に貢献した一方、元祖UKダブステップの重さ・深さとは別物として議論も呼んだ。"},
+
+  {id:"post_dubstep", label:"Post-Dubstep", cat:"dubstep", era:"2010s", suno:true,
+    desc:"ダブステップの重低音と空間感覚を受け継ぎつつ、R&B、エレクトロニカ、ガレージなど多様な要素を取り入れた実験的なスタイル。ダブステップの「テンプレート」から自由になり、歌もの、繊細なテクスチャー、複雑なリズムパターンなど表現の幅が広い。テンポはBPM 130〜140。ベースは重いが暴力的ではなく、むしろ知的で内省的。夜の散歩中にイヤホンで聴くのが似合う、大人びた実験的電子音楽。",
+    roots_story:"2010年前後、ダブステップの型に収まらない実験的なアーティストが台頭。James Blake「Limit to Your Love」(2010)はR&Bのボーカルとダブステップのサブベースを融合させ、ポストダブステップの代名詞に。Mount Kimbie「Crooks & Lovers」(2010)はインディーロック的な感性との融合。Burial「Untrue」(2007)はUK Garageの幽霊のような美しさで音楽史上の傑作と評される。SBTRKT、Zomby、Darkstarも重要。Hyperdub Recordsがジャンルの知的中心地。"},
+
+  {id:"future_bass", label:"Future Bass", cat:"dubstep", era:"2012", suno:true,
+    desc:"ダブステップの重低音をキラキラした明るさで包み込んだ、感情的でカラフルな電子音楽。「シュワシュワ」と揺れるキラキラしたシンセコード、ピッチベンドするベース、感傷的なボーカルチョップ（歌声を細かく刻んだサンプル）が特徴。テンポはBPM 140前後。ダブステップの暗さやアグレッシブさとは対極的で、夕日を見ながら感動して泣くような甘くてエモーショナルな雰囲気。SNSのショート動画のBGMとしても大人気の、現代のネット世代の感性に合った音楽。",
+    roots_story:"2012年頃、ポストダブステップの流れの中でより明るく感情的な方向が確立。Flume（オーストラリア）がセルフタイトルアルバム(2012)でフューチャーベースの方向性を定義した最重要人物。Marshmello「Alone」(2016)はYouTubeで10億回再生を超え、ジャンルを完全にメインストリーム化。San Holo、Louis The Child、Slushii、Illeniumも主要アーティスト。Trap Nationなど大型YouTubeチャンネルが普及に大きく貢献。Monstercat、Moving Castle、Hébrecordsが主要レーベル。"},
 
   // ユーロダンス系
-  {id:"hi_nrg",          label:"Hi-NRG",          cat:"eurodance", era:"1977", suno:true,  desc:"高エネルギーなディスコ派生。ユーロダンスの重要な親。"},
-  {id:"italo_disco",     label:"Italo Disco",     cat:"eurodance", era:"1977", suno:true,  desc:"イタリア発のシンセサイザーを多用したディスコ。ユーロビートの直接の親。"},
-  {id:"eurodance",       label:"Eurodance",       cat:"eurodance", era:"1989", suno:true,  desc:"ヨーロッパ発の高速ダンスポップ。4つ打ちとラップが共存。"},
-  {id:"eurobeat",        label:"Eurobeat",        cat:"eurodance", era:"1990s", suno:true,  desc:"超高速イタロディスコ。日本のパラパラと頭文字Dで有名。"},
-  {id:"j_eurobeat",      label:"J-Eurobeat",      cat:"eurodance", era:"1990s", suno:true,  desc:"日本向けにローカライズされたユーロビート。"},
-  {id:"parapara_eurobeat",label:"Parapara\nEurobeat", cat:"eurodance", era:"1999", suno:true, desc:"パラパラダンス向けのユーロビート。日本特有の文化。"},
+  {id:"hi_nrg", label:"Hi-NRG", cat:"eurodance", era:"1977", suno:true,
+    desc:"ディスコの4つ打ちビートをさらに速く、さらにエネルギッシュにしたダンスミュージック。テンポはBPM 130〜140とディスコより速く、シンセサイザーのシーケンスが機関銃のように駆け抜ける。ディスコのゴージャスなオーケストレーションを電子音に置き換え、より直線的でアグレッシブなグルーヴを追求。ゲイクラブカルチャーと強く結びつき、派手で開放的なエネルギーに満ちている。全力で踊りたい夜のためのハイオクタン燃料。",
+    roots_story:"1977年頃、ディスコの一部がより速くエネルギッシュな方向へ進化。Patrick Cowley（サンフランシスコ）がシンセサイザーを駆使したハイエナジーなディスコでジャンルを確立。Sylvester「You Make Me Feel (Mighty Real)」(1978)はCowleyのプロダクションで大ヒット。Bobby Orlando（Bobby O）はニューヨークからシンセ主体のHi-NRGを量産し、Pet Shop BoysやDivine（映画監督ジョン・ウォーターズのミューズ）を手がけた。ゲイクラブの定番としてサンフランシスコ、ニューヨーク、ロンドンで栄え、ユーロビート・ユーロダンスの直接の先祖となった。"},
+
+  {id:"italo_disco", label:"Italo Disco", cat:"eurodance", era:"1977", suno:true,
+    desc:"シンセサイザーとドラムマシンで作られた、きらびやかでロマンチックなイタリア発のディスコ。安っぽいけれど魅力的なシンセの音色、甘いメロディ、英語（イタリア人が歌う独特のアクセント付き）のボーカルが特徴。テンポはBPM 115〜130。アメリカのディスコより軽やかで、どこかチープだけど愛おしい手作り感がある。夏の地中海の空気、80年代のネオンライト、恋の予感——そんなイメージがそのまま音になった、甘酸っぱいダンスミュージック。",
+    roots_story:"1977年頃、イタリアのプロデューサーたちがアメリカのディスコを独自に解釈し、シンセサイザーとドラムマシンを全面的に使用したスタイルを生み出した。Giorgio Moroderはミュンヘンで活動したイタリア人だが、Donna Summer「I Feel Love」(1977)でシンセディスコの礎を築いた。ZYX Records（ドイツ）が「Italo Disco」という名前でコンピレーションを出し、ジャンル名が定着。Gazebo「I Like Chopin」(1983)、Den Harrow、Sabrinaが代表格。日本ではスーパーユーロビートシリーズの源流となり、パラパラ文化に直結した。"},
+
+  {id:"eurodance", label:"Eurodance", cat:"eurodance", era:"1989", suno:true,
+    desc:"女性ボーカルの歌パートと男性のラップパートが交互に来るという独特の構成が最大の個性。シンセのキャッチーなリフ、4つ打ちのビート、派手なプロダクションがBPM 130〜150で疾走する。テンポが速く、メロディが覚えやすく、一緒に歌える。90年代のクラブを席巻した「みんなが踊れるポップ」で、考える前に体が動く分かりやすさがある。バブル時代のジュリアナ東京的な華やかさと高揚感に満ちた、90年代欧州の象徴的サウンド。",
+    roots_story:"1989年頃、Hi-NRG、イタロディスコ、シンセポップの流れが合流してヨーロッパ全土で爆発的ブームに。2 Unlimited「No Limit」(1993)、Snap!「Rhythm Is a Dancer」(1992)、Haddaway「What Is Love」(1993)が世界的大ヒット。La Bouche、Corona、Aceofはこの後も続々とヒットを放った。Maxx、Captain Jack、DJ BoBo（スイス）も人気。日本ではジュリアナ東京（1991〜94年）でユーロダンスが大流行し、ボディコン＋扇子というスタイルが社会現象に。90年代半ばにブームは去ったが、2020年代のTikTokで「What Is Love」等が再評価されている。"},
+
+  {id:"eurobeat", label:"Eurobeat", cat:"eurodance", era:"1990s", suno:true,
+    desc:"イタロディスコをさらに速く、さらにシンセを派手にした超高速ダンスミュージック。テンポはBPM 150〜165と非常に速く、キラキラしたシンセのリフが猛スピードで駆け抜ける。ハイトーンのボーカル、ド派手なシンセソロ、シンプルだが中毒性のあるメロディが特徴。聴いていると自然とアクセルを踏み込みたくなる「ドライブミュージック」の王。アニメ「頭文字D」との結びつきで世界的に知られ、峠を攻めるイメージと不可分のジャンル。",
+    roots_story:"イタロディスコが1990年代に日本市場向けに高速化・派手化して「ユーロビート」となった。avex trax「Super Eurobeat」シリーズ（1990年〜）は200巻以上リリースされた世界最長寿のコンピレーション。Dave Rodgers「Deja Vu」、Mega NRG Man「Running in the 90's」はアニメ「頭文字D」（1998年〜）に使用され、世界的な知名度を得た。A-Beat C Records、Delta、SCP（イタリア）が制作の中心で、イタリア人プロデューサーが日本市場向けに曲を量産するという独特の構造。日本のパラパラダンスとも密接。"},
+
+  {id:"j_eurobeat", label:"J-Eurobeat", cat:"eurodance", era:"1990s", suno:true,
+    desc:"日本人アーティストが歌う日本語のユーロビート。イタリア製ユーロビートのサウンドフォーマットを踏襲しつつ、J-POP的なメロディセンスと日本語の歌詞が乗る。テンポはBPM 150〜160。哀愁のある日本語の歌詞とキラキラしたシンセの組み合わせは独特の切なさがあり、本家とはまた違った味わい。パラパラダンスのイベントやカラオケで特に人気があり、日本独自のダンスミュージック文化を体現するスタイル。",
+    roots_story:"1990年代後半、日本でユーロビートブームが最高潮に達する中、日本人アーティストによるユーロビート制作が本格化。芸能人やアイドルがユーロビートをリリースすることもあった。avex traxは「Super Eurobeat」の日本人アーティスト版も展開。安室奈美恵「TRY ME 〜私を信じて〜」(1995)のカバーなど、J-POPとユーロビートの境界は曖昧だった。小室哲哉プロデュース楽曲（TRF、globeなど）もユーロビートの影響を強く受けており、90年代J-POPのダンス路線はJ-ユーロビートの延長線上にあると言える。"},
+
+  {id:"parapara_eurobeat", label:"Parapara\nEurobeat", cat:"eurodance", era:"1999", suno:true,
+    desc:"ユーロビートに合わせて踊る「パラパラ」ダンス専用のスタイル。音楽的にはユーロビートそのものだが、振り付けとセットで完成する「踊るための音楽」としての性格が極めて強い。BPM 150前後。決まった手の動き（ハンドモーション）を曲に合わせて全員が同じ振り付けで踊る一体感が最大の魅力。覚えて踊れるようになった時の達成感、フロアで全員の動きが揃った時の高揚感は独特。見ても踊っても楽しい、日本発の参加型ダンスミュージック文化。",
+    roots_story:"1999年前後、日本のディスコ/クラブシーンでパラパラダンスのブームが社会現象化。Eurogroove「Night Fever」のパラパラバージョンがヒットし、ヴェルファーレ（東京・六本木のメガクラブ）がパラパラの聖地に。「パラパラ・パラダイス」などのインストラクションビデオがヒット商品となった。Morning娘。「LOVEマシーン」(1999)のダンスもパラパラの影響を受けている。2000年代初頭にはSEB（Super Eurobeat）パラパラがアーケードゲーム化。海外でもanime convention（アニメコンベンション）でパラパラが踊られ、日本のダンス文化として国際的に認知されている。"},
 
   // EDM系
-  {id:"edm",             label:"EDM",             cat:"edm", era:"2010s", suno:false, desc:"Electronic Dance Music。商業的な電子ダンス音楽の総称。"},
-  {id:"festival_edm",    label:"Festival EDM",    cat:"edm", era:"2010s", suno:true,  desc:"大型フェスティバル向けの派手なEDM。"},
-  {id:"melodic_edm",     label:"Melodic EDM",     cat:"edm", era:"2010s", suno:true,  desc:"感情的なメロディを重視したEDM。"},
-  {id:"dark_edm",        label:"Dark EDM",        cat:"edm", era:"2010s", suno:true,  desc:"ダークで重厚なEDM。"},
-  {id:"heavy_edm",       label:"Heavy EDM",       cat:"edm", era:"2010s", suno:true,  desc:"ヘビーなベースドロップを持つEDM。"},
-  {id:"pop_edm",         label:"Pop EDM",         cat:"edm", era:"2010s", suno:true,  desc:"ポップスとEDMが融合。チャートヒット向け。"},
-  {id:"edm_trap",        label:"EDM Trap",        cat:"edm", era:"2012", suno:true,  desc:"トラップのリズムとEDMのシンセが融合。"},
+  {id:"edm", label:"EDM", cat:"edm", era:"2010s", suno:false,
+    desc:"Electronic Dance Musicの略称で、2010年代に世界的なブームとなった商業的電子ダンスミュージックの総称。「ビルドアップ→ドロップ」という構成が基本で、DJが両手を上げて煽り、ドロップの瞬間にフロアが爆発する体験を最大化するよう設計されている。テンポはサブジャンルにより様々（BPM 100〜150）。とにかく分かりやすく、派手で、一発でテンションが上がる即効性が命。音楽というよりも体験やイベントの総称に近い面もある。",
+    roots_story:"EDMという用語自体は1990年代から存在したが、2010年代にアメリカでメインストリーム化した。David Guetta「When Love Takes Over」(2009)、Skrillex、Deadmau5、Swedish House Mafia「Don't You Worry Child」(2012)がブームの牽引役。Ultra Music Festival（マイアミ）、Electric Daisy Carnival（ラスベガス）、Tomorrowland（ベルギー）が数十万人を動員する巨大フェスに成長。Calvin Harris、The Chainsmokers、Marshmelloがポップチャートを席巻。2015年頃をピークにバブルは沈静化したが、電子音楽がメインストリームに定着するきっかけとなった。"},
+
+  {id:"festival_edm", label:"Festival EDM", cat:"edm", era:"2010s", suno:true,
+    desc:"巨大フェスティバルのメインステージで最大の効果を発揮するよう設計された、極限まで「盛り上がり」に特化したEDM。壮大なシンセのビルドアップ、MCの煽り、そして爆発的なドロップ——この一連の流れを繰り返し、数万人の群衆を同時にジャンプさせる。テンポはBPM 126〜130が主流。花火、CO2噴射、レーザー照明とセットで体験するもの。音楽の良し悪しよりも「その場にいる体験」が最大の価値。集団的な多幸感を生み出す装置としての音楽。",
+    roots_story:"2010年代前半、EDMフェスティバルの巨大化とともに確立。Swedish House Mafia「Save The World」(2011)がフェスティバルEDMの完成形とも言える曲。Hardwell、Martin Garrix、Dimitri Vegas & Like Mike、Steve Aokiがジャンルの中心人物。DJ Magのトップ100 DJランキングがDJ間の競争を煽り、「フェスで最も盛り上がるDJ」が最高の評価を受ける文化が形成された。Spinnin' Records、Revealed Recordings、STMPD RCRDSが主要レーベル。"},
+
+  {id:"melodic_edm", label:"Melodic EDM", cat:"edm", era:"2010s", suno:true,
+    desc:"EDMの派手さと感動的なメロディを融合させた、聴いて泣けるダンスミュージック。ピアノやストリングスの美しいメロディ、感傷的なボーカル、壮大なコード進行が、ビルドアップからドロップへの展開で感情を最大限に増幅させる。テンポはBPM 126〜130。フェスのハイライトでこの手の曲がかかると、数万人が一斉に手を上げて涙する光景が生まれる。感動を科学的に設計したような、エモーショナルの極致。",
+    roots_story:"2010年代、EDMに「泣き」の要素を持ち込んだアーティストが人気を博した。Avicii「Levels」(2011)、「Wake Me Up」(2013)が世界的大ヒットとなり、メロディックEDMの代名詞に。彼の2018年の急逝はシーンに大きな衝撃を与えた。Kygo「Firestone」(2014)はトロピカルハウスとメロディックEDMの交差点。Illenium、Seven Lions、Said The Skyは「メロディック・ベースミュージック」として感情的なダブステップと融合。Ophelia Records（Seven Lions主宰）が重要レーベル。"},
+
+  {id:"dark_edm", label:"Dark EDM", cat:"edm", era:"2010s", suno:true,
+    desc:"EDMの構成力にダークで不穏な雰囲気を注入したスタイル。明るいEDMの「ハッピーなドロップ」の代わりに、暗く歪んだベース、不気味なシンセ、ホラー的なサンプルがドロップで襲いかかる。テンポはBPM 128〜150。ビルドアップで不安を煽り、ドロップで恐怖と快感が同時に来る独特の体験。ハロウィンイベントやダークなテーマのフェスで真価を発揮する。闇落ちしたEDM、悪役のテーマソングのようなサウンド。",
+    roots_story:"2010年代半ば、EDMの明るさに飽きたリスナー層に向けてダークな方向が発展。Rezz（カナダ）が「ヒプノティック・ベース」と呼ばれる催眠的でダークなスタイルで人気を獲得し、ジャンルの代表格に。1788-L、Svdden Death、Marauda、He$h、GRAVESもダークEDMの主要アーティスト。Liquid Stranger、SullivenはよりEDMとダブステップの境界で活動。ハロウィン期間のEDMフェスでは特に需要が高い。"},
+
+  {id:"heavy_edm", label:"Heavy EDM", cat:"edm", era:"2010s", suno:true,
+    desc:"ドロップの重量感を極限まで追求したEDM。ビルドアップでテンションを上げた後に落ちるドロップで、極太のベースと歪んだシンセが文字通り床を揺らす破壊力を見せる。テンポはBPM 128〜150。メタルのヘッドバンギングとEDMのドロップを融合させたような、フィジカルな衝撃を重視するスタイル。モッシュピット（激しく体をぶつけ合う行為）がEDMフェスで発生するのはこのジャンルの影響。暴力的に重い、体当たりの音楽。",
+    roots_story:"Excision（カナダ）が「ベースミュージックの帝王」としてヘビーEDMを代表。自身のLost Lands Festival（2017年〜）は世界最大級のベースミュージックフェスに成長。Skrillex「Bangarang」(2011)がヘビーなベースドロップをメインストリームに浸透させた先駆け。Virtual Riot、Subtronics、Wooli、Kayzo（ハードスタイルとの融合）も重要。Subsidia Records（Excision主宰）、Disciple Records、Never Say Dieが主要レーベル。"},
+
+  {id:"pop_edm", label:"Pop EDM", cat:"edm", era:"2010s", suno:true,
+    desc:"ポップソングのキャッチーさとEDMのビート・プロダクションを完全に融合させた、チャートヒット狙いのダンスポップ。歌えるメロディ、親しみやすいボーカル、適度なビルドアップとドロップが、ラジオでもクラブでもフェスでも通用する万能型サウンドを形成。テンポはBPM 120〜130。EDMの専門知識がなくても楽しめ、メロディを口ずさみたくなる大衆性が最大の武器。世界で最も売れる音楽フォーマットの一つ。",
+    roots_story:"David Guetta ft. Sia「Titanium」(2011)がポップEDMの完成形として世界的大ヒット。Calvin Harrisは「Summer」(2014)、Rihanna「We Found Love」(2011)等でポップとEDMの境界を消し去った。Zedd ft. Foxes「Clarity」(2012)はグラミー賞を受賞。The Chainsmokers「Closer」(2016)はBillboardホット100で12週連続1位。Marshmello、Kygo、Martin Garrixもポップ寄りの楽曲で巨大なヒットを連発。現在のポップミュージックのプロダクションにEDM的要素は完全に浸透している。"},
+
+  {id:"edm_trap", label:"EDM Trap", cat:"edm", era:"2012", suno:true,
+    desc:"ヒップホップのトラップのリズムパターン（キレのある三連符ハイハット、重い808ベース）にEDMのシンセと派手なプロダクションを組み合わせたスタイル。テンポはBPM 140前後だがハーフタイム感覚で、ゆったり首を振りながらドロップでは拳を突き上げる。ヒップホップの黒いグルーヴとEDMの白いシンセが共存する、クロスオーバーサウンド。「トゥルルルル」という三連ハイハットのロールが聴こえたらこのジャンル。",
+    roots_story:"2012年頃、Baauer「Harlem Shake」がYouTubeのミーム（模倣動画）として爆発的に拡散し、EDMトラップを世界中に認知させた。RL Grime「Core」(2014)はジャンルの代表曲。Flosstradamus、TNGHT（Hudson Mohawke & Lunice）が初期の主要アーティスト。Diplo（Mad Decent）はトラップとワールドミュージックを融合させた独自の路線を開拓。Yellow Claw（オランダ）はヨーロッパからEDMトラップを発信。Mad Decent、OWSLA（Skrillex主宰）が重要レーベル。ヒップホップとEDMの両方のファン層にリーチできることが強み。"},
 
   // シンセウェーブ系
-  {id:"synthwave",       label:"Synthwave",       cat:"synthwave", era:"2000s", suno:false, desc:"1980年代のシンセポップ・映画音楽へのオマージュ。Drive等のサントラで有名になった。"},
-  {id:"retrowave",       label:"Retrowave",       cat:"synthwave", era:"2000s", suno:false, desc:"シンセウェーブとほぼ同義。レトロな80年代美学。"},
-  {id:"vaporwave",       label:"Vaporwave",       cat:"synthwave", era:"2010", suno:false, desc:"80-90年代のBGMをスローダウン・加工したインターネット音楽。"},
-  {id:"darksynth",       label:"Darksynth",       cat:"synthwave", era:"2010s", suno:false, desc:"シンセウェーブの暗く攻撃的なサブジャンル。"},
-  {id:"sovietwave",      label:"Sovietwave",      cat:"synthwave", era:"2010s", suno:true,  desc:"旧ソ連の美学とシンセウェーブが融合。郷愁と冷戦的雰囲気。"},
+  {id:"synthwave", label:"Synthwave", cat:"synthwave", era:"2000s", suno:false,
+    desc:"1980年代への郷愁を現代の技術で再現した、ノスタルジックな電子音楽。80年代のSF映画やカーチェイスシーンを連想させるシンセサイザーの音色、ゲートリバーブのかかったドラム、ネオンに照らされた夜の高速道路のイメージ。テンポはBPM 80〜120の中速。存在しなかった80年代の記憶——レトロフューチャーの世界——を音で構築する。サイバーパンクのビジュアルと相性が抜群で、紫とピンクの色彩が脳内に浮かぶ。実際の80年代より80年代っぽい音楽。",
+    roots_story:"2000年代半ば、フランスのCollege「A Real Hero」やKavinsky「Nightcall」がスタイルの先駆けに。映画「Drive」(2011)のサウンドトラックにKavinskyが起用されたことでジャンルが一気に知名度を得た。Perturbator、Carpenter Brut（フランス）はよりダークで攻撃的なスタイルを開拓。Com Truise（アメリカ）はチルでメランコリックな方向。YouTube/BandcampがJアンルの普及に決定的な役割を果たし、NewRetroWaveチャンネルが数百万登録者を獲得。Blood Musicレーベル（フィンランド）が主要拠点。"},
+
+  {id:"retrowave", label:"Retrowave", cat:"synthwave", era:"2000s", suno:false,
+    desc:"シンセウェーブとほぼ同義で、80年代のポップカルチャー（映画、テレビ、ゲーム）の美学を現代に蘇らせたスタイル。よりポップでアクセスしやすい傾向があり、80年代風のボーカル曲も多い。テンポはBPM 100〜120。シンセウェーブが映画「ブレードランナー」的なSF感を重視するのに対し、レトロウェーブは映画「バック・トゥ・ザ・フューチャー」的な明るい80年代ノスタルジーに寄っている。聴いていると80年代のアメリカの郊外をスケボーで走っている気分になる。",
+    roots_story:"シンセウェーブという名前とレトロウェーブという名前はほぼ同時期に並行して使われ始めた。レトロウェーブはよりポップ・アクセシブルなスタイルを指す傾向がある。The Midnight「Days of Thunder」(2014)、FM-84「Running in the Night」(2016)はレトロウェーブの代表曲で、80年代風のボーカルポップとシンセが融合。Timecop1983、Gunship、The Bad Dreamsも主要アーティスト。NewRetroWaveとSynthetix（SoundCloudコミュニティ）がジャンルの発信拠点。Spotifyの「Synthwave/Retrowave」プレイリストが数百万フォロワーを獲得し、リスナー層を拡大させた。"},
+
+  {id:"vaporwave", label:"Vaporwave", cat:"synthwave", era:"2010", suno:false,
+    desc:"80〜90年代のエレベーターミュージック、ショッピングモールのBGM、企業CM曲などを極端にスローダウンし、リバーブをかけ、切り刻んで再構築したインターネット発の音楽。聴いていると、誰もいないショッピングモールを深夜に歩いているような不思議な郷愁と不気味さを感じる。テンポは極端に遅く（BPM 60〜90）、時間が歪んだような浮遊感がある。消費社会への皮肉なのか、純粋なノスタルジーなのか——そのあいまいさ自体がこのジャンルの魅力。ギリシャ彫刻とウィンドウズ95の美学。",
+    roots_story:"2010年、Macintosh Plus（Vektroid）の「フローラルの専門店」がTumblrで拡散し、ヴェイパーウェーブを一気に認知させた。日本語のカタカナ表記、90年代のWindowsの画面、ギリシャ彫刻、ヤシの木——これらのビジュアルがアイコニックなジャンルの美学として定着。SAINT PEPSI「Hit Vibes」(2013)はヴェイパーウェーブの代表作で、80年代ファンクをサンプリングで再構築した「フューチャーファンク」というサブジャンルも生んだ。blank banshee「0」はトラップとヴェイパーウェーブを融合。音楽ジャンルであると同時にインターネット・アートムーブメントとしての側面が強い。"},
+
+  {id:"darksynth", label:"Darksynth", cat:"synthwave", era:"2010s", suno:false,
+    desc:"シンセウェーブのレトロな美学をダークでアグレッシブな方向に振り切ったスタイル。80年代ホラー映画やスラッシャー映画のサウンドトラックを連想させる不穏なシンセ、ヘビーメタル的な歪んだギター、インダストリアルな打撃音が融合する。テンポはBPM 100〜140と幅広い。ネオンの光が血の色に変わったような——シンセウェーブのノスタルジーが殺意を帯びたサウンド。ゲーム「DOOM」のサウンドトラック的な、戦闘モードの電子音楽。",
+    roots_story:"2010年代前半、シンセウェーブの中でもメタルやインダストリアルの影響を取り入れたアーティストが台頭。Perturbator「Dangerous Days」(2014)がダークシンスの金字塔。Carpenter Brut「Trilogy」(2015)はライブでのエネルギッシュなパフォーマンスでも知られる。Dan Terminus、GosT、Mega Drive、Dance With The Deadも主要アーティスト。ゲーム「Hotline Miami」(2012)のサウンドトラックがダークシンス/シンセウェーブの知名度を飛躍的に高めた。Blood Music、Synthwave Lives Hereが主要レーベル/コミュニティ。"},
+
+  {id:"sovietwave", label:"Sovietwave", cat:"synthwave", era:"2010s", suno:true,
+    desc:"旧ソ連の美学——コンクリートの団地、宇宙開発のプロパガンダ、雪に覆われた広大な平原——をシンセウェーブのサウンドで表現した、極めてニッチで独特なジャンル。メランコリックなシンセメロディ、冷たいパッド、時折挿入されるロシア語のサンプルが、冷戦時代への奇妙な郷愁を生む。テンポはゆったり（BPM 80〜110）。ソ連に住んだことがなくても感じる「存在しない記憶への郷愁」——まさにレトロフューチャーのロシア版。寒くて暗くて美しい。",
+    roots_story:"2010年代半ば、主にロシア・旧ソ連圏のアーティストがシンセウェーブにソ連の美学を取り入れた。Macroblank、SOVIETWAVE、Utro（ロシア語で「朝」）が代表的アーティスト。YouTubeで「sovietwave mix」として人気を集め、コメント欄には旧ソ連圏出身者の郷愁のコメントと、ソ連を知らない世代の「なぜかノスタルジーを感じる」というコメントが並ぶ。ヴェイパーウェーブの「存在しなかった過去へのノスタルジー」というコンセプトのロシア的解釈とも言える。政治的なメッセージはほぼなく、純粋に美学的なジャンル。"},
 
   // ヒップホップ系
-  {id:"lofi_hiphop",     label:"Lo-fi Hip Hop",  cat:"hiphop", era:"1990s", suno:true,  desc:"ローファイなサウンドのヒップホップ。チルな学習用BGMとして有名。"},
-  {id:"miami_bass",      label:"Miami Bass",      cat:"hiphop", era:"1985", suno:true,  desc:"フロリダ発。808の超低音ベースと性的な歌詞が特徴。"},
-  {id:"baile_funk",      label:"Baile Funk",      cat:"hiphop", era:"1980s", suno:true,  desc:"ブラジル発。マイアミベースがブラジルで変容した形。"},
-  {id:"trap",            label:"Trap",            cat:"hiphop", era:"2000s", suno:false, desc:"南部ヒップホップ。ハイハットの細かいパターンと808ベース。EDM Trapの親。"},
+  {id:"lofi_hiphop", label:"Lo-fi Hip Hop", cat:"hiphop", era:"1990s", suno:true,
+    desc:"意図的に音質を落とした（ローファイ=低忠実度）、チルで温かみのあるヒップホップビート。レコードのプチプチノイズ、ジャズピアノのサンプル、ゆるいドラムパターンが、カフェや自室でまったりする時間を演出する。テンポはBPM 70〜90とゆったり。ボーカルはないか控えめで、勉強や作業のBGMとして完璧にフィットする。不完全さが心地よく、磨きすぎない手触りが安心感を与える。YouTubeの「lofi hip hop radio - beats to relax/study to」で世界的に定着した、現代のBGM文化の代表。",
+    roots_story:"1990年代、J Dilla（デトロイト）が独特のヨレたビート（「ドランクビート」と呼ばれる意図的にずらしたリズム）とソウル/ジャズのサンプリングで、ローファイヒップホップの原型を作った。Nujabes（瀬葉淳、日本）は「Metaphorical Music」(2003)等でジャズとヒップホップを優雅に融合させ、アニメ「サムライチャンプルー」(2004)の音楽で国際的に知られた。2017年、ChilledCow（現Lofi Girl）のYouTubeチャンネルが「勉強用BGM」として24時間ライブ配信を開始し、数千万再生を記録。ローファイヒップホップはインターネット時代の「環境音楽」として定着した。"},
+
+  {id:"miami_bass", label:"Miami Bass", cat:"hiphop", era:"1985", suno:true,
+    desc:"Roland TR-808ドラムマシンの超低音キックとベースが文字通り車を揺らすほどの重低音で鳴り響く、フロリダ発のヒップホップ。カーオーディオの巨大なサブウーファーで鳴らすことを前提に設計されており、低音が腹に響くというよりも体が浮くような感覚。テンポはBPM 120〜140と速め。歌詞はパーティー、セクシュアリティ、車をテーマにしたものが多い。フロリダの太陽と夜のクラブが交差する、低音で支配するバウンスミュージック。",
+    roots_story:"1985年頃、マイアミの2 Live Crew「2 Live Crew Is What We Are」(1986)がジャンルを確立。Afrika Bambaataa「Planet Rock」のエレクトロサウンドとサザンヒップホップが融合した形。Uncle Al、DJ Magic Mikeが初期の重要アーティスト。2 Live Crewの露骨な歌詞は検閲裁判に発展し（1990年、フロリダ州で「わいせつ」と判定されたが後に覆された）、言論の自由の議論に。808ベースを極端に強調するスタイルはクランク、トラップの直接の先祖であり、現代のベースミュージック全体に影響を与えた。"},
+
+  {id:"baile_funk", label:"Baile Funk", cat:"hiphop", era:"1980s", suno:true,
+    desc:"ブラジルのファヴェーラ（スラム街）から生まれた、生々しいエネルギーに満ちたダンスミュージック。マイアミベースの808ベースとボーカルチャント、ブラジル独自のパーカッションリズム（バトゥカーダ）が融合し、体が勝手に腰を振り始めるグルーヴを生む。テンポはBPM 130前後。セクシーで挑発的、ストリートの生活感がむき出し。リオデジャネイロの暑い夜、密集した路地裏で爆音で踊る人々のエネルギーがそのまま音になった音楽。",
+    roots_story:"1980年代後半、リオデジャネイロのファヴェーラで開催されるダンスパーティー「バイリ・ファンキ」で、DJたちがマイアミベースのレコードをプレイしたのが起源。DJ Marlboro「DJ Marlboro Apresenta Funk Brasil」(1989)がジャンルの最初のコンピレーション。MC Naldinho、Claudinho & Buchechêが1990年代に人気を博した。2000年代にはDJ Diplo（アメリカ）がドキュメンタリー「Favela on Blast」(2008)で世界に紹介。M.I.A.「Paper Planes」にも影響。現在ではAnitta、MC Kevinho、Pedro Sampaioらがブラジルのポップチャートを席巻するメインストリーム音楽に成長。"},
+
+  {id:"trap", label:"Trap", cat:"hiphop", era:"2000s", suno:false,
+    desc:"アメリカ南部のストリートから生まれた、重くダークなヒップホップ。Roland TR-808の「ブーン」と沈む超低音キックとベース、機関銃のように連射される三連符のハイハット（「トゥルルルル」）、暗い雰囲気のシンセパッドが基本構成。テンポはBPM 130〜170だがハーフタイムで体を揺らすため、体感的にはゆったり。歌詞はストリートライフ、ドラッグ、成功と挫折をテーマにしたものが多い。2010年代以降のヒップホップの主流サウンドとなり、ポップスにも多大な影響を与えた。",
+    roots_story:"「トラップ」はアメリカ南部のスラングでドラッグの取引所を意味する。T.I.「Trap Muzik」(2003)がジャンル名の由来。Young Jeezy「Let's Get It: Thug Motivation 101」(2005)、Gucci Mane「Trap House」(2005)がアトランタのトラップシーンを確立。プロデューサーLex Luger、Zaytoven、Mike WiLL Made-Itが独特のサウンドを定義した。2010年代にFuture、Migos「Bad and Boujee」(2016)、Travis Scott「Astroworld」(2018)がメインストリームを制覇。808ベースと三連ハイハットのパターンは現在のポップミュージック全般に浸透している。"},
 
   // チップチューン
-  {id:"chiptune",        label:"Chiptune",        cat:"chiptune", era:"1980s", suno:true,  desc:"ゲーム機・マイコンのサウンドチップで作った音楽。8ビット的な音色。"},
+  {id:"chiptune", label:"Chiptune", cat:"chiptune", era:"1980s", suno:true,
+    desc:"ファミコンやゲームボーイのサウンドチップが奏でる「ピコピコ」した電子音で作られた音楽。矩形波・三角波・ノイズという極めて限られた音色だけで驚くほど豊かなメロディとリズムを生み出す。レトロゲームを遊んだ世代にはノスタルジー、知らない世代には新鮮な「デジタルの温かみ」がある。テンポは楽曲による。制約の中の創造性が最大の魅力で、少ない音数だからこそメロディの良し悪しがごまかせない。8ビットの世界に宿る無限の表現力。",
+    roots_story:"1980年代、ファミコン（NES）、ゲームボーイ、Commodore 64などのゲーム機やホームコンピュータに搭載された音源チップ（PSG、SID等）で音楽を作る文化が発生。初期は「デモシーン」と呼ばれるプログラマーのサブカルチャーで、コンピュータの限界に挑戦するデモ作品の音楽として発展。Commodore 64のSIDチップは特に音楽的な表現力が高く、Rob Hubbard、Martin Galway、Ben Daglishらのゲーム音楽が伝説に。2000年代にはゲームボーイにLSDjソフトを入れて作曲するスタイルが流行し、Anamanaguchi、Sabrepulse、Bit Shifterらがライブパフォーマンスで人気を得た。日本のゲーム音楽作曲家（近藤浩治、植松伸夫ら）もチップチューンの重要な源流。"},
 ];
 
 const LINKS = [
