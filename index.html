@@ -190,35 +190,100 @@ const NODES = [
     roots_story:"千年以上の歴史を持つ西洋音楽の伝統。電子音楽との接点は20世紀初頭から始まる。Claude Debussyの印象主義音楽（1890年代〜）は調性の束縛を緩め、後のアンビエントの浮遊感に影響。Arnold Schoenbergの十二音技法（1920年代）は従来の調性を解体し、実験音楽への道を開いた。Karlheinz Stockhausen（1950年代〜）は電子音響を正統的な作曲技法に取り入れた最初の主要な作曲家で、Kraftwerkからビョークまで多大な影響を与えた。Philip Glass、Steve Reichらのミニマル音楽（1960年代〜）は反復構造でテクノ・アンビエントの直接の先駆けとなった。"},
 
   // 初期電子音楽
-  {id:"musique_concrete", label:"Musique\nConcrète", cat:"early_elec", era:"1948", suno:false, desc:"テープ録音を素材にした実験音楽。ノイズ・グリッチの源流。"},
-  {id:"experimental_elec",label:"Experimental\nElectronic", cat:"early_elec", era:"1950s", suno:false, desc:"シンセサイザーを使った初期実験音楽。すべての電子音楽の土台。"},
-  {id:"krautrock",  label:"Krautrock",      cat:"early_elec", era:"1968", suno:false, desc:"1960年代末のドイツのロック。繰り返しリズムと電子音が特徴。テクノ・アンビエントの直接の親。"},
-  {id:"dub",        label:"Dub",            cat:"early_elec", era:"1970s", suno:true,  desc:"レゲエをスタジオで加工した音楽。重い低音とエコー。ダブステップの直接の親。"},
+  {id:"musique_concrete", label:"Musique\nConcrète", cat:"early_elec", era:"1948", suno:false,
+    desc:"録音された現実の音（ドアの軋み、列車の音、人の声、工場の騒音など）を切り貼りして構成する音楽。メロディやリズムといった従来の音楽的要素はほぼなく、音そのものの質感・響き・重なりを聴かせる。聴いていると日常の音が全く違って聞こえてくる不思議な体験がある。心地よさとは無縁だが、耳をすませば環境音の中に隠れた音楽性を発見する知的興奮がある。",
+    roots_story:"1948年、フランスの放送技師Pierre Schaefferがパリの国営放送局（RTF）で「鉄道のエチュード」を発表。列車の音をテープに録音し、速度変更・逆再生・ループなどの加工を施して作品にした。「具体音楽」と名付けられたこの手法は、音楽の素材を楽器の音から解放した革命的な概念だった。Pierre Henryとの共同制作「一人の男のための交響曲」(1950)で手法を確立。Karlheinz Stockhausenがドイツで電子音と融合させ、後のノイズミュージック、グリッチ、サウンドアートの源流となった。"},
+
+  {id:"experimental_elec",label:"Experimental\nElectronic", cat:"early_elec", era:"1950s", suno:false,
+    desc:"シンセサイザーや電子回路が生み出す、それまで存在しなかった音だけで構成された音楽。人工的な正弦波、ノコギリ波、ホワイトノイズなどの電子音が主役で、楽器らしい音色は使わない。未知の惑星や深海を想像させるような異世界感があり、時に美しく、時に不気味。拍子やメロディが曖昧なことが多く、聴き手の想像力に委ねる自由な音響空間が広がる。",
+    roots_story:"1950年代、ドイツのケルンにあるWDR電子音楽スタジオでKarlheinz Stockhausenが純粋な電子音による作曲を開始。「習作I・II」(1953-54)は電子音のみで作られた最初の本格的な楽曲とされる。同時期にアメリカではColumbia-Princeton Electronic Music Centerが設立され、Milton BabbittやVladimir Ussachevskyが電子音楽を研究。1960年代にはRobert Moogがモーグ・シンセサイザーを開発し、Wendy Carlosの「Switched-On Bach」(1968)がグラミー賞を受賞して電子音楽を一般に知らしめた。"},
+
+  {id:"krautrock", label:"Krautrock", cat:"early_elec", era:"1968", suno:false,
+    desc:"ロックの衝動とエレクトロニクスの冷徹さが融合した、ドイツ独自のサウンド。同じリズムパターンを延々と繰り返す「モーターリック・ビート」が最大の特徴で、トランス状態に引き込まれるような陶酔感がある。シンセサイザーの無機質な電子音とロックバンドの生演奏が共存し、宇宙的な広がりと機械的な反復が同居する独特の世界観。テンポは中程度だが、反復の中に微細な変化を重ねることで催眠的な没入感を生む。",
+    roots_story:"1968年頃、戦後ドイツの若い世代がアメリカやイギリスのロックを模倣することを拒否し、独自の音楽を模索し始めた。Kraftwerkはデュッセルドルフで完全に電子的なポップミュージックを追求し、「Autobahn」(1974)で世界的成功を収めた。彼らの機械的ビートは後のテクノ・シンセポップの直接の親となる。Can（ケルン）はフリージャズとロックを融合させた即興性の高いサウンドを展開。Tangerine Dream（ベルリン）はシンセサイザーで宇宙的な音響世界を構築し、アンビエントの先駆者に。Neu!のMichael Rotherは「モーターリック・ビート」を生み出し、これがテクノの反復構造の原型となった。"},
+
+  {id:"dub", label:"Dub", cat:"early_elec", era:"1970s", suno:true,
+    desc:"音が空間の中で跳ね返り、溶け、遠ざかっていくような独特の音響体験。レゲエの楽曲からボーカルを抜き、残った演奏にリバーブ（残響）やディレイ（エコー）を大量にかけて音の立体感を極端に強調する。重く深いベースラインが地を這い、スネアドラムの一打が宇宙に反響するような感覚。テンポはゆっくりで、音と音の「隙間」が多く、その余白が独特の浮遊感と瞑想的な空気を生む。霧の中を歩いているような、夢うつつの音楽。",
+    roots_story:"1960年代末〜70年代、ジャマイカのサウンドエンジニアたちがスタジオの機材を「楽器」として使い始めたのが起源。King Tubbyは自身のスタジオでミキシング・コンソールをリアルタイムに操作し、各トラックのフェーダーを上げ下げしながらリバーブやディレイを即興的にかけていく手法を発明した。Lee \"Scratch\" Perryは自身のBlack Ark Studioでさらに実験的なサウンドを追求し、テープの逆再生や奇妙なエフェクトを駆使。Scientist、Augustus Pabloらがスタイルを発展させた。「スタジオそのものが楽器である」というダブの概念は、リミックス文化、電子音楽のエフェクト処理、ダブステップ、トリップホップなど後の音楽に計り知れない影響を与えた。"},
 
   // シンセポップ系
-  {id:"new_wave",   label:"New Wave",       cat:"synthpop", era:"1977", suno:false, desc:"パンクの後に来たポップ化・電子化の流れ。シンセポップ・コールドウェーブの親。"},
-  {id:"electro",    label:"Electro",        cat:"synthpop", era:"1982", suno:false, desc:"テクノロジーとファンクが融合。808の機械的ビートが特徴。マイアミベース・エレクトロポップへ。"},
-  {id:"synth_pop",  label:"Synth Pop",      cat:"synthpop", era:"1978", suno:true,  desc:"シンセサイザー主体のポップス。Kraftwerk・New Orderが代表。"},
-  {id:"electropop", label:"Electropop",     cat:"synthpop", era:"2000s", suno:true,  desc:"シンセポップの現代版。よりポップで明るいサウンド。"},
+  {id:"new_wave", label:"New Wave", cat:"synthpop", era:"1977", suno:false,
+    desc:"パンクのエネルギーを残しつつ、シンセサイザーやアートな感覚を取り入れたポップ・ロック。パンクほど攻撃的ではなく、どこかスタイリッシュでクールな佇まいがある。シンセの冷たい音色とギターが共存し、キャッチーなメロディラインと少しひねった歌詞が特徴。テンポは軽快で、踊れるリズムのものも多い。80年代のMTVカルチャーと結びつき、ビジュアル面でも独特のファッションやヘアスタイルが印象的だった。おしゃれで知的、でもどこか影のある大人のポップス。",
+    roots_story:"1977年頃、パンクの「何でもあり」精神に触発されつつ、より幅広い音楽的実験に向かったアーティストたちが登場。Talking Headsはファンクとアートロックを融合、Blondieはディスコやラップまで取り入れた。イギリスではGary Numanが「Are 'Friends' Electric?」(1979)でシンセサイザー主体のヒットを飛ばし、Duran Duranはルックスとシンセを武器にMTVの寵児に。The Carsはアメリカン・ニューウェーブを代表し、Devoは奇抜なコンセプトで異彩を放った。パンクが破壊した音楽の枠組みの上に、より洗練された新しいポップを建設した世代。"},
+
+  {id:"electro", label:"Electro", cat:"synthpop", era:"1982", suno:false,
+    desc:"Roland TR-808ドラムマシンの乾いたキックとカチッとしたスネア、機械的に正確なビートが生み出すファンキーなグルーヴ。人間の演奏では出せない精密さとファンクの黒いノリが同居する独特のサウンド。シンセベースが太く弾み、ボコーダー（ロボット声）で処理されたボーカルが近未来的な空気を演出する。テンポは中程度でヘッドノッキングに最適。冷たくて硬質なのにどこか踊りたくなる、人間と機械の間にある音楽。",
+    roots_story:"1982年、Afrika Bambaataaが「Planet Rock」をリリース。Kraftwerkの「Trans-Europe Express」をサンプリングし、TR-808のビートに乗せたこの曲がエレクトロの誕生を告げた。ヒップホップのDJ文化とヨーロッパの電子音楽が初めて直接融合した瞬間でもあった。Hashim「Al-Naafiysh」、Mantronix、Egyptian Loverらがスタイルを発展。フロリダではMiami BassとしてTR-808の重低音を極端に強調した変種が生まれ、2 Live Crewらが人気を博した。ヨーロッパではエレクトロクラッシュ（2000年代）として再解釈された。"},
+
+  {id:"synth_pop", label:"Synth Pop", cat:"synthpop", era:"1978", suno:true,
+    desc:"シンセサイザーがメインの楽器となったポップミュージック。キラキラした電子音のメロディ、打ち込みのリズム、甘くメランコリックな歌声が三位一体になった80年代を象徴するサウンド。生楽器をほとんど使わず、すべてをシンセとドラムマシンで構築する潔さがある。テンポはダンサブルな中速が多い。切なさと高揚感が同居する独特のエモーションがあり、夜のドライブや都会の夜景が似合う。ポップスなのにどこか孤独な匂いがする。",
+    roots_story:"Kraftwerkの電子的サウンドとパンク/ニューウェーブのポップセンスが出会って生まれた。Gary Numan「Cars」(1979)、Orchestral Manoeuvres in the Dark、Ultravoxが初期のパイオニア。Depeche Modeはダークなシンセポップを極め、「Enjoy the Silence」(1990)は名曲中の名曲。Pet Shop Boysはインテリジェントなダンスポップを確立。日本ではYMO（Yellow Magic Orchestra）が1978年に独自のテクノポップを世界に発信し、後の日本の電子音楽シーン全体に影響を与えた。Erasure、A-ha、Howard Jonesらが80年代チャートを席巻した。"},
+
+  {id:"electropop", label:"Electropop", cat:"synthpop", era:"2000s", suno:true,
+    desc:"シンセポップを現代的なプロダクション技術で蘇らせた、きらびやかで弾むようなポップス。80年代のノスタルジーと最新のデジタル音響が融合し、分厚いシンセの壁、自動補正されたキラキラのボーカル、パンチの効いたビートが特徴。テンポはアップテンポでフロア向けのものが多い。とにかくキャッチーで耳に残り、一度聴いたらサビが離れない中毒性がある。明るくてカラフル、深刻さとは無縁の快楽主義的なポップミュージック。",
+    roots_story:"2000年代後半、80年代シンセポップへのリバイバルとデジタルプロダクションの進化が合流。La Rouxの「Bulletproof」(2009)、Robynの「Dancing On My Own」(2010)がジャンルの代表曲。Lady Gagaは「Just Dance」(2008)でエレクトロポップをメインストリームの中心に据えた。Charli XCX、Carly Rae Jepsenらがさらにポップに振り切り、Grimes、CHVRCHESはインディー寄りのアプローチで批評家からも支持された。現在もポップスの主流サウンドの一つとして定着している。"},
 
   // インダストリアル系
-  {id:"industrial", label:"Industrial",     cat:"industrial", era:"1977", suno:false, desc:"Throbbing Gristleが創始。機械的・攻撃的なノイズ音楽。"},
-  {id:"ebm",        label:"EBM",            cat:"industrial", era:"1981", suno:false, desc:"Electronic Body Music。インダストリアルと4つ打ちが融合。テクノに大きな影響。"},
-  {id:"post_punk",  label:"Post-Punk",      cat:"industrial", era:"1978", suno:false, desc:"パンクの後継。実験的でダークな方向へ。コールドウェーブ・ダークウェーブの親。"},
-  {id:"coldwave",   label:"Coldwave",       cat:"industrial", era:"1979", suno:true,  desc:"フランス・ベルギー発のポストパンク。冷たく暗い電子音。"},
-  {id:"darkwave",   label:"Darkwave",       cat:"industrial", era:"1980s", suno:false, desc:"ゴシック・ポストパンクから派生。暗く神秘的な雰囲気。"},
-  {id:"gothic_rock",label:"Gothic Rock",    cat:"industrial", era:"1979", suno:false, desc:"パンクから派生したダークなロック。ダークウェーブの親。"},
-  {id:"neoclassical_dw",label:"Neoclassical\nDarkwave", cat:"industrial", era:"1990s", suno:true, desc:"クラシックとダークウェーブが融合。弦楽器と暗い電子音。"},
-  {id:"ethereal_wave",   label:"Ethereal Wave",    cat:"industrial", era:"1980s", suno:true,  desc:"ダークウェーブから派生。幻想的・夢幻的な女性ボーカルが特徴。"},
-  {id:"harsh_noise",     label:"Harsh Noise",      cat:"industrial", era:"1980s", suno:true,  desc:"極端なノイズ音楽。聴覚限界を試すような壁面音響。"},
+  {id:"industrial", label:"Industrial", cat:"industrial", era:"1977", suno:false,
+    desc:"金属を叩く音、機械の軋み、工場の騒音をそのまま音楽にしたような攻撃的なサウンド。ドラムは硬質で打撃的、ベースは歪んで唸り、ボーカルは叫ぶか機械的に加工される。不快感や緊張感を意図的に生み出す音楽で、聴いていると心拍数が上がる。美しさよりも衝撃と挑発を追求しており、反社会的・反権威的なメッセージを込めることが多い。工業地帯の灰色の風景がそのまま音になったような、重く冷たいサウンドスケープ。",
+    roots_story:"1976年、Throbbing GristleがイギリスのシェフィールドでIndustrial Recordsを設立。バンド名通り「脈打つ軟骨」のような不気味なパフォーマンスで、テープコラージュ、自作電子機器、歪んだボーカルを駆使した。「Industrial Music for Industrial People」という標語がジャンル名の由来。ドイツのEinstürzende Neubauten（崩壊する新建築）は文字通り建設現場の廃材を楽器にした。Cabaret Voltaireはシンセサイザーとテープ操作で独自路線を、SPKはオーストラリアからより過激なノイズを発信。アメリカではMinistryやNine Inch Nailsがロック寄りのインダストリアルを大衆化させた。"},
+
+  {id:"ebm", label:"EBM", cat:"industrial", era:"1981", suno:false,
+    desc:"インダストリアルの攻撃性にダンスフロアのビートを注入した音楽。硬質な4つ打ちキック、反復するシンセベースのシーケンス、咆哮するようなボーカルが基本構成。テンポは中速〜やや速め（BPM 110〜140）で、体を前後に揺らしたくなるような無骨なグルーヴがある。冷たく暗いが、踊れる。ゴスクラブやインダストリアル系クラブの定番で、黒い服に身を包んだ集団が無表情で踊っている光景が似合う。",
+    roots_story:"1981年、ベルギーのFront 242が「Body to Body」を発表し、Electronic Body Music（EBM）を提唱。インダストリアルの実験性をダンスフロア向けに再構築したスタイルだった。ドイツのDAF（Deutsch Amerikanische Freundschaft）は最小限のシンセとドラムマシンで粗野なダンスビートを生み出し、EBMの原型を作った。Nitzer Ebbはよりハードでアグレッシブなスタイルを確立。これらのバンドの「シーケンサーで駆動する反復ビート」はデトロイト・テクノに大きな影響を与え、電子ダンス音楽全体の重要な礎となった。"},
+
+  {id:"post_punk", label:"Post-Punk", cat:"industrial", era:"1978", suno:false,
+    desc:"パンクの「何でもあり」精神を引き継ぎつつ、より暗く、実験的で、知的な方向へ進んだ音楽。ギターはコードを掻き鳴らすのではなくリバーブやディレイで空間的な音を作り、ベースラインが楽曲を引っ張ることが多い。ボーカルは低く抑制的で、歌詞は内省的・文学的。テンポは様々だが中速が多く、どこか不安定で落ち着かない空気が漂う。暗いけれど美しく、冷たいけれど感情的。曇り空の都市の風景が似合う音楽。",
+    roots_story:"1978年頃、パンクの短命な爆発の後に、より持続可能な音楽表現を求めたアーティストたちが現れた。Joy Divisionは重く暗いサウンドとIan Curtisの切迫した歌唱で「ポストパンクの象徴」となり、彼の死後New Orderとしてエレクトロニックダンスへ転身。Siouxsie and the Bansheesはゴシックな美学を導入。Wire、Gang of Four、Bauhaus、The Cureがそれぞれ独自の方向を開拓。このジャンルは直接コールドウェーブ、ダークウェーブ、ゴシックロックに分岐し、電子音楽との架け橋となった。"},
+
+  {id:"coldwave", label:"Coldwave", cat:"industrial", era:"1979", suno:true,
+    desc:"名前の通り「冷たい波」。シンセサイザーの氷のような音色、ミニマルなドラムマシン、抑揚を抑えた冷淡なボーカルが、凍りつくような無機質な美を生む。感情を表に出さず、内側に閉じ込めたような張り詰めた緊張感が全体を支配する。テンポは中速で、同じフレーズが繰り返される催眠的な構成。真冬の深夜、人気のない都市の路地裏を歩いているような孤独感と美しさが共存する音楽。",
+    roots_story:"1970年代末、フランスとベルギーのアーティストがイギリスのポストパンク/ニューウェーブを独自に解釈した。フランスのMartin Dupont、Trisomie 21、KaS Product、ベルギーのSignal Aoutが代表格。英語圏のニューウェーブより暗く、ミニマルで、感情を抑制した冷たい質感が特徴だった。フランス語の響き自体がクールな雰囲気を生み出し、英米のポストパンクとは明らかに異なる空気感があった。長らくアンダーグラウンドに留まっていたが、2010年代にDrab Majesty、Lebanon Hanoverらによってリバイバルされた。"},
+
+  {id:"darkwave", label:"Darkwave", cat:"industrial", era:"1980s", suno:false,
+    desc:"暗く神秘的な電子音楽。シンセサイザーの深い残響、荘厳なストリングスパッド、エコーのかかったボーカルが織りなす、闇の中の美しさ。ゴシックの退廃的な美学と電子音楽の冷たさが融合しており、中世の城や月光に照らされた墓地のような幻想的な世界観がある。テンポはゆったり〜中速で、ダンスフロアで流れることもあるが、むしろ暗闇に沈み込むように聴く音楽。悲しみや孤独を美に変換する耽美的なサウンド。",
+    roots_story:"1980年代、ポストパンクとゴシックロックのダークな美学がシンセサイザーと出会って生まれた。Clan of Xymox（オランダ）はシンセポップとゴシックを融合させた初期の代表格。Dead Can Dance（オーストラリア）は中世音楽やワールドミュージックの要素を取り入れ、ジャンルの幅を大きく広げた。Cocteau Twinsの幻想的なサウンドも影響を与えた。ドイツではDas Ich、Goethes Erbenがドイツ語ダークウェーブを確立。後にネオクラシカルダークウェーブ、エセリアルウェーブに分岐し、現在もゴス系クラブシーンの中核を成している。"},
+
+  {id:"gothic_rock", label:"Gothic Rock", cat:"industrial", era:"1979", suno:false,
+    desc:"パンクの攻撃性をダークでドラマチックな方向に昇華させたロック。リバーブの深いギター、太く唸るベースライン、荘厳でバリトン気味のボーカルが暗黒の美世界を描く。歌詞は死、愛、孤独、超自然的テーマを扱い、黒い衣装、蒼白なメイク、コウモリ的なビジュアルと一体化したサブカルチャー。テンポは中速で重厚感があり、パンクのスピード感よりも雰囲気と世界観の構築に重きを置く。美しくも退廃的な闇のロック。",
+    roots_story:"1979年、Bauhaus「Bela Lugosi's Dead」が9分半の暗黒叙事詩でゴシックロックの誕生を告げた。吸血鬼映画俳優の名を冠したこの曲は、パンクの攻撃性をホラー映画的な美学に変換した。Siouxsie and the Bansheesはエキゾチックで呪術的なサウンドを展開、The Sistersof Mercyはドラムマシンを使った重厚なロックを確立、The Cureは「Seventeen Seconds」(1980)から暗い方向へ。The Missionはよりロック寄りのゴシックを追求。ゴシックロックはファッション・文学・映画を含む一大サブカルチャーを生み、ダークウェーブとともに現在もゴスシーンの中心にある。"},
+
+  {id:"neoclassical_dw", label:"Neoclassical\nDarkwave", cat:"industrial", era:"1990s", suno:true,
+    desc:"クラシック音楽の荘厳さとダークウェーブの暗い神秘性が融合した音楽。弦楽四重奏やピアノの旋律、聖歌隊のようなコーラスが電子音のドローンやパッドの上に重なる。大聖堂の中で聴いているような残響と荘厳さがあり、中世ヨーロッパや暗黒時代を連想させる世界観。テンポはゆっくりで、感情は内に秘めた悲壮感や崇高さを表現する。美しさと畏怖が同居する、芸術性の高い暗黒音楽。",
+    roots_story:"1990年代初頭、Dead Can Danceの壮大な音楽世界に触発されたアーティストたちがクラシック楽器と電子音の融合を本格化。Arcana（スウェーデン）は弦楽器とエレクトロニクスの幽玄な融合を追求。Elend（フランス）はフルオーケストラと合唱を使った壮大な暗黒交響曲を作り上げた。Stoa、Ophelia's Dream、In Slaughter Nativesらがスタイルを発展。ドイツのSopor Aeternus & the Ensemble of Shadowsは一人多重録音で独自の世界を構築。Projekt Records（アメリカ）とHyperiumレコード（ドイツ）がジャンルの拠点レーベルとなった。"},
+
+  {id:"ethereal_wave", label:"Ethereal Wave", cat:"industrial", era:"1980s", suno:true,
+    desc:"「天上の波」という名の通り、この世のものとは思えない幻想的で透明な音楽。深いリバーブの中を漂う女性ボーカル（歌詞が聞き取れないほど加工されることも）、揺らめくギターのアルペジオ、シンセの靄のようなパッドが、夢の中にいるような浮遊感を生む。テンポはゆったりで、メロディは美しく儚い。月明かりの下で花が咲くような、触れたら消えてしまいそうな繊細さがある。暗さの中の光のような音楽。",
+    roots_story:"1980年代、Cocteau Twinsがジャンルの最重要バンドとして君臨。Elizabeth Fraserの言語を超越した歌唱（造語や聞き取れない言葉で歌う「グロソラリア」的手法）とRobin Guthrieの極端にリバーブをかけたギターが、他に類を見ない音響世界を生んだ。「Heaven or Las Vegas」(1990)が代表作。4AD Recordsがジャンルの中心レーベルとなり、This Mortal Coil、Lush、Pale Saintsらが所属。Dead Can Danceのリサ・ジェラルドの声楽も大きな影響を与えた。シューゲイザーとも重なる部分があり、My Bloody Valentineとも共鳴していた。"},
+
+  {id:"harsh_noise", label:"Harsh Noise", cat:"industrial", era:"1980s", suno:true,
+    desc:"音楽と騒音の境界を完全に消し去った極限の音響表現。フィードバック、歪み、静電気のような電子ノイズが壁のように押し寄せ、メロディ・リズム・ハーモニーといった音楽の要素は一切存在しない。耳が痛くなるほどの音圧で聴く者の感覚を圧倒する。心地よさとは対極にあるが、その激しさの中に「音そのものの力」を純粋に体験する独特のカタルシスがある。聴覚の限界に挑戦する、最も過激な音楽表現の一つ。",
+    roots_story:"1970年代後半のインダストリアル音楽を極端に推し進めた形で誕生。日本のMerzbow（秋田昌美）が1980年代からハーシュノイズの最重要アーティストとして膨大な作品を発表し続けており、ジャンルの代名詞的存在。「パルスデーモン」(1996)は400作以上あるディスコグラフィーの中でも代表作。Masonna、Incapacitants、非常階段ら日本のジャパノイズ（Japanoise）勢がジャンルを牽引。アメリカではWolf Eyes、Prurient、Kevin Drumm、ヨーロッパではVomir（フランス）のHNW（Harsh Noise Wall）が一つのサブジャンルとして確立された。"},
 
   // アンビエント系
-  {id:"ambient",    label:"Ambient",        cat:"ambient", era:"1978", suno:false, desc:"Brian Enoが確立。環境音楽。聴取者が意識せずに聴ける音楽を目指す。"},
-  {id:"dark_ambient",    label:"Dark Ambient",    cat:"ambient", era:"1980s", suno:true,  desc:"暗く不穏な雰囲気のアンビエント。インダストリアルと融合した形。"},
-  {id:"space_ambient",   label:"Space Ambient",   cat:"ambient", era:"1970s", suno:true,  desc:"宇宙的・広大なスケール感のアンビエント。"},
-  {id:"ritual_ambient",  label:"Ritual Ambient",  cat:"ambient", era:"1980s", suno:true,  desc:"儀式的・呪術的な雰囲気のアンビエント。"},
-  {id:"horror_ambient",  label:"Horror Ambient",  cat:"ambient", era:"1980s", suno:true,  desc:"ホラー映画的な恐怖感を演出するアンビエント。"},
-  {id:"underwater_ambient",label:"Underwater\nAmbient",cat:"ambient", era:"1990s", suno:true, desc:"水中・海底をイメージさせるアンビエント。"},
+  {id:"ambient", label:"Ambient", cat:"ambient", era:"1978", suno:false,
+    desc:"空間そのものが音楽になったような、極めて静かで穏やかな音響芸術。シンセサイザーの長いドローン（持続音）、かすかな電子音の揺らぎ、時折聞こえる環境音が、広大で透明な音の風景を描く。ビートはなく、メロディもあるかないかの境界を漂う。集中して聴いても、BGMとして流しても成立する不思議な二面性がある。時間の流れが遅くなるような、部屋の空気が変わるような、音楽というより「場」を作る音。",
+    roots_story:"1978年、Brian Enoが「Music for Airports」を発表し「アンビエント」を音楽用語として定義した。空港の待合ロビーで流れることを想定し、「注意を引くことなく空間に溶け込む音楽」というコンセプトだった。Enoは先立つ「Discreet Music」(1975)で既にこの方向性を示していた。Kraftwerkやクラウトロックの反復性、Erik Satieの「家具の音楽」(1917)というコンセプトも源流にある。Harold Budd、Laraaji、Roger Enoらが初期のコラボレーターとなり、後にThe Orbがダンスフロア向けのアンビエントハウスを、Aphex Twinが実験的なアンビエントを追求した。"},
+
+  {id:"dark_ambient", label:"Dark Ambient", cat:"ambient", era:"1980s", suno:true,
+    desc:"闇の底から響いてくるような、不穏で重苦しい音響世界。低周波のドローンが地鳴りのように空間を満たし、金属的な軋み、遠くの叫び声のようなサンプル、不気味な残響音が断片的に現れては消える。ビートはなく、聴いていると暗闇に目が慣れるように恐怖が日常化していく感覚がある。廃墟、地下洞窟、深夜の工場跡地といった場所の空気をそのまま真空パックしたような音楽。心地よくはないが、奇妙な中毒性がある。",
+    roots_story:"1980年代、インダストリアル音楽の攻撃性を取り除き、暗く静的な音響空間だけを残す方向に進んだアーティストたちが登場。Lustmordがジャンルの創始者として広く認められており、「Heresy」(1990)は代表作。洞窟や屠殺場で録音したフィールドレコーディングと低周波ドローンを融合させた。Raison d'être（スウェーデン）はCold Meat Industryレーベルを拠点に教会の残響を取り入れた荘厳なダークアンビエントを展開。Atrium Carceri、Desiderii Marginis、Kammarheitらスウェーデン勢が特に強く、同国のCMI、Cyclic Lawが主要レーベルとなった。"},
+
+  {id:"space_ambient", label:"Space Ambient", cat:"ambient", era:"1970s", suno:true,
+    desc:"無限の宇宙空間を音で描いた、壮大で広がりのあるアンビエント。煌めくシンセのパッドが星雲のように広がり、深い残響が無重力空間を表現する。時折キラキラした高音が流れ星のように通り過ぎ、低いドローンが宇宙の深淵を感じさせる。ゆったりとしたテンポ（あるいはテンポなし）で、聴いていると地球から離れていくような浮遊感に包まれる。プラネタリウムのBGMとして最適な、壮大で静謐な音楽。",
+    roots_story:"1970年代、Tangerine Dreamが「Phaedra」(1974)でシンセサイザーによる宇宙的音響を確立した最初のバンドの一つ。Klaus Schulzeも壮大な電子音空間を構築した。Brian Enoの「Apollo: Atmospheres and Soundtracks」(1983)はNASAのアポロ計画を題材にした傑作で、ジャンルの金字塔。Steve Roach「Structures from Silence」(1984)は静寂からの音の構築を極めた。Aglaia、Oöphoi、Jonn Serrie、Robert Richらが宇宙的テーマを追求し続けている。NASAが公開した惑星の電磁波データを音に変換する「ソニフィケーション」もこのジャンルと共鳴している。"},
+
+  {id:"ritual_ambient", label:"Ritual Ambient", cat:"ambient", era:"1980s", suno:true,
+    desc:"古代の儀式や祈りの場にいるような、神秘的で呪術的な音響空間。民族楽器（ディジュリドゥ、シンギングボウル、フレームドラム）の倍音、詠唱のようなボーカル、鈴や鐘の残響が電子音のドローンと混ざり合う。聴いていると意識が変容するような、トランス状態に近い感覚を生む。テンポはゆったりか、パーカッションの原始的リズムが催眠的に繰り返される。焚き火を囲む夜の儀式、寺院の読経、シャーマンの太鼓のような原始的な神聖さを帯びた音楽。",
+    roots_story:"1980年代、ダークアンビエント/インダストリアルのアーティストたちが古代の儀式や異教文化に目を向け始めた。Zero Kama（ドイツ）は人骨で作った楽器で演奏するという極端なコンセプトで話題に。Ain Soph（日本）、Hybryds（ベルギー）が初期の代表格。1990年代にはAenigma Project、Daemonia Nymphe（ギリシャ）が古代ギリシャの音楽を再構築。Heilung（デンマーク/ノルウェー）は2010年代にバイキング時代の儀式音楽を壮大なパフォーマンスで再現し、一般の注目を集めた。Wardruna（ノルウェー）もTV番組「ヴァイキング」のサウンドトラックで知名度を上げた。"},
+
+  {id:"horror_ambient", label:"Horror Ambient", cat:"ambient", era:"1980s", suno:true,
+    desc:"ホラー映画の中に放り込まれたような、純粋な恐怖を音で再現する音楽。突然の金属的な衝撃音、忍び寄るような低周波のドローン、遠くから聞こえる不明瞭な囁き声、軋むドアの音。聴覚を通じて恐怖を体験させることに特化しており、暗い部屋で聴くと本能的に背後を確認したくなる。テンポはほぼなく、沈黙と音の落差で聴く者の神経を逆なでする。ダークアンビエントよりも直接的に「怖い」ことを目指した、恐怖体験としての音楽。",
+    roots_story:"ホラー映画のサウンドトラックとダークアンビエントの交差点で生まれた。John Carpenter自身が作曲した「ハロウィン」テーマ(1978)のミニマルなシンセサウンドが原型の一つ。Goblinのイタリアンホラー映画音楽（「サスペリア」1977等）も大きな影響源。アンビエントシーンではAtrium Carceri「Cellblock」(2003)が荒廃した精神病院を音で描き、ジャンルの代表作に。Cryo Chamber、Malignant Recordsがジャンルの中心レーベル。近年はホラーゲーム（Silent Hillシリーズの山岡晃の音楽など）との相互影響も強い。"},
+
+  {id:"underwater_ambient", label:"Underwater\nAmbient", cat:"ambient", era:"1990s", suno:true,
+    desc:"深海に潜っているような、水の中の世界を音で再現したアンビエント。すべての音がくぐもったフィルターを通したように丸く柔らかく、泡がぽこぽこと立ち上る音、遠くのクジラの歌声のような低音、水流のゆらめきが意識の底に沈んでいく感覚を生む。地上の喧騒から完全に遮断された静寂と、水圧を感じるような包み込まれる安心感がある。テンポはなく、ゆっくりと揺蕩うような音の動きだけがある。胎内回帰的な安らぎに満ちた音楽。",
+    roots_story:"1990年代、アンビエントの細分化の中で水をテーマにした作品が一つのカテゴリとして認識され始めた。Biosphere（ノルウェー）の「Substrata」(1997)は北極の海中をイメージさせる作品でジャンルの金字塔。Aphex Twin「Selected Ambient Works Volume II」(1994)の一部トラックも水中的な質感を持つ。Irresistible Force「Global Chillage」(1994)は海の音をサンプリングした初期の例。Alio Die（イタリア）は水の音と有機的なテクスチャーを融合。近年ではハイドロフォン（水中マイク）を使った実際の海中録音を素材にするアーティストも増えている。"},
 
   // ハウス系
   {id:"chicago_house",   label:"Chicago House",   cat:"house", era:"1983", suno:false, desc:"シカゴで誕生したハウスの原型。ディスコのスピードアップとシンセの融合。"},
