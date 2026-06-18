@@ -107,6 +107,7 @@ svg { width: 100vw; height: 100vh; }
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
   </div>
   <div style="display:flex;gap:6px;margin-left:auto;">
+    <button id="fit-view" style="padding:4px 12px;background:#1565C0;border:1px solid #555;border-radius:5px;color:#fff;font-size:11px;cursor:pointer;">全体表示</button>
     <button id="save-layout" style="padding:4px 12px;background:#2a2a50;border:1px solid #555;border-radius:5px;color:#ccc;font-size:11px;cursor:pointer;">配置を保存</button>
     <button id="reset-layout" style="padding:4px 12px;background:#2a2a50;border:1px solid #555;border-radius:5px;color:#ccc;font-size:11px;cursor:pointer;">配置リセット</button>
   </div>
@@ -2440,7 +2441,24 @@ const svg = d3.select("#graph");
 const w = window.innerWidth, h = window.innerHeight;
 const g = svg.append("g");
 
-svg.call(d3.zoom().scaleExtent([0.05, 6]).on("zoom", e => g.attr("transform", e.transform)));
+const zoom = d3.zoom().scaleExtent([0.005, 6]).on("zoom", e => g.attr("transform", e.transform));
+svg.call(zoom);
+
+function fitToView() {
+  const pad = 100;
+  let x0=Infinity, y0=Infinity, x1=-Infinity, y1=-Infinity;
+  NODES.forEach(n => {
+    if (n.x-n.r < x0) x0 = n.x-n.r;
+    if (n.y-n.r < y0) y0 = n.y-n.r;
+    if (n.x+n.r > x1) x1 = n.x+n.r;
+    if (n.y+n.r > y1) y1 = n.y+n.r;
+  });
+  const gw = x1-x0+pad*2, gh = y1-y0+pad*2;
+  const scale = Math.min(w/gw, h/gh);
+  const tx = w/2 - (x0+x1)/2*scale;
+  const ty = h/2 - (y0+y1)/2*scale;
+  svg.transition().duration(750).call(zoom.transform, d3.zoomIdentity.translate(tx,ty).scale(scale));
+}
 
 // arrow markers per category
 Object.entries(CAT_COLOR).forEach(([cat, color]) => {
@@ -2752,10 +2770,13 @@ function resetLayout() {
   setTimeout(() => btn.textContent = '配置リセット', 2000);
 }
 
+document.getElementById('fit-view').addEventListener('click', fitToView);
 document.getElementById('save-layout').addEventListener('click', saveLayout);
 document.getElementById('reset-layout').addEventListener('click', resetLayout);
 
-restoreLayout();
+if (!restoreLayout()) {
+  setTimeout(fitToView, 3000);
+}
 
 // ===== INSTRUMENTS & EFFECTS TAB =====
 const INST_DATA = INST_ITEMS;
