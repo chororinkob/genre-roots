@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <title>音楽ジャンルルーツ辞典</title>
 <script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://unpkg.com/3d-force-graph@1"></script>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; background: #1a1a2e; color: #eee; overflow: hidden; }
@@ -77,6 +78,9 @@ svg { width: 100vw; height: 100vh; }
 .legend-item[data-cat] { cursor: pointer; padding: 2px 5px; border-radius: 4px; margin-left: -5px; transition: background 0.15s; }
 .legend-item[data-cat]:hover { background: rgba(255,255,255,0.12); }
 
+/* 3Dマップ */
+#3d-container canvas { width: 100% !important; height: 100% !important; }
+
 /* タブ切り替え */
 .tab-btn { padding: 6px 16px; border: 1px solid #555; border-radius: 6px 6px 0 0; background: #1a1a2e; color: #aaa; font-size: 13px; cursor: pointer; border-bottom: none; }
 .tab-btn.active { background: #16162a; color: #fff; font-weight: 700; border-color: #888; }
@@ -102,9 +106,10 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v3.0 / 300 genres</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v3.1 / 300 genres</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
+    <button class="tab-btn" data-tab="3d">3Dマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
   </div>
   <div style="display:flex;gap:6px;margin-left:auto;">
@@ -195,6 +200,7 @@ svg { width: 100vw; height: 100vh; }
   </div>
 </div>
 <div id="tooltip"></div>
+<div id="3d-container" style="display:none;position:fixed;top:50px;left:0;right:0;bottom:0;"></div>
 <div id="instruments-panel"></div>
 <svg id="graph"></svg>
 
@@ -2887,19 +2893,95 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     const tab = btn.dataset.tab;
+    const graph2d = document.getElementById('graph');
+    const sidebar = document.getElementById('left-sidebar');
+    const container3d = document.getElementById('3d-container');
+    const sidePanel = document.getElementById('side-panel');
+
+    graph2d.style.display = 'none';
+    sidebar.style.display = 'none';
+    instPanel.style.display = 'none';
+    container3d.style.display = 'none';
+    sidePanel.style.display = 'none';
+
     if (tab === 'map') {
-      instPanel.style.display = 'none';
-      document.getElementById('graph').style.display = '';
-      document.getElementById('left-sidebar').style.display = '';
+      graph2d.style.display = '';
+      sidebar.style.display = '';
+    } else if (tab === '3d') {
+      container3d.style.display = 'block';
+      if (!window._3dGraph) init3D();
     } else {
       if (!instPanel.innerHTML) buildInstPanel();
       instPanel.style.display = 'block';
-      document.getElementById('graph').style.display = 'none';
-      document.getElementById('left-sidebar').style.display = 'none';
-      document.getElementById('side-panel').style.display = 'none';
     }
   });
 });
+
+// ===== 3D MAP =====
+function init3D() {
+  const nodes3d = NODES.map(n => ({
+    id: n.id,
+    name: n.label.replace('\n',' '),
+    cat: n.cat,
+    suno: n.suno,
+    popularity: n.popularity,
+    desc: n.desc,
+    val: n.popularity * n.popularity * 0.5
+  }));
+  const links3d = LINKS.map(l => ({
+    source: l.s,
+    target: l.t,
+    weight: l.w,
+    desc: l.desc
+  }));
+
+  const container = document.getElementById('3d-container');
+  window._3dGraph = ForceGraph3D()(container)
+    .graphData({nodes: nodes3d, links: links3d})
+    .backgroundColor('#0a0a1a')
+    .nodeColor(n => CAT_COLOR[n.cat] || '#888')
+    .nodeVal(n => n.val)
+    .nodeLabel(n => {
+      let label = n.name;
+      if (n.suno) label += ' ★Suno有効';
+      label += '\n' + (n.desc || '').substring(0, 80) + '...';
+      return label;
+    })
+    .nodeOpacity(0.9)
+    .linkWidth(l => 0.5 + l.weight / 30)
+    .linkColor(l => {
+      const sNode = nodes3d.find(n => n.id === (l.source.id || l.source));
+      return CAT_COLOR[sNode?.cat] || '#444';
+    })
+    .linkOpacity(0.3)
+    .linkDirectionalArrowLength(6)
+    .linkDirectionalArrowRelPos(1)
+    .onNodeClick(n => {
+      window._3dGraph.cameraPosition(
+        {x: n.x + 200, y: n.y + 100, z: n.z + 200},
+        {x: n.x, y: n.y, z: n.z},
+        1000
+      );
+    })
+    .d3Force('charge', d3.forceManyBody().strength(-80))
+    .d3Force('link', d3.forceLink().distance(l => 100 - l.weight * 0.3).strength(0.3));
+
+  // Sunoノードにリングを追加
+  window._3dGraph.nodeThreeObject(n => {
+    if (!n.suno) return undefined;
+    const sprite = new window.THREE.Sprite(
+      new window.THREE.SpriteMaterial({
+        map: new window.THREE.TextureLoader().load(''),
+        color: 0xFFD700,
+        transparent: true,
+        opacity: 0.6
+      })
+    );
+    const s = Math.sqrt(n.val) * 2;
+    sprite.scale.set(s, s, 1);
+    return undefined;
+  });
+}
 </script>
 </body>
 </html>
