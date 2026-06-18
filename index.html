@@ -116,7 +116,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v3.8 / 300 genres</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v3.9 / 300 genres</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
@@ -2617,6 +2617,7 @@ node.on("click", (e, d) => {
   e.stopPropagation();
 
   // 関連ノードをハイライト、他を暗く
+  window._nodeFocused = true;
   const connectedIds = new Set([d.id]);
   LINKS.forEach(l => {
     if (l.s === d.id) connectedIds.add(l.t);
@@ -2671,6 +2672,7 @@ node.on("click", (e, d) => {
 spClose.onclick = () => panel.style.display = "none";
 svg.on("click", () => {
   panel.style.display = "none";
+  window._nodeFocused = false;
   node.classed('focus-highlight', false);
   node.classed('focus-dim', false);
   link.classed('focus-highlight', false);
@@ -2792,13 +2794,24 @@ function clearHighlight() {
 document.querySelectorAll('.legend-item[data-cat]').forEach(item => {
   const cat = item.dataset.cat;
   item.addEventListener('mouseenter', () => {
-    if (!lockedCat) highlightCat(cat);
+    if (!lockedCat && !window._nodeFocused) highlightCat(cat);
   });
   item.addEventListener('mouseleave', () => {
-    if (!lockedCat) clearHighlight();
+    if (!lockedCat && !window._nodeFocused) clearHighlight();
   });
   item.addEventListener('click', (e) => {
     e.stopPropagation();
+    // ノードフォーカス中ならまず解除
+    if (window._nodeFocused) {
+      window._nodeFocused = false;
+      node.classed('focus-highlight', false);
+      node.classed('focus-dim', false);
+      link.classed('focus-highlight', false);
+      link.classed('focus-dim', false);
+      linkLabelG.classed('focus-highlight', false);
+      linkLabelG.classed('focus-dim', false);
+      panel.style.display = 'none';
+    }
     if (lockedCat === cat) {
       clearHighlight();
     } else {
