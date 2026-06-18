@@ -969,6 +969,57 @@ const NODES = [
     desc:"エモ/パンクロックの感情的な歌詞とメロディを、ヒップホップのビートとオートチューンボーカルで表現した、2010年代後半のSoundCloud世代を代表するスタイル。失恋、孤独、メンタルヘルスの苦悩を赤裸々に歌い、ロックのギターリフとトラップのビートが共存する。テンポはBPM 80〜100。泣きながらヘッドバンギングするような、世代の痛みを体現した音楽。",
     roots_story:"2010年代後半、SoundCloudから爆発。XXXTentacion「17」(2017)とLil Peep「Come Over When You're Sober」(2017)がエモラップの2大アイコン。両者とも若くして亡くなり（Lil Peep: 2017年、XXXTentacion: 2018年）、世代のアイコンとなった。Juice WRLD「Goodbye & Good Riddance」(2018)がメインストリームでの最大のヒット。彼も2019年に21歳で急逝。"},
 
+  // ジャズ系追加
+  {id:"dixieland", label:"Dixieland", cat:"jazz_sub", era:"1910s", suno:true,
+    desc:"ニューオーリンズ生まれのジャズの原型。トランペット、クラリネット、トロンボーンが同時に即興で絡み合う「集団即興」が最大の特徴。テンポは軽快でBPM 120〜200。行進曲的な陽気さとブルースの哀愁が混ざり、パレードやお祭りの空気感がある。現代のジャズに比べると素朴で牧歌的だが、その自由な掛け合いにジャズの原点がある。",
+    roots_story:"1910年代、ニューオーリンズのStoryville地区を中心に形成。King Oliver's Creole Jazz Band、Louis Armstrong「Hot Five」セッションが代表。Original Dixieland Jass Band「Livery Stable Blues」(1917)が最初のジャズ録音とされる。「ディキシーランド」はアメリカ南部の俗称に由来。1950年代にリバイバルブームがあり、現在もニューオーリンズの観光名所Preservation Hallで毎晩演奏されている。"},
+
+  {id:"big_band", label:"Big Band", cat:"jazz_sub", era:"1930s", suno:true,
+    desc:"10〜20人の大編成バンドによる、華やかでスウィングするジャズ。サックスセクション、トランペットセクション、トロンボーンセクション、リズムセクションが層になったゴージャスなサウンド。テンポはBPM 120〜200で、スウィングのリズムに乗って踊れる。アレンジされた楽譜に基づく演奏が中心だが、ソロパートでは即興も。1930〜40年代の「スウィング時代」のメインストリーム音楽。",
+    roots_story:"1930年代、Duke Ellington、Count Basie、Benny Goodmanがビッグバンドジャズを確立。Benny Goodmanは「キング・オブ・スウィング」と呼ばれ、1938年のカーネギーホール公演は歴史的イベント。Glenn Miller「In the Mood」(1939)は最も有名なビッグバンド曲の一つ。第二次世界大戦中の慰問音楽としても重要な役割を果たした。現在もGordon Goodwin's Big Phat Bandなどが活動を続けている。"},
+
+  {id:"free_jazz", label:"Free Jazz", cat:"jazz_sub", era:"1960s", suno:true,
+    desc:"あらゆるルール——調性、テンポ、コード進行、構成——を解放した、完全に自由な即興音楽。複数の演奏者が各自の判断で自由に音を出し、その瞬間瞬間の音の衝突と共鳴がそのまま作品になる。テンポの概念すら存在しないことも。叫ぶサックス、暴れるドラム、うめくベースが混沌の中に独自の美を生む。理解を拒む激しさだが、既成概念の破壊に快感がある。",
+    roots_story:"1960年、Ornette Coleman「Free Jazz」がジャンル名の由来。37分間の完全即興を両チャンネルに別々の四重奏を配置して録音した革命的作品。John Coltrane「Ascension」(1966)はフリージャズの精神性の頂点。Cecil Taylor（ピアノ）、Albert Ayler、Sun Raも重要。ヨーロッパではPeter Brötzmann「Machine Gun」(1968)が過激なフリーインプロを展開。日本では阿部薫、高柳昌行が独自のフリージャズを追求した。"},
+
+  {id:"gypsy_jazz", label:"Gypsy Jazz", cat:"jazz_sub", era:"1930s", suno:true,
+    desc:"アコースティックギターの超高速パッセージと、ロマ（ジプシー）音楽の哀愁あるメロディが融合した、パリのカフェが似合うスタイル。アコースティックギター2本、コントラバス、ヴァイオリンという編成が基本で、電気楽器は使わない。テンポは速く（BPM 160〜250）、ギターのアドリブが目にも止まらぬ速さで駆け抜ける。情熱的で華やかで、しかしどこか切ない。",
+    roots_story:"1930年代、ベルギー生まれのロマ系ギタリストDjango ReinhardtがヴァイオリニストStéphane Grappelliと結成したQuintette du Hot Club de Franceで確立。Djangoは18歳の時の火事で左手の薬指と小指が動かなくなったが、残りの指だけで信じられない速弾きを実現した伝説的ギタリスト。「Minor Swing」(1937)が代表曲。Bireli Lagrène、Stochelo Rosenbergが後継者。映画「僕のスウィング」(2002)でも描かれた。"},
+
+  {id:"acid_jazz", label:"Acid Jazz", cat:"jazz_sub", era:"1980s", suno:true,
+    desc:"ジャズのグルーヴにファンク、ソウル、ヒップホップのビートを混ぜた、クラブで踊れるスタイリッシュなジャズ。生演奏のジャズバンドとDJのターンテーブルが共存し、サンプリングと即興が交錯する。テンポはBPM 90〜120で、ゆったり腰を揺らす心地よさがある。ジャズの知性とクラブの快楽主義が同居する、おしゃれなナイトライフの音楽。",
+    roots_story:"1980年代後半、ロンドンのDJ Gilles PetersonとEddie Pillerがジャンル名を作りAcid Jazzレーベルを設立。Jamiroquai「Emergency on Planet Earth」(1993)がアシッドジャズの最大のヒット。Brand New Heavies、Incognito、Galliano、James Taylor Quartetも重要。The Young Disciples、Corduroy、Snowboyらがロンドンのシーンを形成。日本ではUnited Future Organization、Mondo Grossoがアシッドジャズ的なサウンドで人気を博した。"},
+
+  // ポップス系追加
+  {id:"city_pop", label:"City Pop\n(シティポップ)", cat:"pop", era:"1975", suno:true,
+    desc:"1970〜80年代の日本の都市生活の煌めきを音にした、洗練されたポップス。AOR（大人向けロック）、ソウル、ファンク、フュージョンの影響を受けた高品質なプロダクション、透明感のあるボーカル、都会的でおしゃれなアレンジが特徴。テンポは中速で、ドライブ中の夜景やネオンの街が脳裏に浮かぶ。2010年代後半からYouTubeのアルゴリズムで海外に「発見」され、世界的リバイバルが起きた。",
+    roots_story:"1975年頃から1980年代にかけて、大瀧詠一「A LONG VACATION」(1981)、山下達郎「FOR YOU」(1982)、竹内まりや「Plastic Love」(1984)が代表作。松原みき「真夜中のドア/Stay With Me」(1979)は2020年にSpotifyグローバルチャートで1位を獲得し、40年越しの世界的ヒットに。角松敏生、杏里「悲しみがとまらない」も海外で再発見された。シティポップのリバイバルはヴェイパーウェーブとフューチャーファンクのサンプリング素材としての人気が発端。"},
+
+  {id:"baroque_pop", label:"Baroque Pop", cat:"pop", era:"1966", suno:true,
+    desc:"ポップスにバロック音楽の要素——チェンバロ、弦楽四重奏、対位法的なメロディライン——を取り入れた、格式高くドラマチックなスタイル。ロックバンドの編成にオーケストラが加わり、クラシカルな壮大さとポップスのキャッチーさが同居する。テンポは中速。華やかで知的、古典的なのに新しい。音楽的教養とポップセンスの融合。",
+    roots_story:"1966年、The Beach Boys「Pet Sounds」とThe Beatles「Revolver」〜「Sgt. Pepper's」がバロックポップの原型を同時期に生み出した。The Left Banke「Walk Away Renée」(1966)はチェンバロを使った初期の代表曲。The Zombies「Odessey and Oracle」(1968)は再評価されバロックポップの隠れた傑作に。Arcade Fire、Fleet Foxes、Sufjan Stevensが現代のバロックポップ的なアーティスト。"},
+
+  {id:"adult_contemporary", label:"Adult\nContemporary", cat:"pop", era:"1960s", suno:true,
+    desc:"大人のリスナー向けに調整された、穏やかで洗練されたポップス/ロック。ソフトなボーカル、控えめなプロダクション、メロディアスな曲作りが特徴。テンポはゆったり〜中速。ラジオのBGMやオフィスの有線放送に最適な「邪魔にならない心地よさ」がある。激しさや攻撃性とは無縁で、リラックスした雰囲気を演出する。",
+    roots_story:"1960年代からラジオのフォーマットとして確立。Carpenters「Close to You」(1970)がAC（Adult Contemporary）チャートの象徴。Elton John、Billy Joel、Phil Collinsが1970〜80年代のACチャート常連。Michael Bolton、Celine Dion「My Heart Will Go On」(1997)が1990年代の代表。Adele「Someone Like You」(2011)が現代のAC最大のヒット。Billboard Adult Contemporaryチャートは現在も継続している。"},
+
+  {id:"easy_listening", label:"Easy Listening", cat:"pop", era:"1950s", suno:true,
+    desc:"文字通り「気楽に聴ける」音楽。ストリングスの滑らかなアレンジ、軽やかなリズム、優しいメロディが空間を穏やかに満たす。テンポはゆったり〜中速。積極的に「聴く」というよりも、レストランやホテルのロビーで流れて雰囲気を作るBGM的な音楽。ムード音楽、エレベーターミュージックとも呼ばれる。快適さを科学的に設計したような、究極の「邪魔にならない音楽」。",
+    roots_story:"1950〜60年代、Mantovani（イタリア系イギリス人指揮者）のストリングスオーケストラが「カスケーディング・ストリングス」という独自の弦楽アレンジで世界的人気を博した。Percy Faith、Henry Mancini「Moon River」(1961)、Bert Kaempfert（ドイツ）が代表。Ray Conniff合唱団はコーラスアレンジで独自のスタイルを確立。Paul Mauriat「Love is Blue」(1968)は日本でも大ヒット。Muzak社が「環境音楽」として商業施設向けに配信するシステムを確立した。"},
+
+  // クラシック系追加
+  {id:"medieval", label:"Medieval", cat:"classical_sub", era:"500s", suno:true,
+    desc:"中世ヨーロッパ（5〜15世紀）の音楽。グレゴリオ聖歌に代表される単旋律の宗教歌が基本で、和音やハーモニーの概念がまだ発展していない時代の、一本の旋律線が空間に響く厳かな美しさがある。リュート、レベック、フルートなどの古楽器や声楽が使用される。テンポはゆったり。石造りの大聖堂の残響の中で歌われることを前提にした、精神的で瞑想的な音楽。",
+    roots_story:"5世紀以降のヨーロッパ、特にカトリック教会を中心に発展。グレゴリオ聖歌（6世紀〜）は教皇グレゴリウス1世に由来する単旋律の典礼音楽。12世紀にはHildegard von Bingen（ヒルデガルト・フォン・ビンゲン）が神秘的な宗教音楽を残した。吟遊詩人（トルバドゥール、ミンネゼンガー）が世俗音楽を担った。Guillaume de Machaut（14世紀）が多声音楽（ポリフォニー）の先駆者。現在はEnsemble Unicorn、Anonymous 4などの古楽アンサンブルが演奏。"},
+
+  {id:"opera", label:"Opera", cat:"classical_sub", era:"1597", suno:true,
+    desc:"歌と演技とオーケストラと舞台美術が一体化した、西洋音楽の最も壮大な総合芸術。ソプラノ、テノール、バリトンといった訓練されたオペラ歌手の声量と表現力は圧倒的で、マイクなしで大劇場に響き渡る。アリア（独唱曲）の美しさ、重唱のハーモニー、オーケストラの劇的な伴奏が感情のドラマを最大化する。恋愛、悲劇、英雄譚を壮大なスケールで描く、感情の大爆発。",
+    roots_story:"1597年、フィレンツェのJacopo Peri「Dafne」が最初のオペラとされる（楽譜は散逸）。Monteverdi「L'Orfeo」(1607)が現存する最古の重要なオペラ。Mozart「フィガロの結婚」「ドン・ジョヴァンニ」が古典的オペラの完成形。Verdi「アイーダ」「椿姫」、Puccini「蝶々夫人」「トスカ」がイタリアオペラの最高峰。Wagner「ニーベルングの指環」は15時間超の壮大な四部作。Pavarotti、Maria Callasが20世紀の伝説的歌手。"},
+
+  {id:"waltz", label:"Waltz", cat:"classical_sub", era:"1780s", suno:true,
+    desc:"3拍子の優雅な舞曲。「ズン・チャッ・チャッ」のリズムに乗せて男女がくるくると回転しながら踊る、ヨーロッパ宮廷文化の花形。ストリングスの流麗なメロディ、ゆったりとした3拍子のリズムが生む浮遊感と回転感が特徴。テンポはBPM 80〜100の3拍子。優雅さ、品格、ロマンスの象徴であり、舞踏会のイメージが脳裏に浮かぶ。",
+    roots_story:"1780年代、オーストリア・ドイツの農民の踊り「ランドラー」が宮廷に取り入れられ洗練された。Johann Strauss II（「ワルツ王」）の「美しき青きドナウ」(1867)がウィンナワルツの永遠の名曲。映画「2001年宇宙の旅」(1968)のオープニングで使用され、宇宙空間と完璧にマッチ。Chopin、Tchaikovskyもワルツの名曲を残した。ウィーン・フィルハーモニー管弦楽団のニューイヤーコンサートは毎年ワルツで締めくくられる。"},
+
   // ブルース系サブジャンル
   {id:"delta_blues", label:"Delta Blues", cat:"blues_sub", era:"1920s", suno:true,
     desc:"ミシシッピ・デルタの綿花畑から生まれた、ブルースの最も原始的な形。アコースティックギター1本と声だけで、人生の苦悩、愛、孤独を歌う。スライドギター（ボトルネック奏法）の金属的にうねる音色が特徴的。テンポはゆったりで、同じリフを繰り返しながら感情を掘り下げる。レコーディング環境の粗さも相まって、まるで幽霊が歌っているような不気味な生々しさがある。すべてのロック・ポップスの最も深いルーツ。",
@@ -1281,6 +1332,27 @@ const LINKS = [
   {s:"classical",   t:"minimalism_classical", w:50, desc:"クラシックのミニマル化"},
   {s:"minimalism_classical",t:"ambient", w:45, desc:"ミニマリズムがアンビエントに影響"},
   {s:"minimalism_classical",t:"techno",  w:40, desc:"反復構造がテクノに影響"},
+
+  // ジャズ系追加リンク
+  {s:"jazz",         t:"dixieland",       w:85, desc:"ジャズの最初期形態"},
+  {s:"jazz",         t:"big_band",        w:80, desc:"ジャズの大編成化"},
+  {s:"bebop",        t:"free_jazz",       w:65, desc:"ビバップの自由化"},
+  {s:"jazz",         t:"gypsy_jazz",      w:50, desc:"ジャズのロマ文化融合"},
+  {s:"jazz",         t:"acid_jazz",       w:45, desc:"ジャズのクラブ化"},
+  {s:"funk",         t:"acid_jazz",       w:40, desc:"ファンクグルーヴの導入"},
+
+  // ポップス系追加リンク
+  {s:"soul",         t:"city_pop",        w:40, desc:"ソウル/AORの日本化"},
+  {s:"fusion",       t:"city_pop",        w:45, desc:"フュージョンの洗練さ"},
+  {s:"classical",    t:"baroque_pop",     w:50, desc:"バロック音楽の要素導入"},
+  {s:"pop_music",    t:"baroque_pop",     w:55, desc:"ポップスのクラシカル化"},
+  {s:"pop_music",    t:"adult_contemporary",w:65, desc:"大人向けポップス"},
+  {s:"pop_music",    t:"easy_listening",  w:50, desc:"BGM的ポップス"},
+
+  // クラシック系追加リンク
+  {s:"classical",    t:"medieval",        w:80, desc:"クラシックの最初期形態"},
+  {s:"classical",    t:"opera",           w:85, desc:"音楽と演劇の融合"},
+  {s:"classical",    t:"waltz",           w:70, desc:"3拍子の宮廷舞曲"},
 
   // ソウル・R&B系追加リンク
   {s:"soul",         t:"motown",          w:75, desc:"ソウルのポップ化・商業化"},
