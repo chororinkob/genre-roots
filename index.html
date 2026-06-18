@@ -116,7 +116,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v3.7 / 300 genres</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v3.8 / 300 genres</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
@@ -2761,13 +2761,19 @@ function highlightCat(cat) {
   } else {
     matchIds = new Set(NODES.filter(n => n.cat === cat).map(n => n.id));
   }
-  // ノードのハイライト
+  // 関連ノード（カテゴリに接続しているが、カテゴリ自体ではないもの）
+  const relatedIds = new Set();
+  LINKS.forEach(l => {
+    if (matchIds.has(l.s) && !matchIds.has(l.t)) relatedIds.add(l.t);
+    if (matchIds.has(l.t) && !matchIds.has(l.s)) relatedIds.add(l.s);
+  });
+  // ノード：カテゴリ内=点滅、関連=明るく表示、それ以外=暗く
   node.classed('cat-highlight', d => matchIds.has(d.id));
-  node.classed('cat-dim',       d => !matchIds.has(d.id));
-  // 関連する線：カテゴリ内のノード同士、またはカテゴリノードに接続する線
+  node.classed('cat-dim',       d => !matchIds.has(d.id) && !relatedIds.has(d.id));
+  // 線：カテゴリに接続=明るく、それ以外=暗く
   link.classed('focus-highlight', l => matchIds.has(l.s) || matchIds.has(l.t));
   link.classed('focus-dim', l => !matchIds.has(l.s) && !matchIds.has(l.t));
-  // パーセンテージ数字
+  // 数字
   linkLabelG.classed('focus-highlight', l => matchIds.has(l.s) || matchIds.has(l.t));
   linkLabelG.classed('focus-dim', l => !matchIds.has(l.s) && !matchIds.has(l.t));
 }
