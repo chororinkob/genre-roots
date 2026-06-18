@@ -4,7 +4,6 @@
 <meta charset="utf-8">
 <title>音楽ジャンルルーツ辞典</title>
 <script src="https://d3js.org/d3.v7.min.js"></script>
-<script src="https://unpkg.com/3d-force-graph/dist/3d-force-graph.min.js"></script>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; background: #1a1a2e; color: #eee; overflow: hidden; }
@@ -75,6 +74,10 @@ svg { width: 100vw; height: 100vh; }
 }
 .node.search-match circle { animation: search-pulse 0.7s ease-in-out infinite !important; }
 .node.cat-dim { opacity: 0.1; pointer-events: none; }
+.node.focus-dim { opacity: 0.08; }
+.node.focus-highlight circle { stroke: #fff !important; stroke-width: 8 !important; filter: drop-shadow(0 0 12px #fff); }
+.link.focus-dim { opacity: 0.03 !important; }
+.link.focus-highlight { opacity: 1 !important; stroke-width: 8px !important; filter: drop-shadow(0 0 4px rgba(255,255,255,0.5)); }
 .legend-item[data-cat] { cursor: pointer; padding: 2px 5px; border-radius: 4px; margin-left: -5px; transition: background 0.15s; }
 .legend-item[data-cat]:hover { background: rgba(255,255,255,0.12); }
 
@@ -106,10 +109,9 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v3.3 / 300 genres</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v3.4 / 300 genres</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
-    <button class="tab-btn" data-tab="3d">3Dマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
   </div>
   <div style="display:flex;gap:6px;margin-left:auto;">
@@ -200,7 +202,6 @@ svg { width: 100vw; height: 100vh; }
   </div>
 </div>
 <div id="tooltip"></div>
-<div id="3d-container" style="display:none;position:fixed;top:50px;left:0;right:0;bottom:0;"></div>
 <div id="instruments-panel"></div>
 <svg id="graph"></svg>
 
@@ -2604,8 +2605,19 @@ node.call(d3.drag()
   .on("end",   (e,d) => { if(!e.active) simulation.alphaTarget(0); }));
 
 node.on("click", (e, d) => {
-  if(dragMoved) return; // ドラッグ後のクリックは無視
+  if(dragMoved) return;
   e.stopPropagation();
+
+  // 関連ノードをハイライト、他を暗く
+  const connectedIds = new Set([d.id]);
+  LINKS.forEach(l => {
+    if (l.s === d.id) connectedIds.add(l.t);
+    if (l.t === d.id) connectedIds.add(l.s);
+  });
+  node.classed('focus-highlight', n => connectedIds.has(n.id));
+  node.classed('focus-dim', n => !connectedIds.has(n.id));
+  link.classed('focus-highlight', l => l.s === d.id || l.t === d.id);
+  link.classed('focus-dim', l => l.s !== d.id && l.t !== d.id);
 
   const name = d.label.replace("\n", " ");
   spTag.textContent = name;
@@ -2647,7 +2659,13 @@ node.on("click", (e, d) => {
 });
 
 spClose.onclick = () => panel.style.display = "none";
-svg.on("click", () => panel.style.display = "none");
+svg.on("click", () => {
+  panel.style.display = "none";
+  node.classed('focus-highlight', false);
+  node.classed('focus-dim', false);
+  link.classed('focus-highlight', false);
+  link.classed('focus-dim', false);
+});
 
 simulation.on("tick", () => {
   link
@@ -2893,36 +2911,22 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     const tab = btn.dataset.tab;
-    const graph2d = document.getElementById('graph');
-    const sidebar = document.getElementById('left-sidebar');
-    const container3d = document.getElementById('3d-container');
-    const sidePanel = document.getElementById('side-panel');
-
-    graph2d.style.display = 'none';
-    sidebar.style.display = 'none';
-    instPanel.style.display = 'none';
-    container3d.style.display = 'none';
-    sidePanel.style.display = 'none';
-
     if (tab === 'map') {
-      graph2d.style.display = '';
-      sidebar.style.display = '';
-    } else if (tab === '3d') {
-      container3d.style.display = 'block';
-      if (!window._3dGraph) {
-        setTimeout(init3D, 100);
-      } else {
-        window._3dGraph.width(container3d.clientWidth).height(container3d.clientHeight);
-      }
+      instPanel.style.display = 'none';
+      document.getElementById('graph').style.display = '';
+      document.getElementById('left-sidebar').style.display = '';
     } else {
       if (!instPanel.innerHTML) buildInstPanel();
       instPanel.style.display = 'block';
+      document.getElementById('graph').style.display = 'none';
+      document.getElementById('left-sidebar').style.display = 'none';
+      document.getElementById('side-panel').style.display = 'none';
     }
   });
 });
 
-// ===== 3D MAP =====
-function init3D() {
+// ===== (3D MAP removed) =====
+if (false) {
   const nodes3d = NODES.map(n => ({
     id: n.id,
     name: n.label.replace('\n',' '),
