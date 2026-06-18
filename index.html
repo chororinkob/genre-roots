@@ -134,7 +134,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v4.0 / 300 genres</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v4.1 / 300 genres</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
@@ -2147,6 +2147,13 @@ ROOTS_IDS.forEach((id, i) => {
 const rockNode = NODES.find(n => n.id === "rock");
 if (rockNode) { rockNode.fx = cx; rockNode.fy = cy - 1500; }
 
+// ===== SUNO OVERRIDES FROM LOCALSTORAGE =====
+const sunoOverrides = JSON.parse(localStorage.getItem('suno_overrides') || '{}');
+Object.entries(sunoOverrides).forEach(([id, val]) => {
+  const n = NODES.find(n => n.id === id);
+  if (n) n.suno = val;
+});
+
 // ===== POPULARITY SCORE → NODE RADIUS =====
 const POPULARITY = {
   "jazz": 10,
@@ -2650,7 +2657,22 @@ node.on("click", (e, d) => {
 
   const name = d.label.replace("\n", " ");
   spTag.textContent = name;
-  spSunoW.innerHTML = d.suno ? '<span class="sp-suno">Suno有効タグ</span>' : '';
+  const isSuno = sunoOverrides[d.id] !== undefined ? sunoOverrides[d.id] : d.suno;
+  spSunoW.innerHTML = '<label style="display:flex;align-items:center;gap:8px;cursor:pointer;margin-bottom:8px;">'
+    + '<input type="checkbox" id="suno-toggle" ' + (isSuno ? 'checked' : '') + ' style="width:18px;height:18px;accent-color:#FFD700;cursor:pointer;">'
+    + '<span style="font-size:13px;color:' + (isSuno ? '#FFD700' : '#888') + ';">' + (isSuno ? 'Suno有効タグ ✓' : 'Suno未確認') + '</span>'
+    + '</label>';
+  document.getElementById('suno-toggle').addEventListener('change', function() {
+    const newVal = this.checked;
+    sunoOverrides[d.id] = newVal;
+    localStorage.setItem('suno_overrides', JSON.stringify(sunoOverrides));
+    d.suno = newVal;
+    // 円のクラス更新
+    node.select('circle').attr('class', n => n.suno ? 'suno' : '');
+    // パネル表示更新
+    this.parentElement.querySelector('span').textContent = newVal ? 'Suno有効タグ ✓' : 'Suno未確認';
+    this.parentElement.querySelector('span').style.color = newVal ? '#FFD700' : '#888';
+  });
   spEra.textContent  = d.era ? `発祥時期：${d.era}` : '';
   spDesc.textContent = d.desc || '（説明なし）';
 
