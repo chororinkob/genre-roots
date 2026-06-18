@@ -106,7 +106,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v3.2 / 300 genres</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v3.3 / 300 genres</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="3d">3Dマップ</button>
@@ -2947,33 +2947,63 @@ function init3D() {
     .backgroundColor('#0a0a1a')
     .nodeColor(n => CAT_COLOR[n.cat] || '#888')
     .nodeVal(n => n.val)
+    .nodeOpacity(0.92)
+    .nodeThreeObjectExtend(true)
+    .nodeThreeObject(n => {
+      const group = new THREE.Group();
+      // テキストラベル
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const fontSize = 48;
+      const text = n.name;
+      canvas.width = 512;
+      canvas.height = 80;
+      ctx.fillStyle = 'rgba(0,0,0,0)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.font = 'bold ' + fontSize + 'px Arial';
+      ctx.fillStyle = '#ffffff';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(text, canvas.width/2, canvas.height/2);
+      const texture = new THREE.CanvasTexture(canvas);
+      const spriteMat = new THREE.SpriteMaterial({map: texture, transparent: true});
+      const sprite = new THREE.Sprite(spriteMat);
+      const s = Math.max(30, Math.sqrt(n.val) * 8);
+      sprite.scale.set(s, s * 80/512, 1);
+      sprite.position.set(0, Math.sqrt(n.val) * 2 + 8, 0);
+      group.add(sprite);
+      // Sunoリング
+      if (n.suno) {
+        const ringGeo = new THREE.RingGeometry(Math.sqrt(n.val) * 1.8, Math.sqrt(n.val) * 2.2, 32);
+        const ringMat = new THREE.MeshBasicMaterial({color: 0xFFD700, side: THREE.DoubleSide, transparent: true, opacity: 0.8});
+        const ring = new THREE.Mesh(ringGeo, ringMat);
+        group.add(ring);
+      }
+      return group;
+    })
     .nodeLabel(n => {
-      let label = n.name;
-      if (n.suno) label += ' ★Suno有効';
-      label += '\n' + (n.desc || '').substring(0, 80) + '...';
+      let label = '<b style="font-size:16px">' + n.name + '</b>';
+      if (n.suno) label += ' <span style="color:#FFD700">★Suno有効</span>';
+      label += '<br><span style="color:#aaa">' + (n.desc || '').substring(0, 120) + '...</span>';
       return label;
     })
-    .nodeOpacity(0.9)
     .linkWidth(l => 0.5 + l.weight / 30)
     .linkColor(l => {
       const sNode = nodes3d.find(n => n.id === (l.source.id || l.source));
       return CAT_COLOR[sNode?.cat] || '#444';
     })
-    .linkOpacity(0.3)
+    .linkOpacity(0.4)
     .linkDirectionalArrowLength(6)
     .linkDirectionalArrowRelPos(1)
     .onNodeClick(n => {
       window._3dGraph.cameraPosition(
-        {x: n.x + 200, y: n.y + 100, z: n.z + 200},
+        {x: n.x + 150, y: n.y + 80, z: n.z + 150},
         {x: n.x, y: n.y, z: n.z},
         1000
       );
     })
-    .d3Force('charge', d3.forceManyBody().strength(-80))
-    .d3Force('link', d3.forceLink().distance(l => 100 - l.weight * 0.3).strength(0.3));
-
-  // Sunoノードは黄色で表示
-  window._3dGraph.nodeColor(n => n.suno ? '#FFD700' : (CAT_COLOR[n.cat] || '#888'));
+    .d3Force('charge', d3.forceManyBody().strength(-100))
+    .d3Force('link', d3.forceLink().distance(l => 120 - l.weight * 0.4).strength(0.3));
 }
 </script>
 </body>
