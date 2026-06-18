@@ -118,6 +118,7 @@ svg { width: 100vw; height: 100vh; }
   <div class="legend-item" data-cat="pop"><div class="legend-dot" style="background:#7CB342"></div><span class="legend-label">ポップス系</span></div>
   <div class="legend-item" data-cat="jazz_sub"><div class="legend-dot" style="background:#CFB53B"></div><span class="legend-label">ジャズ系</span></div>
   <div class="legend-item" data-cat="classical_sub"><div class="legend-dot" style="background:#78909C"></div><span class="legend-label">クラシック系</span></div>
+  <div class="legend-item" data-cat="blues_sub"><div class="legend-dot" style="background:#4FC3F7"></div><span class="legend-label">ブルース系</span></div>
   <div class="legend-sep"></div>
   <div class="legend-item" data-cat="suno"><div class="suno-ring"></div><span class="legend-label">Suno有効タグ</span></div>
 </div>
@@ -817,6 +818,65 @@ const NODES = [
   {id:"minimalism_classical", label:"Minimalism", cat:"classical_sub", era:"1960s", suno:true,
     desc:"極限まで単純化された音の要素（短いフレーズ、シンプルなリズム）を延々と繰り返しながら、ゆっくりと変化させていく音楽。同じパターンが何十分も続くが、微細な変化に耳を傾けると驚くほど豊かな音の世界が広がる。テンポは一定で催眠的。聴いていると時間感覚が消え、音の反復そのものに意識が吸い込まれていく。瞑想的でありながらリズミカル、知的でありながら直感的。電子音楽のテクノやアンビエントの直接の先祖。",
     roots_story:"1960年代、アメリカでSteve Reich「It's Gonna Rain」(1965)が反復とフェイズ・シフティングの実験を開始。Terry Riley「In C」(1964)は53の短いフレーズを演奏者が自由に繰り返す画期的な作品。Philip Glass「Music in 12 Parts」(1971-74)は反復の極致。La Monte Youngはドローン（持続音）を極端に追求し、アンビエントの先駆者に。映画音楽ではPhilip Glassが「コヤニスカッツィ」(1982)で商業的成功。Reich、Glass、Adamsの3人が「ミニマリズムの三大巨匠」。テクノ、アンビエントに多大な影響を与えた。"},
+
+  // ブルース系サブジャンル
+  {id:"delta_blues", label:"Delta Blues", cat:"blues_sub", era:"1920s", suno:true,
+    desc:"ミシシッピ・デルタの綿花畑から生まれた、ブルースの最も原始的な形。アコースティックギター1本と声だけで、人生の苦悩、愛、孤独を歌う。スライドギター（ボトルネック奏法）の金属的にうねる音色が特徴的。テンポはゆったりで、同じリフを繰り返しながら感情を掘り下げる。レコーディング環境の粗さも相まって、まるで幽霊が歌っているような不気味な生々しさがある。すべてのロック・ポップスの最も深いルーツ。",
+    roots_story:"1920〜30年代、ミシシッピ・デルタ地域のアフリカ系アメリカ人の間で形成。Robert Johnson「Cross Road Blues」(1936)は「悪魔に魂を売ってギターの腕を手に入れた」という伝説とともにブルース史上最も有名な録音。Charley Patton「Pony Blues」(1929)がデルタブルースの最初の商業的成功。Son House、Skip Jamesも重要。劣悪な録音環境で残された数少ない音源が、後のすべてのポピュラー音楽に計り知れない影響を与えた。"},
+
+  {id:"chicago_blues", label:"Chicago Blues", cat:"blues_sub", era:"1940s", suno:true,
+    desc:"デルタブルースをエレキギターとバンド編成で都会化した、パワフルで分厚いサウンド。エレキギターの歪んだ音色、ハーモニカのむせび泣く音、ドラムとベースのタイトなリズムセクションが、デルタの素朴さに都市のエネルギーを加えた。テンポは中速で、ギターソロが楽曲のハイライト。スモーキーなバーで演奏されるイメージそのもので、酒と煙草の匂いが漂ってきそうな濃厚な空気感がある。ロックンロールの直接の親。",
+    roots_story:"1940年代、ミシシッピから仕事を求めてシカゴに移住したデルタブルースの演奏者たちが、エレキギターとバンド編成を導入。Muddy Waters「Rollin' Stone」(1950)はバンド名の由来にもなった象徴的曲。Howlin' Wolf、Little Walter（ハーモニカの革命家）、Willie Dixonが「シカゴブルースの四天王」的存在。Chess Recordsがシカゴブルースの総本山レーベル。このサウンドをイギリスの若者が聴いてRolling Stones、Eric Clapton、Led Zeppelinが生まれ、ロック革命が起きた。"},
+
+  {id:"piano_blues", label:"Piano Blues", cat:"blues_sub", era:"1920s", suno:true,
+    desc:"ピアノの左手でベースラインを叩き、右手で装飾的なフレーズを弾く、華やかでリズミカルなブルース。ギターブルースの暗さに比べて、ピアノの明るい音色が陽気さを加える。バレルハウス（酒場）やジュークジョイント（黒人向けダンスホール）で演奏される踊れるブルースとして発展した。テンポは中速〜やや速め。ブギウギの跳ねるリズムにつながる、楽しさと哀愁が同居するサウンド。",
+    roots_story:"1920年代、アメリカ南部のバレルハウス（粗末な酒場）でピアニストたちが演奏。Leroy Carr「How Long, How Long Blues」(1928)が初期の代表曲。Roosevelt Sykes、Big Maceo Merriwetherがスタイルを確立。後にブギウギピアノ（Albert Ammons、Pete Johnson、Meade Lux Lewis）として発展し、1930〜40年代にブームとなった。Ray Charlesはピアノブルースとゴスペルを融合させてソウルを生み出した。"},
+
+  {id:"harmonica_blues", label:"Harmonica\nBlues", cat:"blues_sub", era:"1920s", suno:true,
+    desc:"小さなハーモニカ1本から信じられないほど感情的な音を引き出す、ブルースの重要な楽器スタイル。ベンド（音を曲げる技法）で半音を出し、むせび泣くような音色を作る。アンプリファイド・ハーモニカ（マイクを握り込んで歪ませる）はシカゴブルースの象徴的サウンド。テンポは様々。安価で携帯性が高い楽器ゆえに労働者の音楽として広まり、声のように表情豊かな演奏が最大の魅力。人間の嘆きをそのまま楽器に変換したような音。",
+    roots_story:"1920年代からブルースギタリストの伴奏楽器として使われ始めた。Sonny Boy Williamson I、Sonny Boy Williamson IIが初期の重要人物。Little Walter「Juke」(1952)はアンプリファイド・ハーモニカの革命的録音で、ハーモニカをリード楽器に昇格させた。Junior Wells、James Cottonがシカゴで活躍。白人ではPaul Butterfield（Butterfield Blues Band）がロック文脈でブルースハープを普及。現在もCharlie Musselwhite、Kim Wilsonらが伝統を守っている。"},
+
+  {id:"jump_blues", label:"Jump Blues", cat:"blues_sub", era:"1940s", suno:true,
+    desc:"ビッグバンドジャズの華やかなホーンセクションとブルースのフィーリングが融合した、踊れるアップテンポなブルース。サックスが主役で、軽快なシャッフルリズムに乗せてノリの良いメロディを吹く。テンポは速め（BPM 140〜170）で、スウィングジャズの楽しさとブルースの土臭さが同居する。ロックンロールの直接の前身であり、チャック・ベリーやリトル・リチャードはジャンプブルースから大きな影響を受けた。",
+    roots_story:"1940年代、ビッグバンド時代の終焉とともに小編成のジャンプバンドが台頭。Louis Jordan「Caldonia」(1945)は「ジャンプブルースの王」として絶大な人気を博し、初期のR&Bチャートを席巻した。Big Joe Turner「Shake, Rattle and Roll」(1954)は後にBill Haleyにカバーされロックンロールのヒットに。Wynonie Harris、Roy Brownも重要。ジャンプブルースは「ブルースとロックンロールの間のミッシングリンク」とされる。"},
+
+  {id:"boogie_woogie", label:"Boogie-Woogie", cat:"blues_sub", era:"1920s", suno:true,
+    desc:"左手がピアノの低音域で8ビートの反復パターン（ブギウギベース）をひたすら叩き続け、右手が自由にアドリブを弾きまくる、超絶技巧のピアノスタイル。テンポは速く（BPM 150〜200）、列車が走るような疾走感がある。聴いた瞬間に体がリズムに乗ってしまう強烈なグルーヴがあり、ダンスミュージックとしての機能が非常に高い。ピアノ1台で大人数を踊らせる力を持った、ブルースの中で最もファンキーなスタイル。",
+    roots_story:"1920年代、テキサスの材木キャンプやバレルハウスで発展。左手の反復ベースパターンが蒸気機関車のリズムを模していると言われる。Albert Ammons、Pete Johnson、Meade Lux Lewisの3人が1938年のカーネギーホール「From Spirituals to Swing」コンサートで演奏し、一大ブームとなった。1940年代にはブギウギがポップスにも浸透し、Andrews Sisters「Boogie Woogie Bugle Boy」(1941)が大ヒット。ロックンロールの左手パターンに直接継承された。"},
+
+  {id:"contemporary_blues", label:"Contemporary\nBlues", cat:"blues_sub", era:"1980s", suno:true,
+    desc:"伝統的なブルースの精神を守りつつ、現代的なプロダクションとロック・ファンク・ソウルの要素を取り入れた、今の時代のブルース。エレキギターの歪みはロック的、リズムセクションはファンク的、ボーカルはソウル的と、ジャンルの壁を越えた自由なスタイル。テンポは様々。12小節ブルース進行にこだわらず、ブルースの「感情」を現代の音楽言語で表現する。古さと新しさのバランスが魅力。",
+    roots_story:"1980年代、Stevie Ray Vaughan「Texas Flood」(1983)がブルースリバイバルの火付け役に。テキサスブルースの伝統を圧倒的なギタープレイで蘇らせ、若い世代にブルースを再発見させた。Robert Cray「Strong Persuader」(1986)はR&Bとの融合でグラミー賞受賞。Buddy Guy、Keb' Mo'、Gary Clarkjr.が現代ブルースを代表。Joe Bonamassaはロック寄りのアプローチでスタジアム級の人気を獲得。ブルースフェスティバル文化が世界中に定着している。"},
+
+  // レゲエ系追加
+  {id:"roots_reggae", label:"Roots Reggae", cat:"caribbean", era:"1970s", suno:true,
+    desc:"ラスタファリ思想と強く結びついた、スピリチュアルでメッセージ性の強いレゲエの核心的スタイル。ゆったりしたテンポ、重いベースライン、裏拍のギターカッティング、ナイヤビンギ（ラスタのドラム）のリズムが基本構成。歌詞はアフリカへの帰還、バビロン（抑圧体制）への抵抗、自然との調和、精神的解放をテーマにする。穏やかなのに力強い、平和を訴える戦いの音楽。",
+    roots_story:"1970年代、Bob Marley & the Wailersが世界に広めたレゲエの最も影響力のある形態。「Exodus」(1977)はTime誌に「20世紀最高のアルバム」と評された。Peter Tosh、Bunny Wailer（元Wailersのメンバー）、Burning Spear、Culture、Israel Vibrationが主要アーティスト。Marcus Garveyの「アフリカへの帰還」思想とハイレ・セラシエ皇帝への信仰（ラスタファリ運動）が精神的支柱。ジャマイカのサウンドシステム文化を通じてカリブ海全域、アフリカ、ヨーロッパに波及した。"},
+
+  {id:"rocksteady", label:"Rocksteady", cat:"caribbean", era:"1966", suno:true,
+    desc:"スカ（テンポが速くて跳ねるジャマイカ音楽）をゆったりと落ち着かせた、レゲエの直接の前身。スカの忙しないホーンが後退し、代わりにベースラインが前面に出て、ボーカルグループのハーモニーが美しく響く。テンポはBPM 70〜90で、暑い午後にベランダでのんびり聴くのに最適なリラックス感がある。甘いメロディとスムーズなグルーヴが特徴で、レゲエの「重さ」よりも「優しさ」が際立つ、カリブの穏やかな音楽。",
+    roots_story:"1966〜68年の約2年間だけジャマイカで栄えた短命だが重要なジャンル。Alton Ellis「Rock Steady」(1967)がジャンル名の由来。The Heptones、The Paragons、Desmond Dekker、Ken Boothが代表アーティスト。スカ（1960年代前半）のテンポを落とし、ベースの存在感を上げたことで、レゲエへの直接の橋渡しとなった。Studio One Records（Coxsone Dodd主宰）がロックステディの中心レーベル。わずか2年で消えたが、そのグルーヴ感はレゲエ、ダンスホール、2トーンスカに引き継がれた。"},
+
+  // カントリー系追加
+  {id:"honky_tonk", label:"Honky Tonk", cat:"country_folk", era:"1940s", suno:true,
+    desc:"安酒場（ホンキートンク）で演奏される、酒と涙と恋の痛みを歌うカントリーの生々しいスタイル。エレキギター、スチールギター、フィドルの泣きのメロディに、酔いどれのような情感を込めたボーカルが乗る。テンポは中速〜速めで、2拍子のシャッフルリズムが基本。洗練されたナッシュビルサウンドとは対極的な、飾らない酒場の空気感が魅力。失恋して酒場で飲んでる時のBGMとして完璧にハマる。",
+    roots_story:"1940年代、テキサスとオクラホマの酒場文化から発展。Hank Williams「Your Cheatin' Heart」(1953)がホンキートンクの永遠の名曲で、カントリー史上最も重要なアーティスト。Ernest Tubb、Lefty Frizzellが初期の代表格。George Jones「He Stopped Loving Her Today」(1980)は「カントリー史上最高の曲」と評される。Dwight Yoakamが1980年代にホンキートンクリバイバルを起こした。現在もJon Pardi、Midlandらが伝統を守っている。"},
+
+  {id:"dark_country", label:"Dark Country", cat:"country_folk", era:"2000s", suno:true,
+    desc:"カントリーの素朴さにゴシックな暗さとロックの重さを加えた、陰鬱で不穏なスタイル。アコースティックギターの乾いた音色、低く唸るようなボーカル、不気味なバンジョーやフィドルが、西部劇の荒野を吹き抜ける冷たい風のような空気を作る。歌詞は死、復讐、悪魔、荒野の孤独といったダークなテーマ。テンポはゆったり〜中速。映画や海外ドラマのサウンドトラックで人気が高く、「ウエスタンの闇」を凝縮したような音楽。",
+    roots_story:"2000年代、カントリーとゴシック/ロック/ブルースの暗い側面を融合させたスタイルとして認識され始めた。Johnny Cashの後期作品（Rick Rubin制作のAmerican Recordings シリーズ、1994年〜）が精神的原点。映画やTV（ウエストワールド、ブレイキング・バッド等）のサウンドトラックで需要が急増。Those Poor Bastards、Legendary Shack Shakers、Munly & the Lee Lewis Harlots、DevilDriverが主要アーティスト。ゴシックカントリー、サザンゴシックとも呼ばれる。"},
+
+  {id:"neofolk", label:"Neofolk", cat:"country_folk", era:"1980s", suno:true,
+    desc:"フォークの素朴なアコースティックサウンドに、インダストリアルやポストパンクの暗さと実験性を融合させた、陰鬱で知的なスタイル。アコースティックギターの弾き語りを基本としつつ、軍楽的なドラム、荘厳なコーラス、サンプルコラージュが加わることも。歌詞はヨーロッパの歴史、神話、哲学、戦争をテーマにすることが多い。テンポはゆったり。美しいが不穏、穏やかだが何かが潜んでいる——森の奥に立つ古い教会のような音楽。",
+    roots_story:"1980年代、ポストインダストリアルのアーティストがフォークに回帰する形で誕生。Death in June（Douglas Pearce, イギリス）とCurrent 93（David Tibet, イギリス）がジャンルの創始者。Sol Invictus（Tony Wakeford, 元Death in June）も初期の重要アーティスト。World Serpent Distribution レーベルが拠点。Of the Wand & the Moon（デンマーク）、Rome（ルクセンブルク）が現代の代表格。ネオフォークは政治的に物議を醸すこともあり、アーティストの立場は多様。"},
+
+  {id:"singer_songwriter", label:"Singer-\nSongwriter", cat:"country_folk", era:"1960s", suno:true,
+    desc:"自分で書いた歌を自分で歌う、個人の内面を深く掘り下げた音楽。アコースティックギターやピアノの弾き語りが基本で、詩的な歌詞と親密なボーカルが最大の魅力。テンポはゆったり〜中速が多い。大規模なプロダクションよりも「声と楽器だけ」の剥き出しの表現を重視し、リスナーとの距離が近い。日記を読んでいるような親密さ、手紙を受け取ったような温かさがある。商業性よりも誠実さを追求する、アーティストの魂が裸で見える音楽。",
+    roots_story:"1960年代のフォークリバイバルから発展。Bob Dylan「Blowin' in the Wind」(1963)がシンガーソングライターの精神的原点。Joni Mitchell「Blue」(1971)は自己告白的な歌詞の金字塔で、シンガーソングライターのバイブル。James Taylor「Fire and Rain」(1970)、Carole King「Tapestry」(1971)が1970年代のSSWブームを牽引。日本では荒井由実（松任谷由実）、中島みゆきが同時代に活躍。Elliott Smith、Sufjan Stevens、Phoebe Bridgersが現代の代表。"},
+
+  {id:"indie_folk", label:"Indie Folk", cat:"country_folk", era:"2000s", suno:true,
+    desc:"フォークの素朴さとインディーロックの実験精神が出会った、手作り感のある温かいサウンド。アコースティックギター、バンジョー、ウクレレなどの生楽器を中心に、時にエレクトロニクスも控えめに添える。テンポは中速で、心地よい浮遊感のあるメロディが特徴。大手レーベルの洗練さよりも「友達のリビングで演奏している」ような親密さを大切にする。秋の散歩道、雨の日の窓辺、キャンプの焚き火が似合う、優しい音楽。",
+    roots_story:"2000年代前半、インディーロックとフォークの境界で活動するアーティストが台頭。Iron & Wine「The Creek Drank the Cradle」(2002)は自宅録音の素朴さで注目された。Bon Iver「For Emma, Forever Ago」(2007)はウィスコンシンの山小屋で一冬かけて録音され、インディーフォークの代表作に。Fleet Foxes「Fleet Foxes」(2008)は多声コーラスの美しさで絶賛された。Mumford & Sons「Sigh No More」(2009)がメインストリームでの大ヒットを実現。日本では大橋トリオ等がインディーフォーク的な作品を発表。"},
 ];
 
 const LINKS = [
@@ -1071,6 +1131,34 @@ const LINKS = [
   {s:"classical",   t:"minimalism_classical", w:50, desc:"クラシックのミニマル化"},
   {s:"minimalism_classical",t:"ambient", w:45, desc:"ミニマリズムがアンビエントに影響"},
   {s:"minimalism_classical",t:"techno",  w:40, desc:"反復構造がテクノに影響"},
+
+  // ブルース系サブジャンル
+  {s:"blues",        t:"delta_blues",      w:90, desc:"ブルースの最も原始的な形態"},
+  {s:"delta_blues",  t:"chicago_blues",    w:80, desc:"デルタからシカゴへ移住・電化"},
+  {s:"blues",        t:"piano_blues",      w:70, desc:"ピアノによるブルース表現"},
+  {s:"blues",        t:"harmonica_blues",  w:70, desc:"ハーモニカによるブルース表現"},
+  {s:"blues",        t:"jump_blues",       w:65, desc:"ブルースのアップテンポ化"},
+  {s:"jazz",         t:"jump_blues",       w:40, desc:"ビッグバンドのホーンアレンジ"},
+  {s:"piano_blues",  t:"boogie_woogie",    w:75, desc:"ピアノブルースの高速化"},
+  {s:"boogie_woogie",t:"rock_n_roll",      w:50, desc:"ブギウギのリズムがロックの原型に"},
+  {s:"jump_blues",   t:"rock_n_roll",      w:60, desc:"ジャンプブルースがロックンロールの直接の前身"},
+  {s:"chicago_blues", t:"rock_n_roll",     w:55, desc:"シカゴブルースがロックに直結"},
+  {s:"blues",        t:"contemporary_blues",w:60, desc:"ブルースの現代化"},
+  {s:"rock_n_roll",  t:"contemporary_blues",w:35, desc:"ロックの要素を逆輸入"},
+
+  // レゲエ系追加リンク
+  {s:"reggae",       t:"roots_reggae",     w:85, desc:"レゲエの精神的中核"},
+  {s:"reggae",       t:"rocksteady",       w:80, desc:"スカからレゲエへの橋渡し"},
+  {s:"rocksteady",   t:"reggae",           w:70, desc:"ロックステディがレゲエに発展"},
+
+  // カントリー系追加リンク
+  {s:"country",      t:"honky_tonk",       w:75, desc:"カントリーの酒場スタイル"},
+  {s:"country",      t:"dark_country",     w:45, desc:"カントリーのダーク化"},
+  {s:"folk",         t:"neofolk",          w:50, desc:"フォークのダーク・実験化"},
+  {s:"industrial",   t:"neofolk",          w:40, desc:"ポストインダストリアルからの回帰"},
+  {s:"folk",         t:"singer_songwriter",w:70, desc:"フォークの個人的表現"},
+  {s:"folk",         t:"indie_folk",       w:65, desc:"フォークのインディー化"},
+  {s:"indie_rock",   t:"indie_folk",       w:45, desc:"インディーロックの素朴な方向"},
 ];
 
 // ===== INFLUENCE SCORE → NODE RADIUS =====
@@ -1111,6 +1199,7 @@ const CAT_COLOR = {
   pop:        "#7CB342",
   jazz_sub:   "#CFB53B",
   classical_sub:"#78909C",
+  blues_sub:  "#4FC3F7",
 };
 
 // ===== GRAPH SETUP =====
