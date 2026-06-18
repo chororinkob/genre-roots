@@ -70,6 +70,25 @@ svg { width: 100vw; height: 100vh; }
 .node.cat-dim { opacity: 0.1; pointer-events: none; }
 .legend-item[data-cat] { cursor: pointer; padding: 2px 5px; border-radius: 4px; margin-left: -5px; transition: background 0.15s; }
 .legend-item[data-cat]:hover { background: rgba(255,255,255,0.12); }
+
+/* タブ切り替え */
+.tab-btn { padding: 6px 16px; border: 1px solid #555; border-radius: 6px 6px 0 0; background: #1a1a2e; color: #aaa; font-size: 13px; cursor: pointer; border-bottom: none; }
+.tab-btn.active { background: #16162a; color: #fff; font-weight: 700; border-color: #888; }
+#tab-buttons { display: flex; gap: 4px; margin-left: 16px; }
+
+/* 楽器・効果パネル */
+#instruments-panel { display: none; position: fixed; top: 50px; left: 0; right: 0; bottom: 0; background: #16162a; overflow-y: auto; padding: 20px 30px; z-index: 15; }
+#instruments-panel h2 { color: #fff; font-size: 18px; margin-bottom: 10px; }
+#instruments-panel .inst-search { width: 300px; padding: 6px 10px; background: #1a1a2e; border: 1px solid #444; border-radius: 5px; color: #eee; font-size: 13px; margin-bottom: 16px; }
+#instruments-panel .inst-cat { margin-bottom: 16px; }
+#instruments-panel .inst-cat-title { font-size: 15px; font-weight: 700; color: #7ecfff; margin-bottom: 6px; cursor: pointer; }
+#instruments-panel .inst-subcat { margin-left: 16px; margin-bottom: 10px; }
+#instruments-panel .inst-subcat-title { font-size: 13px; font-weight: 600; color: #bbb; margin-bottom: 4px; }
+#instruments-panel .inst-item { display: flex; align-items: baseline; gap: 10px; padding: 4px 0; border-bottom: 1px solid #2a2a40; font-size: 13px; }
+#instruments-panel .inst-name { color: #FFD700; font-weight: 700; min-width: 160px; flex-shrink: 0; }
+#instruments-panel .inst-desc { color: #ccc; flex: 1; }
+#instruments-panel .inst-copy { padding: 2px 8px; font-size: 11px; border: 1px solid #555; background: #2a2a50; color: #aaa; border-radius: 4px; cursor: pointer; flex-shrink: 0; }
+#instruments-panel .inst-copy:hover { background: #3a3a70; color: #fff; }
 </style>
 </head>
 <body>
@@ -77,6 +96,10 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
+  <div id="tab-buttons">
+    <button class="tab-btn active" data-tab="map">ルーツマップ</button>
+    <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
+  </div>
 </div>
 
 <div id="left-sidebar">
@@ -156,9 +179,166 @@ svg { width: 100vw; height: 100vh; }
   </div>
 </div>
 <div id="tooltip"></div>
+<div id="instruments-panel"></div>
 <svg id="graph"></svg>
 
 <script>
+// ===== INSTRUMENTS & EFFECTS DATA =====
+const INST_ITEMS = [
+  {cat:"効果・雰囲気・BGM系",sub:"ボーカル編成・演奏形態",name:"a cappella",desc:"楽器を使わず、人の声だけで演奏される音楽。複数の声が重なり合うハーモニーや、声でリズムやベースラインを表現するパートが特徴。"},
+  {cat:"効果・雰囲気・BGM系",sub:"ボーカル編成・演奏形態",name:"duet",desc:"2人の歌手やミュージシャンによる演奏・歌唱形式。互いの声や演奏が重なり合い、対話のような表現が生まれる。"},
+  {cat:"効果・雰囲気・BGM系",sub:"ボーカル編成・演奏形態",name:"vocal ensemble",desc:"複数の歌手による声のアンサンブル。重なり合うハーモニーが豊かな響きを生み出す音楽形式。"},
+  {cat:"効果・雰囲気・BGM系",sub:"ボーカル編成・演奏形態",name:"vocal group",desc:"複数人で構成されたボーカルグループによる音楽。重なり合うハーモニーやコーラスワークが重視される。"},
+  {cat:"効果・雰囲気・BGM系",sub:"ボーカル編成・演奏形態",name:"chanting",desc:"単調で反復的な詠唱・チャント。瞑想的、宗教的な雰囲気を持つ、声を中心とした音楽表現。"},
+  {cat:"効果・雰囲気・BGM系",sub:"ボーカルスタイル（性別・声質）",name:"male vocal",desc:"男性の声によるボーカルパート。低めの音域と力強さ、あるいは柔らかさなど、男性特有の声質を活かした表現。"},
+  {cat:"効果・雰囲気・BGM系",sub:"ボーカルスタイル（性別・声質）",name:"female vocal",desc:"女性の声によるボーカルパート。高めの音域と豊かな表現力を活かした、メロディアスな歌唱。"},
+  {cat:"効果・雰囲気・BGM系",sub:"ボーカルスタイル（性別・声質）",name:"female voice",desc:"女性の声そのものを指す言葉。歌唱だけでなく、ナレーションやコーラスなど幅広い表現に使われる。"},
+  {cat:"効果・雰囲気・BGM系",sub:"ボーカルスタイル（性別・声質）",name:"diva",desc:"圧倒的な歌唱力とカリスマ性を持つ女性シンガーを指す言葉。力強く華やかな、ドラマチックなボーカル表現。"},
+  {cat:"効果・雰囲気・BGM系",sub:"ボーカルスタイル（性別・声質）",name:"husky female vocal",desc:"ハスキーでかすれた質感を持つ女性ボーカル。少し低めで、セクシーかつ味わい深い雰囲気を演出する。"},
+  {cat:"効果・雰囲気・BGM系",sub:"ボーカルスタイル（性別・声質）",name:"murmur female voice",desc:"つぶやくように小さく、ささやくような女性の声。親密で繊細、内省的な雰囲気を演出する。"},
+  {cat:"効果・雰囲気・BGM系",sub:"ボーカルスタイル（性別・声質）",name:"dreamy breathy male",desc:"夢見るように、息づかいを含んだ柔らかい男性ボーカル。ふわふわとした幻想的な雰囲気を演出する。"},
+  {cat:"効果・雰囲気・BGM系",sub:"ボーカルスタイル（性別・声質）",name:"aggressive male singing",desc:"攻撃的で力強い男性の歌唱。シャウトに近い激しさで、エネルギッシュな雰囲気を演出する。"},
+  {cat:"効果・雰囲気・BGM系",sub:"ボーカルスタイル（性別・声質）",name:"old male harmony",desc:"年配の男性たちによるコーラス・ハーモニー。渋みと深みのある、味わい深い合唱表現。"},
+  {cat:"効果・雰囲気・BGM系",sub:"ボーカルスタイル（性別・声質）",name:"kawaii",desc:"「可愛い」をテーマにした、明るくキュートな雰囲気の音楽・ボーカル表現。高めの声と弾むようなメロディが特徴。"},
+  {cat:"効果・雰囲気・BGM系",sub:"雰囲気・リラックス系",name:"calm",desc:"穏やかで静かな雰囲気を持つ音楽。心を落ち着かせるような、ゆったりとしたテンポとシンプルなアレンジが特徴。"},
+  {cat:"効果・雰囲気・BGM系",sub:"雰囲気・リラックス系",name:"chill",desc:"リラックスした、まったりとした雰囲気の音楽。ゆったりしたビートと柔らかい音色で、くつろぎの時間に合う。"},
+  {cat:"効果・雰囲気・BGM系",sub:"雰囲気・リラックス系",name:"relax",desc:"緊張をほぐし、心身を休ませるための音楽。穏やかなメロディと静かな音響処理が特徴。"},
+  {cat:"効果・雰囲気・BGM系",sub:"雰囲気・リラックス系",name:"meditation",desc:"瞑想のための音楽。反復的でゆったりとしたサウンドと、静寂を感じさせる音響が特徴。"},
+  {cat:"効果・雰囲気・BGM系",sub:"雰囲気・リラックス系",name:"tutorial",desc:"解説動画やチュートリアルのBGMのような音楽。控えめで邪魔にならない、シンプルで落ち着いた雰囲気。"},
+  {cat:"効果・雰囲気・BGM系",sub:"雰囲気・リラックス系",name:"Healing",desc:""},
+  {cat:"効果・雰囲気・BGM系",sub:"雰囲気・リラックス系",name:"loungy",desc:"ラウンジで流れるような、おしゃれでリラックスした雰囲気の音楽。落ち着いたグルーヴと洗練されたサウンドが特徴。"},
+  {cat:"効果・雰囲気・BGM系",sub:"環境音・情景",name:"field recording",desc:"自然や街中などの環境音をそのまま録音した音源。音楽というより「音の風景」として、リアルな雰囲気を伝える。"},
+  {cat:"効果・雰囲気・BGM系",sub:"環境音・情景",name:"forest",desc:"森の中の鳥の声や風、葉のざわめきなどを表現した環境音/音楽。自然の静けさや生命感を感じさせる。"},
+  {cat:"効果・雰囲気・BGM系",sub:"環境音・情景",name:"desert",desc:"砂漠の広がりや静寂、乾いた風の音などを表現した環境音/音楽。広大で乾いた、孤独感のある雰囲気。"},
+  {cat:"効果・雰囲気・BGM系",sub:"環境音・情景",name:"underwater ambient",desc:"水中にいるような、こもった音や泡の音を表現したアンビエント。静かで浮遊感のある、不思議な雰囲気。"},
+  {cat:"効果・雰囲気・BGM系",sub:"用途別BGM（映像・ゲーム音楽など）",name:"ancient music",desc:"古代文明を思わせる音楽。民族楽器や荘厳なコーラスを使い、歴史的・神秘的な雰囲気を演出する。"},
+  {cat:"効果・雰囲気・BGM系",sub:"用途別BGM（映像・ゲーム音楽など）",name:"cartoon music",desc:"アニメやカートゥーンのBGMのような音楽。コミカルで誇張された音の動き、ドタバタ感のある演出が特徴。"},
+  {cat:"効果・雰囲気・BGM系",sub:"用途別BGM（映像・ゲーム音楽など）",name:"corporate music",desc:"企業のプロモーションビデオなどで使われる音楽。明るく前向きで、信頼感や活力を感じさせるサウンド。"},
+  {cat:"効果・雰囲気・BGM系",sub:"用途別BGM（映像・ゲーム音楽など）",name:"documentary music",desc:"ドキュメンタリー番組のBGMのような音楽。落ち着いた雰囲気で、物語や情報を静かに支える役割を持つ。"},
+  {cat:"効果・雰囲気・BGM系",sub:"用途別BGM（映像・ゲーム音楽など）",name:"fantasy music",desc:"ファンタジー世界を思わせる音楽。オーケストラや民族楽器を使い、壮大で幻想的な雰囲気を演出する。"},
+  {cat:"効果・雰囲気・BGM系",sub:"用途別BGM（映像・ゲーム音楽など）",name:"mystery music",desc:"謎や不思議さを感じさせる音楽。不安定な和音や静かな緊張感のあるサウンドが特徴。"},
+  {cat:"効果・雰囲気・BGM系",sub:"用途別BGM（映像・ゲーム音楽など）",name:"news music",desc:"ニュース番組のオープニングなどで使われる音楽。緊張感とスピード感のある、きびきびとしたサウンド。"},
+  {cat:"効果・雰囲気・BGM系",sub:"用途別BGM（映像・ゲーム音楽など）",name:"romance music",desc:"ロマンチックな雰囲気を演出する音楽。甘く優しいメロディと、ゆったりしたテンポが特徴。"},
+  {cat:"効果・雰囲気・BGM系",sub:"用途別BGM（映像・ゲーム音楽など）",name:"spy music",desc:"スパイ映画を思わせる音楽。スリリングでクールな雰囲気、緊張感のあるリズムとミステリアスなメロディが特徴。"},
+  {cat:"効果・雰囲気・BGM系",sub:"用途別BGM（映像・ゲーム音楽など）",name:"suspense music",desc:"緊張感や不安感を高める音楽。じわじわと盛り上がる音響効果や、不協和音が特徴。"},
+  {cat:"効果・雰囲気・BGM系",sub:"用途別BGM（映像・ゲーム音楽など）",name:"trailer music",desc:"映画予告編のための音楽。壮大でドラマチック、一瞬で盛り上がりを伝える力強いサウンドが特徴。"},
+  {cat:"効果・雰囲気・BGM系",sub:"用途別BGM（映像・ゲーム音楽など）",name:"spaghetti western",desc:"イタリア製西部劇映画のための音楽。口笛やエレキギター、トランペットが特徴的な、荒野を思わせるドラマチックなサウンド。"},
+  {cat:"効果・雰囲気・BGM系",sub:"用途別BGM（映像・ゲーム音楽など）",name:"orchestral hit",desc:"オーケストラ全体で一斉に鳴らす、インパクトのある短い音。映画やドラマで驚きや緊張の場面に使われる効果音的フレーズ。"},
+  {cat:"効果・雰囲気・BGM系",sub:"用途別BGM（映像・ゲーム音楽など）",name:"Film score",desc:""},
+  {cat:"効果・雰囲気・BGM系",sub:"用途別BGM（映像・ゲーム音楽など）",name:"Hollywood orchestra",desc:""},
+  {cat:"効果・雰囲気・BGM系",sub:"用途別BGM（映像・ゲーム音楽など）",name:"conductor",desc:"指揮者が率いるオーケストラ演奏を思わせる言葉。統率の取れた、格式高く荘厳なオーケストラサウンドを演出する。"},
+  {cat:"効果・雰囲気・BGM系",sub:"行事・子供向け",name:"christmas carols",desc:"クリスマスを祝うための伝統的な歌。聖歌的な雰囲気と、祝祭感のあるメロディが特徴。"},
+  {cat:"効果・雰囲気・BGM系",sub:"行事・子供向け",name:"lullaby",desc:"子供を寝かしつけるための子守唄。優しく、ゆったりとしたメロディが特徴。"},
+  {cat:"効果・雰囲気・BGM系",sub:"行事・子供向け",name:"nursery rhyme",desc:"子供向けの童謡。シンプルで覚えやすいメロディと、繰り返しのフレーズが特徴。"},
+  {cat:"効果・雰囲気・BGM系",sub:"行事・子供向け",name:"musical",desc:"ミュージカル音楽。物語性のある歌とドラマチックな演出、オーケストラやバンドの伴奏が特徴。"},
+  {cat:"効果・雰囲気・BGM系",sub:"テンポ・リズム系",name:"uptempo",desc:"速いテンポの音楽。エネルギッシュで前向き、勢いのあるサウンドが特徴。"},
+  {cat:"効果・雰囲気・BGM系",sub:"テンポ・リズム系",name:"upbeat",desc:"明るく元気な雰囲気を持つ音楽。ポジティブで楽しい印象を与えるサウンド。"},
+  {cat:"効果・雰囲気・BGM系",sub:"テンポ・リズム系",name:"up-paced",desc:"テンポが速く、勢いのある進行を持つ音楽。スピード感とエネルギーを感じさせる。"},
+  {cat:"効果・雰囲気・BGM系",sub:"テンポ・リズム系",name:"downtempo",desc:"ゆったりとしたテンポの音楽。リラックスした雰囲気と、落ち着いたグルーヴが特徴。"},
+  {cat:"効果・雰囲気・BGM系",sub:"テンポ・リズム系",name:"slowtempo",desc:"遅いテンポの音楽。じっくりと聴かせる、落ち着いた雰囲気が特徴。"},
+  {cat:"効果・雰囲気・BGM系",sub:"テンポ・リズム系",name:"bouncy",desc:"弾むようなリズム感を持つ音楽。軽快で楽しい、跳ねるようなグルーヴが特徴。"},
+  {cat:"効果・雰囲気・BGM系",sub:"テンポ・リズム系",name:"groovy",desc:"ノリの良いグルーヴ感を持つ音楽。リズムに乗りやすく、心地よい揺れを感じさせるサウンド。"},
+  {cat:"効果・雰囲気・BGM系",sub:"テンポ・リズム系",name:"rhythmical",desc:"リズム感が際立つ音楽。反復的でノリの良いビートが特徴。"},
+  {cat:"効果・雰囲気・BGM系",sub:"テンポ・リズム系",name:"120bpm",desc:"「120bpm」（数字+小文字bpm、間隔なし）と表記するスタイル。一見、テンポの数値指定であり音楽ジャンルとは思えない表記だが、Sunoの素モデルは「120bpmと説明された曲」を学習元として強く参照するため、生成される曲のテンポをほぼ確実にBPM120へ固定するという非常に強力な効果を持つ。他のジャンルと混ぜても120bpmの効果が優先され、元のジャンルの雰囲気を大きく変えてしまうほど強力。同じ数値でも大文字表記の「120BPM」や順序を変えた「BPM120」とは全く異なる、より弱い効果になる。"},
+  {cat:"効果・雰囲気・BGM系",sub:"哀愁・ムード系",name:"sorrow",desc:"深い悲しみを表現した音楽。重く沈んだメロディと、切ない雰囲気が特徴。"},
+  {cat:"効果・雰囲気・BGM系",sub:"哀愁・ムード系",name:"melancholic",desc:"物悲しく、ノスタルジックな雰囲気を持つ音楽。切なさと美しさが入り混じった、感傷的なサウンド。"},
+  {cat:"効果・雰囲気・BGM系",sub:"哀愁・ムード系",name:"ominous",desc:"不気味で不安を感じさせる音楽。低く重い音や不協和音による、緊張感のある雰囲気。"},
+  {cat:"効果・雰囲気・BGM系",sub:"哀愁・ムード系",name:"light",desc:"軽やかで明るい雰囲気を持つ音楽。爽やかでポジティブな印象を与えるサウンド。"},
+  {cat:"効果・雰囲気・BGM系",sub:"哀愁・ムード系",name:"dark",desc:"暗く重い雰囲気を持つ音楽。陰鬱で緊張感のある、シリアスなサウンド。"},
+  {cat:"効果・雰囲気・BGM系",sub:"ホラー系",name:"Halloween",desc:""},
+  {cat:"効果・雰囲気・BGM系",sub:"ホラー系",name:"horror ambient",desc:"ホラー映画のような、不気味で恐怖を感じさせるアンビエント音楽。不協和音や静寂を使った、緊張感ある雰囲気。"},
+  {cat:"効果・雰囲気・BGM系",sub:"ホラー系",name:"horrorcore",desc:"ホラー的なテーマと過激なサウンドを融合したスタイル。不気味で攻撃的な雰囲気が特徴。"},
+  {cat:"効果・雰囲気・BGM系",sub:"記念日・お祝い系",name:"Happy!",desc:""},
+  {cat:"効果・雰囲気・BGM系",sub:"記念日・お祝い系",name:"Ceremony Party!",desc:""},
+  {cat:"効果・雰囲気・BGM系",sub:"記念日・お祝い系",name:"Congratulations!",desc:""},
+  {cat:"効果・雰囲気・BGM系",sub:"記念日・お祝い系",name:"Xmas",desc:""},
+  {cat:"効果・雰囲気・BGM系",sub:"記念日・お祝い系",name:"Noel",desc:""},
+  {cat:"効果・雰囲気・BGM系",sub:"低音強調系",name:"bass boosted",desc:"低音を強調した音楽。重く響くベースサウンドが際立つ、迫力のある音作り。"},
+  {cat:"効果・雰囲気・BGM系",sub:"低音強調系",name:"low-pitched",desc:"低い音域を中心とした音楽・音色。重厚で深みのある響きが特徴。"},
+  {cat:"効果・雰囲気・BGM系",sub:"低音強調系",name:"dark bass",desc:"暗く重いベースサウンド。不気味で緊張感のある低音が特徴。"},
+  {cat:"楽器",sub:"弦楽器（オーケストラ系）",name:"violin",desc:"弦楽器の中で最も高い音域を持つ楽器。繊細で表現力豊かな音色で、クラシック音楽からポップス、民族音楽まで幅広く使われる。"},
+  {cat:"楽器",sub:"弦楽器（オーケストラ系）",name:"viola",desc:"バイオリンより少し大きく、低めの音域を持つ弦楽器。柔らかく深みのある音色で、オーケストラの中間音域を支える。"},
+  {cat:"楽器",sub:"弦楽器（オーケストラ系）",name:"cello",desc:"人の声に近い豊かな音域を持つ大型の弦楽器。低音から高音まで表現でき、温かみのある重厚な響きが特徴。"},
+  {cat:"楽器",sub:"弦楽器（オーケストラ系）",name:"contrabass",desc:"弦楽器の中で最も低い音域を持つ、最大サイズの楽器（コントラバス）。重厚で深みのある低音を支える。"},
+  {cat:"楽器",sub:"弦楽器（オーケストラ系）",name:"acoustic bass",desc:"生音のベース楽器。指や弓で演奏され、ジャズやアコースティック音楽の土台となる柔らかい低音を生み出す。"},
+  {cat:"楽器",sub:"弦楽器（オーケストラ系）",name:"harp",desc:"大きな共鳴箱に多数の弦を張った楽器。グリッサンド（弦を一気に滑らせる奏法）が特徴的で、優雅で天上的な響きを持つ。"},
+  {cat:"楽器",sub:"ギター系",name:"electric guitar",desc:"電気的に音を増幅するギター。クリーンな音からエフェクトを使った歪んだ音まで幅広く、ロックやポップスの中心的な楽器。"},
+  {cat:"楽器",sub:"ギター系",name:"classical guitar",desc:"ナイロン弦を使ったクラシック音楽用のギター。柔らかく丸みのある音色で、繊細な表現が可能。"},
+  {cat:"楽器",sub:"ギター系",name:"nylon guitar",desc:"ナイロン弦を張ったギター。柔らかく温かい音色で、ボサノバやラテン音楽でよく使われる。"},
+  {cat:"楽器",sub:"ギター系",name:"flamenco guitar",desc:"スペインのフラメンコ音楽で使われるギター。鋭くパーカッシブな奏法（ラスゲアード）と情熱的な響きが特徴。"},
+  {cat:"楽器",sub:"ギター系",name:"unplugged guitar",desc:"アンプを通さない、生音のままのギター。アコースティックで素朴な響きが特徴。"},
+  {cat:"楽器",sub:"ギター系",name:"distortion guitar",desc:"強く歪ませた音色のギター。ロックやメタルで使われる、激しくパワフルなサウンド。"},
+  {cat:"楽器",sub:"ギター系",name:"overdrive guitar",desc:"軽く歪ませた音色のギター。ブルースロックなどで使われる、温かみのある粘りのあるサウンド。"},
+  {cat:"楽器",sub:"ギター系",name:"tremolo guitar",desc:"音量を周期的に揺らすトレモロエフェクトをかけたギター。波打つような独特の響きが特徴。"},
+  {cat:"楽器",sub:"ギター系",name:"fuzz face",desc:"強烈に歪んだ音色を生み出すファズエフェクトをかけたギター。ザラザラとした荒々しい音色が特徴。"},
+  {cat:"楽器",sub:"ギター系",name:"wah-wah pedal",desc:"「ワウワウ」と鳴る、音色を変化させるエフェクトをかけたギター。泣くような表現力豊かなサウンド。"},
+  {cat:"楽器",sub:"ギター系",name:"slap bass",desc:"弦を叩いたり引っ張ったりして演奏するベース奏法。パーカッシブで弾けるような音が特徴で、ファンクなどでよく使われる。"},
+  {cat:"楽器",sub:"ギター系",name:"FM bass",desc:""},
+  {cat:"楽器",sub:"撥弦楽器（その他）",name:"banjo",desc:"円形の共鳴胴に弦を張った楽器。明るくパーカッシブな音色で、カントリーやブルーグラスでよく使われる。"},
+  {cat:"楽器",sub:"撥弦楽器（その他）",name:"mandolin",desc:"小型で高音域の弦楽器。トレモロ奏法による細かく震えるような音色が特徴で、フォークやブルーグラスで使われる。"},
+  {cat:"楽器",sub:"撥弦楽器（その他）",name:"ukulele",desc:"小型で4本弦の楽器。明るく親しみやすい音色で、ハワイアンやポップスでよく使われる。"},
+  {cat:"楽器",sub:"撥弦楽器（その他）",name:"balalaika",desc:"ロシアの民族楽器。三角形の共鳴胴を持ち、トレモロ奏法による軽快で哀愁のある音色が特徴。"},
+  {cat:"楽器",sub:"撥弦楽器（その他）",name:"bouzouki",desc:"ギリシャの民族楽器。明るく金属的な響きを持ち、地中海音楽でよく使われる。"},
+  {cat:"楽器",sub:"撥弦楽器（その他）",name:"charango",desc:"南米アンデス地方の小型弦楽器。明るく高い音色で、アンデス音楽でよく使われる。"},
+  {cat:"楽器",sub:"撥弦楽器（その他）",name:"lute",desc:"中世・ルネサンス時代に使われた弦楽器（リュート）。柔らかく繊細な音色で、古楽の雰囲気を演出する。"},
+  {cat:"楽器",sub:"管楽器",name:"flute",desc:"木管楽器の中でも明るく軽やかな音色を持つ楽器。滑らかで透明感のある響きが特徴。"},
+  {cat:"楽器",sub:"管楽器",name:"oboe",desc:"哀愁を帯びた、少し鼻にかかったような音色を持つ木管楽器。表現力豊かで、メロディアスなソロによく使われる。"},
+  {cat:"楽器",sub:"管楽器",name:"clarinet",desc:"滑らかで豊かな音色を持つ木管楽器。音域が広く、ジャズやクラシックなど幅広いジャンルで使われる。"},
+  {cat:"楽器",sub:"管楽器",name:"bassoon",desc:"木管楽器の中で最も低い音域を持つ楽器。深く落ち着いた音色で、コミカルにも荘厳にも聞こえる独特の響きを持つ。"},
+  {cat:"楽器",sub:"管楽器",name:"trumpet",desc:"明るく輝かしい音色を持つ金管楽器。力強いファンファーレからジャズの即興演奏まで幅広く使われる。"},
+  {cat:"楽器",sub:"管楽器",name:"trombone",desc:"スライドで音程を変える金管楽器。重厚で力強い音色を持ち、ジャズやファンクのホーンセクションでよく使われる。"},
+  {cat:"楽器",sub:"管楽器",name:"tuba",desc:"金管楽器の中で最も低い音域を持つ楽器。重厚で深い低音を支える、オーケストラやブラスバンドの土台となる楽器。"},
+  {cat:"楽器",sub:"管楽器",name:"flugelhorn",desc:"トランペットに似た金管楽器だが、より太く柔らかい音色を持つ。温かみのある丸い響きで、ジャズやブラスバンドのソロでよく使われる。"},
+  {cat:"楽器",sub:"管楽器",name:"flumpet",desc:"フリューゲルホルンとトランペットを融合させた金管楽器。両者の特性を併せ持つ、柔らかくも芯のある独特な音色。"},
+  {cat:"楽器",sub:"吹奏楽・ブラスバンド系",name:"military band",desc:"軍楽隊編成の管楽器・打楽器アンサンブル。行進曲を思わせる、規律正しく力強いブラスサウンドが特徴。"},
+  {cat:"楽器",sub:"吹奏楽・ブラスバンド系",name:"fanfare orchestra",desc:"金管楽器と打楽器を中心とした大編成のオーケストラ。祝祭的で華やかな、ファンファーレ的なサウンドが特徴。"},
+  {cat:"楽器",sub:"ツィター・スライド系",name:"hammered dulcimer",desc:"台形の共鳴箱に張った弦をマレットで叩いて演奏する楽器。キラキラとした、跳ねるような響きが特徴。"},
+  {cat:"楽器",sub:"ツィター・スライド系",name:"concert cimbalom",desc:"ハンガリーの民族楽器ツィンバロムをコンサート用に大型化したもの。マレットで弦を叩く、繊細で響き渡るような音色が特徴。"},
+  {cat:"楽器",sub:"ツィター・スライド系",name:"pedal steel",desc:"フットペダルで音程やトーンを操作するスライドギター。なめらかに音が伸び縮みする、カントリー音楽特有の泣くような音色。"},
+  {cat:"楽器",sub:"鍵盤楽器系（オルガン・ハープシコード）",name:"chamber organ",desc:"教会の大オルガンより小型の室内用パイプオルガン。柔らかく落ち着いた、室内楽に適した響きが特徴。"},
+  {cat:"楽器",sub:"鍵盤楽器系（オルガン・ハープシコード）",name:"harmonium",desc:"ふいごで空気を送り、リードを鳴らす鍵盤楽器。柔らかく持続的な響きで、インド音楽や賛美歌でよく使われる。"},
+  {cat:"楽器",sub:"鍵盤楽器系（オルガン・ハープシコード）",name:"hammond",desc:"ハモンドオルガン。回転スピーカー（レスリー）特有の揺らぎを持つ、温かくグルーヴィーな音色で、ジャズやソウル、ロックで使われる。"},
+  {cat:"楽器",sub:"鍵盤楽器系（オルガン・ハープシコード）",name:"organ",desc:"パイプオルガンや電子オルガンの音色全般。荘厳で重厚な響きから、教会音楽特有の神聖な雰囲気まで幅広く表現する。"},
+  {cat:"楽器",sub:"鍵盤楽器系（オルガン・ハープシコード）",name:"harpsichord",desc:"弦を爪で弾いて音を出す鍵盤楽器。バロック音楽特有の、軽やかで装飾的な響きが特徴。"},
+  {cat:"楽器",sub:"ピアノ系",name:"piano",desc:"弦をハンマーで叩いて音を出す鍵盤楽器。幅広い音域と表現力を持ち、クラシックからポップスまで様々なジャンルで使われる。"},
+  {cat:"楽器",sub:"ピアノ系",name:"piano solo",desc:"ピアノ一台のみで演奏されるスタイル。他の楽器を伴わない、ピアノの音色と表現力に集中した構成。"},
+  {cat:"楽器",sub:"ピアノ系",name:"melodic piano",desc:"メロディアスなフレーズを奏でるピアノ。歌うような旋律線が際立つ、感情表現豊かな演奏スタイル。"},
+  {cat:"楽器",sub:"ピアノ系",name:"intense piano",desc:"力強く激しいタッチで演奏されるピアノ。緊張感やドラマチックな高揚感を演出する、エネルギッシュな響き。"},
+  {cat:"楽器",sub:"木琴・鉄琴系",name:"xylophone",desc:"木製の音板を持つ打楽器（木琴）。明るく弾けるような、軽快で乾いた音色が特徴。"},
+  {cat:"楽器",sub:"木琴・鉄琴系",name:"marimba",desc:"シロフォンより大きく低い音域を持つ木琴。共鳴管によって生まれる、温かく丸みのある音色が特徴。"},
+  {cat:"楽器",sub:"木琴・鉄琴系",name:"glockenspiel",desc:"金属製の音板を持つ打楽器（鉄琴）。キラキラと澄んだ高音の響きが特徴で、可愛らしく幻想的な雰囲気を演出する。"},
+  {cat:"楽器",sub:"木琴・鉄琴系",name:"vibraphone",desc:"金属製の音板とモーター駆動の共鳴器を持つ打楽器。揺らぐようなビブラートのかかった、柔らかく幻想的な音色が特徴で、ジャズでよく使われる。"},
+  {cat:"楽器",sub:"ドラム・パーカッション系",name:"drumming",desc:"ドラムを中心とした演奏スタイル。リズムとパーカッシブな躍動感が際立つ、力強くグルーヴィーな響き。"},
+  {cat:"楽器",sub:"ドラム・パーカッション系",name:"percussive",desc:"打楽器的でリズミカルな演奏・音色全般を指す言葉。鋭く弾けるようなアタック感のある音作りが特徴。"},
+  {cat:"楽器",sub:"ドラム・パーカッション系",name:"toms",desc:"ドラムセットのタムドラム。低めで太鼓のような響きを持ち、フィルインや力強いリズムパターンで使われる。"},
+  {cat:"楽器",sub:"口笛",name:"whistle",desc:"口笛や小型の管楽器（ホイッスル）による、高く澄んだ音色。素朴で軽やかな雰囲気を演出する。"},
+  {cat:"楽器",sub:"口笛",name:"whistling",desc:"口笛を吹く行為・音色そのものを指す言葉。メロディアスで親密感のある、リラックスした雰囲気を演出する。"},
+  {cat:"楽器",sub:"口笛",name:"bad whistling",desc:"わざと下手に、ふらついた音程で吹く口笛。ユーモラスでコミカル、あるいは素朴で味わいのある雰囲気を演出する。"},
+  {cat:"楽器",sub:"鍵盤・ベル・打楽器（音色）",name:"bell",desc:"鐘の音。澄んだ響きで、祝祭感や神聖な雰囲気を演出する効果音/楽器。"},
+  {cat:"楽器",sub:"鍵盤・ベル・打楽器（音色）",name:"carillon",desc:"多数の鐘を組み合わせた楽器。複数の音が重なり合う、荘厳で響き渡るような音色が特徴。"},
+  {cat:"楽器",sub:"鍵盤・ベル・打楽器（音色）",name:"celesta",desc:"鍵盤を使って金属板を叩く楽器。透明感のある、キラキラとした柔らかい音色が特徴で、幻想的な雰囲気を演出する。"},
+  {cat:"楽器",sub:"鍵盤・ベル・打楽器（音色）",name:"crystal",desc:"クリスタル（ガラス）が鳴るような、透明で繊細な音色。幻想的で清らかな雰囲気を演出する効果音/音色。"},
+  {cat:"楽器",sub:"鍵盤・ベル・打楽器（音色）",name:"music box",desc:"オルゴール。小さく繰り返されるメロディと、金属的で可愛らしい音色が特徴で、ノスタルジックな雰囲気を持つ。"},
+  {cat:"楽器",sub:"鍵盤・ベル・打楽器（音色）",name:"tubular bells",desc:"金属パイプを叩いて鳴らす楽器。鐘のような澄んだ響きを持ち、荘厳で印象的な音を演出する。"},
+  {cat:"楽器",sub:"鍵盤・ベル・打楽器（音色）",name:"sleigh bells",desc:"鈴の音。シャラシャラとした軽快な響きで、クリスマスや冬の雰囲気を演出する効果音/楽器。"},
+  {cat:"楽器",sub:"鍵盤・ベル・打楽器（音色）",name:"timpani",desc:"大きな太鼓型の打楽器。音程を変えられる、迫力ある低音の響きでオーケストラの緊張感や盛り上がりを演出する。"},
+  {cat:"楽器",sub:"鍵盤・ベル・打楽器（音色）",name:"steelpan",desc:"ドラム缶から作られた、トリニダード・トバゴ発の打楽器。明るく金属的で、カリブ海を思わせる軽快な音色が特徴。"},
+  {cat:"楽器",sub:"鍵盤・ベル・打楽器（音色）",name:"pizzicato",desc:"弦楽器の弦を指ではじいて演奏する奏法。弓で弾く時とは異なる、軽やかでパーカッシブな音色が特徴。"},
+  {cat:"楽器",sub:"民族楽器",name:"sitar",desc:"インドの弦楽器。共鳴弦が生み出す独特の「ビーン」とした響きと、伸びやかな旋律が特徴で、エキゾチックな雰囲気を演出する。"},
+  {cat:"楽器",sub:"民族楽器",name:"sarangi",desc:"インドの弓奏弦楽器。人の声に近い、哀愁を帯びた響きが特徴。"},
+  {cat:"楽器",sub:"民族楽器",name:"shamisen",desc:"日本の伝統的な弦楽器（三味線）。バチで弦を弾く独特の音色とリズム感が特徴。"},
+  {cat:"楽器",sub:"民族楽器",name:"erhu",desc:"中国の伝統的な弓奏弦楽器（二胡）。人の声のように表情豊かな、哀愁を帯びた音色が特徴。"},
+  {cat:"楽器",sub:"民族楽器",name:"guzheng",desc:"中国の伝統的な弦楽器（古筝）。流れるように装飾的な旋律と、東洋的な響きが特徴。"},
+  {cat:"楽器",sub:"民族楽器",name:"oud",desc:"中東の伝統的な弦楽器。リュートの祖先とされ、深みのある響きとアラブ音楽特有の音階が特徴。"},
+  {cat:"楽器",sub:"民族楽器",name:"gamelan",desc:"インドネシアの伝統的な打楽器アンサンブル。複数の金属製打楽器が複雑に重なり合う、催眠的で荘厳な響きが特徴。"},
+  {cat:"楽器",sub:"民族楽器",name:"mbira",desc:"アフリカの民族楽器。金属片を弾いて鳴らす、キラキラとした反復的な音色が特徴。"},
+  {cat:"楽器",sub:"民族楽器",name:"darbuka",desc:"中東の太鼓。乾いた高音と低音を打ち分ける、リズミカルで踊りを誘うような音色が特徴。"},
+  {cat:"楽器",sub:"民族楽器",name:"didgeridoo",desc:"オーストラリア先住民の管楽器。低く長く伸びる、唸るような独特の響きが特徴。"},
+  {cat:"楽器",sub:"民族楽器",name:"mouth harp",desc:"口で挟んで鳴らす小型の楽器（口琴）。ビヨンビヨンとした独特の振動音が特徴で、民族音楽でよく使われる。"},
+  {cat:"楽器",sub:"民族楽器",name:"shakuhachi",desc:"日本の伝統的な縦笛（竹製の管楽器）。息の音を含んだ、深く渋い音色が特徴で、禅や和の静けさを表現する楽器として知られる。"},
+  {cat:"楽器",sub:"民族楽器",name:"koto",desc:"日本の伝統的な弦楽器（箏）。13本の弦を爪で弾いて演奏し、流れるように優雅で、和の情緒を感じさせる響きが特徴。"},
+];
+
 // ===== DATA =====
 const NODES = [
   // ルーツ
@@ -2172,6 +2352,77 @@ document.querySelectorAll(".filter-btn").forEach(btn => {
       if(f !== "suno") return null;
       return (nodeMap[d.s]?.suno && nodeMap[d.t]?.suno) ? null : "none";
     });
+  });
+});
+
+// ===== INSTRUMENTS & EFFECTS TAB =====
+const INST_DATA = INST_ITEMS;
+const instPanel = document.getElementById("instruments-panel");
+const mapElements = [document.getElementById("left-sidebar"), document.getElementById("graph"), document.getElementById("legend")];
+
+function buildInstPanel() {
+  const cats = {};
+  INST_DATA.forEach(item => {
+    if (!cats[item.cat]) cats[item.cat] = {};
+    if (!cats[item.cat][item.sub]) cats[item.cat][item.sub] = [];
+    cats[item.cat][item.sub].push(item);
+  });
+
+  let html = '<h2>楽器・効果一覧（' + INST_DATA.length + '件）</h2>';
+  html += '<input class="inst-search" type="text" placeholder="楽器名や説明で検索...">';
+
+  for (const [catName, subs] of Object.entries(cats)) {
+    html += '<div class="inst-cat"><div class="inst-cat-title">' + catName + '</div>';
+    for (const [subName, items] of Object.entries(subs)) {
+      html += '<div class="inst-subcat"><div class="inst-subcat-title">' + subName + '（' + items.length + '件）</div>';
+      items.forEach(item => {
+        html += '<div class="inst-item" data-search="' + (item.name + ' ' + item.desc).toLowerCase() + '">';
+        html += '<span class="inst-name">' + item.name + '</span>';
+        html += '<span class="inst-desc">' + (item.desc || '（説明なし）') + '</span>';
+        html += '<button class="inst-copy" data-copy="' + item.name + '">コピー</button>';
+        html += '</div>';
+      });
+      html += '</div>';
+    }
+    html += '</div>';
+  }
+  instPanel.innerHTML = html;
+
+  instPanel.addEventListener('click', e => {
+    if (e.target.classList.contains('inst-copy')) {
+      const text = e.target.dataset.copy;
+      navigator.clipboard.writeText(text).then(() => {
+        e.target.textContent = 'コピー済み';
+        setTimeout(() => e.target.textContent = 'コピー', 1500);
+      });
+    }
+  });
+
+  const searchInput = instPanel.querySelector('.inst-search');
+  searchInput.addEventListener('input', e => {
+    const q = e.target.value.toLowerCase();
+    instPanel.querySelectorAll('.inst-item').forEach(el => {
+      el.style.display = el.dataset.search.includes(q) ? '' : 'none';
+    });
+  });
+}
+
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const tab = btn.dataset.tab;
+    if (tab === 'map') {
+      instPanel.style.display = 'none';
+      document.getElementById('graph').style.display = '';
+      document.getElementById('left-sidebar').style.display = '';
+    } else {
+      if (!instPanel.innerHTML) buildInstPanel();
+      instPanel.style.display = 'block';
+      document.getElementById('graph').style.display = 'none';
+      document.getElementById('left-sidebar').style.display = 'none';
+      document.getElementById('side-panel').style.display = 'none';
+    }
   });
 });
 </script>
