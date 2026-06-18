@@ -819,6 +819,102 @@ const NODES = [
     desc:"極限まで単純化された音の要素（短いフレーズ、シンプルなリズム）を延々と繰り返しながら、ゆっくりと変化させていく音楽。同じパターンが何十分も続くが、微細な変化に耳を傾けると驚くほど豊かな音の世界が広がる。テンポは一定で催眠的。聴いていると時間感覚が消え、音の反復そのものに意識が吸い込まれていく。瞑想的でありながらリズミカル、知的でありながら直感的。電子音楽のテクノやアンビエントの直接の先祖。",
     roots_story:"1960年代、アメリカでSteve Reich「It's Gonna Rain」(1965)が反復とフェイズ・シフティングの実験を開始。Terry Riley「In C」(1964)は53の短いフレーズを演奏者が自由に繰り返す画期的な作品。Philip Glass「Music in 12 Parts」(1971-74)は反復の極致。La Monte Youngはドローン（持続音）を極端に追求し、アンビエントの先駆者に。映画音楽ではPhilip Glassが「コヤニスカッツィ」(1982)で商業的成功。Reich、Glass、Adamsの3人が「ミニマリズムの三大巨匠」。テクノ、アンビエントに多大な影響を与えた。"},
 
+  // ロック系追加
+  {id:"soft_rock", label:"Soft Rock", cat:"rock", era:"1970s", suno:true,
+    desc:"ロックの楽器編成を使いながらも、メロディの美しさと穏やかさを最優先にしたスタイル。アコースティックギター、ピアノ、控えめなエレキギター、柔らかいコーラスハーモニーが心地よい空間を作る。テンポはゆったり〜中速。攻撃性ゼロで、ドライブ中や日曜の朝に最適な爽やかさ。AOR（Adult Oriented Rock）とも重なり、大人向けの洗練されたポップロック。",
+    roots_story:"1970年代、ロックのハードな側面よりもメロディと歌を重視するアーティストが台頭。Eagles「Hotel California」(1977)、Fleetwood Mac「Rumours」(1977)がソフトロックの頂点。Bread、America、Seals & Croftsも代表格。Christopher Cross「Arthur's Theme」(1981)がグラミー賞受賞。日本ではTUBE、杉山清貴がソフトロック的サウンドで人気を博した。"},
+
+  {id:"blues_rock", label:"Blues Rock", cat:"rock", era:"1960s", suno:true,
+    desc:"ブルースの感情表現とロックのエネルギーを直結させた、ギタリストの腕が試されるスタイル。ブルースの12小節進行やペンタトニックスケールを基本にしつつ、ロックの音量と歪みで増幅する。長いギターソロが聴きどころで、演奏者の感情がダイレクトに指先から出てくる。テンポは中速が主流。汗と魂のギターミュージック。",
+    roots_story:"1960年代、イギリスの若者がシカゴブルースに熱狂し、ロック化した。Eric Clapton（Cream）、Jeff Beck、Jimmy Page（Led Zeppelin）が「ブリティッシュ・ブルースロック三大ギタリスト」。Rolling Stones「Get Yer Ya-Ya's Out!」はライブブルースロックの金字塔。アメリカではAllman Brothers Band「At Fillmore East」(1971)が南部ブルースロックを確立。Stevie Ray Vaughan、Gary Moore、Joe Bonamassaが後を継いだ。"},
+
+  {id:"surf_rock", label:"Surf Rock", cat:"rock", era:"1961", suno:true,
+    desc:"カリフォルニアの太陽と波をそのまま音にした、爽快でリバーブたっぷりのギターロック。スプリングリバーブの効いたクリーンなギタートーン、速いトレモロピッキング、ダンパーの効いたパーカッシブなリズムが「波の上をサーフィンしている」ような疾走感を生む。テンポは速め。インストゥルメンタル（歌なし）の曲も多い。夏、海、車、青春——カリフォルニア文化の音。",
+    roots_story:"1961年、Dick Dale「Let's Go Trippin'」がサーフロックの誕生を告げた。Dick Daleは「サーフギターの王」と呼ばれ、Fenderのリバーブアンプを全開にした轟音ギターで有名。The Beach Boys「Surfin' U.S.A.」(1963)はボーカル付きサーフロックで世界的ヒット。The Ventures「Walk Don't Run」(1960)は日本でも大人気となり、日本のエレキブームを牽引。Quentin Tarantinoが映画「パルプ・フィクション」(1994)でDick Daleの「Misirlou」を使い、サーフロックを再評価させた。"},
+
+  {id:"stoner_rock", label:"Stoner Rock", cat:"rock", era:"1990s", suno:true,
+    desc:"重くファジーなギターリフがゆったりと反復する、ヘヴィでトリッピーなロック。ダウンチューニングしたギターの分厚い壁、グルーヴィーなドラム、催眠的なリフの反復が特徴。テンポはゆったり〜中速で、砂漠の灼熱と蜃気楼のイメージが似合う。ドゥームメタルの重さとサイケデリックロックの浮遊感を併せ持つ。砂漠のハイウェイを窓全開で走る音楽。",
+    roots_story:"1990年代、Kyuss「Blues for the Red Sun」(1992)がカリフォルニアの砂漠（パームデザート）から登場し、「デザートロック」としてジャンルを確立。Fu Manchu、Monster Magnetも初期の重要バンド。Queens of the Stone Age（元Kyussのメンバー）はより洗練された方向でメインストリームの成功を収めた。Sleep「Dopesmoker」(2003)は1曲63分という極端な作品でカルト的人気。"},
+
+  {id:"space_rock", label:"Space Rock", cat:"rock", era:"1960s", suno:true,
+    desc:"宇宙の無限の広がりを音で表現する、壮大でサイケデリックなロック。エコーとリバーブの海の中をギターとシンセが漂い、反復的なリズムが宇宙の旅を演出する。テンポは様々だが、長尺の楽曲で「宇宙遊泳」のような浮遊感を提供する。プログレッシブロックの構築性よりも、音響的な広がりと瞑想的な体験を重視する。星間旅行のBGM。",
+    roots_story:"1960年代末、Pink Floyd「Set the Controls for the Heart of the Sun」(1968)、Hawkwind「Silver Machine」(1972)がスペースロックの原型。Hawkwindはモーターヘッドのレミーが在籍していたことでも知られる。1990年代にはSpiritualizedの「Ladies and Gentlemen We Are Floating in Space」(1997)が傑作と評された。Mogwai、Godspeed You! Black Emperorのポストロック勢も宇宙的な音響を追求した。"},
+
+  {id:"neo_psychedelia", label:"Neo-\nPsychedelia", cat:"rock", era:"1980s", suno:true,
+    desc:"1960年代のサイケデリックロックを現代の感覚で再解釈したスタイル。リバーブの深いギター、揺らめくシンセ、ドリーミーなボーカルがトリッピーな音世界を構築する。60年代の素朴さに比べてプロダクションは洗練されており、エレクトロニクスの使用も自由。テンポは様々。万華鏡的な色彩感と現代的なクールさが同居する。",
+    roots_story:"1980年代、ポストパンクの実験性の中でサイケデリックに回帰するバンドが登場。The Flaming Lips「The Soft Bulletin」(1999)はネオサイケの代表作。Mercury Rev、Spacemen 3も重要。2000年代にはTame Impala（オーストラリア）「Lonerism」(2012)がサイケロックを現代のインディーシーンに復活させた。MGMT「Oracular Spectacular」(2007)はサイケポップとして世界的ヒット。"},
+
+  {id:"britpop", label:"Britpop", cat:"rock", era:"1993", suno:true,
+    desc:"アメリカのグランジに対抗して生まれた、イギリスらしさを前面に出したポップなロック。キャッチーなメロディ、ウィットに富んだ歌詞、ギター中心のバンドサウンドが特徴。The Beatles、The Kinks、David Bowieの伝統を意識的に引き継ぎ、「イギリスのロックはアメリカに負けない」という姿勢が明確。テンポは中速〜アップテンポ。ラジオで流れて口ずさめる、大衆的なロック。",
+    roots_story:"1993年、Suede「Suede」がブリットポップの先駆けに。1995年にOasis「(What's the Story) Morning Glory?」とBlur「The Great Escape」がチャートを争い「Battle of Britpop」として社会現象に。Oasisの兄弟喧嘩は英国タブロイド紙の常連ネタだった。Pulp「Different Class」(1995)はワーキングクラスの視点で知的なポップを展開。Radioheadは「OK Computer」(1997)でブリットポップを超越し、オルタナティブ全体を再定義した。"},
+
+  {id:"indie_pop", label:"Indie Pop", cat:"rock", era:"1980s", suno:true,
+    desc:"DIYの手作り感と甘酸っぱいメロディが融合した、控えめだけど心に残るポップス。ローファイなプロダクション、シンプルなギターポップ、恥ずかしがり屋のボーカルが特徴。テンポは軽快で、ダンサブルなものからゆったりしたものまで。大音量のロックとは対極の、優しくて内省的な音楽。恋の始まりのときめきや、放課後の切なさが似合う。",
+    roots_story:"1980年代、スコットランドのPostcard Records、イギリスのSarah Recordsが中心。Orange Juice、Aztec Camera（ポストカード）、The Field Mice（サラー）が初期の代表。C86（NME誌のカセットコンピ、1986年）がシーンをまとめた。Belle and Sebastian「If You're Feeling Sinister」(1996)がインディーポップの金字塔。日本では渋谷系（Flipper's Guitar、Pizzicato Five）がインディーポップの影響下にあった。"},
+
+  {id:"dream_pop", label:"Dream Pop", cat:"rock", era:"1980s", suno:true,
+    desc:"リバーブの霧の中を漂うような、幻想的で美しいポップス。シューゲイザーの音響的な広がりとインディーポップのメロディが融合し、夢の中で聴いているような浮遊感がある。囁くようなボーカル、揺らめくギターのアルペジオ、柔らかいシンセパッドが心地よい音のベールを作る。テンポはゆったり。入眠前の意識が溶けていく瞬間の音楽。",
+    roots_story:"1980年代、Cocteau Twins「Heaven or Las Vegas」(1990)がドリームポップの源流。Mazzy Star「Fade Into You」(1993)はドリーミーなバラードで広く知られた。2010年代にはBeach House「Teen Dream」(2010)がジャンルの現代的代表に。Alvvays、Cigarettes After Sex、Japanese Breakfastも重要。日本のきのこ帝国、羊文学もドリームポップ的な要素を持つ。"},
+
+  {id:"j_rock", label:"J-Rock", cat:"rock", era:"1980s", suno:true,
+    desc:"日本独自に発展したロックの総称。西洋ロックの楽器編成とサウンドをベースに、J-POP的なメロディの繊細さと日本語の歌詞が乗る。アニメ・ゲームのタイアップとの結びつきが強く、メディアミックスの中で機能するキャッチーさが求められる。テンポは様々。バンドメンバーの個性やビジュアルも重要な要素で、ファンとの距離感が近いライブ文化がある。",
+    roots_story:"1980年代、BOØWY「BOØWY」(1985)がJ-Rockの原型を作った。X JAPAN（1989年メジャーデビュー）はヴィジュアル系とヘヴィメタルを融合させ、日本のロック史を変えた。B'z、Mr.Children、GLAY、L'Arc〜en〜Cielが1990年代のJ-Rock黄金期を築く。2000年代にはASIAN KUNG-FU GENERATION、BUMP OF CHICKENがアニメタイアップで知名度を拡大。ONE OK ROCKは海外進出を果たした。"},
+
+  {id:"visual_kei", label:"Visual Kei\n(V系)", cat:"rock", era:"1980s", suno:true,
+    desc:"派手な衣装、メイク、髪型というビジュアル面の強烈なインパクトと、ヘヴィメタルからポップスまで幅広い音楽性が一体化した日本独自のロックムーブメント。音楽的には様々だが、ドラマチックで感情的な楽曲構成、激しいパートと美しいパートの落差が特徴的。テンポも様々。「見る音楽」としての側面が強く、ライブパフォーマンスが最大の見せ場。",
+    roots_story:"1980年代、X JAPAN（当時X）のYOSHIKIがヴィジュアル系の創始者的存在。「BLUE BLOOD」(1989)がシーンの金字塔。LUNA SEA、MALICE MIZER、Dir en greyが1990年代に続く。MALICE MIZERのGacktはソロでも大きな成功を収めた。海外ではJanne Da Arc、the GazettEが支持を集め、「Visual Kei」は英語圏でもそのまま通じる日本発の音楽用語となった。"},
+
+  // パンク系追加
+  {id:"pop_punk", label:"Pop Punk", cat:"rock", era:"1990s", suno:true,
+    desc:"パンクのエネルギーとポップスのキャッチーさを融合した、若者向けの爽快なロック。速いテンポ、シンプルなパワーコード、歌えるサビ、青春の悩みを歌う歌詞が基本構成。パンクの反体制的な怒りよりも、恋愛や学校生活の葛藤がテーマ。聴いた瞬間に拳を突き上げたくなるような分かりやすさと勢いがある。スケートパークと学園祭が似合う音楽。",
+    roots_story:"1990年代、Green Day「Dookie」(1994)とThe Offspring「Smash」(1994)がポップパンクを一気にメインストリーム化。Blink-182「Enema of the State」(1999)はさらにポップ寄りに振り切り、「All the Small Things」が世界的ヒット。Sum 41、Good Charlotte、New Found Gloryが2000年代のシーンを形成。Paramore、Fall Out Boyがエモとの境界で活動。近年はMGK（Machine Gun Kelly）がポップパンクリバイバルを起こした。"},
+
+  {id:"emo", label:"Emo", cat:"rock", era:"1985", suno:true,
+    desc:"感情（Emotion）を剥き出しにした、激しくも繊細なロック。叫びと囁きを行き来するボーカル、切ないギターフレーズ、感情の爆発と内省の繰り返しが特徴。歌詞は個人的な苦悩、失恋、自己嫌悪、孤独を赤裸々に吐露する。テンポは中速〜速め。聴いていると自分の傷が疼くような痛みと共感がある。黒い服、サイドバングの髪型、マイスペース文化と結びついた2000年代のユースカルチャー。",
+    roots_story:"1985年頃、ワシントンD.C.のハードコアシーンからRites of Spring、Embraceが「エモーショナル・ハードコア」として誕生。1990年代にJawbreaker、Sunny Day Real Estateがインディー・エモを確立。2000年代にMy Chemical Romance「The Black Parade」(2006)、Fall Out Boy「From Under the Cork Tree」(2005)がメインストリームで大ヒットし社会現象に。The Used、Taking Back Sunday、Dashboard Confessionalも重要。日本ではcinema staff、凛として時雨がエモ的要素を持つ。"},
+
+  {id:"psychobilly", label:"Psychobilly", cat:"rock", era:"1980s", suno:true,
+    desc:"ロカビリー（1950年代のロックンロール）とパンクの凶暴さにホラー映画のテーマを加えた、狂気とユーモアが同居するスタイル。ウッドベースを激しく叩くスラッピング奏法、パンク的な速いギター、B級ホラー映画的な歌詞が特徴。テンポは速く、モッシュピットで暴れるためのエネルギーがある。怖いのに笑える、暴力的なのに楽しい不思議なジャンル。",
+    roots_story:"1980年代初頭、イギリスのThe Meteors「In Heaven」(1981)がサイコビリーの創始者として広く認知されている。The Cramps（アメリカ）はガレージロックとホラーの融合で先駆的存在。Nekromantix（デンマーク）は棺桶型のウッドベースで知られる。Tiger Army、Reverend Horton Heatも主要アーティスト。ポマードで固めたリーゼント、タトゥー、ホラー映画Tシャツがファッションの定番。"},
+
+  {id:"deathrock", label:"Deathrock", cat:"rock", era:"1979", suno:true,
+    desc:"ゴシックロックのアメリカ西海岸版ともいえる、パンクの攻撃性とホラー映画的な暗さが融合したスタイル。歪んだギター、ベースの唸り、リバーブの効いた不気味なボーカル、墓場やゾンビのイメージが特徴。テンポは中速〜速め。イギリスのゴシックロックより生々しくパンク的で、よりアンダーグラウンド寄り。暗くて汚いのにカッコいい。",
+    roots_story:"1979年頃、ロサンゼルスのパンクシーンからChristian Death「Only Theatre of Pain」(1982)がデスロックの金字塔を生んだ。45 Grave、TSOL、Kommunity FKが初期LAデスロックの中心。サンフランシスコではFlipperが関連バンド。イギリスのゴシックロック（Bauhaus等）と並行して発展したが、より粗くパンク的なサウンドが特徴。Cinema Strange、Scarlet's Remainsが2000年代のリバイバルを牽引。"},
+
+  {id:"melodic_hardcore", label:"Melodic\nHardcore", cat:"rock", era:"1980s", suno:true,
+    desc:"ハードコアパンクの攻撃性にメロディアスなボーカルとギターハーモニーを加えた、激しいが聴きやすいスタイル。速いテンポ、パワフルなドラム、叫ぶパートと歌うパートの交互が基本構成。ハードコアの衝動性とポップパンクのキャッチーさの中間に位置する。拳を突き上げながら一緒に歌えるアンセム的な曲が多い。",
+    roots_story:"1980年代、Bad Religion「Suffer」(1988)がメロディックハードコアのバイブル。NOFX、Pennywise、Lagwagon（Epitaph/Fat Wreck Chordsレーベル勢）が1990年代のシーンを牽引。Propagandhi、Strung Out、A Wilhelm Screamも重要。日本ではHi-STANDARD（ハイスタンダード）が1990年代に絶大な人気を博し、日本のパンクシーンを変えた。「AIR JAM」フェスティバルは伝説的イベント。"},
+
+  // メタル系追加
+  {id:"symphonic_metal", label:"Symphonic\nMetal", cat:"metal", era:"1990s", suno:true,
+    desc:"フルオーケストラのクラシカルなアレンジとヘヴィメタルの轟音が壮大に融合した、映画音楽のようなメタル。オペラ的なソプラノ女性ボーカル、弦楽アンサンブル、合唱、ティンパニが、ヘヴィなギターリフとツーバスの上に乗る。テンポは中速〜速め。壮大で劇的、ファンタジー映画の戦闘シーンがそのまま音楽になったような圧倒的スケール感。",
+    roots_story:"1990年代後半、Nightwish（フィンランド）「Oceanborn」(1998)がシンフォニックメタルを定義。ターヤ・トゥルネンのオペラ的ソプラノが衝撃を与えた。Within Temptation（オランダ）、Epica（オランダ）が続く。Rhapsody of Fire（イタリア）はフルオーケストラとメタルの融合を極端に推し進めた。日本ではVersailles、陰陽座がシンフォニック要素を持つ。"},
+
+  {id:"nu_metal", label:"Nu Metal", cat:"metal", era:"1994", suno:true,
+    desc:"ヘヴィメタルにヒップホップのラップ、ファンクのグルーヴ、エレクトロニクスを大胆に混ぜ込んだ、1990年代末〜2000年代初頭の一大ムーブメント。ダウンチューニングの重いギターリフ、DJのターンテーブル、叫びとラップを行き来するボーカルが特徴。テンポは中速。怒り、フラストレーション、社会への不満を爆発させる音楽。",
+    roots_story:"1994年、Korn「Korn」がニューメタルの誕生を告げた。7弦ギターのダウンチューニングとファンキーなベースが新しいサウンドを定義。Limp Bizkit「Significant Other」(1999)はラップメタルでメインストリームを制覇。Linkin Park「Hybrid Theory」(2000)は全世界で3000万枚以上売れたニューメタル最大のヒット。System of a Down、Slipknot、Deftones、Papa Roachも重要。2000年代半ばにブームは去ったが、Linkin Parkのチェスター・ベニントンの死(2017)を経て再評価の動きがある。"},
+
+  {id:"grindcore", label:"Grindcore", cat:"metal", era:"1985", suno:true,
+    desc:"エクストリームミュージックの究極形の一つ。ブラストビート（超高速連打ドラム）、歪みきったギターのノイズ、人間とは思えない喉から出るボーカル（グロウル/スクリーム）が数秒〜数十秒の超短い曲に凝縮される。1曲が5秒で終わることも珍しくない。テンポは超高速。音楽の「快適さ」を完全に放棄した、暴力と混沌の極致。",
+    roots_story:"1985年頃、イギリスのNapalm Death「Scum」(1987)がグラインドコアの金字塔。A面とB面で全く異なるメンバーが演奏している異常なアルバム。「You Suffer」は1.316秒で「世界最短の曲」としてギネス記録。Carcass（リヴァプール）はゴア・グラインドを確立し、後にメロディックデスメタルへ進化。Terrorizer、Brutal Truthがアメリカ勢。Pig Destroyer、Full of Hellが現代の代表。"},
+
+  {id:"djent", label:"Djent", cat:"metal", era:"2000s", suno:true,
+    desc:"低音域で刻まれる極めてタイトなギターリフの「ジェント」という擬音的な音色が名前の由来。7〜8弦ギターのダウンチューニング、複雑な変拍子、精密なリズムパターンが特徴。メタルの重さにプログレッシブな知性を加えた、技術指向のスタイル。テンポは中速だが拍子が複雑で、リズムの迷宮に引き込まれる。ギタリストとドラマーの技術が試される職人芸的な音楽。",
+    roots_story:"2000年代後半、MeshuggahのFredrik Thordendalのギタースタイルを真似る若いギタリストたちがインターネットで「djent」という言葉を使い始めた。Periphery「Periphery」(2010)がジャンルの代表格。Animals as Leaders（Tosin Abasi）はギターの超絶技巧で注目された。TesseracT（イギリス）、Veil of Maya、Born of Osirisも重要。SoundCloudとYouTubeがジャンルの普及に大きく貢献し、インターネット発のメタルサブジャンルとして特筆される。"},
+
+  {id:"post_metal", label:"Post-Metal", cat:"metal", era:"1990s", suno:true,
+    desc:"メタルの重さにポストロックの壮大な構成と静寂を融合させた、叙事詩的で感情的なスタイル。静かなパートから轟音パートへと長い時間をかけて構築される展開が特徴で、1曲10〜20分に及ぶことも多い。テンポはゆったりが基本で、メタルのスピードよりも「音の重み」と「空間」を重視。壮大な自然風景や内面の葛藤を音で描く、映画的なメタル。",
+    roots_story:"1990年代、Neurosis「Through Silver in Blood」(1996)がポストメタルの原型を作った。Isis「Oceanic」(2002)がジャンルの代表作とされ、「シンキングマンズ・メタル（思考するメタルファンのためのメタル）」と評された。Cult of Luna（スウェーデン）、Pelican、Russian Circlesも重要。日本のMono（ポストロック）もポストメタル的な重厚さを持つ。Amenra（ベルギー）が現在のシーンの中心。"},
+
+  // プログレ・実験系追加
+  {id:"zeuhl", label:"Zeuhl", cat:"rock", era:"1969", suno:true,
+    desc:"フランスのバンドMagmaが創造した架空の言語「コバイア語」で歌われる、ジャズとロックとクラシックが異次元で融合した音楽。軍楽的なリズム、反復的なベースパターン、オペラ的な合唱、フリージャズのインプロヴィゼーションが渾然一体となる。テンポは変幻自在。地球外の文明の宗教音楽のような、他に類を見ない独自の音世界。圧倒的に個性的で、好きになったら最後抜けられない。",
+    roots_story:"1969年、フランスのドラマーChristian Vanderが結成したMagmaがジャンルそのものを創造。「Mekanïk Destruktïẁ Kommandöh」(1973)が最高傑作。Vanderはジョン・コルトレーンに強い影響を受け、その精神性をロックに持ち込んだ。「ズール」はコバイア語で「天上の音楽」を意味する。Univers Zero（ベルギー）、Art Zoyd（フランス）が関連バンド。日本のRuin、Koenji Hyakkei（高円寺百景）もズール的な音楽を展開。"},
+
+  {id:"avant_garde", label:"Avant-Garde", cat:"rock", era:"1960s", suno:true,
+    desc:"音楽の常識を意図的に破壊し、「音楽とは何か」という問いそのものを投げかける前衛的な表現。決まった形式、メロディ、リズム、楽器の使い方に縛られず、あらゆる音響素材を使って未知の表現を追求する。聴いて「気持ちいい」かどうかは目的ではなく、「考えさせる」ことが目的。テンポの概念すら存在しないことも。芸術としての音楽の最前線。",
+    roots_story:"John Cage「4'33\"」(1952)は「4分33秒の沈黙」という作品で、音楽の概念を根本から問い直した。Frank Zappa「Freak Out!」(1966)はロックの文脈で前衛を実践。Captain Beefheart「Trout Mask Replica」(1969)は意図的にリズムとメロディを崩壊させた問題作。Yoko OnoはFluxusアートと音楽を融合。日本では大友良英、灰野敬二がアヴァンギャルドの世界的巨匠として知られる。"},
+
   // ブルース系サブジャンル
   {id:"delta_blues", label:"Delta Blues", cat:"blues_sub", era:"1920s", suno:true,
     desc:"ミシシッピ・デルタの綿花畑から生まれた、ブルースの最も原始的な形。アコースティックギター1本と声だけで、人生の苦悩、愛、孤独を歌う。スライドギター（ボトルネック奏法）の金属的にうねる音色が特徴的。テンポはゆったりで、同じリフを繰り返しながら感情を掘り下げる。レコーディング環境の粗さも相まって、まるで幽霊が歌っているような不気味な生々しさがある。すべてのロック・ポップスの最も深いルーツ。",
@@ -1131,6 +1227,34 @@ const LINKS = [
   {s:"classical",   t:"minimalism_classical", w:50, desc:"クラシックのミニマル化"},
   {s:"minimalism_classical",t:"ambient", w:45, desc:"ミニマリズムがアンビエントに影響"},
   {s:"minimalism_classical",t:"techno",  w:40, desc:"反復構造がテクノに影響"},
+
+  // ロック系追加リンク
+  {s:"rock_n_roll",  t:"soft_rock",        w:50, desc:"ロックの穏やかな方向"},
+  {s:"blues",        t:"blues_rock",       w:75, desc:"ブルースのロック化"},
+  {s:"rock_n_roll",  t:"surf_rock",        w:65, desc:"カリフォルニアのロック"},
+  {s:"psychedelic_rock",t:"stoner_rock",   w:55, desc:"サイケの重い方向"},
+  {s:"psychedelic_rock",t:"space_rock",    w:60, desc:"サイケの宇宙的方向"},
+  {s:"psychedelic_rock",t:"neo_psychedelia",w:70, desc:"サイケの現代化"},
+  {s:"alt_rock",     t:"britpop",          w:65, desc:"イギリスのオルタナティブ"},
+  {s:"alt_rock",     t:"indie_pop",        w:55, desc:"インディーのポップ方向"},
+  {s:"indie_pop",    t:"dream_pop",        w:60, desc:"インディーポップの幻想的な方向"},
+  {s:"shoegaze",     t:"dream_pop",        w:55, desc:"シューゲイズのポップ化"},
+  {s:"rock_n_roll",  t:"j_rock",           w:45, desc:"ロックの日本化"},
+  {s:"j_rock",       t:"visual_kei",       w:65, desc:"J-Rockのビジュアル化"},
+  {s:"punk",         t:"pop_punk",         w:70, desc:"パンクのポップ化"},
+  {s:"punk",         t:"emo",              w:60, desc:"パンクの感情的方向"},
+  {s:"punk",         t:"psychobilly",      w:50, desc:"パンクとロカビリーの融合"},
+  {s:"gothic_rock",  t:"deathrock",        w:65, desc:"ゴシックのパンク化"},
+  {s:"punk",         t:"melodic_hardcore",  w:70, desc:"ハードコアのメロディアス化"},
+  {s:"heavy_metal",  t:"symphonic_metal",  w:60, desc:"メタルのオーケストラ化"},
+  {s:"classical",    t:"symphonic_metal",  w:40, desc:"クラシックの壮大さを導入"},
+  {s:"heavy_metal",  t:"nu_metal",         w:50, desc:"メタルの異ジャンル融合"},
+  {s:"hiphop",       t:"nu_metal",         w:40, desc:"ヒップホップとの融合"},
+  {s:"death_metal",  t:"grindcore",        w:55, desc:"デスメタルの極端化"},
+  {s:"punk",         t:"grindcore",        w:50, desc:"ハードコアパンクの極端化"},
+  {s:"prog_rock",    t:"djent",            w:45, desc:"プログレの技巧性を継承"},
+  {s:"heavy_metal",  t:"post_metal",       w:50, desc:"メタルのポストロック的展開"},
+  {s:"prog_rock",    t:"zeuhl",            w:40, desc:"プログレの最も実験的な方向"},
 
   // ブルース系サブジャンル
   {s:"blues",        t:"delta_blues",      w:90, desc:"ブルースの最も原始的な形態"},
