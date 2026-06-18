@@ -2479,10 +2479,10 @@ const nodeMap = Object.fromEntries(NODES.map(n => [n.id, n]));
 const linkData = LINKS.map(l => ({...l, source: l.s, target: l.t}));
 
 const simulation = d3.forceSimulation(NODES)
-  .force("link", d3.forceLink(linkData).id(d=>d.id).distance(d => 500 - d.w * 1.0).strength(0.2))
-  .force("charge", d3.forceManyBody().strength(-3000).distanceMax(4000))
+  .force("link", d3.forceLink(linkData).id(d=>d.id).distance(d => 650 - d.w * 1.0).strength(0.18))
+  .force("charge", d3.forceManyBody().strength(-4500).distanceMax(4000))
   .force("center", d3.forceCenter(w/2, h/2))
-  .force("collision", d3.forceCollide(d => d.r + 60).iterations(3))
+  .force("collision", d3.forceCollide(d => d.r + 80).iterations(3))
   .force("x", d3.forceX(w/2).strength(0.01))
   .force("y", d3.forceY(h/2).strength(0.01))
   .alphaDecay(0.02);
@@ -2492,7 +2492,7 @@ const link = g.append("g").selectAll("line")
   .join("line")
   .attr("class", "link")
   .attr("stroke", d => CAT_COLOR[nodeMap[d.s]?.cat] || "#555")
-  .attr("stroke-width", d => 8 + d.w / 5)
+  .attr("stroke-width", d => 4 + d.w / 10)
   .attr("marker-end", d => `url(#arrow-${nodeMap[d.s]?.cat || "roots"})`);
 
 // edge label group: background rect + text
