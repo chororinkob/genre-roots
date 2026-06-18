@@ -67,6 +67,12 @@ svg { width: 100vw; height: 100vh; }
   100% { stroke: #ffffff; stroke-width: 3; }
 }
 .node.cat-highlight circle { animation: cat-pulse 0.85s ease-in-out infinite !important; stroke: #fff !important; }
+@keyframes search-pulse {
+  0%   { stroke: #00FF00; stroke-width: 6; filter: drop-shadow(0 0 8px #0f0); }
+  50%  { stroke: #00FF00; stroke-width: 14; filter: drop-shadow(0 0 20px #0f0) drop-shadow(0 0 30px rgba(0,255,0,0.5)); }
+  100% { stroke: #00FF00; stroke-width: 6; filter: drop-shadow(0 0 8px #0f0); }
+}
+.node.search-match circle { animation: search-pulse 0.7s ease-in-out infinite !important; }
 .node.cat-dim { opacity: 0.1; pointer-events: none; }
 .legend-item[data-cat] { cursor: pointer; padding: 2px 5px; border-radius: 4px; margin-left: -5px; transition: background 0.15s; }
 .legend-item[data-cat]:hover { background: rgba(255,255,255,0.12); }
@@ -109,11 +115,12 @@ svg { width: 100vw; height: 100vh; }
 <div id="left-sidebar">
 <div id="controls">
   <h3>検索 / フィルター</h3>
-  <input id="search" type="text" placeholder="ジャンル名を検索..." />
+  <input id="search" type="text" placeholder="ジャンル検索（カンマ区切りで複数OK）" />
   <div>
     <span class="filter-btn active" data-filter="all">すべて</span>
     <span class="filter-btn" data-filter="suno">Sunoタグのみ</span>
   </div>
+  <div id="search-results" style="margin-top:8px;font-size:11px;color:#aaa;display:none;"></div>
 </div>
 
 <div id="legend">
@@ -2614,12 +2621,40 @@ simulation.on("tick", () => {
 
 // Search
 document.getElementById("search").addEventListener("input", e => {
-  const q = e.target.value.toLowerCase();
-  node.classed("highlighted", d => q.length > 0 && (d.id.includes(q) || d.label.toLowerCase().includes(q)));
-  node.select("circle").attr("opacity", d => {
-    if(!q) return 1;
-    return (d.id.includes(q) || d.label.toLowerCase().includes(q)) ? 1 : 0.25;
+  const raw = e.target.value;
+  const resultsDiv = document.getElementById("search-results");
+
+  if (!raw.trim()) {
+    node.classed("search-match", false);
+    node.classed("cat-dim", false);
+    node.select("circle").attr("opacity", 1);
+    resultsDiv.style.display = "none";
+    return;
+  }
+
+  const tags = raw.split(",").map(t => t.trim().toLowerCase()).filter(t => t.length > 0);
+  const found = [];
+  const notFound = [];
+
+  tags.forEach(tag => {
+    const match = NODES.find(n =>
+      n.id === tag.replace(/[\s-]/g, '_') ||
+      n.label.toLowerCase().replace('\n', ' ') === tag ||
+      n.id.includes(tag) ||
+      n.label.toLowerCase().includes(tag)
+    );
+    if (match) found.push(match.id);
+    else notFound.push(tag);
   });
+
+  node.classed("search-match", d => found.includes(d.id));
+  node.classed("cat-dim", d => found.length > 0 && !found.includes(d.id));
+
+  let html = '';
+  if (found.length > 0) html += '<div style="color:#0f0">✓ ' + found.length + '件ヒット</div>';
+  if (notFound.length > 0) html += '<div style="color:#f88;margin-top:4px">✗ 未登録: ' + notFound.join(', ') + '</div>';
+  resultsDiv.innerHTML = html;
+  resultsDiv.style.display = 'block';
 });
 
 // Legend hover: カテゴリにカーソルを乗せると対応ノードをパルス点灯、他を暗く
