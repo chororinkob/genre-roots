@@ -76,9 +76,9 @@ svg { width: 100vw; height: 100vh; }
 .node.cat-dim { opacity: 0.1; pointer-events: none; }
 .node.focus-dim { opacity: 0.08; }
 @keyframes focus-glow {
-  0%   { stroke: #fff; stroke-width: 6; filter: drop-shadow(0 0 8px rgba(255,255,255,0.4)); }
-  50%  { stroke: #fff; stroke-width: 10; filter: drop-shadow(0 0 20px rgba(255,255,255,0.8)); }
-  100% { stroke: #fff; stroke-width: 6; filter: drop-shadow(0 0 8px rgba(255,255,255,0.4)); }
+  0%   { stroke: #fff; stroke-width: 8; filter: drop-shadow(0 0 20px #fff) drop-shadow(0 0 40px rgba(255,255,255,0.5)); }
+  50%  { stroke: #fff; stroke-width: 20; filter: drop-shadow(0 0 50px #fff) drop-shadow(0 0 80px rgba(255,255,255,0.8)) drop-shadow(0 0 120px rgba(255,255,255,0.4)); }
+  100% { stroke: #fff; stroke-width: 8; filter: drop-shadow(0 0 20px #fff) drop-shadow(0 0 40px rgba(255,255,255,0.5)); }
 }
 .node.focus-highlight circle { animation: focus-glow 2s ease-in-out infinite !important; }
 .link.focus-dim { opacity: 0.03 !important; }
@@ -116,7 +116,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v3.5 / 300 genres</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v3.6 / 300 genres</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
