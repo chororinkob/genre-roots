@@ -58,7 +58,7 @@ svg { width: 100vw; height: 100vh; }
 .node circle.suno { stroke: #FFD700; stroke-width: 15; }
 .node text { pointer-events: none; font-size: 11px; fill: #eee; text-anchor: middle; dominant-baseline: central; }
 .node.highlighted circle { stroke: #fff !important; stroke-width: 3 !important; }
-.link-label { font-size: 20px; fill: #fff; pointer-events: none; font-weight: 700; }
+.link-label { font-size: 60px; fill: #fff; pointer-events: none; font-weight: 700; }
 .link-label-bg { fill: rgba(26,26,46,0.82); pointer-events: none; }
 
 @keyframes cat-pulse {
@@ -2399,7 +2399,7 @@ const POPULARITY = {
 };
 NODES.forEach(n => {
   n.popularity = POPULARITY[n.id] || 3;
-  n.r = 25 * n.popularity;
+  n.r = 15 + n.popularity * n.popularity * 5;
 });
 
 // ===== CATEGORY COLORS =====
@@ -2461,10 +2461,10 @@ const nodeMap = Object.fromEntries(NODES.map(n => [n.id, n]));
 const linkData = LINKS.map(l => ({...l, source: l.s, target: l.t}));
 
 const simulation = d3.forceSimulation(NODES)
-  .force("link", d3.forceLink(linkData).id(d=>d.id).distance(d => 500 - d.w * 0.8).strength(0.15))
-  .force("charge", d3.forceManyBody().strength(-3000))
+  .force("link", d3.forceLink(linkData).id(d=>d.id).distance(d => 800 - d.w * 1.5).strength(0.1))
+  .force("charge", d3.forceManyBody().strength(-5000))
   .force("center", d3.forceCenter(w/2, h/2))
-  .force("collision", d3.forceCollide(d => d.r + 40))
+  .force("collision", d3.forceCollide(d => d.r + 60))
   .alphaDecay(0.02);
 
 const link = g.append("g").selectAll("line")
@@ -2472,7 +2472,7 @@ const link = g.append("g").selectAll("line")
   .join("line")
   .attr("class", "link")
   .attr("stroke", d => CAT_COLOR[nodeMap[d.s]?.cat] || "#555")
-  .attr("stroke-width", d => 2.5 + d.w / 12)
+  .attr("stroke-width", d => 8 + d.w / 5)
   .attr("marker-end", d => `url(#arrow-${nodeMap[d.s]?.cat || "roots"})`);
 
 // edge label group: background rect + text
@@ -2482,9 +2482,9 @@ const linkLabelG = g.append("g").selectAll("g")
 
 linkLabelG.append("rect")
   .attr("class", "link-label-bg")
-  .attr("rx", 3).attr("ry", 3)
-  .attr("width", 48).attr("height", 24)
-  .attr("x", -24).attr("y", -15);
+  .attr("rx", 5).attr("ry", 5)
+  .attr("width", 120).attr("height", 50)
+  .attr("x", -60).attr("y", -35);
 
 linkLabelG.append("text")
   .attr("class", "link-label")
@@ -2509,14 +2509,14 @@ node.append("circle")
 
 node.append("text")
   .text(d => d.label.split("\n")[0])
-  .attr("dy", d => d.label.includes("\n") ? -3 : 1)
+  .attr("dy", d => d.label.includes("\n") ? -15 : 1)
   .style("font-size", d => Math.max(24, Math.min(50, d.r * 0.35)) + "px")
   .style("font-weight", "700")
   .style("fill", "#fff");
 
 node.filter(d => d.label.includes("\n")).append("text")
   .text(d => d.label.split("\n")[1])
-  .attr("dy", 22)
+  .attr("dy", 35)
   .style("font-size", d => Math.max(24, Math.min(50, d.r * 0.35)) + "px")
   .style("font-weight", "700")
   .style("fill", "#fff");
