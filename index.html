@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="utf-8">
@@ -106,6 +106,18 @@ svg { width: 100vw; height: 100vh; }
   <div class="legend-item" data-cat="edm"><div class="legend-dot" style="background:#F9A825"></div><span class="legend-label">EDM系</span></div>
   <div class="legend-item" data-cat="synthwave"><div class="legend-dot" style="background:#6A1B9A"></div><span class="legend-label">シンセウェーブ系</span></div>
   <div class="legend-item" data-cat="hiphop"><div class="legend-dot" style="background:#2E7D32"></div><span class="legend-label">ヒップホップ系</span></div>
+  <div class="legend-item" data-cat="rock"><div class="legend-dot" style="background:#D84315"></div><span class="legend-label">ロック系</span></div>
+  <div class="legend-item" data-cat="metal"><div class="legend-dot" style="background:#37474F"></div><span class="legend-label">メタル系</span></div>
+  <div class="legend-item" data-cat="country_folk"><div class="legend-dot" style="background:#8D6E63"></div><span class="legend-label">カントリー/フォーク系</span></div>
+  <div class="legend-item" data-cat="latin"><div class="legend-dot" style="background:#E91E63"></div><span class="legend-label">ラテン系</span></div>
+  <div class="legend-item" data-cat="african"><div class="legend-dot" style="background:#FF8F00"></div><span class="legend-label">アフリカ系</span></div>
+  <div class="legend-item" data-cat="middle_east"><div class="legend-dot" style="background:#BF360C"></div><span class="legend-label">中東/アラブ系</span></div>
+  <div class="legend-item" data-cat="south_asian"><div class="legend-dot" style="background:#311B92"></div><span class="legend-label">南アジア系</span></div>
+  <div class="legend-item" data-cat="east_asian"><div class="legend-dot" style="background:#827717"></div><span class="legend-label">東アジア系</span></div>
+  <div class="legend-item" data-cat="caribbean"><div class="legend-dot" style="background:#00BFA5"></div><span class="legend-label">カリブ系</span></div>
+  <div class="legend-item" data-cat="pop"><div class="legend-dot" style="background:#7CB342"></div><span class="legend-label">ポップス系</span></div>
+  <div class="legend-item" data-cat="jazz_sub"><div class="legend-dot" style="background:#CFB53B"></div><span class="legend-label">ジャズ系</span></div>
+  <div class="legend-item" data-cat="classical_sub"><div class="legend-dot" style="background:#78909C"></div><span class="legend-label">クラシック系</span></div>
   <div class="legend-sep"></div>
   <div class="legend-item" data-cat="suno"><div class="suno-ring"></div><span class="legend-label">Suno有効タグ</span></div>
 </div>
@@ -606,6 +618,205 @@ const NODES = [
   {id:"chiptune", label:"Chiptune", cat:"chiptune", era:"1980s", suno:true,
     desc:"ファミコンやゲームボーイのサウンドチップが奏でる「ピコピコ」した電子音で作られた音楽。矩形波・三角波・ノイズという極めて限られた音色だけで驚くほど豊かなメロディとリズムを生み出す。レトロゲームを遊んだ世代にはノスタルジー、知らない世代には新鮮な「デジタルの温かみ」がある。テンポは楽曲による。制約の中の創造性が最大の魅力で、少ない音数だからこそメロディの良し悪しがごまかせない。8ビットの世界に宿る無限の表現力。",
     roots_story:"1980年代、ファミコン（NES）、ゲームボーイ、Commodore 64などのゲーム機やホームコンピュータに搭載された音源チップ（PSG、SID等）で音楽を作る文化が発生。初期は「デモシーン」と呼ばれるプログラマーのサブカルチャーで、コンピュータの限界に挑戦するデモ作品の音楽として発展。Commodore 64のSIDチップは特に音楽的な表現力が高く、Rob Hubbard、Martin Galway、Ben Daglishらのゲーム音楽が伝説に。2000年代にはゲームボーイにLSDjソフトを入れて作曲するスタイルが流行し、Anamanaguchi、Sabrepulse、Bit Shifterらがライブパフォーマンスで人気を得た。日本のゲーム音楽作曲家（近藤浩治、植松伸夫ら）もチップチューンの重要な源流。"},
+  // ロック系
+  {id:"rock_n_roll", label:"Rock 'n' Roll", cat:"rock", era:"1950s", suno:true,
+    desc:"エレキギターのリフ、跳ねるリズム、反抗的な態度が融合した、20世紀で最も影響力のある音楽。ブルースの感情表現とカントリーの軽快さをアンプで増幅し、若者の叫びを乗せた。テンポは中速〜速め（BPM 120〜160）で、シンプルなコード進行の上でギターが唸り、ドラムが力強くビートを刻む。聴いた瞬間にアドレナリンが出る原始的な興奮がある。自由、反骨、若さの象徴。",
+    roots_story:"1950年代、アメリカ南部でブルースとカントリーが融合。Chuck Berry「Johnny B. Goode」(1958)はロックギターの原型を作り、Little Richardは狂気的なパフォーマンスで観客を熱狂させた。Elvis Presleyは白人としてブルースを歌い、ロックンロールを大衆文化の中心に据えた。Buddy Hollyはソングライティングの型を確立。1960年代にはThe Beatlesがイギリスから世界を制覇し、The Rolling Stonesはブルース回帰のハードなロックを追求。ここからあらゆるロックのサブジャンルが枝分かれしていった。"},
+
+  {id:"psychedelic_rock", label:"Psychedelic\nRock", cat:"rock", era:"1960s", suno:true,
+    desc:"意識の拡張をそのまま音にしたような、トリッピーで実験的なロック。エフェクターで歪ませたギター、リバーブの海、逆回転テープ、シタールなどの異国の楽器が渦巻く。曲は長尺になることが多く、即興的な展開で聴く者を別世界に連れていく。テンポは様々だが、ゆったりとした催眠的なグルーヴが多い。万華鏡のように色彩が変化するサウンドスケープ。60年代のカウンターカルチャーが生んだ音の冒険。",
+    roots_story:"1960年代半ば、サンフランシスコとロンドンで同時発生的に登場。The Beatles「Revolver」(1966)〜「Sgt. Pepper's」(1967)がサイケデリックロックの金字塔。Jimi Hendrixはギターエフェクトの革命家で「Purple Haze」(1967)が象徴曲。The Doorsはダークなサイケデリアを追求。Pink Floydは「The Piper at the Gates of Dawn」(1967)で宇宙的サイケを展開し、後にプログレッシブロックへ進化した。Grateful Deadは延々と即興演奏を続けるライブスタイルで伝説化。"},
+
+  {id:"prog_rock", label:"Progressive\nRock", cat:"rock", era:"1960s", suno:true,
+    desc:"ロックにクラシック音楽やジャズの複雑さを持ち込んだ、壮大で技巧的な音楽。変拍子（5/4拍子、7/8拍子など）、長大な組曲形式、シンセサイザーやメロトロンの幻想的な音色が特徴。1曲が10〜20分に及ぶことも珍しくない。圧倒的な演奏技術と知的な構成力が求められ、聴く側にも集中力を求める。壮大な音の大作を体験する、ロック版のクラシックコンサート。",
+    roots_story:"1960年代末、サイケデリックロックの実験性をさらに推し進めたアーティストたちが登場。King Crimson「In the Court of the Crimson King」(1969)がプログレの誕生を告げた。Yes、Emerson, Lake & Palmer、Genesisが「五大プログレバンド」に。Pink Floyd「The Dark Side of the Moon」(1973)は15年以上チャートに居続けた歴史的名盤。日本からは冨田勲がシンセサイザーで交響曲を再構築し、世界的評価を得た。1970年代後半にパンクの登場で衰退したが、Dream Theaterらが1990年代に復活させた。"},
+
+  {id:"alt_rock", label:"Alternative\nRock", cat:"rock", era:"1980s", suno:true,
+    desc:"メインストリームのロックに対する「もう一つの選択肢」として生まれた、多様なスタイルの総称。パンクのDIY精神を受け継ぎつつ、よりメロディアスで実験的な方向へ。ジャングリーなギター、内省的な歌詞、インディーレーベルからのリリースが特徴的。テンポやサウンドは幅広いが、「商業主義に流されない」という態度が共通項。90年代にグランジの爆発で一気にメインストリーム化し、ロックの主流そのものになった。",
+    roots_story:"1980年代、アメリカのカレッジラジオとインディーレーベルを中心に形成。R.E.M.「Murmur」(1983)が初期の代表作で、カレッジロックとも呼ばれた。Pixiesの「ラウド→静か→ラウド」のダイナミクスは後のグランジに直接影響。The Smiths（イギリス）は文学的な歌詞とジャングリーなギターで熱狂的なファンを獲得。Sonic Youthは実験的なノイズギターで地下シーンを牽引。1991年のNirvana「Nevermind」の大ヒットでオルタナティブロックがメインストリームを制覇した。"},
+
+  {id:"grunge", label:"Grunge", cat:"rock", era:"1991", suno:true,
+    desc:"パンクの攻撃性とヘヴィメタルの重さを、シアトルの曇り空のような鬱々とした空気感で包んだロック。歪んだギターの壁、気だるく投げやりなボーカル、暗く内省的な歌詞が特徴。テンポは中速が多く、静と動の極端なダイナミクスがある。ファッションもフランネルシャツにボロボロのジーンズという「わざとらしくない」スタイル。華やかさとは対極的な、90年代の閉塞感と怒りを体現した音楽。",
+    roots_story:"1991年、シアトルからNirvana「Nevermind」が全米1位を獲得し、一夜にして音楽シーンの勢力図を塗り替えた。Kurt Cobainは「ロックスターになりたくなかったロックスター」として時代の象徴に。Pearl Jam「Ten」(1991)はよりクラシックロック寄りの重厚なサウンドで同等の人気を得た。Soundgarden、Alice in Chainsを含む「シアトル四天王」がジャンルの核。Sub Popレーベルが発信地。1994年のKurt Cobainの死でグランジの時代は終わりを告げたが、その影響は現在のロックにも深く刻まれている。"},
+
+  {id:"indie_rock", label:"Indie Rock", cat:"rock", era:"1980s", suno:true,
+    desc:"大手レーベルに頼らず自分たちのやり方で音楽を作るという姿勢から生まれた、自由で多彩なロック。手作り感のあるプロダクション、個性的なメロディセンス、文学的・皮肉っぽい歌詞が特徴。サウンドは千差万別で、ガレージロック的な荒さからエレクトロニカとの融合まで幅広い。テンポも様々。「売れる/売れない」ではなく「面白いかどうか」が価値基準。音楽好きが音楽好きのために作る、カルチャーとしてのロック。",
+    roots_story:"1980年代のアメリカ・イギリスのインディーレーベルシーンから発展。Pavement（アメリカ）はローファイで気だるいスタイルの先駆者。Built to Spillは叙情的なギターロックを追求。イギリスではThe Stone Rosesがマンチェスターから登場し、ダンスミュージックとの融合を図った。2000年代にはThe Strokes「Is This It」(2001)がガレージロックリバイバルを牽引。Arctic Monkeys、Vampire Weekend、Tame Impalaらが現在のインディーロックを代表。Spotifyの普及でインディーアーティストの発信力が飛躍的に向上した。"},
+
+  {id:"shoegaze", label:"Shoegaze", cat:"rock", era:"1988", suno:true,
+    desc:"エフェクターの海に沈んだギターノイズの壁の中から、美しいメロディが浮かび上がってくる幻想的なロック。名前の由来は演奏中にずっと足元のエフェクターペダルを見つめている姿から。大量のリバーブとディストーションで原形をとどめないほど加工されたギター、囁くように歌う控えめなボーカル、ドリーミーな浮遊感。テンポは中速。ノイズなのに美しい、攻撃的なのに優しいという矛盾が最大の魅力。",
+    roots_story:"1988年頃、イギリスで登場。My Bloody Valentine「Loveless」(1991)がジャンルの最高傑作で、制作に2年と25万ポンドを費やした伝説的アルバム。Kevin Shieldsの革新的なギターサウンドは誰にも再現できないと言われた。Slowdive、Ride、Lushが初期の主要バンド。Creation Records、4ADがジャンルの拠点レーベル。一度は衰退したが、2010年代にMy Bloody Valentineが復活し、Nothing、Whirr、Deafheavenらがシューゲイズリバイバルを起こした。日本のきのこ帝国、羊文学もシューゲイズの影響を受けている。"},
+
+  // メタル系
+  {id:"heavy_metal", label:"Heavy Metal", cat:"metal", era:"1970s", suno:true,
+    desc:"歪んだエレキギターの轟音リフ、ドラムの激しいビート、力強いボーカルが生み出す圧倒的なパワーと重量感のロック。パワーコードによる分厚いギターサウンド、ツインギターのハーモニー、長めのギターソロが基本構成。テンポは中速〜速め。大音量こそが正義であり、ライブでは爆音が体を叩く物理的体験になる。暗いテーマを扱いつつも、カタルシスと解放感がある。拳を突き上げてヘッドバンギングするための音楽。",
+    roots_story:"1970年前後、ブルースロックをさらに重く歪ませた方向で誕生。Black Sabbath「Black Sabbath」(1970)のトニー・アイオミが不吉なリフでヘヴィメタルの原型を作った。Led Zeppelinはブルースの重さとハードロックを融合。Deep Purpleはクラシックの要素を導入。Judas Priestはツインギターとレザーファッションでメタルの様式美を確立し、「メタル・ゴッド」と呼ばれた。Iron Maiden、Motörheadが1980年代のNWOBHM（New Wave of British Heavy Metal）を牽引し、メタルは世界的ムーブメントに成長した。"},
+
+  {id:"thrash_metal", label:"Thrash Metal", cat:"metal", era:"1983", suno:true,
+    desc:"ヘヴィメタルの重さにパンクのスピードと攻撃性を注入した、極めて速く激しいメタル。高速で刻まれるギターリフ（スラッシングリフ）、ツーバスの連打、叫ぶようなボーカルが怒涛の勢いで押し寄せる。テンポはBPM 180〜220以上と非常に速い。技術的に高度でありながら、衝動的なエネルギーを失っていない。モッシュピットで暴れるための音楽であり、聴くだけで汗が噴き出すような激しさ。",
+    roots_story:"1983年頃、アメリカ西海岸のMetallica、Megadeth、Slayer、Anthrax（通称「ビッグ4」）がジャンルを確立。Metallica「Master of Puppets」(1986)はスラッシュメタルの最高傑作とされる。Slayer「Reign in Blood」(1986)は28分間の音速メタルで衝撃を与えた。ドイツではKreator、Sodom、Detonationがチュートニック・スラッシュを形成。Megadethのデイヴ・ムステインは元Metallicaメンバーで、2バンドの確執はメタル史上最も有名なライバル関係。"},
+
+  {id:"death_metal", label:"Death Metal", cat:"metal", era:"1985", suno:true,
+    desc:"スラッシュメタルをさらに極端に推し進めた、音楽表現の限界に挑むメタル。ダウンチューニングしたギターのドロドロに重いリフ、ブラストビート（超高速の連打ドラム）、デスボイス（喉の奥から絞り出すグロウル唱法）が特徴。テンポは遅い〜超高速まで極端に振れ、曲の展開も予測不能。歌詞は死、暴力、ホラーをテーマにすることが多い。好きな人にとっては究極のカタルシス、知らない人にとっては「ノイズ」にしか聞こえない極端な音楽。",
+    roots_story:"1985年前後、フロリダとスウェーデンが二大発祥地。Death（チャック・シュルディナー）がジャンル名の由来となったバンドで「Scream Bloody Gore」(1987)が最初のデスメタルアルバムとされる。Morbid Angel、Obituary、Cannibal Corpseがフロリダ勢。スウェーデンではEntombed、Dismember、At the GatesがSunlight Studio特有のバズソウギターサウンドで「スウェディッシュ・デスメタル」を確立。Earache Records、Roadrunner Recordsが主要レーベル。"},
+
+  {id:"black_metal", label:"Black Metal", cat:"metal", era:"1984", suno:true,
+    desc:"凍てつくような冷たさと神秘的な邪悪さを纏った、極端に攻撃的でありながらどこか美しいメタル。トレモロピッキング（ギターの超高速の反復）が吹雪のように鳴り続け、ブラストビートが嵐のように叩きつけ、金切り声のシュリーク（悲鳴唱法）が闇から響く。ローファイなプロダクションが意図的に使われ、まるで洞窟の奥で録音されたかのような陰鬱な音響。北欧の凍てつく森と闇をそのまま音にした、極寒の美学。",
+    roots_story:"1984年、Venom「Black Metal」がジャンル名の由来。しかし音楽的な確立は1990年代初頭のノルウェー。Mayhem、Burzum、Emperor、Darkthroneが「ノルウェジアン・ブラックメタル」を形成。教会放火事件やメンバーの殺人事件など犯罪的な事件が連続し、メタル史上最も暗い時代を作った。Emperorは「In the Nightside Eclipse」(1994)でシンフォニックブラックメタルの傑作を生んだ。後にAlcestがブラックメタルとシューゲイズを融合させた「ブラックゲイズ」を開拓し、ジャンルの可能性を広げた。"},
+
+  {id:"doom_metal", label:"Doom Metal", cat:"metal", era:"1980s", suno:true,
+    desc:"極端に遅いテンポで、重く引きずるようなリフを延々と繰り返す、絶望と悲嘆の音楽。ギターのダウンチューニングによる地を這うような低音、遅いテンポ（BPM 60以下もある）、苦悶に満ちたボーカルが重苦しい空気を作る。1つのリフが何分も続き、時間の感覚が歪むような重力的な体験。世界の終わりのサウンドトラック、あるいは葬送行進曲のメタル版。暗く、重く、遅く——すべてを押しつぶす音の重力。",
+    roots_story:"Black Sabbathのスロー＆ヘヴィな初期楽曲がルーツ。1980年代にSaint Vitus、Candlemass（スウェーデン）、Pentagramがジャンルを確立。Candlemass「Epicus Doomicus Metallicus」(1986)は「エピック・ドゥーム」の代名詞。1990年代にはMy Dying Bride、Paradise Lost、Anathema（イギリス「ピースヴィル三銃士」）がゴシック要素と融合。Electric Wizard「Dopethrone」(2000)はストーナー/スラッジドゥームの傑作。Sunn O)))は極端に遅いドローンメタルで実験音楽との境界を消した。"},
+
+  {id:"power_metal", label:"Power Metal", cat:"metal", era:"1984", suno:true,
+    desc:"ヘヴィメタルの中で最も明るく壮大で、ファンタジー的な高揚感に満ちたスタイル。高音域のクリーンボーカル、速いテンポ、ツインギターのハーモニー、壮大なキーボード、合唱（クワイア）のようなコーラスが特徴。歌詞はドラゴン、戦士、冒険、勇気といったファンタジーやRPG的なテーマが多い。聴いていると勇者になった気分で剣を振り回したくなる。メタルの様式美の極致であり、暗さとは無縁の冒険の音楽。",
+    roots_story:"1984年頃、ヘヴィメタルのメロディアスな側面を追求する方向で誕生。Helloween「Keeper of the Seven Keys」(1987-88)がパワーメタルの基礎を確立したドイツのバンド。Blind Guardian、Gamma Rayが続き、ドイツがパワーメタルの中心地に。イタリアのRhapsody of Fireはシンフォニックな要素を極端に強調。フィンランドのStratovariusはネオクラシカルな技巧を持ち込んだ。日本のX JAPANもパワーメタル的な要素を持ち、この分野での日本の人気は世界的に高い。"},
+
+  // カントリー/フォーク系
+  {id:"country", label:"Country", cat:"country_folk", era:"1920s", suno:true,
+    desc:"アコースティックギター、フィドル（バイオリン）、バンジョー、スチールギターが奏でる、アメリカの大地と人々の暮らしを歌った音楽。シンプルなコード進行、物語性のある歌詞、素朴で温かいボーカルが特徴。テンポは中速〜軽快。歌詞は恋愛、家族、故郷、トラックでの旅、酒場の夜といったアメリカ南部・西部の生活に密着したテーマ。都会的な洗練さとは無縁の、土の匂いがする誠実な音楽。",
+    roots_story:"1920年代、アメリカ南部のアパラチア山脈周辺の民謡（フォークソング）が商業音楽として録音され始めた。Jimmie Rodgers「Blue Yodel」(1927)が「カントリーミュージックの父」とされる。Hank Williams「Your Cheatin' Heart」(1952)はカントリーの永遠の名曲。Johnny Cash「I Walk the Line」(1956)はロックとの橋渡し的存在。1960年代にナッシュビルが「カントリーミュージックの首都」として確立。Garth Brooksが1990年代にスタジアム級の人気を獲得。Taylor Swiftはカントリーからポップスに転向し、世界最大のアーティストに成長した。"},
+
+  {id:"bluegrass", label:"Bluegrass", cat:"country_folk", era:"1940s", suno:true,
+    desc:"アコースティック楽器だけで驚異的な速弾きを繰り広げる、超絶技巧のアメリカン・ルーツ音楽。バンジョー、マンドリン、フィドル、アコースティックギター、ウッドベースの5つの楽器が主役で、電気楽器は使わない。テンポは速く（BPM 140〜180）、各楽器のソロが次々に回ってくる即興的なやり取りが聴きどころ。高音域のハーモニー（ハイロンサム唱法）も特徴的。アコースティックなのに異常にスリリング。",
+    roots_story:"1940年代、Bill Monroe and the Blue Grass Boysがジャンルを創始。バンド名に含まれる「Blue Grass」（ケンタッキー州の愛称）がジャンル名に。Earl Scruggs「Foggy Mountain Breakdown」(1949)の超絶バンジョーピッキングはブルーグラスの象徴。Flatt & Scruggsがスタイルを普及。2000年にはO Brother, Where Art Thou?サウンドトラック（T Bone Burnett制作）が大ヒットし、ブルーグラスリバイバルを起こした。Punch Brothers、Billy Stringsが現代の革新者。"},
+
+  {id:"folk", label:"Folk", cat:"country_folk", era:"1940s", suno:true,
+    desc:"アコースティックギターの弾き語りを中心とした、社会的メッセージや人間の物語を歌う音楽。飾らないシンプルなサウンド、語りかけるようなボーカル、詩的な歌詞が特徴。テンポはゆったり〜中速。電気楽器に頼らず、声とギターだけで人の心を動かす力がある。プロテストソング（反戦歌・社会風刺歌）としての側面も強く、「歌で世界を変えようとした」音楽。焚き火を囲んで聴きたい素朴さと深さがある。",
+    roots_story:"1940〜60年代、アメリカのフォークリバイバル運動で確立。Woody Guthrie「This Land Is Your Land」(1940)が精神的原点。Pete Seegerは「Where Have All the Flowers Gone」で反戦運動と結びつけた。Bob Dylan「The Times They Are a-Changin'」(1964)はフォークのプロテスト精神の頂点だが、1965年にエレキギターを持ち込み「裏切り者」と罵声を浴びた（フォーク→ロックへの転換点）。Joan Baezは公民権運動と連帯。Simon & Garfunkelは美しいハーモニーで大衆に浸透させた。"},
+
+  {id:"americana", label:"Americana", cat:"country_folk", era:"1990s", suno:true,
+    desc:"カントリー、フォーク、ブルース、ロック、R&Bなどアメリカのルーツ音楽を現代的に融合させた、ジャンルの壁を越えた音楽。アコースティック楽器とエレキ楽器が自然に共存し、伝統と革新が同居する。テンポは中速が多い。ナッシュビルの商業的カントリーに対する「もう一つのアメリカ音楽」としての立ち位置。大地の匂いがしつつもどこかモダン、田舎っぽいけどスタイリッシュ。アメリカの広大な風景がそのまま音になったような音楽。",
+    roots_story:"1990年代にジャンルとして認知され始めた。前身として、1960年代のGram Parsonsが「コズミック・アメリカン・ミュージック」と呼んだカントリーロック融合がある。Wilco「Yankee Hotel Foxtrot」(2001)はアメリカーナの金字塔で、実験的なプロダクションとルーツ音楽を融合。Lucinda Williams、Ryan Adams、Gillian Welchが主要アーティスト。Americana Music Association（2000年設立）がジャンルを公式に推進。グラミー賞にもAmericanaカテゴリが新設された。"},
+
+  // ラテン系
+  {id:"salsa", label:"Salsa", cat:"latin", era:"1960s", suno:true,
+    desc:"情熱的なリズムと官能的なダンスが一体化した、ラテン音楽の華。コンガ、ボンゴ、ティンバレスなどのパーカッション群が複雑なポリリズムを叩き出し、ホーンセクションが熱いフレーズを吹き込み、ピアノのモントゥーノ（反復パターン）がリズムの骨格を作る。テンポは中速〜やや速め（BPM 160〜200の速い4拍子）。ペアで踊るサルサダンスと不可分で、音楽と身体表現が完全に同期する。汗と歓声と情熱のラテンの夜。",
+    roots_story:"1960年代、ニューヨークのプエルトリコ系移民コミュニティでキューバ音楽（ソン、マンボ、チャチャチャ）とジャズ、R&Bが融合して誕生。Fania Records（1964年設立）が「サルサのモータウン」と呼ばれる中心レーベルに。Celia Cruz（「サルサの女王」）、Héctor Lavoe、Willie Colón、Rubén Bladesが代表アーティスト。1970年代にニューヨークからラテンアメリカ全域に逆輸出された。Marc Anthony、Oscar D'Leónが現代サルサの代表。"},
+
+  {id:"bossa_nova", label:"Bossa Nova", cat:"latin", era:"1958", suno:true,
+    desc:"ブラジルの温かい風がそのまま音楽になったような、穏やかで洗練されたサウンド。ナイロン弦ギターの繊細なフィンガーピッキング、囁くようなソフトなボーカル、ジャズの複雑なコード進行が融合する。テンポはゆったり（BPM 120〜140）で、サンバのリズムを穏やかに内在させている。力を抜いた脱力感と高度な音楽性が同居する、大人のための音楽。海辺のカフェで午後の光を浴びながら聴くのが最高にハマるサウンド。",
+    roots_story:"1958年、ブラジルのJoão Gilbertoが「Chega de Saudade」を発表し、ボサノバを誕生させた。Antonio Carlos Jobimが作曲、Gilbertoが独特のギター奏法と囁き声で歌うスタイルを確立。「The Girl from Ipanema」(1962, Jobim/Gilberto/Astrud Gilberto)は世界で最も知られたブラジルの曲に。Stan Getz（アメリカのジャズサックス奏者）とのコラボアルバム「Getz/Gilberto」(1964)がグラミー賞を受賞し、アメリカに空前のボサノバブームを起こした。"},
+
+  {id:"reggaeton", label:"Reggaeton", cat:"latin", era:"1990s", suno:true,
+    desc:"「デンボウ」と呼ばれる特徴的なリズムパターン（ドッ・カッ・ドド・カッ）がすべての土台になる、ラテンアメリカ発の現代ダンスミュージック。このリズムに808ベースの重低音、ラップとメロディを行き来するボーカル、スペイン語の歌詞が乗る。テンポはBPM 85〜100。腰を動かさずにはいられないセクシーなグルーヴがあり、クラブでもフェスでもSNS動画でも圧倒的な支配力を持つ。2010年代以降の世界のポップスを最も変えたジャンル。",
+    roots_story:"1990年代、プエルトリコのストリートでジャマイカのダンスホールレゲエ、パナマのレゲエ・エン・エスパニョール、ヒップホップが融合して誕生。Daddy Yankee「Gasolina」(2004)が世界的大ヒットとなり、レゲトンを国際的に認知させた。Don Omar、Wisinも初期の主要アーティスト。Luis Fonsi ft. Daddy Yankee「Despacito」(2017)はYouTube最多再生記録を更新し、ラテン音楽の歴史を変えた。Bad Bunny、J Balvin、Karol Gが現在のシーンを牽引し、英語圏のポップチャートをスペイン語の曲が席巻する時代を作った。"},
+
+  {id:"cumbia", label:"Cumbia", cat:"latin", era:"1940s", suno:true,
+    desc:"シンプルだけど一度ハマると抜けられない、中南米の庶民的ダンスミュージック。2拍子系のシャッフルリズム、アコーディオンやフルートのメロディ、パーカッションの軽快な響きが陽気な空気を作る。テンポは中速（BPM 80〜100）で、老若男女問わず踊れる親しみやすさがある。レゲトンほど攻撃的ではなく、サルサほど技巧的でもない。街の広場でみんなが輪になって踊る、中南米の日常に溶け込んだ音楽。",
+    roots_story:"コロンビアのカリブ海沿岸で、先住民のフルート、アフリカ系のパーカッション、スペインのメロディが融合して誕生。1940〜50年代にコロンビア国内で爆発的に普及。その後メキシコ、アルゼンチン、ペルーなど中南米全域に広がり、各国で独自の変種が生まれた。メキシコではCelso Piña、アルゼンチンではクンビア・ビジェーラ（スラム発のデジタルクンビア）、ペルーではクンビア・アマゾニカが発展。2000年代にはBomba Estéreo（コロンビア）がエレクトロニカと融合させたモダンクンビアで世界的注目を集めた。"},
+
+  {id:"tango", label:"Tango", cat:"latin", era:"1880s", suno:true,
+    desc:"バンドネオン（アコーディオンの一種）の切なく情熱的な音色が主役の、アルゼンチン発のダンス音楽。メロディは美しく哀愁に満ち、リズムは緩急のある独特のルバート（テンポを自由に揺らす）が特徴。男女が密着して踊るタンゴダンスと不可分で、音楽と踊りが感情の対話を形成する。喜びと悲しみ、情熱と諦めが同居する、人生そのもののような音楽。ブエノスアイレスの石畳の路地が似合う、大人の哀愁。",
+    roots_story:"1880年代、アルゼンチン・ブエノスアイレスの港町のスラム（アラバル）で、ヨーロッパ移民のワルツ・ポルカ、アフリカ系のカンドンベ、クリオーヨのミロンガが融合して誕生。Carlos Gardel「El día que me quieras」(1935)がタンゴの黄金期を代表。Astor Piazzollaは1950年代からクラシックとジャズを取り入れた「ヌエボ・タンゴ（新しいタンゴ）」を開拓し、タンゴを芸術音楽の領域に押し上げた。2009年にユネスコ無形文化遺産に登録。Gotan Projectは2000年代にエレクトロニック・タンゴで新たなリスナーを獲得した。"},
+
+  // アフリカ系
+  {id:"afrobeat", label:"Afrobeat", cat:"african", era:"1970s", suno:true,
+    desc:"ファンクのグルーヴ、ジャズのホーンアレンジ、西アフリカのヨルバ族のリズムが融合した、強烈なポリリズムのダンスミュージック。10人以上のバンド編成でホーンセクション、パーカッション群、ギター、ベースが一丸となってグルーヴを作り出す。テンポは中速だが、複数のリズムが同時に鳴る複雑さが体の各部位を別々に動かしたくなる。1曲が15〜30分と長く、じわじわと高まるトランス感がある。政治的メッセージと踊りの快楽が共存する音楽。",
+    roots_story:"1970年代、ナイジェリアのFela Kutiがほぼ単独で創始した。Fela Kutiはロンドンでジャズを学び、帰国後にアフリカのリズムとファンク、ジャズを融合。「Zombie」(1977)はナイジェリア軍を痛烈に風刺し、軍に自宅を襲撃されるも活動を続けた。Tony Allenのドラムが「世界最高のドラマー」（Brian Eno談）とされ、アフロビートのリズムの核となった。2010年代にはBurna Boy、Wizkidが「アフロビーツ」（より現代的でポップなスタイル）で世界的ヒットを連発し、アフリカ音楽の新時代を開いた。"},
+
+  {id:"highlife", label:"Highlife", cat:"african", era:"1920s", suno:true,
+    desc:"ブラスバンドの華やかなホーンとギターの軽快なリフが織りなす、西アフリカの陽気で洗練されたポピュラー音楽。ジャズの影響を受けたホーンアレンジ、跳ねるようなギターパターン、リラックスしたボーカルが、ダンスフロアに優雅な空気を運ぶ。テンポは中速で、品のある踊りやすさがある。名前の由来は「上流階級のパーティーで踊る音楽」から。アフリカ音楽のモダニゼーションの先駆けとなったジャンル。",
+    roots_story:"1920年代、ガーナ（当時はゴールドコースト）で西洋のブラスバンド音楽と地元のリズムが融合して誕生。E.T. Mensah「King of Highlife」が1950年代に西アフリカ全域で人気を博した。ナイジェリアではBobby Benson、Victor Olaiyaがナイジェリアン・ハイライフを発展。1970年代にはOsibisa（ガーナ出身、ロンドン拠点）がロックと融合させ国際的に知られた。アフロビートの直接の親でもある（Fela Kutiはハイライフから出発した）。"},
+
+  {id:"afropop", label:"Afropop", cat:"african", era:"1980s", suno:true,
+    desc:"アフリカ大陸各地の伝統リズムと西洋のポップス/ロックが融合した、聴きやすくてグルーヴィーなモダン・アフリカン・ミュージック。きらびやかなギターのアルペジオ、ポリリズミックなパーカッション、メロディアスなボーカルが特徴。テンポは中速で踊りやすい。「ワールドミュージック」ブームの中心的な存在で、アフリカの音楽を世界に広める窓口になった。太陽と大地のエネルギーが感じられるポジティブなサウンド。",
+    roots_story:"1980年代、「ワールドミュージック」という市場カテゴリの成立とともに国際的認知を得た。Youssou N'Dour（セネガル）は「ンバラ」という西アフリカのリズムをポップスに融合させ、Peter Gabrielのレーベルから世界デビュー。King Sunny Adé（ナイジェリア）はジュジュ・ミュージックで国際的評価を得た。Paul Simon「Graceland」(1986)はLadysmith Black Mambazo等の南アフリカのミュージシャンとの共作で、アフリカ音楽を世界的大ヒットに。Angélique Kidjo（ベナン）はグラミー賞常連。"},
+
+  // 中東/アラブ系
+  {id:"arabic_pop", label:"Arabic Pop", cat:"middle_east", era:"1950s", suno:true,
+    desc:"アラビア語の装飾的な歌唱法（メリスマや微分音を含む独特の節回し）と、西洋のポップス/ダンスミュージックのプロダクションが融合した現代的な音楽。ウード（アラブのリュート）やカーヌーン（琴に似た楽器）の伝統的音色と、シンセサイザーや打ち込みが共存する。テンポは中速〜アップテンポ。マカーム（アラブの旋法体系）に基づくメロディは西洋音楽とは異なるスケールで、独特のエキゾチックな哀愁と華やかさがある。",
+    roots_story:"1950年代のエジプトの映画音楽がルーツ。Umm Kulthum（ウンム・クルスーム）はアラブ世界最大の歌手で、1曲が1時間に及ぶ即興的なコンサートは国民的行事だった。Fairuz（レバノン）は清澄なソプラノで「レバノンの宝石」と呼ばれた。1990年代にAmr Diab（エジプト）が「Nour El Ain」(1996)でアラビックポップを国際的にヒットさせた。Nancy Ajram、Elissa、Tamer Hosnyが現代のスター。近年はMohamed Ramadan等がアフロビーツやレゲトンとの融合で新しい方向を模索。"},
+
+  {id:"qawwali", label:"Qawwali", cat:"middle_east", era:"700s", suno:true,
+    desc:"イスラム神秘主義（スーフィズム）の宗教的恍惚を追求する、パキスタン・インドの声楽音楽。リードシンガーを中心に、合唱隊の手拍子とハルモニウム（小型オルガン）、タブラの打楽器が一体となり、同じフレーズを繰り返しながら徐々にテンポとテンションを上げていく。最終的には演奏者も聴衆も恍惚状態（ハール）に達することを目指す。宗教音楽でありながら、ライブの高揚感はロックコンサートに匹敵する圧倒的な体験。",
+    roots_story:"700年以上の歴史を持つスーフィー音楽の伝統。Nusrat Fateh Ali Khan（パキスタン）が1980〜90年代に世界的スターとなり、カッワーリーを国際的に知らしめた。Peter Gabrielの「Real World」レーベルからリリースされたアルバムが転機。映画「Dead Man Walking」(1995)のサウンドトラックにも参加。Jeff Buckleyが「Dream Brother」でNusratの唱法を取り入れるなど、西洋のロック/ポップスにも影響。甥のRahat Fateh Ali Khanがボリウッド映画の歌で後を継いでいる。"},
+
+  // 南アジア系
+  {id:"raga", label:"Raga\n(ラーガ)", cat:"south_asian", era:"ancient", suno:true,
+    desc:"インド古典音楽の核心であるラーガ（旋法体系）に基づく、深い精神性と即興性を持つ音楽。シタール（弦楽器）やサロード、タブラ（打楽器）、タンプーラ（持続低音楽器）が主な楽器。1つの演奏が30分〜数時間に及び、ゆっくりとした導入部（アーラープ）から徐々にテンポを上げていく構成。西洋音楽の12音階とは異なる微分音を使い、音の「揺れ」が深い情感を生む。瞑想的でありながら、高速パッセージでは驚異的な技巧を見せる。",
+    roots_story:"数千年の歴史を持つインドの古典音楽伝統。北インド古典音楽（ヒンドゥスターニー音楽）と南インド古典音楽（カルナーティック音楽）の2大系統がある。Ravi Shankar（シタール）は1960年代にThe BeatlesのGeorge Harrisonに影響を与え、インド音楽を西洋に紹介した最も重要な人物。モントレー・ポップ・フェスティバル(1967)での演奏は伝説。Ali Akbar Khan（サロード）、Zakir Hussain（タブラ）も国際的に活躍。ラーガはジャズの即興演奏にも影響を与え、John ColtraneやMiles Davisも研究した。"},
+
+  {id:"bollywood", label:"Bollywood", cat:"south_asian", era:"1930s", suno:true,
+    desc:"インドの映画産業（ボリウッド）のための音楽で、1つの映画の中にロマンチックなバラード、ダンスナンバー、悲しい歌が詰め込まれる総合エンタメ。インド古典音楽のメロディ、西洋のオーケストレーション、最新のEDMやヒップホップが何の躊躇もなく混ぜ合わされる、世界で最も雑食的な音楽。テンポは曲により様々。華やかな群舞（100人単位のダンサーが踊る）と一体化したミュージックビデオが特徴的。年間1000本以上の映画とそのサウンドトラックが生まれる巨大市場。",
+    roots_story:"1930年代のインド映画「Alam Ara」(1931)が最初のトーキー映画で、映画音楽の歴史が始まった。1950〜60年代がボリウッド音楽の黄金期で、Lata Mangeshkar、Mohammed Rafiがプレイバックシンガー（俳優の代わりに歌う歌手）として数千曲を録音。A.R. Rahman「Jai Ho」(2008, 映画「スラムドッグ・ミリオネア」)がアカデミー賞を受賞し、ボリウッド音楽を世界に広めた。現在はPritam、Amit Trivediが人気作曲家。Spotifyの成長でインド国外でもボリウッド音楽のリスナーが急増。"},
+
+  {id:"bhangra", label:"Bhangra", cat:"south_asian", era:"1980s", suno:true,
+    desc:"パンジャブ地方（インド北部・パキスタン）の伝統的な収穫祭の踊りが、イギリスで電子音楽と融合して生まれた高エネルギーなダンスミュージック。ドール（両面太鼓）の力強いビート、パンジャブ語の掛け声、シンセサイザーやヒップホップのビートが融合する。テンポは速く（BPM 160前後）、とにかく祝祭的で陽気。肩を上げ下げしながら跳ねるように踊るダンスが特徴的。結婚式やパーティーで最高に盛り上がるお祝いの音楽。",
+    roots_story:"1980年代、イギリスの南アジア系（特にパンジャブ系）移民コミュニティで伝統的バングラにヒップホップやダンスミュージックを融合させた「モダン・バングラ」が誕生。Alaap、Heera、Apna Sangatが初期の代表グループ。Panjabi MC「Mundian To Bach Ke」(2002)はJay-Zのリミックスもあり世界的大ヒット。Diljit Dosanjh（インド）は現代パンジャブ音楽のスーパースターで、コーチェラ・フェスティバル(2023)に出演するなど国際的な活躍を見せている。"},
+
+  // 東アジア系
+  {id:"enka", label:"Enka\n(演歌)", cat:"east_asian", era:"1960s", suno:true,
+    desc:"日本人の心の琴線に触れる「こぶし」（声を震わせる技法）と、ペンタトニック（5音音階）の哀愁に満ちたメロディが最大の特徴。テーマは別れ、故郷、酒、海、雪といった日本の情緒に深く根ざした世界。ストリングスのアレンジとエコーのかかったボーカルが演歌独特の「湿った」空気感を作る。テンポはゆったり〜中速。日本の温泉街や赤提灯の居酒屋が似合う、日本人の感情の原風景のような音楽。",
+    roots_story:"1960年代に現在の形が確立。美空ひばり「悲しい酒」(1966)が演歌の象徴的名曲。古賀政男が「古賀メロディー」と呼ばれる作曲法で演歌の基盤を築いた。北島三郎、都はるみ、石川さゆり「津軽海峡・冬景色」(1977)が代表的アーティスト。NHK紅白歌合戦が演歌の最大の発表の場。近年はジェロ（アメリカ出身の黒人演歌歌手）が話題になるなど、国際的な広がりも見せている。氷川きよしは2000年代に若い世代にも演歌を届けた。"},
+
+  {id:"jpop", label:"J-POP", cat:"east_asian", era:"1990s", suno:true,
+    desc:"日本独自に発展したポップミュージックの総称。西洋のロック、R&B、ダンスミュージック、エレクトロニカなどあらゆるジャンルを取り込みながら、日本語の歌詞に合わせた独自のメロディセンスで再構築する。サビの爆発力、Aメロ→Bメロ→サビという「J-POP構文」の構成美、コード進行の複雑さが特徴。テンポは幅広い。アニメ主題歌、ドラマ主題歌、CMソングなどメディアとの結びつきが極めて強く、日本の日常に溶け込んだ音楽。",
+    roots_story:"1990年代に「J-POP」という用語が定着。小室哲哉がTRF、globe、安室奈美恵をプロデュースし、ダンスミュージック寄りのJ-POPで空前のブームを作った。Mr.Children、B'z、サザンオールスターズがロック寄りの王道J-POPを確立。宇多田ヒカル「First Love」(1999)は日本の歴代最多売上アルバム（800万枚以上）。2010年代にはAKB48グループがアイドルポップの市場を拡大。米津玄師、YOASOBI、Ado、藤井風が現在の中心。Spotifyの普及で海外リスナーも急増中。"},
+
+  {id:"kpop", label:"K-POP", cat:"east_asian", era:"1990s", suno:true,
+    desc:"完璧に振り付けられたダンス、高品質なプロダクション、ビジュアルの洗練さ、SNS戦略が一体化した韓国発の総合エンタメ産業としての音楽。サウンドはEDM、ヒップホップ、R&B、ポップの最先端を貪欲に取り入れ、1曲の中で複数のジャンルが切り替わる「構成の多彩さ」が特徴。テンポは楽曲により様々。グループ内の各メンバーにファンがつく「推し文化」を世界規模で展開。音楽単体ではなく、コンテンツ全体として設計された21世紀型エンタメ。",
+    roots_story:"1992年、Seo Taiji and Boysがヒップホップとニュージャックスウィングを韓国に持ち込み、K-POPの起源を作った。SMエンタテインメント（イ・スマン設立、1995年）がアイドル育成システムを確立し、H.O.T.、東方神起を輩出。2012年、PSY「江南スタイル」がYouTubeで世界初の10億回再生を達成。BTS（防弾少年団）はBillboard Hot 100で1位を獲得し（2020年「Dynamite」）、K-POPを世界のメインストリームに定着させた。BLACKPINK、Stray Kids、aespaが現在のトップグループ。"},
+
+  {id:"anime_music", label:"Anime Music\n(アニソン)", cat:"east_asian", era:"1970s", suno:true,
+    desc:"日本のアニメーション作品のOP/ED（オープニング/エンディング）テーマとして作られた音楽。ジャンルの幅は極めて広く、ロック、ポップ、ジャズ、クラシカル、EDM、メタルなどあらゆるスタイルが含まれる。共通するのはアニメの世界観を音で表現する「物語性」と、聴いた瞬間に作品が脳裏に浮かぶ「キャッチーさ」。90秒のOP/EDに起承転結を詰め込む構成力が日本独自の職人技。アニメの世界的普及とともに国際的な人気を獲得。",
+    roots_story:"1970年代の「宇宙戦艦ヤマト」「銀河鉄道999」でアニソンが独自のジャンルとして認識され始めた。影山ヒロノブ、水木一郎（「アニキ」）がスーパーロボット系の熱い主題歌で黄金期を築いた。1990年代に声優が歌手活動を兼ねる文化が定着。2000年代にはLiSA「紅蓮華」（鬼滅の刃、2019年）が社会現象的ヒットに。YOASOBI「アイドル」（推しの子、2023年）はSpotifyグローバルチャートで1位を獲得。Linked Horizon、澤野弘之が進撃の巨人等で映画音楽レベルのスケールをアニソンに持ち込んだ。"},
+
+  // カリブ系
+  {id:"calypso", label:"Calypso", cat:"caribbean", era:"1900s", suno:true,
+    desc:"トリニダード・トバゴ発の陽気な音楽で、社会風刺や時事ネタを軽快なリズムに乗せて歌う「歌う新聞」としての側面が大きな特徴。スチールパン（ドラム缶から作った音階楽器）の透明な音色がカリブの太陽を想起させ、ギター、パーカッションが軽やかなリズムを刻む。テンポは中速〜軽快。ユーモアと皮肉を交えた歌詞で政治家や社会問題をチクリと刺す知性がある。カーニバルの祝祭感と社会批評が同居する、カリブの知恵の音楽。",
+    roots_story:"1900年代初頭、トリニダード・トバゴでアフリカ系住民の口承文化と植民地時代の音楽が融合。Lord Invader「Rum and Coca-Cola」(1943)がアメリカでも大ヒット。Harry Belafonte「Day-O (Banana Boat Song)」(1956)がカリプソを世界中に広めた。Mighty Sparrow、Lord Kitchenerが「カリプソの王」として君臨。カーニバル（特にトリニダードのカーニバル）がカリプソの最大の舞台。スチールパンはこのジャンルから生まれた楽器で、トリニダード・トバゴの国民楽器に指定されている。"},
+
+  {id:"dancehall", label:"Dancehall", cat:"caribbean", era:"1979", suno:true,
+    desc:"レゲエをデジタル化し、より速くて攻撃的にしたジャマイカの現代ダンスミュージック。ドラムマシンとシンセで作られたシンプルだが強烈なリディム（リズムトラック）の上で、DJが早口でトースティング（語り歌い）をする。テンポはBPM 90〜110。レゲエのゆったり感よりもエネルギッシュで、ヒップホップのスワッガー（粋がった態度）に近い勢いがある。暑い夜に屋外のサウンドシステムから爆音で流れる、ジャマイカの夜の空気そのもの。",
+    roots_story:"1979年頃、レゲエがデジタルプロダクションに移行する過程で誕生。Yellowman「Zungguzungguguzungguzeng」(1983)が初期の代表曲。King Jammyの「Sleng Teng」リディム(1985)は完全にデジタルで制作された最初のヒットで、ダンスホール革命の幕開け。Shabba Ranks、Buju Banton、Beenie Manが1990年代のスター。Sean Paul「Get Busy」(2003)が世界的大ヒット。近年はShenseea、Skillibeng、現在のレゲトンやアフロビーツにも多大な影響を与え続けている。"},
+
+  {id:"soca", label:"Soca", cat:"caribbean", era:"1970s", suno:true,
+    desc:"カリプソのメロディにインド系のリズム（チャトニー）やファンクの要素を加えた、カーニバルで全力で踊るためのハイエネルギーな音楽。テンポはBPM 150前後と非常に速く、止まることなく踊り続ける。ブラスセクション、シンセ、パーカッションが層になって畳みかけ、歌詞は「Jump! Wave! Fete!（踊れ！揺れろ！パーティー！）」と煽り続ける。とにかく陽気で、深く考えることを許さない。全身全霊で今この瞬間を楽しむための祝祭音楽。",
+    roots_story:"1970年代、Lord Shortyがカリプソに東インド系のリズム（Chutney）を融合させた「Soul of Calypso」の略語として名付けた。Machel Montano（トリニダード）が30年以上にわたってソカのスーパースターとして君臨。Bunji Garlinは「Differentology」(2013)で国際的ヒット。トリニダード・トバゴのカーニバル（世界最大のストリートパーティー）がソカの最大の舞台。近年はKes、Voice、Nailahが新世代を牽引。Groovy Soca（ゆったり版）とPower Soca（攻撃版）の2スタイルに分かれる。"},
+
+  // ポップス系
+  {id:"pop_music", label:"Pop", cat:"pop", era:"1950s", suno:true,
+    desc:"時代の最先端のサウンドを取り入れ、最大多数に届くように研ぎ澄まされた大衆音楽の頂点。キャッチーなメロディ、覚えやすいフック、3〜4分の手頃な長さ、感情に訴えるボーカルが基本要素。テンポは中速（BPM 100〜130）が主流。「すべてのジャンルの美味しいところ」をつまみ食いする雑食性があり、時代によってロック、ディスコ、R&B、EDM、ヒップホップなど取り入れる要素が変わる。世界で最も多くの人に聴かれている音楽の形態。",
+    roots_story:"1950年代のロックンロールとティン・パン・アレー（ニューヨークの作曲家集団）の流れから誕生。The Beatles、The Beach Boysが1960年代にポップの可能性を拡張。Michael Jackson「Thriller」(1986)は史上最も売れたアルバム（推定7000万枚）。Madonna、Whitney Houstonが1980〜90年代のポップを支配。2000年代以降はBritney Spears、Beyoncé、Taylor Swift、Billie Eilishが時代を代表。ストリーミング時代にはBad Bunny、Dua Lipaがグローバルポップを牽引している。"},
+
+  {id:"dance_pop", label:"Dance Pop", cat:"pop", era:"1980s", suno:true,
+    desc:"ポップのキャッチーさとダンスミュージックのビートを完全融合させた、フロアでもラジオでも通用する万能型ポップス。4つ打ちまたはそれに近いリズム、シンセサイザーの派手なサウンド、歌えるメロディライン、適度なBPM（110〜130）が基本構成。1曲で「聴いて」「歌って」「踊れる」三拍子揃った設計。チャートの常連であり、フィットネスジムのBGMとしても定番。快楽主義的で明るく、深刻さゼロの純粋なエンタメ音楽。",
+    roots_story:"1980年代、Madonnaが「Like a Virgin」(1984)等でダンスフロアとポップチャートを同時に制覇し、ダンスポップを確立。Janet Jackson「Control」(1986)はR&Bとの融合。Kylie Minogue「Can't Get You Out of My Head」(2001)は2000年代ダンスポップの象徴。Lady Gaga「Just Dance」(2008)以降のEDMポップブームで再び全盛に。Dua Lipa「Future Nostalgia」(2020)は80年代ディスコをモダンに復活させた。"},
+
+  {id:"art_pop", label:"Art Pop", cat:"pop", era:"1970s", suno:true,
+    desc:"ポップスのキャッチーさと前衛芸術の実験性を融合させた、知的でビジュアル重視の音楽。音楽的には何でもありで、エレクトロニカ、クラシック、ノイズ、ワールドミュージックなどを大胆に取り込む。テンポは様々。ポップなのに難解、売れてるのに実験的、という矛盾を楽しむジャンル。ミュージックビデオやファッション、パフォーマンスも含めた「総合芸術としてのポップ」を志向する。頭で考えながら体でも楽しめる、知性と快楽のハイブリッド。",
+    roots_story:"David Bowie「Ziggy Stardust」(1972)がアートポップの原型。Roxy Music、Brian Enoが1970年代に知的なポップスの可能性を切り開いた。Talking Heads、Kate Bushが1980年代に発展。Björk「Post」(1995)はエレクトロニカとポップの境界を消した。Lady Gagaは「ARTPOP」(2013)でジャンル名をそのまま作品名に。FKA twigs、Grimes、Arca、Charli XCXが現在のアートポップの中心。音楽メディアの批評家から最も愛されるポップスのカテゴリ。"},
+
+  // ジャズ系サブジャンル
+  {id:"bebop", label:"Bebop", cat:"jazz_sub", era:"1940s", suno:true,
+    desc:"ジャズを「聴く芸術」に押し上げた、超絶技巧の即興演奏が主役のスタイル。猛スピードのテンポ、複雑なコード進行、予測不能なフレージングがミュージシャンの技量の限界に挑む。テンポはBPM 200以上に達することも。ダンス音楽としてのジャズから脱却し、「座って集中して聴く」音楽に変えた革命。小編成（カルテットやクインテット）でサックスやトランペットのソロが延々と続く。知的で攻撃的、アスリート的な音楽。",
+    roots_story:"1940年代、ニューヨークのジャズクラブ（特にミントンズ・プレイハウス）でCharlie Parker（アルトサックス）とDizzy Gillespie（トランペット）が高速で複雑な即興演奏を繰り広げ、ビバップを誕生させた。Parker「Ko-Ko」(1945)が代表曲。Thelonious Monkは独特のハーモニーとリズムで唯一無二のスタイルを確立。Bud Powell（ピアノ）、Max Roach（ドラム）も重要。スウィングジャズの「みんなで踊る」世界から「聴く芸術」への転換点であり、ジャズの「モダン化」の始まり。"},
+
+  {id:"cool_jazz", label:"Cool Jazz", cat:"jazz_sub", era:"1949", suno:true,
+    desc:"ビバップの知的さを残しつつ、温度を下げてクールに仕上げたジャズ。ビバップの攻撃的な熱さとは対照的に、穏やかで抑制的な演奏が特徴。ソフトなトーン、ゆったりしたテンポ、西洋クラシックの対位法を取り入れた編曲が知的な空気を醸す。喫茶店の午後、書斎での読書タイム、深夜のバーに似合う。感情を爆発させるのではなく、静かに内側に沈めていくような、大人のための落ち着いたジャズ。",
+    roots_story:"1949年、Miles Davis「Birth of the Cool」セッションがジャンル名の由来。編曲家Gil Evansとの共同作業で、ビバップの小編成・高速即興から離れ、中編成のアンサンブルと穏やかなサウンドを追求した。西海岸（ロサンゼルス）でDave Brubeck、Chet Baker、Gerry Mulliganらが「ウエスト・コースト・ジャズ」として発展させた。Brubeck「Take Five」(1959)は5/4拍子というジャズでは珍しい変拍子で大ヒットし、ジャズのポップ化にも貢献。Stan Getzのボサノバとの融合もクールジャズの延長線上にある。"},
+
+  {id:"fusion", label:"Jazz Fusion", cat:"jazz_sub", era:"1969", suno:true,
+    desc:"ジャズの即興性とロックのエレキサウンド、ファンクのグルーヴを高圧で融合させた、超高エネルギーの音楽。エレキギター、エレキベース、シンセサイザー、エレクトリックピアノがフルボリュームで鳴り、ドラムは手数の多い複雑なパターンを叩く。テンポは中速〜速い。ジャズの知性とロックの衝動が同居し、聴いていると脳と体の両方が興奮する。技術的に超絶技巧であり、演奏者の腕前に圧倒されるジャンル。",
+    roots_story:"1969年、Miles Davis「Bitches Brew」がジャズとロックの壁を破壊した歴史的アルバム。エレクトリック楽器を大胆に導入し、ジャズの純粋主義者からは「裏切り」と非難されたが、新しいリスナーを大量に獲得した。Weather Report（Joe Zawinul、Wayne Shorter）、Return to Forever（Chick Corea）、Mahavishnu Orchestra（John McLaughlin）が「三大フュージョンバンド」。Herbie Hancock「Head Hunters」(1973)はファンクとの融合で商業的大成功。日本ではカシオペア、T-SQUAREがフュージョンの人気を定着させた。"},
+
+  {id:"smooth_jazz", label:"Smooth Jazz", cat:"jazz_sub", era:"1980s", suno:true,
+    desc:"ジャズをとことん聴きやすく、リラックスできる方向に振り切った「BGM的ジャズ」。サックスやギターの滑らかな音色、穏やかなリズム、シンプルなメロディが心地よい空間を作る。テンポはゆったり〜中速。即興はあるが控えめで、激しい展開はない。カフェ、レストラン、ドライブ中のBGMとして完璧にフィット。ジャズ愛好家からは「これはジャズではない」と言われることも多いが、一般リスナーには最もアクセスしやすいジャズの入口。",
+    roots_story:"1980年代、ラジオ局（特にアメリカのFM局）がジャズの聴きやすい側面を強調した「スムースジャズ」フォーマットを確立。Grover Washington Jr.「Just the Two of Us」(1981)がスムースジャズ的ヒットの先駆け。Kenny G「Songbird」(1986)は世界中で大ヒットし、スムースジャズの代名詞に。Kenny Gのアルバム「Breathless」(1992)は1200万枚以上売れ、ジャズアルバムとしては異例のセールス。George Benson、David Sanborn、Bob Jamesも主要アーティスト。"},
+
+  // クラシック系サブジャンル
+  {id:"baroque", label:"Baroque", cat:"classical_sub", era:"1600s", suno:true,
+    desc:"華やかな装飾、複雑な対位法（複数のメロディラインが同時に進行する技法）、通奏低音（チェンバロやオルガンが和音を支える）が特徴の、17〜18世紀前半の西洋芸術音楽。ヴァイオリン、チェンバロ、オルガン、フルートが主な楽器。テンポは楽章により緩急が明確に分かれる。数学的な精密さと感情的な華やかさが同居する。教会の高い天井に響くオルガンの和音や、宮廷舞踏会の優雅な旋律が思い浮かぶ、格式高い音楽。",
+    roots_story:"1600年頃〜1750年のヨーロッパ音楽。J.S. Bachがバロック音楽の最高峰で、「マタイ受難曲」「ブランデンブルク協奏曲」「平均律クラヴィーア曲集」が人類の音楽遺産。Antonio Vivaldiは「四季」(1723)でバロック協奏曲を大衆化。G.F. Handelは「メサイア」(1741)のハレルヤコーラスで永遠の名曲を残した。バロック時代にはオペラ、協奏曲、ソナタといった音楽形式が確立され、後のすべてのクラシック音楽の土台となった。"},
+
+  {id:"romantic", label:"Romantic", cat:"classical_sub", era:"1800s", suno:true,
+    desc:"感情の解放と個人の表現を最優先にした、ドラマチックで壮大な音楽。オーケストラの規模が飛躍的に拡大し、ピアニッシモからフォルティッシモまでのダイナミクスの幅が極端に広がった。ピアノ独奏曲では演奏者の超絶技巧が花開き、交響曲ではオーケストラの全楽器が感情のうねりを表現する。恋愛、自然の壮大さ、英雄的な物語、死への憧憬がテーマ。聴く者の感情を直接揺さぶる力において、クラシック音楽のピーク。",
+    roots_story:"1800年代〜1900年代初頭のヨーロッパ音楽。Beethoven「運命」交響曲第5番(1808)が古典派からロマン派への橋渡し。Chopin（ショパン）はピアノの詩人として珠玉の小品を量産。Liszt（リスト）は超絶技巧のピアノ演奏でロックスター的人気を博した。Wagner（ワーグナー）はオペラを「総合芸術」に変革し、映画音楽のルーツに。Tchaikovsky（チャイコフスキー）「白鳥の湖」「くるみ割り人形」はバレエ音楽の永遠の定番。Mahler、R. Straussが後期ロマン派を極めた。"},
+
+  {id:"minimalism_classical", label:"Minimalism", cat:"classical_sub", era:"1960s", suno:true,
+    desc:"極限まで単純化された音の要素（短いフレーズ、シンプルなリズム）を延々と繰り返しながら、ゆっくりと変化させていく音楽。同じパターンが何十分も続くが、微細な変化に耳を傾けると驚くほど豊かな音の世界が広がる。テンポは一定で催眠的。聴いていると時間感覚が消え、音の反復そのものに意識が吸い込まれていく。瞑想的でありながらリズミカル、知的でありながら直感的。電子音楽のテクノやアンビエントの直接の先祖。",
+    roots_story:"1960年代、アメリカでSteve Reich「It's Gonna Rain」(1965)が反復とフェイズ・シフティングの実験を開始。Terry Riley「In C」(1964)は53の短いフレーズを演奏者が自由に繰り返す画期的な作品。Philip Glass「Music in 12 Parts」(1971-74)は反復の極致。La Monte Youngはドローン（持続音）を極端に追求し、アンビエントの先駆者に。映画音楽ではPhilip Glassが「コヤニスカッツィ」(1982)で商業的成功。Reich、Glass、Adamsの3人が「ミニマリズムの三大巨匠」。テクノ、アンビエントに多大な影響を与えた。"},
 ];
 
 const LINKS = [
@@ -773,6 +984,87 @@ const LINKS = [
 
   // チップチューン
   {s:"experimental_elec",t:"chiptune",  w:45, desc:"ゲーム機音源の電子音楽化"},
+
+  // ロック系
+  {s:"blues",       t:"rock_n_roll",     w:80, desc:"ブルースがロックンロールの最大のルーツ"},
+  {s:"rock_n_roll", t:"psychedelic_rock", w:70, desc:"ロックンロールのサイケデリック化"},
+  {s:"psychedelic_rock",t:"prog_rock",   w:65, desc:"サイケから壮大な構成へ"},
+  {s:"rock_n_roll", t:"punk",            w:55, desc:"ロックンロールの原始的衝動の回帰"},
+  {s:"punk",        t:"alt_rock",        w:65, desc:"パンクのDIY精神を継承"},
+  {s:"alt_rock",    t:"grunge",          w:75, desc:"オルタナティブの暗い方向"},
+  {s:"alt_rock",    t:"indie_rock",      w:60, desc:"インディーレーベル発の自由なロック"},
+  {s:"alt_rock",    t:"shoegaze",        w:55, desc:"ノイズとメロディの融合"},
+  {s:"punk",        t:"indie_rock",      w:40, desc:"DIY精神の継承"},
+
+  // メタル系
+  {s:"rock_n_roll", t:"heavy_metal",     w:70, desc:"ロックの重量化"},
+  {s:"blues",       t:"heavy_metal",     w:35, desc:"ブルースの暗い側面を増幅"},
+  {s:"heavy_metal", t:"thrash_metal",    w:75, desc:"メタルの高速化・攻撃化"},
+  {s:"thrash_metal",t:"death_metal",     w:70, desc:"スラッシュをさらに極端に"},
+  {s:"thrash_metal",t:"black_metal",     w:50, desc:"極端さの別方向"},
+  {s:"heavy_metal", t:"doom_metal",      w:60, desc:"メタルの重く遅い方向"},
+  {s:"heavy_metal", t:"power_metal",     w:65, desc:"メロディアスで壮大な方向"},
+  {s:"classical",   t:"power_metal",     w:35, desc:"クラシックの壮大さを取り込む"},
+
+  // カントリー/フォーク系
+  {s:"blues",       t:"country",         w:50, desc:"アメリカ南部の音楽的ルーツを共有"},
+  {s:"country",     t:"bluegrass",       w:70, desc:"カントリーのアコースティック化"},
+  {s:"folk",        t:"country",         w:55, desc:"フォークとカントリーは密接"},
+  {s:"folk",        t:"americana",       w:60, desc:"フォークの現代的再解釈"},
+  {s:"country",     t:"americana",       w:65, desc:"カントリーの脱ナッシュビル化"},
+  {s:"folk",        t:"indie_rock",      w:35, desc:"フォークロック的な要素の継承"},
+
+  // ラテン系
+  {s:"jazz",        t:"salsa",           w:40, desc:"ジャズのホーンアレンジ"},
+  {s:"funk",        t:"salsa",           w:30, desc:"ファンキーなグルーヴ"},
+  {s:"jazz",        t:"bossa_nova",      w:55, desc:"ジャズのコード進行を導入"},
+  {s:"reggae",      t:"reggaeton",       w:50, desc:"レゲエ→ダンスホール→レゲトン"},
+  {s:"hiphop",      t:"reggaeton",       w:40, desc:"ラップとビートの影響"},
+  {s:"dancehall",   t:"reggaeton",       w:65, desc:"ダンスホールのリディムが直接の親"},
+  {s:"salsa",       t:"cumbia",          w:30, desc:"ラテンリズムの共通ルーツ"},
+  {s:"classical",   t:"tango",           w:40, desc:"クラシックの構成美を導入"},
+
+  // アフリカ系
+  {s:"funk",        t:"afrobeat",        w:50, desc:"ファンクのグルーヴを取り込む"},
+  {s:"jazz",        t:"afrobeat",        w:40, desc:"ジャズのホーンアレンジ"},
+  {s:"highlife",    t:"afrobeat",        w:60, desc:"ハイライフから発展"},
+  {s:"afrobeat",    t:"afropop",         w:55, desc:"アフロビートのポップ化"},
+  {s:"highlife",    t:"afropop",         w:50, desc:"ハイライフのモダン化"},
+
+  // 中東/南アジア系
+  {s:"raga",        t:"bollywood",       w:50, desc:"古典音楽の旋律を大衆化"},
+  {s:"bollywood",   t:"bhangra",         w:35, desc:"インド映画音楽との相互影響"},
+
+  // カリブ系
+  {s:"reggae",      t:"dancehall",       w:75, desc:"レゲエのデジタル化"},
+  {s:"calypso",     t:"soca",            w:70, desc:"カリプソのモダン化"},
+
+  // 東アジア系
+  {s:"enka",        t:"jpop",            w:25, desc:"歌謡曲→J-POPへの流れ"},
+  {s:"jpop",        t:"anime_music",     w:50, desc:"J-POPの一部としてのアニソン"},
+  {s:"jpop",        t:"kpop",            w:30, desc:"J-POPがK-POPの初期に影響"},
+  {s:"hiphop",      t:"kpop",            w:35, desc:"ヒップホップの要素を積極導入"},
+
+  // ポップス系
+  {s:"rock_n_roll", t:"pop_music",       w:50, desc:"ロックンロールがポップスの土台"},
+  {s:"soul",        t:"pop_music",       w:40, desc:"ソウルのボーカル表現"},
+  {s:"pop_music",   t:"dance_pop",       w:70, desc:"ポップスのダンス化"},
+  {s:"pop_music",   t:"art_pop",         w:55, desc:"ポップスの芸術化"},
+  {s:"disco",       t:"dance_pop",       w:50, desc:"ディスコのポップ化"},
+
+  // ジャズ系サブジャンル
+  {s:"jazz",        t:"bebop",           w:80, desc:"ジャズのモダン化"},
+  {s:"bebop",       t:"cool_jazz",       w:70, desc:"ビバップのクール化"},
+  {s:"jazz",        t:"fusion",          w:60, desc:"ジャズのエレクトリック化"},
+  {s:"funk",        t:"fusion",          w:45, desc:"ファンクのグルーヴ導入"},
+  {s:"fusion",      t:"smooth_jazz",     w:55, desc:"フュージョンのソフト化"},
+
+  // クラシック系サブジャンル
+  {s:"classical",   t:"baroque",         w:85, desc:"クラシックの初期形態"},
+  {s:"classical",   t:"romantic",        w:85, desc:"クラシックのロマン派"},
+  {s:"classical",   t:"minimalism_classical", w:50, desc:"クラシックのミニマル化"},
+  {s:"minimalism_classical",t:"ambient", w:45, desc:"ミニマリズムがアンビエントに影響"},
+  {s:"minimalism_classical",t:"techno",  w:40, desc:"反復構造がテクノに影響"},
 ];
 
 // ===== INFLUENCE SCORE → NODE RADIUS =====
@@ -801,6 +1093,18 @@ const CAT_COLOR = {
   synthwave:  "#6A1B9A",
   hiphop:     "#2E7D32",
   chiptune:   "#00695C",
+  rock:       "#D84315",
+  metal:      "#37474F",
+  country_folk:"#8D6E63",
+  latin:      "#E91E63",
+  african:    "#FF8F00",
+  middle_east:"#BF360C",
+  south_asian:"#311B92",
+  east_asian:  "#827717",
+  caribbean:  "#00BFA5",
+  pop:        "#7CB342",
+  jazz_sub:   "#CFB53B",
+  classical_sub:"#78909C",
 };
 
 // ===== GRAPH SETUP =====
