@@ -19,7 +19,7 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
 .legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
 .legend-label { color: #ccc; font-size: 11px; }
 .legend-sep { border-top: 1px solid #333; margin: 8px 0; }
-.suno-ring { width: 12px; height: 12px; border-radius: 50%; border: 2px solid #FFD700; flex-shrink: 0; }
+.suno-ring { width: 16px; height: 16px; border-radius: 50%; border: 5px solid #FFD700; flex-shrink: 0; }
 
 #controls { background: rgba(15,15,26,0.88); border: 1px solid #333; border-radius: 8px; padding: 10px 12px; font-size: 12px; }
 #controls h3 { font-size: 11px; color: #aaa; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -55,7 +55,7 @@ svg { width: 100vw; height: 100vh; }
 .link { stroke-opacity: 0.45; fill: none; }
 .link:hover { stroke-opacity: 0.9; }
 .node circle { cursor: pointer; stroke-width: 2; }
-.node circle.suno { stroke: #FFD700; stroke-width: 2.5; }
+.node circle.suno { stroke: #FFD700; stroke-width: 12; }
 .node text { pointer-events: none; font-size: 11px; fill: #eee; text-anchor: middle; dominant-baseline: central; }
 .node.highlighted circle { stroke: #fff !important; stroke-width: 3 !important; }
 .link-label { font-size: 20px; fill: #fff; pointer-events: none; font-weight: 700; }
@@ -99,6 +99,10 @@ svg { width: 100vw; height: 100vh; }
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
+  </div>
+  <div style="display:flex;gap:6px;margin-left:auto;">
+    <button id="save-layout" style="padding:4px 12px;background:#2a2a50;border:1px solid #555;border-radius:5px;color:#ccc;font-size:11px;cursor:pointer;">配置を保存</button>
+    <button id="reset-layout" style="padding:4px 12px;background:#2a2a50;border:1px solid #555;border-radius:5px;color:#ccc;font-size:11px;cursor:pointer;">配置リセット</button>
   </div>
 </div>
 
@@ -2159,7 +2163,7 @@ const link = g.append("g").selectAll("line")
   .join("line")
   .attr("class", "link")
   .attr("stroke", d => CAT_COLOR[nodeMap[d.s]?.cat] || "#555")
-  .attr("stroke-width", d => 0.5 + d.w / 60)
+  .attr("stroke-width", d => 2.5 + d.w / 12)
   .attr("marker-end", d => `url(#arrow-${nodeMap[d.s]?.cat || "roots"})`);
 
 // edge label group: background rect + text
@@ -2354,6 +2358,55 @@ document.querySelectorAll(".filter-btn").forEach(btn => {
     });
   });
 });
+
+// ===== LAYOUT SAVE/RESTORE =====
+const LAYOUT_KEY = 'genre_roots_layout';
+
+function saveLayout() {
+  const positions = {};
+  NODES.forEach(n => {
+    positions[n.id] = {x: n.x, y: n.y, fx: n.fx, fy: n.fy};
+  });
+  localStorage.setItem(LAYOUT_KEY, JSON.stringify(positions));
+  const btn = document.getElementById('save-layout');
+  btn.textContent = '保存しました';
+  btn.style.background = '#2E7D32';
+  setTimeout(() => { btn.textContent = '配置を保存'; btn.style.background = '#2a2a50'; }, 2000);
+}
+
+function restoreLayout() {
+  const saved = localStorage.getItem(LAYOUT_KEY);
+  if (!saved) return false;
+  const positions = JSON.parse(saved);
+  let restored = 0;
+  NODES.forEach(n => {
+    if (positions[n.id]) {
+      n.x = positions[n.id].x;
+      n.y = positions[n.id].y;
+      if (positions[n.id].fx != null) { n.fx = positions[n.id].fx; n.fy = positions[n.id].fy; }
+      restored++;
+    }
+  });
+  if (restored > 0) {
+    simulation.alpha(0.01).restart();
+    return true;
+  }
+  return false;
+}
+
+function resetLayout() {
+  localStorage.removeItem(LAYOUT_KEY);
+  NODES.forEach(n => { n.fx = null; n.fy = null; });
+  simulation.alpha(1).restart();
+  const btn = document.getElementById('reset-layout');
+  btn.textContent = 'リセットしました';
+  setTimeout(() => btn.textContent = '配置リセット', 2000);
+}
+
+document.getElementById('save-layout').addEventListener('click', saveLayout);
+document.getElementById('reset-layout').addEventListener('click', resetLayout);
+
+restoreLayout();
 
 // ===== INSTRUMENTS & EFFECTS TAB =====
 const INST_DATA = INST_ITEMS;
