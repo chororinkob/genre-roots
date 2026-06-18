@@ -815,6 +815,10 @@ const NODES = [
     desc:"ファミコンやゲームボーイのサウンドチップが奏でる「ピコピコ」した電子音で作られた音楽。矩形波・三角波・ノイズという極めて限られた音色だけで驚くほど豊かなメロディとリズムを生み出す。レトロゲームを遊んだ世代にはノスタルジー、知らない世代には新鮮な「デジタルの温かみ」がある。テンポは楽曲による。制約の中の創造性が最大の魅力で、少ない音数だからこそメロディの良し悪しがごまかせない。8ビットの世界に宿る無限の表現力。",
     roots_story:"1980年代、ファミコン（NES）、ゲームボーイ、Commodore 64などのゲーム機やホームコンピュータに搭載された音源チップ（PSG、SID等）で音楽を作る文化が発生。初期は「デモシーン」と呼ばれるプログラマーのサブカルチャーで、コンピュータの限界に挑戦するデモ作品の音楽として発展。Commodore 64のSIDチップは特に音楽的な表現力が高く、Rob Hubbard、Martin Galway、Ben Daglishらのゲーム音楽が伝説に。2000年代にはゲームボーイにLSDjソフトを入れて作曲するスタイルが流行し、Anamanaguchi、Sabrepulse、Bit Shifterらがライブパフォーマンスで人気を得た。日本のゲーム音楽作曲家（近藤浩治、植松伸夫ら）もチップチューンの重要な源流。"},
   // ロック系
+  {id:"rock", label:"Rock", cat:"rock", era:"1960s", suno:true,
+    desc:"エレキギター、ベース、ドラムを中心としたバンド編成で演奏される、20世紀後半で最も影響力のあった音楽カテゴリ。ロックンロールから発展し、ハードロック、プログレ、パンク、メタル、オルタナティブなど無数のサブジャンルに分岐した巨大な音楽の樹。テンポ、サウンド、態度は多種多様だが、共通するのはギターの歪み、バンドとしての一体感、自己表現としての「本物の音楽」への志向。文化的にも反抗、自由、若さの象徴として世界中の若者を動かしてきた。",
+    roots_story:"1960年代、ロックンロールがThe Beatlesの登場で「ロック」に進化。「ブリティッシュ・インヴェイジョン」（1964年〜）でThe Beatles、Rolling Stones、The WhoがアメリカにUKロックを持ち込んだ。Jimi Hendrix「Are You Experienced」(1967)がギターの可能性を爆発させた。1970年代にはLed Zeppelin、Deep Purple、Black Sabbathがハードロック/ヘヴィメタルを確立。同時にPink Floyd、Yesがプログレへ、Ramones、Sex Pistolsがパンクへ。ロックは常に分裂と進化を繰り返しながら、ポピュラー音楽の中心に居続けた。"},
+
   {id:"rock_n_roll", label:"Rock 'n' Roll", cat:"rock", era:"1950s", suno:true,
     desc:"エレキギターのリフ、跳ねるリズム、反抗的な態度が融合した、20世紀で最も影響力のある音楽。ブルースの感情表現とカントリーの軽快さをアンプで増幅し、若者の叫びを乗せた。テンポは中速〜速め（BPM 120〜160）で、シンプルなコード進行の上でギターが唸り、ドラムが力強くビートを刻む。聴いた瞬間にアドレナリンが出る原始的な興奮がある。自由、反骨、若さの象徴。",
     roots_story:"1950年代、アメリカ南部でブルースとカントリーが融合。Chuck Berry「Johnny B. Goode」(1958)はロックギターの原型を作り、Little Richardは狂気的なパフォーマンスで観客を熱狂させた。Elvis Presleyは白人としてブルースを歌い、ロックンロールを大衆文化の中心に据えた。Buddy Hollyはソングライティングの型を確立。1960年代にはThe Beatlesがイギリスから世界を制覇し、The Rolling Stonesはブルース回帰のハードなロックを追求。ここからあらゆるロックのサブジャンルが枝分かれしていった。"},
@@ -1772,7 +1776,8 @@ const LINKS = [
 
   // ロック系
   {s:"blues",       t:"rock_n_roll",     w:80, desc:"ブルースがロックンロールの最大のルーツ"},
-  {s:"rock_n_roll", t:"psychedelic_rock", w:70, desc:"ロックンロールのサイケデリック化"},
+  {s:"rock_n_roll", t:"rock",            w:90, desc:"ロックンロールがロックに進化"},
+  {s:"rock",        t:"psychedelic_rock", w:70, desc:"ロックのサイケデリック化"},
   {s:"psychedelic_rock",t:"prog_rock",   w:65, desc:"サイケから壮大な構成へ"},
   {s:"rock_n_roll", t:"punk",            w:55, desc:"ロックンロールの原始的衝動の回帰"},
   {s:"punk",        t:"alt_rock",        w:65, desc:"パンクのDIY精神を継承"},
@@ -1782,7 +1787,7 @@ const LINKS = [
   {s:"punk",        t:"indie_rock",      w:40, desc:"DIY精神の継承"},
 
   // メタル系
-  {s:"rock_n_roll", t:"heavy_metal",     w:70, desc:"ロックの重量化"},
+  {s:"rock",        t:"heavy_metal",     w:70, desc:"ロックの重量化"},
   {s:"blues",       t:"heavy_metal",     w:35, desc:"ブルースの暗い側面を増幅"},
   {s:"heavy_metal", t:"thrash_metal",    w:75, desc:"メタルの高速化・攻撃化"},
   {s:"thrash_metal",t:"death_metal",     w:70, desc:"スラッシュをさらに極端に"},
@@ -1837,7 +1842,7 @@ const LINKS = [
   {s:"hiphop",      t:"kpop",            w:35, desc:"ヒップホップの要素を積極導入"},
 
   // ポップス系
-  {s:"rock_n_roll", t:"pop_music",       w:50, desc:"ロックンロールがポップスの土台"},
+  {s:"rock",        t:"pop_music",       w:50, desc:"ロックがポップスの土台"},
   {s:"soul",        t:"pop_music",       w:40, desc:"ソウルのボーカル表現"},
   {s:"pop_music",   t:"dance_pop",       w:70, desc:"ポップスのダンス化"},
   {s:"pop_music",   t:"art_pop",         w:55, desc:"ポップスの芸術化"},
@@ -1937,7 +1942,7 @@ const LINKS = [
   {s:"arabic_pop",   t:"mahraganat",       w:40, desc:"エジプトポップのストリート化"},
 
   // ロック系追加2リンク
-  {s:"rock_n_roll",  t:"garage_rock_revival",w:55, desc:"60年代ガレージロックの復活"},
+  {s:"rock",         t:"garage_rock_revival",w:55, desc:"60年代ガレージロックの復活"},
   {s:"heavy_metal",  t:"gothic_metal",     w:55, desc:"メタルのゴシック化"},
   {s:"gothic_rock",  t:"gothic_metal",     w:50, desc:"ゴシックロックのメタル化"},
   {s:"heavy_metal",  t:"speed_metal",      w:70, desc:"メタルの高速化"},
@@ -2040,9 +2045,9 @@ const LINKS = [
   {s:"trap",         t:"emo_rap",         w:50, desc:"トラップビートの上で感情吐露"},
 
   // ロック系追加リンク
-  {s:"rock_n_roll",  t:"soft_rock",        w:50, desc:"ロックの穏やかな方向"},
+  {s:"rock",         t:"soft_rock",        w:50, desc:"ロックの穏やかな方向"},
   {s:"blues",        t:"blues_rock",       w:75, desc:"ブルースのロック化"},
-  {s:"rock_n_roll",  t:"surf_rock",        w:65, desc:"カリフォルニアのロック"},
+  {s:"rock",         t:"surf_rock",        w:65, desc:"カリフォルニアのロック"},
   {s:"psychedelic_rock",t:"stoner_rock",   w:55, desc:"サイケの重い方向"},
   {s:"psychedelic_rock",t:"space_rock",    w:60, desc:"サイケの宇宙的方向"},
   {s:"psychedelic_rock",t:"neo_psychedelia",w:70, desc:"サイケの現代化"},
@@ -2050,7 +2055,7 @@ const LINKS = [
   {s:"alt_rock",     t:"indie_pop",        w:55, desc:"インディーのポップ方向"},
   {s:"indie_pop",    t:"dream_pop",        w:60, desc:"インディーポップの幻想的な方向"},
   {s:"shoegaze",     t:"dream_pop",        w:55, desc:"シューゲイズのポップ化"},
-  {s:"rock_n_roll",  t:"j_rock",           w:45, desc:"ロックの日本化"},
+  {s:"rock",         t:"j_rock",           w:45, desc:"ロックの日本化"},
   {s:"j_rock",       t:"visual_kei",       w:65, desc:"J-Rockのビジュアル化"},
   {s:"punk",         t:"pop_punk",         w:70, desc:"パンクのポップ化"},
   {s:"punk",         t:"emo",              w:60, desc:"パンクの感情的方向"},
@@ -2233,7 +2238,8 @@ const POPULARITY = {
   "psychedelic_rap": 4,
   "plugg": 4,
   "chiptune": 5,
-  "rock_n_roll": 10,
+  "rock": 10,
+  "rock_n_roll": 9,
   "psychedelic_rock": 7,
   "prog_rock": 6,
   "alt_rock": 8,
