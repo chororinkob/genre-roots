@@ -55,7 +55,7 @@ svg { width: 100vw; height: 100vh; }
 .link { stroke-opacity: 0.45; fill: none; }
 .link:hover { stroke-opacity: 0.9; }
 .node circle { cursor: pointer; stroke-width: 2; }
-.node circle.suno { stroke: #FFD700; stroke-width: 12; }
+.node circle.suno { stroke: #FFD700; stroke-width: 15; }
 .node text { pointer-events: none; font-size: 11px; fill: #eee; text-anchor: middle; dominant-baseline: central; }
 .node.highlighted circle { stroke: #fff !important; stroke-width: 3 !important; }
 .link-label { font-size: 20px; fill: #fff; pointer-events: none; font-weight: 700; }
@@ -115,7 +115,10 @@ svg { width: 100vw; height: 100vh; }
 <div id="left-sidebar">
 <div id="controls">
   <h3>検索 / フィルター</h3>
-  <input id="search" type="text" placeholder="ジャンル検索（カンマ区切りで複数OK）" />
+  <div style="position:relative;">
+    <input id="search" type="text" placeholder="ジャンル検索（カンマ区切りで複数OK）" />
+    <span id="search-clear" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);cursor:pointer;color:#888;font-size:16px;display:none;">✕</span>
+  </div>
   <div>
     <span class="filter-btn active" data-filter="all">すべて</span>
     <span class="filter-btn" data-filter="suno">Sunoタグのみ</span>
@@ -2396,7 +2399,7 @@ const POPULARITY = {
 };
 NODES.forEach(n => {
   n.popularity = POPULARITY[n.id] || 3;
-  n.r = 14 * n.popularity;
+  n.r = 25 * n.popularity;
 });
 
 // ===== CATEGORY COLORS =====
@@ -2458,10 +2461,10 @@ const nodeMap = Object.fromEntries(NODES.map(n => [n.id, n]));
 const linkData = LINKS.map(l => ({...l, source: l.s, target: l.t}));
 
 const simulation = d3.forceSimulation(NODES)
-  .force("link", d3.forceLink(linkData).id(d=>d.id).distance(d => 350 - d.w * 0.8).strength(0.2))
-  .force("charge", d3.forceManyBody().strength(-1500))
+  .force("link", d3.forceLink(linkData).id(d=>d.id).distance(d => 500 - d.w * 0.8).strength(0.15))
+  .force("charge", d3.forceManyBody().strength(-3000))
   .force("center", d3.forceCenter(w/2, h/2))
-  .force("collision", d3.forceCollide(d => d.r + 30))
+  .force("collision", d3.forceCollide(d => d.r + 40))
   .alphaDecay(0.02);
 
 const link = g.append("g").selectAll("line")
@@ -2507,16 +2510,16 @@ node.append("circle")
 node.append("text")
   .text(d => d.label.split("\n")[0])
   .attr("dy", d => d.label.includes("\n") ? -3 : 1)
-  .style("font-size", d => Math.max(18, Math.min(26, d.r * 0.5)) + "px")
-  .style("font-weight", d => d.suno ? "700" : "400")
-  .style("fill", d => d.suno ? "#FFD700" : "#eee");
+  .style("font-size", d => Math.max(24, Math.min(50, d.r * 0.35)) + "px")
+  .style("font-weight", "700")
+  .style("fill", "#fff");
 
 node.filter(d => d.label.includes("\n")).append("text")
   .text(d => d.label.split("\n")[1])
   .attr("dy", 22)
-  .style("font-size", d => Math.max(18, Math.min(26, d.r * 0.5)) + "px")
-  .style("font-weight", d => d.suno ? "700" : "400")
-  .style("fill", d => d.suno ? "#FFD700" : "#eee");
+  .style("font-size", d => Math.max(24, Math.min(50, d.r * 0.35)) + "px")
+  .style("font-weight", "700")
+  .style("fill", "#fff");
 
 // hover: 軽量ツールチップ（ジャンル名のみ）
 const tooltip = document.getElementById("tooltip");
@@ -2620,7 +2623,19 @@ simulation.on("tick", () => {
 });
 
 // Search
-document.getElementById("search").addEventListener("input", e => {
+const searchInput = document.getElementById("search");
+const searchClear = document.getElementById("search-clear");
+
+searchInput.addEventListener("input", () => {
+  searchClear.style.display = searchInput.value ? 'block' : 'none';
+});
+searchClear.addEventListener("click", () => {
+  searchInput.value = '';
+  searchInput.dispatchEvent(new Event('input'));
+  searchClear.style.display = 'none';
+});
+
+searchInput.addEventListener("input", e => {
   const raw = e.target.value;
   const resultsDiv = document.getElementById("search-results");
 
