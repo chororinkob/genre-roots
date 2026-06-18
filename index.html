@@ -915,6 +915,60 @@ const NODES = [
     desc:"音楽の常識を意図的に破壊し、「音楽とは何か」という問いそのものを投げかける前衛的な表現。決まった形式、メロディ、リズム、楽器の使い方に縛られず、あらゆる音響素材を使って未知の表現を追求する。聴いて「気持ちいい」かどうかは目的ではなく、「考えさせる」ことが目的。テンポの概念すら存在しないことも。芸術としての音楽の最前線。",
     roots_story:"John Cage「4'33\"」(1952)は「4分33秒の沈黙」という作品で、音楽の概念を根本から問い直した。Frank Zappa「Freak Out!」(1966)はロックの文脈で前衛を実践。Captain Beefheart「Trout Mask Replica」(1969)は意図的にリズムとメロディを崩壊させた問題作。Yoko OnoはFluxusアートと音楽を融合。日本では大友良英、灰野敬二がアヴァンギャルドの世界的巨匠として知られる。"},
 
+  // ソウル・ファンク・R&B系
+  {id:"motown", label:"Motown", cat:"pop", era:"1960s", suno:true,
+    desc:"デトロイトのMotownレコードが生み出した、洗練されてキャッチーなソウルポップス。タンバリンの「チャッ」というビート、ベースのグルーヴィーなライン、ストリングスの華やかなアレンジ、コーラスグループの美しいハーモニーが一体化した、完璧にパッケージされたポップソウル。テンポは中速〜軽快。人種を超えて誰もが踊り出すような普遍的なポップの力がある。",
+    roots_story:"1959年、Berry Gordy Jr.がデトロイトに設立。「The Sound of Young America（若きアメリカの音）」をスローガンに、黒人音楽を白人市場にもクロスオーバーさせることに成功。The Supremes「Where Did Our Love Go」(1964)、The Temptations、Marvin Gaye「What's Going On」(1971)、Stevie Wonder「Songs in the Key of Life」(1976)が代表作。Jackson 5が少年マイケル・ジャクソンをスターにした。"},
+
+  {id:"doo_wop", label:"Doo-Wop", cat:"pop", era:"1950s", suno:true,
+    desc:"街角で若者たちがアカペラで歌う、甘くてロマンチックなコーラスグループの音楽。リードボーカルとバックコーラスの掛け合い、「ドゥーワップ」「シュビドゥビ」などのナンセンスシラブル（意味のない音節）のハーモニーが特徴。テンポはゆったり〜中速。1950年代のアメリカの青春を象徴する、甘い恋の歌。",
+    roots_story:"1950年代、ニューヨーク、フィラデルフィア、ボルチモアなどの都市部の黒人コミュニティで、ゴスペルの合唱スタイルが世俗的な恋愛ソングに応用された。The Platters「Only You」(1955)、The Drifters「Under the Boardwalk」(1964)が代表曲。Frankie Lymon & the Teenagersは13歳のリードシンガーで話題に。イタリア系アメリカ人グループ（Dion and the Belmonts等）も重要。映画「アメリカン・グラフィティ」(1973)で再評価された。"},
+
+  {id:"neo_soul", label:"Neo Soul", cat:"pop", era:"1990s", suno:true,
+    desc:"1960〜70年代のクラシックソウルの温かみを、90年代のヒップホップビートとジャズの洗練さで再構築した、大人のための上質なR&B。アナログシンセの温かい音色、ジャジーなコード進行、ヒップホップ的なビート、自然体で力まないボーカルが特徴。テンポはゆったり〜中速。商業的なR&Bの過剰なプロダクションに対するオーガニックな回答。キャンドルの灯りが似合う親密な音楽。",
+    roots_story:"1990年代後半、D'Angelo「Brown Sugar」(1995)、Erykah Badu「Baduizm」(1997)がネオソウルの誕生を告げた。Lauryn Hill「The Miseducation of Lauryn Hill」(1998)はグラミー賞5部門受賞。Maxwell、Jill Scott、Musiq Soulchildも重要。Questlove（The Roots）がプロデューサー/ドラマーとしてシーンを支えた。2020年代にはH.E.R.、Daniel Caesar、SZAがネオソウルの精神を継承。"},
+
+  {id:"alternative_rnb", label:"Alternative\nR&B", cat:"pop", era:"2010s", suno:true,
+    desc:"R&Bの官能的なボーカルにエレクトロニカ、インディーロック、アンビエントの実験性を融合させた、ジャンルの壁を完全に超えた現代の音楽。オートチューン処理されたボーカル、エレクトロニックなビート、空間的なプロダクション、内省的で曖昧な歌詞が特徴。テンポはスロー〜中速。従来のR&Bの「セクシーさ」に知的な陰影を加えた、夜の散歩のための音楽。",
+    roots_story:"2010年代前半、The Weeknd「House of Balloons」(2011)がダークで退廃的なR&Bで衝撃を与えた。Frank Ocean「Channel Orange」(2012)は内省的な歌詞とジャンルレスなサウンドで批評家から絶賛。FKA twigs、Kelela、SZA、Sampha、Solange「A Seat at the Table」(2016)が重要作品。OVO Sound（Drakeのレーベル）もオルタナティブR&Bの普及に貢献。"},
+
+  {id:"nu_funk", label:"Nu Funk", cat:"pop", era:"2000s", suno:true,
+    desc:"1970年代ファンクの太いグルーヴを現代のプロダクションで蘇らせた、踊れてスタイリッシュな新世代ファンク。ヴィンテージなアナログシンセ、スラップベース、カッティングギターにモダンなビートプログラミングが加わる。テンポはBPM 100〜120で、ファンクの伝統的なグルーヴ感を保ちつつ洗練されたサウンド。クラブでもフェスでもカフェでも映える、おしゃれなファンク。",
+    roots_story:"2000年代、Jamiroquai「A Funk Odyssey」(2001)がモダンファンクの代表格。Vulfpeck（ミシガン）はミニマルで遊び心のあるファンクでYouTubeから火がついた。Daft Punk「Random Access Memories」(2013)はナイル・ロジャース参加でファンクリバイバルを象徴する作品に。Thundercat、Anderson .Paak、Silk Sonicもファンク回帰の重要人物。レトロとモダンの絶妙なバランス。"},
+
+  // ヒップホップ系追加
+  {id:"old_school_hiphop", label:"Old School\nHip Hop", cat:"hiphop", era:"1979", suno:true,
+    desc:"ヒップホップの原点。DJがファンクやディスコのブレイクビーツをループさせ、その上でMCが韻を踏みながらラップする、シンプルだが強烈なスタイル。テンポはBPM 95〜110。ドラムマシンの乾いたビート、シンプルなシンセリフ、MCの明瞭なフロウが特徴。パーティーの盛り上げが主目的で、歌詞は自慢話、パーティーの煽り、ユーモアが中心。まだ音楽産業に飲み込まれる前の純粋なストリートの声。",
+    roots_story:"1979年、The Sugarhill Gang「Rapper's Delight」がヒップホップ初の商業的ヒットとなり、ジャンルを世界に知らしめた。Grandmaster Flash & the Furious Five「The Message」(1982)は社会批評をラップに持ち込んだ画期的作品。Run-D.M.C.「Run-D.M.C.」(1984)がロックとの融合でメインストリーム化。LL Cool J、Beastie Boys、Salt-N-Pepaも重要。この時代のスタイルが「オールドスクール」と呼ばれる。"},
+
+  {id:"boom_bap", label:"Boom Bap", cat:"hiphop", era:"1990s", suno:true,
+    desc:"「ブーン・バップ」というキック（ブーン）とスネア（バップ）のシンプルなビートパターンが名前の由来。ジャズやソウルのレコードからサンプリングしたループ、太いキック、鋭いスネア、MCの技巧的なリリシズムが核心。テンポはBPM 85〜100。トラップの808ベースとは対照的な、サンプリングアートとしてのヒップホップ。90年代NYヒップホップの「黄金期」のサウンド。",
+    roots_story:"1990年代、ニューヨークのプロデューサーが確立。DJ Premier（Gang Starr）のジャズサンプリング、Pete Rock & CL Smooth、Nas「Illmatic」(1994)がブームバップの金字塔。Wu-Tang Clan「Enter the Wu-Tang (36 Chambers)」(1993)はローファイなビートと複数MCのスキルで伝説化。A Tribe Called Quest「The Low End Theory」(1991)はジャズとの融合の最高峰。J Dilla、Madlib、9th Wonderが後のビートメイカーに多大な影響。"},
+
+  {id:"crunk", label:"Crunk", cat:"hiphop", era:"1990s", suno:true,
+    desc:"南部のクラブで群衆を爆発させるための、極めてシンプルで攻撃的なヒップホップ。Roland TR-808の重低音キック、繰り返されるシンセリフ、叫ぶようなボーカル（シャウト）、コール&レスポンスが特徴。テンポはBPM 70〜85（ハーフタイム感覚で140〜170）。知性より衝動、歌詞より雰囲気。クラブで全員がジャンプして床が揺れるための音楽。",
+    roots_story:"1990年代後半、アトランタ・メンフィスの南部ヒップホップシーンから発展。Lil Jon & the East Side Boyz「Get Low」(2003)がクランクの最大のヒット。Lil Jonの「YEAH!」「OKAY!」という叫び声がジャンルの象徴に。Ying Yang Twins「Whisper Song」も代表曲。Usher ft. Lil Jon「Yeah!」(2004)はBillboard年間1位。Three 6 Mafia「It's Hard out Here for a Pimp」(2006)はアカデミー賞歌曲賞を受賞（ヒップホップ初）。"},
+
+  {id:"phonk", label:"Phonk", cat:"hiphop", era:"2010s", suno:true,
+    desc:"1990年代メンフィスラップのダークでローファイなビートを現代的に再構築した、ドリフト動画のBGMとして爆発的に広まったスタイル。スクリューされた（ピッチを下げた）ボーカルサンプル、カウベルの連打、808の重低音ベース、ホラー映画的なサンプルが特徴。テンポはBPM 130〜160。TikTokやYouTubeのドリフト・車載動画で爆発的に普及。暗くて重いのにどこかキャッチー。",
+    roots_story:"2010年代半ば、SoundCloudのプロデューサーが1990年代のメンフィスラップ（Three 6 Mafia、DJ Paul、Tommy Wright III）のダークなサウンドをサンプリングして現代化。DJ Smokey、Soudiere、DJ Yung Vamp が初期の重要人物。Kordhell「Murder in My Mind」がTikTokで数億回再生され、フォンクをメインストリームに押し上げた。ロシアやCIS諸国でのドリフト動画文化と結びつき、意外にも東欧で大きな人気を博している。"},
+
+  {id:"drill", label:"Drill", cat:"hiphop", era:"2010s", suno:true,
+    desc:"シカゴの最も危険な地区から生まれた、暴力的でダークなトラップの変種。スライドする808ベース、不気味なピアノやストリングスのメロディ、無感情で淡々としたフロウが特徴。テンポはBPM 140前後だがハーフタイムで、ゆったりと首を振る感覚。歌詞はストリートの暴力、ギャングの抗争、サバイバルをリアルに描く。甘さゼロ、現実そのものを叩きつける音楽。",
+    roots_story:"2010年代初頭、シカゴのサウスサイドからChief Keef「I Don't Like」(2012)が登場し、ドリルを世界に知らしめた。Lil Durk、King Von、G Herboもシカゴドリルの重要人物。2019年以降、Pop Smoke「Welcome to the Party」がUKドリル（ロンドンで独自に発展したスタイル）をニューヨークに逆輸入。Central Cee、Digga Dが現在のUKドリルを代表。ドリルのビートはK-POPやJ-POPにも取り入れられるほどグローバル化。"},
+
+  {id:"grime", label:"Grime", cat:"hiphop", era:"2003", suno:true,
+    desc:"ロンドンのストリートから生まれた、UKガレージとヒップホップが融合した攻撃的なMCスタイル。BPM 140のタイトなビート、鋭いシンセリフ、マシンガンのように畳みかけるラップが特徴。イギリス英語のスラングと独特のフロウで、アメリカのヒップホップとは明らかに異なる「UKの声」を持つ。寒いロンドンの路地裏のエネルギーが凝縮された、イギリス独自のヒップホップ。",
+    roots_story:"2003年、Dizzee Rascal「Boy in da Corner」がマーキュリー賞を受賞し、グライムを一気に認知させた。Wiley「Eskimo」(2002)のアイシーなシンセリフが「エスキビート」と呼ばれグライムの象徴に。Skepta「Shutdown」(2015)、Stormzy「Gang Signs & Prayer」(2017)がメインストリームでの成功を収めた。Roll Deep、Kano、JMEも重要。Rinse FM（パイレーツラジオ）がグライムの揺りかご。"},
+
+  {id:"cloud_rap", label:"Cloud Rap", cat:"hiphop", era:"2010s", suno:true,
+    desc:"ドリーミーで浮遊感のあるビートの上でゆったりとラップする、チルで内省的なヒップホップ。リバーブの深いシンセパッド、スローテンポ、オートチューンで処理されたボーカル、アンビエント的な音響が特徴。テンポはBPM 60〜80と遅い。攻撃性やマッチョさとは無縁で、雲の上を漂うような脱力感と美しさがある。SoundCloudカルチャーから生まれた、インターネット世代のヒップホップ。",
+    roots_story:"2010年代初頭、SoundCloudを中心に形成。Clams Casino（プロデューサー）が霧のようなビートを開拓し、A$AP Rocky「Live.Love.A$AP」(2011)で起用された。Lil B「I'm Gay」(2011)は型破りなアプローチでカルト的人気。Yung Lean（スウェーデン）は「Sad Boys」美学でヨーロッパからシーンに参入。Bladee、ecco2kも重要。クラウドラップはエモラップ、ヴェイパーウェーブとも重なり、インターネットカルチャーと不可分。"},
+
+  {id:"emo_rap", label:"Emo Rap", cat:"hiphop", era:"2010s", suno:true,
+    desc:"エモ/パンクロックの感情的な歌詞とメロディを、ヒップホップのビートとオートチューンボーカルで表現した、2010年代後半のSoundCloud世代を代表するスタイル。失恋、孤独、メンタルヘルスの苦悩を赤裸々に歌い、ロックのギターリフとトラップのビートが共存する。テンポはBPM 80〜100。泣きながらヘッドバンギングするような、世代の痛みを体現した音楽。",
+    roots_story:"2010年代後半、SoundCloudから爆発。XXXTentacion「17」(2017)とLil Peep「Come Over When You're Sober」(2017)がエモラップの2大アイコン。両者とも若くして亡くなり（Lil Peep: 2017年、XXXTentacion: 2018年）、世代のアイコンとなった。Juice WRLD「Goodbye & Good Riddance」(2018)がメインストリームでの最大のヒット。彼も2019年に21歳で急逝。"},
+
   // ブルース系サブジャンル
   {id:"delta_blues", label:"Delta Blues", cat:"blues_sub", era:"1920s", suno:true,
     desc:"ミシシッピ・デルタの綿花畑から生まれた、ブルースの最も原始的な形。アコースティックギター1本と声だけで、人生の苦悩、愛、孤独を歌う。スライドギター（ボトルネック奏法）の金属的にうねる音色が特徴的。テンポはゆったりで、同じリフを繰り返しながら感情を掘り下げる。レコーディング環境の粗さも相まって、まるで幽霊が歌っているような不気味な生々しさがある。すべてのロック・ポップスの最も深いルーツ。",
@@ -1227,6 +1281,26 @@ const LINKS = [
   {s:"classical",   t:"minimalism_classical", w:50, desc:"クラシックのミニマル化"},
   {s:"minimalism_classical",t:"ambient", w:45, desc:"ミニマリズムがアンビエントに影響"},
   {s:"minimalism_classical",t:"techno",  w:40, desc:"反復構造がテクノに影響"},
+
+  // ソウル・R&B系追加リンク
+  {s:"soul",         t:"motown",          w:75, desc:"ソウルのポップ化・商業化"},
+  {s:"soul",         t:"doo_wop",         w:50, desc:"ゴスペルコーラスの世俗化"},
+  {s:"soul",         t:"neo_soul",        w:65, desc:"クラシックソウルの現代化"},
+  {s:"hiphop",       t:"neo_soul",        w:40, desc:"ヒップホップビートの導入"},
+  {s:"neo_soul",     t:"alternative_rnb",  w:55, desc:"ネオソウルの実験的進化"},
+  {s:"funk",         t:"nu_funk",         w:70, desc:"ファンクの現代版"},
+
+  // ヒップホップ系追加リンク
+  {s:"hiphop",       t:"old_school_hiphop",w:85, desc:"ヒップホップの原型"},
+  {s:"old_school_hiphop",t:"boom_bap",    w:70, desc:"オールドスクールの進化"},
+  {s:"trap",         t:"crunk",           w:50, desc:"南部トラップの攻撃的方向"},
+  {s:"trap",         t:"phonk",           w:55, desc:"メンフィスラップの現代化"},
+  {s:"trap",         t:"drill",           w:65, desc:"トラップのダーク化"},
+  {s:"uk_garage",    t:"grime",           w:55, desc:"UKガレージからの派生"},
+  {s:"hiphop",       t:"grime",           w:45, desc:"ヒップホップのUK版"},
+  {s:"hiphop",       t:"cloud_rap",       w:50, desc:"チルなヒップホップ"},
+  {s:"emo",          t:"emo_rap",         w:45, desc:"エモの精神をラップに"},
+  {s:"trap",         t:"emo_rap",         w:50, desc:"トラップビートの上で感情吐露"},
 
   // ロック系追加リンク
   {s:"rock_n_roll",  t:"soft_rock",        w:50, desc:"ロックの穏やかな方向"},
