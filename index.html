@@ -61,26 +61,44 @@ svg { width: 100vw; height: 100vh; }
 .link-label { font-size: 60px; fill: #fff; pointer-events: none; font-weight: 700; }
 .link-label-bg { fill: rgba(26,26,46,0.82); pointer-events: none; }
 
-@keyframes cat-pulse {
+@keyframes cat-pulse-white {
   0%   { stroke: #ffffff; stroke-width: 3; }
   50%  { stroke: #ffffff; stroke-width: 8; filter: drop-shadow(0 0 10px #fff) drop-shadow(0 0 20px rgba(255,255,255,0.6)); }
   100% { stroke: #ffffff; stroke-width: 3; }
 }
-.node.cat-highlight circle { animation: cat-pulse 0.85s ease-in-out infinite !important; stroke: #fff !important; }
-@keyframes search-pulse {
+@keyframes cat-pulse-gold {
+  0%   { stroke: #FFD700; stroke-width: 5; }
+  50%  { stroke: #FFD700; stroke-width: 12; filter: drop-shadow(0 0 10px #FFD700) drop-shadow(0 0 20px rgba(255,215,0,0.6)); }
+  100% { stroke: #FFD700; stroke-width: 5; }
+}
+.node.cat-highlight circle { animation: cat-pulse-white 0.85s ease-in-out infinite !important; }
+.node.cat-highlight circle.suno { animation: cat-pulse-gold 0.85s ease-in-out infinite !important; }
+@keyframes search-pulse-green {
   0%   { stroke: #00FF00; stroke-width: 6; filter: drop-shadow(0 0 8px #0f0); }
   50%  { stroke: #00FF00; stroke-width: 14; filter: drop-shadow(0 0 20px #0f0) drop-shadow(0 0 30px rgba(0,255,0,0.5)); }
   100% { stroke: #00FF00; stroke-width: 6; filter: drop-shadow(0 0 8px #0f0); }
 }
-.node.search-match circle { animation: search-pulse 0.7s ease-in-out infinite !important; }
+@keyframes search-pulse-gold {
+  0%   { stroke: #FFD700; stroke-width: 8; filter: drop-shadow(0 0 8px #FFD700); }
+  50%  { stroke: #FFD700; stroke-width: 16; filter: drop-shadow(0 0 20px #FFD700) drop-shadow(0 0 30px rgba(255,215,0,0.5)); }
+  100% { stroke: #FFD700; stroke-width: 8; filter: drop-shadow(0 0 8px #FFD700); }
+}
+.node.search-match circle { animation: search-pulse-green 0.7s ease-in-out infinite !important; }
+.node.search-match circle.suno { animation: search-pulse-gold 0.7s ease-in-out infinite !important; }
 .node.cat-dim { opacity: 0.1; pointer-events: none; }
 .node.focus-dim { opacity: 0.08; }
-@keyframes focus-glow {
+@keyframes focus-glow-white {
   0%   { stroke: #fff; stroke-width: 8; filter: drop-shadow(0 0 20px #fff) drop-shadow(0 0 40px rgba(255,255,255,0.5)); }
   50%  { stroke: #fff; stroke-width: 20; filter: drop-shadow(0 0 50px #fff) drop-shadow(0 0 80px rgba(255,255,255,0.8)) drop-shadow(0 0 120px rgba(255,255,255,0.4)); }
   100% { stroke: #fff; stroke-width: 8; filter: drop-shadow(0 0 20px #fff) drop-shadow(0 0 40px rgba(255,255,255,0.5)); }
 }
-.node.focus-highlight circle { animation: focus-glow 2s ease-in-out infinite !important; }
+@keyframes focus-glow-gold {
+  0%   { stroke: #FFD700; stroke-width: 10; filter: drop-shadow(0 0 20px #FFD700) drop-shadow(0 0 40px rgba(255,215,0,0.5)); }
+  50%  { stroke: #FFD700; stroke-width: 22; filter: drop-shadow(0 0 50px #FFD700) drop-shadow(0 0 80px rgba(255,215,0,0.8)) drop-shadow(0 0 120px rgba(255,215,0,0.4)); }
+  100% { stroke: #FFD700; stroke-width: 10; filter: drop-shadow(0 0 20px #FFD700) drop-shadow(0 0 40px rgba(255,215,0,0.5)); }
+}
+.node.focus-highlight circle { animation: focus-glow-white 2s ease-in-out infinite !important; }
+.node.focus-highlight circle.suno { animation: focus-glow-gold 2s ease-in-out infinite !important; }
 .link.focus-dim { opacity: 0.03 !important; }
 .link.focus-highlight { opacity: 1 !important; stroke-width: 8px !important; filter: drop-shadow(0 0 4px rgba(255,255,255,0.5)); }
 .link-label-group.focus-dim { opacity: 0.03 !important; }
@@ -116,7 +134,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v3.9 / 300 genres</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v4.0 / 300 genres</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
