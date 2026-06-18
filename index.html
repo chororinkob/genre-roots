@@ -134,7 +134,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v4.2 / 300 genres</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v4.3 / 300 genres</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
@@ -2658,27 +2658,27 @@ node.on("click", (e, d) => {
   const name = d.label.replace("\n", " ");
   spTag.textContent = name;
   const isSuno = sunoOverrides[d.id] !== undefined ? sunoOverrides[d.id] : d.suno;
-  spSunoW.innerHTML = '<div id="suno-toggle-wrap" style="display:flex;align-items:center;gap:10px;cursor:pointer;margin-bottom:10px;user-select:none;" title="クリックでSuno有効/未確認を切り替え">'
-    + '<svg width="36" height="36" viewBox="0 0 36 36" id="suno-circle-icon">'
-    + (isSuno
-      ? '<ellipse cx="18" cy="18" rx="14" ry="13" fill="none" stroke="#FFD700" stroke-width="3" stroke-dasharray="2,3" transform="rotate(-8 18 18)" style="filter:drop-shadow(0 0 4px rgba(255,215,0,0.6))"/>'
-      : '<ellipse cx="18" cy="18" rx="14" ry="13" fill="none" stroke="#555" stroke-width="2" stroke-dasharray="4,4" transform="rotate(-8 18 18)"/>')
-    + '</svg>'
-    + '<span style="font-size:14px;font-weight:700;color:' + (isSuno ? '#FFD700' : '#666') + ';">' + (isSuno ? 'Suno有効タグ' : 'Suno未確認') + '</span>'
-    + '</div>';
-  document.getElementById('suno-toggle-wrap').addEventListener('click', function() {
-    const newVal = !d.suno;
+  spSunoW.innerHTML = '<label style="display:flex;align-items:center;gap:8px;cursor:pointer;margin-bottom:8px;">'
+    + '<input type="checkbox" id="suno-toggle" ' + (isSuno ? 'checked' : '') + ' style="width:18px;height:18px;accent-color:#FFD700;cursor:pointer;">'
+    + '<span style="position:relative;display:inline-block;">'
+    + '<span id="suno-label" style="font-size:13px;color:' + (isSuno ? '#FFD700' : '#888') + ';">' + (isSuno ? 'Suno有効タグ' : 'Suno未確認') + '</span>'
+    + (isSuno ? '<svg style="position:absolute;top:-6px;left:-6px;pointer-events:none;" width="120" height="30" viewBox="0 0 120 30"><ellipse cx="58" cy="15" rx="56" ry="13" fill="none" stroke="#FFD700" stroke-width="2.5" stroke-dasharray="3,2" transform="rotate(-3 58 15)" opacity="0.8"/></svg>' : '')
+    + '</span></label>';
+  document.getElementById('suno-toggle').addEventListener('change', function() {
+    const newVal = this.checked;
     sunoOverrides[d.id] = newVal;
     localStorage.setItem('suno_overrides', JSON.stringify(sunoOverrides));
     d.suno = newVal;
     node.select('circle').attr('class', n => n.suno ? 'suno' : '');
-    const icon = this.querySelector('svg');
-    icon.innerHTML = newVal
-      ? '<ellipse cx="18" cy="18" rx="14" ry="13" fill="none" stroke="#FFD700" stroke-width="3" stroke-dasharray="2,3" transform="rotate(-8 18 18)" style="filter:drop-shadow(0 0 4px rgba(255,215,0,0.6))"/>'
-      : '<ellipse cx="18" cy="18" rx="14" ry="13" fill="none" stroke="#555" stroke-width="2" stroke-dasharray="4,4" transform="rotate(-8 18 18)"/>';
-    const label = this.querySelector('span');
+    const wrap = this.parentElement.querySelector('span');
+    const label = wrap.querySelector('#suno-label');
     label.textContent = newVal ? 'Suno有効タグ' : 'Suno未確認';
-    label.style.color = newVal ? '#FFD700' : '#666';
+    label.style.color = newVal ? '#FFD700' : '#888';
+    const oldSvg = wrap.querySelector('svg');
+    if (oldSvg) oldSvg.remove();
+    if (newVal) {
+      wrap.insertAdjacentHTML('beforeend', '<svg style="position:absolute;top:-6px;left:-6px;pointer-events:none;" width="120" height="30" viewBox="0 0 120 30"><ellipse cx="58" cy="15" rx="56" ry="13" fill="none" stroke="#FFD700" stroke-width="2.5" stroke-dasharray="3,2" transform="rotate(-3 58 15)" opacity="0.8"/></svg>');
+    }
   });
   spEra.textContent  = d.era ? `発祥時期：${d.era}` : '';
   spDesc.textContent = d.desc || '（説明なし）';
