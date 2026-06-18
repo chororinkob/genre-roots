@@ -2698,22 +2698,49 @@ searchInput.addEventListener("input", e => {
   resultsDiv.style.display = 'block';
 });
 
-// Legend hover: カテゴリにカーソルを乗せると対応ノードをパルス点灯、他を暗く
+// Legend: カテゴリのホバーで点滅、クリックでロック
+let lockedCat = null;
+
+function highlightCat(cat) {
+  if (cat === 'suno') {
+    node.classed('cat-highlight', d => d.suno);
+    node.classed('cat-dim',       d => !d.suno);
+  } else {
+    node.classed('cat-highlight', d => d.cat === cat);
+    node.classed('cat-dim',       d => d.cat !== cat);
+  }
+}
+
+function clearHighlight() {
+  node.classed('cat-highlight', false);
+  node.classed('cat-dim',       false);
+  lockedCat = null;
+  document.querySelectorAll('.legend-item[data-cat]').forEach(el => el.style.background = '');
+}
+
 document.querySelectorAll('.legend-item[data-cat]').forEach(item => {
   const cat = item.dataset.cat;
   item.addEventListener('mouseenter', () => {
-    if (cat === 'suno') {
-      node.classed('cat-highlight', d => d.suno);
-      node.classed('cat-dim',       d => !d.suno);
-    } else {
-      node.classed('cat-highlight', d => d.cat === cat);
-      node.classed('cat-dim',       d => d.cat !== cat);
-    }
+    if (!lockedCat) highlightCat(cat);
   });
   item.addEventListener('mouseleave', () => {
-    node.classed('cat-highlight', false);
-    node.classed('cat-dim',       false);
+    if (!lockedCat) clearHighlight();
   });
+  item.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (lockedCat === cat) {
+      clearHighlight();
+    } else {
+      lockedCat = cat;
+      highlightCat(cat);
+      document.querySelectorAll('.legend-item[data-cat]').forEach(el => el.style.background = '');
+      item.style.background = 'rgba(255,255,255,0.2)';
+    }
+  });
+});
+
+svg.on("click.unlock", () => {
+  if (lockedCat) { clearHighlight(); }
 });
 
 // Filter
