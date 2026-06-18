@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <title>音楽ジャンルルーツ辞典</title>
 <script src="https://d3js.org/d3.v7.min.js"></script>
-<script src="https://unpkg.com/3d-force-graph@1"></script>
+<script src="https://unpkg.com/3d-force-graph/dist/3d-force-graph.min.js"></script>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; background: #1a1a2e; color: #eee; overflow: hidden; }
@@ -106,7 +106,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v3.1 / 300 genres</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v3.2 / 300 genres</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="3d">3Dマップ</button>
@@ -2909,7 +2909,11 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
       sidebar.style.display = '';
     } else if (tab === '3d') {
       container3d.style.display = 'block';
-      if (!window._3dGraph) init3D();
+      if (!window._3dGraph) {
+        setTimeout(init3D, 100);
+      } else {
+        window._3dGraph.width(container3d.clientWidth).height(container3d.clientHeight);
+      }
     } else {
       if (!instPanel.innerHTML) buildInstPanel();
       instPanel.style.display = 'block';
@@ -2937,6 +2941,8 @@ function init3D() {
 
   const container = document.getElementById('3d-container');
   window._3dGraph = ForceGraph3D()(container)
+    .width(container.clientWidth)
+    .height(container.clientHeight)
     .graphData({nodes: nodes3d, links: links3d})
     .backgroundColor('#0a0a1a')
     .nodeColor(n => CAT_COLOR[n.cat] || '#888')
@@ -2966,21 +2972,8 @@ function init3D() {
     .d3Force('charge', d3.forceManyBody().strength(-80))
     .d3Force('link', d3.forceLink().distance(l => 100 - l.weight * 0.3).strength(0.3));
 
-  // Sunoノードにリングを追加
-  window._3dGraph.nodeThreeObject(n => {
-    if (!n.suno) return undefined;
-    const sprite = new window.THREE.Sprite(
-      new window.THREE.SpriteMaterial({
-        map: new window.THREE.TextureLoader().load(''),
-        color: 0xFFD700,
-        transparent: true,
-        opacity: 0.6
-      })
-    );
-    const s = Math.sqrt(n.val) * 2;
-    sprite.scale.set(s, s, 1);
-    return undefined;
-  });
+  // Sunoノードは黄色で表示
+  window._3dGraph.nodeColor(n => n.suno ? '#FFD700' : (CAT_COLOR[n.cat] || '#888'));
 }
 </script>
 </body>
