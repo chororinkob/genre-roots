@@ -3601,8 +3601,8 @@ function buildInstPanel() {
     }
   });
 
-  const searchInput = instPanel.querySelector('.inst-search');
-  searchInput.addEventListener('input', e => {
+  const instSearchInput = instPanel.querySelector('.inst-search');
+  instSearchInput.addEventListener('input', e => {
     const q = e.target.value.toLowerCase();
     instPanel.querySelectorAll('.inst-item').forEach(el => {
       el.style.display = el.dataset.search.includes(q) ? '' : 'none';
