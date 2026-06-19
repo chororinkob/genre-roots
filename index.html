@@ -134,7 +134,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v5.3 / 300 genres / 962 links</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v5.4 / 300 genres / 962 links</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
@@ -2544,22 +2544,19 @@ Object.entries(CAT_COLOR).forEach(([cat, color]) => {
 
 const nodeMap = Object.fromEntries(NODES.map(n => [n.id, n]));
 
-// Detect bidirectional links and merge
-const linkPairs = {};
+// Detect bidirectional pairs (flag only, keep all links)
+const bidirSet = new Set();
+const linkKeys = {};
 LINKS.forEach(l => {
-  const key = [l.s, l.t].sort().join('|');
-  if (!linkPairs[key]) linkPairs[key] = [];
-  linkPairs[key].push(l);
-});
-const linkData = [];
-Object.values(linkPairs).forEach(group => {
-  if (group.length >= 2) {
-    const l = group[0];
-    linkData.push({...l, source: l.s, target: l.t, bidir: true, s2: group[1].s});
-  } else {
-    linkData.push({...group[0], source: group[0].s, target: group[0].t, bidir: false});
+  const fwd = l.s + '|' + l.t;
+  const rev = l.t + '|' + l.s;
+  if (linkKeys[rev]) {
+    bidirSet.add(fwd);
+    bidirSet.add(rev);
   }
+  linkKeys[fwd] = true;
 });
+const linkData = LINKS.map(l => ({...l, source: l.s, target: l.t, bidir: bidirSet.has(l.s + '|' + l.t)}));
 
 const simulation = d3.forceSimulation(NODES)
   .force("link", d3.forceLink(linkData).id(d=>d.id).distance(d => 1300 - d.w * 2.0).strength(0.12))
