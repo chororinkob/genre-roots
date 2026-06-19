@@ -134,7 +134,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v5.6 / 300 genres</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v5.7 / 300 genres</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
@@ -221,6 +221,10 @@ svg { width: 100vw; height: 100vh; }
     <div class="sp-section" id="sp-out-sec">
       <h4>影響を与えたジャンル</h4>
       <div id="sp-out"></div>
+    </div>
+    <div class="sp-section" id="sp-mutual-sec">
+      <h4>相互に影響し合ったジャンル</h4>
+      <div id="sp-mutual"></div>
     </div>
     <div class="sp-section">
       <h4>YouTube検索</h4>
@@ -2687,16 +2691,32 @@ node.on("click", (e, d) => {
   }
 
   // ルーツ
-  const incoming = LINKS.filter(l => l.t === d.id);
+  // 相互影響の検出
+  const mutualPairs = new Set();
+  LINKS.forEach(l => {
+    if (LINKS.some(l2 => l2.s === l.t && l2.t === l.s)) {
+      mutualPairs.add(l.s + '|' + l.t);
+    }
+  });
+
+  // 影響を受けた（相互除く）
+  const incoming = LINKS.filter(l => l.t === d.id && !mutualPairs.has(l.t + '|' + l.s));
   spIn.innerHTML = incoming.length
     ? incoming.map(l => `<div class="sp-influence-row"><span class="pct">${l.w}%</span><b>${nodeMap[l.s]?.label?.replace("\n"," ")}</b><span class="reason">— ${l.desc||''}</span></div>`).join('')
-    : '<span style="color:#666">なし（ルーツジャンル）</span>';
+    : '<span style="color:#666">なし</span>';
 
-  // 影響先
-  const outgoing = LINKS.filter(l => l.s === d.id);
+  // 影響を与えた（相互除く）
+  const outgoing = LINKS.filter(l => l.s === d.id && !mutualPairs.has(l.s + '|' + l.t));
   spOut.innerHTML = outgoing.length
     ? outgoing.map(l => `<div class="sp-influence-row"><span class="pct">${l.w}%</span><b>${nodeMap[l.t]?.label?.replace("\n"," ")}</b><span class="reason">— ${l.desc||''}</span></div>`).join('')
-    : '<span style="color:#666">（データなし）</span>';
+    : '<span style="color:#666">なし</span>';
+
+  // 相互に影響し合ったジャンル
+  const spMutual = document.getElementById("sp-mutual");
+  const mutualLinks = LINKS.filter(l => l.s === d.id && mutualPairs.has(l.s + '|' + l.t));
+  spMutual.innerHTML = mutualLinks.length
+    ? mutualLinks.map(l => `<div class="sp-influence-row"><b>${nodeMap[l.t]?.label?.replace("\n"," ")}</b><span class="reason">— ${l.desc||''}</span></div>`).join('')
+    : '<span style="color:#666">なし</span>';
 
   // YouTube
   const q = encodeURIComponent(name + " music genre");
