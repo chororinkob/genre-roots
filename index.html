@@ -2700,30 +2700,34 @@ node.on("click", (e, d) => {
 
   // ルーツ
   // 相互影響の検出
-  const mutualPairs = new Set();
-  LINKS.forEach(l => {
-    if (LINKS.some(l2 => l2.s === l.t && l2.t === l.s)) {
-      mutualPairs.add(l.s + '|' + l.t);
-    }
+  // このノードに関連するリンクを分類
+  const linkSet = new Set(LINKS.map(l => l.s + '|' + l.t));
+  const myIncoming = LINKS.filter(l => l.t === d.id);
+  const myOutgoing = LINKS.filter(l => l.s === d.id);
+
+  // 相互影響：d.idが両端に関わり、逆方向も存在するペア
+  const mutualTargets = new Set();
+  myOutgoing.forEach(l => {
+    if (linkSet.has(l.t + '|' + d.id)) mutualTargets.add(l.t);
   });
 
   // 影響を受けた（相互除く）
-  const incoming = LINKS.filter(l => l.t === d.id && !mutualPairs.has(l.t + '|' + l.s));
+  const incoming = myIncoming.filter(l => !mutualTargets.has(l.s));
   spIn.innerHTML = incoming.length
     ? incoming.map(l => `<div class="sp-influence-row"><span class="pct">${l.w}%</span><b>${nodeMap[l.s]?.label?.replace("\n"," ")}</b><span class="reason">— ${l.desc||''}</span></div>`).join('')
     : '<span style="color:#666">なし</span>';
 
   // 影響を与えた（相互除く）
-  const outgoing = LINKS.filter(l => l.s === d.id && !mutualPairs.has(l.s + '|' + l.t));
+  const outgoing = myOutgoing.filter(l => !mutualTargets.has(l.t));
   spOut.innerHTML = outgoing.length
     ? outgoing.map(l => `<div class="sp-influence-row"><span class="pct">${l.w}%</span><b>${nodeMap[l.t]?.label?.replace("\n"," ")}</b><span class="reason">— ${l.desc||''}</span></div>`).join('')
     : '<span style="color:#666">なし</span>';
 
   // 相互に影響し合ったジャンル
   const spMutual = document.getElementById("sp-mutual");
-  const mutualLinks = LINKS.filter(l => l.s === d.id && mutualPairs.has(l.s + '|' + l.t));
-  spMutual.innerHTML = mutualLinks.length
-    ? mutualLinks.map(l => `<div class="sp-influence-row"><b>${nodeMap[l.t]?.label?.replace("\n"," ")}</b><span class="reason">— ${l.desc||''}</span></div>`).join('')
+  const mutualList = [...mutualTargets].map(tid => nodeMap[tid]);
+  spMutual.innerHTML = mutualList.length
+    ? mutualList.map(n => `<div class="sp-influence-row"><b>${n?.label?.replace("\n"," ")}</b></div>`).join('')
     : '<span style="color:#666">なし</span>';
 
   // YouTube
