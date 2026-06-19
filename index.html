@@ -3394,12 +3394,12 @@ searchInput.addEventListener("input", e => {
   const notFound = [];
 
   tags.forEach(tag => {
-    const match = NODES.find(n =>
-      n.id === tag.replace(/[\s-]/g, '_') ||
-      n.label.toLowerCase().replace('\n', ' ') === tag ||
-      n.id.includes(tag) ||
-      n.label.toLowerCase().includes(tag)
-    );
+    const tagId = tag.replace(/[\s-]/g, '_');
+    const match = NODES.find(n => {
+      if (n.id === tagId || n.label.toLowerCase().replace('\n', ' ') === tag) return true;
+      if (tag.length >= 3) return n.id.includes(tag) || n.label.toLowerCase().includes(tag);
+      return false;
+    });
     if (match) found.push(match.id);
     else notFound.push(tag);
   });
