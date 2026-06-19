@@ -134,7 +134,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v5.8b / 300 genres / 962 links</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v5.8c / 300 genres / 962 links</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
@@ -2701,15 +2701,17 @@ node.on("click", (e, d) => {
   // ルーツ
   // 相互影響の検出
   // このノードに関連するリンクを分類
-  const linkSet = new Set(LINKS.map(l => l.s + '|' + l.t));
-  const myIncoming = LINKS.filter(l => l.t === d.id);
-  const myOutgoing = LINKS.filter(l => l.s === d.id);
+  const linkSet = new Set(linkData.map(l => l.s + '|' + l.t));
+  const myIncoming = linkData.filter(l => l.t === d.id);
+  const myOutgoing = linkData.filter(l => l.s === d.id);
 
   // 相互影響：d.idが両端に関わり、逆方向も存在するペア
   const mutualTargets = new Set();
   myOutgoing.forEach(l => {
-    if (linkSet.has(l.t + '|' + d.id)) mutualTargets.add(l.t);
+    const revKey = l.t + '|' + d.id;
+    if (linkSet.has(revKey)) mutualTargets.add(l.t);
   });
+  console.log(d.id, 'out:', myOutgoing.length, 'in:', myIncoming.length, 'mutual:', mutualTargets.size, 'linkSet size:', linkSet.size);
 
   // 影響を受けた（相互除く）
   const incoming = myIncoming.filter(l => !mutualTargets.has(l.s));
