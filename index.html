@@ -3557,7 +3557,7 @@ function buildInstPanel() {
   const cats = {};
   INST_DATA.forEach(item => {
     if (!cats[item.cat]) cats[item.cat] = {};
-    if (!cats[item.cat][item.sub]) cats[item.cat][item.sub] = [
+    if (!cats[item.cat][item.sub]) cats[item.cat][item.sub] = [];
     cats[item.cat][item.sub].push(item);
   });
 
