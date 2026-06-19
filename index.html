@@ -134,7 +134,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v5.2 / 300 genres / 962 links</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v5.3 / 300 genres / 962 links</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
@@ -2529,11 +2529,37 @@ Object.entries(CAT_COLOR).forEach(([cat, color]) => {
     .attr("d", "M0,-4L8,0L0,4")
     .attr("fill", color)
     .attr("opacity", 0.7);
+  // Reverse arrow for bidirectional
+  svg.append("defs").append("marker")
+    .attr("id", `arrow-rev-${cat}`)
+    .attr("viewBox", "0 -4 8 8")
+    .attr("refX", 0).attr("refY", 0)
+    .attr("markerWidth", 5).attr("markerHeight", 5)
+    .attr("orient", "auto")
+    .append("path")
+    .attr("d", "M8,-4L0,0L8,4")
+    .attr("fill", color)
+    .attr("opacity", 0.7);
 });
 
 const nodeMap = Object.fromEntries(NODES.map(n => [n.id, n]));
 
-const linkData = LINKS.map(l => ({...l, source: l.s, target: l.t}));
+// Detect bidirectional links and merge
+const linkPairs = {};
+LINKS.forEach(l => {
+  const key = [l.s, l.t].sort().join('|');
+  if (!linkPairs[key]) linkPairs[key] = [];
+  linkPairs[key].push(l);
+});
+const linkData = [];
+Object.values(linkPairs).forEach(group => {
+  if (group.length >= 2) {
+    const l = group[0];
+    linkData.push({...l, source: l.s, target: l.t, bidir: true, s2: group[1].s});
+  } else {
+    linkData.push({...group[0], source: group[0].s, target: group[0].t, bidir: false});
+  }
+});
 
 const simulation = d3.forceSimulation(NODES)
   .force("link", d3.forceLink(linkData).id(d=>d.id).distance(d => 1300 - d.w * 2.0).strength(0.12))
@@ -2551,9 +2577,11 @@ const link = g.append("g").selectAll("line")
   .data(linkData)
   .join("line")
   .attr("class", "link")
-  .attr("stroke", d => CAT_COLOR[nodeMap[d.s]?.cat] || "#555")
+  .attr("stroke", d => d.bidir ? "#aaa" : (CAT_COLOR[nodeMap[d.s]?.cat] || "#555"))
   .attr("stroke-width", d => 4 + d.w / 10)
-  .attr("marker-end", d => `url(#arrow-${nodeMap[d.s]?.cat || "roots"})`);
+  .attr("marker-end", d => `url(#arrow-${nodeMap[d.s]?.cat || "rock"})`)
+  .attr("marker-start", d => d.bidir ? `url(#arrow-rev-${nodeMap[d.t]?.cat || "rock"})` : null)
+  .attr("stroke-dasharray", d => d.bidir ? "12,6" : null);
 
 // edge label group: background rect + text
 const linkLabelG = g.append("g").selectAll("g")
