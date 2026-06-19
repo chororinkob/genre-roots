@@ -134,7 +134,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v6.0 / 300 genres / 965 links</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v6.1 / 300 genres / 965 links</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
@@ -3304,7 +3304,13 @@ node.on("click", (e, d) => {
 
   // 相互に影響し合ったジャンル
   const spMutual = document.getElementById("sp-mutual");
-  const mutualLinks = myOutgoing.filter(l => mutualTargets.has(l.t));
+  const mutualLinks = myOutgoing.filter(l => mutualTargets.has(l.t)).map(l => {
+    if (l.desc && !l.desc.includes('↔')) {
+      const rev = linkData.find(l2 => l2.s === l.t && l2.t === d.id && l2.desc && l2.desc.includes('↔'));
+      if (rev) return {...l, desc: rev.desc};
+    }
+    return l;
+  });
   spMutual.innerHTML = mutualLinks.length
     ? mutualLinks.map(l => `<div class="sp-influence-row"><b>${nodeMap[l.t]?.label?.replace("\n"," ")}</b><span class="reason">— ${l.desc||''}</span></div>`).join('')
     : '<span style="color:#666">なし</span>';
