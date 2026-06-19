@@ -2638,19 +2638,20 @@ node.on("click", (e, d) => {
   if(dragMoved) return;
   e.stopPropagation();
 
-  // 関連ノードをハイライト、他を暗く
+  // 同カテゴリ=点滅、影響関係の別カテゴリ=明るく表示のみ、それ以外=暗く
   window._nodeFocused = true;
-  const connectedIds = new Set([d.id]);
+  const sameCatIds = new Set(NODES.filter(n => n.cat === d.cat).map(n => n.id));
+  const relatedIds = new Set();
   LINKS.forEach(l => {
-    if (l.s === d.id) connectedIds.add(l.t);
-    if (l.t === d.id) connectedIds.add(l.s);
+    if (sameCatIds.has(l.s) && !sameCatIds.has(l.t)) relatedIds.add(l.t);
+    if (sameCatIds.has(l.t) && !sameCatIds.has(l.s)) relatedIds.add(l.s);
   });
-  node.classed('focus-highlight', n => connectedIds.has(n.id));
-  node.classed('focus-dim', n => !connectedIds.has(n.id));
-  link.classed('focus-highlight', l => l.s === d.id || l.t === d.id);
-  link.classed('focus-dim', l => l.s !== d.id && l.t !== d.id);
-  linkLabelG.classed('focus-highlight', l => l.s === d.id || l.t === d.id);
-  linkLabelG.classed('focus-dim', l => l.s !== d.id && l.t !== d.id);
+  node.classed('focus-highlight', n => sameCatIds.has(n.id));
+  node.classed('focus-dim', n => !sameCatIds.has(n.id) && !relatedIds.has(n.id));
+  link.classed('focus-highlight', l => sameCatIds.has(l.s) || sameCatIds.has(l.t));
+  link.classed('focus-dim', l => !sameCatIds.has(l.s) && !sameCatIds.has(l.t));
+  linkLabelG.classed('focus-highlight', l => sameCatIds.has(l.s) || sameCatIds.has(l.t));
+  linkLabelG.classed('focus-dim', l => !sameCatIds.has(l.s) && !sameCatIds.has(l.t));
 
   const name = d.label.replace("\n", " ");
   spTag.textContent = name;
