@@ -134,7 +134,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v4.4 / 300 genres</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v5.1 / 300 genres</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
@@ -162,7 +162,9 @@ svg { width: 100vw; height: 100vh; }
 
 <div id="legend">
   <h3>カテゴリ</h3>
-  <div class="legend-item" data-cat="roots"><div class="legend-dot" style="background:#888"></div><span class="legend-label">ルーツジャンル</span></div>
+  <div class="legend-item" data-cat="soul_cat"><div class="legend-dot" style="background:#E040FB"></div><span class="legend-label">ソウル系</span></div>
+  <div class="legend-item" data-cat="funk_cat"><div class="legend-dot" style="background:#FF6D00"></div><span class="legend-label">ファンク系</span></div>
+  <div class="legend-item" data-cat="disco_cat"><div class="legend-dot" style="background:#EC407A"></div><span class="legend-label">ディスコ系</span></div>
   <div class="legend-item" data-cat="early_elec"><div class="legend-dot" style="background:#5C7CFA"></div><span class="legend-label">初期電子音楽</span></div>
   <div class="legend-item" data-cat="synthpop"><div class="legend-dot" style="background:#845EF7"></div><span class="legend-label">シンセポップ系</span></div>
   <div class="legend-item" data-cat="industrial"><div class="legend-dot" style="background:#495057"></div><span class="legend-label">インダストリアル系</span></div>
@@ -390,43 +392,43 @@ const INST_ITEMS = [
 // ===== DATA =====
 const NODES = [
   // ルーツ
-  {id:"jazz", label:"Jazz", cat:"roots", era:"1900s", suno:false,
+  {id:"jazz", label:"Jazz", cat:"jazz_sub", era:"1900s", suno:false,
     desc:"スウィング感のあるリズムに乗せた即興演奏（アドリブ）が最大の魅力。演奏者がその場の空気で旋律を自由に変え、予測できない展開が生まれるのがジャズ独特の面白さ。コード進行は複雑でおしゃれな響きを持ち、サックスやトランペットの艶やかな音色がムードを作る。テンポはスローバラードからアップテンポまで幅広いが、どのスタイルにも共通する「揺れるグルーヴ」がある。夜のバーが似合う大人びた雰囲気で、時にメランコリック、時に高揚感にあふれる。",
     roots_story:"19世紀末〜20世紀初頭、ニューオーリンズの黒人コミュニティでブルース、ラグタイム、ゴスペル、マーチングバンドの要素が融合して誕生した。Buddy Bolden、King Oliver、Louis Armstrongらが初期のスタイルを確立。1920年代にシカゴ・NYへ広がり「ジャズ・エイジ」と呼ばれる社会現象に。Duke Ellington、Charlie Parker、Miles Davisらが時代ごとに革新を起こし、ビバップ→クールジャズ→フリージャズと進化。その即興精神とハーモニーの豊かさは、後のあらゆるポピュラー音楽の基盤となった。"},
 
-  {id:"blues", label:"Blues", cat:"roots", era:"1900s", suno:false,
+  {id:"blues", label:"Blues", cat:"blues_sub", era:"1900s", suno:false,
     desc:"哀愁と情感を込めたギターとボーカルが中心の音楽。「泣き」のギターフレーズ、ブルーノートと呼ばれる独特の音階が醸し出す切なさが最大の特徴。テンポはゆったりめで、同じコード進行をくり返しながら感情を深く掘り下げていく。声を絞り出すような歌い方、ギターを泣かせるようなベンド（チョーキング）、ハーモニカのむせび泣く音色が胸に刺さる。晴れた日でもどこか物悲しい空気を纏っており、聴く人の心の奥にじんわり響く音楽。",
     roots_story:"19世紀後半、ミシシッピ・デルタ地域のアフリカ系アメリカ人の労働歌（ワークソング）、フィールドハラー、スピリチュアルが融合して形成された。Robert Johnsonの伝説的な「クロスロード」の逸話に象徴されるデルタ・ブルースが原型。1940年代にMuddy WatersやHowlin' Wolfがシカゴに移住し、エレキギターとバンド編成を導入してシカゴ・ブルースを確立。B.B. Kingは洗練されたギタープレイで「ブルースの王」と呼ばれた。このシカゴ・ブルースをイギリスの若者が聴いてロックンロールが生まれ、音楽史全体を変えた。"},
 
-  {id:"funk", label:"Funk", cat:"roots", era:"1960s", suno:false,
+  {id:"funk", label:"Funk", cat:"funk_cat", era:"1960s", suno:false,
     desc:"とにかく体が動く、リズム最優先の音楽。1拍目にズドンと来るキックとベースの「うねり」が全身を揺さぶる。スラップベースのバチバチした音、ギターのチャカチャカしたカッティング、ホーンセクションの分厚い咆哮が絡み合って強烈なグルーヴを生む。メロディよりもリズムの気持ちよさを追求しており、同じリフを延々と繰り返しながらどんどんテンションが上がっていく快感がある。底抜けに明るくて汗臭い、踊るための音楽。",
     roots_story:"1960年代半ば、James Brownが「Papa's Got a Brand New Bag」(1965)で従来のR&Bから脱却し、リズムを前面に押し出した革命的なサウンドを生み出した。「ファンクの帝王」と呼ばれた彼の「1拍目を強調する」スタイルは音楽の概念を変えた。Sly and the Family Stoneはサイケデリック・ロックと融合させ、Parliament/FunkadelicのGeorge Clintonは宇宙的な世界観の「Pファンク」を確立。Bootsy Collins、Earth, Wind & Fire、Tower of Powerらがジャンルを拡張した。ファンクのブレイクビーツは後にヒップホップのサンプリング素材として無数に引用された。"},
 
-  {id:"disco", label:"Disco", cat:"roots", era:"1970s", suno:false,
+  {id:"disco", label:"Disco", cat:"disco_cat", era:"1970s", suno:false,
     desc:"キラキラした華やかさと高揚感にあふれたダンスミュージック。「ドン・ドン・ドン・ドン」と一定のテンポで刻む4つ打ちキック、シャカシャカ鳴り続けるハイハット、オクターブで跳ねるベースラインが基本骨格。その上にストリングス（弦楽器）の煌びやかなアレンジとソウルフルなボーカルが乗り、ミラーボールの下で踊り明かすための音楽を作り出す。テンポはBPM 110〜130で、速すぎず遅すぎない踊りやすさが心地よい。開放的で多幸感のある雰囲気が最大の魅力。",
     roots_story:"1970年代初頭、NYのゲイ・黒人・ラテン系コミュニティのアンダーグラウンドクラブで誕生。DJ David Mancusoの「The Loft」やNicky Sianoの「The Gallery」が初期の拠点。Donna Summer「I Feel Love」(1977, Giorgio Moroder制作)はシンセサイザーを全面導入し電子音楽への橋渡しとなった。Bee Gees「Saturday Night Fever」(1977)で大衆化。しかし1979年の「Disco Demolition Night」事件に象徴されるバックラッシュで地上から姿を消す。だがシカゴのDJ達がディスコのビートをシンセで再構築し、ハウスミュージックとして再生させた。"},
 
-  {id:"soul", label:"Soul", cat:"roots", era:"1960s", suno:false,
+  {id:"soul", label:"Soul", cat:"soul_cat", era:"1960s", suno:false,
     desc:"ボーカルの感情表現がすべての中心にある音楽。歌い手が魂（ソウル）を込めて声を絞り出し、ささやきからシャウトまで感情の振り幅を全開で表現する。メリスマ（一つの音符を細かく揺らす節回し）やファルセット（裏声）を自在に使いこなす歌唱力が聴きどころ。バックはオルガン、ホーンセクション、温かいコーラスが歌を包み込む。テンポはミッドテンポが多く、バラードでは切なく胸に迫り、アップテンポでは喜びが爆発する。「人間の声そのものが楽器」と感じさせる、情感の塊のような音楽。",
     roots_story:"1950年代後半、Ray Charlesがゴスペルの歌唱スタイルを世俗的な歌詞に持ち込み「ソウルの父」と呼ばれた。Sam Cookeは洗練されたポップ寄りのソウルを、James Brownはよりリズミックなソウルを追求（後にファンクへ発展）。1960年代、Motownレコード（デトロイト）はSupremes、Temptations、Marvin Gayeらでポップ市場を制覇。Staxレコード（メンフィス）はOtis Redding、Booker T.らの泥臭いサザンソウルを発信。Aretha Franklinは「ソウルの女王」として君臨した。1970年代にはPhilly Soulが洗練されたストリングスを導入し、これがディスコへの直接の布石となった。"},
 
-  {id:"reggae", label:"Reggae", cat:"roots", era:"1960s", suno:false,
+  {id:"reggae", label:"Reggae", cat:"caribbean", era:"1960s", suno:false,
     desc:"裏拍（オフビート）を強調した独特のリズムが最大の個性。ギターやキーボードが「ンチャ・ンチャ」と裏で刻み、その隙間を重く深いベースラインがズーンと埋める。テンポはゆったり（BPM 60〜90）で、南国の陽射しの下でのんびり揺れるような心地よさがある。一聴すると脱力感があるのに、ベースとドラムのコンビネーションには芯の強いグルーヴが宿っている。穏やかさの中に力強いメッセージを秘めた、不思議な包容力を持つ音楽。",
     roots_story:"1960年代後半、ジャマイカでスカ→ロックステディの進化を経て誕生。Toots and the Maytalsが「Do the Reggay」(1968)で初めて「レゲエ」という言葉を使用。Bob Marleyとthe Wailersが世界的なスターとなり、レゲエをグローバルな音楽に押し上げた。「No Woman, No Cry」「One Love」などの楽曲は今も世界中で愛される。同時期にLee \"Scratch\" Perryやking Tubbyがスタジオで録音テープを加工する「ダブ」技法を発明。これはリバーブ、ディレイ、エフェクト処理による音響実験であり、後の電子音楽・リミックス文化の原点となった。"},
 
-  {id:"punk", label:"Punk Rock", cat:"roots", era:"1970s", suno:false,
+  {id:"punk", label:"Punk Rock", cat:"rock", era:"1970s", suno:false,
     desc:"速い・短い・シンプル・うるさい。3コードのパワーコードをかき鳴らし、2分前後の短い曲を全力で叩きつけるロック。演奏技術よりも衝動と態度が重視され、怒りや反抗心をそのまま音にぶつける。ボーカルは叫ぶか吐き捨てるかで、美しく歌おうという気はない。テンポは速く、ドラムはひたすらビートを叩き続ける。聴くと「自分でもできそう」と思わせる敷居の低さがあるのに、そのエネルギーは圧倒的。粗削りで汚いのにカッコいい、反骨精神そのものの音楽。",
     roots_story:"1974〜76年、NYのCBGBというライブハウスでRamones、Television、Patti Smithらが従来のロックの複雑さを拒絶したシンプルで攻撃的な音楽を演奏。ほぼ同時期にロンドンでSex Pistolsが「Anarchy in the U.K.」(1976)でデビューし、社会的衝撃を与えた。マネージャーMalcolm McLarenがファッションと反体制思想を結びつけ、パンクを音楽を超えた文化運動に変えた。The Clashは政治的メッセージとレゲエなど多様な要素を取り入れ「パンクの良心」と呼ばれた。パンクは長くは持たなかったが、そのDIY精神はポストパンク、ニューウェーブ、インダストリアルへ受け継がれ、電子音楽への扉を開いた。"},
 
-  {id:"hiphop", label:"Hip Hop", cat:"roots", era:"1970s", suno:false,
+  {id:"hiphop", label:"Hip Hop", cat:"hiphop", era:"1970s", suno:false,
     desc:"ビート（打ち込みのリズム）の上でラップ（韻を踏みながら語る歌唱法）を乗せる音楽。ドラムマシンやサンプリングで作られた重い低音とタイトなビートが土台で、そこにMCの言葉のフロウが絡む。DJのスクラッチ音、既存の曲から切り取ったサンプルのループも重要な音響要素。テンポはBPM 80〜100が主流で、頭を縦に振りたくなる「首振りビート」が気持ちいい。ストリートの空気感、言葉の力強さ、ビートの中毒性が三位一体になった、声とリズムの音楽。",
     roots_story:"1973年8月11日、DJ Kool Hercがブロンクスのアパートのパーティでファンクレコードのブレイク部分（ドラムだけの間奏）を2枚のレコードで交互に繰り返す「ブレイクビーツ」を発明。これがヒップホップの起源とされる。Grandmaster FlashはスクラッチやビートジャグリングなどのDJ技法を開発。Afrika Bambaataaはファンクにシンセサイザーを導入した「Planet Rock」(1982)でエレクトロとヒップホップを架橋した。Run-D.M.C.がロックと融合させメインストリームへ。Public Enemyは政治的メッセージを、N.W.A.はギャングスタ・ラップを確立。サンプリング文化は電子音楽全般のリミックス・マッシュアップ文化の基盤となった。"},
 
-  {id:"newage", label:"New Age", cat:"roots", era:"1970s", suno:false,
+  {id:"newage", label:"New Age", cat:"ambient", era:"1970s", suno:false,
     desc:"聴いていると心が静まり、ふわっと浮遊感に包まれるような穏やかな音楽。シンセサイザーの柔らかいパッド音、ピアノやハープの繊細な旋律、水の流れや鳥のさえずりといった自然音が組み合わさる。リズムは控えめか存在せず、メロディはゆったりと反復する。瞑想やヨガ、マッサージのBGMとしてよく使われるが、単なる背景音楽ではなく、聴く人を日常から切り離して穏やかな内面世界へ誘う力がある。明るく透明感のある響きが特徴で、暗さや攻撃性とは無縁の癒やしの音楽。",
     roots_story:"1970年代、Brian Enoのアンビエント実験とは別の流れとして、スピリチュアリズムやニューエイジ思想と結びついた音楽が形成された。ドイツのKlaus Schulze、Tangerine Dreamの電子音楽、日本の喜多郎のシンセサイザー作品が初期の代表格。Windham Hillレコード（1976年設立）がアコースティックなニューエイジを確立し、George Winston、Will Ackermannらがピアノ・ギター主体の作品で人気を得た。Enya「Orinoco Flow」(1988)が世界的ヒットとなりジャンルを大衆化。1987年にはグラミー賞にニューエイジ部門が新設された。スパやヨガスタジオのBGMとしても広く浸透し、後のチルアウト・アンビエント文化の下地を作った。"},
 
-  {id:"classical", label:"Classical", cat:"roots", era:"~1900", suno:false,
+  {id:"classical", label:"Classical", cat:"classical_sub", era:"~1900", suno:false,
     desc:"オーケストラ（管弦楽団）が奏でる壮大で格式高い音楽。バイオリン、チェロ、フルート、トランペットなど数十種の楽器が楽譜に従って精密にハーモニーを紡ぐ。静寂から大音量まで劇的なダイナミクスの変化があり、聴く者の感情を大きく揺さぶる。ピアノ独奏の繊細さ、弦楽四重奏の親密さ、フルオーケストラの圧倒的なスケール感など表現の幅が極めて広い。荘厳で美しい響きの中に、喜び、悲しみ、怒り、崇高さなど人間のあらゆる感情が詰まっている。聴き手に集中と没入を求める、「聴く芸術」としての音楽。",
     roots_story:"千年以上の歴史を持つ西洋音楽の伝統。電子音楽との接点は20世紀初頭から始まる。Claude Debussyの印象主義音楽（1890年代〜）は調性の束縛を緩め、後のアンビエントの浮遊感に影響。Arnold Schoenbergの十二音技法（1920年代）は従来の調性を解体し、実験音楽への道を開いた。Karlheinz Stockhausen（1950年代〜）は電子音響を正統的な作曲技法に取り入れた最初の主要な作曲家で、Kraftwerkからビョークまで多大な影響を与えた。Philip Glass、Steve Reichらのミニマル音楽（1960年代〜）は反復構造でテクノ・アンビエントの直接の先駆けとなった。"},
 
@@ -752,7 +754,7 @@ const NODES = [
     roots_story:"2012年頃、ポストダブステップの流れの中でより明るく感情的な方向が確立。Flume（オーストラリア）がセルフタイトルアルバム(2012)でフューチャーベースの方向性を定義した最重要人物。Marshmello「Alone」(2016)はYouTubeで10億回再生を超え、ジャンルを完全にメインストリーム化。San Holo、Louis The Child、Slushii、Illeniumも主要アーティスト。Trap Nationなど大型YouTubeチャンネルが普及に大きく貢献。Monstercat、Moving Castleが主要レーベル。"},
 
   // ユーロダンス系
-  {id:"hi_nrg", label:"Hi-NRG", cat:"eurodance", era:"1977", suno:true,
+  {id:"hi_nrg", label:"Hi-NRG", cat:"disco_cat", era:"1977", suno:true,
     desc:"ディスコの4つ打ちビートをさらに速く、さらにエネルギッシュにしたダンスミュージック。テンポはBPM 130〜140とディスコより速く、シンセサイザーのシーケンスが機関銃のように駆け抜ける。ディスコのゴージャスなオーケストレーションを電子音に置き換え、より直線的でアグレッシブなグルーヴを追求。ゲイクラブカルチャーと強く結びつき、派手で開放的なエネルギーに満ちている。全力で踊りたい夜のためのハイオクタン燃料。",
     roots_story:"1977年頃、ディスコの一部がより速くエネルギッシュな方向へ進化。Patrick Cowley（サンフランシスコ）がシンセサイザーを駆使したハイエナジーなディスコでジャンルを確立。Sylvester「You Make Me Feel (Mighty Real)」(1978)が大ヒット。CowleyはSylvesterの後の楽曲「Do You Wanna Funk」(1982)等をプロデュースした。Bobby Orlando（Bobby O）はニューヨークからシンセ主体のHi-NRGを量産し、Pet Shop BoysやDivine（映画監督ジョン・ウォーターズのミューズ）を手がけた。ゲイクラブの定番としてサンフランシスコ、ニューヨーク、ロンドンで栄え、ユーロビート・ユーロダンスの直接の先祖となった。"},
 
@@ -1148,23 +1150,23 @@ const NODES = [
     roots_story:"John Cage「4'33\"」(1952)は「4分33秒の沈黙」という作品で、音楽の概念を根本から問い直した。Frank Zappa「Freak Out!」(1966)はロックの文脈で前衛を実践。Captain Beefheart「Trout Mask Replica」(1969)は意図的にリズムとメロディを崩壊させた問題作。Yoko OnoはFluxusアートと音楽を融合。日本では大友良英、灰野敬二がアヴァンギャルドの世界的巨匠として知られる。"},
 
   // ソウル・ファンク・R&B系
-  {id:"motown", label:"Motown", cat:"pop", era:"1960s", suno:true,
+  {id:"motown", label:"Motown", cat:"soul_cat", era:"1960s", suno:true,
     desc:"デトロイトのMotownレコードが生み出した、洗練されてキャッチーなソウルポップス。タンバリンの「チャッ」というビート、ベースのグルーヴィーなライン、ストリングスの華やかなアレンジ、コーラスグループの美しいハーモニーが一体化した、完璧にパッケージされたポップソウル。テンポは中速〜軽快。人種を超えて誰もが踊り出すような普遍的なポップの力がある。",
     roots_story:"1959年、Berry Gordy Jr.がデトロイトに設立。「The Sound of Young America（若きアメリカの音）」をスローガンに、黒人音楽を白人市場にもクロスオーバーさせることに成功。The Supremes「Where Did Our Love Go」(1964)、The Temptations、Marvin Gaye「What's Going On」(1971)、Stevie Wonder「Songs in the Key of Life」(1976)が代表作。Jackson 5が少年マイケル・ジャクソンをスターにした。"},
 
-  {id:"doo_wop", label:"Doo-Wop", cat:"pop", era:"1950s", suno:true,
+  {id:"doo_wop", label:"Doo-Wop", cat:"soul_cat", era:"1950s", suno:true,
     desc:"街角で若者たちがアカペラで歌う、甘くてロマンチックなコーラスグループの音楽。リードボーカルとバックコーラスの掛け合い、「ドゥーワップ」「シュビドゥビ」などのナンセンスシラブル（意味のない音節）のハーモニーが特徴。テンポはゆったり〜中速。1950年代のアメリカの青春を象徴する、甘い恋の歌。",
     roots_story:"1950年代、ニューヨーク、フィラデルフィア、ボルチモアなどの都市部の黒人コミュニティで、ゴスペルの合唱スタイルが世俗的な恋愛ソングに応用された。The Platters「Only You」(1955)、The Drifters「Under the Boardwalk」(1964)が代表曲。Frankie Lymon & the Teenagersは13歳のリードシンガーで話題に。イタリア系アメリカ人グループ（Dion and the Belmonts等）も重要。映画「アメリカン・グラフィティ」(1973)で再評価された。"},
 
-  {id:"neo_soul", label:"Neo Soul", cat:"pop", era:"1990s", suno:true,
+  {id:"neo_soul", label:"Neo Soul", cat:"soul_cat", era:"1990s", suno:true,
     desc:"1960〜70年代のクラシックソウルの温かみを、90年代のヒップホップビートとジャズの洗練さで再構築した、大人のための上質なR&B。アナログシンセの温かい音色、ジャジーなコード進行、ヒップホップ的なビート、自然体で力まないボーカルが特徴。テンポはゆったり〜中速。商業的なR&Bの過剰なプロダクションに対するオーガニックな回答。キャンドルの灯りが似合う親密な音楽。",
     roots_story:"1990年代後半、D'Angelo「Brown Sugar」(1995)、Erykah Badu「Baduizm」(1997)がネオソウルの誕生を告げた。Lauryn Hill「The Miseducation of Lauryn Hill」(1998)はグラミー賞5部門受賞。Maxwell、Jill Scott、Musiq Soulchildも重要。Questlove（The Roots）がプロデューサー/ドラマーとしてシーンを支えた。2020年代にはH.E.R.、Daniel Caesar、SZAがネオソウルの精神を継承。"},
 
-  {id:"alternative_rnb", label:"Alternative\nR&B", cat:"pop", era:"2010s", suno:true,
+  {id:"alternative_rnb", label:"Alternative\nR&B", cat:"soul_cat", era:"2010s", suno:true,
     desc:"R&Bの官能的なボーカルにエレクトロニカ、インディーロック、アンビエントの実験性を融合させた、ジャンルの壁を完全に超えた現代の音楽。オートチューン処理されたボーカル、エレクトロニックなビート、空間的なプロダクション、内省的で曖昧な歌詞が特徴。テンポはスロー〜中速。従来のR&Bの「セクシーさ」に知的な陰影を加えた、夜の散歩のための音楽。",
     roots_story:"2010年代前半、The Weeknd「House of Balloons」(2011)がダークで退廃的なR&Bで衝撃を与えた。Frank Ocean「Channel Orange」(2012)は内省的な歌詞とジャンルレスなサウンドで批評家から絶賛。FKA twigs、Kelela、SZA、Sampha、Solange「A Seat at the Table」(2016)が重要作品。OVO Sound（Drakeのレーベル）もオルタナティブR&Bの普及に貢献。"},
 
-  {id:"nu_funk", label:"Nu Funk", cat:"pop", era:"2000s", suno:true,
+  {id:"nu_funk", label:"Nu Funk", cat:"funk_cat", era:"2000s", suno:true,
     desc:"1970年代ファンクの太いグルーヴを現代のプロダクションで蘇らせた、踊れてスタイリッシュな新世代ファンク。ヴィンテージなアナログシンセ、スラップベース、カッティングギターにモダンなビートプログラミングが加わる。テンポはBPM 100〜120で、ファンクの伝統的なグルーヴ感を保ちつつ洗練されたサウンド。クラブでもフェスでもカフェでも映える、おしゃれなファンク。",
     roots_story:"2000年代、Jamiroquai「A Funk Odyssey」(2001)がモダンファンクの代表格。Vulfpeck（ミシガン）はミニマルで遊び心のあるファンクでYouTubeから火がついた。Daft Punk「Random Access Memories」(2013)はナイル・ロジャース参加でファンクリバイバルを象徴する作品に。Thundercat、Anderson .Paak、Silk Sonicもファンク回帰の重要人物。レトロとモダンの絶妙なバランス。"},
 
@@ -1243,15 +1245,15 @@ const NODES = [
     desc:"2019年以降の世界的シティポップリバイバルの波に乗り、現代のアーティストが1980年代シティポップの美学を意識的に再現・再解釈したスタイル。オリジナルのシティポップの温かいアナログ感を現代のデジタルプロダクションで再構築し、ファンクやAOR的なグルーヴを継承しつつ新しい感覚を加える。夜のドライブとネオンのノスタルジー。",
     roots_story:"松原みき「真夜中のドア/Stay With Me」(1979)が2020年にSpotifyグローバル1位を獲得したことが現代シティポップブームの決定的瞬間。Night Tempo（韓国のDJ）が「future funk」としてシティポップをリミックスし人気に。Miki Matsubara、竹内まりや、山下達郎の楽曲がTikTok/YouTubeで世界的に再発見された。現代のアーティストではTOOBOE、imase、Vaundy等がシティポップ的要素を取り入れている。"},
 
-  {id:"smooth_soul", label:"Smooth Soul", cat:"pop", era:"1970s", suno:true,
+  {id:"smooth_soul", label:"Smooth Soul", cat:"soul_cat", era:"1970s", suno:true,
     desc:"ソウルミュージックの中でも最もソフトで洗練されたスタイル。シルクのように滑らかなボーカル、繊細なストリングスアレンジ、控えめなリズムセクション、ロマンチックな歌詞が心地よい空間を作る。テンポはゆったり〜中速。「スムースな夜」のためのBGMとして完璧にデザインされた音楽。キャンドルディナーやドライブデートが似合う。",
     roots_story:"1970年代のフィラデルフィア・ソウル（Barry White、The O'Jays、Harold Melvin & the Blue Notes）がルーツ。Thom Bell、Kenny Gamble & Leon Huffのプロダクションチームが洗練されたストリングスアレンジを確立。Luther Vandross「Never Too Much」(1981)はスムースソウルの代名詞。Anita Baker「Rapture」(1986)はグラミー賞受賞。Maxwell、D'Angeloのネオソウルにも大きな影響を与えた。"},
 
-  {id:"latin_rnb", label:"Latin R&B", cat:"pop", era:"2000s", suno:true,
+  {id:"latin_rnb", label:"Latin R&B", cat:"soul_cat", era:"2000s", suno:true,
     desc:"R&Bのソウルフルなボーカルとメロディにラテンのリズム（レゲトン、バチャータ、サルサの要素）を融合させたスタイル。スペイン語と英語のバイリンガルな歌詞、セクシーなボーカル、トロピカルな打楽器が特徴。テンポはBPM 80〜100。ラテンの情熱とR&Bの官能性が出会った、アメリカのラテン系コミュニティから世界へ広がったクロスオーバーサウンド。",
     roots_story:"2000年代、ラテン系アメリカ人アーティストがR&Bスタイルで歌い始めた。Frankie J「Don't Wanna Try」(2005)が初期の代表。Prince Royce、Romeo Santos（Aventura）がバチャータとR&Bを融合。Ozuna、Maluma、Rauuw Alejandroがレゲトンとの境界でラテンR&Bを発展。Rosalía「MOTOMAMI」(2022)はフラメンコ、R&B、エレクトロニカの融合で批評家を驚かせた。"},
 
-  {id:"britfunk", label:"Britfunk", cat:"pop", era:"1980s", suno:true,
+  {id:"britfunk", label:"Britfunk", cat:"funk_cat", era:"1980s", suno:true,
     desc:"イギリスの若い黒人ミュージシャンがアメリカのファンクとディスコを独自に解釈した、UKファンクのスタイル。タイトなリズムセクション、シンセベース、ジャジーなホーンアレンジ、洗練されたプロダクションが特徴。テンポはBPM 100〜120。アメリカンファンクより上品で都会的、クールブリタニアの先駆的な黒人音楽シーン。",
     roots_story:"1980年代初頭、ロンドンの若い黒人コミュニティから登場。Light of the World「London Town」(1980)、Linx「Intuition」(1981)、Beggar & Co、Central Line、Level 42が代表格。Paul Weller（The Jam→The Style Council）も影響を受けた。Brit Funkはアシッドジャズの直接の先祖であり、UK Garageへの系譜にもつながる。2000年代にはJamiroquaiがブリットファンクの精神を受け継いだ。"},
 
@@ -1289,11 +1291,11 @@ const NODES = [
     desc:"サイバーパンクSF（ブレードランナー、攻殻機動隊、サイバーパンク2077）の世界観を音で表現した電子音楽。ダークシンスの攻撃性、インダストリアルの金属感、シンセウェーブのレトロフューチャー感が融合。ディストピア的な都市の夜、ネオンサイン、雨に濡れた路地、人工知能と人間の境界——そういったイメージが音になったスタイル。",
     roots_story:"ヴァンゲリス「ブレードランナー」サウンドトラック(1982)が原点。映画のサウンドデザインと音楽の境界を曖昧にしたこの作品が、サイバーパンク的音楽の美学を定義した。ゲーム「Cyberpunk 2077」(2020)のサウンドトラックが現代のサイバーパンク音楽の集大成。Perturbator、Daniel Deluxe、3FORCEがジャンルの中心アーティスト。映画「GHOST IN THE SHELL」の川井憲次の音楽も重要。"},
 
-  {id:"trap_soul", label:"Trap Soul", cat:"pop", era:"2014", suno:true,
+  {id:"trap_soul", label:"Trap Soul", cat:"soul_cat", era:"2014", suno:true,
     desc:"トラップのダークなビートとR&Bのメロディアスなボーカルが融合した、現代R&Bの主流スタイル。808ベースの重低音、ハイハットのロール、オートチューン処理されたソフトなボーカル、官能的で内省的な歌詞が特徴。テンポはBPM 60〜80と遅く、深夜のベッドルームの親密さがある。攻撃的なトラップと対極的な、柔らかくてセクシーなサウンド。",
     roots_story:"2014年、Bryson Tiller「Don't」がSoundCloudで爆発的ヒットとなり、「トラップソウル」を定義。Tillerのアルバム「Trapsoul」(2015)がジャンル名に。The Weeknd「Beauty Behind the Madness」(2015)もトラップソウル的な要素を持つ。6LACK、Summer Walker「Over It」(2019)、Brent Faiyaz「Wasteland」(2022)が重要作品。ジャンルはR&Bの主流に完全に浸透し、独立したカテゴリとして認識されなくなりつつある。"},
 
-  {id:"hip_hop_soul", label:"Hip-Hop Soul", cat:"pop", era:"1992", suno:true,
+  {id:"hip_hop_soul", label:"Hip-Hop Soul", cat:"soul_cat", era:"1992", suno:true,
     desc:"R&Bのソウルフルなボーカルにヒップホップのビートとアティテュードを自然に融合させた、1990年代のR&Bの主流スタイル。サンプリングベースのビート、歌とラップの自然な行き来、ストリートの感覚とメロディの美しさが同居。テンポはBPM 80〜100。ニュージャックスウィングの後継であり、2000年代のR&Bの土台を作った。",
     roots_story:"1992年、Mary J. Blige「What's the 411?」がヒップホップソウルの代名詞的作品。プロデューサーPuff Daddy（ディディ）がアップタウンレコードで確立したスタイル。R. Kelly「12 Play」(1993)、TLC「CrazySexyCool」(1994)、Aaliyah「One in a Million」(1996)が代表作。Timbalandの革新的プロダクションがAaliyahを通じてR&Bの概念を変えた。Lauryn Hill、Erykah Baduのネオソウルにも直接つながった。"},
 
@@ -1425,11 +1427,11 @@ const NODES = [
     roots_story:"1987年、DJ Jazzy Jeff & The Fresh Prince「Parents Just Don't Understand」がポップラップの先駆け。MC Hammer「U Can't Touch This」(1990)、Vanilla Ice「Ice Ice Baby」(1990)が大衆化。2000年代にはBlack Eyed Peas「Where Is the Love?」(2003)が世界的ヒット。現在はDrake、Post Malone、Doja Cat、Cardi Bがポップラップの中心。ストリーミング時代のヒップホップの主流形態。"},
 
   // ソウル/R&B系追加2
-  {id:"new_jack_swing", label:"New Jack\nSwing", cat:"pop", era:"1987", suno:true,
+  {id:"new_jack_swing", label:"New Jack\nSwing", cat:"soul_cat", era:"1987", suno:true,
     desc:"R&Bのソウルフルなボーカルにヒップホップのビートとスウィング感を融合させた、1980年代末〜90年代初頭を席巻したスタイル。ドラムマシンのタイトなビート、シンセベース、サンプリング、歌とラップの交互が特徴。テンポはBPM 95〜115で跳ねるようなグルーヴ。ダンサブルで都会的、当時の若者のファッションやダンスと一体化した文化。",
     roots_story:"1987年、プロデューサーTeddy Rileyが確立。Bobby Brown「Don't Be Cruel」(1988)がニュージャックスウィングの最大のヒット。Guy（Teddy Rileyのバンド）、Keith Sweat、Bell Biv DeVoe、SWVが代表格。Michael Jackson「Remember the Time」(1992)、Janet Jackson「Rhythm Nation 1814」(1989)もニュージャックスウィングの影響下にあった。K-POPの初期（Seo Taiji and Boys）にも大きな影響を与えた。"},
 
-  {id:"urban_contemporary", label:"Urban\nContemporary", cat:"pop", era:"1980s", suno:true,
+  {id:"urban_contemporary", label:"Urban\nContemporary", cat:"soul_cat", era:"1980s", suno:true,
     desc:"R&B、ソウル、ファンク、ヒップホップ、ダンスポップなど黒人音楽を包括するラジオフォーマットから生まれた用語。現代的なプロダクション、洗練されたボーカル、ダンサブルなビートが特徴。テンポは様々。特定のサウンドよりも「都市の黒人コミュニティの音楽」という文化的文脈で定義される。Beyoncé、Usher、Chris Brownの音楽を一言で表すカテゴリ。",
     roots_story:"1980年代、アメリカのラジオ局がR&B、ソウル、ファンク等を包括するフォーマットとして「Urban Contemporary」を採用。Frankie Crocker（WBLSラジオDJ）がフォーマットの先駆者。Whitney Houston「I Wanna Dance with Somebody」(1987)が典型。1990年代のBabyface、R. Kelly、TLCを経て、2000年代のUsher「Yeah!」(2004)、Beyoncé「Crazy in Love」(2003)がジャンルの頂点。2020年にBillboardが「Urban」という用語をレーシズムの批判を受けて廃止した。"},
 
@@ -1653,7 +1655,7 @@ const LINKS = [
   {s:"reggae",      t:"dub",             w:85, desc:"ダブはレゲエのスタジオ加工版"},
   {s:"punk",        t:"post_punk",       w:70, desc:"パンクの実験化・深化"},
   {s:"punk",        t:"industrial",      w:45, desc:"反体制的精神を継承"},
-  {s:"hiphop",      t:"breakbeat",       w:70, desc:"ブレイクビートはヒップホップの核"},
+  {s:"breakbeat",   t:"hiphop",          w:70, desc:"ブレイクビートがヒップホップの核"},
   {s:"hiphop",      t:"lofi_hiphop",     w:65, desc:"ヒップホップのチル版"},
   {s:"hiphop",      t:"miami_bass",      w:50, desc:"南部ヒップホップへの派生"},
   {s:"miami_bass",  t:"baile_funk",      w:60, desc:"マイアミベースがブラジルへ"},
@@ -1693,7 +1695,8 @@ const LINKS = [
   {s:"post_punk",  t:"industrial",      w:50, desc:"実験的・反体制的精神"},
   {s:"gothic_rock",t:"darkwave",        w:70, desc:"ゴシックロックの電子化"},
   {s:"darkwave",   t:"ethereal_wave",   w:65, desc:"ダークウェーブの幻想的な方向"},
-  {s:"darkwave",   t:"coldwave",        w:55, desc:"関連スタイル、互いに影響"},
+  {s:"darkwave",   t:"coldwave",        w:55, desc:"相互に影響し合った関連スタイル"},
+  {s:"coldwave",   t:"darkwave",        w:55, desc:"相互に影響し合った関連スタイル"},
   {s:"darkwave",   t:"neoclassical_dw", w:60, desc:"ダークウェーブのクラシック融合"},
   {s:"industrial", t:"dark_ambient",    w:55, desc:"インダストリアルの静的・暗い側面"},
   {s:"musique_concrete",t:"harsh_noise",w:50, desc:"ノイズ音楽の源流"},
@@ -1844,7 +1847,6 @@ const LINKS = [
   {s:"reggae",      t:"reggaeton",       w:50, desc:"レゲエ→ダンスホール→レゲトン"},
   {s:"hiphop",      t:"reggaeton",       w:40, desc:"ラップとビートの影響"},
   {s:"dancehall",   t:"reggaeton",       w:65, desc:"ダンスホールのリディムが直接の親"},
-  {s:"salsa",       t:"cumbia",          w:30, desc:"ラテンリズムの共通ルーツ"},
   {s:"classical",   t:"tango",           w:40, desc:"クラシックの構成美を導入"},
 
   // アフリカ系
@@ -1897,7 +1899,7 @@ const LINKS = [
 
   // 追加バッチ6リンク
   {s:"jazz",         t:"shidaiqu",        w:45, desc:"ジャズの上海的受容"},
-  {s:"mandopop",     t:"shidaiqu",        w:60, desc:"時代曲がC-POPのルーツ"},
+  {s:"shidaiqu",     t:"mandopop",        w:60, desc:"時代曲がC-POPのルーツ"},
   {s:"punk",         t:"oi_punk",         w:70, desc:"パンクの労働者階級的方向"},
   {s:"prog_rock",    t:"canterbury_scene", w:60, desc:"プログレのジャズ的方向"},
   {s:"jazz",         t:"canterbury_scene", w:45, desc:"ジャズとロックの深い融合"},
@@ -1924,7 +1926,7 @@ const LINKS = [
   {s:"chiptune",     t:"plugg",            w:30, desc:"8ビット的シンセ音色"},
   {s:"country",      t:"bro_country",      w:60, desc:"カントリーのポップ化"},
   {s:"tango",        t:"neotango",         w:60, desc:"タンゴのエレクトロニカ化"},
-  {s:"baroque",      t:"renaissance",      w:70, desc:"ルネサンスからバロックへ"},
+  {s:"renaissance",  t:"baroque",          w:70, desc:"ルネサンスからバロックへ発展"},
   {s:"classical",    t:"neoclassicism_music",w:65, desc:"古典への回帰"},
   {s:"raga",         t:"hindustani",       w:85, desc:"北インド古典音楽の体系"},
 
@@ -2015,11 +2017,10 @@ const LINKS = [
   {s:"folk",         t:"turbo_folk",      w:40, desc:"バルカンフォークのエレクトロ化"},
   {s:"enka",         t:"mood_kayo",       w:55, desc:"歌謡曲の都会的スタイル"},
   {s:"jazz",         t:"mood_kayo",       w:35, desc:"ジャズの洗練さを導入"},
-  {s:"folk",         t:"minyo",           w:60, desc:"口承音楽の伝統"},
-  {s:"minyo",        t:"enka",            w:50, desc:"民謡がこぶし唱法に影響"},
+  {s:"minyo",        t:"enka",            w:55, desc:"民謡の歌唱法が演歌に継承"},
   {s:"jpop",         t:"mandopop",        w:25, desc:"J-POPがアジアポップスに影響"},
   {s:"soul",         t:"mandopop",        w:30, desc:"バラードのソウル的表現"},
-  {s:"afropop",      t:"mbube",           w:30, desc:"南アフリカの伝統音楽"},
+  {s:"mbube",        t:"afropop",         w:30, desc:"ムブベがアフリカポップスに影響"},
 
   // エレクトロニック系追加リンク
   {s:"hiphop",       t:"trip_hop",        w:50, desc:"ヒップホップビートの遅いダウンテンポ化"},
@@ -2028,13 +2029,10 @@ const LINKS = [
   {s:"ebm",          t:"aggrotech",       w:65, desc:"EBMの攻撃的進化"},
   {s:"synth_pop",    t:"futurepop",       w:55, desc:"シンセポップとEBMの融合"},
   {s:"ebm",          t:"futurepop",       w:60, desc:"EBMのポップ化"},
-  {s:"blues",        t:"ragtime",         w:40, desc:"ブルース以前のピアノ音楽"},
 
   // ラテン系追加リンク
-  {s:"salsa",        t:"merengue",        w:40, desc:"ラテンダンスの姉妹ジャンル"},
-  {s:"salsa",        t:"mambo",           w:55, desc:"サルサの前身"},
+  {s:"mambo",        t:"salsa",           w:55, desc:"マンボがサルサの前身"},
   {s:"mambo",        t:"cha_cha_cha",     w:70, desc:"マンボの変形"},
-  {s:"tango",        t:"bolero_latin",    w:35, desc:"ラテンのロマンチックな方向"},
 
   // ジャズ系追加リンク
   {s:"jazz",         t:"dixieland",       w:85, desc:"ジャズの最初期形態"},
@@ -2059,16 +2057,16 @@ const LINKS = [
 
   // ソウル・R&B系追加リンク
   {s:"soul",         t:"motown",          w:75, desc:"ソウルのポップ化・商業化"},
-  {s:"soul",         t:"doo_wop",         w:50, desc:"ゴスペルコーラスの世俗化"},
+  {s:"doo_wop",      t:"soul",            w:50, desc:"ドゥーワップがソウルのルーツの一つ"},
   {s:"soul",         t:"neo_soul",        w:65, desc:"クラシックソウルの現代化"},
   {s:"hiphop",       t:"neo_soul",        w:40, desc:"ヒップホップビートの導入"},
   {s:"neo_soul",     t:"alternative_rnb",  w:55, desc:"ネオソウルの実験的進化"},
   {s:"funk",         t:"nu_funk",         w:70, desc:"ファンクの現代版"},
 
   // ヒップホップ系追加リンク
-  {s:"hiphop",       t:"old_school_hiphop",w:85, desc:"ヒップホップの原型"},
+  {s:"old_school_hiphop",t:"hiphop",       w:85, desc:"オールドスクールがヒップホップの原型"},
   {s:"old_school_hiphop",t:"boom_bap",    w:70, desc:"オールドスクールの進化"},
-  {s:"trap",         t:"crunk",           w:50, desc:"南部トラップの攻撃的方向"},
+  {s:"crunk",        t:"trap",            w:40, desc:"クランクがトラップに影響"},
   {s:"trap",         t:"phonk",           w:55, desc:"メンフィスラップの現代化"},
   {s:"trap",         t:"drill",           w:65, desc:"トラップのダーク化"},
   {s:"uk_garage",    t:"grime",           w:55, desc:"UKガレージからの派生"},
@@ -2121,7 +2119,7 @@ const LINKS = [
 
   // レゲエ系追加リンク
   {s:"reggae",       t:"roots_reggae",     w:85, desc:"レゲエの精神的中核"},
-  {s:"reggae",       t:"rocksteady",       w:80, desc:"スカからレゲエへの橋渡し"},
+  {s:"rocksteady",   t:"reggae",           w:80, desc:"ロックステディからレゲエへ発展"},
   {s:"rocksteady",   t:"reggae",           w:70, desc:"ロックステディがレゲエに発展"},
 
   // カントリー系追加リンク
@@ -2135,17 +2133,14 @@ const LINKS = [
 ];
 
 // ===== ROOTS POLYGON LAYOUT =====
-const ROOTS_IDS = ["jazz","blues","funk","disco","soul","reggae","punk","hiphop","classical","newage"];
-const polyRadius = 4000;
+const MAJOR_IDS = ["jazz","blues","rock","funk","disco","soul","reggae","hiphop","classical","newage","rock_n_roll"];
+const polyRadius = 5000;
 const cx = window.innerWidth/2, cy = window.innerHeight/2;
-ROOTS_IDS.forEach((id, i) => {
-  const angle = (i / ROOTS_IDS.length) * 2 * Math.PI - Math.PI/2;
+MAJOR_IDS.forEach((id, i) => {
+  const angle = (i / MAJOR_IDS.length) * 2 * Math.PI - Math.PI/2;
   const n = NODES.find(n => n.id === id);
   if (n) { n.fx = cx + polyRadius * Math.cos(angle); n.fy = cy + polyRadius * Math.sin(angle); }
 });
-// Rockも中心寄りの別位置に
-const rockNode = NODES.find(n => n.id === "rock");
-if (rockNode) { rockNode.fx = cx; rockNode.fy = cy - 1500; }
 
 // ===== SUNO OVERRIDES FROM LOCALSTORAGE =====
 const sunoOverrides = JSON.parse(localStorage.getItem('suno_overrides') || '{}');
@@ -2464,7 +2459,9 @@ NODES.forEach(n => {
 
 // ===== CATEGORY COLORS =====
 const CAT_COLOR = {
-  roots:      "#888",
+  soul_cat:   "#E040FB",
+  funk_cat:   "#FF6D00",
+  disco_cat:  "#EC407A",
   early_elec: "#5C7CFA",
   synthpop:   "#845EF7",
   industrial: "#607080",
@@ -2641,19 +2638,15 @@ node.on("click", (e, d) => {
   if(dragMoved) return;
   e.stopPropagation();
 
-  // 関連ノードをハイライト、他を暗く
+  // 同じカテゴリのノードだけを点滅、他は暗く
   window._nodeFocused = true;
-  const connectedIds = new Set([d.id]);
-  LINKS.forEach(l => {
-    if (l.s === d.id) connectedIds.add(l.t);
-    if (l.t === d.id) connectedIds.add(l.s);
-  });
-  node.classed('focus-highlight', n => connectedIds.has(n.id));
-  node.classed('focus-dim', n => !connectedIds.has(n.id));
-  link.classed('focus-highlight', l => l.s === d.id || l.t === d.id);
-  link.classed('focus-dim', l => l.s !== d.id && l.t !== d.id);
-  linkLabelG.classed('focus-highlight', l => l.s === d.id || l.t === d.id);
-  linkLabelG.classed('focus-dim', l => l.s !== d.id && l.t !== d.id);
+  const sameCatIds = new Set(NODES.filter(n => n.cat === d.cat).map(n => n.id));
+  node.classed('focus-highlight', n => sameCatIds.has(n.id));
+  node.classed('focus-dim', n => !sameCatIds.has(n.id));
+  link.classed('focus-highlight', l => sameCatIds.has(l.s) || sameCatIds.has(l.t));
+  link.classed('focus-dim', l => !sameCatIds.has(l.s) && !sameCatIds.has(l.t));
+  linkLabelG.classed('focus-highlight', l => sameCatIds.has(l.s) || sameCatIds.has(l.t));
+  linkLabelG.classed('focus-dim', l => !sameCatIds.has(l.s) && !sameCatIds.has(l.t));
 
   const name = d.label.replace("\n", " ");
   spTag.textContent = name;
