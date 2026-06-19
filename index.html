@@ -134,7 +134,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v6.2 / 300 genres / 965 links</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v6.5 / 300 genres / 965 links</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
@@ -3230,16 +3230,15 @@ node.on("click", (e, d) => {
   // カテゴリのロック状態をクリア
   if (lockedCat) { clearHighlight(); }
 
-  // 同カテゴリ=点滅、クリックしたノード自身の直接リンク先=明るく表示のみ、それ以外=暗く
+  // クリックしたノードだけ点滅、直接リンク先は明るく表示、それ以外は暗く
   window._nodeFocused = true;
-  const sameCatIds = new Set(NODES.filter(n => n.cat === d.cat).map(n => n.id));
   const directIds = new Set();
   LINKS.forEach(l => {
     if (l.s === d.id) directIds.add(l.t);
     if (l.t === d.id) directIds.add(l.s);
   });
-  node.classed('focus-highlight', n => sameCatIds.has(n.id));
-  node.classed('focus-dim', n => !sameCatIds.has(n.id) && !directIds.has(n.id));
+  node.classed('focus-highlight', n => n.id === d.id);
+  node.classed('focus-dim', n => n.id !== d.id && !directIds.has(n.id));
   link.classed('focus-highlight', l => l.s === d.id || l.t === d.id);
   link.classed('focus-dim', l => l.s !== d.id && l.t !== d.id);
   linkLabelG.classed('focus-highlight', l => l.s === d.id || l.t === d.id);
