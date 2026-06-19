@@ -134,7 +134,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v5.0 / 300 genres</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v5.1 / 300 genres</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
@@ -1655,7 +1655,7 @@ const LINKS = [
   {s:"reggae",      t:"dub",             w:85, desc:"ダブはレゲエのスタジオ加工版"},
   {s:"punk",        t:"post_punk",       w:70, desc:"パンクの実験化・深化"},
   {s:"punk",        t:"industrial",      w:45, desc:"反体制的精神を継承"},
-  {s:"hiphop",      t:"breakbeat",       w:70, desc:"ブレイクビートはヒップホップの核"},
+  {s:"breakbeat",   t:"hiphop",          w:70, desc:"ブレイクビートがヒップホップの核"},
   {s:"hiphop",      t:"lofi_hiphop",     w:65, desc:"ヒップホップのチル版"},
   {s:"hiphop",      t:"miami_bass",      w:50, desc:"南部ヒップホップへの派生"},
   {s:"miami_bass",  t:"baile_funk",      w:60, desc:"マイアミベースがブラジルへ"},
@@ -1695,7 +1695,8 @@ const LINKS = [
   {s:"post_punk",  t:"industrial",      w:50, desc:"実験的・反体制的精神"},
   {s:"gothic_rock",t:"darkwave",        w:70, desc:"ゴシックロックの電子化"},
   {s:"darkwave",   t:"ethereal_wave",   w:65, desc:"ダークウェーブの幻想的な方向"},
-  {s:"darkwave",   t:"coldwave",        w:55, desc:"関連スタイル、互いに影響"},
+  {s:"darkwave",   t:"coldwave",        w:55, desc:"相互に影響し合った関連スタイル"},
+  {s:"coldwave",   t:"darkwave",        w:55, desc:"相互に影響し合った関連スタイル"},
   {s:"darkwave",   t:"neoclassical_dw", w:60, desc:"ダークウェーブのクラシック融合"},
   {s:"industrial", t:"dark_ambient",    w:55, desc:"インダストリアルの静的・暗い側面"},
   {s:"musique_concrete",t:"harsh_noise",w:50, desc:"ノイズ音楽の源流"},
@@ -1846,7 +1847,6 @@ const LINKS = [
   {s:"reggae",      t:"reggaeton",       w:50, desc:"レゲエ→ダンスホール→レゲトン"},
   {s:"hiphop",      t:"reggaeton",       w:40, desc:"ラップとビートの影響"},
   {s:"dancehall",   t:"reggaeton",       w:65, desc:"ダンスホールのリディムが直接の親"},
-  {s:"salsa",       t:"cumbia",          w:30, desc:"ラテンリズムの共通ルーツ"},
   {s:"classical",   t:"tango",           w:40, desc:"クラシックの構成美を導入"},
 
   // アフリカ系
@@ -1899,7 +1899,7 @@ const LINKS = [
 
   // 追加バッチ6リンク
   {s:"jazz",         t:"shidaiqu",        w:45, desc:"ジャズの上海的受容"},
-  {s:"mandopop",     t:"shidaiqu",        w:60, desc:"時代曲がC-POPのルーツ"},
+  {s:"shidaiqu",     t:"mandopop",        w:60, desc:"時代曲がC-POPのルーツ"},
   {s:"punk",         t:"oi_punk",         w:70, desc:"パンクの労働者階級的方向"},
   {s:"prog_rock",    t:"canterbury_scene", w:60, desc:"プログレのジャズ的方向"},
   {s:"jazz",         t:"canterbury_scene", w:45, desc:"ジャズとロックの深い融合"},
@@ -1926,7 +1926,7 @@ const LINKS = [
   {s:"chiptune",     t:"plugg",            w:30, desc:"8ビット的シンセ音色"},
   {s:"country",      t:"bro_country",      w:60, desc:"カントリーのポップ化"},
   {s:"tango",        t:"neotango",         w:60, desc:"タンゴのエレクトロニカ化"},
-  {s:"baroque",      t:"renaissance",      w:70, desc:"ルネサンスからバロックへ"},
+  {s:"renaissance",  t:"baroque",          w:70, desc:"ルネサンスからバロックへ発展"},
   {s:"classical",    t:"neoclassicism_music",w:65, desc:"古典への回帰"},
   {s:"raga",         t:"hindustani",       w:85, desc:"北インド古典音楽の体系"},
 
@@ -2017,11 +2017,10 @@ const LINKS = [
   {s:"folk",         t:"turbo_folk",      w:40, desc:"バルカンフォークのエレクトロ化"},
   {s:"enka",         t:"mood_kayo",       w:55, desc:"歌謡曲の都会的スタイル"},
   {s:"jazz",         t:"mood_kayo",       w:35, desc:"ジャズの洗練さを導入"},
-  {s:"folk",         t:"minyo",           w:60, desc:"口承音楽の伝統"},
-  {s:"minyo",        t:"enka",            w:50, desc:"民謡がこぶし唱法に影響"},
+  {s:"minyo",        t:"enka",            w:55, desc:"民謡の歌唱法が演歌に継承"},
   {s:"jpop",         t:"mandopop",        w:25, desc:"J-POPがアジアポップスに影響"},
   {s:"soul",         t:"mandopop",        w:30, desc:"バラードのソウル的表現"},
-  {s:"afropop",      t:"mbube",           w:30, desc:"南アフリカの伝統音楽"},
+  {s:"mbube",        t:"afropop",         w:30, desc:"ムブベがアフリカポップスに影響"},
 
   // エレクトロニック系追加リンク
   {s:"hiphop",       t:"trip_hop",        w:50, desc:"ヒップホップビートの遅いダウンテンポ化"},
@@ -2030,13 +2029,10 @@ const LINKS = [
   {s:"ebm",          t:"aggrotech",       w:65, desc:"EBMの攻撃的進化"},
   {s:"synth_pop",    t:"futurepop",       w:55, desc:"シンセポップとEBMの融合"},
   {s:"ebm",          t:"futurepop",       w:60, desc:"EBMのポップ化"},
-  {s:"blues",        t:"ragtime",         w:40, desc:"ブルース以前のピアノ音楽"},
 
   // ラテン系追加リンク
-  {s:"salsa",        t:"merengue",        w:40, desc:"ラテンダンスの姉妹ジャンル"},
-  {s:"salsa",        t:"mambo",           w:55, desc:"サルサの前身"},
+  {s:"mambo",        t:"salsa",           w:55, desc:"マンボがサルサの前身"},
   {s:"mambo",        t:"cha_cha_cha",     w:70, desc:"マンボの変形"},
-  {s:"tango",        t:"bolero_latin",    w:35, desc:"ラテンのロマンチックな方向"},
 
   // ジャズ系追加リンク
   {s:"jazz",         t:"dixieland",       w:85, desc:"ジャズの最初期形態"},
@@ -2061,16 +2057,16 @@ const LINKS = [
 
   // ソウル・R&B系追加リンク
   {s:"soul",         t:"motown",          w:75, desc:"ソウルのポップ化・商業化"},
-  {s:"soul",         t:"doo_wop",         w:50, desc:"ゴスペルコーラスの世俗化"},
+  {s:"doo_wop",      t:"soul",            w:50, desc:"ドゥーワップがソウルのルーツの一つ"},
   {s:"soul",         t:"neo_soul",        w:65, desc:"クラシックソウルの現代化"},
   {s:"hiphop",       t:"neo_soul",        w:40, desc:"ヒップホップビートの導入"},
   {s:"neo_soul",     t:"alternative_rnb",  w:55, desc:"ネオソウルの実験的進化"},
   {s:"funk",         t:"nu_funk",         w:70, desc:"ファンクの現代版"},
 
   // ヒップホップ系追加リンク
-  {s:"hiphop",       t:"old_school_hiphop",w:85, desc:"ヒップホップの原型"},
+  {s:"old_school_hiphop",t:"hiphop",       w:85, desc:"オールドスクールがヒップホップの原型"},
   {s:"old_school_hiphop",t:"boom_bap",    w:70, desc:"オールドスクールの進化"},
-  {s:"trap",         t:"crunk",           w:50, desc:"南部トラップの攻撃的方向"},
+  {s:"crunk",        t:"trap",            w:40, desc:"クランクがトラップに影響"},
   {s:"trap",         t:"phonk",           w:55, desc:"メンフィスラップの現代化"},
   {s:"trap",         t:"drill",           w:65, desc:"トラップのダーク化"},
   {s:"uk_garage",    t:"grime",           w:55, desc:"UKガレージからの派生"},
@@ -2123,7 +2119,7 @@ const LINKS = [
 
   // レゲエ系追加リンク
   {s:"reggae",       t:"roots_reggae",     w:85, desc:"レゲエの精神的中核"},
-  {s:"reggae",       t:"rocksteady",       w:80, desc:"スカからレゲエへの橋渡し"},
+  {s:"rocksteady",   t:"reggae",           w:80, desc:"ロックステディからレゲエへ発展"},
   {s:"rocksteady",   t:"reggae",           w:70, desc:"ロックステディがレゲエに発展"},
 
   // カントリー系追加リンク
