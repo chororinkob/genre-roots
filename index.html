@@ -134,7 +134,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v6.7 / 300 genres / 970 links</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v6.8 / 300 genres / 970 links</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
@@ -3388,30 +3388,37 @@ searchInput.addEventListener("input", e => {
     node.classed("search-match", false);
     node.classed("cat-dim", false);
     node.select("circle").attr("opacity", 1);
+    link.classed("focus-dim", false);
+    linkLabelG.classed("focus-dim", false);
     resultsDiv.style.display = "none";
     return;
   }
 
   const tags = raw.split(",").map(t => t.trim().toLowerCase()).filter(t => t.length > 0);
-  const found = [];
+  const foundIds = new Set();
   const notFound = [];
 
   tags.forEach(tag => {
     const tagId = tag.replace(/[\s-]/g, '_');
-    const match = NODES.find(n => {
+    const matches = NODES.filter(n => {
       if (n.id === tagId || n.label.toLowerCase().replace('\n', ' ') === tag) return true;
       if (tag.length >= 3) return n.id.includes(tag) || n.label.toLowerCase().includes(tag);
       return false;
     });
-    if (match) found.push(match.id);
+    if (matches.length > 0) matches.forEach(m => foundIds.add(m.id));
     else notFound.push(tag);
   });
 
-  node.classed("search-match", d => found.includes(d.id));
-  node.classed("cat-dim", d => found.length > 0 && !found.includes(d.id));
+  node.classed("search-match", d => foundIds.has(d.id));
+  node.classed("cat-dim", d => foundIds.size > 0 && !foundIds.has(d.id));
+  // 検索時は線と数字を暗くする（ノードだけ表示）
+  link.classed("focus-dim", foundIds.size > 0);
+  link.classed("focus-highlight", false);
+  linkLabelG.classed("focus-dim", foundIds.size > 0);
+  linkLabelG.classed("focus-highlight", false);
 
   let html = '';
-  if (found.length > 0) html += '<div style="color:#0f0">✓ ' + found.length + '件ヒット</div>';
+  if (foundIds.size > 0) html += '<div style="color:#0f0">✓ ' + foundIds.size + '件ヒット</div>';
   if (notFound.length > 0) html += '<div style="color:#f88;margin-top:4px">✗ 未登録: ' + notFound.join(', ') + '</div>';
   resultsDiv.innerHTML = html;
   resultsDiv.style.display = 'block';
