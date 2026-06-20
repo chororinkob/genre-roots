@@ -135,7 +135,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v8.4 / 350 genres / 1056 links</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v8.5 / 350 genres / 1045 links</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
@@ -860,11 +860,11 @@ const NODES = [
     roots_story:"1980年代、ファミコン（NES）、ゲームボーイ、Commodore 64などのゲーム機やホームコンピュータに搭載された音源チップ（PSG、SID等）で音楽を作る文化が発生。初期は「デモシーン」と呼ばれるプログラマーのサブカルチャーで、コンピュータの限界に挑戦するデモ作品の音楽として発展。Commodore 64のSIDチップは特に音楽的な表現力が高く、Rob Hubbard、Martin Galway、Ben Daglishらのゲーム音楽が伝説に。2000年代にはゲームボーイにLSDjソフトを入れて作曲するスタイルが流行し、Anamanaguchi、Sabrepulse、Bit Shifterらがライブパフォーマンスで人気を得た。日本のゲーム音楽作曲家（近藤浩治、植松伸夫ら）もチップチューンの重要な源流。"},
   // ロック系
   {id:"rock", label:"Rock", cat:"rock", era:"1960s", suno:true,
-    desc:"エレキギター、ベース、ドラムを中心としたバンド編成で演奏される、20世紀後半で最も影響力のあった音楽カテゴリ。ロックンロールから発展し、ハードロック、プログレ、パンク、メタル、オルタナティブなど無数のサブジャンルに分岐した巨大な音楽の樹。テンポ、サウンド、態度は多種多様だが、共通するのはギターの歪み、バンドとしての一体感、自己表現としての「本物の音楽」への志向。文化的にも反抗、自由、若さの象徴として世界中の若者を動かしてきた。",
+    desc:"エレキギター、ベース、ドラムを中心としたバンド編成で演奏される、20世紀後半で最も影響力のあった音楽カテゴリ。ロックンロールから発展し、ハードロック、プログレ、パンク、メタル、オルタナティブなど無数のサブジャンルに分岐した巨大な音楽の樹。テンポ、サウンド、態度は多種多様だが、共通するのはバンドとしての一体感と自己表現の追求。ソフトロックからヘヴィメタルまでサウンドは極めて多様。文化的にも反抗、自由、若さの象徴として世界中の若者を動かしてきた。",
     roots_story:"1960年代、ロックンロールがThe Beatlesの登場で「ロック」に進化。「ブリティッシュ・インヴェイジョン」（1964年〜）でThe Beatles、Rolling Stones、The WhoがアメリカにUKロックを持ち込んだ。Jimi Hendrix「Are You Experienced」(1967)がギターの可能性を爆発させた。1970年代にはLed Zeppelin、Deep Purple、Black Sabbathがハードロック/ヘヴィメタルを確立。同時にPink Floyd、Yesがプログレへ、Ramones、Sex Pistolsがパンクへ。ロックは常に分裂と進化を繰り返しながら、ポピュラー音楽の中心に居続けた。"},
 
   {id:"rock_n_roll", label:"Rock 'n' Roll", cat:"rock", era:"1950s", suno:true,
-    desc:"エレキギターのリフ、跳ねるリズム、反抗的な態度が融合した、20世紀で最も影響力のある音楽。ブルースの感情表現とカントリーの軽快さをアンプで増幅し、若者の叫びを乗せた。テンポは中速〜速め（BPM 120〜160）で、シンプルなコード進行の上でギターが唸り、ドラムが力強くビートを刻む。聴いた瞬間にアドレナリンが出る原始的な興奮がある。自由、反骨、若さの象徴。",
+    desc:"エレキギター、ピアノ、サックス、ホーンの力強い演奏と跳ねるリズム、反抗的な態度が融合した、20世紀で最も影響力のある音楽。ブルースの感情表現とカントリーの軽快さをアンプで増幅し、若者の叫びを乗せた。テンポは中速〜速め（BPM 120〜160）で、シンプルなコード進行の上でギターが唸り、ドラムが力強くビートを刻む。聴いた瞬間にアドレナリンが出る原始的な興奮がある。自由、反骨、若さの象徴。",
     roots_story:"1950年代、アメリカ南部でブルースとカントリーが融合。Chuck Berry「Johnny B. Goode」(1958)はロックギターの原型を作り、Little Richardは狂気的なパフォーマンスで観客を熱狂させた。Elvis Presleyは白人としてブルースを歌い、ロックンロールを大衆文化の中心に据えた。Buddy Hollyはソングライティングの型を確立。1960年代にはThe Beatlesがイギリスから世界を制覇し、The Rolling Stonesはブルース回帰のハードなロックを追求。ここからあらゆるロックのサブジャンルが枝分かれしていった。"},
 
   {id:"psychedelic_rock", label:"Psychedelic\nRock", cat:"rock", era:"1960s", suno:true,
@@ -873,7 +873,7 @@ const NODES = [
 
   {id:"prog_rock", label:"Progressive\nRock", cat:"rock", era:"1960s", suno:true,
     desc:"ロックにクラシック音楽やジャズの複雑さを持ち込んだ、壮大で技巧的な音楽。変拍子（5/4拍子、7/8拍子など）、長大な組曲形式、シンセサイザーやメロトロンの幻想的な音色が特徴。1曲が10〜20分に及ぶことも珍しくない。圧倒的な演奏技術と知的な構成力が求められ、聴く側にも集中力を求める。壮大な音の大作を体験する、ロック版のクラシックコンサート。",
-    roots_story:"1960年代末、サイケデリックロックの実験性をさらに推し進めたアーティストたちが登場。King Crimson「In the Court of the Crimson King」(1969)がプログレの誕生を告げた。Yes、Emerson, Lake & Palmer、Genesisが「五大プログレバンド」に。Pink Floyd「The Dark Side of the Moon」(1973)は15年以上チャートに居続けた歴史的名盤。日本からは冨田勲がシンセサイザーで交響曲を再構築し、世界的評価を得た。1970年代後半にパンクの登場で衰退したが、Dream Theaterらが1990年代に復活させた。"},
+    roots_story:"1960年代末、サイケデリックロックの実験性をさらに推し進めたアーティストたちが登場。King Crimson「In the Court of the Crimson King」(1969)がプログレの誕生を告げた。King Crimson、Pink Floyd、Yes、Genesis、Emerson, Lake & Palmerが「五大プログレバンド」に。Pink Floyd「The Dark Side of the Moon」(1973)は15年以上チャートに居続けた歴史的名盤。日本からは四人囃子やFar East Family Bandがプログレシーンで活動した。1970年代後半にパンクの登場で衰退したが、Dream Theaterらが1990年代に復活させた。"},
 
   {id:"alt_rock", label:"Alternative\nRock", cat:"rock", era:"1980s", suno:true,
     desc:"メインストリームのロックに対する「もう一つの選択肢」として生まれた、多様なスタイルの総称。パンクのDIY精神を受け継ぎつつ、よりメロディアスで実験的な方向へ。ジャングリーなギター、内省的な歌詞、インディーレーベルからのリリースが特徴的。テンポやサウンドは幅広いが、「商業主義に流されない」という態度が共通項。90年代にグランジの爆発で一気にメインストリーム化し、ロックの主流そのものになった。",
@@ -881,7 +881,7 @@ const NODES = [
 
   {id:"grunge", label:"Grunge", cat:"rock", era:"1991", suno:true,
     desc:"パンクの攻撃性とヘヴィメタルの重さを、シアトルの曇り空のような鬱々とした空気感で包んだロック。歪んだギターの壁、気だるく投げやりなボーカル、暗く内省的な歌詞が特徴。テンポは中速が多く、静と動の極端なダイナミクスがある。ファッションもフランネルシャツにボロボロのジーンズという「わざとらしくない」スタイル。華やかさとは対極的な、90年代の閉塞感と怒りを体現した音楽。",
-    roots_story:"1991年、シアトルからNirvana「Nevermind」が全米1位を獲得し、一夜にして音楽シーンの勢力図を塗り替えた。Kurt Cobainは「ロックスターになりたくなかったロックスター」として時代の象徴に。Pearl Jam「Ten」(1991)はよりクラシックロック寄りの重厚なサウンドで同等の人気を得た。Soundgarden、Alice in Chainsを含む「シアトル四天王」がジャンルの核。Sub Popレーベルが発信地。1994年のKurt Cobainの死でグランジの時代は終わりを告げたが、その影響は現在のロックにも深く刻まれている。"},
+    roots_story:"1980年代半ばのシアトル/ワシントン州の地下シーンで形成。Green River、Melvins、Mudhoney、Sub Popレーベルが初期を支えた。1991年のNirvana「Nevermind」（翌1992年1月に全米1位）でメインストリームに爆発。Kurt Cobainは「ロックスターになりたくなかったロックスター」として時代の象徴に。Pearl Jam「Ten」(1991)はよりクラシックロック寄りの重厚なサウンドで同等の人気を得た。Soundgarden、Alice in Chainsを含む「シアトル四天王」がジャンルの核。Sub Popレーベルが発信地。1994年のKurt Cobainの死でグランジの時代は終わりを告げたが、その影響は現在のロックにも深く刻まれている。"},
 
   {id:"indie_rock", label:"Indie Rock", cat:"rock", era:"1980s", suno:true,
     desc:"大手レーベルに頼らず自分たちのやり方で音楽を作るという姿勢から生まれた、自由で多彩なロック。手作り感のあるプロダクション、個性的なメロディセンス、文学的・皮肉っぽい歌詞が特徴。サウンドは千差万別で、ガレージロック的な荒さからエレクトロニカとの融合まで幅広い。テンポも様々。「売れる/売れない」ではなく「面白いかどうか」が価値基準。音楽好きが音楽好きのために作る、カルチャーとしてのロック。",
@@ -2356,7 +2356,6 @@ const LINKS = [
   {s:"rock",t:"blues",w:40,desc:"リフ・歌唱↔音量・歪み"},
   {s:"blues_rock",t:"blues",w:40,desc:"ブルース増幅↔ギター音色の逆輸入"},
   {s:"rock",t:"blues_rock",w:40,desc:"電化・ドラム↔リフ・ソロ"},
-  {s:"blues_rock",t:"rock",w:40,desc:"電化・ドラム↔リフ・ソロ"},
   {s:"soul",t:"blues",w:40,desc:"歌唱表現↔ゴスペル的高揚"},
   {s:"blues",t:"soul",w:40,desc:"歌唱表現↔ゴスペル的高揚"},
   {s:"funk",t:"soul",w:40,desc:"歌・ゴスペル感↔リズム重視"},
@@ -2402,17 +2401,11 @@ const LINKS = [
   {s:"prog_rock",t:"psychedelic_rock",w:40,desc:"長尺・音響実験↔構成美"},
   {s:"psychedelic_rock",t:"raga",w:40,desc:"ドローン・旋法↔電化・反復"},
   {s:"raga",t:"psychedelic_rock",w:40,desc:"ドローン・旋法↔電化・反復"},
-  {s:"neo_psychedelia",t:"psychedelic_rock",w:40,desc:"60年代の更新↔音響の再評価"},
-  {s:"space_rock",t:"psychedelic_rock",w:40,desc:"浮遊感↔反復・宇宙的音響"},
   {s:"prog_rock",t:"space_rock",w:40,desc:"構成力↔反復・音響"},
   {s:"space_rock",t:"prog_rock",w:40,desc:"構成力↔反復・音響"},
   {s:"canterbury_scene",t:"prog_rock",w:40,desc:"プログレ・ジャズ↔軽妙なジャズ感"},
   {s:"zeuhl",t:"prog_rock",w:40,desc:"長尺構成↔反復・合唱・重低音"},
-  {s:"neo_prog",t:"prog_rock",w:40,desc:"古典の再構成↔現代的制作"},
   {s:"indie_rock",t:"alt_rock",w:40,desc:"歪み・反商業性↔DIY・メロディ"},
-  {s:"grunge",t:"alt_rock",w:40,desc:"主流化↔重さ・内省性"},
-  {s:"shoegaze",t:"alt_rock",w:40,desc:"ギター感↔音響壁・浮遊感"},
-  {s:"britpop",t:"alt_rock",w:40,desc:"ギター文化↔メロディ志向"},
   {s:"indie_rock",t:"indie_pop",w:40,desc:"DIY感↔メロディ・軽さ"},
   {s:"indie_pop",t:"indie_rock",w:40,desc:"DIY感↔メロディ・軽さ"},
   {s:"jangle_pop",t:"indie_pop",w:40,desc:"きらびやかなギター↔DIY美学"},
@@ -2483,7 +2476,6 @@ const LINKS = [
   {s:"djent",t:"mathcore",w:40,desc:"複雑リズム↔低音リフ・ポリリズム"},
   {s:"post_metal",t:"sludge_metal",w:40,desc:"重量感↔長尺・音響構築"},
   {s:"sludge_metal",t:"post_metal",w:40,desc:"重量感↔長尺・音響構築"},
-  {s:"post_metal",t:"shoegaze",w:40,desc:"音の壁↔重い構成美"},
   {s:"shoegaze",t:"post_metal",w:40,desc:"音の壁↔重い構成美"},
   {s:"symphonic_metal",t:"power_metal",w:40,desc:"高揚感↔管弦楽的編曲"},
   {s:"power_metal",t:"symphonic_metal",w:40,desc:"高揚感↔管弦楽的編曲"},
@@ -2761,7 +2753,6 @@ const LINKS = [
   {s:"reggaeton",t:"hiphop",w:40,desc:"ラップ・ビート↔リズム"},
   {s:"pop_rap",t:"pop_music",w:40,desc:"フック↔リズム感"},
   {s:"pop_rap",t:"hiphop",w:40,desc:"ラップのポップ化↔メロディ重視"},
-  {s:"psychedelic_rap",t:"psychedelic_rock",w:40,desc:"浮遊感・エフェクト↔ビート処理"},
   {s:"psychedelic_rap",t:"trip_hop",w:40,desc:"暗いサンプル感↔幻覚的音像"},
   {s:"trip_hop",t:"psychedelic_rap",w:40,desc:"暗いサンプル感↔幻覚的音像"},
   {s:"plugg",t:"cloud_rap",w:40,desc:"軽いシンセ↔浮遊感"},
@@ -2842,8 +2833,6 @@ const LINKS = [
   {s:"hiphop",t:"mahraganat",w:40,desc:"ラップ・ビート↔エジプト的旋律"},
   {s:"flamenco_fusion",t:"jazz",w:40,desc:"リズム・旋法↔和声・即興"},
   {s:"jazz",t:"flamenco_fusion",w:40,desc:"リズム・旋法↔和声・即興"},
-  {s:"flamenco_fusion",t:"rock",w:40,desc:"ギター音圧↔リズム・旋律"},
-  {s:"rock",t:"flamenco_fusion",w:40,desc:"ギター音圧↔リズム・旋律"},
   {s:"sevillanas",t:"flamenco_fusion",w:40,desc:"舞曲感↔ポップ編曲"},
   {s:"flamenco_fusion",t:"sevillanas",w:40,desc:"舞曲感↔ポップ編曲"},
   {s:"boogaloo",t:"soul",w:40,desc:"歌・バックビート↔ラテンリズム"},
