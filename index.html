@@ -135,7 +135,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v9.1 / 350 genres / 1045 links</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v9.2 / 350 genres / 1045 links</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
@@ -898,7 +898,7 @@ const NODES = [
 
   {id:"thrash_metal", label:"Thrash Metal", cat:"metal", era:"1983", suno:true,
     desc:"ヘヴィメタルの重さにパンクのスピードと攻撃性を注入した、極めて速く激しいメタル。高速で刻まれるギターリフ（スラッシングリフ）、ツーバスの連打、叫ぶようなボーカルが怒涛の勢いで押し寄せる。テンポはBPM 180〜220以上と非常に速い。技術的に高度でありながら、衝動的なエネルギーを失っていない。モッシュピットで暴れるための音楽であり、聴くだけで汗が噴き出すような激しさ。",
-    roots_story:"1983年頃、アメリカ西海岸のMetallica、Megadeth、Slayer、Anthrax（通称「ビッグ4」）がジャンルを確立。Metallica「Master of Puppets」(1986)はスラッシュメタルの最高傑作とされる。Slayer「Reign in Blood」(1986)は28分間の音速メタルで衝撃を与えた。ドイツではKreator、Sodom、Detonationがチュートニック・スラッシュを形成。Megadethのデイヴ・ムステインは元Metallicaメンバーで、2バンドの確執はメタル史上最も有名なライバル関係。"},
+    roots_story:"1983年頃、アメリカ西海岸のMetallica、Megadeth、Slayer、Anthrax（通称「ビッグ4」）がジャンルを確立。Metallica「Master of Puppets」(1986)はスラッシュメタルの最高傑作とされる。Slayer「Reign in Blood」(1986)は28分間の音速メタルで衝撃を与えた。ドイツではKreator、Sodom、Destructionがチュートニック・スラッシュを形成。Megadethのデイヴ・ムステインは元Metallicaメンバーで、2バンドの確執はメタル史上最も有名なライバル関係。"},
 
   {id:"death_metal", label:"Death Metal", cat:"metal", era:"1985", suno:true,
     desc:"スラッシュメタルをさらに極端に推し進めた、音楽表現の限界に挑むメタル。ダウンチューニングしたギターのドロドロに重いリフ、ブラストビート（超高速の連打ドラム）、デスボイス（喉の奥から絞り出すグロウル唱法）が特徴。テンポは遅い〜超高速まで極端に振れ、曲の展開も予測不能。歌詞は死、暴力、ホラーをテーマにすることが多い。好きな人にとっては究極のカタルシス、知らない人にとっては「ノイズ」にしか聞こえない極端な音楽。",
@@ -1330,7 +1330,7 @@ const NODES = [
 
   {id:"mathcore", label:"Mathcore", cat:"metal", era:"1990s", suno:true,
     desc:"数学的に複雑な変拍子、予測不能な展開、超高速のテクニカルな演奏がハードコアパンクの攻撃性と融合した、知的で暴力的な音楽。3/4→7/8→5/4と拍子が次々に変わり、頭がついていけないほど複雑なのに体は衝動的に動く。テンポは超高速〜突然の停止。数学とパンクの矛盾した結婚。",
-    roots_story:"1990年代、The Dillinger Escape Plan「Calculating Infinity」(1999)がマスコアの金字塔。43分間の音楽的暴力が批評家を驚愕させた。Converge「Jane Doe」(2001)もジャンルの代表作。Botch「We Are the Romans」(1999)も重要。Meshuggahの複雑なリズムが影響源。Car Bomb、The Chariot、Frontierer（スコットランド）が後継者。日本のThe Number Twelve Looks Like Youの名は数学的カオスを体現。"},
+    roots_story:"1990年代、The Dillinger Escape Plan「Calculating Infinity」(1999)がマスコアの金字塔。43分間の音楽的暴力が批評家を驚愕させた。Converge「Jane Doe」(2001)もジャンルの代表作。Botch「We Are the Romans」(1999)も重要。Meshuggahの複雑なリズムが影響源。Car Bomb、The Chariot、Frontierer（スコットランド）が後継者。米ニュージャージーのThe Number Twelve Looks Like Youの名は数学的カオスを体現。"},
 
   // 最終追加バッチ
   {id:"uk_bass", label:"UK Bass", cat:"dubstep", era:"2010s", suno:true,
@@ -1367,7 +1367,7 @@ const NODES = [
 
   {id:"latin_trap", label:"Latin Trap", cat:"hiphop", era:"2016", suno:true,
     desc:"アメリカのトラップミュージックをスペイン語でラップし、ラテンのメロディとリズムを加えたスタイル。808の重低音、ハイハットのロール、オートチューンボーカル、スペイン語の歌詞が融合。テンポはBPM 130〜150。レゲトンよりもダークでストリート色が強い。2010年代後半のラテン音楽爆発の起爆剤の一つ。",
-    roots_story:"2016年頃、Bad Bunny「Soy Peor」(2017)がラテントラップを世界的に認知させた。Anuel AA、Ozuna、Farruko（プエルトリコ）が初期の主要アーティスト。Bad Bunnyは「YHLQMDLG」(2020)でSpotify年間最多ストリーミングアーティストに。Rauw Alejandroもラテントラップからの成功。レゲトンとの境界は曖昧だが、トラップ的なビートとダークな雰囲気が区別点。"},
+    roots_story:"2016年頃、Bad Bunny「Soy Peor」(2016)がラテントラップを世界的に認知させた。Anuel AA、Ozuna、Farruko（プエルトリコ）が初期の主要アーティスト。Bad Bunnyは「YHLQMDLG」(2020)でSpotify年間最多ストリーミングアーティストに。Rauw Alejandroもラテントラップからの成功。レゲトンとの境界は曖昧だが、トラップ的なビートとダークな雰囲気が区別点。"},
 
   {id:"uk_trap", label:"UK Trap", cat:"hiphop", era:"2010s", suno:true,
     desc:"アメリカのトラップをイギリスの感覚で再解釈したスタイル。808ベースとハイハットのロールはそのままに、UK特有のフロウ、マルチカルチャルなスラング、ダークでメランコリックなメロディが加わる。テンポはBPM 130〜145。アメリカのトラップよりもメロディアスで内省的な傾向がある。ドリルとも重なるがより幅広いスタイルを含む。",
@@ -2314,14 +2314,11 @@ const LINKS = [
   {s:"blues",t:"jazz",w:40,desc:"音階・歌唱↔和声・即興"},
   {s:"jazz",t:"ragtime",w:40,desc:"シンコペーション↔即興演奏"},
   {s:"ragtime",t:"jazz",w:40,desc:"シンコペーション↔即興演奏"},
-  {s:"cool_jazz",t:"bebop",w:40,desc:"高度な和声↔抑制的音色"},
   {s:"jazz",t:"classical",w:40,desc:"和声・構成の吸収↔リズム・ブルーノート"},
   {s:"classical",t:"jazz",w:40,desc:"和声・構成の吸収↔リズム・ブルーノート"},
   {s:"jazz",t:"impressionism_music",w:40,desc:"拡張和声↔色彩的和声"},
   {s:"impressionism_music",t:"jazz",w:40,desc:"拡張和声↔色彩的和声"},
   {s:"bossa_nova",t:"jazz",w:40,desc:"和声の吸収↔リズム・歌唱"},
-  {s:"bossa_nova",t:"cool_jazz",w:40,desc:"抑制された音色↔軽いリズム"},
-  {s:"cool_jazz",t:"bossa_nova",w:40,desc:"抑制された音色↔軽いリズム"},
   {s:"brazilian_jazz",t:"bossa_nova",w:40,desc:"歌・リズム↔即興・和声"},
   {s:"salsa",t:"jazz",w:40,desc:"クラーベ・打楽器↔ホーン編曲・即興"},
   {s:"jazz",t:"mambo",w:40,desc:"ラテンリズム↔ビッグバンド編曲"},
@@ -2337,7 +2334,6 @@ const LINKS = [
   {s:"brazilian_jazz",t:"fusion",w:40,desc:"ブラジルリズム↔電化・複雑和声"},
   {s:"acid_jazz",t:"hiphop",w:40,desc:"サンプリング・ビート↔生演奏感"},
   {s:"hiphop",t:"acid_jazz",w:40,desc:"サンプリング・ビート↔生演奏感"},
-  {s:"nu_jazz",t:"jazz",w:40,desc:"即興・コード↔ビート・音響処理"},
   {s:"jazz",t:"nu_jazz",w:40,desc:"即興・コード↔ビート・音響処理"},
   {s:"nu_jazz",t:"hiphop",w:40,desc:"ビート感↔生演奏的質感"},
   {s:"hiphop",t:"nu_jazz",w:40,desc:"ビート感↔生演奏的質感"},
@@ -2353,16 +2349,13 @@ const LINKS = [
   {s:"motown",t:"soul",w:40,desc:"歌唱感覚↔ポップな編曲"},
   {s:"neo_soul",t:"soul",w:40,desc:"古典の再解釈↔現代の質感"},
   {s:"hip_hop_soul",t:"neo_soul",w:40,desc:"ビートと歌唱の往復"},
-  {s:"alternative_rnb",t:"neo_soul",w:40,desc:"生々しい歌↔電子音響"},
   {s:"alternative_rnb",t:"trap_soul",w:40,desc:"空間的サウンド↔808ビート"},
-  {s:"trap_soul",t:"alternative_rnb",w:40,desc:"空間的サウンド↔808ビート"},
   {s:"new_jack_swing",t:"hip_hop_soul",w:40,desc:"R&B歌唱↔跳ねたリズム"},
   {s:"new_jack_swing",t:"urban_contemporary",w:40,desc:"都会的R&B↔ビートの標準化"},
   {s:"urban_contemporary",t:"new_jack_swing",w:40,desc:"都会的R&B↔ビートの標準化"},
   {s:"disco",t:"funk",w:40,desc:"ベースライン↔4つ打ち・ストリングス"},
   {s:"funk",t:"hiphop",w:40,desc:"サンプリング↔ビート・ラップ"},
   {s:"hiphop",t:"funk",w:40,desc:"サンプリング↔ビート・ラップ"},
-  {s:"nu_funk",t:"funk",w:40,desc:"古典の再構築↔クラブ向け処理"},
   {s:"chicago_house",t:"disco",w:40,desc:"クラブ文化・歌↔リミックス感覚"},
   {s:"dance_pop",t:"disco",w:40,desc:"ビート・ストリングス↔ポップ構成"},
   {s:"rock_n_roll",t:"doo_wop",w:40,desc:"コーラス↔ビート感"},
@@ -2437,7 +2430,6 @@ const LINKS = [
   {s:"mathcore",t:"grindcore",w:40,desc:"速度↔変拍子・複雑リフ"},
   {s:"mathcore",t:"djent",w:40,desc:"複雑リズム↔低音リフ・ポリリズム"},
   {s:"djent",t:"mathcore",w:40,desc:"複雑リズム↔低音リフ・ポリリズム"},
-  {s:"post_metal",t:"sludge_metal",w:40,desc:"重量感↔長尺・音響構築"},
   {s:"sludge_metal",t:"post_metal",w:40,desc:"重量感↔長尺・音響構築"},
   {s:"shoegaze",t:"post_metal",w:40,desc:"音の壁↔重い構成美"},
   {s:"symphonic_metal",t:"power_metal",w:40,desc:"高揚感↔管弦楽的編曲"},
@@ -2634,9 +2626,7 @@ const LINKS = [
   {s:"funk",t:"old_school_hiphop",w:40,desc:"ブレイク↔サンプリング文化"},
   {s:"old_school_hiphop",t:"electro",w:40,desc:"機械ビート↔ラップ・ブレイクダンス"},
   {s:"electro",t:"old_school_hiphop",w:40,desc:"機械ビート↔ラップ・ブレイクダンス"},
-  {s:"boom_bap",t:"jazz",w:40,desc:"ジャズサンプル↔ドラム感"},
   {s:"jazz",t:"boom_bap",w:40,desc:"ジャズサンプル↔ドラム感"},
-  {s:"boom_bap",t:"soul",w:40,desc:"ソウルサンプル↔ビートの温かさ"},
   {s:"soul",t:"boom_bap",w:40,desc:"ソウルサンプル↔ビートの温かさ"},
   {s:"boom_bap",t:"golden_age_hiphop",w:40,desc:"代表的ビート語法↔黄金期像"},
   {s:"golden_age_hiphop",t:"boom_bap",w:40,desc:"代表的ビート語法↔黄金期像"},
@@ -2687,7 +2677,6 @@ const LINKS = [
   {s:"dub",t:"dancehall",w:40,desc:"リディム・音響処理↔デジタルビート"},
   {s:"dancehall",t:"soca",w:40,desc:"MC感↔祝祭リズム"},
   {s:"soca",t:"dancehall",w:40,desc:"MC感↔祝祭リズム"},
-  {s:"soca",t:"calypso",w:40,desc:"カリプソの高速・ダンス化↔ビート感"},
   {s:"afrobeat",t:"highlife",w:40,desc:"ギター・管楽器↔反復グルーヴ"},
   {s:"afrobeat",t:"funk",w:40,desc:"ベース・ドラム↔ポリリズム"},
   {s:"afropop",t:"afrobeat",w:40,desc:"グルーヴ↔歌もの構成"},
@@ -2764,7 +2753,6 @@ const LINKS = [
   {s:"kpop",t:"hiphop",w:40,desc:"ラップ・ビート↔ポップ構成"},
   {s:"kpop",t:"edm",w:40,desc:"ドロップ↔歌もの・群舞構成"},
   {s:"edm",t:"kpop",w:40,desc:"ドロップ↔歌もの・群舞構成"},
-  {s:"mandopop",t:"shidaiqu",w:40,desc:"上海ジャズ的旋律↔現代編曲"},
   {s:"mandopop",t:"jpop",w:40,desc:"メロディ・編曲↔市場・歌唱感覚"},
   {s:"mandopop",t:"kpop",w:40,desc:"制作・ダンス感↔歌もの市場・旋律"},
   {s:"kpop",t:"mandopop",w:40,desc:"制作・ダンス感↔歌もの市場・旋律"},
