@@ -135,7 +135,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v8.0 / 350 genres / 1056 links</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v8.1 / 350 genres / 1056 links</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
@@ -159,6 +159,7 @@ svg { width: 100vw; height: 100vh; }
     <span class="filter-btn" data-filter="suno">Sunoタグのみ</span>
   </div>
   <div id="search-results" style="margin-top:8px;font-size:11px;color:#aaa;display:none;"></div>
+  <div id="candidates-info" style="margin-top:6px;font-size:11px;"></div>
 </div>
 
 <div id="legend">
@@ -3755,10 +3756,56 @@ searchInput.addEventListener("input", e => {
 
   let html = '';
   if (foundIds.size > 0) html += '<div style="color:#0f0">✓ ' + foundIds.size + '件ヒット</div>';
-  if (notFound.length > 0) html += '<div style="color:#f88;margin-top:4px">✗ 未登録: ' + notFound.join(', ') + '</div>';
+  if (notFound.length > 0) {
+    html += '<div style="color:#f88;margin-top:4px">✗ 未登録: ' + notFound.join(', ') + '</div>';
+    html += '<button id="save-candidates-btn" style="margin-top:6px;padding:3px 10px;background:#2a2a50;border:1px solid #555;border-radius:4px;color:#ccc;font-size:11px;cursor:pointer;">追加候補に保存</button>';
+  }
   resultsDiv.innerHTML = html;
   resultsDiv.style.display = 'block';
+
+  // 追加候補保存ボタン
+  const saveBtn = document.getElementById('save-candidates-btn');
+  if (saveBtn) {
+    saveBtn.addEventListener('click', () => {
+      const saved = JSON.parse(localStorage.getItem('pending_candidates') || '[]');
+      const now = new Date().toISOString().slice(0,10);
+      notFound.forEach(tag => {
+        if (!saved.some(s => s.tag === tag)) {
+          saved.push({tag: tag, date: now});
+        }
+      });
+      localStorage.setItem('pending_candidates', JSON.stringify(saved));
+      saveBtn.textContent = `${notFound.length}件を保存しました`;
+      saveBtn.style.background = '#2E7D32';
+      updateCandidatesInfo();
+      setTimeout(() => { saveBtn.textContent = '追加候補に保存'; saveBtn.style.background = '#2a2a50'; }, 2000);
+    });
+  }
 });
+
+// 保存済み候補数の表示
+function updateCandidatesInfo() {
+  const saved = JSON.parse(localStorage.getItem('pending_candidates') || '[]');
+  const info = document.getElementById('candidates-info');
+  if (saved.length > 0) {
+    info.innerHTML = '<span style="color:#FFD700">📋 追加候補: ' + saved.length + '件</span> '
+      + '<button id="show-candidates" style="padding:1px 6px;background:#2a2a50;border:1px solid #555;border-radius:3px;color:#ccc;font-size:10px;cursor:pointer;">表示</button> '
+      + '<button id="clear-candidates" style="padding:1px 6px;background:#2a2a50;border:1px solid #555;border-radius:3px;color:#ccc;font-size:10px;cursor:pointer;">クリア</button>';
+    document.getElementById('show-candidates').addEventListener('click', () => {
+      const list = saved.map(s => s.tag).join(', ');
+      alert('追加候補:\n' + list);
+    });
+    document.getElementById('clear-candidates').addEventListener('click', () => {
+      if (confirm('追加候補をすべてクリアしますか？')) {
+        localStorage.removeItem('pending_candidates');
+        updateCandidatesInfo();
+      }
+    });
+  } else {
+    info.innerHTML = '';
+  }
+}
+updateCandidatesInfo();
 
 // Legend: カテゴリのホバーで点滅、クリックでロック
 let lockedCat = null;
