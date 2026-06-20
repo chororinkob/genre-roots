@@ -134,7 +134,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v7.3 / 304 genres / 979 links</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v7.4 / 319 genres / 1003 links</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
@@ -1501,6 +1501,67 @@ const NODES = [
     desc:"南アフリカのズールー族に伝わる、力強い男性コーラスのアカペラ音楽。低音から高音まで分厚いハーモニーが層をなし、リードシンガーの叫びとコーラスの応答が交互にくり返される。楽器は使わず、声の力だけで空間を満たす圧倒的な響き。聴いていると大地の振動を感じるような原始的な力がある。",
     roots_story:"1930年代、Solomon Linda「Mbube」(1939)がジャンル名の由来。この曲は後に「The Lion Sleeps Tonight」としてThe Tokensに英語でカバーされ(1961)、世界的大ヒットに。ただしSolomon Linda本人には数十年間ほとんど報酬が支払われず、知的財産権の悲劇的な事例として知られる。Ladysmith Black Mambazo（リーダー:Joseph Shabalala）はPaul Simonの「Graceland」(1986)で世界的に知られ、グラミー賞を5回受賞。"},
 
+  // ハードコア系追加（pending_genres_hardcore.mdより）
+  {id:"frenchcore", label:"Frenchcore", cat:"hardcore", era:"2000s", suno:true,
+    desc:"フランス発の超高速ハードコア。BPM 190〜210の歪んだキックと、メロディアスなシンセが融合した独特のスタイル。ガバよりテクニカルで、キックのデザインにこだわりがある。フランスのレイブカルチャーと密接で、Peacock Recordsが中心レーベル。",
+    roots_story:"2000年代、フランスのハードコアシーンからDr. Peacock、Sefa、The Speed Freakが確立。Peacock Records、Forscreeが主要レーベル。オランダのハードコアシーンとも密接で、DefqonやThunderdomeでもプレイされる。Sefa「Zonder Jou」がフレンチコアをメインストリームに押し上げた。"},
+
+  {id:"nightcore", label:"Nightcore", cat:"hardcore", era:"2001", suno:true,
+    desc:"既存の曲をテンポアップ（BPM 160〜180）してピッチを上げた、キュートで高速なリミックススタイル。元の曲が速くなることで子供のような高い声になり、アニメ的な可愛らしさが生まれる。YouTubeのアニメ画像付き動画で爆発的に広まった。",
+    roots_story:"2001年、ノルウェーの2人組Thomas S. Nilsen & Steffen Ojala Søderholmが学校のプロジェクトでユーロダンスの曲をテンポアップしたのが起源。「Nightcore」はこの2人のプロジェクト名だった。2010年代にYouTubeでアニメ画像と組み合わせたNightcoreリミックスが大量に投稿され、インターネットカルチャーとして定着。"},
+
+  {id:"hyperpop", label:"Hyperpop", cat:"pop", era:"2010s", suno:true,
+    desc:"ポップスのあらゆる要素——オートチューン、シンセ、ビート——を極端に誇張・歪ませた、過剰で実験的なスタイル。甲高くピッチシフトされたボーカル、歪んだベース、キラキラしたシンセが音量MAXで襲いかかる。ポップスの枠を破壊しながらポップであり続ける矛盾が魅力。",
+    roots_story:"2010年代半ば、PC Music（A.G. Cookのレーベル）が先駆け。SOPHIE「Oil of Every Pearl's Un-Insides」(2018)がジャンルの金字塔。Charli XCX「Pop 2」(2017)がメインストリームとの橋渡し。100 gecsが極端なスタイルで話題に。Spotifyが2019年に「Hyperpop」プレイリストを作りジャンル名が定着。"},
+
+  {id:"uk_hardcore_genre", label:"UK Hardcore", cat:"hardcore", era:"2000s", suno:true,
+    desc:"ハッピーハードコアをより洗練させた、UKのハードコアダンスミュージック。BPM 160〜175の速いテンポ、ピッチアップされたボーカル、メロディアスなシンセ、力強いキック。ハッピーハードコアの明るさを残しつつ、プロダクション品質が大幅に向上。",
+    roots_story:"2000年代、イギリスのハッピーハードコアシーンが成熟。Hixxy、Gammer、Dougal & Gammer、Darren Stylesが代表。Essential Platinum、Together We Riseが主要レーベル。2010年代にはGammerがEDMシーンにも進出し、UKハードコアの認知度を広げた。"},
+
+  {id:"digital_hardcore", label:"Digital\nHardcore", cat:"hardcore", era:"1994", suno:true,
+    desc:"パンクの攻撃性とデジタルビートの無機質さを極端に融合させた、政治的で暴力的な電子パンク。歪んだギター、叫ぶボーカル、高速のブレイクビートとノイズが混沌として鳴り響く。パンクのDIY精神をデジタルで再解釈した過激なスタイル。",
+    roots_story:"1994年、Alec EmpireがベルリンでDigital Hardcore Recordingsを設立。Atari Teenage Riot「Burn, Berlin, Burn!」(1997)がジャンルの代表作。EC8OR、Shizuoも重要。パンク、インダストリアル、ガバ、ブレイクコアの要素をミキサーに叩き込んだようなサウンド。"},
+
+  {id:"rawstyle", label:"Rawstyle", cat:"hardcore", era:"2010s", suno:true,
+    desc:"ハードスタイルのメロディアスさを削ぎ落とし、キックの歪みと暗さを極端に強調したスタイル。BPM 150前後。ハードスタイルの「跳ねるキック」を残しつつ、より攻撃的で不穏なサウンドデザイン。感動よりも衝撃を追求する。",
+    roots_story:"2010年代、ハードスタイルシーンの中でより暗く攻撃的な方向が分離。Radical Redemption、Delete、Warfaceが代表。Roughstate Records、Gearbox Digitalが主要レーベル。メロディックなユーフォリックスタイルの対極として「Raw」が確立。"},
+
+  {id:"uptempo_hardcore", label:"Uptempo", cat:"hardcore", era:"2010s", suno:true,
+    desc:"ガバをさらにテンポアップした、BPM 200〜250の超高速ハードコア。歪んだキックの連打がマシンガンのように叩きつけ、攻撃的なMCサンプルが煽る。ガバの暴力性をさらに加速させた極端なスタイル。",
+    roots_story:"2010年代、オランダのガバシーンから高速化の流れが加速。Partyraiser、Andy the Core、Angerfistの一部楽曲がアップテンポ化を牽引。Masters of Hardcore、Footworxx等のイベントでプレイされる。"},
+
+  {id:"terrorcore", label:"Terrorcore", cat:"hardcore", era:"1990s", suno:true,
+    desc:"ガバの中でも最も暴力的で過激なスタイル。BPM 180〜250の歪みきったキック、ホラー映画的なサンプル、叫び声、ノイズが混沌として叩きつけられる。音楽というよりも聴覚的な暴力体験に近い。",
+    roots_story:"1990年代、ガバの過激化の中で分離。Disciples of Annihilation、DJ Skinhead、Noize Suppressor（初期）が代表。Mokum Records、Bloody Fist Records（オーストラリア）が主要レーベル。"},
+
+  {id:"jumpstyle", label:"Jumpstyle", cat:"hardcore", era:"2000s", suno:true,
+    desc:"ハードスタイルとガバの中間的なテンポ（BPM 140〜150）で、独特の足さばき（ジャンプ）で踊るベルギー発のダンスミュージック。シンプルなキックと短いシンセのフレーズ、跳ねるリズムが特徴。YouTubeのジャンプダンス動画で世界に広まった。",
+    roots_story:"2000年代前半、ベルギーとオランダで発展。Patrick Jumpen「Holiday」がジャンプスタイルの代表曲。DJ Coone、Bastic（オランダ）も重要。YouTubeでジャンプダンスのチュートリアル動画が広まり、ヨーロッパ中の若者に流行。"},
+
+  {id:"hard_dance", label:"Hard Dance", cat:"hardcore", era:"1990s", suno:true,
+    desc:"ハードスタイル、ハードトランス、ハードコアなどの攻撃的なダンスミュージックを包括する用語。BPM 140〜160の硬いキック、エネルギッシュなシンセ、フェスティバル向けの盛り上がりが特徴。ハードスタイルほど特定のサウンドに限定されない幅広いカテゴリ。",
+    roots_story:"1990年代後半〜2000年代、ヨーロッパ（特にオランダ、ドイツ、イギリス）でハードなダンスミュージック全般を指す用語として定着。Q-dance、b2s等のイベント会社がハードダンスイベントを世界展開。"},
+
+  {id:"crossbreed", label:"Crossbreed", cat:"hardcore", era:"2000s", suno:true,
+    desc:"ドラムンベースの高速ブレイクビートとガバの歪んだキックを融合させた、2つのジャンルのハイブリッド。BPM 170〜190で、DnBのブレイク編集とハードコアの重いキックが同時に鳴る。両シーンのファンが交差する場所で生まれた。",
+    roots_story:"2000年代、DnBとガバの両方をプレイするDJたちが自然発生的にスタイルを融合。The Outside Agency、Thrasher、Programmerが代表。PRSPCT Recordings（オランダ）が拠点レーベル。"},
+
+  {id:"darkcore_genre", label:"Darkcore", cat:"hardcore", era:"1992", suno:true,
+    desc:"ハードコアレイヴの暗い側面を極端に追求したスタイル。暗く不気味なアトモスフィア、重い低音、ホラー的なサンプルが特徴。ハッピーハードコアの対極にある「暗黒のレイヴ」。後にダークステップやダークDnBに影響を与えた。",
+    roots_story:"1992年頃、イギリスのハードコアレイヴシーンから分離。4 Hero（初期）、Goldie（初期）、Doc Scottが暗い方向を追求。後にジャングル/DnBのダークサイドに発展した。"},
+
+  {id:"techstep", label:"Techstep", cat:"dnb", era:"1996", suno:true,
+    desc:"DnBの中で最もテクニカルで硬質なスタイル。テクノの無機質さとDnBの高速ブレイクが融合し、冷たく金属的なサウンドスケープを作る。ニューロファンクの直接の先駆者。",
+    roots_story:"1996年頃、Ed Rush & Optical、Trace、Nico（No U-Turn Records）が確立。「テクノ的なDnB」としてジャングルのラスタ的要素を排除し、冷たくテクニカルな方向へ進化させた。"},
+
+  {id:"hardtek", label:"Hardtek", cat:"hardcore", era:"1990s", suno:true,
+    desc:"フランスのフリーパーティー（テクニバル）文化から生まれた、テクノとハードコアの融合スタイル。BPM 160〜200の硬いキック、酸性のTB-303ベースライン、トライバルなパーカッションが特徴。野外の違法レイヴで大音量で演奏される。",
+    roots_story:"1990年代、フランスのテクニバル（フリーパーティー）文化から発展。Spiral Tribe（イギリス→フランスに移動したフリーパーティー集団）が先駆者。Narkotek、Audiogenic Recordsが拠点。フランスのカウンターカルチャーと密接に結びついている。"},
+
+  {id:"extratone", label:"Extratone", cat:"hardcore", era:"2000s", suno:true,
+    desc:"スピードコアをさらに極端に加速させた、BPM 1000以上に達する超高速電子音楽。もはやキックドラムは個々の打撃として認識できず、持続的な低周波ドローンのように聞こえる。音楽の定義を根本から問い直す極限の実験。",
+    roots_story:"2000年代、スピードコアの速度追求がBPM 1000の壁を超えた。Diabarha（日本）、m1dy（日本）が重要アーティスト。日本のアーティストがこの分野で特に活発。Splittercoreの更に先にある究極の形態。"},
+
   // 候補タグ承認ジャンル
   {id:"kwaito", label:"Kwaito", cat:"african", era:"1990s", suno:true,
     desc:"南アフリカのタウンシップから生まれた、ハウスのビートをゆったり落としたダンスミュージック。重い低音、スローなテンポ（BPM 100〜115）、ズールー語やソト語のラップ/チャントが特徴。アマピアノの直接の祖先であり、南アの若者文化そのもの。",
@@ -2729,6 +2790,32 @@ const LINKS = [
   {s:"city_pop",t:"disco",w:40,desc:"4つ打ち・ストリングス↔都会的和声"},
   {s:"disco",t:"city_pop",w:40,desc:"4つ打ち・ストリングス↔都会的和声"},
   {s:"experimental_elec",t:"musique_concrete",w:40,desc:"具体音・テープ↔機材発展"},
+
+  // ハードコア系追加リンク
+  {s:"gabber",t:"frenchcore",w:60,desc:"ガバのフランス的解釈"},
+  {s:"hardcore_rave",t:"frenchcore",w:45,desc:"ハードコアレイヴからの派生"},
+  {s:"eurodance",t:"nightcore",w:40,desc:"ユーロダンスのテンポアップ化"},
+  {s:"happy_hardcore",t:"nightcore",w:50,desc:"ハピコアのピッチアップ化"},
+  {s:"electropop",t:"hyperpop",w:50,desc:"エレクトロポップの極端な誇張"},
+  {s:"pop_music",t:"hyperpop",w:40,desc:"ポップスの解体と再構築"},
+  {s:"happy_hardcore",t:"uk_hardcore_genre",w:70,desc:"ハッピーハードコアの洗練化"},
+  {s:"punk",t:"digital_hardcore",w:50,desc:"パンクのデジタル化"},
+  {s:"breakcore",t:"digital_hardcore",w:45,desc:"ブレイクコアとの融合"},
+  {s:"industrial",t:"digital_hardcore",w:40,desc:"インダストリアルの攻撃性"},
+  {s:"hardstyle",t:"rawstyle",w:70,desc:"ハードスタイルのダーク化"},
+  {s:"gabber",t:"uptempo_hardcore",w:65,desc:"ガバの高速化"},
+  {s:"gabber",t:"terrorcore",w:60,desc:"ガバの最も過激な方向"},
+  {s:"hardstyle",t:"jumpstyle",w:55,desc:"ハードスタイルのダンス化"},
+  {s:"hard_techno",t:"hard_dance",w:50,desc:"ハードテクノの包括化"},
+  {s:"hardstyle",t:"hard_dance",w:55,desc:"ハードスタイルの上位概念"},
+  {s:"dnb",t:"crossbreed",w:50,desc:"DnBとガバの融合"},
+  {s:"gabber",t:"crossbreed",w:50,desc:"ガバとDnBの融合"},
+  {s:"hardcore_rave",t:"darkcore_genre",w:60,desc:"ハードコアレイヴの暗い方向"},
+  {s:"dnb",t:"techstep",w:65,desc:"DnBのテクニカル・冷たい方向"},
+  {s:"techno",t:"techstep",w:40,desc:"テクノの無機質さ"},
+  {s:"gabber",t:"hardtek",w:45,desc:"ガバのフリーパーティー的解釈"},
+  {s:"acid_techno",t:"hardtek",w:50,desc:"アシッドテクノとの融合"},
+  {s:"speedcore",t:"extratone",w:80,desc:"スピードコアの究極的高速化"},
 
   // 候補タグ承認分
   {s:"chicago_house",t:"kwaito",w:45,desc:"ハウスビートの南ア的スロウ化"},
