@@ -134,7 +134,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v7.4 / 319 genres / 1003 links</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v7.5 / 329 genres / 1022 links</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
@@ -2790,6 +2790,68 @@ const LINKS = [
   {s:"city_pop",t:"disco",w:40,desc:"4つ打ち・ストリングス↔都会的和声"},
   {s:"disco",t:"city_pop",w:40,desc:"4つ打ち・ストリングス↔都会的和声"},
   {s:"experimental_elec",t:"musique_concrete",w:40,desc:"具体音・テープ↔機材発展"},
+
+  // ハードコア系追加2
+  {id:"euphoric_hardstyle", label:"Euphoric\nHardstyle", cat:"hardcore", era:"2010s", suno:true,
+    desc:"ハードスタイルの中でもメロディと感動を最大化したスタイル。壮大なシンセメロディ、ピアノ、歌もののブレイクダウンが特徴。ロースタイルの暗さとは対極的で、フェスティバルで手を上げて涙するような高揚感を追求する。",
+    roots_story:"2010年代、Headhunterz、Wildstylez、Noisecontrollersが確立。Scantraxx Recordsが中心レーベル。Q-danceのQlimaxフェスティバルが最大の舞台。"},
+
+  {id:"hard_trap", label:"Hard Trap", cat:"hardcore", era:"2013", suno:true,
+    desc:"トラップの808ベースとハイハットパターンに、ハードスタイルやハードコアの歪んだキックを融合させたスタイル。BPM 140〜160。EDMフェスのベースステージで人気が高い。",
+    roots_story:"2013年頃、Flosstradamus、Yellow Claw、LNYTNZがトラップとハードスタイルの境界で活動。Barong Familyレーベル（Yellow Claw）が拠点。"},
+
+  {id:"acidcore", label:"Acidcore", cat:"hardcore", era:"1990s", suno:true,
+    desc:"TB-303のアシッドサウンドをハードコアのテンポ（BPM 160〜200）で駆動させた、トリッピーで攻撃的なスタイル。アシッドテクノの速度と過激さを極限まで引き上げた形。",
+    roots_story:"1990年代、アシッドテクノとガバの融合点で誕生。Acid Junkies、Takkyu Ishino（石野卓球、初期）などが関連。Acid Attackレーベルが拠点の一つ。"},
+
+  {id:"makina", label:"Mákina", cat:"hardcore", era:"1990s", suno:true,
+    desc:"スペイン（特にカタルーニャ地方）発の高速ダンスミュージック。BPM 160〜190の硬いキック、派手なシンセリフ、スペイン語のMCが特徴。イタリアのハードコアとUKハードコアの中間的なサウンド。",
+    roots_story:"1990年代、バルセロナ・バレンシアのクラブシーンで発展。Pont Aeri（バルセロナのクラブ）が聖地。Chimo Bayo、Pastis & Buenri、DJ Skuderoが代表。「Ruta del Bakalao」（バレンシアのレイブルート）文化と密接。"},
+
+  {id:"power_noise", label:"Power Noise", cat:"industrial", era:"1990s", suno:true,
+    desc:"インダストリアルのノイズとリズミックな反復を組み合わせた、ダンサブルなノイズミュージック。EBMの構造にノイズの攻撃性を加えた形で、ハーシュノイズほどカオスではなく拍子がある。",
+    roots_story:"1990年代、Winterkälte、Converter、Imminent Starvationが確立。Ant-Zen Recordsが主要レーベル。インダストリアルクラブのフロアでプレイされるノイズとして機能。"},
+
+  {id:"doomcore", label:"Doomcore", cat:"hardcore", era:"1990s", suno:true,
+    desc:"ハードコアテクノの中で最も遅く重いスタイル。ドゥームメタルのような遅さ（BPM 70〜130）に歪んだキックと暗いアトモスフィアが融合。通常のハードコアの速さとは対極的で、圧倒的な重量感と絶望感がある。",
+    roots_story:"1990年代、The Mover（ドイツ）、Stormcore、Low Entropyが確立。PCP（Planet Core Productions）が関連レーベル。ガバのテンポを極端に落とした形として発展。"},
+
+  {id:"lento_violento", label:"Lento Violento", cat:"hardcore", era:"2000s", suno:true,
+    desc:"イタリア発の「遅くて暴力的」なハードコア。BPM 80〜100の遅いテンポに極端に歪んだキックと催眠的なシンセが乗る。通常のハードコアの速さを完全に否定した、イタリア独自の美学。",
+    roots_story:"2000年代、イタリアのDJ Balli、Gabba Front Berlinが発展。「Lento Violento」はイタリア語で「遅くて暴力的」。ドゥームコアとも関連するが、よりイタリアのレイヴ文化に根ざしたスタイル。"},
+
+  {id:"moombahcore", label:"Moombahcore", cat:"hardcore", era:"2011", suno:true,
+    desc:"モーンバートンのゆったりしたリズム（BPM 108前後）にダブステップやハードコアの重いベースとドロップを融合させたスタイル。ラテンのリズムとベースミュージックの攻撃性が同居する。",
+    roots_story:"2011年頃、Dillon Francis、Munchiが発展。モーンバートンの延長線上でベースをより重く、ドロップをより攻撃的にした形。"},
+
+  {id:"raggacore", label:"Raggacore", cat:"hardcore", era:"2000s", suno:true,
+    desc:"レゲエ/ダンスホールのリディムとボーカルサンプルをブレイクコアやハードコアの超高速ビートに乗せた、カリブとハードコアの異種融合。レゲエの陽気さとブレイクコアの狂気が同居する不思議なスタイル。",
+    roots_story:"2000年代、Bong-Ra（オランダ）、Shitmat、Enduser（アメリカ）が発展。ジャマイカのサウンドシステム文化とヨーロッパのハードコアが出会った形。Peace Off Records、Ad Noiseamが関連レーベル。"},
+
+  {id:"hard_bass_genre", label:"Hard Bass", cat:"hardcore", era:"2000s", suno:true,
+    desc:"ロシア発の高速ダンスミュージック。BPM 150〜165のドンクベース（跳ねるような歪んだベース）、シンプルで反復的なシンセリフ、ロシア語のMCが特徴。ロシアとCIS諸国の若者文化と密接。",
+    roots_story:"2000年代、ロシアのクラブシーンで発展。DJ Stivは「ハードベースの父」と呼ばれる。Hard Bass School「Narkotik Kal」がYouTubeでミーム化し国際的に知られた。ロシアのスクワッティング文化やAdidas文化と結びつけられることが多い。"},
+
+  // ハードコア系追加2リンク
+  {s:"hardstyle",t:"euphoric_hardstyle",w:70,desc:"ハードスタイルの感動特化"},
+  {s:"hardstyle",t:"rawstyle",w:65,desc:"ハードスタイルのダーク対極"},
+  {s:"trap",t:"hard_trap",w:55,desc:"トラップのハードコア融合"},
+  {s:"hardstyle",t:"hard_trap",w:40,desc:"ハードスタイルキックの導入"},
+  {s:"acid_techno",t:"acidcore",w:60,desc:"アシッドテクノの高速化"},
+  {s:"gabber",t:"acidcore",w:45,desc:"ガバとアシッドの融合"},
+  {s:"eurodance",t:"makina",w:45,desc:"ユーロダンスのスペイン的解釈"},
+  {s:"hardcore_rave",t:"makina",w:50,desc:"ハードコアレイヴのスペイン化"},
+  {s:"industrial",t:"power_noise",w:55,desc:"インダストリアルのリズミカルなノイズ化"},
+  {s:"ebm",t:"power_noise",w:40,desc:"EBMの攻撃性を極端化"},
+  {s:"gabber",t:"doomcore",w:50,desc:"ガバのテンポを極端に落とした形"},
+  {s:"doom_metal",t:"doomcore",w:35,desc:"ドゥームの重さをテクノに"},
+  {s:"gabber",t:"lento_violento",w:45,desc:"ガバのイタリア的遅い解釈"},
+  {s:"moombahton",t:"moombahcore",w:60,desc:"モーンバートンのハードコア化"},
+  {s:"dubstep",t:"moombahcore",w:40,desc:"ダブステップの重低音導入"},
+  {s:"breakcore",t:"raggacore",w:55,desc:"ブレイクコアとレゲエの融合"},
+  {s:"dancehall",t:"raggacore",w:40,desc:"ダンスホールのハードコア化"},
+  {s:"gabber",t:"hard_bass_genre",w:45,desc:"ガバのロシア的解釈"},
+  {s:"hardstyle",t:"hard_bass_genre",w:35,desc:"ハードスタイルの影響"},
 
   // ハードコア系追加リンク
   {s:"gabber",t:"frenchcore",w:60,desc:"ガバのフランス的解釈"},
