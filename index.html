@@ -134,7 +134,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v7.5 / 329 genres / 1022 links</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v7.6 / 342 genres / 1042 links</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
@@ -2831,6 +2831,81 @@ const LINKS = [
   {id:"hard_bass_genre", label:"Hard Bass", cat:"hardcore", era:"2000s", suno:true,
     desc:"ロシア発の高速ダンスミュージック。BPM 150〜165のドンクベース（跳ねるような歪んだベース）、シンプルで反復的なシンセリフ、ロシア語のMCが特徴。ロシアとCIS諸国の若者文化と密接。",
     roots_story:"2000年代、ロシアのクラブシーンで発展。DJ Stivは「ハードベースの父」と呼ばれる。Hard Bass School「Narkotik Kal」がYouTubeでミーム化し国際的に知られた。ロシアのスクワッティング文化やAdidas文化と結びつけられることが多い。"},
+
+  // ハードコア系追加3
+  {id:"hardvapour", label:"Hardvapour", cat:"synthwave", era:"2015", suno:true,
+    desc:"ヴェイパーウェーブの懐古的美学にガバやインダストリアルの攻撃性を注入した、暗く重いスタイル。ヴェイパーウェーブの「消費社会への皮肉」を「怒り」に変換したような音。東欧のポストソ連的美学と結びつくことが多い。",
+    roots_story:"2015年頃、ヴェイパーウェーブのサブジャンルとして登場。wosX、HKE（Hong Kong Express）が関連。ソビエトウェーブとも重なる東欧的な暗さがある。"},
+
+  {id:"bouncy_techno", label:"Bouncy\nTechno", cat:"hardcore", era:"2000s", suno:true,
+    desc:"ハードスタイルの跳ねるキックをよりポップで軽快にしたスタイル。BPM 150前後。キックが「ボヨンボヨン」と弾むような質感で、ハードスタイルより親しみやすい。",
+    roots_story:"2000年代、オランダ・ベルギーのハードダンスシーンから派生。Frontlinerが代表。ハードスタイルのサブジャンル的な位置づけ。"},
+
+  {id:"melbourne_bounce", label:"Melbourne\nBounce", cat:"edm", era:"2010s", suno:true,
+    desc:"オーストラリア・メルボルン発の、跳ねるベースラインとシンプルなドロップが特徴のEDM。BPM 126〜130。ミニマルなシンセリフと太いベースバウンスが心地よいグルーヴを生む。",
+    roots_story:"2010年代、オーストラリアのWill Sparks、Joel Fletcherが確立。Bounce、Dirty Dutch Houseの流れを汲む。Spinnin' Recordsから多数リリース。"},
+
+  {id:"dubstyle", label:"Dubstyle", cat:"hardcore", era:"2009", suno:true,
+    desc:"ハードスタイルのキックパターンとダブステップのウォブルベースを融合させた、2つのEDMジャンルのハイブリッド。BPM 150前後。ハードスタイルの跳ねるキックとダブステップの重低音が同時に鳴る。",
+    roots_story:"2009年頃、Headhunterz、Wildstylez等がダブステップの要素をハードスタイルに取り入れ始めた。短期的なトレンドだったが、独自のサブジャンルとして認識された。"},
+
+  {id:"subground", label:"Subground", cat:"hardcore", era:"2010s", suno:true,
+    desc:"ハードスタイルとテクノの中間的なスタイル。BPM 145〜155。ハードスタイルのキックを持ちつつ、テクノのミニマルな反復とダークな雰囲気を併せ持つ。アンダーグラウンドなハードダンス。",
+    roots_story:"2010年代、オランダ・ベルギーのアンダーグラウンドシーンで発展。Sei2ure、Takaaki Itoh等が関連。Ground Zeroフェスティバルが関連イベント。"},
+
+  {id:"jungle_terror", label:"Jungle Terror", cat:"edm", era:"2014", suno:true,
+    desc:"トライバルなパーカッション、ジャングル的なボーカルチャント、EDMのドロップを融合させた、エスニックでワイルドなスタイル。BPM 140前後。ジャングルミュージック（ジャンル）とは無関係で、「ジャングル」は野生のイメージ。",
+    roots_story:"2014年頃、Wiwek（オランダ）、Skrillex（コラボ）が確立。Barong Familyレーベルが中心。アフリカ・カリブ・南米のトライバルサウンドをEDMに持ち込んだ。"},
+
+  {id:"nu_style", label:"Nu Style", cat:"hardcore", era:"2000s", suno:true,
+    desc:"2000年代のハードコアの新しいスタイルを指す用語。よりクリーンなプロダクション、メロディアスな要素、洗練されたキックデザインが特徴。メインストリームハードコアに近いが、より実験的な方向性。",
+    roots_story:"2000年代、Neophyte、Evil Activitiesらが推進。Neophyte Recordsが関連レーベル。「ニュースタイル」は既存のガバに対する新しい方向性として命名。"},
+
+  {id:"flashcore", label:"Flashcore", cat:"hardcore", era:"2000s", suno:true,
+    desc:"スピードコアとノイズの融合。BPM 300以上の超高速ビートに、グリッチ的な電子ノイズやデジタルアーティファクトが混ざる。スピードコアの更なる実験的方向。",
+    roots_story:"2000年代、Kobaryo（日本）、Ruby My Dear（フランス）が関連。日本とフランスのアーティストが特に活発。"},
+
+  {id:"cybergrind", label:"Cybergrind", cat:"metal", era:"2000s", suno:true,
+    desc:"グラインドコアの超短尺・超高速をデジタルで再構築した、打ち込みのエクストリームメタル。ドラムマシンのブラストビート、極端に歪んだギター、機械的な精度が特徴。生ドラマー不要のグラインドコア。",
+    roots_story:"2000年代、The Berzerker（オーストラリア）、Agoraphobic Nosebleed（アメリカ）が代表。ドラムマシンを使うことでBPM 1000以上の速度も実現可能。"},
+
+  {id:"splittercore", label:"Splittercore", cat:"hardcore", era:"2000s", suno:true,
+    desc:"スピードコアとエクストラトーンの中間。BPM 600〜1000という極端な速度で、キックが個々の打撃として辛うじて認識できる限界の速さ。スピードコアよりも速いが、エクストラトーンほどドローン的ではない。",
+    roots_story:"2000年代、DOC-TERROR、Stazmaらが発展。スピードコアの更なる加速の結果として位置づけられる。"},
+
+  {id:"mashcore", label:"Mashcore", cat:"hardcore", era:"2000s", suno:true,
+    desc:"ブレイクコアの手法を使って、ポップスやアニソン、ゲーム音楽などの素材を高速ブレイクビートで解体・再構築するスタイル。原曲の認識可能なフレーズが残りつつ、BPM 200以上で暴走する。J-Coreと重なる部分が大きい。",
+    roots_story:"2000年代、DJ Technorch（日本）、goreshit（ロシア）が代表。ニコニコ動画やSoundCloudで広まった。HARDCORE TANO*Cレーベルが関連。"},
+
+  {id:"breakbeat_hardcore", label:"Breakbeat\nHardcore", cat:"hardcore", era:"1990", suno:true,
+    desc:"ブレイクビーツを高速化してレイヴ文化と融合させた、ジャングル以前のUKハードコアの原型。BPM 150〜170のサンプリングされたブレイクビート、ピアノのスタブ音、ホイッスル、MCの煽りが特徴。",
+    roots_story:"1990年頃、イギリスのレイヴシーンでアシッドハウスのビートにブレイクビーツを高速化して加えたスタイル。The Prodigy（初期）、SL2「On a Ragga Tip」が代表。後にジャングル→DnBへと発展した。"},
+
+  {id:"skullstep", label:"Skullstep", cat:"hardcore", era:"2010s", suno:true,
+    desc:"DnBのブレイクビートとハードコアの極端な歪みを融合させた、極めてダークで攻撃的なスタイル。クロスブリードに近いが、よりインダストリアルでノイジーな方向。",
+    roots_story:"2010年代、PRSPCT Recordings周辺のアーティストが発展。The Outside Agency、Thrasherが関連。インダストリアルDnBとハードコアの交差点。"},
+
+  // ハードコア系追加3リンク
+  {s:"vaporwave",t:"hardvapour",w:55,desc:"ヴェイパーウェーブのハード化"},
+  {s:"gabber",t:"hardvapour",w:35,desc:"ガバの暗い美学の導入"},
+  {s:"hardstyle",t:"bouncy_techno",w:55,desc:"ハードスタイルのポップ化"},
+  {s:"electro_house",t:"melbourne_bounce",w:50,desc:"エレクトロハウスの豪州的進化"},
+  {s:"hardstyle",t:"dubstyle",w:55,desc:"ハードスタイルとダブステップの融合"},
+  {s:"dubstep",t:"dubstyle",w:45,desc:"ダブステップのキック導入"},
+  {s:"hardstyle",t:"subground",w:50,desc:"ハードスタイルのアンダーグラウンド化"},
+  {s:"techno",t:"subground",w:40,desc:"テクノのミニマル性導入"},
+  {s:"edm",t:"jungle_terror",w:45,desc:"EDMのトライバル化"},
+  {s:"moombahton",t:"jungle_terror",w:40,desc:"モーンバートンの野性的方向"},
+  {s:"mainstream_hardcore",t:"nu_style",w:55,desc:"ハードコアの新スタイル化"},
+  {s:"speedcore",t:"flashcore",w:60,desc:"スピードコアのノイズ融合"},
+  {s:"grindcore",t:"cybergrind",w:60,desc:"グラインドコアのデジタル化"},
+  {s:"speedcore",t:"splittercore",w:70,desc:"スピードコアの更なる加速"},
+  {s:"breakcore",t:"mashcore",w:60,desc:"ブレイクコアのポップ素材使用"},
+  {s:"j_core",t:"mashcore",w:50,desc:"J-Coreとの素材共有"},
+  {s:"acid_house",t:"breakbeat_hardcore",w:55,desc:"アシッドハウスのブレイク高速化"},
+  {s:"rave",t:"breakbeat_hardcore",w:60,desc:"レイヴのブレイクビート化"},
+  {s:"crossbreed",t:"skullstep",w:55,desc:"クロスブリードの更なるダーク化"},
+  {s:"industrial",t:"skullstep",w:35,desc:"インダストリアルの攻撃性"},
 
   // ハードコア系追加2リンク
   {s:"hardstyle",t:"euphoric_hardstyle",w:70,desc:"ハードスタイルの感動特化"},
