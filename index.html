@@ -135,7 +135,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v9.2 / 350 genres / 1045 links</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v9.3 / 350 genres / 1045 links</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
@@ -2312,7 +2312,6 @@ const LINKS = [
   // 相互影響リンク（自動追加）
   {s:"jazz",t:"blues",w:40,desc:"音階・歌唱↔和声・即興"},
   {s:"blues",t:"jazz",w:40,desc:"音階・歌唱↔和声・即興"},
-  {s:"jazz",t:"ragtime",w:40,desc:"シンコペーション↔即興演奏"},
   {s:"ragtime",t:"jazz",w:40,desc:"シンコペーション↔即興演奏"},
   {s:"jazz",t:"classical",w:40,desc:"和声・構成の吸収↔リズム・ブルーノート"},
   {s:"classical",t:"jazz",w:40,desc:"和声・構成の吸収↔リズム・ブルーノート"},
@@ -2528,7 +2527,6 @@ const LINKS = [
   {s:"jazz",t:"trip_hop",w:40,desc:"和声・サンプル↔遅いビート感"},
   {s:"trip_hop",t:"ambient",w:40,desc:"空間性↔ビート感"},
   {s:"ambient",t:"trip_hop",w:40,desc:"空間性↔ビート感"},
-  {s:"illbient",t:"trip_hop",w:40,desc:"暗いビート↔都市的アンビエンス"},
   {s:"trip_hop",t:"illbient",w:40,desc:"暗いビート↔都市的アンビエンス"},
   {s:"illbient",t:"ambient",w:40,desc:"空間性↔ヒップホップ的暗さ"},
   {s:"dub",t:"illbient",w:40,desc:"低音・エコー↔サウンドコラージュ"},
@@ -2693,9 +2691,7 @@ const LINKS = [
   {s:"afropop",t:"amapiano",w:40,desc:"相互影響"},
   {s:"amapiano",t:"afro_fusion",w:40,desc:"多ジャンル性↔リズム"},
   {s:"afro_fusion",t:"amapiano",w:40,desc:"相互影響"},
-  {s:"salsa",t:"mambo",w:40,desc:"ホーン・リズム↔編曲感"},
   {s:"boogaloo",t:"salsa",w:40,desc:"ラテン+ソウル↔クラーベ・ホーン"},
-  {s:"salsa",t:"merengue",w:40,desc:"打楽器・ホーン↔歌もの構成"},
   {s:"merengue",t:"salsa",w:40,desc:"打楽器・ホーン↔歌もの構成"},
   {s:"cumbia",t:"salsa",w:40,desc:"揺れるリズム↔ホーン・クラーベ"},
   {s:"salsa",t:"cumbia",w:40,desc:"揺れるリズム↔ホーン・クラーベ"},
@@ -2729,7 +2725,6 @@ const LINKS = [
   {s:"hawaiian",t:"country",w:40,desc:"スティールギター↔歌・コード"},
   {s:"country",t:"hawaiian",w:40,desc:"スティールギター↔歌・コード"},
   {s:"mood_kayo",t:"enka",w:40,desc:"こぶし・情念↔都会的和声・ラテン感"},
-  {s:"enka",t:"minyo",w:40,desc:"節回し↔演歌的伴奏・歌唱"},
   {s:"techno_kayo",t:"jpop",w:40,desc:"シンセ制作↔歌謡曲的メロディ"},
   {s:"jpop",t:"techno_kayo",w:40,desc:"シンセ制作↔歌謡曲的メロディ"},
   {s:"techno_kayo",t:"synth_pop",w:40,desc:"電子音↔歌謡曲構成"},
