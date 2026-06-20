@@ -134,7 +134,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v7.1 / 300 genres / 970 links</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v7.2 / 304 genres / 979 links</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
@@ -1498,6 +1498,23 @@ const NODES = [
     desc:"南アフリカのズールー族に伝わる、力強い男性コーラスのアカペラ音楽。低音から高音まで分厚いハーモニーが層をなし、リードシンガーの叫びとコーラスの応答が交互にくり返される。楽器は使わず、声の力だけで空間を満たす圧倒的な響き。聴いていると大地の振動を感じるような原始的な力がある。",
     roots_story:"1930年代、Solomon Linda「Mbube」(1939)がジャンル名の由来。この曲は後に「The Lion Sleeps Tonight」としてThe Tokensに英語でカバーされ(1961)、世界的大ヒットに。ただしSolomon Linda本人には数十年間ほとんど報酬が支払われず、知的財産権の悲劇的な事例として知られる。Ladysmith Black Mambazo（リーダー:Joseph Shabalala）はPaul Simonの「Graceland」(1986)で世界的に知られ、グラミー賞を5回受賞。"},
 
+  // 候補タグ承認ジャンル
+  {id:"kwaito", label:"Kwaito", cat:"african", era:"1990s", suno:true,
+    desc:"南アフリカのタウンシップから生まれた、ハウスのビートをゆったり落としたダンスミュージック。重い低音、スローなテンポ（BPM 100〜115）、ズールー語やソト語のラップ/チャントが特徴。アマピアノの直接の祖先であり、南アの若者文化そのもの。",
+    roots_story:"1990年代、ヨハネスブルクのタウンシップでハウスミュージックのテンポを落とし、地元のヒップホップやレゲエの要素を混ぜたスタイルとして誕生。Arthur Mafokate、Mandoza「Nkalakatha」(2000)、TKZeeが代表。アパルトヘイト後の自由を祝う音楽として爆発的に広まった。2010年代にはアマピアノに進化的に受け継がれた。"},
+
+  {id:"isicathamiya", label:"Isicathamiya", cat:"african", era:"1920s", suno:true,
+    desc:"南アフリカのズールー族に伝わる男性アカペラコーラス。mbubeよりも静かで繊細なハーモニーが特徴で、「忍び足」を意味する名前の通り、柔らかく歩くようなリズムで歌われる。Ladysmith Black Mambazoが世界的に知らしめた。",
+    roots_story:"1920年代から南アフリカの鉱山労働者の間で発展。日曜の夜にコンテスト形式で歌い合う文化から生まれた。Joseph Shabalala率いるLadysmith Black MambazoがPaul Simon「Graceland」(1986)で世界的に知られた。mbubeのより力強いスタイルに対して、isicathamiyaは繊細で静謐なハーモニーを追求する。"},
+
+  {id:"marabi", label:"Marabi", cat:"african", era:"1920s", suno:true,
+    desc:"1920〜40年代の南アフリカのタウンシップで生まれた、ピアノを中心としたジャズ的な庶民音楽。シンプルな3コードの循環進行、ペダルオルガンやピアノの反復的なリフが特徴。酒場（シビーン）で演奏され、アパルトヘイト下の黒人コミュニティの音楽的抵抗でもあった。",
+    roots_story:"1920年代、ヨハネスブルクのスラム地区で違法酒場（シビーン）の音楽として発展。アメリカのラグタイムやジャズの影響を受けつつ、南アフリカ独自のスタイルに変容した。後にmbaqanga（ンバカンガ）やクワイトに発展し、南アフリカのポピュラー音楽全体の源流となった。"},
+
+  {id:"rnb", label:"R&B", cat:"soul_cat", era:"1940s", suno:true,
+    desc:"リズム・アンド・ブルースの略称。ブルースにリズムセクション（ドラム、ベース）を加えてダンサブルにした、ソウルやファンクの直接の前身。現代では「R&B」はソウル、ファンク、ヒップホップの影響を受けた都市的な黒人ポピュラー音楽全般を指す幅広い用語として使われている。",
+    roots_story:"1940年代、ブルースとジャズが融合したダンス音楽として誕生。当初は「レイス・ミュージック」と呼ばれていた黒人音楽を、Billboard誌が1949年に「Rhythm and Blues」と呼び始めた。Ray Charles、Sam Cookeがゴスペルと融合させてソウルへ発展。1990年代以降はヒップホップと融合した「コンテンポラリーR&B」が主流に。Beyoncé、The Weeknd、SZAが現代R&Bの代表。"},
+
   // エレクトロニック系追加
   {id:"trip_hop", label:"Trip Hop", cat:"ambient", era:"1991", suno:true,
     desc:"ヒップホップのスローなビートにダブの空間的エフェクト、アンビエントの浮遊感、ソウルの官能的なボーカルを融合させた、ダウンテンポの代表格。テンポはBPM 60〜90と非常に遅く、煙草の煙が漂うような気だるいグルーヴがある。サンプリングされたストリングス、くぐもったドラム、ベースの深い振動、囁くようなボーカルが都会の深夜の空気を作る。雨のブリストルの街角が似合う、憂鬱で美しい音楽。",
@@ -2709,6 +2726,17 @@ const LINKS = [
   {s:"city_pop",t:"disco",w:40,desc:"4つ打ち・ストリングス↔都会的和声"},
   {s:"disco",t:"city_pop",w:40,desc:"4つ打ち・ストリングス↔都会的和声"},
   {s:"experimental_elec",t:"musique_concrete",w:40,desc:"具体音・テープ↔機材発展"},
+
+  // 候補タグ承認分
+  {s:"chicago_house",t:"kwaito",w:45,desc:"ハウスビートの南ア的スロウ化"},
+  {s:"amapiano",t:"kwaito",w:50,desc:"クワイトのモダン化↔アマピアノのルーツ"},
+  {s:"mbube",t:"isicathamiya",w:70,desc:"ズールー・アカペラの姉妹スタイル"},
+  {s:"jazz",t:"marabi",w:40,desc:"ジャズ的ピアノ↔南アのタウンシップ音楽"},
+  {s:"marabi",t:"kwaito",w:45,desc:"マラビがクワイトの源流"},
+  {s:"soul",t:"rnb",w:70,desc:"ソウルがR&Bの直接のルーツ"},
+  {s:"hiphop",t:"rnb",w:50,desc:"ヒップホップとの融合"},
+  {s:"rnb",t:"alternative_rnb",w:60,desc:"R&Bの実験的進化"},
+  {s:"rnb",t:"latin_rnb",w:50,desc:"R&Bのラテン化"},
 
   // 孤立ノード解消
   {s:"raga",t:"chinese_traditional",w:30,desc:"東洋音楽の伝統を共有"},
