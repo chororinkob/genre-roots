@@ -135,7 +135,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v8.3 / 350 genres / 1056 links</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v8.4 / 350 genres / 1056 links</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
@@ -3441,17 +3441,25 @@ const linkData = LINKS.map(l => {
   return {...l, source: l.s, target: l.t, mutualSecond: isMutualSecond};
 });
 
+// Pre-compute degree for performance
+NODES.forEach(n => { n._degree = 0; });
+linkData.forEach(l => {
+  const s = NODES.find(n => n.id === l.s);
+  const t = NODES.find(n => n.id === l.t);
+  if (s) s._degree++;
+  if (t) t._degree++;
+});
+
 const simulation = d3.forceSimulation(NODES)
   .force("link", d3.forceLink(linkData).id(d=>d.id).distance(d => 1300 - d.w * 2.0).strength(0.12))
   .force("charge", d3.forceManyBody().strength(d => {
-    const deg = linkData.filter(l => (l.source.id||l.source)===d.id || (l.target.id||l.target)===d.id).length;
-    return -6000 - deg * 1500;
+    return -6000 - (d._degree || 0) * 1500;
   }).distanceMax(2500))
   .force("center", d3.forceCenter(w/2, h/2))
-  .force("collision", d3.forceCollide(d => d.r + 160).iterations(5))
+  .force("collision", d3.forceCollide(d => d.r + 160).iterations(2))
   .force("x", d3.forceX(w/2).strength(d => d.fx != null ? 0 : 0.015))
   .force("y", d3.forceY(h/2).strength(d => d.fx != null ? 0 : 0.015))
-  .alphaDecay(0.02);
+  .alphaDecay(0.05);
 
 const link = g.append("g").selectAll("line")
   .data(linkData)
