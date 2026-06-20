@@ -135,7 +135,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v8.5 / 350 genres / 1045 links</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v8.6 / 350 genres / 1045 links</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
@@ -1004,7 +1004,7 @@ const NODES = [
 
   {id:"anime_music", label:"Anime Music\n(アニソン)", cat:"east_asian", era:"1970s", suno:true,
     desc:"日本のアニメーション作品のOP/ED（オープニング/エンディング）テーマとして作られた音楽。ジャンルの幅は極めて広く、ロック、ポップ、ジャズ、クラシカル、EDM、メタルなどあらゆるスタイルが含まれる。共通するのはアニメの世界観を音で表現する「物語性」と、聴いた瞬間に作品が脳裏に浮かぶ「キャッチーさ」。90秒のOP/EDに起承転結を詰め込む構成力が日本独自の職人技。アニメの世界的普及とともに国際的な人気を獲得。",
-    roots_story:"1970年代の「宇宙戦艦ヤマト」「銀河鉄道999」でアニソンが独自のジャンルとして認識され始めた。影山ヒロノブ、水木一郎（「アニキ」）がスーパーロボット系の熱い主題歌で黄金期を築いた。1990年代に声優が歌手活動を兼ねる文化が定着。2000年代にはLiSA「紅蓮華」（鬼滅の刃、2019年）が社会現象的ヒットに。YOASOBI「アイドル」（推しの子、2023年）はSpotifyグローバルチャートで1位を獲得。Linked Horizon、澤野弘之が進撃の巨人等で映画音楽レベルのスケールをアニソンに持ち込んだ。"},
+    roots_story:"1970年代の「宇宙戦艦ヤマト」「銀河鉄道999」でアニソンが独自のジャンルとして認識され始めた。影山ヒロノブ、水木一郎（「アニキ」）がスーパーロボット系の熱い主題歌で黄金期を築いた。1990年代に声優が歌手活動を兼ねる文化が定着。2000年代にはLiSA「紅蓮華」（鬼滅の刃、2019年）が社会現象的ヒットに。YOASOBI「アイドル」（推しの子、2023年）はSpotifyバイラルチャートで世界1位を獲得。Linked Horizon、澤野弘之が進撃の巨人等で映画音楽レベルのスケールをアニソンに持ち込んだ。"},
 
   // カリブ系
   {id:"calypso", label:"Calypso", cat:"caribbean", era:"1900s", suno:true,
@@ -1612,8 +1612,8 @@ const NODES = [
     roots_story:"1938年頃、キューバのOrestes López兄弟がダンソンにアフリカ的なリズム要素を加えて誕生。Pérez Prado「Mambo No. 5」(1949)が世界的大ヒットとなり「マンボの王」と呼ばれた。Tito Puente「Oye Como Va」(1963)はSantanaのカバー(1970)でさらに有名に。ニューヨークのPalladium Ballroom(1940〜50年代)がマンボの聖地。"},
 
   {id:"cha_cha_cha", label:"Cha-Cha-Cha", cat:"latin", era:"1951", suno:true,
-    desc:"マンボのリズムをやや遅くし、踊りやすくした優雅なラテンダンスミュージック。「チャ・チャ・チャ」という3つのステップを踏む足の音が名前の由来。ギロ（すりおろし器的な打楽器）のシャカシャカしたリズム、フルートやヴァイオリンの軽やかなメロディ、穏やかなコンガが上品な空気を作る。テンポはBPM 110〜130で、社交ダンスとしても定番。",
-    roots_story:"1951年、キューバの作曲家Enrique Jorrínがマンボを簡素化して誕生させた。「La Engañadora」(1953)が最初のチャチャチャのヒット。社交ダンスの種目としても世界に広まり、ボールルームダンスの定番に。Tito Puente、Xavier Cugatもチャチャチャを多数録音。映画「Dirty Dancing」(1987)でもチャチャチャのシーンが印象的。"},
+    desc:"ダンソン・マンボのシンコペーションを弱め、踊り手が取りやすい明確な拍感にした優雅なラテンダンスミュージック。「チャ・チャ・チャ」という3つのステップを踏む足の音が名前の由来。ギロ（すりおろし器的な打楽器）のシャカシャカしたリズム、フルートやヴァイオリンの軽やかなメロディ、穏やかなコンガが上品な空気を作る。テンポはBPM 110〜130で、社交ダンスとしても定番。",
+    roots_story:"1950年代初頭、キューバの作曲家Enrique JorrínがOrquesta Américaでダンソン・マンボを踊りやすく再構成。「La Engañadora」(1953)が最初のチャチャチャのヒット。社交ダンスの種目としても世界に広まり、ボールルームダンスの定番に。Tito Puente、Xavier Cugatもチャチャチャを多数録音。映画「Dirty Dancing」(1987)でもチャチャチャのシーンが印象的。"},
 
   {id:"bolero_latin", label:"Bolero", cat:"latin", era:"1880s", suno:true,
     desc:"ゆったりとしたテンポで恋愛の情感を切々と歌い上げる、ラテン音楽の中で最もロマンチックなスタイル。アコースティックギターのアルペジオ、柔らかいストリングス、情感を込めたボーカルが、恋の喜びと苦しみを表現する。テンポはBPM 60〜80と非常にゆっくり。チークダンス（頬を寄せ合って踊る密着ダンス）と結びつき、「恋人たちの音楽」として定着。",
@@ -1643,14 +1643,14 @@ const NODES = [
   // ポップス系追加
   {id:"city_pop", label:"City Pop\n(シティポップ)", cat:"pop", era:"1975", suno:true,
     desc:"1970〜80年代の日本の都市生活の煌めきを音にした、洗練されたポップス。AOR（大人向けロック）、ソウル、ファンク、フュージョンの影響を受けた高品質なプロダクション、透明感のあるボーカル、都会的でおしゃれなアレンジが特徴。テンポは中速で、ドライブ中の夜景やネオンの街が脳裏に浮かぶ。2010年代後半からYouTubeのアルゴリズムで海外に「発見」され、世界的リバイバルが起きた。",
-    roots_story:"1975年頃から1980年代にかけて、大瀧詠一「A LONG VACATION」(1981)、山下達郎「FOR YOU」(1982)、竹内まりや「Plastic Love」(1984)が代表作。松原みき「真夜中のドア/Stay With Me」(1979)は2020年にSpotifyグローバルチャートで1位を獲得し、40年越しの世界的ヒットに。角松敏生、杏里「悲しみがとまらない」も海外で再発見された。シティポップのリバイバルはヴェイパーウェーブとフューチャーファンクのサンプリング素材としての人気が発端。"},
+    roots_story:"1975年頃から1980年代にかけて、大瀧詠一「A LONG VACATION」(1981)、山下達郎「FOR YOU」(1982)、竹内まりや「Plastic Love」(1984)が代表作。松原みき「真夜中のドア/Stay With Me」(1979)は2020年にSpotifyバイラルチャートで世界1位を獲得し、40年越しの世界的ヒットに。角松敏生、杏里「悲しみがとまらない」も海外で再発見された。シティポップのリバイバルはヴェイパーウェーブとフューチャーファンクのサンプリング素材としての人気が発端。"},
 
   {id:"baroque_pop", label:"Baroque Pop", cat:"pop", era:"1966", suno:true,
     desc:"ポップスにバロック音楽の要素——チェンバロ、弦楽四重奏、対位法的なメロディライン——を取り入れた、格式高くドラマチックなスタイル。ロックバンドの編成にオーケストラが加わり、クラシカルな壮大さとポップスのキャッチーさが同居する。テンポは中速。華やかで知的、古典的なのに新しい。音楽的教養とポップセンスの融合。",
     roots_story:"1966年、The Beach Boys「Pet Sounds」とThe Beatles「Revolver」〜「Sgt. Pepper's」がバロックポップの原型を同時期に生み出した。The Left Banke「Walk Away Renée」(1966)はチェンバロを使った初期の代表曲。The Zombies「Odessey and Oracle」(1968)は再評価されバロックポップの隠れた傑作に。Arcade Fire、Fleet Foxes、Sufjan Stevensが現代のバロックポップ的なアーティスト。"},
 
   {id:"adult_contemporary", label:"Adult\nContemporary", cat:"pop", era:"1960s", suno:true,
-    desc:"大人のリスナー向けに調整された、穏やかで洗練されたポップス/ロック。ソフトなボーカル、控えめなプロダクション、メロディアスな曲作りが特徴。テンポはゆったり〜中速。ラジオのBGMやオフィスの有線放送に最適な「邪魔にならない心地よさ」がある。激しさや攻撃性とは無縁で、リラックスした雰囲気を演出する。",
+    desc:"大人のリスナー向けに調整された、穏やかで洗練されたポップス/ロック。ソフトなボーカル、控えめなプロダクション、メロディアスな曲作りが特徴。テンポはゆったり〜中速。ラジオのBGMやオフィスの有線放送に最適な「邪魔にならない心地よさ」がある。ハードロックほど攻撃的ではなく、リラックスした雰囲気を演出する。",
     roots_story:"1960年代からラジオのフォーマットとして確立。Carpenters「Close to You」(1970)がAC（Adult Contemporary）チャートの象徴。Elton John、Billy Joel、Phil Collinsが1970〜80年代のACチャート常連。Michael Bolton、Celine Dion「My Heart Will Go On」(1997)が1990年代の代表。Adele「Someone Like You」(2011)が現代のAC最大のヒット。Billboard Adult Contemporaryチャートは現在も継続している。"},
 
   {id:"easy_listening", label:"Easy Listening", cat:"pop", era:"1950s", suno:true,
@@ -1667,8 +1667,8 @@ const NODES = [
     roots_story:"1597年、フィレンツェのJacopo Peri「Dafne」が最初のオペラとされる（楽譜は散逸）。Monteverdi「L'Orfeo」(1607)が現存する最古の重要なオペラ。Mozart「フィガロの結婚」「ドン・ジョヴァンニ」が古典的オペラの完成形。Verdi「アイーダ」「椿姫」、Puccini「蝶々夫人」「トスカ」がイタリアオペラの最高峰。Wagner「ニーベルングの指環」は15時間超の壮大な四部作。Pavarotti、Maria Callasが20世紀の伝説的歌手。"},
 
   {id:"waltz", label:"Waltz", cat:"classical_sub", era:"1780s", suno:true,
-    desc:"3拍子の優雅な舞曲。「ズン・チャッ・チャッ」のリズムに乗せて男女がくるくると回転しながら踊る、ヨーロッパ宮廷文化の花形。ストリングスの流麗なメロディ、ゆったりとした3拍子のリズムが生む浮遊感と回転感が特徴。テンポはBPM 80〜100の3拍子。優雅さ、品格、ロマンスの象徴であり、舞踏会のイメージが脳裏に浮かぶ。",
-    roots_story:"1780年代、オーストリア・ドイツの農民の踊り「ランドラー」が宮廷に取り入れられ洗練された。Johann Strauss II（「ワルツ王」）の「美しき青きドナウ」(1867)がウィンナワルツの永遠の名曲。映画「2001年宇宙の旅」(1968)のオープニングで使用され、宇宙空間と完璧にマッチ。Chopin、Tchaikovskyもワルツの名曲を残した。ウィーン・フィルハーモニー管弦楽団のニューイヤーコンサートは毎年ワルツで締めくくられる。"},
+    desc:"3拍子の優雅な舞曲。「ズン・チャッ・チャッ」のリズムに乗せて男女がくるくると回転しながら踊る、ヨーロッパ宮廷文化の花形。ストリングスの流麗なメロディ、ゆったりとした3拍子のリズムが生む浮遊感と回転感が特徴。テンポはSlow Waltzで約BPM 84〜91、Viennese Waltzで約BPM 174〜180。優雅さ、品格、ロマンスの象徴であり、舞踏会のイメージが脳裏に浮かぶ。",
+    roots_story:"1780年代、オーストリア・ドイツの農民の踊り「ランドラー」が宮廷に取り入れられ洗練された。Johann Strauss II（「ワルツ王」）の「美しき青きドナウ」(1867)がウィンナワルツの永遠の名曲。映画「2001年宇宙の旅」(1968)の宇宙船のドッキング場面で使用され、宇宙空間と完璧にマッチ。Chopin、Tchaikovskyもワルツの名曲を残した。ウィーン・フィルハーモニー管弦楽団のニューイヤーコンサートは毎年ワルツで締めくくられる。"},
 
   // ブルース系サブジャンル
   {id:"delta_blues", label:"Delta Blues", cat:"blues_sub", era:"1920s", suno:true,
@@ -2123,8 +2123,6 @@ const LINKS = [
   {s:"hiphop",       t:"hip_hop_soul",     w:50, desc:"ヒップホップのR&B化"},
   {s:"salsa",        t:"pagode",           w:25, desc:"ラテンリズムの共有"},
   {s:"country",      t:"banda",            w:30, desc:"カントリーとの並行文化"},
-  {s:"indie_pop",t:"jangle_pop",w:65,desc:"きらびやかなギター↔DIY美学"},
-  {s:"indie_pop",t:"twee_pop",w:60,desc:"素朴さ↔バンド感"},
   {s:"heavy_metal",  t:"funk_metal",       w:45, desc:"メタルとファンクの融合"},
   {s:"funk",t:"funk_metal",w:50,desc:"スラップ・グルーヴ↔歪み・音圧"},
   {s:"death_metal",  t:"mathcore",         w:40, desc:"デスメタルの数学的複雑化"},
@@ -2269,12 +2267,12 @@ const LINKS = [
   {s:"alt_rock",t:"britpop",w:65,desc:"ギター文化↔メロディ志向"},
   {s:"alt_rock",     t:"indie_pop",        w:55, desc:"インディーのポップ方向"},
   {s:"indie_pop",    t:"dream_pop",        w:60, desc:"インディーポップの幻想的な方向"},
-  {s:"shoegaze",t:"dream_pop",w:55,desc:"浮遊感↔ノイズギター"},
   {s:"rock",         t:"j_rock",           w:45, desc:"ロックの日本化"},
   {s:"j_rock",t:"visual_kei",w:65,desc:"美学・演奏↔メロディ・バンド形式"},
   {s:"punk",t:"pop_punk",w:70,desc:"速度↔ポップな旋律"},
   {s:"punk",         t:"emo",              w:60, desc:"パンクの感情的方向"},
   {s:"punk",t:"psychobilly",w:50,desc:"ロカビリー↔ホラー・疾走感"},
+    {s:"rockabilly",t:"psychobilly",w:70,desc:"ロカビリーのスピード感をパンクと融合"},
   {s:"gothic_rock",t:"deathrock",w:65,desc:"パンク的荒さ↔暗い美学"},
   {s:"punk",         t:"melodic_hardcore",  w:70, desc:"ハードコアのメロディアス化"},
   {s:"heavy_metal",  t:"symphonic_metal",  w:60, desc:"メタルのオーケストラ化"},
@@ -2319,8 +2317,6 @@ const LINKS = [
   {s:"blues",t:"jazz",w:40,desc:"音階・歌唱↔和声・即興"},
   {s:"jazz",t:"ragtime",w:40,desc:"シンコペーション↔即興演奏"},
   {s:"ragtime",t:"jazz",w:40,desc:"シンコペーション↔即興演奏"},
-  {s:"dixieland",t:"jazz",w:40,desc:"集団即興の定型化↔復古的影響"},
-  {s:"big_band",t:"jazz",w:40,desc:"即興語法↔セクション書法"},
   {s:"cool_jazz",t:"bebop",w:40,desc:"高度な和声↔抑制的音色"},
   {s:"jazz",t:"classical",w:40,desc:"和声・構成の吸収↔リズム・ブルーノート"},
   {s:"classical",t:"jazz",w:40,desc:"和声・構成の吸収↔リズム・ブルーノート"},
@@ -2335,7 +2331,6 @@ const LINKS = [
   {s:"mambo",t:"jazz",w:40,desc:"ラテンリズム↔ビッグバンド編曲"},
   {s:"afrobeat",t:"jazz",w:40,desc:"管楽器・即興↔反復グルーヴ"},
   {s:"jazz",t:"free_jazz",w:40,desc:"語法の解体↔自由即興の影響"},
-  {s:"free_jazz",t:"jazz",w:40,desc:"語法の解体↔自由即興の影響"},
   {s:"free_jazz",t:"avant_garde",w:40,desc:"即興性↔不協和・偶然性"},
   {s:"avant_garde",t:"free_jazz",w:40,desc:"即興性↔不協和・偶然性"},
   {s:"fusion",t:"funk",w:40,desc:"ベース・ドラム↔和声・ソロ"},
@@ -2343,8 +2338,6 @@ const LINKS = [
   {s:"prog_rock",t:"fusion",w:40,desc:"変拍子・長尺↔即興・音圧"},
   {s:"fusion",t:"brazilian_jazz",w:40,desc:"ブラジルリズム↔電化・複雑和声"},
   {s:"brazilian_jazz",t:"fusion",w:40,desc:"ブラジルリズム↔電化・複雑和声"},
-  {s:"acid_jazz",t:"jazz",w:40,desc:"和声・即興↔クラブ的ビート"},
-  {s:"acid_jazz",t:"funk",w:40,desc:"グルーヴ↔クラブ再解釈"},
   {s:"acid_jazz",t:"hiphop",w:40,desc:"サンプリング・ビート↔生演奏感"},
   {s:"hiphop",t:"acid_jazz",w:40,desc:"サンプリング・ビート↔生演奏感"},
   {s:"nu_jazz",t:"jazz",w:40,desc:"即興・コード↔ビート・音響処理"},
@@ -2354,7 +2347,6 @@ const LINKS = [
   {s:"country",t:"blues",w:40,desc:"旋律・ベンド↔弦楽器・語り口"},
   {s:"blues",t:"rock",w:40,desc:"リフ・歌唱↔音量・歪み"},
   {s:"rock",t:"blues",w:40,desc:"リフ・歌唱↔音量・歪み"},
-  {s:"blues_rock",t:"blues",w:40,desc:"ブルース増幅↔ギター音色の逆輸入"},
   {s:"rock",t:"blues_rock",w:40,desc:"電化・ドラム↔リフ・ソロ"},
   {s:"soul",t:"blues",w:40,desc:"歌唱表現↔ゴスペル的高揚"},
   {s:"blues",t:"soul",w:40,desc:"歌唱表現↔ゴスペル的高揚"},
@@ -2397,19 +2389,16 @@ const LINKS = [
   {s:"singer_songwriter",t:"soft_rock",w:40,desc:"個人的歌詞↔柔らかい編成"},
   {s:"soft_rock",t:"singer_songwriter",w:40,desc:"個人的歌詞↔柔らかい編成"},
   {s:"soft_rock",t:"adult_contemporary",w:40,desc:"柔らかいバンド↔洗練された制作"},
-  {s:"adult_contemporary",t:"soft_rock",w:40,desc:"柔らかいバンド↔洗練された制作"},
   {s:"prog_rock",t:"psychedelic_rock",w:40,desc:"長尺・音響実験↔構成美"},
   {s:"psychedelic_rock",t:"raga",w:40,desc:"ドローン・旋法↔電化・反復"},
   {s:"raga",t:"psychedelic_rock",w:40,desc:"ドローン・旋法↔電化・反復"},
   {s:"prog_rock",t:"space_rock",w:40,desc:"構成力↔反復・音響"},
-  {s:"space_rock",t:"prog_rock",w:40,desc:"構成力↔反復・音響"},
   {s:"canterbury_scene",t:"prog_rock",w:40,desc:"プログレ・ジャズ↔軽妙なジャズ感"},
   {s:"zeuhl",t:"prog_rock",w:40,desc:"長尺構成↔反復・合唱・重低音"},
   {s:"indie_rock",t:"alt_rock",w:40,desc:"歪み・反商業性↔DIY・メロディ"},
   {s:"indie_rock",t:"indie_pop",w:40,desc:"DIY感↔メロディ・軽さ"},
   {s:"indie_pop",t:"indie_rock",w:40,desc:"DIY感↔メロディ・軽さ"},
   {s:"jangle_pop",t:"indie_pop",w:40,desc:"きらびやかなギター↔DIY美学"},
-  {s:"twee_pop",t:"indie_pop",w:40,desc:"素朴さ↔バンド感"},
   {s:"dream_pop",t:"shoegaze",w:40,desc:"浮遊感↔ノイズギター"},
   {s:"dream_pop",t:"ethereal_wave",w:40,desc:"幻想的な声↔リバーブ"},
   {s:"ethereal_wave",t:"dream_pop",w:40,desc:"幻想的な声↔リバーブ"},
@@ -2442,12 +2431,10 @@ const LINKS = [
   {s:"punk",t:"reggae",w:40,desc:"リズム・政治性↔反体制性・ライブ"},
   {s:"reggae",t:"punk",w:40,desc:"リズム・政治性↔反体制性・ライブ"},
   {s:"oi_punk",t:"punk",w:40,desc:"ストリート性↔合唱・労働者表現"},
-  {s:"pop_punk",t:"punk",w:40,desc:"速度↔ポップな旋律"},
   {s:"pop_punk",t:"emo",w:40,desc:"速度・明快さ↔内省的歌詞"},
   {s:"emo",t:"pop_punk",w:40,desc:"速度・明快さ↔内省的歌詞"},
   {s:"emo",t:"indie_rock",w:40,desc:"個人的歌詞↔ギター・DIY"},
   {s:"indie_rock",t:"emo",w:40,desc:"個人的歌詞↔ギター・DIY"},
-  {s:"psychobilly",t:"punk",w:40,desc:"ロカビリー↔ホラー・疾走感"},
   {s:"heavy_metal",t:"punk",w:40,desc:"速度・攻撃性↔リフ・音圧"},
   {s:"punk",t:"heavy_metal",w:40,desc:"速度・攻撃性↔リフ・音圧"},
   {s:"heavy_metal",t:"prog_rock",w:40,desc:"長尺・変拍子↔重いリフ"},
@@ -2464,7 +2451,6 @@ const LINKS = [
   {s:"black_metal",t:"death_metal",w:40,desc:"リフ・声↔録音美学"},
   {s:"viking_metal",t:"black_metal",w:40,desc:"音像↔叙事性・フォーク"},
   {s:"doom_metal",t:"stoner_rock",w:40,desc:"遅い重さ↔ファズ・サイケ"},
-  {s:"stoner_rock",t:"doom_metal",w:40,desc:"遅い重さ↔ファズ・サイケ"},
   {s:"sludge_metal",t:"doom_metal",w:40,desc:"低速リフ↔汚い音・パンク性"},
   {s:"sludge_metal",t:"crust_punk",w:40,desc:"荒さ↔重さ"},
   {s:"crust_punk",t:"sludge_metal",w:40,desc:"荒さ↔重さ"},
@@ -2484,8 +2470,6 @@ const LINKS = [
   {s:"nu_metal",t:"hiphop",w:40,desc:"ラップ・DJ↔リフ・攻撃性"},
   {s:"nu_metal",t:"funk_metal",w:40,desc:"グルーヴ↔低音・ラップ"},
   {s:"funk_metal",t:"nu_metal",w:40,desc:"グルーヴ↔低音・ラップ"},
-  {s:"visual_kei",t:"j_rock",w:40,desc:"美学・演奏↔メロディ・バンド形式"},
-  {s:"visual_kei",t:"gothic_rock",w:40,desc:"暗い美学↔派手な視覚性"},
   {s:"gothic_rock",t:"visual_kei",w:40,desc:"暗い美学↔派手な視覚性"},
   {s:"j_rock",t:"anime_music",w:40,desc:"バンド系主題歌↔メロディ・展開"},
   {s:"anime_music",t:"j_rock",w:40,desc:"バンド系主題歌↔メロディ・展開"},
@@ -2740,7 +2724,6 @@ const LINKS = [
   {s:"cloud_rap",t:"emo_rap",w:40,desc:"浮遊感↔内省的歌詞"},
   {s:"emo_rap",t:"cloud_rap",w:40,desc:"浮遊感↔内省的歌詞"},
   {s:"emo_rap",t:"trap",w:40,desc:"ビート↔歌もの化"},
-  {s:"emo_rap",t:"emo",w:40,desc:"感情表現↔トラップ的リズム"},
   {s:"drill",t:"trap",w:40,desc:"808の硬く暗い発展↔スライドベース"},
   {s:"uk_trap",t:"trap",w:40,desc:"808↔UKフロウ・グライム感"},
   {s:"uk_trap",t:"grime",w:40,desc:"MC文化↔808・遅いビート"},
@@ -2803,7 +2786,6 @@ const LINKS = [
   {s:"boogaloo",t:"salsa",w:40,desc:"ラテン+ソウル↔クラーベ・ホーン"},
   {s:"salsa",t:"merengue",w:40,desc:"打楽器・ホーン↔歌もの構成"},
   {s:"merengue",t:"salsa",w:40,desc:"打楽器・ホーン↔歌もの構成"},
-  {s:"cha_cha_cha",t:"mambo",w:40,desc:"ラテンビッグバンド↔明確なダンスリズム"},
   {s:"cumbia",t:"salsa",w:40,desc:"揺れるリズム↔ホーン・クラーベ"},
   {s:"salsa",t:"cumbia",w:40,desc:"揺れるリズム↔ホーン・クラーベ"},
   {s:"cumbia",t:"reggaeton",w:40,desc:"リズム↔デンボウ・都市的ビート"},
@@ -2868,14 +2850,11 @@ const LINKS = [
   {s:"mandopop",t:"kpop",w:40,desc:"制作・ダンス感↔歌もの市場・旋律"},
   {s:"kpop",t:"mandopop",w:40,desc:"制作・ダンス感↔歌もの市場・旋律"},
   {s:"city_pop",t:"vaporwave",w:40,desc:"サンプリング・再文脈化↔復興"},
-  {s:"vaporwave",t:"city_pop",w:40,desc:"サンプリング・再文脈化↔復興"},
   {s:"city_pop_modern",t:"city_pop",w:40,desc:"旧作の更新↔聴かれ方の変化"},
   {s:"city_pop_modern",t:"vaporwave",w:40,desc:"懐古的音像↔洗練された再現"},
   {s:"vaporwave",t:"city_pop_modern",w:40,desc:"懐古的音像↔洗練された再現"},
-  {s:"city_pop",t:"funk",w:40,desc:"ベース・グルーヴ↔洗練"},
   {s:"funk",t:"city_pop",w:40,desc:"ベース・グルーヴ↔洗練"},
   {s:"city_pop",t:"fusion",w:40,desc:"和声・演奏力↔歌もの感"},
-  {s:"city_pop",t:"disco",w:40,desc:"4つ打ち・ストリングス↔都会的和声"},
   {s:"disco",t:"city_pop",w:40,desc:"4つ打ち・ストリングス↔都会的和声"},
   {s:"experimental_elec",t:"musique_concrete",w:40,desc:"具体音・テープ↔機材発展"},
 
