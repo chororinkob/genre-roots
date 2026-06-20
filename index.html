@@ -134,7 +134,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v7.0 / 300 genres / 970 links</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v7.1 / 300 genres / 970 links</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
@@ -3438,11 +3438,12 @@ searchInput.addEventListener("input", e => {
 let lockedCat = null;
 
 function highlightCat(cat) {
-  // 前の状態を全クリア
+  // 前の状態を全クリア（検索含む）
   node.classed('cat-highlight', false);
   node.classed('cat-dim', false);
   node.classed('focus-highlight', false);
   node.classed('focus-dim', false);
+  node.classed('search-match', false);
   link.classed('focus-highlight', false);
   link.classed('focus-dim', false);
   linkLabelG.classed('focus-highlight', false);
