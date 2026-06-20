@@ -48,6 +48,7 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
 .sp-influence-row { display: flex; align-items: baseline; gap: 6px; margin-bottom: 4px; font-size: 12px; color: #bbb; }
 .sp-influence-row .pct { font-weight: 700; color: #7ecfff; font-size: 11px; min-width: 32px; }
 .sp-influence-row .reason { color: #888; font-size: 11px; }
+.sp-genre-link:hover { color: #fff !important; text-decoration: underline !important; }
 #sp-yt-link { display: block; margin-top: 6px; padding: 8px 12px; background: #cc0000; color: #fff; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 700; text-align: center; }
 #sp-yt-link:hover { background: #e60000; }
 
@@ -134,7 +135,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v7.9 / 350 genres / 1056 links</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v8.0 / 350 genres / 1056 links</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
@@ -3612,13 +3613,13 @@ node.on("click", (e, d) => {
   // 影響を受けた（相互除く）
   const incoming = myIncoming.filter(l => !mutualTargets.has(l.s));
   spIn.innerHTML = incoming.length
-    ? incoming.map(l => `<div class="sp-influence-row"><span class="pct">${l.w}%</span><b>${nodeMap[l.s]?.label?.replace("\n"," ")}</b><span class="reason">— ${l.desc||''}</span></div>`).join('')
+    ? incoming.map(l => `<div class="sp-influence-row"><span class="pct">${l.w}%</span><b><a href="#" class="sp-genre-link" data-id="${l.s}" style="color:#7ecfff;text-decoration:none;cursor:pointer;">${nodeMap[l.s]?.label?.replace("\n"," ")}</a></b><span class="reason">— ${l.desc||''}</span></div>`).join('')
     : '<span style="color:#666">なし</span>';
 
   // 影響を与えた（相互除く）
   const outgoing = myOutgoing.filter(l => !mutualTargets.has(l.t));
   spOut.innerHTML = outgoing.length
-    ? outgoing.map(l => `<div class="sp-influence-row"><span class="pct">${l.w}%</span><b>${nodeMap[l.t]?.label?.replace("\n"," ")}</b><span class="reason">— ${l.desc||''}</span></div>`).join('')
+    ? outgoing.map(l => `<div class="sp-influence-row"><span class="pct">${l.w}%</span><b><a href="#" class="sp-genre-link" data-id="${l.t}" style="color:#7ecfff;text-decoration:none;cursor:pointer;">${nodeMap[l.t]?.label?.replace("\n"," ")}</a></b><span class="reason">— ${l.desc||''}</span></div>`).join('')
     : '<span style="color:#666">なし</span>';
 
   // 相互に影響し合ったジャンル
@@ -3631,7 +3632,7 @@ node.on("click", (e, d) => {
     return l;
   });
   spMutual.innerHTML = mutualLinks.length
-    ? mutualLinks.map(l => `<div class="sp-influence-row"><b>${nodeMap[l.t]?.label?.replace("\n"," ")}</b><span class="reason">— ${l.desc||''}</span></div>`).join('')
+    ? mutualLinks.map(l => `<div class="sp-influence-row"><b><a href="#" class="sp-genre-link" data-id="${l.t}" style="color:#7ecfff;text-decoration:none;cursor:pointer;">${nodeMap[l.t]?.label?.replace("\n"," ")}</a></b><span class="reason">— ${l.desc||''}</span></div>`).join('')
     : '<span style="color:#666">なし</span>';
 
   // YouTube
@@ -3646,6 +3647,19 @@ node.on("click", (e, d) => {
 });
 
 spClose.onclick = () => panel.style.display = "none";
+
+// サイドパネル内のジャンルリンクをクリックしたら、そのジャンルの表示に切り替え
+panel.addEventListener('click', (e) => {
+  const link = e.target.closest('.sp-genre-link');
+  if (!link) return;
+  e.preventDefault();
+  const targetId = link.dataset.id;
+  const targetNode = NODES.find(n => n.id === targetId);
+  if (targetNode) {
+    // そのノードのクリックイベントをシミュレート
+    node.filter(n => n.id === targetId).dispatch('click');
+  }
+});
 svg.on("click", () => {
   panel.style.display = "none";
   window._nodeFocused = false;
