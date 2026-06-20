@@ -135,7 +135,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v8.2 / 350 genres / 1056 links</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v8.3 / 350 genres / 1056 links</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
@@ -3707,7 +3707,14 @@ searchClear.addEventListener("click", () => {
   searchClear.style.display = 'none';
 });
 
-searchInput.addEventListener("input", e => {
+function doSearch() {
+  const e = {target: searchInput};
+  searchHandler(e);
+}
+searchInput.addEventListener("input", doSearch);
+searchInput.addEventListener("paste", () => setTimeout(doSearch, 50));
+
+function searchHandler(e) {
   const raw = e.target.value;
   const resultsDiv = document.getElementById("search-results");
 
@@ -3747,11 +3754,11 @@ searchInput.addEventListener("input", e => {
   });
 
   node.classed("search-match", d => foundIds.has(d.id));
-  node.classed("cat-dim", d => foundIds.size > 0 && !foundIds.has(d.id));
+  node.classed("cat-dim", d => !foundIds.has(d.id));
   // 検索時は線と数字を暗くする（ノードだけ表示）
-  link.classed("focus-dim", foundIds.size > 0);
+  link.classed("focus-dim", true);
   link.classed("focus-highlight", false);
-  linkLabelG.classed("focus-dim", foundIds.size > 0);
+  linkLabelG.classed("focus-dim", true);
   linkLabelG.classed("focus-highlight", false);
 
   let html = '';
@@ -3781,7 +3788,7 @@ searchInput.addEventListener("input", e => {
       setTimeout(() => { saveBtn.textContent = '追加候補に保存'; saveBtn.style.background = '#2a2a50'; }, 2000);
     });
   }
-});
+}
 
 // 保存済み候補数の表示
 function updateCandidatesInfo() {
