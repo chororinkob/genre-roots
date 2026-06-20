@@ -134,7 +134,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v7.2 / 304 genres / 979 links</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v7.3 / 304 genres / 979 links</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
@@ -162,7 +162,7 @@ svg { width: 100vw; height: 100vh; }
 
 <div id="legend">
   <h3>カテゴリ</h3>
-  <div class="legend-item" data-cat="soul_cat"><div class="legend-dot" style="background:#E040FB"></div><span class="legend-label">ソウル系</span></div>
+  <div class="legend-item" data-cat="soul_cat"><div class="legend-dot" style="background:#E040FB"></div><span class="legend-label">R&B/ソウル系</span></div>
   <div class="legend-item" data-cat="funk_cat"><div class="legend-dot" style="background:#FF6D00"></div><span class="legend-label">ファンク系</span></div>
   <div class="legend-item" data-cat="disco_cat"><div class="legend-dot" style="background:#EC407A"></div><span class="legend-label">ディスコ系</span></div>
   <div class="legend-item" data-cat="early_elec"><div class="legend-dot" style="background:#5C7CFA"></div><span class="legend-label">初期電子音楽</span></div>
@@ -254,6 +254,7 @@ const INST_ITEMS = [
   {cat:"効果・雰囲気・BGM系",sub:"ボーカルスタイル（性別・声質）",name:"aggressive male singing",desc:"攻撃的で力強い男性の歌唱。シャウトに近い激しさで、エネルギッシュな雰囲気を演出する。"},
   {cat:"効果・雰囲気・BGM系",sub:"ボーカルスタイル（性別・声質）",name:"old male harmony",desc:"年配の男性たちによるコーラス・ハーモニー。渋みと深みのある、味わい深い合唱表現。"},
   {cat:"効果・雰囲気・BGM系",sub:"ボーカルスタイル（性別・声質）",name:"kawaii",desc:"「可愛い」をテーマにした、明るくキュートな雰囲気の音楽・ボーカル表現。高めの声と弾むようなメロディが特徴。"},
+  {cat:"効果・雰囲気・BGM系",sub:"ボーカルスタイル（性別・声質）",name:"old male",desc:"年配の男性ボーカルの声質。渋く枯れた味わいのある歌声を演出する。他のスタイル（vocaloidなど）と組み合わせると独立して歌う面白い効果が出る。"},
   {cat:"効果・雰囲気・BGM系",sub:"雰囲気・リラックス系",name:"calm",desc:"穏やかで静かな雰囲気を持つ音楽。心を落ち着かせるような、ゆったりとしたテンポとシンプルなアレンジが特徴。"},
   {cat:"効果・雰囲気・BGM系",sub:"雰囲気・リラックス系",name:"chill",desc:"リラックスした、まったりとした雰囲気の音楽。ゆったりしたビートと柔らかい音色で、くつろぎの時間に合う。"},
   {cat:"効果・雰囲気・BGM系",sub:"雰囲気・リラックス系",name:"relax",desc:"緊張をほぐし、心身を休ませるための音楽。穏やかなメロディと静かな音響処理が特徴。"},
@@ -261,6 +262,7 @@ const INST_ITEMS = [
   {cat:"効果・雰囲気・BGM系",sub:"雰囲気・リラックス系",name:"tutorial",desc:"解説動画やチュートリアルのBGMのような音楽。控えめで邪魔にならない、シンプルで落ち着いた雰囲気。"},
   {cat:"効果・雰囲気・BGM系",sub:"雰囲気・リラックス系",name:"Healing",desc:""},
   {cat:"効果・雰囲気・BGM系",sub:"雰囲気・リラックス系",name:"loungy",desc:"ラウンジで流れるような、おしゃれでリラックスした雰囲気の音楽。落ち着いたグルーヴと洗練されたサウンドが特徴。"},
+  {cat:"効果・雰囲気・BGM系",sub:"雰囲気・リラックス系",name:"ethereal",desc:"「幽玄な・空気感のある」という意味。浮遊感のある神秘的な雰囲気を演出する効果タグ。ethereal waveとは別の、より汎用的な雰囲気タグとして機能する。"},
   {cat:"効果・雰囲気・BGM系",sub:"環境音・情景",name:"field recording",desc:"自然や街中などの環境音をそのまま録音した音源。音楽というより「音の風景」として、リアルな雰囲気を伝える。"},
   {cat:"効果・雰囲気・BGM系",sub:"環境音・情景",name:"forest",desc:"森の中の鳥の声や風、葉のざわめきなどを表現した環境音/音楽。自然の静けさや生命感を感じさせる。"},
   {cat:"効果・雰囲気・BGM系",sub:"環境音・情景",name:"desert",desc:"砂漠の広がりや静寂、乾いた風の音などを表現した環境音/音楽。広大で乾いた、孤独感のある雰囲気。"},
@@ -356,6 +358,7 @@ const INST_ITEMS = [
   {cat:"楽器",sub:"鍵盤楽器系（オルガン・ハープシコード）",name:"harpsichord",desc:"弦を爪で弾いて音を出す鍵盤楽器。バロック音楽特有の、軽やかで装飾的な響きが特徴。"},
   {cat:"楽器",sub:"ピアノ系",name:"piano",desc:"弦をハンマーで叩いて音を出す鍵盤楽器。幅広い音域と表現力を持ち、クラシックからポップスまで様々なジャンルで使われる。"},
   {cat:"楽器",sub:"ピアノ系",name:"piano solo",desc:"ピアノ一台のみで演奏されるスタイル。他の楽器を伴わない、ピアノの音色と表現力に集中した構成。"},
+  {cat:"楽器",sub:"ピアノ系",name:"pianist",desc:"ピアニストによる演奏を指定するタグ。ピアノ主体の曲調になる。好きな楽器名をスタイルに入れればその楽器で演奏させられるテクニックの一つ。"},
   {cat:"楽器",sub:"ピアノ系",name:"melodic piano",desc:"メロディアスなフレーズを奏でるピアノ。歌うような旋律線が際立つ、感情表現豊かな演奏スタイル。"},
   {cat:"楽器",sub:"ピアノ系",name:"intense piano",desc:"力強く激しいタッチで演奏されるピアノ。緊張感やドラマチックな高揚感を演出する、エネルギッシュな響き。"},
   {cat:"楽器",sub:"木琴・鉄琴系",name:"xylophone",desc:"木製の音板を持つ打楽器（木琴）。明るく弾けるような、軽快で乾いた音色が特徴。"},
@@ -2770,6 +2773,10 @@ const POPULARITY = {
   "funk": 9,
   "disco": 8,
   "soul": 9,
+  "rnb": 10,
+  "kwaito": 5,
+  "isicathamiya": 3,
+  "marabi": 3,
   "reggae": 8,
   "punk": 8,
   "hiphop": 9,
