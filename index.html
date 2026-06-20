@@ -134,7 +134,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v7.6 / 342 genres / 1042 links</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v7.7 / 353 genres / 1059 links</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
@@ -2884,6 +2884,70 @@ const LINKS = [
   {id:"skullstep", label:"Skullstep", cat:"hardcore", era:"2010s", suno:true,
     desc:"DnBのブレイクビートとハードコアの極端な歪みを融合させた、極めてダークで攻撃的なスタイル。クロスブリードに近いが、よりインダストリアルでノイジーな方向。",
     roots_story:"2010年代、PRSPCT Recordings周辺のアーティストが発展。The Outside Agency、Thrasherが関連。インダストリアルDnBとハードコアの交差点。"},
+
+  // ハードコア系追加4（最終）
+  {id:"freestyle_genre", label:"Freestyle", cat:"eurodance", era:"1983", suno:true,
+    desc:"NYのラテン系コミュニティ発のエレクトロニック・ダンスポップ。シンセサイザーのきらびやかなメロディ、ドラムマシンのビート、感傷的なボーカルが特徴。BPM 110〜130。Hi-NRGやエレクトロの影響を受けた、80年代NYの青春の音。",
+    roots_story:"1983年頃、NYのラテン系DJたちがエレクトロとハイエナジーを融合。Shannon「Let the Music Play」(1983)が先駆け。Lisa Lisa & Cult Jam、Expose、Stevie B、TKA等が代表。Cutting Records、Mic Mac Recordsが主要レーベル。"},
+
+  {id:"hard_psy", label:"Hard-Psy", cat:"hardcore", era:"2010s", suno:true,
+    desc:"ハードスタイルのキックとサイケデリックトランスの旋律・音色を融合させたスタイル。BPM 150前後。ハードスタイルの跳ねるキックにサイトランスの催眠的なシンセラインが乗る。",
+    roots_story:"2010年代、Vini ViciとHardwellのコラボ「Great Spirit」(2017)がハードサイの代表曲。Wildstylez、Sub Zero Projectも関連。トランスとハードスタイルのクロスオーバー。"},
+
+  {id:"piep_kicks", label:"Piep Kicks", cat:"hardcore", era:"2010s", suno:true,
+    desc:"ハードコアの中でキックの音色を極端に高い「ピー」という音にしたスタイル。通常のガバの低く歪んだキックとは対極的な、鋭く高い周波数のキック音。実験的でニッチなサブジャンル。",
+    roots_story:"2010年代、アップテンポ・ハードコアシーンの中で実験的な音色追求として登場。Partyraiser、Andy the Core等が時折使用。"},
+
+  {id:"kadacore", label:"Kadacore", cat:"hardcore", era:"2010s", suno:true,
+    desc:"フレンチコアの更なる派生。BPM 200以上の超高速テンポに、独特のキックデザインと祝祭的なMCが特徴。フランスのハードコアシーンのニッチなサブジャンル。",
+    roots_story:"2010年代、フレンチコアシーンから派生。Kadaver、Oncle Scrooge等が関連。Kadarecords、Audiogenic Recordsが関連レーベル。"},
+
+  {id:"melodic_speedcore", label:"Melodic\nSpeedcore", cat:"hardcore", era:"2000s", suno:true,
+    desc:"スピードコアの超高速（BPM 300以上）にメロディアスなシンセやピアノを加えた、暴力的なのに美しいスタイル。スピードコアの速度を維持しながら、感情的な旋律を乗せる矛盾した美学。",
+    roots_story:"2000年代、Kobaryo（日本）、t+pazolite、Camelliaが代表。日本のアーティストが特に得意とするスタイル。音楽ゲーム文化との親和性が高い。"},
+
+  {id:"atmospheric_speedcore", label:"Atmospheric\nSpeedcore", cat:"hardcore", era:"2000s", suno:true,
+    desc:"スピードコアの超高速にアンビエント的な空間処理を施した、広がりのあるスタイル。通常のスピードコアの攻撃性に対して、より音響的な深みと瞑想的な側面がある。",
+    roots_story:"2000年代、Bodyscrub、m1dy（一部楽曲）が関連。スピードコアの中でも実験的な方向。"},
+
+  {id:"speednoise", label:"Speednoise", cat:"hardcore", era:"2000s", suno:true,
+    desc:"スピードコアとノイズミュージックの融合。BPM 300以上の超高速にノイズの壁が加わり、もはやビートとノイズの区別がつかなくなる。エクストリームミュージックの極限。",
+    roots_story:"2000年代、Passenger of Shit（オーストラリア）、Rotator等が関連。ハーシュノイズとスピードコアの交差点。"},
+
+  {id:"supertone", label:"Supertone", cat:"hardcore", era:"2000s", suno:true,
+    desc:"エクストラトーンとスプリッターコアの中間的な速度帯。BPM 800〜1000の範囲で、キックが個々の打撃としてほぼ認識不能な領域。",
+    roots_story:"2000年代、スピードコアの極端な加速の過程で生まれた速度区分の一つ。"},
+
+  {id:"hypertone", label:"Hypertone", cat:"hardcore", era:"2000s", suno:true,
+    desc:"スーパートーンをさらに超えた速度帯。BPM 1000以上。エクストラトーンとほぼ同義で、持続的なドローンのような音響になる。",
+    roots_story:"2000年代、エクストラトーンの更なる細分化として命名。速度の限界を追求するコミュニティの中での区分。"},
+
+  {id:"suizidcore", label:"Suizidcore", cat:"hardcore", era:"2000s", suno:true,
+    desc:"スピードコアのサブジャンルで、特にダークで鬱的なテーマを持つ。高速ビートにノイズと暗いアトモスフィアが融合。名前はドイツ語の「自殺」に由来し、最も暗い感情を音にしたスタイル。",
+    roots_story:"2000年代、ドイツのスピードコアシーンから派生。Stazma the Junglechrist等が関連。"},
+
+  {id:"darkcore_dnb", label:"Darkcore\n(DnB)", cat:"dnb", era:"1992", suno:true,
+    desc:"初期ジャングル/DnBシーンの暗い側面。ホラー映画的なサンプル、重い低音、暗いアトモスフィアが特徴。後のダークステップやニューロファンクの先駆。ハードコアの「ダークコア」とは別系統。",
+    roots_story:"1992年頃、4 Hero（初期）、Goldie（初期）、Doc Scottがジャングルの暗い方向を追求。後にDnBのダークサイドとして発展。"},
+
+  // ハードコア系追加4リンク
+  {s:"electro",t:"freestyle_genre",w:50,desc:"エレクトロのNYラテン化"},
+  {s:"hi_nrg",t:"freestyle_genre",w:45,desc:"Hi-NRGのラテン系融合"},
+  {s:"hardstyle",t:"hard_psy",w:55,desc:"ハードスタイルとサイトランスの融合"},
+  {s:"psytrance",t:"hard_psy",w:50,desc:"サイトランスのキック強化"},
+  {s:"uptempo_hardcore",t:"piep_kicks",w:50,desc:"アップテンポの高音キック実験"},
+  {s:"frenchcore",t:"kadacore",w:60,desc:"フレンチコアの更なる派生"},
+  {s:"speedcore",t:"melodic_speedcore",w:65,desc:"スピードコアにメロディ付加"},
+  {s:"j_core",t:"melodic_speedcore",w:40,desc:"J-Coreのメロディ感覚"},
+  {s:"speedcore",t:"atmospheric_speedcore",w:60,desc:"スピードコアのアンビエント化"},
+  {s:"speedcore",t:"speednoise",w:60,desc:"スピードコアとノイズの融合"},
+  {s:"harsh_noise",t:"speednoise",w:40,desc:"ノイズの超高速化"},
+  {s:"splittercore",t:"supertone",w:70,desc:"スプリッターコアの更なる加速"},
+  {s:"extratone",t:"hypertone",w:75,desc:"エクストラトーンの更なる高速化"},
+  {s:"speedcore",t:"suizidcore",w:55,desc:"スピードコアのダーク化"},
+  {s:"hardcore_rave",t:"breakbeat_hardcore",w:65,desc:"レイヴのブレイク高速化"},
+  {s:"dnb",t:"darkcore_dnb",w:55,desc:"DnBの暗い方向"},
+  {s:"jungle",t:"darkcore_dnb",w:50,desc:"ジャングルのダーク化"},
 
   // ハードコア系追加3リンク
   {s:"vaporwave",t:"hardvapour",w:55,desc:"ヴェイパーウェーブのハード化"},
