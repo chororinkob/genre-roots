@@ -134,7 +134,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v7.8 / 353 genres / 1059 links</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v7.9 / 350 genres / 1056 links</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
@@ -1504,7 +1504,7 @@ const NODES = [
   // ハードコア系追加（pending_genres_hardcore.mdより）
   {id:"frenchcore", label:"Frenchcore", cat:"hardcore", era:"2000s", suno:true,
     desc:"フランス発の超高速ハードコア。BPM 190〜210の歪んだキックと、メロディアスなシンセが融合した独特のスタイル。ガバよりテクニカルで、キックのデザインにこだわりがある。フランスのレイブカルチャーと密接で、Peacock Recordsが中心レーベル。",
-    roots_story:"2000年代、フランスのハードコアシーンからDr. Peacock、Sefa、The Speed Freakが確立。Peacock Records、Forscreeが主要レーベル。オランダのハードコアシーンとも密接で、DefqonやThunderdomeでもプレイされる。Sefa「Zonder Jou」がフレンチコアをメインストリームに押し上げた。"},
+    roots_story:"1990年代末、フランスのフリーパーティー／ハードコアシーンから誕生。Hardtek、Acidcore、Gabberの影響を受けた高速ハードコア。2010年代にDr. Peacock、Sefaがメロディック／ユーフォリックな方向で大衆化。Peacock Recordsが中心レーベル。"},
 
   {id:"nightcore", label:"Nightcore", cat:"hardcore", era:"2001", suno:true,
     desc:"既存の曲をテンポアップ（BPM 160〜180）してピッチを上げた、キュートで高速なリミックススタイル。元の曲が速くなることで子供のような高い声になり、アニメ的な可愛らしさが生まれる。YouTubeのアニメ画像付き動画で爆発的に広まった。",
@@ -1536,7 +1536,7 @@ const NODES = [
 
   {id:"jumpstyle", label:"Jumpstyle", cat:"hardcore", era:"2000s", suno:true,
     desc:"ハードスタイルとガバの中間的なテンポ（BPM 140〜150）で、独特の足さばき（ジャンプ）で踊るベルギー発のダンスミュージック。シンプルなキックと短いシンセのフレーズ、跳ねるリズムが特徴。YouTubeのジャンプダンス動画で世界に広まった。",
-    roots_story:"2000年代前半、ベルギーとオランダで発展。Patrick Jumpen「Holiday」がジャンプスタイルの代表曲。DJ Coone、Bastic（オランダ）も重要。YouTubeでジャンプダンスのチュートリアル動画が広まり、ヨーロッパ中の若者に流行。"},
+    roots_story:"1997〜1998年頃、ベルギーで誕生。Da Boy Tommy、Jeckyll & Hydeが初期の重要人物。Patrick Jumpen「Holiday」が商業的ピーク。DJ Coone、Bastic（オランダ）も重要。YouTubeでジャンプダンスのチュートリアル動画が広まり、ヨーロッパ中の若者に流行。"},
 
   {id:"hard_dance", label:"Hard Dance", cat:"hardcore", era:"1990s", suno:true,
     desc:"ハードスタイル、ハードトランス、ハードコアなどの攻撃的なダンスミュージックを包括する用語。BPM 140〜160の硬いキック、エネルギッシュなシンセ、フェスティバル向けの盛り上がりが特徴。ハードスタイルほど特定のサウンドに限定されない幅広いカテゴリ。",
@@ -1560,7 +1560,7 @@ const NODES = [
 
   {id:"extratone", label:"Extratone", cat:"hardcore", era:"2000s", suno:true,
     desc:"スピードコアをさらに極端に加速させた、BPM 1000以上に達する超高速電子音楽。もはやキックドラムは個々の打撃として認識できず、持続的な低周波ドローンのように聞こえる。音楽の定義を根本から問い直す極限の実験。",
-    roots_story:"2000年代、スピードコアの速度追求がBPM 1000の壁を超えた。Diabarha（日本）、m1dy（日本）が重要アーティスト。日本のアーティストがこの分野で特に活発。Splittercoreの更に先にある究極の形態。"},
+    roots_story:"2000年代、スピードコアの速度追求がBPM 1000の壁を超えた。Diabarha（ウクライナ）、m1dy（日本）が重要アーティスト。日本のアーティストがこの分野で特に活発。Splittercoreの更に先にある究極の形態。"},
 
   // 候補タグ承認ジャンル
   {id:"kwaito", label:"Kwaito", cat:"african", era:"1990s", suno:true,
@@ -1736,7 +1736,7 @@ const NODES = [
     roots_story:"2013年頃、Flosstradamus、Yellow Claw、LNYTNZがトラップとハードスタイルの境界で活動。Barong Familyレーベル（Yellow Claw）が拠点。"},
   {id:"acidcore", label:"Acidcore", cat:"hardcore", era:"1990s", suno:true,
     desc:"TB-303のアシッドサウンドをハードコアのテンポ（BPM 160〜200）で駆動させた、トリッピーで攻撃的なスタイル。アシッドテクノの速度と過激さを極限まで引き上げた形。",
-    roots_story:"1990年代、アシッドテクノとガバの融合点で誕生。Acid Junkies、Takkyu Ishino（石野卓球、初期）などが関連。Acid Attackレーベルが拠点の一つ。"},
+    roots_story:"1990年代、アシッドテクノとガバの融合点で誕生。Acid Junkies、Acid Junkies等が関連。Acid Attackレーベルが拠点の一つ。"},
   {id:"makina", label:"Mákina", cat:"hardcore", era:"1990s", suno:true,
     desc:"スペイン（特にカタルーニャ地方）発の高速ダンスミュージック。BPM 160〜190の硬いキック、派手なシンセリフ、スペイン語のMCが特徴。イタリアのハードコアとUKハードコアの中間的なサウンド。",
     roots_story:"1990年代、バルセロナ・バレンシアのクラブシーンで発展。Pont Aeri（バルセロナのクラブ）が聖地。Chimo Bayo、Pastis & Buenri、DJ Skuderoが代表。「Ruta del Bakalao」（バレンシアのレイブルート）文化と密接。"},
@@ -1748,7 +1748,7 @@ const NODES = [
     roots_story:"1990年代、The Mover（ドイツ）、Stormcore、Low Entropyが確立。PCP（Planet Core Productions）が関連レーベル。ガバのテンポを極端に落とした形として発展。"},
   {id:"lento_violento", label:"Lento Violento", cat:"hardcore", era:"2000s", suno:true,
     desc:"イタリア発の「遅くて暴力的」なハードコア。BPM 80〜100の遅いテンポに極端に歪んだキックと催眠的なシンセが乗る。通常のハードコアの速さを完全に否定した、イタリア独自の美学。",
-    roots_story:"2000年代、イタリアのDJ Balli、Gabba Front Berlinが発展。「Lento Violento」はイタリア語で「遅くて暴力的」。ドゥームコアとも関連するが、よりイタリアのレイヴ文化に根ざしたスタイル。"},
+    roots_story:"2000年代、Gigi D'Agostinoとその周辺、Luca Noiseが中心。「Lento Violento」はイタリア語で「遅くて暴力的」。ドゥームコアとも関連するが、よりイタリアのレイヴ文化に根ざしたスタイル。"},
   {id:"moombahcore", label:"Moombahcore", cat:"hardcore", era:"2011", suno:true,
     desc:"モーンバートンのゆったりしたリズム（BPM 108前後）にダブステップやハードコアの重いベースとドロップを融合させたスタイル。ラテンのリズムとベースミュージックの攻撃性が同居する。",
     roots_story:"2011年頃、Dillon Francis、Munchiが発展。モーンバートンの延長線上でベースをより重く、ドロップをより攻撃的にした形。"},
@@ -1757,14 +1757,14 @@ const NODES = [
     roots_story:"2000年代、Bong-Ra（オランダ）、Shitmat、Enduser（アメリカ）が発展。ジャマイカのサウンドシステム文化とヨーロッパのハードコアが出会った形。Peace Off Records、Ad Noiseamが関連レーベル。"},
   {id:"hard_bass_genre", label:"Hard Bass", cat:"hardcore", era:"2000s", suno:true,
     desc:"ロシア発の高速ダンスミュージック。BPM 150〜165のドンクベース（跳ねるような歪んだベース）、シンプルで反復的なシンセリフ、ロシア語のMCが特徴。ロシアとCIS諸国の若者文化と密接。",
-    roots_story:"2000年代、ロシアのクラブシーンで発展。DJ Stivは「ハードベースの父」と呼ばれる。Hard Bass School「Narkotik Kal」がYouTubeでミーム化し国際的に知られた。ロシアのスクワッティング文化やAdidas文化と結びつけられることが多い。"},
+    roots_story:"1990年代末、サンクトペテルブルクで誕生し2000年代に広まった。DJ Stivは「ハードベースの父」と呼ばれる。Hard Bass School「Narkotik Kal」がYouTubeでミーム化し国際的に知られた。ロシアのスクワッティング文化やAdidas文化と結びつけられることが多い。"},
   // ハードコア系追加3
   {id:"hardvapour", label:"Hardvapour", cat:"synthwave", era:"2015", suno:true,
     desc:"ヴェイパーウェーブの懐古的美学にガバやインダストリアルの攻撃性を注入した、暗く重いスタイル。ヴェイパーウェーブの「消費社会への皮肉」を「怒り」に変換したような音。東欧のポストソ連的美学と結びつくことが多い。",
     roots_story:"2015年頃、ヴェイパーウェーブのサブジャンルとして登場。wosX、HKE（Hong Kong Express）が関連。ソビエトウェーブとも重なる東欧的な暗さがある。"},
   {id:"bouncy_techno", label:"Bouncy\nTechno", cat:"hardcore", era:"2000s", suno:true,
-    desc:"ハードスタイルの跳ねるキックをよりポップで軽快にしたスタイル。BPM 150前後。キックが「ボヨンボヨン」と弾むような質感で、ハードスタイルより親しみやすい。",
-    roots_story:"2000年代、オランダ・ベルギーのハードダンスシーンから派生。Frontlinerが代表。ハードスタイルのサブジャンル的な位置づけ。"},
+    desc:"1990年代のスコットランド／北イングランド発の高速レイヴ音楽。BPM 160〜180のHappy Hardcore/Gabberに近い4つ打ちで、弾むようなキックが特徴。Scott Brown、Ultra-Sonicが代表。後のUK HardcoreやHard Bassに影響を与えた。",
+    roots_story:"1990年代前半、スコットランドのScott Brown、Ultra-Sonicがハッピーハードコアとガバの中間的スタイルを確立。北イングランドでも人気を博した。ハードスタイルとは別系統で、UKレイヴ文化から直接発展した。"},
   {id:"melbourne_bounce", label:"Melbourne\nBounce", cat:"edm", era:"2010s", suno:true,
     desc:"オーストラリア・メルボルン発の、跳ねるベースラインとシンプルなドロップが特徴のEDM。BPM 126〜130。ミニマルなシンセリフと太いベースバウンスが心地よいグルーヴを生む。",
     roots_story:"2010年代、オーストラリアのWill Sparks、Joel Fletcherが確立。Bounce、Dirty Dutch Houseの流れを汲む。Spinnin' Recordsから多数リリース。"},
@@ -1782,7 +1782,7 @@ const NODES = [
     roots_story:"2000年代、Neophyte、Evil Activitiesらが推進。Neophyte Recordsが関連レーベル。「ニュースタイル」は既存のガバに対する新しい方向性として命名。"},
   {id:"flashcore", label:"Flashcore", cat:"hardcore", era:"2000s", suno:true,
     desc:"スピードコアとノイズの融合。BPM 300以上の超高速ビートに、グリッチ的な電子ノイズやデジタルアーティファクトが混ざる。スピードコアの更なる実験的方向。",
-    roots_story:"2000年代、Kobaryo（日本）、Ruby My Dear（フランス）が関連。日本とフランスのアーティストが特に活発。"},
+    roots_story:"1998年、La PesteとHangars Liquidesレーベル周辺から発展。Speedcore/Industrial Hardcore/IDM/実験音楽を再構成した前衛的スタイル。"},
   {id:"cybergrind", label:"Cybergrind", cat:"metal", era:"2000s", suno:true,
     desc:"グラインドコアの超短尺・超高速をデジタルで再構築した、打ち込みのエクストリームメタル。ドラムマシンのブラストビート、極端に歪んだギター、機械的な精度が特徴。生ドラマー不要のグラインドコア。",
     roots_story:"2000年代、The Berzerker（オーストラリア）、Agoraphobic Nosebleed（アメリカ）が代表。ドラムマシンを使うことでBPM 1000以上の速度も実現可能。"},
@@ -1791,7 +1791,7 @@ const NODES = [
     roots_story:"2000年代、DOC-TERROR、Stazmaらが発展。スピードコアの更なる加速の結果として位置づけられる。"},
   {id:"mashcore", label:"Mashcore", cat:"hardcore", era:"2000s", suno:true,
     desc:"ブレイクコアの手法を使って、ポップスやアニソン、ゲーム音楽などの素材を高速ブレイクビートで解体・再構築するスタイル。原曲の認識可能なフレーズが残りつつ、BPM 200以上で暴走する。J-Coreと重なる部分が大きい。",
-    roots_story:"2000年代、DJ Technorch（日本）、goreshit（ロシア）が代表。ニコニコ動画やSoundCloudで広まった。HARDCORE TANO*Cレーベルが関連。"},
+    roots_story:"2000年代、DJ Technorch（日本）、goreshit（英国圏）が代表。ニコニコ動画やSoundCloudで広まった。HARDCORE TANO*Cレーベルが関連。"},
   {id:"breakbeat_hardcore", label:"Breakbeat\nHardcore", cat:"hardcore", era:"1990", suno:true,
     desc:"ブレイクビーツを高速化してレイヴ文化と融合させた、ジャングル以前のUKハードコアの原型。BPM 150〜170のサンプリングされたブレイクビート、ピアノのスタブ音、ホイッスル、MCの煽りが特徴。",
     roots_story:"1990年頃、イギリスのレイヴシーンでアシッドハウスのビートにブレイクビーツを高速化して加えたスタイル。The Prodigy（初期）、SL2「On a Ragga Tip」が代表。後にジャングル→DnBへと発展した。"},
@@ -1808,9 +1808,6 @@ const NODES = [
   {id:"piep_kicks", label:"Piep Kicks", cat:"hardcore", era:"2010s", suno:true,
     desc:"ハードコアの中でキックの音色を極端に高い「ピー」という音にしたスタイル。通常のガバの低く歪んだキックとは対極的な、鋭く高い周波数のキック音。実験的でニッチなサブジャンル。",
     roots_story:"2010年代、アップテンポ・ハードコアシーンの中で実験的な音色追求として登場。Partyraiser、Andy the Core等が時折使用。"},
-  {id:"kadacore", label:"Kadacore", cat:"hardcore", era:"2010s", suno:true,
-    desc:"フレンチコアの更なる派生。BPM 200以上の超高速テンポに、独特のキックデザインと祝祭的なMCが特徴。フランスのハードコアシーンのニッチなサブジャンル。",
-    roots_story:"2010年代、フレンチコアシーンから派生。Kadaver、Oncle Scrooge等が関連。Kadarecords、Audiogenic Recordsが関連レーベル。"},
   {id:"melodic_speedcore", label:"Melodic\nSpeedcore", cat:"hardcore", era:"2000s", suno:true,
     desc:"スピードコアの超高速（BPM 300以上）にメロディアスなシンセやピアノを加えた、暴力的なのに美しいスタイル。スピードコアの速度を維持しながら、感情的な旋律を乗せる矛盾した美学。",
     roots_story:"2000年代、Kobaryo（日本）、t+pazolite、Camelliaが代表。日本のアーティストが特に得意とするスタイル。音楽ゲーム文化との親和性が高い。"},
@@ -1820,12 +1817,6 @@ const NODES = [
   {id:"speednoise", label:"Speednoise", cat:"hardcore", era:"2000s", suno:true,
     desc:"スピードコアとノイズミュージックの融合。BPM 300以上の超高速にノイズの壁が加わり、もはやビートとノイズの区別がつかなくなる。エクストリームミュージックの極限。",
     roots_story:"2000年代、Passenger of Shit（オーストラリア）、Rotator等が関連。ハーシュノイズとスピードコアの交差点。"},
-  {id:"supertone", label:"Supertone", cat:"hardcore", era:"2000s", suno:true,
-    desc:"エクストラトーンとスプリッターコアの中間的な速度帯。BPM 800〜1000の範囲で、キックが個々の打撃としてほぼ認識不能な領域。",
-    roots_story:"2000年代、スピードコアの極端な加速の過程で生まれた速度区分の一つ。"},
-  {id:"hypertone", label:"Hypertone", cat:"hardcore", era:"2000s", suno:true,
-    desc:"スーパートーンをさらに超えた速度帯。BPM 1000以上。エクストラトーンとほぼ同義で、持続的なドローンのような音響になる。",
-    roots_story:"2000年代、エクストラトーンの更なる細分化として命名。速度の限界を追求するコミュニティの中での区分。"},
   {id:"suizidcore", label:"Suizidcore", cat:"hardcore", era:"2000s", suno:true,
     desc:"スピードコアのサブジャンルで、特にダークで鬱的なテーマを持つ。高速ビートにノイズと暗いアトモスフィアが融合。名前はドイツ語の「自殺」に由来し、最も暗い感情を音にしたスタイル。",
     roots_story:"2000年代、ドイツのスピードコアシーンから派生。Stazma the Junglechrist等が関連。"},
@@ -2937,23 +2928,20 @@ const LINKS = [
   {s:"hardstyle",t:"hard_psy",w:55,desc:"ハードスタイルとサイトランスの融合"},
   {s:"psytrance",t:"hard_psy",w:50,desc:"サイトランスのキック強化"},
   {s:"uptempo_hardcore",t:"piep_kicks",w:50,desc:"アップテンポの高音キック実験"},
-  {s:"frenchcore",t:"kadacore",w:60,desc:"フレンチコアの更なる派生"},
   {s:"speedcore",t:"melodic_speedcore",w:65,desc:"スピードコアにメロディ付加"},
   {s:"j_core",t:"melodic_speedcore",w:40,desc:"J-Coreのメロディ感覚"},
   {s:"speedcore",t:"atmospheric_speedcore",w:60,desc:"スピードコアのアンビエント化"},
   {s:"speedcore",t:"speednoise",w:60,desc:"スピードコアとノイズの融合"},
   {s:"harsh_noise",t:"speednoise",w:40,desc:"ノイズの超高速化"},
-  {s:"splittercore",t:"supertone",w:70,desc:"スプリッターコアの更なる加速"},
-  {s:"extratone",t:"hypertone",w:75,desc:"エクストラトーンの更なる高速化"},
   {s:"speedcore",t:"suizidcore",w:55,desc:"スピードコアのダーク化"},
   {s:"hardcore_rave",t:"breakbeat_hardcore",w:65,desc:"レイヴのブレイク高速化"},
-  {s:"dnb",t:"darkcore_dnb",w:55,desc:"DnBの暗い方向"},
+  {s:"hardcore_rave",t:"darkcore_dnb",w:55,desc:"ハードコアレイヴの暗い方向"},
   {s:"jungle",t:"darkcore_dnb",w:50,desc:"ジャングルのダーク化"},
 
   // ハードコア系追加3リンク
   {s:"vaporwave",t:"hardvapour",w:55,desc:"ヴェイパーウェーブのハード化"},
   {s:"gabber",t:"hardvapour",w:35,desc:"ガバの暗い美学の導入"},
-  {s:"hardstyle",t:"bouncy_techno",w:55,desc:"ハードスタイルのポップ化"},
+  {s:"happy_hardcore",t:"bouncy_techno",w:55,desc:"ハッピーハードコアの高速レイヴ化"},
   {s:"electro_house",t:"melbourne_bounce",w:50,desc:"エレクトロハウスの豪州的進化"},
   {s:"hardstyle",t:"dubstyle",w:55,desc:"ハードスタイルとダブステップの融合"},
   {s:"dubstep",t:"dubstyle",w:45,desc:"ダブステップのキック導入"},
@@ -2961,7 +2949,7 @@ const LINKS = [
   {s:"techno",t:"subground",w:40,desc:"テクノのミニマル性導入"},
   {s:"edm",t:"jungle_terror",w:45,desc:"EDMのトライバル化"},
   {s:"moombahton",t:"jungle_terror",w:40,desc:"モーンバートンの野性的方向"},
-  {s:"mainstream_hardcore",t:"nu_style",w:55,desc:"ハードコアの新スタイル化"},
+  {s:"gabber",t:"nu_style",w:55,desc:"ガバの洗練化・新スタイル化"},
   {s:"speedcore",t:"flashcore",w:60,desc:"スピードコアのノイズ融合"},
   {s:"grindcore",t:"cybergrind",w:60,desc:"グラインドコアのデジタル化"},
   {s:"speedcore",t:"splittercore",w:70,desc:"スピードコアの更なる加速"},
@@ -3002,14 +2990,14 @@ const LINKS = [
   {s:"pop_music",t:"hyperpop",w:40,desc:"ポップスの解体と再構築"},
   {s:"happy_hardcore",t:"uk_hardcore_genre",w:70,desc:"ハッピーハードコアの洗練化"},
   {s:"punk",t:"digital_hardcore",w:50,desc:"パンクのデジタル化"},
-  {s:"breakcore",t:"digital_hardcore",w:45,desc:"ブレイクコアとの融合"},
+  {s:"punk",t:"digital_hardcore",w:55,desc:"パンクの攻撃性をデジタル化"},
   {s:"industrial",t:"digital_hardcore",w:40,desc:"インダストリアルの攻撃性"},
   {s:"hardstyle",t:"rawstyle",w:70,desc:"ハードスタイルのダーク化"},
   {s:"gabber",t:"uptempo_hardcore",w:65,desc:"ガバの高速化"},
   {s:"gabber",t:"terrorcore",w:60,desc:"ガバの最も過激な方向"},
   {s:"hardstyle",t:"jumpstyle",w:55,desc:"ハードスタイルのダンス化"},
   {s:"hard_techno",t:"hard_dance",w:50,desc:"ハードテクノの包括化"},
-  {s:"hardstyle",t:"hard_dance",w:55,desc:"ハードスタイルの上位概念"},
+  {s:"hard_techno",t:"hard_dance",w:50,desc:"ハードテクノを含む包括カテゴリ"},
   {s:"dnb",t:"crossbreed",w:50,desc:"DnBとガバの融合"},
   {s:"gabber",t:"crossbreed",w:50,desc:"ガバとDnBの融合"},
   {s:"hardcore_rave",t:"darkcore_genre",w:60,desc:"ハードコアレイヴの暗い方向"},
@@ -3021,11 +3009,11 @@ const LINKS = [
 
   // 候補タグ承認分
   {s:"chicago_house",t:"kwaito",w:45,desc:"ハウスビートの南ア的スロウ化"},
-  {s:"amapiano",t:"kwaito",w:50,desc:"クワイトのモダン化↔アマピアノのルーツ"},
+  {s:"kwaito",t:"amapiano",w:50,desc:"クワイトがアマピアノの重要な先行文脈"},
   {s:"mbube",t:"isicathamiya",w:70,desc:"ズールー・アカペラの姉妹スタイル"},
   {s:"jazz",t:"marabi",w:40,desc:"ジャズ的ピアノ↔南アのタウンシップ音楽"},
   {s:"marabi",t:"kwaito",w:45,desc:"マラビがクワイトの源流"},
-  {s:"soul",t:"rnb",w:70,desc:"ソウルがR&Bの直接のルーツ"},
+  {s:"rnb",t:"soul",w:70,desc:"R&BがSoulの前提・源流"},
   {s:"hiphop",t:"rnb",w:50,desc:"ヒップホップとの融合"},
   {s:"rnb",t:"alternative_rnb",w:60,desc:"R&Bの実験的進化"},
   {s:"rnb",t:"latin_rnb",w:50,desc:"R&Bのラテン化"},
