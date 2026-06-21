@@ -135,7 +135,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v9.6 / 350 genres / 1045 links</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v9.7 / 350 genres / 1045 links</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
@@ -164,36 +164,37 @@ svg { width: 100vw; height: 100vh; }
 
 <div id="legend">
   <h3>カテゴリ</h3>
+  <div class="legend-item" data-cat="blues_sub"><div class="legend-dot" style="background:#4FC3F7"></div><span class="legend-label">ブルース系</span></div>
+  <div class="legend-item" data-cat="jazz_sub"><div class="legend-dot" style="background:#CFB53B"></div><span class="legend-label">ジャズ系</span></div>
+  <div class="legend-item" data-cat="country_folk"><div class="legend-dot" style="background:#8D6E63"></div><span class="legend-label">カントリー/フォーク系</span></div>
+  <div class="legend-item" data-cat="pop"><div class="legend-dot" style="background:#7CB342"></div><span class="legend-label">ポップス系</span></div>
   <div class="legend-item" data-cat="soul_cat"><div class="legend-dot" style="background:#E040FB"></div><span class="legend-label">R&B/ソウル系</span></div>
-  <div class="legend-item" data-cat="funk_cat"><div class="legend-dot" style="background:#FF6D00"></div><span class="legend-label">ファンク系</span></div>
-  <div class="legend-item" data-cat="disco_cat"><div class="legend-dot" style="background:#EC407A"></div><span class="legend-label">ディスコ系</span></div>
   <div class="legend-item" data-cat="early_elec"><div class="legend-dot" style="background:#5C7CFA"></div><span class="legend-label">初期電子音楽</span></div>
-  <div class="legend-item" data-cat="synthpop"><div class="legend-dot" style="background:#845EF7"></div><span class="legend-label">シンセポップ系</span></div>
-  <div class="legend-item" data-cat="industrial"><div class="legend-dot" style="background:#495057"></div><span class="legend-label">インダストリアル系</span></div>
+  <div class="legend-item" data-cat="rock"><div class="legend-dot" style="background:#D84315"></div><span class="legend-label">ロック系</span></div>
+  <div class="legend-item" data-cat="funk_cat"><div class="legend-dot" style="background:#FF6D00"></div><span class="legend-label">ファンク系</span></div>
+  <div class="legend-item" data-cat="metal"><div class="legend-dot" style="background:#37474F"></div><span class="legend-label">メタル系</span></div>
+  <div class="legend-item" data-cat="disco_cat"><div class="legend-dot" style="background:#EC407A"></div><span class="legend-label">ディスコ系</span></div>
+  <div class="legend-item" data-cat="hiphop"><div class="legend-dot" style="background:#2E7D32"></div><span class="legend-label">ヒップホップ系</span></div>
   <div class="legend-item" data-cat="ambient"><div class="legend-dot" style="background:#607D8B"></div><span class="legend-label">アンビエント系</span></div>
+  <div class="legend-item" data-cat="industrial"><div class="legend-dot" style="background:#495057"></div><span class="legend-label">インダストリアル系</span></div>
+  <div class="legend-item" data-cat="synthpop"><div class="legend-dot" style="background:#845EF7"></div><span class="legend-label">シンセポップ系</span></div>
+  <div class="legend-item" data-cat="eurodance"><div class="legend-dot" style="background:#AD1457"></div><span class="legend-label">ユーロダンス系</span></div>
   <div class="legend-item" data-cat="house"><div class="legend-dot" style="background:#9C27B0"></div><span class="legend-label">ハウス系</span></div>
   <div class="legend-item" data-cat="techno"><div class="legend-dot" style="background:#1565C0"></div><span class="legend-label">テクノ系</span></div>
   <div class="legend-item" data-cat="trance"><div class="legend-dot" style="background:#00838F"></div><span class="legend-label">トランス系</span></div>
   <div class="legend-item" data-cat="hardcore"><div class="legend-dot" style="background:#C62828"></div><span class="legend-label">ハードコア系</span></div>
   <div class="legend-item" data-cat="dnb"><div class="legend-dot" style="background:#E65100"></div><span class="legend-label">DnB / ジャングル系</span></div>
   <div class="legend-item" data-cat="dubstep"><div class="legend-dot" style="background:#5D4037"></div><span class="legend-label">ダブステップ系</span></div>
-  <div class="legend-item" data-cat="eurodance"><div class="legend-dot" style="background:#AD1457"></div><span class="legend-label">ユーロダンス系</span></div>
   <div class="legend-item" data-cat="edm"><div class="legend-dot" style="background:#F9A825"></div><span class="legend-label">EDM系</span></div>
   <div class="legend-item" data-cat="synthwave"><div class="legend-dot" style="background:#6A1B9A"></div><span class="legend-label">シンセウェーブ系</span></div>
-  <div class="legend-item" data-cat="hiphop"><div class="legend-dot" style="background:#2E7D32"></div><span class="legend-label">ヒップホップ系</span></div>
-  <div class="legend-item" data-cat="rock"><div class="legend-dot" style="background:#D84315"></div><span class="legend-label">ロック系</span></div>
-  <div class="legend-item" data-cat="metal"><div class="legend-dot" style="background:#37474F"></div><span class="legend-label">メタル系</span></div>
-  <div class="legend-item" data-cat="country_folk"><div class="legend-dot" style="background:#8D6E63"></div><span class="legend-label">カントリー/フォーク系</span></div>
+  <div class="legend-sep"></div>
+  <div class="legend-item" data-cat="classical_sub"><div class="legend-dot" style="background:#78909C"></div><span class="legend-label">クラシック系</span></div>
   <div class="legend-item" data-cat="latin"><div class="legend-dot" style="background:#E91E63"></div><span class="legend-label">ラテン系</span></div>
+  <div class="legend-item" data-cat="caribbean"><div class="legend-dot" style="background:#00BFA5"></div><span class="legend-label">カリブ系</span></div>
   <div class="legend-item" data-cat="african"><div class="legend-dot" style="background:#FF8F00"></div><span class="legend-label">アフリカ系</span></div>
   <div class="legend-item" data-cat="middle_east"><div class="legend-dot" style="background:#BF360C"></div><span class="legend-label">中東/アラブ系</span></div>
   <div class="legend-item" data-cat="south_asian"><div class="legend-dot" style="background:#311B92"></div><span class="legend-label">南アジア系</span></div>
   <div class="legend-item" data-cat="east_asian"><div class="legend-dot" style="background:#827717"></div><span class="legend-label">東アジア系</span></div>
-  <div class="legend-item" data-cat="caribbean"><div class="legend-dot" style="background:#00BFA5"></div><span class="legend-label">カリブ系</span></div>
-  <div class="legend-item" data-cat="pop"><div class="legend-dot" style="background:#7CB342"></div><span class="legend-label">ポップス系</span></div>
-  <div class="legend-item" data-cat="jazz_sub"><div class="legend-dot" style="background:#CFB53B"></div><span class="legend-label">ジャズ系</span></div>
-  <div class="legend-item" data-cat="classical_sub"><div class="legend-dot" style="background:#78909C"></div><span class="legend-label">クラシック系</span></div>
-  <div class="legend-item" data-cat="blues_sub"><div class="legend-dot" style="background:#4FC3F7"></div><span class="legend-label">ブルース系</span></div>
   <div class="legend-sep"></div>
   <div class="legend-item" data-cat="suno"><div class="suno-ring"></div><span class="legend-label">Suno有効タグ</span></div>
 </div>
