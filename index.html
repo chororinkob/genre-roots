@@ -193,21 +193,28 @@ svg { width: 100vw; height: 100vh; }
   /* 検索結果 */
   #search-results { max-height: 50vh; overflow-y: auto; }
 
-  /* ===== スマホ用：光リングで発光（filterに頼らない） ===== */
-  @keyframes m-ring-pulse {
-    0%   { transform: scale(1); opacity: 0.7; }
-    50%  { transform: scale(2.5); opacity: 0; }
-    100% { transform: scale(1); opacity: 0.7; }
+  /* ===== スマホ用：枠の太さ変化で点滅 ===== */
+  @keyframes m-stroke-white {
+    0%   { stroke: #fff; stroke-width: 4; }
+    50%  { stroke: #fff; stroke-width: 22; }
+    100% { stroke: #fff; stroke-width: 4; }
   }
-  .glow-ring { animation: m-ring-pulse 1.2s ease-out infinite; transform-origin: center; pointer-events: none; }
-
-  /* ストロークのみ太く点滅（filterなし） */
-  .node.cat-highlight circle { stroke: #fff !important; stroke-width: 12 !important; stroke-opacity: 1 !important; }
-  .node.cat-highlight circle.suno { stroke: #FFD700 !important; stroke-width: 14 !important; stroke-opacity: 1 !important; }
-  .node.search-match circle { stroke: #00FF00 !important; stroke-width: 12 !important; stroke-opacity: 1 !important; }
-  .node.search-match circle.suno { stroke: #FFD700 !important; stroke-width: 14 !important; stroke-opacity: 1 !important; }
-  .node.focus-highlight circle { stroke: #fff !important; stroke-width: 12 !important; stroke-opacity: 1 !important; }
-  .node.focus-highlight circle.suno { stroke: #FFD700 !important; stroke-width: 14 !important; stroke-opacity: 1 !important; }
+  @keyframes m-stroke-green {
+    0%   { stroke: #00FF00; stroke-width: 4; }
+    50%  { stroke: #00FF00; stroke-width: 22; }
+    100% { stroke: #00FF00; stroke-width: 4; }
+  }
+  @keyframes m-stroke-gold {
+    0%   { stroke: #FFD700; stroke-width: 6; }
+    50%  { stroke: #FFD700; stroke-width: 24; }
+    100% { stroke: #FFD700; stroke-width: 6; }
+  }
+  .node.cat-highlight circle { animation: m-stroke-white 0.8s ease-in-out infinite !important; }
+  .node.cat-highlight circle.suno { animation: m-stroke-gold 0.8s ease-in-out infinite !important; }
+  .node.search-match circle { animation: m-stroke-green 0.8s ease-in-out infinite !important; }
+  .node.search-match circle.suno { animation: m-stroke-gold 0.8s ease-in-out infinite !important; }
+  .node.focus-highlight circle { animation: m-stroke-white 1.2s ease-in-out infinite !important; }
+  .node.focus-highlight circle.suno { animation: m-stroke-gold 1.2s ease-in-out infinite !important; }
 }
 </style>
 </head>
@@ -217,7 +224,7 @@ svg { width: 100vw; height: 100vh; }
   <button id="mobile-menu-btn">☰</button>
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v12.1 / 511 genres / 1045 links</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v12.2 / 511 genres / 1045 links</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
@@ -4612,9 +4619,6 @@ const simulation = d3.forceSimulation(NODES)
   .force("y", d3.forceY(h/2).strength(d => d.fx != null ? 0 : 0.015))
   .alphaDecay(0.05);
 
-// スマホ用光リングレイヤー（ノードの下に描画）
-const glowLayer = g.append("g").attr("class", "glow-layer");
-
 const link = g.append("g").selectAll("line")
   .data(linkData)
   .join("line")
@@ -4737,7 +4741,7 @@ node.on("click", (e, d) => {
   link.classed('focus-dim', l => l.s !== d.id && l.t !== d.id);
   linkLabelG.classed('focus-highlight', l => l.s === d.id || l.t === d.id);
   linkLabelG.classed('focus-dim', l => l.s !== d.id && l.t !== d.id);
-  updateGlowRings();
+
 
   const name = d.label.replace("\n", " ");
   spTag.textContent = name;
@@ -4830,7 +4834,7 @@ svg.on("click", () => {
   linkLabelG.classed('focus-highlight', false);
   linkLabelG.classed('focus-dim', false);
   document.getElementById("search-results").style.display = "none";
-  updateGlowRings();
+
 });
 
 simulation.on("tick", () => {
@@ -4865,32 +4869,7 @@ simulation.on("tick", () => {
   linkLabelG.attr("transform", d =>
     `translate(${(d.source.x + d.target.x)/2},${(d.source.y + d.target.y)/2})`
   );
-  // スマホ用光リングの位置更新
-  glowLayer.selectAll(".glow-ring").attr("cx", d => d.x).attr("cy", d => d.y);
 });
-
-// スマホ用：光リングの追加・削除
-function updateGlowRings() {
-  if (window.innerWidth > 768) { glowLayer.selectAll(".glow-ring").remove(); return; }
-  const glowData = NODES.filter(n => {
-    const el = node.filter(d => d.id === n.id);
-    return el.classed('cat-highlight') || el.classed('search-match') || el.classed('focus-highlight');
-  });
-  const rings = glowLayer.selectAll(".glow-ring").data(glowData, d => d.id);
-  rings.enter().append("circle")
-    .attr("class", "glow-ring")
-    .attr("cx", d => d.x).attr("cy", d => d.y)
-    .attr("r", d => d.r + 15)
-    .attr("fill", "none")
-    .attr("stroke", d => {
-      const el = node.filter(dd => dd.id === d.id);
-      if (el.classed('search-match')) return "#00FF00";
-      return d.suno ? "#FFD700" : "#ffffff";
-    })
-    .attr("stroke-width", 8)
-    .attr("opacity", 0.7);
-  rings.exit().remove();
-}
 
 // Search
 const searchInput = document.getElementById("search");
@@ -4960,7 +4939,7 @@ function searchHandler(e) {
   link.classed("focus-highlight", false);
   linkLabelG.classed("focus-dim", true);
   linkLabelG.classed("focus-highlight", false);
-  updateGlowRings();
+
 
   let html = '';
   if (foundIds.size > 0) html += '<div style="color:#0f0">✓ ' + foundIds.size + '件ヒット</div>';
@@ -5068,7 +5047,7 @@ function highlightCat(cat) {
   // 数字
   linkLabelG.classed('focus-highlight', l => matchIds.has(l.s) || matchIds.has(l.t));
   linkLabelG.classed('focus-dim', l => !matchIds.has(l.s) && !matchIds.has(l.t));
-  updateGlowRings();
+
 }
 
 function clearHighlight() {
@@ -5080,7 +5059,7 @@ function clearHighlight() {
   linkLabelG.classed('focus-dim', false);
   lockedCat = null;
   document.querySelectorAll('.legend-item[data-cat]').forEach(el => el.style.background = '');
-  updateGlowRings();
+
 }
 
 document.querySelectorAll('.legend-item[data-cat]').forEach(item => {
