@@ -135,7 +135,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v9.9 / 417 genres / 1045 links</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v10.0 / 417 genres / 1045 links</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
@@ -4109,7 +4109,7 @@ function searchHandler(e) {
     const tagId = tag.replace(/[\s-]/g, '_');
     const matches = NODES.filter(n => {
       if (n.id === tagId || n.label.toLowerCase().replace('\n', ' ') === tag) return true;
-      if (tag.length >= 3) return n.id.includes(tag) || n.label.toLowerCase().includes(tag);
+      if (tag.length >= 3) return n.id.includes(tag) || n.label.toLowerCase().replace('\n', ' ').includes(tag);
       return false;
     });
     if (matches.length > 0) matches.forEach(m => foundIds.add(m.id));
