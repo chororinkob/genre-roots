@@ -4698,8 +4698,8 @@ function openPanel() {
   else { panel.style.display = 'block'; }
 }
 function closePanel() {
-  if (isMobile()) { panel.classList.remove('sp-visible'); setTimeout(() => { if (!panel.classList.contains('sp-visible')) closePanel(); }, 300); }
-  else { closePanel(); }
+  if (isMobile()) { panel.classList.remove('sp-visible'); setTimeout(() => { if (!panel.classList.contains('sp-visible')) panel.style.display = 'none'; }, 300); }
+  else { panel.style.display = 'none'; }
 }
 const spTag     = document.getElementById("sp-tag");
 const spCopy    = document.getElementById("sp-copy");
