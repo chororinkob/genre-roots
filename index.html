@@ -135,7 +135,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v11.1 / 511 genres / 1045 links</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v11.2 / 511 genres / 1045 links</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
@@ -2558,7 +2558,6 @@ const LINKS = [
   {s:"electro_house",t:"big_room",w:75,desc:"シンセ音色↔大規模ドロップ"},
   {s:"big_room",t:"festival_edm",w:70,desc:"巨大ドロップ↔フェス向け構成"},
   {s:"chicago_house",t:"uk_garage",w:55,desc:"4つ打ち・歌もの→シャッフル感"},
-  {s:"disco",t:"hi_nrg",w:55,desc:"クラブ性→高速・電子化"},
   {s:"chicago_house",t:"electro_house", w:45, desc:"ハウスの電子化"},
   {s:"chicago_house",t:"moombahton",    w:40, desc:"ハウスのレゲトン融合"},
 
@@ -2628,7 +2627,6 @@ const LINKS = [
   // EDM系
   {s:"chicago_house",t:"edm",           w:35, desc:"ハウスはEDMの重要な柱"},
   {s:"trance",     t:"edm",             w:30, desc:"トランスはEDMの重要な柱"},
-  {s:"big_room",t:"festival_edm",w:70,desc:"巨大ドロップ↔フェス向け構成"},
   {s:"festival_edm",t:"melodic_edm",    w:60, desc:"感動的な方向"},
   {s:"festival_edm",t:"dark_edm",       w:55, desc:"ダークな方向"},
   {s:"festival_edm",t:"heavy_edm",      w:55, desc:"ヘビーな方向"},
@@ -3475,14 +3473,11 @@ const LINKS = [
   {s:"pop_music",t:"hyperpop",w:40,desc:"ポップスの解体と再構築"},
   {s:"happy_hardcore",t:"uk_hardcore_genre",w:70,desc:"ハッピーハードコアの洗練化"},
   {s:"punk",t:"digital_hardcore",w:50,desc:"パンクのデジタル化"},
-  {s:"punk",t:"digital_hardcore",w:55,desc:"パンクの攻撃性をデジタル化"},
   {s:"industrial",t:"digital_hardcore",w:40,desc:"インダストリアルの攻撃性"},
-  {s:"hardstyle",t:"rawstyle",w:70,desc:"ハードスタイルのダーク化"},
   {s:"gabber",t:"uptempo_hardcore",w:65,desc:"ガバの高速化"},
   {s:"gabber",t:"terrorcore",w:60,desc:"ガバの最も過激な方向"},
   {s:"hardstyle",t:"jumpstyle",w:55,desc:"ハードスタイルのダンス化"},
   {s:"hard_techno",t:"hard_dance",w:50,desc:"ハードテクノの包括化"},
-  {s:"hard_techno",t:"hard_dance",w:50,desc:"ハードテクノを含む包括カテゴリ"},
   {s:"dnb",t:"crossbreed",w:50,desc:"DnBとガバの融合"},
   {s:"gabber",t:"crossbreed",w:50,desc:"ガバとDnBの融合"},
   {s:"hardcore_rave",t:"darkcore_genre",w:60,desc:"ハードコアレイヴの暗い方向"},
@@ -3544,7 +3539,6 @@ const LINKS = [
   {s:"garage_rock",t:"proto_punk",w:65,desc:"ガレージの粗さ"},
   {s:"proto_punk",t:"punk",w:80,desc:"パンクの直接的母体"},
   {s:"rock_n_roll",t:"power_pop",w:50,desc:"ロックンロールのメロディ"},
-  {s:"rock_n_roll",t:"power_pop",w:55,desc:"Beatles/Who/Beach Boys的メロディ"},
   {s:"power_pop",t:"pop_punk",w:55,desc:"ポップパンクへの影響"},
   {s:"power_pop",t:"jangle_pop",w:50,desc:"ギターポップへ"},
   {s:"indie_rock",t:"madchester",w:50,desc:"インディーロック"},
@@ -3560,7 +3554,6 @@ const LINKS = [
   {s:"punk",t:"metalcore",w:55,desc:"ハードコアパンクのブレイクダウン・攻撃性"},
   {s:"metalcore",t:"deathcore",w:55,desc:"さらなる重量化"},
   {s:"death_metal",t:"deathcore",w:55,desc:"デスメタルの残虐性"},
-  {s:"metalcore",t:"deathcore",w:55,desc:"メタルコアのブレイクダウン"},
   {s:"heavy_metal",t:"folk_metal",w:50,desc:"メタルの重さ"},
   {s:"folk",t:"folk_metal",w:45,desc:"民俗音楽の旋律・楽器"},
   {s:"folk_metal",t:"viking_metal",w:50,desc:"北欧テーマで重複・並行（Viking Metalも独自に成立）"},
@@ -3908,37 +3901,11 @@ const LINKS = [
   {s:"carnatic",t:"bollywood",w:30,desc:"ボリウッドへの旋律的影響"},
   {s:"carnatic",t:"fusion",w:20,desc:"フュージョンとの交流（Shakti等）"},
   // 孤立修正31件 (v11.1)
-  {s:"folk",t:"balkan_brass",w:45,desc:"民族音楽の影響"},
-  {s:"renaissance",t:"baroque",w:60,desc:"ルネサンスからの発展"},
   {s:"baroque",t:"baroque_pop",w:35,desc:"バロックの要素を借用"},
-  {s:"funk",t:"britfunk",w:50,desc:"ファンクのUK化"},
-  {s:"country",t:"bro_country",w:55,desc:"カントリーの現代化"},
-  {s:"classical",t:"choral",w:55,desc:"クラシック声楽の伝統"},
-  {s:"bollywood",t:"dangdut",w:40,desc:"インド映画音楽の影響"},
-  {s:"country",t:"dark_country",w:50,desc:"カントリーの暗黒化"},
-  {s:"folk",t:"folktronica",w:45,desc:"フォークの電子化"},
   {s:"folk",t:"forro",w:45,desc:"ブラジル北東部の民俗"},
-  {s:"jazz",t:"gypsy_jazz",w:55,desc:"ジャズのロマ的解釈"},
-  {s:"blues",t:"harmonica_blues",w:60,desc:"ブルースのハーモニカ表現"},
-  {s:"indie_rock",t:"indie_folk",w:45,desc:"インディーのフォーク化"},
-  {s:"techno",t:"intelligent_techno",w:55,desc:"テクノの知性化"},
-  {s:"jpop",t:"j_ballad",w:55,desc:"J-POPのバラード"},
-  {s:"eurobeat",t:"j_eurobeat",w:60,desc:"ユーロビートの日本化"},
   {s:"folk",t:"medieval",w:40,desc:"中世の口承音楽"},
-  {s:"punk",t:"melodic_hardcore",w:55,desc:"パンクのメロディ化"},
-  {s:"classical",t:"neoclassicism_music",w:55,desc:"古典派の復興"},
-  {s:"trance",t:"nrg_trance",w:50,desc:"トランスの高速化"},
-  {s:"classical",t:"opera",w:50,desc:"クラシックの劇場形式"},
-  {s:"opera",t:"operatic_pop",w:50,desc:"オペラのポップ化"},
-  {s:"opera",t:"operetta",w:55,desc:"オペラの軽量化"},
-  {s:"eurobeat",t:"parapara_eurobeat",w:55,desc:"パラパラダンス文化"},
-  {s:"blues",t:"piano_blues",w:60,desc:"ブルースのピアノ表現"},
   {s:"medieval",t:"renaissance",w:55,desc:"中世からの発展"},
   {s:"jazz",t:"smooth_jazz",w:50,desc:"ジャズの商業化"},
-  {s:"synthwave",t:"sovietwave",w:45,desc:"ソビエト的懐古"},
-  {s:"folk",t:"turbo_folk",w:45,desc:"バルカン民俗の電子化"},
-  {s:"ambient",t:"underwater_ambient",w:45,desc:"水中の音響世界"},
-  {s:"classical",t:"waltz",w:50,desc:"宮廷舞踏音楽"}
 ];
 
 // ===== ROOTS POLYGON LAYOUT =====
