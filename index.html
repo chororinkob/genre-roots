@@ -135,7 +135,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v11.0 / 511 genres / 1045 links</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v11.1 / 511 genres / 1045 links</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
@@ -3906,7 +3906,39 @@ const LINKS = [
   {s:"jazz",t:"gnawa",w:20,desc:"ジャズとの交流"},
   {s:"indie_pop",t:"twee_pop",w:60,desc:"インディーポップの可憐な派生"},
   {s:"carnatic",t:"bollywood",w:30,desc:"ボリウッドへの旋律的影響"},
-  {s:"carnatic",t:"fusion",w:20,desc:"フュージョンとの交流（Shakti等）"}
+  {s:"carnatic",t:"fusion",w:20,desc:"フュージョンとの交流（Shakti等）"},
+  // 孤立修正31件 (v11.1)
+  {s:"folk",t:"balkan_brass",w:45,desc:"民族音楽の影響"},
+  {s:"renaissance",t:"baroque",w:60,desc:"ルネサンスからの発展"},
+  {s:"baroque",t:"baroque_pop",w:35,desc:"バロックの要素を借用"},
+  {s:"funk",t:"britfunk",w:50,desc:"ファンクのUK化"},
+  {s:"country",t:"bro_country",w:55,desc:"カントリーの現代化"},
+  {s:"classical",t:"choral",w:55,desc:"クラシック声楽の伝統"},
+  {s:"bollywood",t:"dangdut",w:40,desc:"インド映画音楽の影響"},
+  {s:"country",t:"dark_country",w:50,desc:"カントリーの暗黒化"},
+  {s:"folk",t:"folktronica",w:45,desc:"フォークの電子化"},
+  {s:"folk",t:"forro",w:45,desc:"ブラジル北東部の民俗"},
+  {s:"jazz",t:"gypsy_jazz",w:55,desc:"ジャズのロマ的解釈"},
+  {s:"blues",t:"harmonica_blues",w:60,desc:"ブルースのハーモニカ表現"},
+  {s:"indie_rock",t:"indie_folk",w:45,desc:"インディーのフォーク化"},
+  {s:"techno",t:"intelligent_techno",w:55,desc:"テクノの知性化"},
+  {s:"jpop",t:"j_ballad",w:55,desc:"J-POPのバラード"},
+  {s:"eurobeat",t:"j_eurobeat",w:60,desc:"ユーロビートの日本化"},
+  {s:"folk",t:"medieval",w:40,desc:"中世の口承音楽"},
+  {s:"punk",t:"melodic_hardcore",w:55,desc:"パンクのメロディ化"},
+  {s:"classical",t:"neoclassicism_music",w:55,desc:"古典派の復興"},
+  {s:"trance",t:"nrg_trance",w:50,desc:"トランスの高速化"},
+  {s:"classical",t:"opera",w:50,desc:"クラシックの劇場形式"},
+  {s:"opera",t:"operatic_pop",w:50,desc:"オペラのポップ化"},
+  {s:"opera",t:"operetta",w:55,desc:"オペラの軽量化"},
+  {s:"eurobeat",t:"parapara_eurobeat",w:55,desc:"パラパラダンス文化"},
+  {s:"blues",t:"piano_blues",w:60,desc:"ブルースのピアノ表現"},
+  {s:"medieval",t:"renaissance",w:55,desc:"中世からの発展"},
+  {s:"jazz",t:"smooth_jazz",w:50,desc:"ジャズの商業化"},
+  {s:"synthwave",t:"sovietwave",w:45,desc:"ソビエト的懐古"},
+  {s:"folk",t:"turbo_folk",w:45,desc:"バルカン民俗の電子化"},
+  {s:"ambient",t:"underwater_ambient",w:45,desc:"水中の音響世界"},
+  {s:"classical",t:"waltz",w:50,desc:"宮廷舞踏音楽"}
 ];
 
 // ===== ROOTS POLYGON LAYOUT =====
