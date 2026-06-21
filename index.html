@@ -149,14 +149,30 @@ svg { width: 100vw; height: 100vh; }
   /* ハンバーガーメニューボタン表示 */
   #mobile-menu-btn { display: block; }
 
-  /* 左サイドバー：デフォルト非表示、メニューで開閉 */
+  /* 左サイドバー：幅を狭くしてコンパクトに */
   #left-sidebar {
-    position: fixed; top: 0; left: 0; bottom: 0; width: 260px;
+    position: fixed; top: 0; left: 0; bottom: 0; width: 150px;
     z-index: 100; background: rgba(15,15,26,0.97);
     transform: translateX(-100%); transition: transform 0.3s ease;
-    padding: 60px 12px 12px;
+    padding: 50px 6px 8px;
   }
   #left-sidebar.open { transform: translateX(0); }
+
+  /* 検索ボックスをコンパクトに */
+  #controls { padding: 6px 8px; }
+  #controls h3 { font-size: 10px; margin-bottom: 4px; }
+  #search { font-size: 11px; padding: 4px 6px; }
+
+  /* Sunoフィルターボタン非表示（スマホのみ） */
+  .filter-btn[data-filter="suno"] { display: none; }
+
+  /* カテゴリ欄をコンパクトに */
+  #legend { padding: 6px 8px; }
+  #legend h3 { font-size: 10px; margin-bottom: 4px; }
+  .legend-item { margin-bottom: 2px; gap: 4px; }
+  .legend-dot { width: 10px; height: 10px; }
+  .legend-label { font-size: 10px; }
+  .suno-ring { width: 13px; height: 13px; border-width: 4px; }
 
   /* オーバーレイ背景 */
   #sidebar-overlay.open {
@@ -197,7 +213,7 @@ svg { width: 100vw; height: 100vh; }
   <button id="mobile-menu-btn">☰</button>
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v11.4 / 511 genres / 1045 links</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v11.5 / 511 genres / 1045 links</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
@@ -5308,6 +5324,11 @@ sidebarOverlay.addEventListener('click', () => {
   leftSidebar.classList.remove('open');
   sidebarOverlay.classList.remove('open');
 });
+
+// スマホ時はプレースホルダーを短縮
+if (window.innerWidth <= 768) {
+  document.getElementById('search').placeholder = 'ジャンル検索';
+}
 </script>
 </body>
 </html>
