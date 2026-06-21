@@ -63,44 +63,32 @@ svg { width: 100vw; height: 100vh; }
 .link-label { font-size: 60px; fill: #fff; pointer-events: none; font-weight: 700; }
 .link-label-bg { fill: rgba(26,26,46,0.82); pointer-events: none; }
 
-@keyframes cat-pulse-white {
-  0%   { stroke: #ffffff; stroke-width: 3; }
-  50%  { stroke: #ffffff; stroke-width: 8; filter: drop-shadow(0 0 10px #fff) drop-shadow(0 0 20px rgba(255,255,255,0.6)); }
-  100% { stroke: #ffffff; stroke-width: 3; }
-}
-@keyframes cat-pulse-gold {
-  0%   { stroke: #FFD700; stroke-width: 5; }
-  50%  { stroke: #FFD700; stroke-width: 12; filter: drop-shadow(0 0 10px #FFD700) drop-shadow(0 0 20px rgba(255,215,0,0.6)); }
-  100% { stroke: #FFD700; stroke-width: 5; }
-}
-.node.cat-highlight circle { animation: cat-pulse-white 0.85s ease-in-out infinite !important; }
-.node.cat-highlight circle.suno { animation: cat-pulse-gold 0.85s ease-in-out infinite !important; }
-@keyframes search-pulse-green {
-  0%   { stroke: #00FF00; stroke-width: 6; filter: drop-shadow(0 0 8px #0f0); }
-  50%  { stroke: #00FF00; stroke-width: 14; filter: drop-shadow(0 0 20px #0f0) drop-shadow(0 0 30px rgba(0,255,0,0.5)); }
-  100% { stroke: #00FF00; stroke-width: 6; filter: drop-shadow(0 0 8px #0f0); }
-}
-@keyframes search-pulse-gold {
-  0%   { stroke: #FFD700; stroke-width: 8; filter: drop-shadow(0 0 8px #FFD700); }
-  50%  { stroke: #FFD700; stroke-width: 16; filter: drop-shadow(0 0 20px #FFD700) drop-shadow(0 0 30px rgba(255,215,0,0.5)); }
-  100% { stroke: #FFD700; stroke-width: 8; filter: drop-shadow(0 0 8px #FFD700); }
-}
-.node.search-match circle { animation: search-pulse-green 0.7s ease-in-out infinite !important; }
-.node.search-match circle.suno { animation: search-pulse-gold 0.7s ease-in-out infinite !important; }
-.node.cat-dim { opacity: 0.1; pointer-events: none; }
-.node.focus-dim { opacity: 0.08; }
-@keyframes focus-glow-white {
+/* 共通発光アニメーション（白） */
+@keyframes glow-white {
   0%   { stroke: #fff; stroke-width: 8; filter: drop-shadow(0 0 20px #fff) drop-shadow(0 0 40px rgba(255,255,255,0.5)); }
   50%  { stroke: #fff; stroke-width: 20; filter: drop-shadow(0 0 50px #fff) drop-shadow(0 0 80px rgba(255,255,255,0.8)) drop-shadow(0 0 120px rgba(255,255,255,0.4)); }
   100% { stroke: #fff; stroke-width: 8; filter: drop-shadow(0 0 20px #fff) drop-shadow(0 0 40px rgba(255,255,255,0.5)); }
 }
-@keyframes focus-glow-gold {
+/* 共通発光アニメーション（緑＝検索用） */
+@keyframes glow-green {
+  0%   { stroke: #00FF00; stroke-width: 8; filter: drop-shadow(0 0 20px #0f0) drop-shadow(0 0 40px rgba(0,255,0,0.5)); }
+  50%  { stroke: #00FF00; stroke-width: 20; filter: drop-shadow(0 0 50px #0f0) drop-shadow(0 0 80px rgba(0,255,0,0.8)) drop-shadow(0 0 120px rgba(0,255,0,0.4)); }
+  100% { stroke: #00FF00; stroke-width: 8; filter: drop-shadow(0 0 20px #0f0) drop-shadow(0 0 40px rgba(0,255,0,0.5)); }
+}
+/* 共通発光アニメーション（金＝Suno用） */
+@keyframes glow-gold {
   0%   { stroke: #FFD700; stroke-width: 10; filter: drop-shadow(0 0 20px #FFD700) drop-shadow(0 0 40px rgba(255,215,0,0.5)); }
   50%  { stroke: #FFD700; stroke-width: 22; filter: drop-shadow(0 0 50px #FFD700) drop-shadow(0 0 80px rgba(255,215,0,0.8)) drop-shadow(0 0 120px rgba(255,215,0,0.4)); }
   100% { stroke: #FFD700; stroke-width: 10; filter: drop-shadow(0 0 20px #FFD700) drop-shadow(0 0 40px rgba(255,215,0,0.5)); }
 }
-.node.focus-highlight circle { animation: focus-glow-white 2s ease-in-out infinite !important; }
-.node.focus-highlight circle.suno { animation: focus-glow-gold 2s ease-in-out infinite !important; }
+.node.cat-highlight circle { animation: glow-white 0.85s ease-in-out infinite !important; }
+.node.cat-highlight circle.suno { animation: glow-gold 0.85s ease-in-out infinite !important; }
+.node.search-match circle { animation: glow-green 0.7s ease-in-out infinite !important; }
+.node.search-match circle.suno { animation: glow-gold 0.7s ease-in-out infinite !important; }
+.node.cat-dim { opacity: 0.1; pointer-events: none; }
+.node.focus-dim { opacity: 0.08; }
+.node.focus-highlight circle { animation: glow-white 2s ease-in-out infinite !important; }
+.node.focus-highlight circle.suno { animation: glow-gold 2s ease-in-out infinite !important; }
 .link.focus-dim { opacity: 0.03 !important; }
 .link.focus-highlight { opacity: 1 !important; stroke-width: 8px !important; filter: drop-shadow(0 0 4px rgba(255,255,255,0.5)); }
 .link-label-group.focus-dim { opacity: 0.03 !important; }
@@ -205,49 +193,28 @@ svg { width: 100vw; height: 100vh; }
   /* 検索結果 */
   #search-results { max-height: 50vh; overflow-y: auto; }
 
-  /* ===== スマホ用：点滅・発光を強化 ===== */
-
-  /* カテゴリ選択時 */
-  @keyframes m-cat-pulse-white {
-    0%   { stroke: #ffffff; stroke-width: 8; filter: drop-shadow(0 0 15px #fff); }
-    50%  { stroke: #ffffff; stroke-width: 25; filter: drop-shadow(0 0 40px #fff) drop-shadow(0 0 70px rgba(255,255,255,0.9)) drop-shadow(0 0 100px rgba(255,255,255,0.5)); }
-    100% { stroke: #ffffff; stroke-width: 8; filter: drop-shadow(0 0 15px #fff); }
-  }
-  @keyframes m-cat-pulse-gold {
-    0%   { stroke: #FFD700; stroke-width: 10; filter: drop-shadow(0 0 15px #FFD700); }
-    50%  { stroke: #FFD700; stroke-width: 28; filter: drop-shadow(0 0 40px #FFD700) drop-shadow(0 0 70px rgba(255,215,0,0.9)) drop-shadow(0 0 100px rgba(255,215,0,0.5)); }
-    100% { stroke: #FFD700; stroke-width: 10; filter: drop-shadow(0 0 15px #FFD700); }
-  }
-  .node.cat-highlight circle { animation: m-cat-pulse-white 0.7s ease-in-out infinite !important; }
-  .node.cat-highlight circle.suno { animation: m-cat-pulse-gold 0.7s ease-in-out infinite !important; }
-
-  /* 検索ヒット時 */
-  @keyframes m-search-pulse-green {
-    0%   { stroke: #00FF00; stroke-width: 10; filter: drop-shadow(0 0 20px #0f0) drop-shadow(0 0 40px rgba(0,255,0,0.6)); }
-    50%  { stroke: #00FF00; stroke-width: 30; filter: drop-shadow(0 0 50px #0f0) drop-shadow(0 0 80px rgba(0,255,0,0.8)) drop-shadow(0 0 120px rgba(0,255,0,0.4)); }
-    100% { stroke: #00FF00; stroke-width: 10; filter: drop-shadow(0 0 20px #0f0) drop-shadow(0 0 40px rgba(0,255,0,0.6)); }
-  }
-  @keyframes m-search-pulse-gold {
-    0%   { stroke: #FFD700; stroke-width: 12; filter: drop-shadow(0 0 20px #FFD700) drop-shadow(0 0 40px rgba(255,215,0,0.6)); }
-    50%  { stroke: #FFD700; stroke-width: 32; filter: drop-shadow(0 0 50px #FFD700) drop-shadow(0 0 80px rgba(255,215,0,0.8)) drop-shadow(0 0 120px rgba(255,215,0,0.4)); }
-    100% { stroke: #FFD700; stroke-width: 12; filter: drop-shadow(0 0 20px #FFD700) drop-shadow(0 0 40px rgba(255,215,0,0.6)); }
-  }
-  .node.search-match circle { animation: m-search-pulse-green 0.6s ease-in-out infinite !important; }
-  .node.search-match circle.suno { animation: m-search-pulse-gold 0.6s ease-in-out infinite !important; }
-
-  /* ノードクリック時 */
-  @keyframes m-focus-glow-white {
+  /* ===== スマホ用：発光を強化（全操作共通） ===== */
+  @keyframes m-glow-white {
     0%   { stroke: #fff; stroke-width: 12; filter: drop-shadow(0 0 30px #fff) drop-shadow(0 0 60px rgba(255,255,255,0.7)); }
     50%  { stroke: #fff; stroke-width: 35; filter: drop-shadow(0 0 70px #fff) drop-shadow(0 0 120px rgba(255,255,255,0.9)) drop-shadow(0 0 180px rgba(255,255,255,0.5)); }
     100% { stroke: #fff; stroke-width: 12; filter: drop-shadow(0 0 30px #fff) drop-shadow(0 0 60px rgba(255,255,255,0.7)); }
   }
-  @keyframes m-focus-glow-gold {
+  @keyframes m-glow-green {
+    0%   { stroke: #00FF00; stroke-width: 12; filter: drop-shadow(0 0 30px #0f0) drop-shadow(0 0 60px rgba(0,255,0,0.7)); }
+    50%  { stroke: #00FF00; stroke-width: 35; filter: drop-shadow(0 0 70px #0f0) drop-shadow(0 0 120px rgba(0,255,0,0.9)) drop-shadow(0 0 180px rgba(0,255,0,0.5)); }
+    100% { stroke: #00FF00; stroke-width: 12; filter: drop-shadow(0 0 30px #0f0) drop-shadow(0 0 60px rgba(0,255,0,0.7)); }
+  }
+  @keyframes m-glow-gold {
     0%   { stroke: #FFD700; stroke-width: 14; filter: drop-shadow(0 0 30px #FFD700) drop-shadow(0 0 60px rgba(255,215,0,0.7)); }
     50%  { stroke: #FFD700; stroke-width: 38; filter: drop-shadow(0 0 70px #FFD700) drop-shadow(0 0 120px rgba(255,215,0,0.9)) drop-shadow(0 0 180px rgba(255,215,0,0.5)); }
     100% { stroke: #FFD700; stroke-width: 14; filter: drop-shadow(0 0 30px #FFD700) drop-shadow(0 0 60px rgba(255,215,0,0.7)); }
   }
-  .node.focus-highlight circle { animation: m-focus-glow-white 1.5s ease-in-out infinite !important; }
-  .node.focus-highlight circle.suno { animation: m-focus-glow-gold 1.5s ease-in-out infinite !important; }
+  .node.cat-highlight circle { animation: m-glow-white 0.7s ease-in-out infinite !important; }
+  .node.cat-highlight circle.suno { animation: m-glow-gold 0.7s ease-in-out infinite !important; }
+  .node.search-match circle { animation: m-glow-green 0.7s ease-in-out infinite !important; }
+  .node.search-match circle.suno { animation: m-glow-gold 0.7s ease-in-out infinite !important; }
+  .node.focus-highlight circle { animation: m-glow-white 1.5s ease-in-out infinite !important; }
+  .node.focus-highlight circle.suno { animation: m-glow-gold 1.5s ease-in-out infinite !important; }
 }
 </style>
 </head>
@@ -257,7 +224,7 @@ svg { width: 100vw; height: 100vh; }
   <button id="mobile-menu-btn">☰</button>
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v11.6 / 511 genres / 1045 links</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v11.7 / 511 genres / 1045 links</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
