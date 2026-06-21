@@ -224,7 +224,7 @@ svg { width: 100vw; height: 100vh; }
   <button id="mobile-menu-btn">☰</button>
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v12.4 / 511 genres / 1045 links</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v12.5 / 512 genres / 1045 links</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
@@ -2564,6 +2564,12 @@ const NODES = [
     desc:"意図的に低音質・低予算で録音した、DIY精神のインディーロック/ポップ。ヒスノイズ、歪み、4トラック録音、ベッドルーム制作が特徴。Guided by Voices、Pavement、Sebadoh、Daniel Johnston、R. Stevensonが代表。",
     roots_story:"1980年代、Daniel Johnston、Beat Happening、Half Japanese が自宅録音文化を開拓。1990年代にGuided by Voices、Sebadoh、Pavement『Slanted and Enchanted』(1992)がローファイの代名詞。Lou Barlow、Elliott Smith初期、Smog（Bill Callahan）。K Records、Siltbreeze。2010年代以降はBedroom Pop文化に継承。",
     popularity:5}
+,
+  {id:"progressive_techno", label:"Progressive
+Techno", cat:"techno", era:"1992", suno:true,
+    desc:"テクノのミニマルなビートにプログレッシブハウスの長い展開を融合。深いグルーヴと催眠的な反復、徐々に変化するテクスチャーが特徴。ダークかつ知的な音響設計。",
+    roots_story:"1990年代初頭、テクノとプログレッシブハウスの境界で発展。Sasha & John Digweed、Hernan Cattaneoがクラブシーンで確立。Global Undergroundコンピレーションが世界的普及に貢献。2010年代以降、Melodic Technoの台頭に直接つながった。",
+    popularity:5}
 ];
 
 const LINKS = [
@@ -3996,6 +4002,10 @@ const LINKS = [
   {s:"folk",t:"medieval",w:40,desc:"中世の口承音楽"},
   {s:"medieval",t:"renaissance",w:55,desc:"中世からの発展"},
   {s:"jazz",t:"smooth_jazz",w:50,desc:"ジャズの商業化"},
+  {s:"techno",t:"progressive_techno",w:65,desc:"テクノのビートを基盤に長い展開を追加"},
+  {s:"progressive_house",t:"progressive_techno",w:55,desc:"プログレッシブの構成美を継承"},
+  {s:"progressive_techno",t:"melodic_techno",w:60,desc:"メロディックな方向へ発展"},
+  {s:"minimal_techno",t:"progressive_techno",w:40,desc:"ミニマルな反復性の影響"}
 ];
 
 // ===== ROOTS POLYGON LAYOUT =====
@@ -4488,6 +4498,7 @@ const POPULARITY = {
   "lofi_rock": 5,
   "frenchcore": 4,
   "hyperpop": 4,
+  "progressive_techno": 5,
 };
 NODES.forEach(n => {
   n.popularity = POPULARITY[n.id] || 3;
