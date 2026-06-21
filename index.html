@@ -2,6 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
 <title>音楽ジャンルルーツ辞典</title>
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <style>
@@ -128,14 +129,75 @@ svg { width: 100vw; height: 100vh; }
 #instruments-panel .inst-desc { color: #ccc; flex: 1; }
 #instruments-panel .inst-copy { padding: 2px 8px; font-size: 11px; border: 1px solid #555; background: #2a2a50; color: #aaa; border-radius: 4px; cursor: pointer; flex-shrink: 0; }
 #instruments-panel .inst-copy:hover { background: #3a3a70; color: #fff; }
+
+/* ハンバーガーメニューボタン（PC非表示） */
+#mobile-menu-btn { display: none; background: none; border: 1px solid #555; border-radius: 5px; color: #fff; font-size: 20px; padding: 2px 8px; cursor: pointer; line-height: 1; }
+/* サイドバーオーバーレイ背景（PC非表示） */
+#sidebar-overlay { display: none; }
+
+/* ===== スマホ対応 (768px以下) ===== */
+@media (max-width: 768px) {
+  /* ヘッダー：2段構成 */
+  #header { flex-wrap: wrap; padding: 6px 10px; gap: 6px; }
+  #header h1 { font-size: 13px; }
+  #header .sub { display: none; }
+  #tab-buttons { margin-left: 0; order: 5; width: 100%; }
+  .tab-btn { font-size: 11px; padding: 4px 10px; }
+  #header > div:last-child { gap: 4px; }
+  #header > div:last-child button { font-size: 10px; padding: 3px 8px; }
+
+  /* ハンバーガーメニューボタン表示 */
+  #mobile-menu-btn { display: block; }
+
+  /* 左サイドバー：デフォルト非表示、メニューで開閉 */
+  #left-sidebar {
+    position: fixed; top: 0; left: 0; bottom: 0; width: 260px;
+    z-index: 100; background: rgba(15,15,26,0.97);
+    transform: translateX(-100%); transition: transform 0.3s ease;
+    padding: 60px 12px 12px;
+  }
+  #left-sidebar.open { transform: translateX(0); }
+
+  /* オーバーレイ背景 */
+  #sidebar-overlay.open {
+    display: block; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5); z-index: 99;
+  }
+
+  /* 右サイドパネル：下からスライドアップ */
+  #side-panel {
+    position: fixed; left: 0; right: 0; bottom: 0; top: auto;
+    width: 100% !important; height: 70vh;
+    border-left: none; border-top: 1px solid #444;
+    border-radius: 16px 16px 0 0;
+    transform: translateY(100%); transition: transform 0.3s ease;
+  }
+  #side-panel.sp-visible {
+    display: block !important; transform: translateY(0);
+  }
+  #sp-header { padding: 10px 14px 8px; }
+  #sp-tag { font-size: 16px; }
+  #sp-body { padding: 10px 14px; padding-bottom: 40px; }
+
+  /* 楽器パネル */
+  #instruments-panel { padding: 12px 14px; top: 80px; }
+  #instruments-panel .inst-search { width: 100%; }
+  #instruments-panel .inst-item { flex-wrap: wrap; }
+  #instruments-panel .inst-name { min-width: 120px; font-size: 12px; }
+  #instruments-panel .inst-desc { font-size: 12px; }
+
+  /* 検索結果 */
+  #search-results { max-height: 50vh; overflow-y: auto; }
+}
 </style>
 </head>
 <body>
 
 <div id="header">
+  <button id="mobile-menu-btn">☰</button>
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v11.3 / 511 genres / 1045 links</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v11.4 / 511 genres / 1045 links</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
@@ -235,6 +297,7 @@ svg { width: 100vw; height: 100vh; }
     </div>
   </div>
 </div>
+<div id="sidebar-overlay"></div>
 <div id="tooltip"></div>
 <div id="instruments-panel"></div>
 <svg id="graph"></svg>
@@ -4602,6 +4665,15 @@ node.on("mouseover", (e, d) => {
 
 // click: 右サイドパネルを開く
 const panel     = document.getElementById("side-panel");
+const isMobile = () => window.innerWidth <= 768;
+function openPanel() {
+  if (isMobile()) { panel.style.display = 'block'; requestAnimationFrame(() => panel.classList.add('sp-visible')); }
+  else { panel.style.display = 'block'; }
+}
+function closePanel() {
+  if (isMobile()) { panel.classList.remove('sp-visible'); setTimeout(() => { if (!panel.classList.contains('sp-visible')) closePanel(); }, 300); }
+  else { closePanel(); }
+}
 const spTag     = document.getElementById("sp-tag");
 const spCopy    = document.getElementById("sp-copy");
 const spClose   = document.getElementById("sp-close");
@@ -4703,10 +4775,10 @@ node.on("click", (e, d) => {
   // コピー（ラベル名をスペース区切りでコピー）
   spCopy.onclick = () => { const copyText = d.label.replace('\n',' '); navigator.clipboard.writeText(copyText).then(() => { spCopy.textContent='コピー済み'; setTimeout(()=>spCopy.textContent='コピー', 1500); }); };
 
-  panel.style.display = "block";
+  openPanel();
 });
 
-spClose.onclick = () => panel.style.display = "none";
+spClose.onclick = () => closePanel();
 
 // サイドパネル内のジャンルリンクをクリックしたら、そのジャンルの表示に切り替え
 panel.addEventListener('click', (e) => {
@@ -4721,7 +4793,7 @@ panel.addEventListener('click', (e) => {
   }
 });
 svg.on("click", () => {
-  panel.style.display = "none";
+  closePanel();
   window._nodeFocused = false;
   node.classed('focus-highlight', false);
   node.classed('focus-dim', false);
@@ -4804,7 +4876,7 @@ function searchHandler(e) {
   link.classed('focus-dim', false);
   linkLabelG.classed('focus-highlight', false);
   linkLabelG.classed('focus-dim', false);
-  panel.style.display = 'none';
+  closePanel();
 
   if (!raw.trim()) {
     node.classed("search-match", false);
@@ -4978,7 +5050,7 @@ document.querySelectorAll('.legend-item[data-cat]').forEach(item => {
       link.classed('focus-dim', false);
       linkLabelG.classed('focus-highlight', false);
       linkLabelG.classed('focus-dim', false);
-      panel.style.display = 'none';
+      closePanel();
     }
     if (lockedCat === cat) {
       clearHighlight();
@@ -5222,6 +5294,20 @@ if (false) {
     .d3Force('charge', d3.forceManyBody().strength(-100))
     .d3Force('link', d3.forceLink().distance(l => 120 - l.weight * 0.4).strength(0.3));
 }
+
+// ===== モバイルメニュー =====
+const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+const leftSidebar = document.getElementById('left-sidebar');
+const sidebarOverlay = document.getElementById('sidebar-overlay');
+
+mobileMenuBtn.addEventListener('click', () => {
+  leftSidebar.classList.toggle('open');
+  sidebarOverlay.classList.toggle('open');
+});
+sidebarOverlay.addEventListener('click', () => {
+  leftSidebar.classList.remove('open');
+  sidebarOverlay.classList.remove('open');
+});
 </script>
 </body>
 </html>
