@@ -135,7 +135,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v10.2 / 511 genres / 1045 links</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v10.3 / 511 genres / 1045 links</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
@@ -3901,7 +3901,17 @@ const LINKS = [
   {s:"schlager",t:"partyschlager",w:50,desc:"パーティシュラーガーへの発展"},
   {s:"schlager",t:"eurodance",w:30,desc:"ユーロダンスとの交流"},
   {s:"indie_rock",t:"lofi_rock",w:55,desc:"インディーロックのDIY精神"},
-  {s:"punk",t:"lofi_rock",w:35,desc:"パンクの反商業性"}
+  {s:"punk",t:"lofi_rock",w:35,desc:"パンクの反商業性"},
+  // 孤立ジャンル修正 (v10.3)
+  {s:"folk",t:"celtic_music",w:50,desc:"民俗音楽の伝統"},
+  {s:"celtic_music",t:"folk_rock",w:35,desc:"フォークロックへの影響"},
+  {s:"celtic_music",t:"neofolk",w:30,desc:"ネオフォークへの影響"},
+  {s:"gnawa",t:"afropop",w:25,desc:"アフリカ音楽への影響"},
+  {s:"jazz",t:"gnawa",w:20,desc:"ジャズとの交流"},
+  {s:"indie_pop",t:"twee_pop",w:60,desc:"インディーポップの可憐な派生"},
+  {s:"twee_pop",t:"indie_pop",w:30,desc:"インディーポップへの逆影響"},
+  {s:"carnatic",t:"bollywood",w:30,desc:"ボリウッドへの旋律的影響"},
+  {s:"carnatic",t:"fusion",w:20,desc:"フュージョンとの交流（Shakti等）"}
 ];
 
 // ===== ROOTS POLYGON LAYOUT =====
@@ -4690,8 +4700,8 @@ node.on("click", (e, d) => {
   spYt.href = `https://www.youtube.com/results?search_query=${q}`;
   spYt.textContent = `▶ YouTubeで「${name}」を検索`;
 
-  // コピー
-  spCopy.onclick = () => { navigator.clipboard.writeText(d.id).then(() => { spCopy.textContent='コピー済み'; setTimeout(()=>spCopy.textContent='コピー', 1500); }); };
+  // コピー（ラベル名をスペース区切りでコピー）
+  spCopy.onclick = () => { const copyText = d.label.replace('\n',' '); navigator.clipboard.writeText(copyText).then(() => { spCopy.textContent='コピー済み'; setTimeout(()=>spCopy.textContent='コピー', 1500); }); };
 
   panel.style.display = "block";
 });
