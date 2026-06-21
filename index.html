@@ -224,7 +224,7 @@ svg { width: 100vw; height: 100vh; }
   <button id="mobile-menu-btn">☰</button>
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v12.3 / 511 genres / 1045 links</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v12.4 / 511 genres / 1045 links</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
@@ -4539,6 +4539,7 @@ svg.call(zoom);
 
 function fitToView() {
   const vw = window.innerWidth, vh = window.innerHeight;
+  const headerH = document.getElementById('header').offsetHeight;
   const pad = 80;
   let x0=Infinity, y0=Infinity, x1=-Infinity, y1=-Infinity;
   NODES.forEach(n => {
@@ -4547,10 +4548,13 @@ function fitToView() {
     if (n.x+n.r > x1) x1 = n.x+n.r;
     if (n.y+n.r > y1) y1 = n.y+n.r;
   });
+  const usableH = vh - headerH;
   const gw = x1-x0+pad*2, gh = y1-y0+pad*2;
-  const scale = Math.min(vw/gw, vh/gh) * 0.95;
-  const tx = vw/2 - (x0+x1)/2*scale;
-  const ty = vh/2 - (y0+y1)/2*scale;
+  const scale = Math.min(vw/gw, usableH/gh) * 0.95;
+  const cx = vw/2;
+  const cy = headerH + usableH/2;
+  const tx = cx - (x0+x1)/2*scale;
+  const ty = cy - (y0+y1)/2*scale;
   svg.transition().duration(750).call(zoom.transform, d3.zoomIdentity.translate(tx,ty).scale(scale));
 }
 
