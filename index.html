@@ -135,7 +135,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v11.2 / 511 genres / 1045 links</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v11.3 / 511 genres / 1045 links</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
@@ -4477,25 +4477,45 @@ Object.entries(CAT_COLOR).forEach(([cat, color]) => {
     .attr("fill", color)
     .attr("opacity", 0.7);
 });
+// 相互影響用の白い矢印（両端用）
+const defs = svg.append("defs");
+defs.append("marker")
+  .attr("id", "arrow-mutual-end")
+  .attr("viewBox", "0 -4 8 8")
+  .attr("refX", 8).attr("refY", 0)
+  .attr("markerWidth", 5).attr("markerHeight", 5)
+  .attr("orient", "auto")
+  .append("path").attr("d", "M0,-4L8,0L0,4").attr("fill", "#fff").attr("opacity", 0.7);
+defs.append("marker")
+  .attr("id", "arrow-mutual-start")
+  .attr("viewBox", "0 -4 8 8")
+  .attr("refX", 0).attr("refY", 0)
+  .attr("markerWidth", 5).attr("markerHeight", 5)
+  .attr("orient", "auto")
+  .append("path").attr("d", "M8,-4L0,0L8,4").attr("fill", "#fff").attr("opacity", 0.7);
 
 const nodeMap = Object.fromEntries(NODES.map(n => [n.id, n]));
 
-// 双方向リンクの2本目を検出してフラグ付け
-const seenPairs = new Set();
-const linkData = LINKS.map(l => {
-  const rev = l.t + '|' + l.s;
-  const isMutualSecond = seenPairs.has(rev);
-  seenPairs.add(l.s + '|' + l.t);
-  return {...l, source: l.s, target: l.t, mutualSecond: isMutualSecond};
+// 相互リンクを1本に統合（2本目を除去し、1本目にmutualフラグ）
+const pairSet = new Set();
+const mutualPairs = new Set();
+LINKS.forEach(l => {
+  if (pairSet.has(l.t + '|' + l.s)) mutualPairs.add(l.t + '|' + l.s);
+  pairSet.add(l.s + '|' + l.t);
+});
+const linkData = LINKS.filter(l => !mutualPairs.has(l.s + '|' + l.t)).map(l => {
+  const isMutual = mutualPairs.has(l.t + '|' + l.s);
+  return {...l, source: l.s, target: l.t, mutual: isMutual};
 });
 
 // Pre-compute degree for performance
 NODES.forEach(n => { n._degree = 0; });
 linkData.forEach(l => {
+  const inc = l.mutual ? 2 : 1;
   const s = NODES.find(n => n.id === l.s);
   const t = NODES.find(n => n.id === l.t);
-  if (s) s._degree++;
-  if (t) t._degree++;
+  if (s) s._degree += inc;
+  if (t) t._degree += inc;
 });
 
 const simulation = d3.forceSimulation(NODES)
@@ -4513,10 +4533,11 @@ const link = g.append("g").selectAll("line")
   .data(linkData)
   .join("line")
   .attr("class", "link")
-  .attr("stroke", d => CAT_COLOR[nodeMap[d.s]?.cat] || "#555")
-  .attr("stroke-width", d => 4 + d.w / 10)
-  .attr("marker-end", d => `url(#arrow-${nodeMap[d.s]?.cat || "rock"})`)
-  .attr("stroke-dasharray", d => d.mutualSecond ? "15,8" : null);
+  .attr("stroke", d => d.mutual ? "#fff" : (CAT_COLOR[nodeMap[d.s]?.cat] || "#555"))
+  .attr("stroke-width", d => d.mutual ? 6 + d.w / 12 : 4 + d.w / 10)
+  .attr("marker-end", d => d.mutual ? "url(#arrow-mutual-end)" : `url(#arrow-${nodeMap[d.s]?.cat || "rock"})`)
+  .attr("marker-start", d => d.mutual ? "url(#arrow-mutual-start)" : null)
+  .attr("opacity", d => d.mutual ? 0.5 : null);
 
 // edge label group: background rect + text
 const linkLabelG = g.append("g").selectAll("g")
@@ -4534,7 +4555,7 @@ linkLabelG.append("text")
   .attr("class", "link-label")
   .attr("text-anchor", "middle")
   .attr("dominant-baseline", "central")
-  .text(d => d.w + "%");
+  .text(d => d.mutual ? "相互" : d.w + "%");
 
 const node = g.append("g").selectAll("g")
   .data(NODES)
@@ -4652,44 +4673,26 @@ node.on("click", (e, d) => {
     spRootsStorySec.style.display = 'none';
   }
 
-  // ルーツ
-  // 相互影響の検出
-  // このノードに関連するリンクを分類
-  const linkSet = new Set(linkData.map(l => l.s + '|' + l.t));
-  const myIncoming = linkData.filter(l => l.t === d.id);
-  const myOutgoing = linkData.filter(l => l.s === d.id);
-
-  // 相互影響：d.idが両端に関わり、逆方向も存在するペア
-  const mutualTargets = new Set();
-  myOutgoing.forEach(l => {
-    const revKey = l.t + '|' + d.id;
-    if (linkSet.has(revKey)) mutualTargets.add(l.t);
-  });
-  console.log(d.id, 'out:', myOutgoing.length, 'in:', myIncoming.length, 'mutual:', mutualTargets.size, 'linkSet size:', linkSet.size);
-
-  // 影響を受けた（相互除く）
-  const incoming = myIncoming.filter(l => !mutualTargets.has(l.s));
+  // 影響を受けた（一方向のみ）
+  const incoming = linkData.filter(l => l.t === d.id && !l.mutual);
   spIn.innerHTML = incoming.length
     ? incoming.map(l => `<div class="sp-influence-row"><span class="pct">${l.w}%</span><b><a href="#" class="sp-genre-link" data-id="${l.s}" style="color:#7ecfff;text-decoration:none;cursor:pointer;">${nodeMap[l.s]?.label?.replace("\n"," ")}</a></b><span class="reason">— ${l.desc||''}</span></div>`).join('')
     : '<span style="color:#666">なし</span>';
 
-  // 影響を与えた（相互除く）
-  const outgoing = myOutgoing.filter(l => !mutualTargets.has(l.t));
+  // 影響を与えた（一方向のみ）
+  const outgoing = linkData.filter(l => l.s === d.id && !l.mutual);
   spOut.innerHTML = outgoing.length
     ? outgoing.map(l => `<div class="sp-influence-row"><span class="pct">${l.w}%</span><b><a href="#" class="sp-genre-link" data-id="${l.t}" style="color:#7ecfff;text-decoration:none;cursor:pointer;">${nodeMap[l.t]?.label?.replace("\n"," ")}</a></b><span class="reason">— ${l.desc||''}</span></div>`).join('')
     : '<span style="color:#666">なし</span>';
 
   // 相互に影響し合ったジャンル
   const spMutual = document.getElementById("sp-mutual");
-  const mutualLinks = myOutgoing.filter(l => mutualTargets.has(l.t)).map(l => {
-    if (l.desc && !l.desc.includes('↔')) {
-      const rev = linkData.find(l2 => l2.s === l.t && l2.t === d.id && l2.desc && l2.desc.includes('↔'));
-      if (rev) return {...l, desc: rev.desc};
-    }
-    return l;
-  });
+  const mutualLinks = linkData.filter(l => l.mutual && (l.s === d.id || l.t === d.id));
   spMutual.innerHTML = mutualLinks.length
-    ? mutualLinks.map(l => `<div class="sp-influence-row"><b><a href="#" class="sp-genre-link" data-id="${l.t}" style="color:#7ecfff;text-decoration:none;cursor:pointer;">${nodeMap[l.t]?.label?.replace("\n"," ")}</a></b><span class="reason">— ${l.desc||''}</span></div>`).join('')
+    ? mutualLinks.map(l => {
+        const otherId = l.s === d.id ? l.t : l.s;
+        return `<div class="sp-influence-row"><b><a href="#" class="sp-genre-link" data-id="${otherId}" style="color:#7ecfff;text-decoration:none;cursor:pointer;">${nodeMap[otherId]?.label?.replace("\n"," ")}</a></b><span class="reason">— ${l.desc||''}</span></div>`;
+      }).join('')
     : '<span style="color:#666">なし</span>';
 
   // YouTube
@@ -4735,8 +4738,20 @@ svg.on("click", () => {
 
 simulation.on("tick", () => {
   link
-    .attr("x1", d => d.source.x)
-    .attr("y1", d => d.source.y)
+    .attr("x1", d => {
+      if (!d.mutual) return d.source.x;
+      const dx = d.target.x - d.source.x, dy = d.target.y - d.source.y;
+      const dist = Math.sqrt(dx*dx + dy*dy) || 1;
+      const r = d.source.r + 7;
+      return dist > r ? d.source.x + dx/dist * r : d.source.x;
+    })
+    .attr("y1", d => {
+      if (!d.mutual) return d.source.y;
+      const dx = d.target.x - d.source.x, dy = d.target.y - d.source.y;
+      const dist = Math.sqrt(dx*dx + dy*dy) || 1;
+      const r = d.source.r + 7;
+      return dist > r ? d.source.y + dy/dist * r : d.source.y;
+    })
     .attr("x2", d => {
       const dx = d.target.x - d.source.x, dy = d.target.y - d.source.y;
       const dist = Math.sqrt(dx*dx + dy*dy) || 1;
