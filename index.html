@@ -146,11 +146,15 @@ svg { width: 100vw; height: 100vh; }
     z-index: 100; background: rgba(0,0,0,0.4);
     transform: translateX(-100%); transition: transform 0.3s ease;
     padding: 50px 6px 8px;
-    direction: ltr; scrollbar-width: thin;
+    direction: rtl; scrollbar-width: thin;
   }
-  #left-sidebar::-webkit-scrollbar { width: 4px; }
-  #left-sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
+  #left-sidebar > * { direction: ltr; }
+  #left-sidebar::-webkit-scrollbar { width: 3px; }
+  #left-sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 2px; }
   #left-sidebar::-webkit-scrollbar-track { background: transparent; }
+
+  /* ホバーツールチップ非表示（指で隠れるため） */
+  #tooltip { display: none !important; }
   #left-sidebar.open { transform: translateX(0); }
 
   /* 検索ボックスをコンパクトに */
@@ -178,7 +182,7 @@ svg { width: 100vw; height: 100vh; }
   /* 右サイドパネル：下からスライドアップ */
   #side-panel {
     position: fixed; left: 0; right: 0; bottom: 0; top: auto;
-    width: 100% !important; height: 55vh;
+    width: 100% !important; height: 25vh;
     background: rgba(0,0,0,0.75) !important;
     border-left: none; border-top: 1px solid rgba(255,255,255,0.15);
     border-radius: 16px 16px 0 0;
@@ -233,7 +237,7 @@ svg { width: 100vw; height: 100vh; }
   <button id="mobile-menu-btn">☰</button>
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v13.7 / 512 genres / 1045 links</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v13.8 / 512 genres / 1045 links</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
@@ -4833,6 +4837,18 @@ node.on("click", (e, d) => {
   spCopy.onclick = () => { const copyText = d.label.replace('\n',' '); navigator.clipboard.writeText(copyText).then(() => { spCopy.textContent='コピー済み'; setTimeout(()=>spCopy.textContent='コピー', 1500); }); };
 
   openPanel();
+
+  // スマホ：選択ノードを画面中央に移動
+  if (isMobile()) {
+    const headerH = document.getElementById('header').offsetHeight;
+    const panelH = window.innerHeight * 0.25;
+    const cx = window.innerWidth / 2;
+    const cy = headerH + (window.innerHeight - headerH - panelH) / 2;
+    const t = d3.zoomTransform(svg.node());
+    const tx = cx - d.x * t.k;
+    const ty = cy - d.y * t.k;
+    svg.transition().duration(500).call(zoom.transform, d3.zoomIdentity.translate(tx, ty).scale(t.k));
+  }
 });
 
 spClose.onclick = () => closePanel();
