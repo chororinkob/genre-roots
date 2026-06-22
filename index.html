@@ -126,8 +126,8 @@ svg { width: 100vw; height: 100vh; }
 
 /* ===== スマホ対応 (768px以下) ===== */
 @media (max-width: 768px) {
-  /* ヘッダー：2段構成・透過 */
-  #header { flex-wrap: wrap; padding: 6px 10px; gap: 6px; background: rgba(15,15,26,0.6) !important; }
+  /* ヘッダー：2段構成・黒スモーク */
+  #header { flex-wrap: wrap; padding: 6px 10px; gap: 6px; }
   #header h1 { font-size: 13px; }
   #header .sub { display: none; }
   #tab-buttons { margin-left: 0; order: 5; width: 100%; }
@@ -141,7 +141,7 @@ svg { width: 100vw; height: 100vh; }
   /* 左サイドバー：幅を狭くしてコンパクトに */
   #left-sidebar {
     position: fixed; top: 0; left: 0; bottom: 0; width: 150px;
-    z-index: 100; background: rgba(15,15,26,0.65); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    z-index: 100; background: rgba(0,0,0,0.4);
     transform: translateX(-100%); transition: transform 0.3s ease;
     padding: 50px 6px 8px;
   }
@@ -173,13 +173,12 @@ svg { width: 100vw; height: 100vh; }
   #side-panel {
     position: fixed; left: 0; right: 0; bottom: 0; top: auto;
     width: 100% !important; height: 70vh;
-    background: rgba(22,22,42,0.7) !important;
-    border-left: none; border-top: 1px solid #444;
+    background: rgba(0,0,0,0.4) !important;
+    border-left: none; border-top: 1px solid rgba(255,255,255,0.1);
     border-radius: 16px 16px 0 0;
     transform: translateY(100%); transition: transform 0.3s ease;
-    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
   }
-  #sp-header { background: rgba(30,30,56,0.6) !important; }
+  #sp-header { background: rgba(0,0,0,0.85) !important; }
   #side-panel.sp-visible {
     display: block !important; transform: translateY(0);
   }
@@ -228,7 +227,7 @@ svg { width: 100vw; height: 100vh; }
   <button id="mobile-menu-btn">☰</button>
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v13.5 / 512 genres / 1045 links</span>
+  <span style="font-size:10px;color:#666;margin-left:auto;">v13.6 / 512 genres / 1045 links</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
