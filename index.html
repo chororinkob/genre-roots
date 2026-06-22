@@ -127,14 +127,14 @@ svg { width: 100vw; height: 100vh; }
 /* ===== スマホ対応 (768px以下) ===== */
 @media (max-width: 768px) {
   /* ヘッダー：1段コンパクト */
-  #header { flex-wrap: nowrap; padding: 4px 8px; gap: 4px; align-items: center; }
-  #header h1 { font-size: 11px; }
+  #header { flex-wrap: nowrap; padding: 3px 6px; gap: 3px; align-items: center; }
+  #header h1 { font-size: 10px; white-space: nowrap; }
   #header .sub { display: none; }
-  #header > span[style] { display: none; }
-  #tab-buttons { margin-left: 0; display: flex; gap: 2px; }
-  .tab-btn { font-size: 9px; padding: 3px 6px; }
-  #header > div:last-child { gap: 2px; margin-left: auto; }
-  #header > div:last-child button { font-size: 9px; padding: 2px 5px; }
+  #version-info { display: block !important; font-size: 8px !important; color: #888 !important; margin-left: 0 !important; white-space: nowrap; }
+  #tab-buttons { margin-left: 0; display: flex; gap: 1px; }
+  .tab-btn { font-size: 8px; padding: 2px 4px; white-space: nowrap; }
+  #header > div:last-child { gap: 1px; margin-left: auto; }
+  #header > div:last-child button { font-size: 8px !important; padding: 2px 4px !important; white-space: nowrap; }
   #save-layout, #reset-layout { display: none; }
 
   /* ハンバーガーメニューボタン表示 */
@@ -237,10 +237,10 @@ svg { width: 100vw; height: 100vh; }
   <button id="mobile-menu-btn">☰</button>
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span style="font-size:10px;color:#666;margin-left:auto;">v13.8 / 512 genres / 1045 links</span>
+  <span id="version-info" style="font-size:10px;color:#666;margin-left:auto;">v13.9 / 512 genres</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
-    <button class="tab-btn" data-tab="instruments">楽器・効果一覧</button>
+    <button class="tab-btn" data-tab="instruments">楽器・効果</button>
   </div>
   <div style="display:flex;gap:6px;margin-left:auto;">
     <button id="fit-view" style="padding:4px 12px;background:#1565C0;border:1px solid #555;border-radius:5px;color:#fff;font-size:11px;cursor:pointer;">全体表示</button>
