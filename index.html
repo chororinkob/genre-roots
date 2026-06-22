@@ -126,16 +126,18 @@ svg { width: 100vw; height: 100vh; }
 
 /* ===== スマホ対応 (768px以下) ===== */
 @media (max-width: 768px) {
-  /* ヘッダー：コンパクト */
-  #header { flex-wrap: wrap; padding: 3px 6px; gap: 2px 4px; align-items: center; }
-  #header h1 { font-size: 10px; white-space: nowrap; }
+  /* ヘッダー：1行に収める */
+  #header { flex-wrap: nowrap; padding: 2px 4px; gap: 3px; align-items: center; }
+  #header h1 { font-size: 0; width: 0; overflow: hidden; }
   #header .sub { display: none; }
-  #version-info { display: block !important; font-size: 8px !important; color: #888 !important; margin-left: 0 !important; white-space: nowrap; }
-  #tab-buttons { margin-left: 0; display: flex; gap: 1px; }
-  .tab-btn { font-size: 8px; padding: 2px 4px; white-space: nowrap; }
-  #header > div:last-child { gap: 1px; margin-left: auto; }
-  #header > div:last-child button { font-size: 8px !important; padding: 2px 4px !important; white-space: nowrap; }
+  #version-info { display: block !important; font-size: 9px !important; color: #aaa !important; margin-left: 0 !important; white-space: nowrap; }
+  #tab-buttons { margin-left: 0; display: flex; gap: 1px; flex-shrink: 0; }
+  .tab-btn { font-size: 9px; padding: 3px 5px; white-space: nowrap; }
+  #header > div:last-child { gap: 1px; margin-left: auto; flex-shrink: 0; }
+  #header > div:last-child button { font-size: 9px !important; padding: 3px 5px !important; white-space: nowrap; }
   #save-layout, #reset-layout { display: none; }
+  .m-full { display: none !important; }
+  .m-short { display: inline !important; }
 
   /* ハンバーガーメニューボタン表示 */
   #mobile-menu-btn { display: block; }
@@ -234,13 +236,13 @@ svg { width: 100vw; height: 100vh; }
   <button id="mobile-menu-btn">☰</button>
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span id="version-info" style="font-size:10px;color:#666;margin-left:auto;">v14.1 / 512</span>
+  <span id="version-info" style="font-size:10px;color:#666;margin-left:auto;">v14.2 / 512</span>
   <div id="tab-buttons">
-    <button class="tab-btn active" data-tab="map">ルーツマップ</button>
-    <button class="tab-btn" data-tab="instruments">楽器・効果</button>
+    <button class="tab-btn active" data-tab="map"><span class="m-full">ルーツマップ</span><span class="m-short" style="display:none">マップ</span></button>
+    <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器</span></button>
   </div>
   <div style="display:flex;gap:6px;margin-left:auto;">
-    <button id="fit-view" style="padding:4px 12px;background:#1565C0;border:1px solid #555;border-radius:5px;color:#fff;font-size:11px;cursor:pointer;">全体表示</button>
+    <button id="fit-view" style="padding:4px 12px;background:#1565C0;border:1px solid #555;border-radius:5px;color:#fff;font-size:11px;cursor:pointer;"><span class="m-full">全体表示</span><span class="m-short" style="display:none">全体</span></button>
     <button id="save-layout" style="padding:4px 12px;background:#2a2a50;border:1px solid #555;border-radius:5px;color:#ccc;font-size:11px;cursor:pointer;">配置を保存</button>
     <button id="reset-layout" style="padding:4px 12px;background:#2a2a50;border:1px solid #555;border-radius:5px;color:#ccc;font-size:11px;cursor:pointer;">配置リセット</button>
   </div>
@@ -4838,12 +4840,10 @@ node.on("click", (e, d) => {
   // パネルのスクロールを先頭に戻す
   panel.scrollTop = 0;
 
-  // スマホ：選択ノードをパネル上端～画面下端の中央に移動
+  // スマホ：選択ノードを画面中央に移動
   if (isMobile()) {
-    const panelH = window.innerHeight * 0.25;
-    const panelTop = window.innerHeight - panelH;
     const cx = window.innerWidth / 2;
-    const cy = panelTop + (panelH) / 2;
+    const cy = window.innerHeight / 2;
     const t = d3.zoomTransform(svg.node());
     const tx = cx - d.x * t.k;
     const ty = cy - d.y * t.k;
