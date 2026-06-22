@@ -120,15 +120,15 @@ svg { width: 100vw; height: 100vh; }
 #instruments-panel .inst-copy:hover { background: #3a3a70; color: #fff; }
 
 /* ハンバーガーメニューボタン（PC非表示） */
-#mobile-menu-btn { display: none; background: none; border: 1px solid #555; border-radius: 5px; color: #fff; font-size: 20px; padding: 2px 8px; cursor: pointer; line-height: 1; }
+#mobile-menu-btn { display: none; background: none; border: 1px solid #555; border-radius: 3px; color: #fff; font-size: 14px; padding: 1px 4px; cursor: pointer; line-height: 1; }
 /* サイドバーオーバーレイ背景（PC非表示） */
 #sidebar-overlay { display: none; }
 
 /* ===== スマホ対応 (768px以下) ===== */
 @media (max-width: 768px) {
   /* ヘッダー：1段コンパクト */
-  #header { flex-wrap: nowrap; padding: 3px 6px; gap: 3px; align-items: center; }
-  #header h1 { font-size: 10px; white-space: nowrap; }
+  #header { flex-wrap: nowrap; padding: 3px 4px; gap: 2px; align-items: center; overflow-x: auto; }
+  #header h1 { font-size: 9px; white-space: nowrap; }
   #header .sub { display: none; }
   #version-info { display: block !important; font-size: 8px !important; color: #888 !important; margin-left: 0 !important; white-space: nowrap; }
   #tab-buttons { margin-left: 0; display: flex; gap: 1px; }
@@ -146,12 +146,9 @@ svg { width: 100vw; height: 100vh; }
     z-index: 100; background: rgba(0,0,0,0.4);
     transform: translateX(-100%); transition: transform 0.3s ease;
     padding: 50px 6px 8px;
-    direction: rtl; scrollbar-width: thin;
+    scrollbar-width: none; -ms-overflow-style: none;
   }
-  #left-sidebar > * { direction: ltr; }
-  #left-sidebar::-webkit-scrollbar { width: 3px; }
-  #left-sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 2px; }
-  #left-sidebar::-webkit-scrollbar-track { background: transparent; }
+  #left-sidebar::-webkit-scrollbar { display: none; }
 
   /* ホバーツールチップ非表示（指で隠れるため） */
   #tooltip { display: none !important; }
@@ -181,12 +178,12 @@ svg { width: 100vw; height: 100vh; }
 
   /* 右サイドパネル：下からスライドアップ */
   #side-panel {
-    position: fixed; left: 0; right: 0; bottom: 0; top: auto;
-    width: 100% !important; height: 25vh;
+    position: fixed; left: 6px; right: 6px; bottom: 6px; top: auto;
+    width: auto !important; height: 25vh;
     background: rgba(0,0,0,0.75) !important;
-    border-left: none; border-top: 1px solid rgba(255,255,255,0.15);
-    border-radius: 16px 16px 0 0;
-    transform: translateY(100%); transition: transform 0.3s ease;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 16px;
+    transform: translateY(calc(100% + 6px)); transition: transform 0.3s ease;
   }
   #sp-header { background: rgba(0,0,0,0.9) !important; }
   #side-panel.sp-visible {
@@ -237,7 +234,7 @@ svg { width: 100vw; height: 100vh; }
   <button id="mobile-menu-btn">☰</button>
   <h1>音楽ジャンルルーツ辞典</h1>
   <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span id="version-info" style="font-size:10px;color:#666;margin-left:auto;">v13.9 / 512 genres</span>
+  <span id="version-info" style="font-size:10px;color:#666;margin-left:auto;">v14.0 / 512</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map">ルーツマップ</button>
     <button class="tab-btn" data-tab="instruments">楽器・効果</button>
@@ -4838,12 +4835,15 @@ node.on("click", (e, d) => {
 
   openPanel();
 
-  // スマホ：選択ノードを画面中央に移動
+  // パネルのスクロールを先頭に戻す
+  panel.scrollTop = 0;
+
+  // スマホ：選択ノードをパネル上端～画面下端の中央に移動
   if (isMobile()) {
-    const headerH = document.getElementById('header').offsetHeight;
     const panelH = window.innerHeight * 0.25;
+    const panelTop = window.innerHeight - panelH;
     const cx = window.innerWidth / 2;
-    const cy = headerH + (window.innerHeight - headerH - panelH) / 2;
+    const cy = panelTop + (panelH) / 2;
     const t = d3.zoomTransform(svg.node());
     const tx = cx - d.x * t.k;
     const ty = cy - d.y * t.k;
