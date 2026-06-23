@@ -11,7 +11,7 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
 
 #header { position: fixed; top: 0; left: 0; right: 0; z-index: 20; background: rgba(0,0,0,0.3); padding: 10px 16px; display: flex; align-items: center; gap: 16px; border-bottom: none; }
 #header h1 { font-size: 15px; font-weight: 700; color: #fff; white-space: nowrap; }
-#header .sub { font-size: 12px; color: #888; }
+#version-info { margin-right: 16px; }
 
 #left-sidebar { position: fixed; top: 50px; left: 14px; bottom: 10px; z-index: 20; width: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; direction: rtl; }
 #left-sidebar > * { direction: ltr; }
@@ -128,9 +128,8 @@ svg { width: 100vw; height: 100vh; }
 @media (max-width: 768px) {
   /* ヘッダー：1行に収める */
   #header { flex-wrap: nowrap; padding: 2px 4px; gap: 3px; align-items: center; }
-  #header h1 { font-size: 0; width: 0; overflow: hidden; }
-  #header .sub { display: none; }
-  #version-info { display: block !important; font-size: 9px !important; color: #aaa !important; margin-left: 0 !important; white-space: nowrap; }
+  #header h1 { font-size: 10px; white-space: nowrap; }
+  #version-info { display: block !important; font-size: 8px !important; color: #888 !important; margin-left: 4px !important; margin-right: auto !important; white-space: nowrap; }
   #tab-buttons { margin-left: 0; display: flex; gap: 1px; flex-shrink: 0; }
   .tab-btn { font-size: 9px; padding: 3px 5px; white-space: nowrap; }
   #header > div:last-child { gap: 1px; margin-left: auto; flex-shrink: 0; }
@@ -234,12 +233,11 @@ svg { width: 100vw; height: 100vh; }
 
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
-  <h1>音楽ジャンルルーツ辞典</h1>
-  <span class="sub">ノードをドラッグ ／ スクロールでズーム ／ ホバーで詳細</span>
-  <span id="version-info" style="font-size:10px;color:#666;margin-left:auto;">v14.2 / 512</span>
+  <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
+  <span id="version-info" style="font-size:10px;color:#666;">v14.3 / 512</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ルーツマップ</span><span class="m-short" style="display:none">マップ</span></button>
-    <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器</span></button>
+    <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
   </div>
   <div style="display:flex;gap:6px;margin-left:auto;">
     <button id="fit-view" style="padding:4px 12px;background:#1565C0;border:1px solid #555;border-radius:5px;color:#fff;font-size:11px;cursor:pointer;"><span class="m-full">全体表示</span><span class="m-short" style="display:none">全体</span></button>
