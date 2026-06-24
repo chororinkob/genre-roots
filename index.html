@@ -240,7 +240,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info" style="font-size:10px;color:#666;">v15.2 / 512</span>
+  <span id="version-info" style="font-size:10px;color:#666;">v15.3 / 512</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ルーツマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -4024,15 +4024,7 @@ const LINKS = [
   {s:"minimal_techno",t:"progressive_techno",w:40,desc:"ミニマルな反復性の影響"}
 ];
 
-// ===== ROOTS POLYGON LAYOUT =====
-const MAJOR_IDS = ["jazz","blues","rock","funk","disco","soul","reggae","hiphop","classical","newage","rock_n_roll"];
-const polyRadius = 5000;
-const cx = window.innerWidth/2, cy = window.innerHeight/2;
-MAJOR_IDS.forEach((id, i) => {
-  const angle = (i / MAJOR_IDS.length) * 2 * Math.PI - Math.PI/2;
-  const n = NODES.find(n => n.id === id);
-  if (n) { n.fx = cx + polyRadius * Math.cos(angle); n.fy = cy + polyRadius * Math.sin(angle); }
-});
+// ===== ROOTS POLYGON LAYOUT（無効化：全ノード自由配置） =====
 
 // ===== SUNO OVERRIDES FROM LOCALSTORAGE =====
 const sunoOverrides = JSON.parse(localStorage.getItem('suno_overrides') || '{}');
