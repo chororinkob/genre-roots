@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
 <title>音楽ジャンルルーツ辞典</title>
 <script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; background: #1a1a2e; color: #eee; overflow: hidden; }
@@ -99,6 +100,10 @@ svg { width: 100vw; height: 100vh; }
 
 /* 3Dマップ */
 #3d-container canvas { width: 100% !important; height: 100% !important; }
+
+/* 地球儀モード */
+#globe-container { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 5; display: none; }
+#globe-container canvas { width: 100% !important; height: 100% !important; }
 
 /* タブ切り替え */
 .tab-btn { padding: 6px 16px; border: 1px solid #555; border-radius: 6px 6px 0 0; background: #1a1a2e; color: #aaa; font-size: 13px; cursor: pointer; border-bottom: none; }
@@ -234,12 +239,13 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info" style="font-size:10px;color:#666;">v14.8 / 512</span>
+  <span id="version-info" style="font-size:10px;color:#666;">v15.0 / 512</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ルーツマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
   </div>
   <div style="display:flex;gap:6px;margin-left:auto;">
+    <button id="globe-toggle" style="padding:4px 12px;background:#00695C;border:1px solid #555;border-radius:5px;color:#fff;font-size:11px;cursor:pointer;" title="地球儀モード">🌐</button>
     <button id="fit-view" style="padding:4px 12px;background:#1565C0;border:1px solid #555;border-radius:5px;color:#fff;font-size:11px;cursor:pointer;"><span class="m-full">全体表示</span><span class="m-short" style="display:none">全体</span></button>
     <button id="save-layout" style="padding:4px 12px;background:#2a2a50;border:1px solid #555;border-radius:5px;color:#ccc;font-size:11px;cursor:pointer;">配置を保存</button>
     <button id="reset-layout" style="padding:4px 12px;background:#2a2a50;border:1px solid #555;border-radius:5px;color:#ccc;font-size:11px;cursor:pointer;">配置リセット</button>
@@ -336,6 +342,7 @@ svg { width: 100vw; height: 100vh; }
 </div>
 <div id="sidebar-overlay"></div>
 <div id="tooltip"></div>
+<div id="globe-container"></div>
 <div id="instruments-panel"></div>
 <svg id="graph"></svg>
 
@@ -5387,6 +5394,164 @@ sidebarOverlay.addEventListener('click', () => {
 if (window.innerWidth <= 768) {
   document.getElementById('search').placeholder = 'ジャンル検索';
 }
+
+// ===== 地球儀モード =====
+let globeActive = false;
+let globeScene, globeCamera, globeRenderer, globeControls;
+let globeNodeMeshes = [];
+let globeRAF = null;
+
+function initGlobe() {
+  const container = document.getElementById('globe-container');
+  const W = window.innerWidth, H = window.innerHeight;
+
+  globeScene = new THREE.Scene();
+  globeCamera = new THREE.PerspectiveCamera(60, W / H, 1, 10000);
+  globeCamera.position.set(0, 0, 800);
+
+  globeRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  globeRenderer.setSize(W, H);
+  globeRenderer.setPixelRatio(window.devicePixelRatio);
+  globeRenderer.setClearColor(0x0a0a1e, 1);
+  container.appendChild(globeRenderer.domElement);
+
+  // 環境光
+  globeScene.add(new THREE.AmbientLight(0xffffff, 0.6));
+  const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+  dirLight.position.set(500, 300, 500);
+  globeScene.add(dirLight);
+
+  // ワイヤーフレーム球体（地球儀の骨格）
+  const sphereGeo = new THREE.SphereGeometry(300, 48, 48);
+  const sphereMat = new THREE.MeshBasicMaterial({ color: 0x1a1a3e, wireframe: true, transparent: true, opacity: 0.08 });
+  globeScene.add(new THREE.Mesh(sphereGeo, sphereMat));
+
+  // ノード位置を球面にマッピング
+  const R = 300;
+  let xMin = Infinity, xMax = -Infinity, yMin = Infinity, yMax = -Infinity;
+  NODES.forEach(n => {
+    if (n.x < xMin) xMin = n.x;
+    if (n.x > xMax) xMax = n.x;
+    if (n.y < yMin) yMin = n.y;
+    if (n.y > yMax) yMax = n.y;
+  });
+  const xRange = xMax - xMin || 1;
+  const yRange = yMax - yMin || 1;
+
+  NODES.forEach(n => {
+    const phi = ((n.x - xMin) / xRange) * Math.PI * 2 - Math.PI;
+    const theta = ((n.y - yMin) / yRange) * Math.PI * 0.85 + Math.PI * 0.075;
+    const sx = R * Math.sin(theta) * Math.cos(phi);
+    const sy = R * Math.cos(theta);
+    const sz = R * Math.sin(theta) * Math.sin(phi);
+
+    const size = Math.max(2, n.r * 0.15);
+    const geo = new THREE.SphereGeometry(size, 8, 8);
+    const color = CAT_COLOR[n.cat] || '#888';
+    const mat = new THREE.MeshPhongMaterial({ color: color, emissive: color, emissiveIntensity: 0.3 });
+    const mesh = new THREE.Mesh(geo, mat);
+    mesh.position.set(sx, sy, sz);
+    mesh.userData = { id: n.id, label: n.label, cat: n.cat };
+    globeScene.add(mesh);
+    globeNodeMeshes.push(mesh);
+    n._gx = sx; n._gy = sy; n._gz = sz;
+  });
+
+  // リンクを描画
+  const linkMat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.08 });
+  const mutualLinkMat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.15 });
+  LINKS.forEach(l => {
+    const sn = NODES.find(n => n.id === l.s);
+    const tn = NODES.find(n => n.id === l.t);
+    if (!sn || !tn || !sn._gx || !tn._gx) return;
+    const geo = new THREE.BufferGeometry().setFromPoints([
+      new THREE.Vector3(sn._gx, sn._gy, sn._gz),
+      new THREE.Vector3(tn._gx, tn._gy, tn._gz)
+    ]);
+    globeScene.add(new THREE.Line(geo, linkMat));
+  });
+
+  // OrbitControls（簡易ドラッグ回転）
+  let isDragging = false, prevX = 0, prevY = 0;
+  const pivot = new THREE.Group();
+  globeScene.add(pivot);
+  // ノードとリンクをpivotの子にする代わりに、シーン全体を回転
+  container.addEventListener('pointerdown', e => { isDragging = true; prevX = e.clientX; prevY = e.clientY; });
+  container.addEventListener('pointermove', e => {
+    if (!isDragging) return;
+    const dx = e.clientX - prevX, dy = e.clientY - prevY;
+    globeScene.rotation.y += dx * 0.005;
+    globeScene.rotation.x += dy * 0.005;
+    globeScene.rotation.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, globeScene.rotation.x));
+    prevX = e.clientX; prevY = e.clientY;
+  });
+  container.addEventListener('pointerup', () => isDragging = false);
+  container.addEventListener('pointerleave', () => isDragging = false);
+
+  // ズーム
+  container.addEventListener('wheel', e => {
+    e.preventDefault();
+    globeCamera.position.z = Math.max(200, Math.min(2000, globeCamera.position.z + e.deltaY * 0.5));
+  }, { passive: false });
+
+  // ピンチズーム
+  let pinchDist = 0;
+  container.addEventListener('touchstart', e => {
+    if (e.touches.length === 2) {
+      const dx = e.touches[0].clientX - e.touches[1].clientX;
+      const dy = e.touches[0].clientY - e.touches[1].clientY;
+      pinchDist = Math.sqrt(dx * dx + dy * dy);
+    }
+  });
+  container.addEventListener('touchmove', e => {
+    if (e.touches.length === 2) {
+      const dx = e.touches[0].clientX - e.touches[1].clientX;
+      const dy = e.touches[0].clientY - e.touches[1].clientY;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const delta = pinchDist - dist;
+      globeCamera.position.z = Math.max(200, Math.min(2000, globeCamera.position.z + delta * 2));
+      pinchDist = dist;
+    }
+  });
+
+  // 自動回転
+  function animate() {
+    globeRAF = requestAnimationFrame(animate);
+    if (!isDragging) globeScene.rotation.y += 0.001;
+    globeRenderer.render(globeScene, globeCamera);
+  }
+  animate();
+
+  // リサイズ対応
+  window.addEventListener('resize', () => {
+    if (!globeActive) return;
+    const w = window.innerWidth, h = window.innerHeight;
+    globeCamera.aspect = w / h;
+    globeCamera.updateProjectionMatrix();
+    globeRenderer.setSize(w, h);
+  });
+}
+
+document.getElementById('globe-toggle').addEventListener('click', () => {
+  globeActive = !globeActive;
+  const container = document.getElementById('globe-container');
+  const svgEl = document.getElementById('graph');
+  const btn = document.getElementById('globe-toggle');
+
+  if (globeActive) {
+    container.style.display = 'block';
+    svgEl.style.display = 'none';
+    btn.style.background = '#00897B';
+    btn.title = '2Dマップに戻る';
+    if (!globeScene) initGlobe();
+  } else {
+    container.style.display = 'none';
+    svgEl.style.display = '';
+    btn.style.background = '#00695C';
+    btn.title = '地球儀モード';
+    if (globeRAF) { cancelAnimationFrame(globeRAF); globeRAF = null; }
+  }
+});
 </script>
 </body>
 </html>
