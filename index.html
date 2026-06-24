@@ -5395,94 +5395,206 @@ if (window.innerWidth <= 768) {
   document.getElementById('search').placeholder = 'ジャンル検索';
 }
 
-// ===== 地球儀モード =====
+// ===== 地球儀モード（カテゴリ発祥地マップ） =====
 let globeActive = false;
-let globeScene, globeCamera, globeRenderer, globeControls;
-let globeNodeMeshes = [];
+let globeScene, globeCamera, globeRenderer;
 let globeRAF = null;
+
+const CAT_ORIGINS = {
+  blues_sub:     { lat: 33, lng: -90, name: 'ブルース系' },
+  jazz_sub:      { lat: 30, lng: -90, name: 'ジャズ系' },
+  country_folk:  { lat: 36, lng: -86, name: 'カントリー/フォーク' },
+  pop:           { lat: 40, lng: -74, name: 'ポップス系' },
+  soul_cat:      { lat: 35, lng: -90, name: 'R&B/ソウル系' },
+  early_elec:    { lat: 50, lng: 10, name: '初期電子音楽' },
+  rock:          { lat: 38, lng: -85, name: 'ロック系' },
+  funk_cat:      { lat: 39, lng: -84, name: 'ファンク系' },
+  metal:         { lat: 52, lng: -2, name: 'メタル系' },
+  disco_cat:     { lat: 41, lng: -74, name: 'ディスコ系' },
+  hiphop:        { lat: 41, lng: -74, name: 'ヒップホップ系' },
+  ambient:       { lat: 52, lng: 0, name: 'アンビエント系' },
+  industrial:    { lat: 53, lng: -1, name: 'インダストリアル系' },
+  synthpop:      { lat: 51, lng: 0, name: 'シンセポップ系' },
+  eurodance:     { lat: 52, lng: 10, name: 'ユーロダンス系' },
+  house:         { lat: 42, lng: -88, name: 'ハウス系' },
+  techno:        { lat: 42, lng: -83, name: 'テクノ系' },
+  trance:        { lat: 52, lng: 13, name: 'トランス系' },
+  hardcore:      { lat: 52, lng: 5, name: 'ハードコア系' },
+  dnb:           { lat: 51, lng: 0, name: 'DnB系' },
+  dubstep:       { lat: 51, lng: -1, name: 'ダブステップ系' },
+  edm:           { lat: 34, lng: -118, name: 'EDM系' },
+  synthwave:     { lat: 49, lng: 2, name: 'シンセウェーブ系' },
+  chiptune:      { lat: 36, lng: 140, name: 'チップチューン' },
+  classical_sub: { lat: 48, lng: 12, name: 'クラシック系' },
+  latin:         { lat: 19, lng: -99, name: 'ラテン系' },
+  caribbean:     { lat: 18, lng: -72, name: 'カリブ系' },
+  african:       { lat: 7, lng: 3, name: 'アフリカ系' },
+  middle_east:   { lat: 30, lng: 45, name: '中東系' },
+  south_asian:   { lat: 20, lng: 78, name: '南アジア系' },
+  east_asian:    { lat: 36, lng: 128, name: '東アジア系' }
+};
+
+function latLngToXYZ(lat, lng, R) {
+  const phi = (90 - lat) * Math.PI / 180;
+  const theta = (lng + 180) * Math.PI / 180;
+  return {
+    x: -R * Math.sin(phi) * Math.cos(theta),
+    y: R * Math.cos(phi),
+    z: R * Math.sin(phi) * Math.sin(theta)
+  };
+}
 
 function initGlobe() {
   const container = document.getElementById('globe-container');
   const W = window.innerWidth, H = window.innerHeight;
+  const R = 250;
 
   globeScene = new THREE.Scene();
-  globeCamera = new THREE.PerspectiveCamera(60, W / H, 1, 10000);
-  globeCamera.position.set(0, 0, 800);
+  globeCamera = new THREE.PerspectiveCamera(55, W / H, 1, 5000);
+  globeCamera.position.set(0, 100, 700);
+  globeCamera.lookAt(0, 0, 0);
 
-  globeRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  globeRenderer = new THREE.WebGLRenderer({ antialias: true });
   globeRenderer.setSize(W, H);
-  globeRenderer.setPixelRatio(window.devicePixelRatio);
-  globeRenderer.setClearColor(0x0a0a1e, 1);
+  globeRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  globeRenderer.setClearColor(0x080818, 1);
   container.appendChild(globeRenderer.domElement);
 
-  // 環境光
-  globeScene.add(new THREE.AmbientLight(0xffffff, 0.6));
-  const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
-  dirLight.position.set(500, 300, 500);
-  globeScene.add(dirLight);
+  globeScene.add(new THREE.AmbientLight(0xffffff, 0.4));
+  const dl = new THREE.DirectionalLight(0x4488ff, 0.6);
+  dl.position.set(300, 200, 400);
+  globeScene.add(dl);
 
-  // ワイヤーフレーム球体（地球儀の骨格）
-  const sphereGeo = new THREE.SphereGeometry(300, 48, 48);
-  const sphereMat = new THREE.MeshBasicMaterial({ color: 0x1a1a3e, wireframe: true, transparent: true, opacity: 0.08 });
-  globeScene.add(new THREE.Mesh(sphereGeo, sphereMat));
-
-  // ノード位置を球面にマッピング
-  const R = 300;
-  let xMin = Infinity, xMax = -Infinity, yMin = Infinity, yMax = -Infinity;
-  NODES.forEach(n => {
-    if (n.x < xMin) xMin = n.x;
-    if (n.x > xMax) xMax = n.x;
-    if (n.y < yMin) yMin = n.y;
-    if (n.y > yMax) yMax = n.y;
+  // 地球儀本体（半透明の球）
+  const earthGeo = new THREE.SphereGeometry(R, 64, 64);
+  const earthMat = new THREE.MeshPhongMaterial({
+    color: 0x0a1628, emissive: 0x0a1628, emissiveIntensity: 0.3,
+    transparent: true, opacity: 0.85, shininess: 30
   });
-  const xRange = xMax - xMin || 1;
-  const yRange = yMax - yMin || 1;
+  globeScene.add(new THREE.Mesh(earthGeo, earthMat));
 
-  NODES.forEach(n => {
-    const phi = ((n.x - xMin) / xRange) * Math.PI * 2 - Math.PI;
-    const theta = ((n.y - yMin) / yRange) * Math.PI * 0.85 + Math.PI * 0.075;
-    const sx = R * Math.sin(theta) * Math.cos(phi);
-    const sy = R * Math.cos(theta);
-    const sz = R * Math.sin(theta) * Math.sin(phi);
+  // 経緯線
+  const gridMat = new THREE.LineBasicMaterial({ color: 0x1a3a5c, transparent: true, opacity: 0.2 });
+  for (let lat = -60; lat <= 60; lat += 30) {
+    const pts = [];
+    for (let lng = 0; lng <= 360; lng += 5) {
+      const p = latLngToXYZ(lat, lng - 180, R + 1);
+      pts.push(new THREE.Vector3(p.x, p.y, p.z));
+    }
+    globeScene.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), gridMat));
+  }
+  for (let lng = -180; lng < 180; lng += 30) {
+    const pts = [];
+    for (let lat = -90; lat <= 90; lat += 5) {
+      const p = latLngToXYZ(lat, lng, R + 1);
+      pts.push(new THREE.Vector3(p.x, p.y, p.z));
+    }
+    globeScene.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), gridMat));
+  }
 
-    const size = Math.max(2, n.r * 0.15);
-    const geo = new THREE.SphereGeometry(size, 8, 8);
-    const color = CAT_COLOR[n.cat] || '#888';
-    const mat = new THREE.MeshPhongMaterial({ color: color, emissive: color, emissiveIntensity: 0.3 });
-    const mesh = new THREE.Mesh(geo, mat);
-    mesh.position.set(sx, sy, sz);
-    mesh.userData = { id: n.id, label: n.label, cat: n.cat };
-    globeScene.add(mesh);
-    globeNodeMeshes.push(mesh);
-    n._gx = sx; n._gy = sy; n._gz = sz;
+  // カテゴリの数を数える
+  const catCount = {};
+  NODES.forEach(n => { catCount[n.cat] = (catCount[n.cat] || 0) + 1; });
+
+  // カテゴリ円を配置（平たい円＝Sprite）
+  const pivot = new THREE.Group();
+  globeScene.add(pivot);
+
+  function makeCircleTexture(color, size) {
+    const canvas = document.createElement('canvas');
+    canvas.width = canvas.height = 128;
+    const ctx = canvas.getContext('2d');
+    const gradient = ctx.createRadialGradient(64, 64, 0, 64, 64, 64);
+    gradient.addColorStop(0, color);
+    gradient.addColorStop(0.6, color);
+    gradient.addColorStop(0.8, color.replace(')', ',0.4)').replace('rgb', 'rgba'));
+    gradient.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, 128, 128);
+    return new THREE.CanvasTexture(canvas);
+  }
+
+  function hexToRgb(hex) {
+    const r = parseInt(hex.slice(1,3), 16);
+    const g = parseInt(hex.slice(3,5), 16);
+    const b = parseInt(hex.slice(5,7), 16);
+    return `rgb(${r},${g},${b})`;
+  }
+
+  Object.entries(CAT_ORIGINS).forEach(([cat, info]) => {
+    const count = catCount[cat] || 1;
+    const color = CAT_COLOR[cat] || '#888';
+    const pos = latLngToXYZ(info.lat, info.lng, R + 3);
+
+    // 平たい円（Sprite）
+    const tex = makeCircleTexture(hexToRgb(color), count);
+    const spriteMat = new THREE.SpriteMaterial({ map: tex, transparent: true, opacity: 0.8, depthWrite: false });
+    const sprite = new THREE.Sprite(spriteMat);
+    const scale = 15 + Math.sqrt(count) * 12;
+    sprite.scale.set(scale, scale, 1);
+    sprite.position.set(pos.x, pos.y, pos.z);
+    sprite.userData = { cat: cat, name: info.name, count: count };
+    pivot.add(sprite);
+
+    // ラベル
+    const labelCanvas = document.createElement('canvas');
+    labelCanvas.width = 256; labelCanvas.height = 48;
+    const lctx = labelCanvas.getContext('2d');
+    lctx.font = 'bold 22px sans-serif';
+    lctx.fillStyle = '#ffffff';
+    lctx.textAlign = 'center';
+    lctx.fillText(info.name, 128, 30);
+    const labelTex = new THREE.CanvasTexture(labelCanvas);
+    const labelMat = new THREE.SpriteMaterial({ map: labelTex, transparent: true, opacity: 0.9, depthWrite: false });
+    const labelSprite = new THREE.Sprite(labelMat);
+    labelSprite.scale.set(60, 12, 1);
+    labelSprite.position.set(pos.x, pos.y + scale * 0.6 + 8, pos.z);
+    pivot.add(labelSprite);
   });
 
-  // リンクを描画
-  const linkMat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.08 });
-  const mutualLinkMat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.15 });
+  // カテゴリ間リンク（影響関係があるカテゴリ同士を弧で結ぶ）
+  const catLinks = new Set();
   LINKS.forEach(l => {
     const sn = NODES.find(n => n.id === l.s);
     const tn = NODES.find(n => n.id === l.t);
-    if (!sn || !tn || !sn._gx || !tn._gx) return;
-    const geo = new THREE.BufferGeometry().setFromPoints([
-      new THREE.Vector3(sn._gx, sn._gy, sn._gz),
-      new THREE.Vector3(tn._gx, tn._gy, tn._gz)
-    ]);
-    globeScene.add(new THREE.Line(geo, linkMat));
+    if (sn && tn && sn.cat !== tn.cat) {
+      const key = [sn.cat, tn.cat].sort().join('|');
+      catLinks.add(key);
+    }
   });
 
-  // OrbitControls（簡易ドラッグ回転）
+  const arcMat = new THREE.LineBasicMaterial({ color: 0x88ccff, transparent: true, opacity: 0.12 });
+  catLinks.forEach(key => {
+    const [c1, c2] = key.split('|');
+    const o1 = CAT_ORIGINS[c1], o2 = CAT_ORIGINS[c2];
+    if (!o1 || !o2) return;
+    const p1 = latLngToXYZ(o1.lat, o1.lng, R + 5);
+    const p2 = latLngToXYZ(o2.lat, o2.lng, R + 5);
+    // 弧を描く（中間点を球面の外側に膨らませる）
+    const mid = { x: (p1.x + p2.x) / 2, y: (p1.y + p2.y) / 2, z: (p1.z + p2.z) / 2 };
+    const midLen = Math.sqrt(mid.x * mid.x + mid.y * mid.y + mid.z * mid.z) || 1;
+    const arcH = R * 1.3;
+    mid.x = mid.x / midLen * arcH;
+    mid.y = mid.y / midLen * arcH;
+    mid.z = mid.z / midLen * arcH;
+    const curve = new THREE.QuadraticBezierCurve3(
+      new THREE.Vector3(p1.x, p1.y, p1.z),
+      new THREE.Vector3(mid.x, mid.y, mid.z),
+      new THREE.Vector3(p2.x, p2.y, p2.z)
+    );
+    const pts = curve.getPoints(20);
+    pivot.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), arcMat));
+  });
+
+  // ドラッグ回転
   let isDragging = false, prevX = 0, prevY = 0;
-  const pivot = new THREE.Group();
-  globeScene.add(pivot);
-  // ノードとリンクをpivotの子にする代わりに、シーン全体を回転
   container.addEventListener('pointerdown', e => { isDragging = true; prevX = e.clientX; prevY = e.clientY; });
   container.addEventListener('pointermove', e => {
     if (!isDragging) return;
     const dx = e.clientX - prevX, dy = e.clientY - prevY;
-    globeScene.rotation.y += dx * 0.005;
-    globeScene.rotation.x += dy * 0.005;
-    globeScene.rotation.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, globeScene.rotation.x));
+    pivot.rotation.y += dx * 0.005;
+    pivot.rotation.x += dy * 0.005;
+    pivot.rotation.x = Math.max(-1.2, Math.min(1.2, pivot.rotation.x));
     prevX = e.clientX; prevY = e.clientY;
   });
   container.addEventListener('pointerup', () => isDragging = false);
@@ -5491,10 +5603,8 @@ function initGlobe() {
   // ズーム
   container.addEventListener('wheel', e => {
     e.preventDefault();
-    globeCamera.position.z = Math.max(200, Math.min(2000, globeCamera.position.z + e.deltaY * 0.5));
+    globeCamera.position.z = Math.max(300, Math.min(1500, globeCamera.position.z + e.deltaY * 0.5));
   }, { passive: false });
-
-  // ピンチズーム
   let pinchDist = 0;
   container.addEventListener('touchstart', e => {
     if (e.touches.length === 2) {
@@ -5508,27 +5618,24 @@ function initGlobe() {
       const dx = e.touches[0].clientX - e.touches[1].clientX;
       const dy = e.touches[0].clientY - e.touches[1].clientY;
       const dist = Math.sqrt(dx * dx + dy * dy);
-      const delta = pinchDist - dist;
-      globeCamera.position.z = Math.max(200, Math.min(2000, globeCamera.position.z + delta * 2));
+      globeCamera.position.z = Math.max(300, Math.min(1500, globeCamera.position.z + (pinchDist - dist) * 2));
       pinchDist = dist;
     }
   });
 
-  // 自動回転
+  // 自動回転 + 描画
   function animate() {
     globeRAF = requestAnimationFrame(animate);
-    if (!isDragging) globeScene.rotation.y += 0.001;
+    if (!isDragging) pivot.rotation.y += 0.002;
     globeRenderer.render(globeScene, globeCamera);
   }
   animate();
 
-  // リサイズ対応
   window.addEventListener('resize', () => {
     if (!globeActive) return;
-    const w = window.innerWidth, h = window.innerHeight;
-    globeCamera.aspect = w / h;
+    globeCamera.aspect = window.innerWidth / window.innerHeight;
     globeCamera.updateProjectionMatrix();
-    globeRenderer.setSize(w, h);
+    globeRenderer.setSize(window.innerWidth, window.innerHeight);
   });
 }
 
