@@ -56,14 +56,16 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
 #sp-yt-link:hover { background: #e60000; }
 
 svg { width: 100vw; height: 100vh; }
-.link { stroke-opacity: 0.45; fill: none; }
+.link { stroke-opacity: 0; fill: none; }
 .link:hover { stroke-opacity: 0.9; }
+.link.focus-highlight { stroke-opacity: 0.7 !important; }
 .node circle { cursor: pointer; stroke-width: 2; }
 .node circle.suno { stroke: #FFD700; stroke-width: 15; }
 .node text { pointer-events: none; font-size: 11px; fill: #eee; text-anchor: middle; dominant-baseline: central; }
 .node.highlighted circle { stroke: #fff !important; stroke-width: 3 !important; }
-.link-label { font-size: 60px; fill: #fff; pointer-events: none; font-weight: 700; }
-.link-label-bg { fill: rgba(26,26,46,0.82); pointer-events: none; }
+.link-label { font-size: 60px; fill: #fff; pointer-events: none; font-weight: 700; opacity: 0; }
+.link-label-bg { fill: rgba(26,26,46,0.82); pointer-events: none; opacity: 0; }
+.link-label-group.focus-highlight .link-label, .link-label-group.focus-highlight .link-label-bg { opacity: 1; }
 
 /* 共通発光アニメーション（白） */
 @keyframes glow-white {
@@ -239,7 +241,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info" style="font-size:10px;color:#666;">v15.0 / 512</span>
+  <span id="version-info" style="font-size:10px;color:#666;">v15.1 / 512</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ルーツマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -4639,14 +4641,14 @@ linkData.forEach(l => {
 });
 
 const simulation = d3.forceSimulation(NODES)
-  .force("link", d3.forceLink(linkData).id(d=>d.id).distance(d => 1300 - d.w * 2.0).strength(0.12))
+  .force("link", d3.forceLink(linkData).id(d=>d.id).distance(d => 800 - d.w * 1.5).strength(0.15))
   .force("charge", d3.forceManyBody().strength(d => {
-    return -6000 - (d._degree || 0) * 1500;
-  }).distanceMax(2500))
+    return -3000 - (d._degree || 0) * 800;
+  }).distanceMax(1800))
   .force("center", d3.forceCenter(w/2, h/2))
-  .force("collision", d3.forceCollide(d => d.r + 160).iterations(2))
-  .force("x", d3.forceX(w/2).strength(d => d.fx != null ? 0 : 0.015))
-  .force("y", d3.forceY(h/2).strength(d => d.fx != null ? 0 : 0.015))
+  .force("collision", d3.forceCollide(d => d.r + 80).iterations(2))
+  .force("x", d3.forceX(w/2).strength(d => d.fx != null ? 0 : 0.03))
+  .force("y", d3.forceY(h/2).strength(d => d.fx != null ? 0 : 0.03))
   .alphaDecay(0.05);
 
 const link = g.append("g").selectAll("line")
