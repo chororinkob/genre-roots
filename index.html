@@ -240,7 +240,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info" style="font-size:10px;color:#666;">v15.5 / 512</span>
+  <span id="version-info" style="font-size:10px;color:#666;">v15.6 / 512</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ルーツマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -4686,17 +4686,26 @@ node.append("circle")
   .attr("class", d => d.suno ? "suno" : "")
   .attr("fill-opacity", d => d.suno ? 0.92 : 0.72);
 
+function fitFontSize(text, r) {
+  const baseSize = Math.max(16, r * 0.7);
+  const maxWidth = r * 1.6;
+  const charWidth = baseSize * 0.55;
+  const textWidth = text.length * charWidth;
+  if (textWidth > maxWidth) return Math.max(10, baseSize * maxWidth / textWidth);
+  return baseSize;
+}
+
 node.append("text")
   .text(d => d.label.split("\n")[0])
   .attr("dy", d => d.label.includes("\n") ? -15 : 1)
-  .style("font-size", d => Math.max(20, d.r * 0.7) + "px")
+  .style("font-size", d => fitFontSize(d.label.split("\n")[0], d.r) + "px")
   .style("font-weight", "700")
   .style("fill", "#fff");
 
 node.filter(d => d.label.includes("\n")).append("text")
   .text(d => d.label.split("\n")[1])
   .attr("dy", 35)
-  .style("font-size", d => Math.max(20, d.r * 0.7) + "px")
+  .style("font-size", d => fitFontSize(d.label.split("\n")[1], d.r) + "px")
   .style("font-weight", "700")
   .style("fill", "#fff");
 
