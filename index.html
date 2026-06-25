@@ -58,8 +58,9 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
 svg { width: 100vw; height: 100vh; }
 .link { stroke-opacity: 0; fill: none; pointer-events: none; }
 .link.focus-highlight { stroke-opacity: 0.6 !important; pointer-events: auto; }
-.node circle { cursor: pointer; stroke-width: 2; transition: fill 0.4s ease-in, opacity 0.4s ease-in; }
-.node circle.flash-out { transition: fill 4s ease-out, opacity 4s ease-out; }
+.node circle { cursor: pointer; stroke-width: 2; transition: fill 0.3s ease-in, opacity 0.3s ease-in, filter 0.3s ease-in; }
+.node circle.flash-on { filter: brightness(2.5) drop-shadow(0 0 30px currentColor) drop-shadow(0 0 60px currentColor); }
+.node circle.flash-out { transition: fill 4s ease-out, opacity 4s ease-out, filter 4s ease-out; }
 .node circle.suno { stroke: rgba(180,180,200,0.3); stroke-width: 10; }
 .node text { pointer-events: none; font-size: 11px; fill: #eee; text-anchor: middle; dominant-baseline: central; }
 .node.highlighted circle { stroke: #fff !important; stroke-width: 3 !important; }
@@ -245,7 +246,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info" style="font-size:10px;color:#666;">v17.2 / 512</span>
+  <span id="version-info" style="font-size:10px;color:#666;">v17.3 / 512</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ルーツマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -5428,16 +5429,16 @@ function doTwinkle() {
   const el = twinkleNodes[Math.floor(Math.random() * twinkleNodes.length)];
   const circle = d3.select(el);
   const catColor = circle.attr("data-cat-color");
-  circle.classed("flash-out", false);
+  circle.classed("flash-out", false).classed("flash-on", true);
   circle.attr("fill", catColor).attr("fill-opacity", 1);
   setTimeout(() => {
-    circle.classed("flash-out", true);
+    circle.classed("flash-on", false).classed("flash-out", true);
     const d = circle.datum();
     circle.attr("fill", monoColor(d)).attr("fill-opacity", 0.85);
     setTimeout(() => circle.classed("flash-out", false), 4200);
   }, 400);
 }
-setInterval(() => { if (twinkleActive) { doTwinkle(); doTwinkle(); doTwinkle(); doTwinkle(); doTwinkle(); } }, 150);
+setInterval(() => { if (twinkleActive) { doTwinkle(); doTwinkle(); doTwinkle(); } }, 150);
 
 // スマホ時はプレースホルダーを短縮
 if (window.innerWidth <= 768) {
