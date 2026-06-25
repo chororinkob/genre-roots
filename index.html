@@ -246,7 +246,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info" style="font-size:10px;color:#666;">v17.8 / 512</span>
+  <span id="version-info" style="font-size:10px;color:#666;">v17.9 / 512</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ルーツマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -5424,9 +5424,7 @@ sidebarOverlay.addEventListener('click', () => {
 // ===== 星のきらめき（JS制御） =====
 let twinkleActive = true;
 const twinkleNodes = node.select("circle").nodes();
-function doTwinkle() {
-  if (!twinkleActive || !twinkleNodes.length) return;
-  const el = twinkleNodes[Math.floor(Math.random() * twinkleNodes.length)];
+function flashNode(el) {
   const circle = d3.select(el);
   const catColor = circle.attr("data-cat-color");
   circle.classed("flash-out", false).classed("flash-on", true);
@@ -5451,7 +5449,31 @@ function doTwinkle() {
     }, 400);
   }
 }
-setInterval(() => { if (twinkleActive) { doTwinkle(); doTwinkle(); doTwinkle(); } }, 150);
+
+const nodeById = {};
+twinkleNodes.forEach(el => { const d = d3.select(el).datum(); if (d) nodeById[d.id] = el; });
+const neighbors = {};
+LINKS.forEach(l => {
+  if (!neighbors[l.s]) neighbors[l.s] = [];
+  if (!neighbors[l.t]) neighbors[l.t] = [];
+  neighbors[l.s].push(l.t);
+  neighbors[l.t].push(l.s);
+});
+
+function doTwinkle() {
+  if (!twinkleActive || !twinkleNodes.length) return;
+  const el = twinkleNodes[Math.floor(Math.random() * twinkleNodes.length)];
+  const d = d3.select(el).datum();
+  if (!d) return;
+  flashNode(el);
+  const nbs = neighbors[d.id] || [];
+  const shuffled = nbs.sort(() => Math.random() - 0.5).slice(0, 3);
+  shuffled.forEach((nid, i) => {
+    const nel = nodeById[nid];
+    if (nel) setTimeout(() => flashNode(nel), 300 + i * 200);
+  });
+}
+setInterval(() => { if (twinkleActive) doTwinkle(); }, 800);
 
 // スマホ時はプレースホルダーを短縮
 if (window.innerWidth <= 768) {
