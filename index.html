@@ -58,7 +58,13 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
 svg { width: 100vw; height: 100vh; }
 .link { stroke-opacity: 0; fill: none; pointer-events: none; }
 .link.focus-highlight { stroke-opacity: 0.6 !important; pointer-events: auto; }
+@keyframes twinkle {
+  0%   { opacity: 0.3; }
+  50%  { opacity: 1; }
+  100% { opacity: 0.3; }
+}
 .node circle { cursor: pointer; stroke-width: 2; }
+.node circle.twinkling { animation: twinkle var(--tw-dur) ease-in-out infinite; animation-delay: var(--tw-delay); }
 .node circle.suno { stroke: rgba(180,180,200,0.3); stroke-width: 10; }
 .node text { pointer-events: none; font-size: 11px; fill: #eee; text-anchor: middle; dominant-baseline: central; }
 .node.highlighted circle { stroke: #fff !important; stroke-width: 3 !important; }
@@ -240,7 +246,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info" style="font-size:10px;color:#666;">v15.7 / 512</span>
+  <span id="version-info" style="font-size:10px;color:#666;">v15.8 / 512</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ルーツマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -4689,8 +4695,10 @@ node.append("circle")
   .attr("r", d => d.r)
   .attr("fill", d => monoColor(d))
   .attr("data-cat-color", d => CAT_COLOR[d.cat] || "#555")
-  .attr("class", d => d.suno ? "suno" : "")
-  .attr("fill-opacity", 0.85);
+  .attr("class", d => (d.suno ? "suno " : "") + "twinkling")
+  .attr("fill-opacity", 0.85)
+  .style("--tw-dur", () => (1.5 + Math.random() * 4) + "s")
+  .style("--tw-delay", () => (Math.random() * 5) + "s");
 
 function fitFontSize(text, r) {
   const baseSize = Math.max(16, r * 0.7);
