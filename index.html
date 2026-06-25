@@ -245,7 +245,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info" style="font-size:10px;color:#666;">v18.5 / 512</span>
+  <span id="version-info" style="font-size:10px;color:#666;">v18.7 / 512</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ルーツマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -4852,9 +4852,22 @@ node.on("click", (e, d) => {
       }).join('')
     : '<span style="color:#666">なし</span>';
 
-  // YouTube埋め込みプレイヤー
-  const q = encodeURIComponent(name + " music genre");
-  spYtPlayer.src = `https://www.youtube.com/embed?listType=search&list=${q}&autoplay=1`;
+  // YouTube埋め込みプレイヤー（Data API検索）
+  const ytKey = localStorage.getItem('yt_api_key');
+  if (ytKey) {
+    const q = encodeURIComponent(name + " music genre");
+    fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${q}&type=video&maxResults=1&key=${ytKey}`)
+      .then(r => r.json())
+      .then(data => {
+        if (data.items && data.items.length > 0) {
+          const videoId = data.items[0].id.videoId;
+          spYtPlayer.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+        }
+      })
+      .catch(() => {});
+  } else {
+    spYtPlayer.parentElement.innerHTML = '<div style="padding:10px;text-align:center;color:#888;font-size:12px;">YouTube APIキーが未設定です<br><button onclick="const k=prompt(\'YouTube API Keyを入力\');if(k){localStorage.setItem(\'yt_api_key\',k);location.reload();}" style="margin-top:6px;padding:4px 12px;background:#1565C0;border:none;border-radius:4px;color:#fff;cursor:pointer;">設定する</button></div>';
+  }
 
   // コピー（ラベル名をスペース区切りでコピー）
   spCopy.onclick = () => { const copyText = d.label.replace('\n',' '); navigator.clipboard.writeText(copyText).then(() => { spCopy.textContent='コピー済み'; setTimeout(()=>spCopy.textContent='コピー', 1500); }); };
