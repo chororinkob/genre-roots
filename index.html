@@ -59,10 +59,11 @@ svg { width: 100vw; height: 100vh; }
 .link { stroke-opacity: 0; fill: none; pointer-events: none; }
 .link.focus-highlight { stroke-opacity: 0.6 !important; pointer-events: auto; }
 @keyframes twinkle {
-  0%   { opacity: 0.3; filter: drop-shadow(0 0 0px rgba(200,220,255,0)); }
-  50%  { opacity: 1; filter: drop-shadow(0 0 40px rgba(200,220,255,1)) drop-shadow(0 0 80px rgba(200,220,255,0.8)) drop-shadow(0 0 120px rgba(200,220,255,0.4)); }
-  100% { opacity: 0.3; filter: drop-shadow(0 0 0px rgba(200,220,255,0)); }
+  0%   { opacity: 0.15; }
+  50%  { opacity: 1; }
+  100% { opacity: 0.15; }
 }
+.node circle.twinkling { will-change: opacity; }
 .node circle { cursor: pointer; stroke-width: 2; }
 .node circle.twinkling { animation: twinkle var(--tw-dur) ease-in-out infinite; animation-delay: var(--tw-delay); }
 .node circle.suno { stroke: rgba(180,180,200,0.3); stroke-width: 10; }
@@ -246,7 +247,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info" style="font-size:10px;color:#666;">v16.1 / 512</span>
+  <span id="version-info" style="font-size:10px;color:#666;">v16.2 / 512</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ルーツマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -4688,8 +4689,8 @@ const node = g.append("g").selectAll("g")
 
 function monoColor(d) {
   const p = (d.popularity || 3) / 10;
-  const base = 25 + p * 40;
-  return `rgb(${Math.round(base*0.7)},${Math.round(base*0.8)},${Math.round(base*1.2)})`;
+  const base = 80 + p * 80;
+  return `rgb(${Math.round(base*0.8)},${Math.round(base*0.85)},${Math.round(base*1.1)})`;
 }
 node.append("circle")
   .attr("r", d => d.r)
