@@ -193,12 +193,16 @@ svg { width: 100vw; height: 100vh; }
   /* 右サイドパネル：下からスライドアップ */
   #side-panel {
     position: fixed; left: 6px; right: 6px; bottom: 6px; top: auto;
-    width: auto !important; height: 25vh;
+    width: auto !important; height: 33vh;
     background: rgba(0,0,0,0.75) !important;
     border: 1px solid rgba(255,255,255,0.15);
     border-radius: 16px;
     transform: translateY(calc(100% + 6px)); transition: transform 0.3s ease;
+    scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.3) transparent;
   }
+  #side-panel::-webkit-scrollbar { width: 4px; }
+  #side-panel::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 2px; }
+  #side-panel::-webkit-scrollbar-track { background: transparent; }
   #sp-header { background: rgba(0,0,0,0.9) !important; }
   #side-panel.sp-visible {
     display: block !important; transform: translateY(0);
@@ -247,7 +251,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info" style="font-size:10px;color:#666;">v16.3 / 512</span>
+  <span id="version-info" style="font-size:10px;color:#666;">v16.4 / 512</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ルーツマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -266,7 +270,7 @@ svg { width: 100vw; height: 100vh; }
     <input id="search" type="text" placeholder="ジャンル検索（カンマ区切りで複数OK）" />
     <span id="search-clear" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);cursor:pointer;color:#888;font-size:16px;display:none;">✕</span>
   </div>
-  <div>
+  <div style="display:none;">
     <span class="filter-btn active" data-filter="all">すべて</span>
     <span class="filter-btn" data-filter="suno">Sunoタグのみ</span>
   </div>
@@ -307,8 +311,6 @@ svg { width: 100vw; height: 100vh; }
   <div class="legend-item" data-cat="middle_east"><div class="legend-dot" style="background:#BF360C"></div><span class="legend-label">中東/アラブ系</span></div>
   <div class="legend-item" data-cat="south_asian"><div class="legend-dot" style="background:#311B92"></div><span class="legend-label">南アジア系</span></div>
   <div class="legend-item" data-cat="east_asian"><div class="legend-dot" style="background:#827717"></div><span class="legend-label">東アジア系</span></div>
-  <div class="legend-sep"></div>
-  <div class="legend-item" data-cat="suno"><div class="suno-ring"></div><span class="legend-label">Suno有効タグ</span></div>
 </div>
 </div>
 
