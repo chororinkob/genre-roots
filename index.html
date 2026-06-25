@@ -246,7 +246,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info" style="font-size:10px;color:#666;">v17.9 / 512</span>
+  <span id="version-info" style="font-size:10px;color:#666;">v18.0 / 512</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ルーツマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -5430,7 +5430,7 @@ function flashNode(el) {
   circle.classed("flash-out", false).classed("flash-on", true);
   circle.attr("fill", catColor).attr("fill-opacity", 1);
   if (isMobile()) {
-    setTimeout(() => { circle.style("transition", "fill 0.1s").attr("fill", "#fff"); }, 100);
+    setTimeout(() => { circle.style("transition", "fill 0.05s").attr("fill", "#fff"); }, 50);
     setTimeout(() => {
       circle.style("transition", null).classed("flash-on", false).classed("flash-out", true);
       circle.attr("fill", catColor).attr("fill-opacity", 1);
@@ -5439,7 +5439,7 @@ function flashNode(el) {
         circle.attr("fill", monoColor(d)).attr("fill-opacity", 0.85);
         setTimeout(() => circle.classed("flash-out", false), 6200);
       }, 800);
-    }, 350);
+    }, 150);
   } else {
     setTimeout(() => {
       circle.classed("flash-on", false).classed("flash-out", true);
