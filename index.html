@@ -59,9 +59,9 @@ svg { width: 100vw; height: 100vh; }
 .link { stroke-opacity: 0; fill: none; pointer-events: none; }
 .link.focus-highlight { stroke-opacity: 0.6 !important; pointer-events: auto; }
 @keyframes twinkle {
-  0%   { opacity: 0.4; filter: drop-shadow(0 0 0px rgba(180,200,255,0)); }
-  50%  { opacity: 1; filter: drop-shadow(0 0 25px rgba(180,200,255,0.9)) drop-shadow(0 0 50px rgba(180,200,255,0.5)); }
-  100% { opacity: 0.4; filter: drop-shadow(0 0 0px rgba(180,200,255,0)); }
+  0%   { opacity: 0.3; filter: drop-shadow(0 0 0px rgba(200,220,255,0)); }
+  50%  { opacity: 1; filter: drop-shadow(0 0 40px rgba(200,220,255,1)) drop-shadow(0 0 80px rgba(200,220,255,0.8)) drop-shadow(0 0 120px rgba(200,220,255,0.4)); }
+  100% { opacity: 0.3; filter: drop-shadow(0 0 0px rgba(200,220,255,0)); }
 }
 .node circle { cursor: pointer; stroke-width: 2; }
 .node circle.twinkling { animation: twinkle var(--tw-dur) ease-in-out infinite; animation-delay: var(--tw-delay); }
@@ -246,7 +246,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info" style="font-size:10px;color:#666;">v16.0 / 512</span>
+  <span id="version-info" style="font-size:10px;color:#666;">v16.1 / 512</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ルーツマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -4791,6 +4791,7 @@ node.on("click", (e, d) => {
   });
   node.classed('focus-highlight', n => n.id === d.id);
   node.classed('focus-dim', n => n.id !== d.id && !directIds.has(n.id));
+  node.select("circle").classed("twinkling", false);
   node.select("circle").attr("fill", n => (n.id === d.id || directIds.has(n.id)) ? d3.select(node.filter(dd => dd.id === n.id).select("circle").node()).attr("data-cat-color") : monoColor(n));
   link.classed('focus-highlight', l => l.s === d.id || l.t === d.id);
   link.classed('focus-dim', l => l.s !== d.id && l.t !== d.id);
@@ -4904,6 +4905,7 @@ svg.on("click", () => {
   node.classed('cat-highlight', false);
   node.select("circle").attr("opacity", 1);
   node.select("circle").attr("fill", d => monoColor(d));
+  node.select("circle").classed("twinkling", true);
   link.classed('focus-highlight', false);
   link.classed('focus-dim', false);
   link.attr("marker-end", "none").attr("marker-start", "none");
@@ -5117,6 +5119,7 @@ function highlightCat(cat) {
   // ノード：カテゴリ内=カテゴリ色+点滅、関連=カテゴリ色で明るく、それ以外=暗く
   node.classed('cat-highlight', d => matchIds.has(d.id));
   node.classed('cat-dim',       d => !matchIds.has(d.id) && !relatedIds.has(d.id));
+  node.select("circle").classed("twinkling", false);
   node.select("circle").attr("fill", d => (matchIds.has(d.id) || relatedIds.has(d.id)) ? d3.select(node.filter(dd => dd.id === d.id).select("circle").node()).attr("data-cat-color") : monoColor(d));
   // 線：カテゴリに接続=明るく、それ以外=暗く
   link.classed('focus-highlight', l => matchIds.has(l.s) || matchIds.has(l.t));
@@ -5136,6 +5139,7 @@ function clearHighlight() {
   node.classed('cat-highlight', false);
   node.classed('cat-dim',       false);
   node.select("circle").attr("fill", d => monoColor(d));
+  node.select("circle").classed("twinkling", true);
   link.classed('focus-highlight', false);
   link.classed('focus-dim', false);
   link.attr("marker-end", "none").attr("marker-start", "none");
