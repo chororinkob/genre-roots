@@ -40,13 +40,13 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
 #sp-tag { font-size: 18px; font-weight: 700; color: #fff; flex: 1; line-height: 1.3; }
 #sp-copy { padding: 4px 10px; background: #2a2a50; border: 1px solid #555; border-radius: 5px; color: #ccc; font-size: 11px; cursor: pointer; white-space: nowrap; }
 #sp-copy:hover { background: #3a3a70; color: #fff; }
-#sp-close { padding: 4px 8px; background: none; border: none; color: #888; font-size: 18px; cursor: pointer; line-height: 1; }
-#sp-close:hover { color: #fff; }
+#sp-close { padding: 4px 10px; background: rgba(255,255,255,0.1); border: 1px solid #666; border-radius: 4px; color: #fff; font-size: 16px; cursor: pointer; line-height: 1; }
+#sp-close:hover { background: rgba(255,255,255,0.25); }
 #sp-body { padding: 14px 16px; }
 .sp-suno { display: inline-block; background: #FFD700; color: #000; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 10px; margin-bottom: 10px; }
-.sp-era { font-size: 11px; color: #888; margin-bottom: 10px; }
+.sp-era { font-size: 12px; color: #ccc; margin-bottom: 10px; }
 .sp-section { margin-bottom: 14px; }
-.sp-section h4 { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: #888; margin-bottom: 6px; border-bottom: 1px solid #2a2a50; padding-bottom: 4px; }
+.sp-section h4 { font-size: 12px; letter-spacing: 0.5px; color: #fff; font-weight: 700; margin-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 4px; }
 .sp-section p { color: #ccc; line-height: 1.6; font-size: 13px; }
 .sp-influence-row { display: flex; align-items: baseline; gap: 6px; margin-bottom: 4px; font-size: 12px; color: #bbb; }
 .sp-influence-row .pct { font-weight: 700; color: #7ecfff; font-size: 11px; min-width: 32px; }
@@ -247,7 +247,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info" style="font-size:10px;color:#666;">v16.2 / 512</span>
+  <span id="version-info" style="font-size:10px;color:#666;">v16.3 / 512</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ルーツマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -319,6 +319,7 @@ svg { width: 100vw; height: 100vh; }
     <button id="sp-close">✕</button>
   </div>
   <div id="sp-body">
+    <a id="sp-yt-link" target="_blank" rel="noopener" style="margin-bottom:10px;">▶ YouTubeで「〇〇」を検索</a>
     <div id="sp-suno-wrap"></div>
     <div id="sp-era" class="sp-era"></div>
     <div class="sp-section" id="sp-desc-sec">
@@ -340,10 +341,6 @@ svg { width: 100vw; height: 100vh; }
     <div class="sp-section" id="sp-mutual-sec">
       <h4>相互に影響し合ったジャンル</h4>
       <div id="sp-mutual"></div>
-    </div>
-    <div class="sp-section">
-      <h4>YouTube検索</h4>
-      <a id="sp-yt-link" target="_blank" rel="noopener">▶ YouTubeで「〇〇」を検索</a>
     </div>
   </div>
 </div>
