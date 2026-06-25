@@ -245,7 +245,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info" style="font-size:10px;color:#666;">v17.0 / 512</span>
+  <span id="version-info" style="font-size:10px;color:#666;">v17.1 / 512</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ルーツマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -5437,7 +5437,7 @@ function doTwinkle() {
     setTimeout(() => circle.classed("flash-out", false), 1600);
   }, 400);
 }
-setInterval(() => { if (twinkleActive) doTwinkle(); }, 200);
+setInterval(() => { if (twinkleActive) { doTwinkle(); doTwinkle(); doTwinkle(); doTwinkle(); doTwinkle(); } }, 150);
 
 // スマホ時はプレースホルダーを短縮
 if (window.innerWidth <= 768) {
