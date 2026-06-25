@@ -59,9 +59,10 @@ svg { width: 100vw; height: 100vh; }
 .link { stroke-opacity: 0; fill: none; pointer-events: none; }
 .link.focus-highlight { stroke-opacity: 0.6 !important; pointer-events: auto; }
 @keyframes twinkle {
-  0%   { opacity: 0.15; }
-  50%  { opacity: 1; }
-  100% { opacity: 0.15; }
+  0%   { opacity: 0.12; }
+  80%  { opacity: 0.12; }
+  90%  { opacity: 1; }
+  100% { opacity: 0.12; }
 }
 .node circle.twinkling { will-change: opacity; }
 .node circle { cursor: pointer; stroke-width: 2; }
@@ -251,7 +252,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info" style="font-size:10px;color:#666;">v16.6 / 512</span>
+  <span id="version-info" style="font-size:10px;color:#666;">v16.7 / 512</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ルーツマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
