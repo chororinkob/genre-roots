@@ -81,16 +81,8 @@ svg { width: 100vw; height: 100vh; }
 }
 /* 共通発光アニメーション（金＝Suno用） */
 
-@keyframes glow-pulse {
-  0%   { opacity: 0.6; filter: none; }
-  50%  { opacity: 1; filter: brightness(2.5) drop-shadow(0 0 30px currentColor) drop-shadow(0 0 60px currentColor); }
-  100% { opacity: 0.6; filter: none; }
-}
-.node.cat-highlight circle { animation: glow-pulse 2s ease-in-out infinite !important; }
-.node.search-match circle { animation: glow-pulse 1.5s ease-in-out infinite !important; }
 .node.cat-dim { opacity: 0.05; pointer-events: none; }
 .node.focus-dim { opacity: 0.05; }
-.node.focus-highlight circle { animation: glow-pulse 2.5s ease-in-out infinite !important; }
 .link.focus-dim { opacity: 0.03 !important; }
 .link.focus-highlight { opacity: 1 !important; stroke-width: 8px !important; filter: drop-shadow(0 0 4px rgba(255,255,255,0.5)); }
 .link-label-group.focus-dim { opacity: 0.03 !important; }
@@ -215,15 +207,7 @@ svg { width: 100vw; height: 100vh; }
   /* 検索結果 */
   #search-results { max-height: 50vh; overflow-y: auto; }
 
-  /* スマホ用：opacityパルスのみ（drop-shadow効かないため） */
-  @keyframes m-color-pulse {
-    0%   { opacity: 0.4; }
-    50%  { opacity: 1; }
-    100% { opacity: 0.4; }
-  }
-  .node.cat-highlight circle { animation: m-color-pulse 1.5s ease-in-out infinite !important; }
-  .node.search-match circle { animation: m-color-pulse 1.2s ease-in-out infinite !important; }
-  .node.focus-highlight circle { animation: m-color-pulse 2s ease-in-out infinite !important; }
+  /* スマホ用：flashNodeによるJS制御のみ（CSSアニメーションなし） */
 }
 </style>
 </head>
@@ -232,7 +216,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info" style="font-size:10px;color:#666;">v22.0 / 512</span>
+  <span id="version-info" style="font-size:10px;color:#666;">v22.1 / 512</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ルーツマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -5819,26 +5803,6 @@ function initGlobe() {
   });
 }
 
-document.getElementById('globe-toggle').addEventListener('click', () => {
-  globeActive = !globeActive;
-  const container = document.getElementById('globe-container');
-  const svgEl = document.getElementById('graph');
-  const btn = document.getElementById('globe-toggle');
-
-  if (globeActive) {
-    container.style.display = 'block';
-    svgEl.style.display = 'none';
-    btn.style.background = '#00897B';
-    btn.title = '2Dマップに戻る';
-    if (!globeScene) initGlobe();
-  } else {
-    container.style.display = 'none';
-    svgEl.style.display = '';
-    btn.style.background = '#00695C';
-    btn.title = '地球儀モード';
-    if (globeRAF) { cancelAnimationFrame(globeRAF); globeRAF = null; }
-  }
-});
 </script>
 </body>
 </html>
