@@ -246,7 +246,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info" style="font-size:10px;color:#666;">v20.0 / 512</span>
+  <span id="version-info" style="font-size:10px;color:#666;">v20.1 / 512</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ルーツマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -4868,16 +4868,18 @@ node.on("click", (e, d) => {
       .then(data => {
         if (data.items && data.items.length > 0) {
           const videoId = data.items[0].id.videoId;
-          spYtPlayer.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&rel=0`;
+          const useMute = !window._ytUnmuted;
+          spYtPlayer.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&enablejsapi=1${useMute ? '&mute=1' : ''}`;
           const unmuteBtn = document.getElementById('sp-yt-unmute');
-          unmuteBtn.style.display = 'block';
-          unmuteBtn.onclick = () => {
-            spYtPlayer.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
-            unmuteBtn.style.display = 'none';
-            window._ytUnmuted = true;
-          };
-          if (window._ytUnmuted) {
-            spYtPlayer.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+          if (useMute) {
+            unmuteBtn.style.display = 'block';
+            unmuteBtn.onclick = () => {
+              spYtPlayer.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
+              spYtPlayer.contentWindow.postMessage('{"event":"command","func":"setVolume","args":[100]}', '*');
+              unmuteBtn.style.display = 'none';
+              window._ytUnmuted = true;
+            };
+          } else {
             unmuteBtn.style.display = 'none';
           }
         }
