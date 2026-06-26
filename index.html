@@ -232,7 +232,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info" style="font-size:10px;color:#666;">v21.6 / 512</span>
+  <span id="version-info" style="font-size:10px;color:#666;">v21.7 / 512</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ルーツマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -4831,6 +4831,8 @@ node.on("click", (e, d) => {
   node.classed('focus-dim', n => n.id !== d.id && !directIds.has(n.id));
   twinkleActive = false;
   node.select("circle").attr("fill", n => (n.id === d.id || directIds.has(n.id)) ? d3.select(node.filter(dd => dd.id === n.id).select("circle").node()).attr("data-cat-color") : monoColor(n));
+  const flashIds = new Set([d.id, ...directIds]);
+  startHighlightFlash(flashIds);
   link.classed('focus-highlight', l => l.s === d.id || l.t === d.id);
   link.classed('focus-dim', l => l.s !== d.id && l.t !== d.id);
   link.attr("marker-end", l => (l.s === d.id || l.t === d.id) ? l.target.__data__ ? d3.select(l).attr("data-marker-end") : "none" : "none");
@@ -4968,6 +4970,7 @@ panel.addEventListener('click', (e) => {
 });
 svg.on("click", () => {
   closePanel();
+  stopHighlightFlash();
   window._nodeFocused = false;
   node.classed('focus-highlight', false);
   node.classed('focus-dim', false);
@@ -5186,6 +5189,7 @@ function highlightCat(cat) {
   node.classed('cat-dim',       d => !matchIds.has(d.id));
   twinkleActive = false;
   node.select("circle").attr("fill", d => matchIds.has(d.id) ? d3.select(node.filter(dd => dd.id === d.id).select("circle").node()).attr("data-cat-color") : monoColor(d));
+  startHighlightFlash(matchIds);
   // カテゴリ表示時はラインなし
   link.classed('focus-highlight', false);
   link.classed('focus-dim', true);
@@ -5196,6 +5200,7 @@ function highlightCat(cat) {
 }
 
 function clearHighlight() {
+  stopHighlightFlash();
   node.classed('cat-highlight', false);
   node.classed('cat-dim',       false);
   node.select("circle").attr("fill", d => monoColor(d));
@@ -5517,6 +5522,24 @@ function flashNode(el) {
 
 const nodeById = {};
 twinkleNodes.forEach(el => { const d = d3.select(el).datum(); if (d) nodeById[d.id] = el; });
+
+// ハイライト用きらめき（カテゴリ・ノードクリック時）
+let highlightFlashInterval = null;
+function startHighlightFlash(ids) {
+  stopHighlightFlash();
+  const idArray = Array.from(ids);
+  let i = 0;
+  highlightFlashInterval = setInterval(() => {
+    const id = idArray[i % idArray.length];
+    const el = nodeById[id];
+    if (el) flashNode(el);
+    i++;
+    if (i % 3 === 0) i = Math.floor(Math.random() * idArray.length);
+  }, 300);
+}
+function stopHighlightFlash() {
+  if (highlightFlashInterval) { clearInterval(highlightFlashInterval); highlightFlashInterval = null; }
+}
 const neighbors = {};
 LINKS.forEach(l => {
   if (!neighbors[l.s]) neighbors[l.s] = [];
