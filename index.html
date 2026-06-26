@@ -246,7 +246,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info" style="font-size:10px;color:#666;">v19.7 / 512</span>
+  <span id="version-info" style="font-size:10px;color:#666;">v19.8 / 512</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ルーツマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -4867,7 +4867,8 @@ node.on("click", (e, d) => {
       .then(data => {
         if (data.items && data.items.length > 0) {
           const videoId = data.items[0].id.videoId;
-          spYtPlayer.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+          const muteParam = isMobile() ? '&mute=1' : '';
+          spYtPlayer.src = `https://www.youtube.com/embed/${videoId}?autoplay=1${muteParam}&rel=0`;
         }
       })
       .catch(() => {});
@@ -4908,7 +4909,8 @@ panel.addEventListener('click', (e) => {
         .then(r => r.json())
         .then(data => {
           if (data.items && data.items.length > 0) {
-            spYtPlayer.src = `https://www.youtube.com/embed/${data.items[0].id.videoId}?autoplay=1&rel=0`;
+            const muteP = isMobile() ? '&mute=1' : '';
+            spYtPlayer.src = `https://www.youtube.com/embed/${data.items[0].id.videoId}?autoplay=1${muteP}&rel=0`;
             panel.scrollTop = 0;
           }
         })
