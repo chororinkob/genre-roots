@@ -246,7 +246,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info" style="font-size:10px;color:#666;">v20.7 / 512</span>
+  <span id="version-info" style="font-size:10px;color:#666;">v20.8 / 512</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ルーツマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -4755,14 +4755,16 @@ function playYtTrack(idx) {
   const q = encodeURIComponent(window._ytPlaylist[idx]);
   const player = document.getElementById('sp-yt-player');
   const unmuteBtn = document.getElementById('sp-yt-unmute');
+  const nextBtn = document.getElementById('sp-yt-next');
+  const mobile = window.innerWidth <= 768;
+  const needMute = mobile && !window._ytUnmuted;
   fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${q}&type=video&videoCategoryId=10&maxResults=1&key=${ytKey}`)
     .then(r => r.json())
     .then(data => {
       if (data.items && data.items.length > 0) {
         const videoId = data.items[0].id.videoId;
-        const mobile = window.innerWidth <= 768;
-        player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&enablejsapi=1${mobile ? '&mute=1' : ''}`;
-        if (mobile && !window._ytUnmuted) {
+        player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0${needMute ? '&mute=1' : ''}`;
+        if (needMute) {
           unmuteBtn.style.display = 'block';
           unmuteBtn.onclick = () => {
             player.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
@@ -4772,20 +4774,14 @@ function playYtTrack(idx) {
           };
         } else {
           unmuteBtn.style.display = 'none';
-          if (mobile && window._ytUnmuted) {
-            setTimeout(() => {
-              player.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
-            }, 1500);
-          }
         }
         // 次の曲ボタン
-        const nextBtn = document.getElementById('sp-yt-next');
         if (window._ytPlaylist.length > 1) {
           nextBtn.style.display = 'block';
           const nextIdx = (idx + 1) % window._ytPlaylist.length;
-          const nextName = window._ytPlaylist[nextIdx].split(' / ');
-          nextBtn.textContent = `次▶ ${nextName[0]}`;
-          nextBtn.onclick = () => playYtTrack(nextIdx);
+          const parts = window._ytPlaylist[nextIdx].split(' / ');
+          nextBtn.textContent = `次▶ ${parts[0]}${parts[1] ? ' ♪ ' + parts[1] : ''}`;
+          nextBtn.onclick = () => { window._ytUnmuted = true; playYtTrack(nextIdx); };
         } else {
           nextBtn.style.display = 'none';
         }
