@@ -81,11 +81,16 @@ svg { width: 100vw; height: 100vh; }
 }
 /* 共通発光アニメーション（金＝Suno用） */
 
-.node.cat-highlight circle { animation: glow-white 0.85s ease-in-out infinite !important; }
-.node.search-match circle { animation: glow-green 0.7s ease-in-out infinite !important; }
+@keyframes color-pulse {
+  0%   { opacity: 0.5; }
+  50%  { opacity: 1; }
+  100% { opacity: 0.5; }
+}
+.node.cat-highlight circle { animation: color-pulse 2s ease-in-out infinite !important; }
+.node.search-match circle { animation: color-pulse 1.5s ease-in-out infinite !important; }
 .node.cat-dim { opacity: 0.1; pointer-events: none; }
 .node.focus-dim { opacity: 0.08; }
-.node.focus-highlight circle { animation: glow-white 2s ease-in-out infinite !important; }
+.node.focus-highlight circle { animation: color-pulse 2.5s ease-in-out infinite !important; }
 .link.focus-dim { opacity: 0.03 !important; }
 .link.focus-highlight { opacity: 1 !important; stroke-width: 8px !important; filter: drop-shadow(0 0 4px rgba(255,255,255,0.5)); }
 .link-label-group.focus-dim { opacity: 0.03 !important; }
@@ -210,21 +215,10 @@ svg { width: 100vw; height: 100vh; }
   /* 検索結果 */
   #search-results { max-height: 50vh; overflow-y: auto; }
 
-  /* ===== スマホ用：枠の太さ変化で点滅 ===== */
-  @keyframes m-stroke-white {
-    0%   { stroke: #fff; stroke-width: 4; }
-    50%  { stroke: #fff; stroke-width: 40; }
-    100% { stroke: #fff; stroke-width: 4; }
-  }
-  @keyframes m-stroke-green {
-    0%   { stroke: #00FF00; stroke-width: 4; }
-    50%  { stroke: #00FF00; stroke-width: 40; }
-    100% { stroke: #00FF00; stroke-width: 4; }
-  }
-
-  .node.cat-highlight circle { animation: m-stroke-white 0.8s ease-in-out infinite !important; }
-  .node.search-match circle { animation: m-stroke-green 0.8s ease-in-out infinite !important; }
-  .node.focus-highlight circle { animation: m-stroke-white 1.2s ease-in-out infinite !important; }
+  /* スマホ用：色のパルスで統一（リングなし） */
+  .node.cat-highlight circle { animation: color-pulse 2s ease-in-out infinite !important; }
+  .node.search-match circle { animation: color-pulse 1.5s ease-in-out infinite !important; }
+  .node.focus-highlight circle { animation: color-pulse 2.5s ease-in-out infinite !important; }
 }
 </style>
 </head>
@@ -233,7 +227,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info" style="font-size:10px;color:#666;">v21.3 / 512</span>
+  <span id="version-info" style="font-size:10px;color:#666;">v21.4 / 512</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ルーツマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -5186,28 +5180,22 @@ function highlightCat(cat) {
   } else {
     matchIds = new Set(NODES.filter(n => n.cat === cat).map(n => n.id));
   }
-  // 関連ノード（カテゴリに接続しているが、カテゴリ自体ではないもの）
-  const relatedIds = new Set();
-  LINKS.forEach(l => {
-    if (matchIds.has(l.s) && !matchIds.has(l.t)) relatedIds.add(l.t);
-    if (matchIds.has(l.t) && !matchIds.has(l.s)) relatedIds.add(l.s);
-  });
-  // ノード：カテゴリ内=カテゴリ色+点滅、関連=カテゴリ色で明るく、それ以外=暗く
+  // ノード：カテゴリ内=カテゴリ色+点滅、それ以外=暗く（関連ジャンルは表示しない）
   node.classed('cat-highlight', d => matchIds.has(d.id));
-  node.classed('cat-dim',       d => !matchIds.has(d.id) && !relatedIds.has(d.id));
+  node.classed('cat-dim',       d => !matchIds.has(d.id));
   twinkleActive = false;
-  node.select("circle").attr("fill", d => (matchIds.has(d.id) || relatedIds.has(d.id)) ? d3.select(node.filter(dd => dd.id === d.id).select("circle").node()).attr("data-cat-color") : monoColor(d));
-  // 線：カテゴリに接続=明るく、それ以外=暗く
-  link.classed('focus-highlight', l => matchIds.has(l.s) || matchIds.has(l.t));
-  link.classed('focus-dim', l => !matchIds.has(l.s) && !matchIds.has(l.t));
+  node.select("circle").attr("fill", d => matchIds.has(d.id) ? d3.select(node.filter(dd => dd.id === d.id).select("circle").node()).attr("data-cat-color") : monoColor(d));
+  // 線：同カテゴリ内のリンクだけ表示
+  link.classed('focus-highlight', l => matchIds.has(l.s) && matchIds.has(l.t));
+  link.classed('focus-dim', l => !(matchIds.has(l.s) && matchIds.has(l.t)));
   link.each(function(l) {
-    const show = matchIds.has(l.s) || matchIds.has(l.t);
+    const show = matchIds.has(l.s) && matchIds.has(l.t);
     d3.select(this).attr("marker-end", show ? d3.select(this).attr("data-marker-end") : "none");
     d3.select(this).attr("marker-start", show ? d3.select(this).attr("data-marker-start") : "none");
   });
   // 数字
-  linkLabelG.classed('focus-highlight', l => matchIds.has(l.s) || matchIds.has(l.t));
-  linkLabelG.classed('focus-dim', l => !matchIds.has(l.s) && !matchIds.has(l.t));
+  linkLabelG.classed('focus-highlight', l => matchIds.has(l.s) && matchIds.has(l.t));
+  linkLabelG.classed('focus-dim', l => !(matchIds.has(l.s) && matchIds.has(l.t)));
 
 }
 
