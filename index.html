@@ -80,19 +80,12 @@ svg { width: 100vw; height: 100vh; }
   100% { stroke: #00FF00; stroke-width: 8; filter: drop-shadow(0 0 20px #0f0) drop-shadow(0 0 40px rgba(0,255,0,0.5)); }
 }
 /* 共通発光アニメーション（金＝Suno用） */
-@keyframes glow-gold {
-  0%   { stroke: #FFD700; stroke-width: 10; filter: drop-shadow(0 0 20px #FFD700) drop-shadow(0 0 40px rgba(255,215,0,0.5)); }
-  50%  { stroke: #FFD700; stroke-width: 22; filter: drop-shadow(0 0 50px #FFD700) drop-shadow(0 0 80px rgba(255,215,0,0.8)) drop-shadow(0 0 120px rgba(255,215,0,0.4)); }
-  100% { stroke: #FFD700; stroke-width: 10; filter: drop-shadow(0 0 20px #FFD700) drop-shadow(0 0 40px rgba(255,215,0,0.5)); }
-}
+
 .node.cat-highlight circle { animation: glow-white 0.85s ease-in-out infinite !important; }
-.node.cat-highlight circle.suno { animation: glow-gold 0.85s ease-in-out infinite !important; }
 .node.search-match circle { animation: glow-green 0.7s ease-in-out infinite !important; }
-.node.search-match circle.suno { animation: glow-gold 0.7s ease-in-out infinite !important; }
 .node.cat-dim { opacity: 0.1; pointer-events: none; }
 .node.focus-dim { opacity: 0.08; }
 .node.focus-highlight circle { animation: glow-white 2s ease-in-out infinite !important; }
-.node.focus-highlight circle.suno { animation: glow-gold 2s ease-in-out infinite !important; }
 .link.focus-dim { opacity: 0.03 !important; }
 .link.focus-highlight { opacity: 1 !important; stroke-width: 8px !important; filter: drop-shadow(0 0 4px rgba(255,255,255,0.5)); }
 .link-label-group.focus-dim { opacity: 0.03 !important; }
@@ -228,17 +221,10 @@ svg { width: 100vw; height: 100vh; }
     50%  { stroke: #00FF00; stroke-width: 40; }
     100% { stroke: #00FF00; stroke-width: 4; }
   }
-  @keyframes m-stroke-gold {
-    0%   { stroke: #FFD700; stroke-width: 6; }
-    50%  { stroke: #FFD700; stroke-width: 42; }
-    100% { stroke: #FFD700; stroke-width: 6; }
-  }
+
   .node.cat-highlight circle { animation: m-stroke-white 0.8s ease-in-out infinite !important; }
-  .node.cat-highlight circle.suno { animation: m-stroke-gold 0.8s ease-in-out infinite !important; }
   .node.search-match circle { animation: m-stroke-green 0.8s ease-in-out infinite !important; }
-  .node.search-match circle.suno { animation: m-stroke-gold 0.8s ease-in-out infinite !important; }
   .node.focus-highlight circle { animation: m-stroke-white 1.2s ease-in-out infinite !important; }
-  .node.focus-highlight circle.suno { animation: m-stroke-gold 1.2s ease-in-out infinite !important; }
 }
 </style>
 </head>
@@ -247,7 +233,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info" style="font-size:10px;color:#666;">v21.2 / 512</span>
+  <span id="version-info" style="font-size:10px;color:#666;">v21.3 / 512</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ルーツマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
