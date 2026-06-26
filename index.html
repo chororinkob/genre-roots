@@ -246,7 +246,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info" style="font-size:10px;color:#666;">v20.2 / 512</span>
+  <span id="version-info" style="font-size:10px;color:#666;">v20.3 / 512</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ルーツマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -4868,22 +4868,18 @@ node.on("click", (e, d) => {
       .then(data => {
         if (data.items && data.items.length > 0) {
           const videoId = data.items[0].id.videoId;
-          spYtPlayer.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&rel=0&enablejsapi=1`;
           const unmuteBtn = document.getElementById('sp-yt-unmute');
-          if (window._ytUnmuted) {
-            unmuteBtn.style.display = 'none';
-            setTimeout(() => {
-              spYtPlayer.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
-              spYtPlayer.contentWindow.postMessage('{"event":"command","func":"setVolume","args":[100]}', '*');
-            }, 1000);
-          } else {
+          if (isMobile()) {
+            spYtPlayer.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&rel=0&enablejsapi=1`;
             unmuteBtn.style.display = 'block';
             unmuteBtn.onclick = () => {
               spYtPlayer.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
               spYtPlayer.contentWindow.postMessage('{"event":"command","func":"setVolume","args":[100]}', '*');
               unmuteBtn.style.display = 'none';
-              window._ytUnmuted = true;
             };
+          } else {
+            spYtPlayer.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+            unmuteBtn.style.display = 'none';
           }
         }
       })
@@ -4926,12 +4922,10 @@ panel.addEventListener('click', (e) => {
         .then(data => {
           if (data.items && data.items.length > 0) {
             const vid = data.items[0].id.videoId;
-            spYtPlayer.src = `https://www.youtube.com/embed/${vid}?autoplay=1&mute=1&rel=0&enablejsapi=1`;
-            if (window._ytUnmuted) {
-              setTimeout(() => {
-                spYtPlayer.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
-                spYtPlayer.contentWindow.postMessage('{"event":"command","func":"setVolume","args":[100]}', '*');
-              }, 1000);
+            if (isMobile()) {
+              spYtPlayer.src = `https://www.youtube.com/embed/${vid}?autoplay=1&mute=1&rel=0&enablejsapi=1`;
+            } else {
+              spYtPlayer.src = `https://www.youtube.com/embed/${vid}?autoplay=1&rel=0`;
             }
             panel.scrollTop = 0;
           }
