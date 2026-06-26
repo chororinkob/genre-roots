@@ -215,10 +215,15 @@ svg { width: 100vw; height: 100vh; }
   /* 検索結果 */
   #search-results { max-height: 50vh; overflow-y: auto; }
 
-  /* スマホ用：同じglow-pulseを使用（drop-shadowはスマホで効かないが、opacityとbrightness変化は効く） */
-  .node.cat-highlight circle { animation: glow-pulse 2s ease-in-out infinite !important; }
-  .node.search-match circle { animation: glow-pulse 1.5s ease-in-out infinite !important; }
-  .node.focus-highlight circle { animation: glow-pulse 2.5s ease-in-out infinite !important; }
+  /* スマホ用：opacityパルスのみ（drop-shadow効かないため） */
+  @keyframes m-color-pulse {
+    0%   { opacity: 0.4; }
+    50%  { opacity: 1; }
+    100% { opacity: 0.4; }
+  }
+  .node.cat-highlight circle { animation: m-color-pulse 1.5s ease-in-out infinite !important; }
+  .node.search-match circle { animation: m-color-pulse 1.2s ease-in-out infinite !important; }
+  .node.focus-highlight circle { animation: m-color-pulse 2s ease-in-out infinite !important; }
 }
 </style>
 </head>
@@ -227,7 +232,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info" style="font-size:10px;color:#666;">v21.5 / 512</span>
+  <span id="version-info" style="font-size:10px;color:#666;">v21.6 / 512</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ルーツマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -4905,14 +4910,10 @@ node.on("click", (e, d) => {
   // YouTube埋め込みプレイヤー（代表曲プレイリスト対応）
   const ytKey = localStorage.getItem('yt_api_key') || window._ytk;
   if (ytKey) {
-    // プレイリスト構築
-    window._ytPlaylist = [];
+    // 最初はコンピレーション動画を再生
+    window._ytPlaylist = [name + " greatest hits mix"];
+    if (d.tracks) d.tracks.forEach(group => group.items.forEach(item => window._ytPlaylist.push(item)));
     window._ytPlayIdx = 0;
-    if (d.tracks && d.tracks.length > 0) {
-      d.tracks.forEach(group => group.items.forEach(item => window._ytPlaylist.push(item)));
-    } else {
-      window._ytPlaylist.push(name + " music");
-    }
     playYtTrack(0);
   }
 
