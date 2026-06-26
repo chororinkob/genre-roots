@@ -246,7 +246,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info" style="font-size:10px;color:#666;">v20.5 / 512</span>
+  <span id="version-info" style="font-size:10px;color:#666;">v20.6 / 512</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ルーツマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -4744,6 +4744,57 @@ node.on("mouseover", (e, d) => {
 })
 .on("mouseout", () => tooltip.style.display = "none");
 
+// YouTube再生関数
+function playYtTrack(idx) {
+  if (!window._ytPlaylist || idx >= window._ytPlaylist.length) return;
+  window._ytPlayIdx = idx;
+  const ytKey = localStorage.getItem('yt_api_key') || window._ytk;
+  const q = encodeURIComponent(window._ytPlaylist[idx]);
+  const player = document.getElementById('sp-yt-player');
+  const unmuteBtn = document.getElementById('sp-yt-unmute');
+  fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${q}&type=video&videoCategoryId=10&maxResults=1&key=${ytKey}`)
+    .then(r => r.json())
+    .then(data => {
+      if (data.items && data.items.length > 0) {
+        const videoId = data.items[0].id.videoId;
+        const mobile = window.innerWidth <= 768;
+        player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&enablejsapi=1${mobile ? '&mute=1' : ''}`;
+        if (mobile && !window._ytUnmuted) {
+          unmuteBtn.style.display = 'block';
+          unmuteBtn.onclick = () => {
+            player.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
+            player.contentWindow.postMessage('{"event":"command","func":"setVolume","args":[100]}', '*');
+            unmuteBtn.style.display = 'none';
+            window._ytUnmuted = true;
+          };
+        } else {
+          unmuteBtn.style.display = 'none';
+          if (mobile && window._ytUnmuted) {
+            setTimeout(() => {
+              player.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
+            }, 1500);
+          }
+        }
+        // 動画終了検知のためにlisteningを開始
+        setTimeout(() => {
+          player.contentWindow.postMessage('{"event":"listening","id":1}', '*');
+        }, 2000);
+      }
+    })
+    .catch(() => {});
+}
+// YouTube動画終了を検知して次の曲を再生
+window.addEventListener('message', (e) => {
+  try {
+    const data = typeof e.data === 'string' ? JSON.parse(e.data) : e.data;
+    if (data.event === 'onStateChange' && data.info === 0) {
+      if (window._ytPlaylist && window._ytPlayIdx < window._ytPlaylist.length - 1) {
+        playYtTrack(window._ytPlayIdx + 1);
+      }
+    }
+  } catch(err) {}
+});
+
 // click: 右サイドパネルを開く
 const panel     = document.getElementById("side-panel");
 const isMobile = () => window.innerWidth <= 768;
@@ -4891,35 +4942,18 @@ node.on("click", (e, d) => {
       }).join('')
     : '<span style="color:#666">なし</span>';
 
-  // YouTube埋め込みプレイヤー（代表曲があればそれを再生、なければジャンル検索）
+  // YouTube埋め込みプレイヤー（代表曲プレイリスト対応）
   const ytKey = localStorage.getItem('yt_api_key') || window._ytk;
   if (ytKey) {
-    let firstTrackQuery = name + " music";
-    if (d.tracks && d.tracks.length > 0 && d.tracks[0].items.length > 0) {
-      firstTrackQuery = d.tracks[0].items[0];
+    // プレイリスト構築
+    window._ytPlaylist = [];
+    window._ytPlayIdx = 0;
+    if (d.tracks && d.tracks.length > 0) {
+      d.tracks.forEach(group => group.items.forEach(item => window._ytPlaylist.push(item)));
+    } else {
+      window._ytPlaylist.push(name + " music");
     }
-    const q = encodeURIComponent(firstTrackQuery);
-    fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${q}&type=video&videoCategoryId=10&maxResults=1&key=${ytKey}`)
-      .then(r => r.json())
-      .then(data => {
-        if (data.items && data.items.length > 0) {
-          const videoId = data.items[0].id.videoId;
-          const unmuteBtn = document.getElementById('sp-yt-unmute');
-          if (isMobile()) {
-            spYtPlayer.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&rel=0&enablejsapi=1`;
-            unmuteBtn.style.display = 'block';
-            unmuteBtn.onclick = () => {
-              spYtPlayer.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
-              spYtPlayer.contentWindow.postMessage('{"event":"command","func":"setVolume","args":[100]}', '*');
-              unmuteBtn.style.display = 'none';
-            };
-          } else {
-            spYtPlayer.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
-            unmuteBtn.style.display = 'none';
-          }
-        }
-      })
-      .catch(() => {});
+    playYtTrack(0);
   }
 
   // コピー（ラベル名をスペース区切りでコピー）
@@ -4950,24 +4984,15 @@ panel.addEventListener('click', (e) => {
   if (ytLink) {
     e.preventDefault();
     const query = ytLink.dataset.query;
-    const ytKey = localStorage.getItem('yt_api_key') || window._ytk;
-    if (ytKey) {
-      const q = encodeURIComponent(query);
-      fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${q}&type=video&videoCategoryId=10&maxResults=1&key=${ytKey}`)
-        .then(r => r.json())
-        .then(data => {
-          if (data.items && data.items.length > 0) {
-            const vid = data.items[0].id.videoId;
-            if (isMobile()) {
-              spYtPlayer.src = `https://www.youtube.com/embed/${vid}?autoplay=1&mute=1&rel=0&enablejsapi=1`;
-            } else {
-              spYtPlayer.src = `https://www.youtube.com/embed/${vid}?autoplay=1&rel=0`;
-            }
-            panel.scrollTop = 0;
-          }
-        })
-        .catch(() => {});
+    const idx = window._ytPlaylist ? window._ytPlaylist.indexOf(query) : -1;
+    if (idx >= 0) {
+      playYtTrack(idx);
+    } else {
+      window._ytPlaylist = [query];
+      window._ytPlayIdx = 0;
+      playYtTrack(0);
     }
+    panel.scrollTop = 0;
     return;
   }
   // ジャンルリンク
