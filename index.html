@@ -246,7 +246,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info" style="font-size:10px;color:#666;">v20.3 / 512</span>
+  <span id="version-info" style="font-size:10px;color:#666;">v20.4 / 512</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ルーツマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -329,6 +329,10 @@ svg { width: 100vw; height: 100vh; }
     <div class="sp-section" id="sp-roots-story-sec">
       <h4>成り立ち</h4>
       <p id="sp-roots-story"></p>
+    </div>
+    <div class="sp-section" id="sp-tracks-sec" style="display:none;">
+      <h4>代表曲・アーティスト</h4>
+      <div id="sp-tracks"></div>
     </div>
     <div class="sp-section" id="sp-in-sec">
       <h4>影響を受けたジャンル（ルーツ）</h4>
@@ -2066,7 +2070,13 @@ const NODES = [
     popularity:6},
   {id:"aor", label:"AOR", cat:"pop", era:"1970s", suno:true,
     desc:"Album-Oriented Rock（アルバム・オリエンテッド・ロック）の略。1960年代後半、アメリカのFMラジオ局がAM局の「シングルヒットだけをかける」方式に対抗し、アルバムの中からDJが自由に曲を選んでかけるフォーマットを開始。シングルカットされていない隠れた名曲がラジオで紹介されることで、リスナーがアルバムごと購入するようになり、アーティスト側もアルバム全体の完成度を追求するようになった。1980年代に入ると、AORは放送フォーマットの名前から「大人向けの洗練されたロック」という音楽ジャンルそのものを指す言葉に変化。メロディアスなサウンド、効果的なギターソロとキーボード、パワーバラードが特徴。",
-    roots_story:"1970年代後半にFMラジオフォーマットとして確立。Bostonの1stアルバム(1976)は全米で1700万枚を売り上げ、捨て曲のない完成度の高いアルバムの代表格となった。AOR精神を体現する隠れた名曲として[[Boston / Peace of Mind]]、[[Journey / Lights]]、[[Toto / Girl Goodbye]]などがある。一方で[[Journey / Don't Stop Believin']]、[[Toto / Rosanna]]、[[Toto / I'll Be Over You]]、[[Survivor / Eye of the Tiger]]、[[REO Speedwagon / Keep on Loving You]]といったシングルヒット曲もAORの黄金期を象徴する。オーストラリア出身の[[Little River Band / Reminiscing]]がアメリカのAORシーンで大成功を収めたように、AORは特定の国に限定されないジャンルでもある。日本ではAORの洗練されたサウンドがCity Popに強く影響し、[[山下達郎 / Ride On Time]]は実際にTotoのメンバーとレコーディングを行った。[[杉山清貴 / さよならのオーシャン]]、[[角松敏生 / Take You To The Sky High]]、[[カルロス・トシキ / 君は1000%]]らのサウンドにもAOR的要素が色濃く反映されている。",
+    roots_story:"1970年代後半にFMラジオフォーマットとして確立。当時のAM局はレコード会社が指定したシングル曲だけを流していたが、FM局のDJはアルバムの中から自分の耳で選んだ曲を自由にかけることができた。シングルカットされていない隠れた名曲がラジオで紹介されることで、リスナーはアルバムごと購入するようになり、アーティスト側もアルバム全体の完成度を追求するようになった。Bostonの1stアルバム(1976)は全米で1700万枚を売り上げ、捨て曲のない完成度の高いアルバムの代表格となった。1980年代に入るとAORはジャンル名として定着し、Journey、Toto、Foreigner、REO Speedwagon、Survivorらが黄金期を築いた。オーストラリア出身のLittle River BandがアメリカのAORシーンで大成功を収めたように、特定の国に限定されないジャンルでもある。日本ではAORの洗練されたサウンドがCity Popに強く影響し、山下達郎は実際にTotoのメンバーとレコーディングを行った。杉山清貴、角松敏生、カルロス・トシキらのサウンドにもAOR的要素が色濃く反映されている。",
+    tracks:[
+      {cat:"隠れた名曲", items:["Boston / Peace of Mind","Journey / Lights","Toto / Girl Goodbye","Foreigner / Starrider"]},
+      {cat:"シングルヒット", items:["Journey / Don't Stop Believin'","Toto / Rosanna","Toto / I'll Be Over You","Survivor / Eye of the Tiger","REO Speedwagon / Keep on Loving You","Boston / More Than a Feeling"]},
+      {cat:"海外AOR", items:["Little River Band / Reminiscing","Little River Band / Lonesome Loser"]},
+      {cat:"日本への影響", items:["山下達郎 / Ride On Time","杉山清貴 / さよならのオーシャン","角松敏生 / Take You To The Sky High","カルロス・トシキ / 君は1000%"]}
+    ],
     popularity:7},
   {id:"k_hiphop", label:"K-Hip Hop", cat:"east_asian", era:"1995", suno:true,
     desc:"韓国のヒップホップシーン。アメリカのヒップホップを取り込みながら、韓国語のフロウと韓国社会のテーマを展開。Epik High、Dynamic Duo、Dok2、Jay Park、Zico、pH-1が代表。Show Me the Moneyが若者文化に定着。",
@@ -4835,6 +4845,28 @@ node.on("click", (e, d) => {
     spRootsStorySec.style.display = '';
   } else {
     spRootsStorySec.style.display = 'none';
+  }
+
+  // 代表曲・アーティスト
+  const spTracks = document.getElementById("sp-tracks");
+  const spTracksSec = document.getElementById("sp-tracks-sec");
+  if (d.tracks && d.tracks.length > 0) {
+    let tracksHtml = '';
+    d.tracks.forEach(group => {
+      tracksHtml += `<div style="margin-bottom:8px;"><span style="color:#aaa;font-size:11px;">${group.cat}</span>`;
+      group.items.forEach(item => {
+        const parts = item.split(' / ');
+        const artist = parts[0];
+        const song = parts[1] || '';
+        const escaped = item.replace(/"/g, '&quot;');
+        tracksHtml += `<div style="margin:2px 0;"><a href="#" class="yt-music-link" data-query="${escaped}" style="color:#7ecfff;text-decoration:none;cursor:pointer;font-size:12px;">▶ ${artist}<span style="color:#aaa;font-size:0.9em"> ♪ ${song}</span></a></div>`;
+      });
+      tracksHtml += '</div>';
+    });
+    spTracks.innerHTML = tracksHtml;
+    spTracksSec.style.display = '';
+  } else {
+    spTracksSec.style.display = 'none';
   }
 
   // 影響を受けた（一方向のみ）
