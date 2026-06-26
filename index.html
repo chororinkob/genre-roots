@@ -232,7 +232,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info" style="font-size:10px;color:#666;">v21.8 / 512</span>
+  <span id="version-info" style="font-size:10px;color:#666;">v21.9 / 512</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ルーツマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -4749,8 +4749,9 @@ function playYtTrack(idx) {
         player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
         unmuteBtn.style.display = 'none';
       } else {
-        // カテゴリ10で見つからない場合、カテゴリ制限なしで再検索
-        fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${q}&type=video&maxResults=1&key=${ytKey}`)
+        // greatest hits mixが見つからない場合、ジャンル名+musicで再検索
+        const fallbackQ = encodeURIComponent(window._ytPlaylist[idx].replace(' greatest hits mix', '') + ' music');
+        fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${fallbackQ}&type=video&videoCategoryId=10&maxResults=1&key=${ytKey}`)
           .then(r2 => r2.json())
           .then(d2 => {
             if (d2.items && d2.items.length > 0) {
