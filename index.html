@@ -204,7 +204,9 @@ svg { width: 100vw; height: 100vh; }
   #sp-header { padding: 10px 14px 8px; }
   #sp-tag { font-size: 16px; }
   #sp-body { padding: 10px 14px; padding-bottom: 40px; }
-  #sp-yt-player { height: 140px !important; }
+  #sp-yt-player { height: 100px !important; width: 65% !important; }
+  #sp-yt-wrap { display: flex; flex-wrap: wrap; align-items: end; gap: 4px; }
+  #sp-yt-next { flex: none !important; font-size: 10px !important; padding: 4px 8px !important; }
 
   /* 楽器パネル */
   #instruments-panel { padding: 12px 14px; top: 80px; }
@@ -246,7 +248,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info" style="font-size:10px;color:#666;">v20.9 / 512</span>
+  <span id="version-info" style="font-size:10px;color:#666;">v21.0 / 512</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ルーツマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -316,12 +318,10 @@ svg { width: 100vw; height: 100vh; }
     <button id="sp-close">✕</button>
   </div>
   <div id="sp-body">
-    <div id="sp-yt-wrap" style="margin-bottom:10px;">
-      <iframe id="sp-yt-player" width="100%" height="180" style="border:none;border-radius:8px;" allow="autoplay;encrypted-media" allowfullscreen></iframe>
-      <div style="display:flex;gap:4px;margin-top:4px;">
-        <button id="sp-yt-unmute" style="display:none;flex:1;padding:6px;background:#cc0000;border:none;border-radius:6px;color:#fff;font-size:12px;font-weight:700;cursor:pointer;">🔊 音声ON</button>
-        <button id="sp-yt-next" style="display:none;flex:1;padding:6px;background:#1565C0;border:none;border-radius:6px;color:#fff;font-size:12px;font-weight:700;cursor:pointer;">次の曲 ▶</button>
-      </div>
+    <div id="sp-yt-wrap" style="margin-bottom:6px;display:flex;align-items:end;gap:6px;">
+      <iframe id="sp-yt-player" width="100%" height="180" style="border:none;border-radius:8px;flex:1;" allow="autoplay;encrypted-media" allowfullscreen></iframe>
+      <button id="sp-yt-unmute" style="display:none;"></button>
+      <button id="sp-yt-next" style="display:none;padding:6px 10px;background:#1565C0;border:none;border-radius:6px;color:#fff;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;writing-mode:horizontal-tb;">次▶</button>
     </div>
     <div id="sp-suno-wrap"></div>
     <div id="sp-era" class="sp-era"></div>
