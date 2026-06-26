@@ -60,7 +60,7 @@ svg { width: 100vw; height: 100vh; }
 .node circle { cursor: pointer; stroke-width: 2; transition: fill 0.3s ease-in, opacity 0.3s ease-in, filter 0.3s ease-in; }
 .node circle.flash-on { filter: brightness(2.5) drop-shadow(0 0 30px currentColor) drop-shadow(0 0 60px currentColor); }
 .node circle.flash-out { transition: fill 6s ease-out, opacity 6s ease-out, filter 6s ease-out; }
-.node circle.suno { stroke: rgba(180,180,200,0.3); stroke-width: 10; }
+.node circle.suno { stroke: none; stroke-width: 0; }
 .node text { pointer-events: none; font-size: 11px; fill: #eee; text-anchor: middle; dominant-baseline: central; }
 .node.highlighted circle { stroke: #fff !important; stroke-width: 3 !important; }
 .link-label { font-size: 60px; fill: #fff; pointer-events: none; font-weight: 700; opacity: 0; }
@@ -247,7 +247,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info" style="font-size:10px;color:#666;">v21.1 / 512</span>
+  <span id="version-info" style="font-size:10px;color:#666;">v21.2 / 512</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ルーツマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -4860,21 +4860,7 @@ node.on("click", (e, d) => {
 
   const name = d.label.replace("\n", " ");
   spTag.textContent = name;
-  const isSuno = sunoOverrides[d.id] !== undefined ? sunoOverrides[d.id] : d.suno;
-  spSunoW.innerHTML = '<label style="display:flex;align-items:center;gap:8px;cursor:pointer;margin-bottom:8px;">'
-    + '<input type="checkbox" id="suno-toggle" ' + (isSuno ? 'checked' : '') + ' style="width:18px;height:18px;accent-color:#FFD700;cursor:pointer;">'
-    + '<span id="suno-label" style="font-size:13px;color:' + (isSuno ? '#FFD700' : '#888') + ';">' + (isSuno ? 'Suno有効タグ' : 'Suno未確認') + '</span>'
-    + '</label>';
-  document.getElementById('suno-toggle').addEventListener('change', function() {
-    const newVal = this.checked;
-    sunoOverrides[d.id] = newVal;
-    localStorage.setItem('suno_overrides', JSON.stringify(sunoOverrides));
-    d.suno = newVal;
-    node.select('circle').attr('class', n => n.suno ? 'suno' : '');
-    const label = document.getElementById('suno-label');
-    label.textContent = newVal ? 'Suno有効タグ' : 'Suno未確認';
-    label.style.color = newVal ? '#FFD700' : '#888';
-  });
+  spSunoW.innerHTML = '';
   spEra.textContent  = d.era ? `発祥時期：${d.era}` : '';
   spDesc.textContent = d.desc || '（説明なし）';
 
