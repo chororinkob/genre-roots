@@ -246,7 +246,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info" style="font-size:10px;color:#666;">v23.8 / 512</span>
+  <span id="version-info" style="font-size:10px;color:#666;">v23.9 / 512</span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ルーツマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -4750,22 +4750,28 @@ function playYtTrack(idx) {
   if (!window._ytPlaylist || idx >= window._ytPlaylist.length) return;
   window._ytPlayIdx = idx;
   const ytKey = localStorage.getItem('yt_api_key') || window._ytk;
-  const q = encodeURIComponent(window._ytPlaylist[idx]);
+  const rawQ = window._ytPlaylist[idx];
+  const isCompilation = rawQ.includes('greatest hits');
+  // "Artist / Song" → "Artist Song" に変換してYouTube検索精度を上げる
+  const searchQ = rawQ.replace(' / ', ' ');
+  // コンピレーションのみカテゴリ10（音楽）で絞る。個別曲は絞らない
+  const catParam = isCompilation ? '&videoCategoryId=10' : '';
+  const q = encodeURIComponent(searchQ);
   const player = document.getElementById('sp-yt-player');
   const unmuteBtn = document.getElementById('sp-yt-unmute');
   const nextBtn = document.getElementById('sp-yt-next');
-  const mobile = window.innerWidth <= 768;
-  fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${q}&type=video&videoCategoryId=10&maxResults=1&key=${ytKey}`)
+  fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${q}&type=video${catParam}&maxResults=1&key=${ytKey}`)
     .then(r => r.json())
     .then(data => {
       if (data.items && data.items.length > 0) {
         const videoId = data.items[0].id.videoId;
         player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
-        unmuteBtn.style.display = 'none';
       } else {
-        // greatest hits mixが見つからない場合、ジャンル名+musicで再検索
-        const fallbackQ = encodeURIComponent(window._ytPlaylist[idx].replace(' greatest hits mix', '') + ' music');
-        fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${fallbackQ}&type=video&videoCategoryId=10&maxResults=1&key=${ytKey}`)
+        // フォールバック：コンピレーションは「ジャンル名 music」、個別曲は「クエリ official」
+        const fallbackQ = isCompilation
+          ? encodeURIComponent(rawQ.replace(' greatest hits mix', '') + ' music')
+          : encodeURIComponent(searchQ + ' official');
+        fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${fallbackQ}&type=video&maxResults=1&key=${ytKey}`)
           .then(r2 => r2.json())
           .then(d2 => {
             if (d2.items && d2.items.length > 0) {
