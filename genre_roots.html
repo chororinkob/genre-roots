@@ -106,18 +106,18 @@ svg { width: 100vw; height: 100vh; }
   position: fixed;
   left: 222px;
   width: 210px;
-  background: rgba(8,8,24,0.97);
-  border: 1px solid #444;
+  background: rgba(0,0,0,0.22);
+  border: 1px solid rgba(255,255,255,0.12);
   border-left: 3px solid #666;
   border-radius: 0 6px 6px 0;
   padding: 9px 12px;
   font-size: 11px;
-  color: #bbb;
+  color: #fff;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.7);
   line-height: 1.6;
   display: none;
   z-index: 35;
   pointer-events: none;
-  box-shadow: 4px 4px 20px rgba(0,0,0,0.7);
 }
 
 /* 3Dマップ */
@@ -246,7 +246,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info" style="font-size:10px;color:#666;">v22.8 / 512</span>
+  <span id="version-info" style="font-size:10px;color:#666;">v22.9 / 512</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ルーツマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
