@@ -216,7 +216,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info" style="font-size:10px;color:#666;">v22.4 / 512</span>
+  <span id="version-info" style="font-size:10px;color:#666;">v22.5 / 512</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ルーツマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -4921,14 +4921,22 @@ node.on("click", (e, d) => {
   // パネルのスクロールを先頭に戻す
   panel.scrollTop = 0;
 
-  // スマホ：選択ノードを画面上部寄りの中央に移動（パネルに隠れない位置）
+  // 選択ノードを可視エリアの中央に移動（パネルに隠れない位置）
   if (isMobile()) {
     const cx = window.innerWidth / 2;
-    const cy = window.innerHeight * 0.7;
+    const cy = window.innerHeight * 0.35;
     const t = d3.zoomTransform(svg.node());
     const tx = cx - d.x * t.k;
     const ty = cy - d.y * t.k;
     svg.transition().duration(500).call(zoom.transform, d3.zoomIdentity.translate(tx, ty).scale(t.k));
+  } else {
+    // PC：左サイドバー(214px)と右パネル(320px)を除いた可視エリアの中央
+    const cx = (214 + (window.innerWidth - 320)) / 2;
+    const cy = (50 + window.innerHeight) / 2;
+    const t = d3.zoomTransform(svg.node());
+    const tx = cx - d.x * t.k;
+    const ty = cy - d.y * t.k;
+    svg.transition().duration(600).call(zoom.transform, d3.zoomIdentity.translate(tx, ty).scale(t.k));
   }
 });
 
