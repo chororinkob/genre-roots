@@ -216,7 +216,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info" style="font-size:10px;color:#666;">v22.2 / 512</span>
+  <span id="version-info" style="font-size:10px;color:#666;">v22.3 / 512</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ルーツマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -5490,9 +5490,12 @@ sidebarOverlay.addEventListener('click', () => {
 // ===== 星のきらめき（JS制御） =====
 let twinkleActive = true;
 const twinkleNodes = node.select("circle").nodes();
-function flashNode(el) {
+function flashNode(el, returnColor) {
   const circle = d3.select(el);
   const catColor = circle.attr("data-cat-color");
+  const d = circle.datum();
+  const fadeColor   = returnColor !== undefined ? returnColor : monoColor(d);
+  const fadeOpacity = returnColor !== undefined ? 1 : 0.85;
   circle.classed("flash-out", false).classed("flash-on", true);
   circle.attr("fill", catColor).attr("fill-opacity", 1);
   if (isMobile()) {
@@ -5500,15 +5503,13 @@ function flashNode(el) {
     setTimeout(() => { circle.style("transition", null).attr("fill", catColor).attr("fill-opacity", 1); }, 100);
     setTimeout(() => {
       circle.classed("flash-on", false).classed("flash-out", true);
-      const d = circle.datum();
-      circle.attr("fill", monoColor(d)).attr("fill-opacity", 0.85);
+      circle.attr("fill", fadeColor).attr("fill-opacity", fadeOpacity);
       setTimeout(() => circle.classed("flash-out", false), 6200);
     }, 700);
   } else {
     setTimeout(() => {
       circle.classed("flash-on", false).classed("flash-out", true);
-      const d = circle.datum();
-      circle.attr("fill", monoColor(d)).attr("fill-opacity", 0.85);
+      circle.attr("fill", fadeColor).attr("fill-opacity", fadeOpacity);
       setTimeout(() => circle.classed("flash-out", false), 6200);
     }, 400);
   }
@@ -5517,23 +5518,30 @@ function flashNode(el) {
 const nodeById = {};
 twinkleNodes.forEach(el => { const d = d3.select(el).datum(); if (d) nodeById[d.id] = el; });
 
-// ハイライト用きらめき（カテゴリ・ノードクリック時）— doTwinkleと完全同一ロジック
+// ハイライト用きらめき（カテゴリ・ノードクリック時）— doTwinkleと同一ロジック＋catColor復帰＋クールダウン
 let highlightFlashInterval = null;
 function startHighlightFlash(ids) {
   stopHighlightFlash();
   const idArray = Array.from(ids);
+  const lastFlash = {};
+  function flashHighlight(nid) {
+    const el = nodeById[nid];
+    if (!el) return;
+    const now = Date.now();
+    if (lastFlash[nid] && now - lastFlash[nid] < 3000) return; // 同一ノードは3秒間隔
+    lastFlash[nid] = now;
+    const catColor = d3.select(el).attr("data-cat-color");
+    flashNode(el, catColor); // 白く光った後、catColorに戻す（monoColorにしない）
+  }
   function fireOnce() {
     if (!idArray.length) return;
     const id = idArray[Math.floor(Math.random() * idArray.length)];
-    const el = nodeById[id];
-    if (!el) return;
-    flashNode(el);
+    flashHighlight(id);
     // 集合体と同じニューロン波及（ハイライト内のノードのみ）
     const nbs = (neighbors[id] || []).filter(nid => ids.has(nid));
     const shuffled = nbs.sort(() => Math.random() - 0.5).slice(0, 3);
     shuffled.forEach((nid, i) => {
-      const nel = nodeById[nid];
-      if (nel) setTimeout(() => flashNode(nel), 300 + i * 200);
+      setTimeout(() => flashHighlight(nid), 300 + i * 200);
     });
   }
   highlightFlashInterval = setInterval(fireOnce, 800);
