@@ -246,8 +246,8 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info" style="font-size:10px;color:#666;">v23.0 / 512</span>
-  <div id="tab-buttons">
+  <span id="version-info" style="font-size:10px;color:#666;">v23.1 / 512</span>
+  <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ルーツマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
   </div>
@@ -270,7 +270,7 @@ svg { width: 100vw; height: 100vh; }
     <span class="filter-btn" data-filter="suno">Sunoタグのみ</span>
   </div>
   <div id="search-results" style="margin-top:8px;font-size:11px;color:#aaa;display:none;"></div>
-  <div id="candidates-info" style="margin-top:6px;font-size:11px;"></div>
+  <div id="candidates-info" style="display:none;margin-top:6px;font-size:11px;"></div>
 </div>
 
 <div id="legend">
@@ -5128,30 +5128,11 @@ function searchHandler(e) {
   let html = '';
   if (foundIds.size > 0) html += '<div style="color:#0f0">✓ ' + foundIds.size + '件ヒット</div>';
   if (notFound.length > 0) {
-    html += '<div style="color:#f88;margin-top:4px">✗ 未登録: ' + notFound.join(', ') + '</div>';
-    html += '<button id="save-candidates-btn" style="margin-top:6px;padding:3px 10px;background:#2a2a50;border:1px solid #555;border-radius:4px;color:#ccc;font-size:11px;cursor:pointer;">追加候補に保存</button>';
+    html += '<div style="color:#f88;margin-top:4px">✗ 該当するジャンルはありません: ' + notFound.join(', ') + '</div>';
+    // フェーズ2(Suno連動)で復活予定：追加候補保存ボタン
   }
   resultsDiv.innerHTML = html;
   resultsDiv.style.display = 'block';
-
-  // 追加候補保存ボタン
-  const saveBtn = document.getElementById('save-candidates-btn');
-  if (saveBtn) {
-    saveBtn.addEventListener('click', () => {
-      const saved = JSON.parse(localStorage.getItem('pending_candidates') || '[]');
-      const now = new Date().toISOString().slice(0,10);
-      notFound.forEach(tag => {
-        if (!saved.some(s => s.tag === tag)) {
-          saved.push({tag: tag, date: now});
-        }
-      });
-      localStorage.setItem('pending_candidates', JSON.stringify(saved));
-      saveBtn.textContent = `${notFound.length}件を保存しました`;
-      saveBtn.style.background = '#2E7D32';
-      updateCandidatesInfo();
-      setTimeout(() => { saveBtn.textContent = '追加候補に保存'; saveBtn.style.background = '#2a2a50'; }, 2000);
-    });
-  }
 }
 
 // 保存済み候補数の表示
