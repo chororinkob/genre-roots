@@ -246,7 +246,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info" style="font-size:10px;color:#666;">v23.1 / 512</span>
+  <span id="version-info" style="font-size:10px;color:#666;">v23.2 / 512</span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ルーツマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -5092,12 +5092,14 @@ function searchHandler(e) {
   closePanel();
 
   if (!raw.trim()) {
+    stopHighlightFlash();
     node.classed("search-match", false);
     node.classed("cat-dim", false);
     node.classed("cat-highlight", false);
-    node.select("circle").attr("opacity", 1);
+    node.select("circle").attr("fill", d => monoColor(d)).attr("opacity", 1);
     link.classed("focus-dim", false);
     linkLabelG.classed("focus-dim", false);
+    twinkleActive = true;
     resultsDiv.style.display = "none";
     return;
   }
@@ -5119,6 +5121,14 @@ function searchHandler(e) {
 
   node.classed("search-match", d => foundIds.has(d.id));
   node.classed("cat-dim", d => !foundIds.has(d.id));
+  // ヒットノードをcatColorで色付け＋発光（highlightCatと同じ挙動）
+  twinkleActive = false;
+  node.select("circle").attr("fill", d => {
+    if (!foundIds.has(d.id)) return monoColor(d);
+    const circleEl = nodeById[d.id];
+    return circleEl ? d3.select(circleEl).attr("data-cat-color") : monoColor(d);
+  });
+  startHighlightFlash(foundIds);
   link.classed("focus-dim", true);
   link.classed("focus-highlight", false);
   linkLabelG.classed("focus-dim", true);
