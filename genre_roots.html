@@ -216,7 +216,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info" style="font-size:10px;color:#666;">v22.3 / 512</span>
+  <span id="version-info" style="font-size:10px;color:#666;">v22.4 / 512</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ルーツマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -5518,33 +5518,24 @@ function flashNode(el, returnColor) {
 const nodeById = {};
 twinkleNodes.forEach(el => { const d = d3.select(el).datum(); if (d) nodeById[d.id] = el; });
 
-// ハイライト用きらめき（カテゴリ・ノードクリック時）— doTwinkleと同一ロジック＋catColor復帰＋クールダウン
+// ハイライト用きらめき（カテゴリ・ノードクリック時）
+// 波及なし・各ノードが独立してランダムに光る・catColorに戻す
 let highlightFlashInterval = null;
 function startHighlightFlash(ids) {
   stopHighlightFlash();
   const idArray = Array.from(ids);
   const lastFlash = {};
-  function flashHighlight(nid) {
-    const el = nodeById[nid];
-    if (!el) return;
-    const now = Date.now();
-    if (lastFlash[nid] && now - lastFlash[nid] < 3000) return; // 同一ノードは3秒間隔
-    lastFlash[nid] = now;
-    const catColor = d3.select(el).attr("data-cat-color");
-    flashNode(el, catColor); // 白く光った後、catColorに戻す（monoColorにしない）
-  }
-  function fireOnce() {
+  highlightFlashInterval = setInterval(() => {
     if (!idArray.length) return;
     const id = idArray[Math.floor(Math.random() * idArray.length)];
-    flashHighlight(id);
-    // 集合体と同じニューロン波及（ハイライト内のノードのみ）
-    const nbs = (neighbors[id] || []).filter(nid => ids.has(nid));
-    const shuffled = nbs.sort(() => Math.random() - 0.5).slice(0, 3);
-    shuffled.forEach((nid, i) => {
-      setTimeout(() => flashHighlight(nid), 300 + i * 200);
-    });
-  }
-  highlightFlashInterval = setInterval(fireOnce, 800);
+    const el = nodeById[id];
+    if (!el) return;
+    const now = Date.now();
+    if (lastFlash[id] && now - lastFlash[id] < 3000) return;
+    lastFlash[id] = now;
+    const catColor = d3.select(el).attr("data-cat-color");
+    flashNode(el, catColor);
+  }, 800);
 }
 function stopHighlightFlash() {
   if (highlightFlashInterval) { clearInterval(highlightFlashInterval); highlightFlashInterval = null; }
