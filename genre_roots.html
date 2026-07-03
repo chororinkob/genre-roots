@@ -246,7 +246,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info" style="font-size:10px;color:#666;">v23.4 / 512</span>
+  <span id="version-info" style="font-size:10px;color:#666;">v23.5 / 512</span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ルーツマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -5630,7 +5630,9 @@ function searchHandler(e) {
     const tagId = tag.replace(/[\s-]/g, '_');
     const matches = NODES.filter(n => {
       if (n.id === tagId || n.label.toLowerCase().replace('\n', ' ') === tag) return true;
-      if (tag.length >= 3) {
+      // 日本語（漢字・ひらがな・カタカナ）は1文字でも有効、英字は誤ヒット防止のため3文字以上
+      const hasJapanese = /[^\x00-\x7F]/.test(tag);
+      if (hasJapanese ? tag.length >= 1 : tag.length >= 3) {
         if (n.id.includes(tag) || n.label.toLowerCase().replace('\n', ' ').includes(tag)) return true;
         // カタカナ・日本語検索：desc（日本語説明文）も対象に含める
         if (n.desc && n.desc.includes(tag)) return true;
