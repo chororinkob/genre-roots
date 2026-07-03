@@ -216,7 +216,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info" style="font-size:10px;color:#666;">v22.5 / 512</span>
+  <span id="version-info" style="font-size:10px;color:#666;">v22.6 / 512</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ルーツマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -5526,24 +5526,33 @@ function flashNode(el, returnColor) {
 const nodeById = {};
 twinkleNodes.forEach(el => { const d = d3.select(el).datum(); if (d) nodeById[d.id] = el; });
 
-// ハイライト用きらめき（カテゴリ・ノードクリック時）
-// 波及なし・各ノードが独立してランダムに光る・catColorに戻す
+// ハイライト用きらめき（カテゴリ・ノードクリック時）— v22.3方式
+// カテゴリ内でランダムに1つ選び、隣接ノードに最大3つ波及・catColorに戻す・3秒クールダウン
 let highlightFlashInterval = null;
 function startHighlightFlash(ids) {
   stopHighlightFlash();
   const idArray = Array.from(ids);
   const lastFlash = {};
-  highlightFlashInterval = setInterval(() => {
-    if (!idArray.length) return;
-    const id = idArray[Math.floor(Math.random() * idArray.length)];
-    const el = nodeById[id];
+  function flashHighlight(nid) {
+    const el = nodeById[nid];
     if (!el) return;
     const now = Date.now();
-    if (lastFlash[id] && now - lastFlash[id] < 3000) return;
-    lastFlash[id] = now;
+    if (lastFlash[nid] && now - lastFlash[nid] < 3000) return;
+    lastFlash[nid] = now;
     const catColor = d3.select(el).attr("data-cat-color");
     flashNode(el, catColor);
-  }, 800);
+  }
+  function fireOnce() {
+    if (!idArray.length) return;
+    const id = idArray[Math.floor(Math.random() * idArray.length)];
+    flashHighlight(id);
+    const nbs = (neighbors[id] || []).filter(nid => ids.has(nid));
+    const shuffled = nbs.sort(() => Math.random() - 0.5).slice(0, 3);
+    shuffled.forEach((nid, i) => {
+      setTimeout(() => flashHighlight(nid), 300 + i * 200);
+    });
+  }
+  highlightFlashInterval = setInterval(fireOnce, 800);
 }
 function stopHighlightFlash() {
   if (highlightFlashInterval) { clearInterval(highlightFlashInterval); highlightFlashInterval = null; }
