@@ -90,6 +90,18 @@ svg { width: 100vw; height: 100vh; }
 .legend-item[data-cat] { cursor: pointer; padding: 2px 5px; border-radius: 4px; margin-left: -5px; transition: background 0.15s; }
 .legend-item[data-cat]:hover { background: rgba(255,255,255,0.12); }
 
+/* カテゴリアコーディオン */
+.cat-accordion { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+.cat-accordion.open { max-height: 1000px; transition: max-height 0.6s ease-in; }
+.cat-acc-inner { border-left: 2px solid var(--acc-color, #666); border-radius: 0 0 4px 4px; padding: 7px 8px 9px 10px; margin: 0 0 3px -5px; background: rgba(0,0,0,0.25); }
+.cat-acc-desc { color: #bbb; font-size: 10.5px; line-height: 1.55; margin-bottom: 7px; padding-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.cat-acc-genre { padding: 2px 3px; cursor: pointer; border-radius: 3px; margin: 1px 0; }
+.cat-acc-genre:hover { background: rgba(255,255,255,0.08); }
+.cat-acc-gname { font-size: 11px; font-weight: 700; color: #ddd; }
+.cat-acc-genre:hover .cat-acc-gname { color: #fff; }
+.cat-acc-gdesc { font-size: 9.5px; color: #666; line-height: 1.3; }
+.cat-acc-more { font-size: 9.5px; color: #555; text-align: right; padding-top: 4px; font-style: italic; }
+
 /* 3Dマップ */
 #3d-container canvas { width: 100% !important; height: 100% !important; }
 
@@ -216,7 +228,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info" style="font-size:10px;color:#666;">v22.6 / 512</span>
+  <span id="version-info" style="font-size:10px;color:#666;">v22.7 / 512</span>
   <div id="tab-buttons">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ルーツマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -5251,6 +5263,136 @@ document.querySelectorAll('.legend-item[data-cat]').forEach(item => {
 
 svg.on("click.unlock", () => {
   if (lockedCat) { clearHighlight(); }
+});
+
+// ===== カテゴリアコーディオン =====
+const CAT_DESC = {
+  blues_sub:     "アメリカ南部の黒人音楽を起源とする、魂の叫びをそのまま音にしたような音楽。悲しみや喜びをコール&レスポンス（呼びかけと応答）で表現し、ロック・ジャズ・ソウルなどほぼすべての現代音楽のルーツにあたる。",
+  jazz_sub:      "ブルースとアフリカ系アメリカ人の音楽が融合して生まれた即興音楽。スウィングするリズムと自由なアドリブが特徴で、クラシック以外の音楽に最も大きな影響を与えたジャンルの一つ。",
+  country_folk:  "アメリカの農村・開拓時代の生活や物語を歌う音楽。アコースティックギターやバンジョーの素朴な音が特徴。フォークはさらに社会的メッセージや自由への想いを込めた歌も多い。",
+  pop:           "「大衆に受け入れられる」ことを目指したあらゆる時代の流行音楽。キャッチーなメロディー、シンプルな構成、洗練されたサウンドプロダクションが特徴で、時代ごとに姿を変えながら常にシーンの中心にある。",
+  soul_cat:      "R&Bとゴスペルが合体した、感情豊かな歌声が中心の音楽。1950〜60年代の黒人音楽から生まれ、「魂（ソウル）」を込めた深い歌唱が最大の魅力。マーヴィン・ゲイやアレサ・フランクリンが代表格。",
+  early_elec:    "1940〜70年代に誕生した電子楽器や音響実験を用いた音楽。シンセサイザーやテープ操作など、それまでになかった「人工的な音」を探求したジャンル。テクノ・シンセポップ・アンビエントの直接の祖先。",
+  rock:          "1950年代にR&Bとカントリーから誕生したエレキギター主体の音楽。反抗精神、エネルギー、強いビートが特徴で、60〜90年代の音楽シーンを席巻。ビートルズ・ローリングストーンズからメタルまで多様に発展した。",
+  funk_cat:      "1960年代にジェームス・ブラウンが生み出したグルーヴ（体を動かしたくなるリズム感）が核の音楽。ベース・ドラム・ホーンが一体となった独特のノリが特徴で、ヒップホップやR&Bの土台にもなった。",
+  metal:         "ロックをより激しく・重く発展させた音楽。ディストーションギター、大音量、速いテンポが特徴。ヘビーメタルから始まり、スラッシュ・デス・ブラックなど多数のサブジャンルに分岐している。",
+  disco_cat:     "1970年代のナイトクラブ文化から生まれたダンス音楽。4つ打ちキックドラム、弦楽器・ホーンのゴージャスなアレンジ、キラキラしたサウンドが特徴。ハウス・テクノの直接の祖先。",
+  hiphop:        "1970年代ニューヨークのブロンクスで黒人・ヒスパニック系若者が作り出した文化。ラップ（言葉のリズム）、DJスクラッチ、サンプリングが音楽的な柱。現在は世界で最も聴かれるジャンルの一つ。",
+  ambient:       "背景として流れ、空間や雰囲気を作る音楽。ブライアン・イーノが提唱。明確なメロディーより音の質感・空間性を重視し、リラクゼーションや映画音楽にも広く使われる。",
+  industrial:    "1970年代のパンクとアバンギャルドから生まれた、工場や機械をモチーフにした実験的音楽。騒音・不快感を意図的に用い、既存の音楽概念を壊そうとした先鋭的なジャンル。",
+  synthpop:      "シンセサイザーを主役にした1980年代のポップ音楽。人間的な温かさとテクノロジーの冷たさを融合させ、YMOやデペッシュ・モードが世界的に流行させた。J-POPにも大きな影響を与えた。",
+  eurodance:     "1990年代のヨーロッパで生まれた明るく踊れるポップ電子音楽。速いテンポ、キャッチーなメロディー、ユーロビートとも重なる。日本ではパラパラダンスと共に親しまれた。",
+  house:         "1980年代シカゴのクラブから生まれた電子ダンス音楽。4つ打ちキックドラムが基本。温かみのある音とソウルフルなボーカルが特徴で、現代EDMの直接の祖先にあたる。",
+  techno:        "1980年代デトロイトで生まれた無機質・機械的な電子音楽。反復するリズムと冷たい音が特徴で、ベルリンのクラブ文化を経て世界のアンダーグラウンドに広まった。",
+  trance:        "1990年代のドイツで発展した、聴く人をトランス状態（恍惚感）に導くような高揚感のある電子音楽。メロディアスなシンセ音と大きな展開（ビルドアップ→ドロップ）が特徴。",
+  hardcore:      "ハードコアパンクと電子音楽が融合した超高速・超激しい音楽。ブレイクビーツ・ハードコアから多数のサブジャンルに分岐し、ハッピーハードコアやガバなどがヨーロッパで独自発展した。",
+  dnb:           "1990年代ロンドンで生まれた高速ブレイクビーツ（砕け散るドラム）とヘビーベースが特徴の音楽。160〜180BPMの速いテンポが基本で、ジャングルが前身。ドラムパターンの複雑さが醍醐味。",
+  dubstep:       "2000年代ロンドン南部で生まれた重低音と独特のリズムを持つ電子音楽。「ウォブル（揺れる）ベース」が最大の特徴。スクリレックスにより米国で派手なスタイルへ変化した。",
+  edm:           "2000年代以降に米国で商業的に成功した電子ダンス音楽の総称。ハウス・トランス・ダブステップなどの要素を取り込み、コーチェラなど大型フェスを中心に世界中に広まった。",
+  synthwave:     "1980年代のシンセポップ・エレクトロをオマージュした現代の音楽。レトロフューチャーなサウンドと「懐かしい未来」のイメージが特徴。映画『ドライヴ』や『ストレンジャー・シングス』で注目を集めた。",
+  classical_sub: "西洋の楽譜・理論体系に基づく音楽。バロック・古典派・ロマン派・現代音楽など時代ごとに発展。オーケストラ・ピアノ・声楽など多様な形態を持ち、他のすべての音楽の理論的基盤でもある。",
+  latin:         "ラテンアメリカ（メキシコ・ブラジル・キューバ等）の音楽。情熱的なリズムと踊れるグルーヴが特徴。サルサ・ボサノバ・タンゴなど多様なサブジャンルがあり、世界中のポップ音楽に影響を与えている。",
+  caribbean:     "カリブ海諸島（ジャマイカ・トリニダード等）の音楽。レゲエ・スカ・カリプソなどが代表格。アフリカ系の影響とコロニアルな文化が融合して生まれた独特のリズム感が特徴。",
+  african:       "アフリカ大陸各地の音楽。複雑なポリリズム（複数のリズムの重ね合わせ）は世界的にも独特で、現代のほぼすべてのポピュラー音楽のリズムの源流でもある。アフロビートやハイライフが代表例。",
+  middle_east:   "中東・アラブ・ペルシャ地域の音楽。マカーム（独自の音階体系）に基づく旋律と独特の音律が特徴。ウード（琵琶に似た弦楽器）やベリーダンス音楽など独自の文化を持つ。",
+  south_asian:   "インド・パキスタンなど南アジアの音楽。ラーガ（音階）とターラ（リズム周期）による即興演奏が特徴。ボリウッドを通じて世界にも広まり、ビートルズなど西洋音楽にも影響を与えた。",
+  east_asian:    "日本・中国・韓国など東アジアの音楽。各国固有の楽器（三味線・二胡・伽耶琴等）と音階を持ち、西洋音楽とは異なる独自の美的感覚がある。K-POPやJ-POPは現代的なポップと融合した形。"
+};
+
+// アコーディオン構築
+document.querySelectorAll('.legend-item[data-cat]').forEach(item => {
+  const cat = item.dataset.cat;
+  const desc = CAT_DESC[cat];
+  if (!desc) return;
+
+  // カテゴリカラーを取得
+  const dot = item.querySelector('.legend-dot');
+  const catColor = dot ? dot.style.background : '#666';
+
+  // アコーディオン要素を生成
+  const acc = document.createElement('div');
+  acc.className = 'cat-accordion';
+  acc.dataset.cat = cat;
+
+  const inner = document.createElement('div');
+  inner.className = 'cat-acc-inner';
+  inner.style.setProperty('--acc-color', catColor);
+
+  // カテゴリ説明
+  const descEl = document.createElement('div');
+  descEl.className = 'cat-acc-desc';
+  descEl.textContent = desc;
+  inner.appendChild(descEl);
+
+  // 同カテゴリのジャンル一覧（人気順、最大12件）
+  const genres = NODES.filter(n => n.cat === cat)
+    .sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
+  const MAX_SHOW = 12;
+  const shown = genres.slice(0, MAX_SHOW);
+  const rest = genres.length - MAX_SHOW;
+
+  shown.forEach(genre => {
+    const row = document.createElement('div');
+    row.className = 'cat-acc-genre';
+
+    const gname = document.createElement('div');
+    gname.className = 'cat-acc-gname';
+    gname.textContent = genre.label.replace('\n', ' ');
+    row.appendChild(gname);
+
+    if (genre.desc) {
+      const gdesc = document.createElement('div');
+      gdesc.className = 'cat-acc-gdesc';
+      // 最初の文（句点まで）か40文字で切る
+      const firstSentence = genre.desc.match(/^[^。！？.!?]{1,45}[。！？.!?]?/)?.[0] || genre.desc.slice(0, 40);
+      gdesc.textContent = firstSentence + (genre.desc.length > firstSentence.length ? '…' : '');
+      row.appendChild(gdesc);
+    }
+
+    // クリックでそのノードへナビゲート
+    row.addEventListener('click', e => {
+      e.stopPropagation();
+      const circleEl = nodeById[genre.id];
+      if (circleEl) circleEl.parentNode.dispatchEvent(new MouseEvent('click', { bubbles: false, cancelable: true }));
+    });
+
+    inner.appendChild(row);
+  });
+
+  if (rest > 0) {
+    const more = document.createElement('div');
+    more.className = 'cat-acc-more';
+    more.textContent = `他 ${rest} ジャンル`;
+    inner.appendChild(more);
+  }
+
+  acc.appendChild(inner);
+
+  // legend-item の直後に挿入
+  item.after(acc);
+
+  // ホバーでアコーディオン開閉（legend-item ↔ acc 間の移動は閉じない）
+  let closeTimer = null;
+  function openAcc() {
+    clearTimeout(closeTimer);
+    document.querySelectorAll('.cat-accordion.open').forEach(el => {
+      if (el !== acc) el.classList.remove('open');
+    });
+    acc.classList.add('open');
+  }
+  function scheduleClose() {
+    closeTimer = setTimeout(() => acc.classList.remove('open'), 120);
+  }
+  item.addEventListener('mouseenter', openAcc);
+  item.addEventListener('mouseleave', e => {
+    if (e.relatedTarget && acc.contains(e.relatedTarget)) return;
+    scheduleClose();
+  });
+  acc.addEventListener('mouseenter', () => clearTimeout(closeTimer));
+  acc.addEventListener('mouseleave', e => {
+    if (e.relatedTarget && item.contains(e.relatedTarget)) return;
+    scheduleClose();
+  });
 });
 
 // Filter
