@@ -246,7 +246,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info" style="font-size:10px;color:#666;">v23.5 / 512</span>
+  <span id="version-info" style="font-size:10px;color:#666;">v23.6 / 512</span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ルーツマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -5619,6 +5619,7 @@ function searchHandler(e) {
     linkLabelG.classed("focus-dim", false);
     twinkleActive = true;
     resultsDiv.style.display = "none";
+    window._searchActive = false;
     return;
   }
 
@@ -5669,6 +5670,7 @@ function searchHandler(e) {
   }
   resultsDiv.innerHTML = html;
   resultsDiv.style.display = 'block';
+  window._searchActive = foundIds.size > 0;
 }
 
 // 保存済み候補数の表示
@@ -5767,13 +5769,22 @@ function clearHighlight() {
 document.querySelectorAll('.legend-item[data-cat]').forEach(item => {
   const cat = item.dataset.cat;
   item.addEventListener('mouseenter', () => {
-    if (!lockedCat && !window._nodeFocused) highlightCat(cat);
+    if (!lockedCat && !window._nodeFocused && !window._searchActive) highlightCat(cat);
   });
   item.addEventListener('mouseleave', () => {
-    if (!lockedCat && !window._nodeFocused) clearHighlight();
+    if (!lockedCat && !window._nodeFocused && !window._searchActive) clearHighlight();
   });
   item.addEventListener('click', (e) => {
     e.stopPropagation();
+    // 検索中ならまず検索をクリア
+    if (window._searchActive) {
+      window._searchActive = false;
+      searchInput.value = '';
+      document.getElementById('search-results').style.display = 'none';
+      node.classed('search-match', false);
+      node.classed('cat-dim', false);
+      stopHighlightFlash();
+    }
     // ノードフォーカス中ならまず解除
     if (window._nodeFocused) {
       window._nodeFocused = false;
