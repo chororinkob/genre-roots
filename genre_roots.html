@@ -5428,8 +5428,14 @@ node.on("click", (e, d) => {
   // 代表曲・アーティスト
   const spTracks = document.getElementById("sp-tracks");
   const spTracksSec = document.getElementById("sp-tracks-sec");
+  let tracksHtml = '';
+  if (d.rep_tracks && d.rep_tracks.length > 0) {
+    d.rep_tracks.forEach(item => {
+      const escaped = item.replace(/"/g, '&quot;');
+      tracksHtml += `<div style="margin:2px 0;"><a href="#" class="yt-music-link" data-query="${escaped}" style="color:#7ecfff;text-decoration:none;cursor:pointer;font-size:12px;">▶ ${item}</a></div>`;
+    });
+  }
   if (d.tracks && d.tracks.length > 0) {
-    let tracksHtml = '';
     d.tracks.forEach(group => {
       tracksHtml += `<div style="margin-bottom:8px;"><span style="color:#aaa;font-size:11px;">${group.cat}</span>`;
       group.items.forEach(item => {
@@ -5441,6 +5447,8 @@ node.on("click", (e, d) => {
       });
       tracksHtml += '</div>';
     });
+  }
+  if (tracksHtml) {
     spTracks.innerHTML = tracksHtml;
     spTracksSec.style.display = '';
   } else {
