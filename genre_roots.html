@@ -246,7 +246,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info" style="font-size:10px;color:#666;">v23.12 / 512</span>
+  <span id="version-info" style="font-size:10px;color:#666;">v23.13 / 512</span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ルーツマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -522,7 +522,9 @@ const NODES = [
   {id:"jazz", label:"Jazz", cat:"jazz_sub", era:"1900s", suno:false,
     desc:"スウィング感のあるリズムに乗せた即興演奏（アドリブ）が最大の魅力。演奏者がその場の空気で旋律を自由に変え、予測できない展開が生まれるのがジャズ独特の面白さ。コード進行は複雑でおしゃれな響きを持ち、サックスやトランペットの艶やかな音色がムードを作る。テンポはスローバラードからアップテンポまで幅広いが、どのスタイルにも共通する「揺れるグルーヴ」がある。夜のバーが似合う大人びた雰囲気で、時にメランコリック、時に高揚感にあふれる。",
     roots_story:"19世紀末〜20世紀初頭、ニューオーリンズの黒人コミュニティでブルース、ラグタイム、ゴスペル、マーチングバンドの要素が融合して誕生した。Buddy Bolden、King Oliver、Louis Armstrongらが初期のスタイルを確立。1920年代にシカゴ・NYへ広がり「ジャズ・エイジ」と呼ばれる社会現象に。Duke Ellington、Charlie Parker、Miles Davisらが時代ごとに革新を起こし、ビバップ→クールジャズ→フリージャズと進化。その即興精神とハーモニーの豊かさは、後のあらゆるポピュラー音楽の基盤となった。",
-    rep_tracks:["So What (Miles Davis)", "Take Five (Dave Brubeck)", "A Love Supreme (John Coltrane)"],},
+    rep_tracks:["So What (Miles Davis)", "Take Five (Dave Brubeck)", "A Love Supreme (John Coltrane)"],
+    yt_mix:["p9dRg8yQ2DY", "_sI_Ps7JSEk"],
+    yt_tracks:[["ylXk1LBvIqU", "zqNTltOGh5c"], ["vmDDOFXSgAs", "-DHuW1h1wHw"], ["ll3CMgiUPuU", "Dmx2WuUPVcs"]],},
 
   {id:"blues", label:"Blues", cat:"blues_sub", era:"1900s", suno:false,
     desc:"哀愁と情感を込めたギターとボーカルが中心の音楽。「泣き」のギターフレーズ、ブルーノートと呼ばれる独特の音階が醸し出す切なさが最大の特徴。テンポはゆったりめで、同じコード進行をくり返しながら感情を深く掘り下げていく。声を絞り出すような歌い方、ギターを泣かせるようなベンド（チョーキング）、ハーモニカのむせび泣く音色が胸に刺さる。晴れた日でもどこか物悲しい空気を纏っており、聴く人の心の奥にじんわり響く音楽。",
@@ -547,7 +549,9 @@ const NODES = [
   {id:"reggae", label:"Reggae", cat:"caribbean", era:"1960s", suno:false,
     desc:"裏拍（オフビート）を強調した独特のリズムが最大の個性。ギターやキーボードが「ンチャ・ンチャ」と裏で刻み、その隙間を重く深いベースラインがズーンと埋める。テンポはゆったり（BPM 60〜90）で、南国の陽射しの下でのんびり揺れるような心地よさがある。一聴すると脱力感があるのに、ベースとドラムのコンビネーションには芯の強いグルーヴが宿っている。穏やかさの中に力強いメッセージを秘めた、不思議な包容力を持つ音楽。",
     roots_story:"1960年代後半、ジャマイカでスカ→ロックステディの進化を経て誕生。Toots and the Maytalsが「Do the Reggay」(1968)で初めて「レゲエ」という言葉を使用。Bob Marleyとthe Wailersが世界的なスターとなり、レゲエをグローバルな音楽に押し上げた。「No Woman, No Cry」「One Love」などの楽曲は今も世界中で愛される。同時期にLee \\\"Scratch\\\" Perryやking Tubbyがスタジオで録音テープを加工する「ダブ」技法を発明。これはリバーブ、ディレイ、エフェクト処理による音響実験であり、後の電子音楽・リミックス文化の原点となった。",
-    rep_tracks:["No Woman, No Cry (Bob Marley and the Wailers)", "One Love (Bob Marley and the Wailers)", "Do the Reggay (Toots and the Maytals)", "I Shot the Sheriff (Eric Clapton)", "Pressure Drop (Toots and the Maytals)"],},
+    rep_tracks:["No Woman, No Cry (Bob Marley and the Wailers)", "One Love (Bob Marley and the Wailers)", "Do the Reggay (Toots and the Maytals)", "I Shot the Sheriff (Eric Clapton)", "Pressure Drop (Toots and the Maytals)"],
+    yt_mix:["jmy3B7QL2qM", "9LLRgv-YrnM"],
+    yt_tracks:[["mZ6VezKMoRY", "IT8XvzIfi4U"], ["IN0KkGeEURw", "CCK3luJOHho"], ["fchEBChUkck", "9eM3UlP4VNw"], ["APWhx97QvxE", "L0xLLPJ0bOw"], ["uw66FA6OTqA", "DKVB_CtU8XQ"]],},
 
   {id:"punk", label:"Punk Rock", cat:"rock", era:"1970s", suno:false,
     desc:"速い・短い・シンプル・うるさい。3コードのパワーコードをかき鳴らし、2分前後の短い曲を全力で叩きつけるロック。演奏技術よりも衝動と態度が重視され、怒りや反抗心をそのまま音にぶつける。ボーカルは叫ぶか吐き捨てるかで、美しく歌おうという気はない。テンポは速く、ドラムはひたすらビートを叩き続ける。聴くと「自分でもできそう」と思わせる敷居の低さがあるのに、そのエネルギーは圧倒的。粗削りで汚いのにカッコいい、反骨精神そのものの音楽。",
@@ -5257,6 +5261,17 @@ node.on("mouseover", (e, d) => {
 })
 .on("mouseout", () => tooltip.style.display = "none");
 
+// 固定VideoIDで再生（APIなし）。backup_idはエラー時に自動切り替え
+function playByVideoId(primaryId, backupId) {
+  const player = document.getElementById('sp-yt-player');
+  const unmuteBtn = document.getElementById('sp-yt-unmute');
+  const nextBtn   = document.getElementById('sp-yt-next');
+  player.dataset.backupId = backupId || '';
+  player.src = `https://www.youtube.com/embed/${primaryId}?autoplay=1&rel=0&enablejsapi=1`;
+  if (unmuteBtn) unmuteBtn.style.display = 'none';
+  if (nextBtn)   nextBtn.style.display   = 'none';
+}
+
 // YouTube再生関数
 function playYtTrack(idx) {
   if (!window._ytPlaylist || idx >= window._ytPlaylist.length) return;
@@ -5330,6 +5345,17 @@ window.addEventListener('message', (e) => {
     if (data.event === 'onStateChange' && data.info === 0) {
       if (window._ytPlaylist && window._ytPlayIdx < window._ytPlaylist.length - 1) {
         playYtTrack(window._ytPlayIdx + 1);
+      }
+      return;
+    }
+    // 動画エラー（削除・非公開など）→ バックアップIDで再試行
+    if (data.event === 'onError' && [2, 100, 101, 150].includes(data.info)) {
+      const player = document.getElementById('sp-yt-player');
+      const backupId = player && player.dataset.backupId;
+      if (backupId) {
+        console.warn('YT error', data.info, '→ backup:', backupId);
+        player.src = `https://www.youtube.com/embed/${backupId}?autoplay=1&rel=0&enablejsapi=1`;
+        player.dataset.backupId = '';
       }
     }
   } catch(err) {}
@@ -5430,9 +5456,9 @@ node.on("click", (e, d) => {
   const spTracksSec = document.getElementById("sp-tracks-sec");
   let tracksHtml = '';
   if (d.rep_tracks && d.rep_tracks.length > 0) {
-    d.rep_tracks.forEach(item => {
+    d.rep_tracks.forEach((item, tidx) => {
       const escaped = item.replace(/"/g, '&quot;');
-      tracksHtml += `<div style="margin:2px 0;"><a href="#" class="yt-music-link" data-query="${escaped}" style="color:#7ecfff;text-decoration:none;cursor:pointer;font-size:12px;">▶ ${item}</a></div>`;
+      tracksHtml += `<div style="margin:2px 0;"><a href="#" class="yt-music-link" data-query="${escaped}" data-track-idx="${tidx}" style="color:#7ecfff;text-decoration:none;cursor:pointer;font-size:12px;">▶ ${item}</a></div>`;
     });
   }
   if (d.tracks && d.tracks.length > 0) {
@@ -5477,17 +5503,22 @@ node.on("click", (e, d) => {
       }).join('')
     : '<span style="color:#666">なし</span>';
 
-  // YouTube埋め込みプレイヤー（コンピレーション動画を再生）
-  const ytKey = localStorage.getItem('yt_api_key') || window._ytk;
-  if (ytKey) {
-    window._ytPlaylist = [name + " greatest hits mix"];
-    window._ytPlayIdx = 0;
-    playYtTrack(0);
+  // YouTube埋め込みプレイヤー（固定ID優先、なければAPI検索）
+  if (d.yt_mix && d.yt_mix.length > 0) {
+    playByVideoId(d.yt_mix[0], d.yt_mix[1] || '');
+  } else {
+    const ytKey = localStorage.getItem('yt_api_key') || window._ytk;
+    if (ytKey) {
+      window._ytPlaylist = [name + " greatest hits mix"];
+      window._ytPlayIdx = 0;
+      playYtTrack(0);
+    }
   }
 
   // コピー（ラベル名をスペース区切りでコピー）
   spCopy.onclick = () => { const copyText = d.label.replace('\n',' '); navigator.clipboard.writeText(copyText).then(() => { spCopy.textContent='コピー済み'; setTimeout(()=>spCopy.textContent='コピー', 1500); }); };
 
+  window._currentNode = d;  // rep_tracks再生時に参照
   openPanel();
 
   // パネルのスクロールを先頭に戻す
@@ -5521,7 +5552,13 @@ panel.addEventListener('click', (e) => {
   if (ytLink) {
     e.preventDefault();
     const query = ytLink.dataset.query;
-    searchAndPlayTrack(query);
+    const tidx = parseInt(ytLink.dataset.trackIdx ?? '-1');
+    const nd = window._currentNode;
+    if (nd && nd.yt_tracks && tidx >= 0 && nd.yt_tracks[tidx] && nd.yt_tracks[tidx][0]) {
+      playByVideoId(nd.yt_tracks[tidx][0], nd.yt_tracks[tidx][1] || '');
+    } else {
+      searchAndPlayTrack(query);
+    }
     panel.scrollTop = 0;
     return;
   }
