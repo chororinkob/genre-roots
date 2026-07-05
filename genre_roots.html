@@ -249,7 +249,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info" style="font-size:10px;color:#666;">v23.24 / 512</span>
+  <span id="version-info" style="font-size:10px;color:#666;">v23.25 / 512</span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ルーツマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -6550,27 +6550,50 @@ node.on("click", (e, d) => {
   // パネルのスクロールを先頭に戻す
   panel.scrollTop = 0;
 
-  // 選択ノードを可視エリアの中央に移動（パネルに隠れない位置）
-  if (isMobile()) {
-    // パネルはヘッダー直下から高さ44vh → 下端はheaderH+44vh
-    // パネル下端〜画面下端の中央にノードを配置
-    const headerH    = document.getElementById('header').offsetHeight;
-    const panelBottom = headerH + window.innerHeight * 0.44;
-    const cx = window.innerWidth / 2;
-    const cy = panelBottom + (window.innerHeight - panelBottom) / 2;
-    const t  = d3.zoomTransform(svg.node());
-    const tx = cx - d.x * t.k;
-    const ty = cy - d.y * t.k;
-    svg.transition().duration(500).call(zoom.transform, d3.zoomIdentity.translate(tx, ty).scale(t.k));
-  } else {
-    // PC：左サイドバー(214px)と右パネル(320px)を除いた可視エリアの中央
-    const cx = (214 + (window.innerWidth - 320)) / 2;
-    const cy = (50 + window.innerHeight) / 2;
-    const t = d3.zoomTransform(svg.node());
-    const tx = cx - d.x * t.k;
-    const ty = cy - d.y * t.k;
-    svg.transition().duration(600).call(zoom.transform, d3.zoomIdentity.translate(tx, ty).scale(t.k));
-  }
+  // 選択ノード＋関連ノード全体が可視エリアに収まるようにズーム
+  (() => {
+    // 直接繋がる全ノードを収集
+    const relIds = new Set([d.id]);
+    linkData.forEach(l => {
+      const sId = typeof l.source === 'object' ? l.source.id : l.source;
+      const tId = typeof l.target === 'object' ? l.target.id : l.target;
+      if (sId === d.id) relIds.add(tId);
+      if (tId === d.id) relIds.add(sId);
+    });
+    const relNodes = NODES.filter(n => relIds.has(n.id) && isFinite(n.x) && isFinite(n.y));
+    if (relNodes.length === 0) return;
+
+    // バウンディングボックス（ノード半径＋余白）
+    const pad = 60;
+    let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+    relNodes.forEach(n => {
+      const r = n.r || 20;
+      if (n.x - r < x0) x0 = n.x - r;
+      if (n.y - r < y0) y0 = n.y - r;
+      if (n.x + r > x1) x1 = n.x + r;
+      if (n.y + r > y1) y1 = n.y + r;
+    });
+    const bw = x1 - x0 + pad * 2, bh = y1 - y0 + pad * 2;
+    const midX = (x0 + x1) / 2, midY = (y0 + y1) / 2;
+
+    const vw = window.innerWidth, vh = window.innerHeight;
+    let cx, cy, uw, uh;
+    if (isMobile()) {
+      const headerH = document.getElementById('header').offsetHeight;
+      const panelBottom = headerH + vh * 0.44;
+      uw = vw; uh = vh - panelBottom;
+      cx = vw / 2; cy = panelBottom + uh / 2;
+    } else {
+      const headerH = document.getElementById('header').offsetHeight;
+      uw = vw - 214 - 320; uh = vh - headerH;
+      cx = 214 + uw / 2; cy = headerH + uh / 2;
+    }
+
+    const scale = Math.min(Math.min(uw / bw, uh / bh) * 0.9, 4);
+    if (scale <= 0 || !isFinite(scale)) return;
+    const tx = cx - midX * scale, ty = cy - midY * scale;
+    svg.transition().duration(600).call(zoom.transform, d3.zoomIdentity.translate(tx, ty).scale(scale));
+  })();
 });
 
 spClose.onclick = () => closePanel();
