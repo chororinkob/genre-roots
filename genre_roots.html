@@ -206,19 +206,20 @@ svg { width: 100vw; height: 100vh; }
     background: rgba(0,0,0,0.3); z-index: 99;
   }
 
-  /* 右サイドパネル：下からスライドアップ。55vhにして内容が見えやすく */
+  /* 右サイドパネル：下からスライドアップ。44vh（55vhから20%カット） */
   #side-panel {
     position: fixed; left: 6px; right: 6px; bottom: 6px; top: auto;
-    width: auto !important; height: 55vh;
+    width: auto !important; height: 44vh;
     background: rgba(0,0,0,0.75) !important;
     border: 1px solid rgba(255,255,255,0.15);
     border-radius: 16px;
     transform: translateY(calc(100% + 6px)); transition: transform 0.3s ease;
-    scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.3) transparent;
+    overflow-y: scroll;
+    scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.35) rgba(255,255,255,0.08);
   }
-  #side-panel::-webkit-scrollbar { width: 4px; }
-  #side-panel::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 2px; }
-  #side-panel::-webkit-scrollbar-track { background: transparent; }
+  #side-panel::-webkit-scrollbar { width: 5px; }
+  #side-panel::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.35); border-radius: 3px; }
+  #side-panel::-webkit-scrollbar-track { background: rgba(255,255,255,0.08); border-radius: 3px; }
   #sp-header { background: rgba(0,0,0,0.9) !important; }
   #side-panel.sp-visible {
     display: block !important; transform: translateY(0);
@@ -248,7 +249,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info" style="font-size:10px;color:#666;">v23.23 / 512</span>
+  <span id="version-info" style="font-size:10px;color:#666;">v23.24 / 512</span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ルーツマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -6551,10 +6552,10 @@ node.on("click", (e, d) => {
 
   // 選択ノードを可視エリアの中央に移動（パネルに隠れない位置）
   if (isMobile()) {
-    // パネルはヘッダー直下から高さ55vh → 下端はheaderH+55vh
+    // パネルはヘッダー直下から高さ44vh → 下端はheaderH+44vh
     // パネル下端〜画面下端の中央にノードを配置
     const headerH    = document.getElementById('header').offsetHeight;
-    const panelBottom = headerH + window.innerHeight * 0.55;
+    const panelBottom = headerH + window.innerHeight * 0.44;
     const cx = window.innerWidth / 2;
     const cy = panelBottom + (window.innerHeight - panelBottom) / 2;
     const t  = d3.zoomTransform(svg.node());
