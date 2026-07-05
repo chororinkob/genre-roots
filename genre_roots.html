@@ -153,8 +153,8 @@ svg { width: 100vw; height: 100vh; }
 
 /* ===== スマホ対応 (768px以下) ===== */
 @media (max-width: 768px) {
-  /* ヘッダー：1行に収める */
-  #header { flex-wrap: nowrap; padding: 2px 4px; gap: 3px; align-items: center; }
+  /* ヘッダー：1行に収める。オーバーレイ(z-index:99)より上にして常にタップ可能に */
+  #header { flex-wrap: nowrap; padding: 2px 4px; gap: 3px; align-items: center; z-index: 200; }
   #header h1 { font-size: 10px; white-space: nowrap; }
   #version-info { display: block !important; font-size: 8px !important; color: #888 !important; margin-left: 4px !important; margin-right: auto !important; white-space: nowrap; }
   #tab-buttons { margin-left: 0; display: flex; gap: 1px; flex-shrink: 0; }
@@ -180,6 +180,8 @@ svg { width: 100vw; height: 100vh; }
 
   /* ホバーツールチップ非表示（指で隠れるため） */
   #tooltip { display: none !important; }
+  /* カテゴリー吹き出しも非表示（位置がずれるため。アコーディオンで代替） */
+  #cat-tooltip { display: none !important; }
   #left-sidebar.open { transform: translateX(0); }
 
   /* 検索ボックスをコンパクトに */
@@ -198,16 +200,16 @@ svg { width: 100vw; height: 100vh; }
   .legend-label { font-size: 10px; }
   .suno-ring { width: 13px; height: 13px; border-width: 4px; }
 
-  /* オーバーレイ背景 */
+  /* オーバーレイ背景：サイドバー右端(150px)から右だけを覆う。マップが見えるよう薄めに */
   #sidebar-overlay.open {
-    display: block; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.5); z-index: 99;
+    display: block; position: fixed; top: 0; left: 150px; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.3); z-index: 99;
   }
 
-  /* 右サイドパネル：下からスライドアップ */
+  /* 右サイドパネル：下からスライドアップ。55vhにして内容が見えやすく */
   #side-panel {
     position: fixed; left: 6px; right: 6px; bottom: 6px; top: auto;
-    width: auto !important; height: 40vh;
+    width: auto !important; height: 55vh;
     background: rgba(0,0,0,0.75) !important;
     border: 1px solid rgba(255,255,255,0.15);
     border-radius: 16px;
@@ -246,7 +248,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info" style="font-size:10px;color:#666;">v23.18 / 512</span>
+  <span id="version-info" style="font-size:10px;color:#666;">v23.19 / 512</span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ルーツマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -6113,14 +6115,17 @@ function fitToView() {
   const pad = 80;
   let x0=Infinity, y0=Infinity, x1=-Infinity, y1=-Infinity;
   NODES.forEach(n => {
+    if (n.x === undefined || n.y === undefined || !isFinite(n.x) || !isFinite(n.y)) return;
     if (n.x-n.r < x0) x0 = n.x-n.r;
     if (n.y-n.r < y0) y0 = n.y-n.r;
     if (n.x+n.r > x1) x1 = n.x+n.r;
     if (n.y+n.r > y1) y1 = n.y+n.r;
   });
+  if (!isFinite(x0) || !isFinite(y1)) return; // ノード座標未確定時は何もしない
   const usableH = vh - headerH;
   const gw = x1-x0+pad*2, gh = y1-y0+pad*2;
   const scale = Math.min(vw/gw, usableH/gh) * 0.95;
+  if (scale <= 0 || !isFinite(scale)) return;
   const cx = vw/2;
   const cy = headerH + usableH/2;
   const tx = cx - (x0+x1)/2*scale;
@@ -6546,8 +6551,11 @@ node.on("click", (e, d) => {
 
   // 選択ノードを可視エリアの中央に移動（パネルに隠れない位置）
   if (isMobile()) {
+    // パネル高さ(55vh + 6px下余白)と実ヘッダー高さから可視エリアの中央を計算
+    const headerH = document.getElementById('header').offsetHeight;
+    const panelTop = window.innerHeight * 0.45 - 6; // 100vh - 55vh - 6px
     const cx = window.innerWidth / 2;
-    const cy = window.innerHeight * 0.35;
+    const cy = (headerH + panelTop) / 2;            // 可視エリアの中央
     const t = d3.zoomTransform(svg.node());
     const tx = cx - d.x * t.k;
     const ty = cy - d.y * t.k;
