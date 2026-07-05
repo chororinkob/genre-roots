@@ -1,0 +1,42 @@
+name: Monthly YouTube Link Check
+
+on:
+  schedule:
+    - cron: '0 2 1 * *'   # 毎月1日 午前2時（UTC）に実行
+  workflow_dispatch:        # 手動実行ボタン（テスト用）
+
+permissions:
+  contents: write           # HTMLを更新してpushするために必要
+
+jobs:
+  check-and-update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install yt-dlp
+        run: pip install yt-dlp
+
+      - name: Run YouTube link check
+        run: python check_and_update.py
+
+      - name: Commit and push if updated
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add genre_roots.html
+          if git diff --cached --quiet; then
+            echo "変更なし。コミットをスキップ。"
+          else
+            DEAD=$(git diff --cached genre_roots.html | grep -c "^-.*yt_" || echo "0")
+            git commit -m "auto: YouTube リンク更新 $(date +'%Y-%m-%d')"
+            git push
+            echo "✓ 更新をpushしました"
+          fi
