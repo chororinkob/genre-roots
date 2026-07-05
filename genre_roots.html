@@ -248,7 +248,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info" style="font-size:10px;color:#666;">v23.19 / 512</span>
+  <span id="version-info" style="font-size:10px;color:#666;">v23.20 / 512</span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ルーツマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -6551,15 +6551,18 @@ node.on("click", (e, d) => {
 
   // 選択ノードを可視エリアの中央に移動（パネルに隠れない位置）
   if (isMobile()) {
-    // パネル高さ(55vh + 6px下余白)と実ヘッダー高さから可視エリアの中央を計算
-    const headerH = document.getElementById('header').offsetHeight;
-    const panelTop = window.innerHeight * 0.45 - 6; // 100vh - 55vh - 6px
-    const cx = window.innerWidth / 2;
-    const cy = (headerH + panelTop) / 2;            // 可視エリアの中央
-    const t = d3.zoomTransform(svg.node());
-    const tx = cx - d.x * t.k;
-    const ty = cy - d.y * t.k;
-    svg.transition().duration(500).call(zoom.transform, d3.zoomIdentity.translate(tx, ty).scale(t.k));
+    // パネルのアニメーション(300ms)完了後に実際の位置を測って中央に移動
+    const _d = d;
+    setTimeout(() => {
+      const headerH = document.getElementById('header').offsetHeight;
+      const panelRect = panel.getBoundingClientRect(); // 実測値
+      const cx = window.innerWidth / 2;
+      const cy = (headerH + panelRect.top) / 2;       // 可視エリアの真ん中
+      const t = d3.zoomTransform(svg.node());
+      const tx = cx - _d.x * t.k;
+      const ty = cy - _d.y * t.k;
+      svg.transition().duration(350).call(zoom.transform, d3.zoomIdentity.translate(tx, ty).scale(t.k));
+    }, 320);
   } else {
     // PC：左サイドバー(214px)と右パネル(320px)を除いた可視エリアの中央
     const cx = (214 + (window.innerWidth - 320)) / 2;
