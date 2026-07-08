@@ -4156,6 +4156,13 @@ const NODES = [
     rep_tracks:["Exhume to Consume (Carcass)", "Maggot Infestation (Regurgitate)", "Oxidised Razor Masticator (General Surgery)"],
     yt_mix:["1m1VWIrOviw", "VPLoSyGuzXE"],
     yt_tracks:[["DGDTwit60xo", "KCToIUEYqG8"], ["AMNFslNVNvA", "Qbuunww4tys"], ["OKqudVbjDCI", "wnQ-7HX-hAg"]],},
+
+  {id:"hair_metal", label:"Hair Metal", cat:"metal", era:"1980s", suno:false,
+    desc:"Hair Metalは、キャッチーでメロディックなリフと力強いサビが特徴的です。ギターソロは華やかで、しばしば速弾きやタッピングが用いられます。シンセサイザーも時折使用され、音に厚みを加えます。ディストーションが効いたギターサウンドと、リバーブのかかったボーカルが特徴で、アリーナや大規模なフェスティバルでの演奏を想定しています。ボーカルスタイルは力強く、シャウトや高音のファルセットが多用され、感情豊かに歌い上げます。",
+    roots_story:"Hair Metalは1980年代にアメリカのロサンゼルス（サンセット・ストリップ周辺）を中心に発展しました。グラムロックやハードロックの影響を受け、派手なファッションとメイクが特徴です。Mötley CrüeやPoisonといったLAを拠点とするバンドがこのシーンを牽引し、ニュージャージー出身のBon Joviはジャンルの商業的成功をさらに広める存在となりました。MTVの台頭により、ビジュアル面でも注目を集め、商業的に大成功を収めました。しかし、1990年代に入るとグランジの登場により人気が低迷しましたが、近年ではノスタルジアブームにより再評価されています。",
+    rep_tracks:["Livin' on a Prayer (Bon Jovi)", "Every Rose Has Its Thorn (Poison)", "Girls, Girls, Girls (Mötley Crüe)"],
+    yt_mix:["eu-_MbJuidg", "teXW7jAOjrY"],
+    yt_tracks:[["lDK9QqIzhwk", "2ognf_oRQWM"], ["j2r2nDhTzO4", "3fLQJXuS8cQ"], ["qMuZbxfFpfE", "R2-gjS7Dvgo"]],},
 ];
 
 const LINKS = [
@@ -5602,6 +5609,10 @@ const LINKS = [
 
   {s:"grindcore",t:"goregrind",w:80,desc:"音楽的影響"},
   {s:"death_metal",t:"goregrind",w:70,desc:"音楽的影響"},
+
+  {s:"glam_rock",t:"hair_metal",w:80,desc:"ビジュアル面（派手なメイクや衣装）で強い影響を受けた"},
+  {s:"hard_rock",t:"hair_metal",w:75,desc:"サウンド面での直接的な影響"},
+  {s:"arena_rock",t:"hair_metal",w:70,desc:"大規模会場向けのアンセム的楽曲構成やサウンドプロダクションに影響を受けた"},
 ];
 
 // ===== ROOTS POLYGON LAYOUT（無効化：全ノード自由配置） =====
@@ -6089,6 +6100,7 @@ const POPULARITY = {
   "progressive_techno": 5,
   "arena_rock": 8,
   "goregrind": 4,
+  "hair_metal": 7,
 };
 NODES.forEach(n => {
   n.popularity = POPULARITY[n.id] || 3;
