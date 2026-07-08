@@ -8421,7 +8421,7 @@ function grRenderResult(inputName, data, submitBtn) {
       </div>
       <div class="gr-next">ジャンル名を変えて再申請するか、次へ進んでください。</div>
       <div class="gr-action-row">
-        <button class="gr-btn-retry" onclick="grResetForm(submitBtn)">再申請する</button>
+        <button class="gr-btn-retry" onclick="grResetForm()">再申請する</button>
         <button class="gr-btn-map" onclick="grCloseAndNext()">${grNextLabel()}</button>
       </div>`);
 
@@ -8435,7 +8435,7 @@ function grRenderResult(inputName, data, submitBtn) {
       </div>
       <div class="gr-next">ジャンル名を変えて再申請するか、次へ進んでください。</div>
       <div class="gr-action-row">
-        <button class="gr-btn-retry" onclick="grResetForm(submitBtn)">再申請する</button>
+        <button class="gr-btn-retry" onclick="grResetForm()">再申請する</button>
         <button class="gr-btn-map" onclick="grCloseAndNext()">${grNextLabel()}</button>
       </div>`);
 
@@ -8452,15 +8452,15 @@ function grRenderResult(inputName, data, submitBtn) {
       <div class="gr-result-title gr-title-err">✗ エラーが発生しました</div>
       <div class="gr-ai-checks" style="color:#e07878;">${grEsc(data.message || '不明なエラー')}</div>
       <div class="gr-action-row">
-        <button class="gr-btn-retry" onclick="grResetForm(submitBtn)">再試行する</button>
+        <button class="gr-btn-retry" onclick="grResetForm()">再試行する</button>
       </div>`);
     submitBtn.disabled = false;
   }
 }
 
-function grResetForm(submitBtn) {
+function grResetForm() {
   document.getElementById('gr-status').style.display = 'none';
-  if (submitBtn) submitBtn.disabled = false;
+  document.getElementById('gr-submit').disabled = false;
 }
 
 // ===== キュー管理 =====
