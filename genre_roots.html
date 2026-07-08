@@ -8429,7 +8429,7 @@ function grRenderResult(inputName, data, submitBtn) {
     grShowResult(`
       <div class="gr-result-title gr-title-ng">✗ 申請を受け付けられませんでした</div>
       <div class="gr-ai-checks">
-        ${grAiBlock('Gemini – 実在確認', true, gem.reason || '', normExtra)}
+        ${grAiBlock('Gemini – 実在確認', gem.exists, gem.reason || '', normExtra)}
         ${grAiBlock('ChatGPT – ダブルチェック', false, data.chatgpt_reason || 'このジャンルの情報を生成できませんでした。')}
       </div>
       <div class="gr-next">このジャンルは登録できませんでした。</div>
