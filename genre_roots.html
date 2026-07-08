@@ -4149,6 +4149,13 @@ const NODES = [
     rep_tracks:["Don't Stop Believin' (Journey)", "We Are the Champions (Queen)", "More Than a Feeling (Boston)", "Keep On Loving You (REO Speedwagon)"],
     yt_mix:["Q9yh7Vw435Q", "b_kgaRiI54U"],
     yt_tracks:[["pDNOaN0SiOU", "FPEL5-KhIBk"], ["pDNOaN0SiOU", "iZFNMM85np4"], ["hqiV23UEGpM", "FPEL5-KhIBk"], ["pDNOaN0SiOU", "FPEL5-KhIBk"]],},
+
+  {id:"goregrind", label:"Goregrind", cat:"metal", era:"late 1980s", suno:false,
+    desc:"Goregrindは、極端に重く、速いテンポのメタル音楽で、グロテスクなテーマを持つことが特徴です。メロディーはキャッチーさよりも、激しいリフとブラストビートが中心で、音の波形は鋭く、攻撃的です。ギターはディストーションが強く、低音が効いた音色で、ドラムは高速かつ正確なリズムを刻みます。ボーカルはグロウルやスクリームといったスタイルで、しばしばピッチシフターを使用してさらに低く加工されます。音響エフェクトとしては、ディストーションやリバーブが多用され、全体に重厚な雰囲気を作り出します。想定される会場は小規模なライブハウスや地下のクラブで、親密かつ激しいライブパフォーマンスが行われます。",
+    roots_story:"Goregrindは1980年代後半に、デスメタルとグラインドコアの融合から生まれました。イギリスのバンドCarcassがこのジャンルの先駆者とされ、彼らのアルバム『Reek of Putrefaction』はジャンルの基礎を築きました。社会的には、ホラー映画やスプラッター映画の影響を強く受けており、歌詞やアートワークにそれが反映されています。1990年代には、ヨーロッパやアメリカを中心に多くのバンドが登場し、サブジャンルとしての地位を確立しました。2000年代以降も、インターネットを通じて世界中にファンを広げ、時折リバイバルが起こるなど、根強い人気を誇っています。",
+    rep_tracks:["Exhume to Consume (Carcass)", "Maggot Infestation (Regurgitate)", "Oxidised Razor Masticator (General Surgery)"],
+    yt_mix:["1m1VWIrOviw", "VPLoSyGuzXE"],
+    yt_tracks:[["DGDTwit60xo", "KCToIUEYqG8"], ["AMNFslNVNvA", "Qbuunww4tys"], ["OKqudVbjDCI", "wnQ-7HX-hAg"]],},
 ];
 
 const LINKS = [
@@ -5592,6 +5599,9 @@ const LINKS = [
 
   {s:"aor",t:"arena_rock",w:80,desc:"商業的成功を軸に相互影響"},
   {s:"arena_rock",t:"aor",w:80,desc:"商業的成功を軸に相互影響"},
+
+  {s:"grindcore",t:"goregrind",w:80,desc:"音楽的影響"},
+  {s:"death_metal",t:"goregrind",w:70,desc:"音楽的影響"},
 ];
 
 // ===== ROOTS POLYGON LAYOUT（無効化：全ノード自由配置） =====
@@ -6078,6 +6088,7 @@ const POPULARITY = {
   "hyperpop": 4,
   "progressive_techno": 5,
   "arena_rock": 8,
+  "goregrind": 4,
 };
 NODES.forEach(n => {
   n.popularity = POPULARITY[n.id] || 3;
