@@ -4143,13 +4143,6 @@ const NODES = [
     roots_story:"Progressive Technoは1990年代初頭にテクノとプログレッシブハウスの境界で発展した。Sasha & John DigweedやHernan Cattaneoがクラブシーンでこのジャンルを確立し、Global Undergroundコンピレーションが世界的な普及に貢献した。これらのアーティストは、長いビルドアップと複雑な音響設計を駆使し、リスナーを深い音楽体験へと誘った。2010年代以降、Melodic Technoの台頭に直接つながり、さらなる進化を遂げている。",
     rep_tracks:["Xpander (Sasha)", "Heaven Scent (Bedrock)", "The Man with the Red Face (Laurent Garnier)", "RibCage (Dubfire)", "Lamur (Guy J)"],
     popularity:5},
-  {id:"arena_rock", label:"Arena Rock", cat:"rock", era:"1970s", suno:false,
-    desc:"Arena Rockは、キャッチーで力強いメロディーが特徴で、サビは観客全体が一緒に歌えるような印象的なものが多い。エレキギターが主役で、パワフルなリフやソロが前面に出る。ドラムは重厚でリズミカル、ベースはしっかりとした低音を支える。シンセサイザーが加わることもある。音響エフェクトとしては、リバーブやディストーションが多用され、広がりのある音場を作り出す。大規模なアリーナやスタジアムでの演奏を想定しており、音響もそれに合わせて調整されている。ボーカルは力強く、時にシャウトやエモーショナルな表現が見られる。",
-    roots_story:"Arena Rockは1970年代にアメリカを中心に誕生した。経済成長と共に音楽産業が拡大し、大規模なコンサートが可能になったことが背景にある。アーティストとしては、JourneyやBoston、Foreignerなどがこのジャンルを牽引した。彼らはラジオでのヒットを狙い、キャッチーで覚えやすい曲を提供した。1980年代にはさらに商業的成功を収め、MTVの登場によりビジュアル面でも影響を与えた。しかし、1990年代に入るとグランジやオルタナティブ・ロックの台頭により一時的に衰退したが、2000年代以降にはノスタルジアブームと共に再評価されるようになった。",
-    rep_tracks:["Don't Stop Believin' (Journey)", "More Than a Feeling (Boston)", "I Want to Know What Love Is (Foreigner)", "Can't Fight This Feeling (REO Speedwagon)"],
-    yt_mix:["b_kgaRiI54U", "Q9yh7Vw435Q"],
-    yt_tracks:[["VcjzHMhBtf0", "1k8craCGpgs"], ["t4QK8RxCAwo", "zOILAZHf2pE"], ["r3Pr1_v7hsw", "2j_ai_zYntw"], ["zpOULjyy-n8", "k4Bo4ZeYrGk"]],},
-
   {id:"arena_rock", label:"Arena Rock", cat:"rock", era:"1970s-1980s", suno:false,
     desc:"Arena Rockは、キャッチーで力強いメロディーが特徴で、特にサビ部分は観客が一緒に歌えるような印象的なものが多い。エレキギターのリフやソロが中心で、ディストーションが効いたパワフルな音色が特徴的である。ドラムは重厚でリズミカル、シンセサイザーが加わることもある。エコーやリバーブが多用され、広がりのある音響効果が感じられる。大規模なアリーナやスタジアムでの演奏を想定しており、音のスケール感が大きい。ボーカルは力強く、時にはシャウトするようなスタイルで、感情表現が豊かである。",
     roots_story:"Arena Rockは1970年代にアメリカを中心に誕生し、ロックのサブジャンルとして発展した。大規模なコンサート会場でのパフォーマンスを意識した音楽スタイルで、観客を巻き込むような力強い演奏が特徴である。バンドとしては、JourneyやBoston、Foreigner、REO Speedwagon（いずれもアメリカ出身）などがこのジャンルを牽引し、彼らの音楽はラジオで頻繁に流れた。またイギリス出身のQueenもこのジャンルに影響を与えたバンドの一つとして知られる。技術の進化により、音響設備が充実し、より大規模なコンサートが可能になったことも、このジャンルの発展に寄与した。1980年代にはさらに商業的に成功し、ロックのメインストリームとしての地位を確立したが、1990年代に入るとグランジやオルタナティブ・ロックの台頭により、人気は一時的に衰退した。しかし、近年では再評価され、クラシック・ロックとしての地位を確立している。",
@@ -5591,7 +5584,7 @@ const LINKS = [
   {s:"techno",t:"progressive_techno",w:65,desc:"テクノのビートを基盤に長い展開を追加"},
   {s:"progressive_house",t:"progressive_techno",w:55,desc:"プログレッシブの構成美を継承"},
   {s:"progressive_techno",t:"melodic_techno",w:60,desc:"メロディックな方向へ発展"},
-  {s:"minimal_techno",t:"progressive_techno",w:40,desc:"ミニマルな反復性の影響"}
+  {s:"minimal_techno",t:"progressive_techno",w:40,desc:"ミニマルな反復性の影響"},
 
   {s:"arena_rock",t:"aor",w:85,desc:"Arena RockはAORの商業的方向性に影響を与えた同根ジャンル"},
   {s:"alt_rock",t:"arena_rock",w:70,desc:"Arena Rockの商業主義・大仰さへの反発として、オルタナティブ・ロックが台頭した"},
@@ -6084,7 +6077,6 @@ const POPULARITY = {
   "frenchcore": 4,
   "hyperpop": 4,
   "progressive_techno": 5,
-  "arena_rock": 8,
   "arena_rock": 8,
 };
 NODES.forEach(n => {
