@@ -276,6 +276,7 @@ svg { width: 100vw; height: 100vh; }
   </div>
   <div id="search-results" style="margin-top:8px;font-size:11px;color:#aaa;display:none;"></div>
   <div id="candidates-info" style="display:none;margin-top:6px;font-size:11px;"></div>
+  <button id="btn-open-genre-request" onclick="openGenreRequest()" style="width:100%;margin-top:10px;padding:6px 0;background:#1a3a1a;border:1px solid #3a6a3a;border-radius:5px;color:#78c878;font-size:11px;cursor:pointer;text-align:center;">＋ ジャンル追加申請</button>
 </div>
 
 <div id="legend">
@@ -4142,6 +4143,13 @@ const NODES = [
     roots_story:"Progressive Technoは1990年代初頭にテクノとプログレッシブハウスの境界で発展した。Sasha & John DigweedやHernan Cattaneoがクラブシーンでこのジャンルを確立し、Global Undergroundコンピレーションが世界的な普及に貢献した。これらのアーティストは、長いビルドアップと複雑な音響設計を駆使し、リスナーを深い音楽体験へと誘った。2010年代以降、Melodic Technoの台頭に直接つながり、さらなる進化を遂げている。",
     rep_tracks:["Xpander (Sasha)", "Heaven Scent (Bedrock)", "The Man with the Red Face (Laurent Garnier)", "RibCage (Dubfire)", "Lamur (Guy J)"],
     popularity:5}
+
+  {id:"arena_rock", label:"Arena Rock", cat:"rock", era:"1970s", suno:false,
+    desc:"Arena Rockは、キャッチーで力強いメロディーが特徴で、サビは観客全体が一緒に歌えるような印象的なものが多い。エレキギターが主役で、パワフルなリフやソロが前面に出る。ドラムは重厚でリズミカル、ベースはしっかりとした低音を支える。シンセサイザーが加わることもある。音響エフェクトとしては、リバーブやディストーションが多用され、広がりのある音場を作り出す。大規模なアリーナやスタジアムでの演奏を想定しており、音響もそれに合わせて調整されている。ボーカルは力強く、時にシャウトやエモーショナルな表現が見られる。",
+    roots_story:"Arena Rockは1970年代にアメリカを中心に誕生した。経済成長と共に音楽産業が拡大し、大規模なコンサートが可能になったことが背景にある。アーティストとしては、JourneyやBoston、Foreignerなどがこのジャンルを牽引した。彼らはラジオでのヒットを狙い、キャッチーで覚えやすい曲を提供した。1980年代にはさらに商業的成功を収め、MTVの登場によりビジュアル面でも影響を与えた。しかし、1990年代に入るとグランジやオルタナティブ・ロックの台頭により一時的に衰退したが、2000年代以降にはノスタルジアブームと共に再評価されるようになった。",
+    rep_tracks:["Don't Stop Believin' (Journey)", "More Than a Feeling (Boston)", "I Want to Know What Love Is (Foreigner)", "Can't Fight This Feeling (REO Speedwagon)"],
+    yt_mix:["b_kgaRiI54U", "Q9yh7Vw435Q"],
+    yt_tracks:[["VcjzHMhBtf0", "1k8craCGpgs"], ["t4QK8RxCAwo", "zOILAZHf2pE"], ["r3Pr1_v7hsw", "2j_ai_zYntw"], ["zpOULjyy-n8", "k4Bo4ZeYrGk"]],},
 ];
 
 const LINKS = [
@@ -5578,6 +5586,10 @@ const LINKS = [
   {s:"progressive_house",t:"progressive_techno",w:55,desc:"プログレッシブの構成美を継承"},
   {s:"progressive_techno",t:"melodic_techno",w:60,desc:"メロディックな方向へ発展"},
   {s:"minimal_techno",t:"progressive_techno",w:40,desc:"ミニマルな反復性の影響"}
+
+  {s:"arena_rock",t:"aor",w:85,desc:"Arena RockはAORの商業的方向性に影響を与えた同根ジャンル"},
+  {s:"alt_rock",t:"arena_rock",w:70,desc:"Arena Rockの商業主義・大仰さへの反発として、オルタナティブ・ロックが台頭した"},
+  {s:"arena_rock",t:"alt_rock",w:70,desc:"Arena Rockの商業主義・大仰さへの反発として、オルタナティブ・ロックが台頭した"},
 ];
 
 // ===== ROOTS POLYGON LAYOUT（無効化：全ノード自由配置） =====
@@ -6063,6 +6075,7 @@ const POPULARITY = {
   "frenchcore": 4,
   "hyperpop": 4,
   "progressive_techno": 5,
+  "arena_rock": 8,
 };
 NODES.forEach(n => {
   n.popularity = POPULARITY[n.id] || 3;
@@ -8134,6 +8147,307 @@ function initGlobe() {
   });
 }
 
+</script>
+
+<!-- ===== ジャンル追加申請 モーダル v1.2 ===== -->
+<style>
+#genre-request-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  align-items: center;
+  justify-content: center;
+}
+#genre-request-overlay.open { display: flex; }
+#genre-request-card {
+  background: rgba(14,14,28,0.96);
+  border: 1px solid #2a3a5a;
+  border-radius: 14px;
+  padding: 26px 28px 22px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.7);
+}
+#genre-request-card h2 {
+  font-size: 16px;
+  color: #7eb8f7;
+  margin-bottom: 2px;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.gr-ver {
+  font-size: 10px;
+  color: #445;
+  font-weight: normal;
+  letter-spacing: .04em;
+}
+#genre-request-card .gr-sub {
+  font-size: 11px;
+  color: #667;
+  margin-bottom: 18px;
+  line-height: 1.6;
+  margin-top: 4px;
+}
+#genre-request-card label {
+  display: block;
+  font-size: 11px;
+  color: #999;
+  margin-bottom: 5px;
+  margin-top: 14px;
+}
+#gr-name, #gr-note {
+  width: 100%;
+  background: rgba(0,0,20,0.6);
+  border: 1px solid #333;
+  border-radius: 6px;
+  color: #eee;
+  font-size: 13px;
+  padding: 9px 11px;
+  outline: none;
+  font-family: inherit;
+  box-sizing: border-box;
+  transition: border-color .2s;
+}
+#gr-name:focus, #gr-note:focus { border-color: #4a78c0; }
+#gr-note { resize: vertical; min-height: 60px; }
+.gr-btns {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+}
+.gr-btns button {
+  flex: 1;
+  padding: 10px;
+  border-radius: 7px;
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity .2s;
+}
+.gr-btns button:hover { opacity: .85; }
+.gr-btns button:disabled { opacity: .4; cursor: default; }
+#gr-submit { background: #2a5a9a; color: #fff; }
+#gr-cancel { background: #1a1a30; color: #888; }
+
+/* 処理中・結果エリア */
+#gr-status { display: none; margin-top: 14px; border-radius: 8px; overflow: hidden; font-size: 12px; }
+.gr-processing {
+  background: rgba(20,30,50,.9);
+  border: 1px solid #2a4a7a;
+  color: #7eb8f7;
+  padding: 12px 14px;
+  line-height: 1.7;
+}
+.gr-result-title {
+  padding: 10px 14px 8px;
+  font-size: 13px;
+  font-weight: 700;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+}
+.gr-title-ok  { background: rgba(10,30,10,.9);  color: #7eb8f7; }
+.gr-title-ng  { background: rgba(40,10,10,.9);  color: #e07878; }
+.gr-title-dup { background: rgba(40,30,5,.9);   color: #d4a848; }
+.gr-title-err { background: rgba(40,10,10,.9);  color: #e07878; }
+.gr-ai-checks { padding: 10px 14px; }
+.gr-ai-block {
+  padding: 8px 10px;
+  border-radius: 6px;
+  margin-bottom: 6px;
+  line-height: 1.55;
+}
+.gr-ai-block-ok { background: rgba(10,40,10,.7); border: 1px solid #1e3e1e; }
+.gr-ai-block-ng { background: rgba(50,10,10,.7); border: 1px solid #4e1e1e; }
+.gr-ai-header { display: flex; align-items: center; gap: 7px; margin-bottom: 3px; }
+.gr-ai-name { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: #777; }
+.gr-badge {
+  display: inline-block; font-size: 10px; padding: 1px 7px;
+  border-radius: 4px; font-weight: 700;
+}
+.gr-badge-ok { background: #102a10; border: 1px solid #305030; color: #78d478; }
+.gr-badge-ng { background: #2a1010; border: 1px solid #5a2020; color: #e07878; }
+.gr-ai-detail { font-size: 11px; color: #aaa; padding-left: 2px; }
+.gr-next { font-size: 11px; color: #778; padding: 8px 14px; border-top: 1px solid rgba(255,255,255,.05); line-height: 1.6; }
+.gr-action-row { display: flex; gap: 8px; padding: 8px 14px 12px; }
+.gr-action-row button {
+  flex: 1; padding: 8px; border-radius: 6px; border: none;
+  font-size: 12px; font-weight: 600; cursor: pointer;
+}
+.gr-btn-map   { background: #2a5a2a; color: #aee; }
+.gr-btn-retry { background: #1a1a30; color: #888; }
+/* スピナー */
+.gr-spinner {
+  display:inline-block; width:12px; height:12px;
+  border:2px solid rgba(126,184,247,.3);
+  border-top-color:#7eb8f7;
+  border-radius:50%;
+  animation:grspin .7s linear infinite;
+  vertical-align:middle; margin-right:6px;
+}
+@keyframes grspin{to{transform:rotate(360deg)}}
+</style>
+
+<div id="genre-request-overlay">
+  <div id="genre-request-card">
+    <h2>ジャンル追加申請 <span class="gr-ver">v1.2</span></h2>
+    <p class="gr-sub">載っていないジャンルを申請できます。AIが情報を生成し、管理者確認後にマップへ追加されます。</p>
+
+    <label for="gr-name">ジャンル名 <span style="color:#e06060">*</span></label>
+    <input type="text" id="gr-name" placeholder="例: Arena Rock、ニュージャック・スウィング">
+
+    <label for="gr-note">補足メモ（任意）</label>
+    <textarea id="gr-note" placeholder="参考情報があれば（代表アーティスト、時代など）"></textarea>
+
+    <div class="gr-btns">
+      <button id="gr-cancel" onclick="closeGenreRequest()">キャンセル</button>
+      <button id="gr-submit" onclick="submitGenreRequest()">申請する</button>
+    </div>
+    <div id="gr-status"></div>
+  </div>
+</div>
+
+<script>
+function openGenreRequest() {
+  document.getElementById('genre-request-overlay').classList.add('open');
+  document.getElementById('gr-name').focus();
+}
+function closeGenreRequest() {
+  document.getElementById('genre-request-overlay').classList.remove('open');
+  document.getElementById('gr-status').style.display = 'none';
+  document.getElementById('gr-name').value = '';
+  document.getElementById('gr-note').value = '';
+  document.getElementById('gr-submit').disabled = false;
+}
+document.getElementById('genre-request-overlay').addEventListener('click', function(e) {
+  if (e.target === this) closeGenreRequest();
+});
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeGenreRequest();
+});
+
+function grEsc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function grAiBlock(aiName, ok, detail, extra) {
+  const cls = ok ? 'gr-ai-block-ok' : 'gr-ai-block-ng';
+  const badge = ok
+    ? '<span class="gr-badge gr-badge-ok">OK</span>'
+    : '<span class="gr-badge gr-badge-ng">NG</span>';
+  return `<div class="gr-ai-block ${cls}">
+    <div class="gr-ai-header"><span class="gr-ai-name">${grEsc(aiName)}</span>${badge}${extra||''}</div>
+    ${detail ? `<div class="gr-ai-detail">${grEsc(detail)}</div>` : ''}
+  </div>`;
+}
+
+function grShowResult(html) {
+  const el = document.getElementById('gr-status');
+  el.innerHTML = html;
+  el.style.display = 'block';
+}
+
+async function submitGenreRequest() {
+  const name = document.getElementById('gr-name').value.trim();
+  const note = document.getElementById('gr-note').value.trim();
+  if (!name) {
+    grShowResult('<div class="gr-processing" style="color:#e07878">ジャンル名を入力してください。</div>');
+    return;
+  }
+
+  const submitBtn = document.getElementById('gr-submit');
+  submitBtn.disabled = true;
+  grShowResult('<div class="gr-processing"><span class="gr-spinner"></span>AIが実在確認・情報生成中です。1〜2分かかります…</div>');
+
+  try {
+    const res  = await fetch('/request_genre', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({genre_name: name, note})
+    });
+    const data = await res.json();
+    grRenderResult(name, data, submitBtn);
+  } catch(e) {
+    grShowResult(`<div class="gr-processing" style="color:#e07878">通信エラー: ${grEsc(e.message)}</div>`);
+    submitBtn.disabled = false;
+  }
+}
+
+function grRenderResult(inputName, data, submitBtn) {
+  const gem = data.gemini_result || {};
+  const normalized = gem.normalized || inputName;
+
+  if (data.status === 'pending') {
+    const normExtra = `<span style="font-size:11px;color:#ccc;margin-left:4px;">正式名: <strong>${grEsc(normalized)}</strong></span>`;
+    grShowResult(`
+      <div class="gr-result-title gr-title-ok">✓ 申請を受け付けました</div>
+      <div class="gr-ai-checks">
+        ${grAiBlock('Gemini – 実在確認', true, gem.reason || '', normExtra)}
+        ${grAiBlock('ChatGPT – ダブルチェック＋情報生成', true, '9項目のジャンル情報を生成しました。')}
+      </div>
+      <div class="gr-next">管理者が内容を確認後、マップに追加されます。</div>
+      <div class="gr-action-row">
+        <button class="gr-btn-map" onclick="closeGenreRequest()">← マップに戻る</button>
+      </div>`);
+
+  } else if (data.status === 'not_found') {
+    grShowResult(`
+      <div class="gr-result-title gr-title-ng">✗ 申請を受け付けられませんでした</div>
+      <div class="gr-ai-checks">
+        ${grAiBlock('Gemini – 実在確認', false, gem.reason || '実在するジャンルとして確認できませんでした。')}
+      </div>
+      <div class="gr-next">ジャンル名を変えて再申請してみてください。</div>
+      <div class="gr-action-row">
+        <button class="gr-btn-retry" onclick="grResetForm(submitBtn)">再申請する</button>
+      </div>`);
+
+  } else if (data.status === 'not_found_chatgpt') {
+    const normExtra = `<span style="font-size:11px;color:#ccc;margin-left:4px;">正式名: <strong>${grEsc(normalized)}</strong></span>`;
+    grShowResult(`
+      <div class="gr-result-title gr-title-ng">✗ 申請を受け付けられませんでした</div>
+      <div class="gr-ai-checks">
+        ${grAiBlock('Gemini – 実在確認', true, gem.reason || '', normExtra)}
+        ${grAiBlock('ChatGPT – ダブルチェック', false, data.chatgpt_reason || 'このジャンルの情報を生成できませんでした。')}
+      </div>
+      <div class="gr-next">ジャンル名を変えて再申請してみてください。</div>
+      <div class="gr-action-row">
+        <button class="gr-btn-retry" onclick="grResetForm(submitBtn)">再申請する</button>
+      </div>`);
+
+  } else if (data.status === 'duplicate') {
+    grShowResult(`
+      <div class="gr-result-title gr-title-dup">⚠ 既に登録されています</div>
+      <div class="gr-ai-checks" style="color:#ccc;">${grEsc(data.message)}</div>
+      <div class="gr-action-row">
+        <button class="gr-btn-map" onclick="closeGenreRequest()">← マップに戻る</button>
+        <button class="gr-btn-retry" onclick="grResetForm(submitBtn)">別のジャンルを申請</button>
+      </div>`);
+
+  } else {
+    grShowResult(`
+      <div class="gr-result-title gr-title-err">✗ エラーが発生しました</div>
+      <div class="gr-ai-checks" style="color:#e07878;">${grEsc(data.message || '不明なエラー')}</div>
+      <div class="gr-action-row">
+        <button class="gr-btn-retry" onclick="grResetForm(submitBtn)">再試行する</button>
+      </div>`);
+    submitBtn.disabled = false;
+  }
+}
+
+function grResetForm(submitBtn) {
+  document.getElementById('gr-status').style.display = 'none';
+  if (submitBtn) submitBtn.disabled = false;
+}
+
+document.getElementById('gr-name').addEventListener('keydown', e => {
+  if (e.key === 'Enter') submitGenreRequest();
+});
 </script>
 </body>
 </html>
