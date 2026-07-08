@@ -276,7 +276,7 @@ svg { width: 100vw; height: 100vh; }
   </div>
   <div id="search-results" style="margin-top:8px;font-size:11px;color:#aaa;display:none;"></div>
   <div id="candidates-info" style="display:none;margin-top:6px;font-size:11px;"></div>
-  <button id="btn-open-genre-request" onclick="openGenreRequest()" style="width:100%;margin-top:10px;padding:6px 0;background:#1a3a1a;border:1px solid #3a6a3a;border-radius:5px;color:#78c878;font-size:11px;cursor:pointer;text-align:center;">＋ ジャンル追加申請</button>
+  <div id="gr-queue-panel" style="display:none;margin-top:8px;background:#0a1a0a;border:1px solid #2a4a2a;border-radius:7px;padding:10px 12px;"></div>
 </div>
 
 <div id="legend">
@@ -7264,6 +7264,7 @@ function searchHandler(e) {
     twinkleActive = true;
     resultsDiv.style.display = "none";
     window._searchActive = false;
+    grClearQueue();
     return;
   }
 
@@ -7309,8 +7310,10 @@ function searchHandler(e) {
   let html = '';
   if (foundIds.size > 0) html += '<div style="color:#0f0">✓ ' + foundIds.size + '件ヒット</div>';
   if (notFound.length > 0) {
-    html += '<div style="color:#f88;margin-top:4px">✗ 該当するジャンルはありません: ' + notFound.join(', ') + '</div>';
-    // フェーズ2(Suno連動)で復活予定：追加候補保存ボタン
+    html += '<div style="color:#f88;margin-top:4px">✗ 未登録: ' + notFound.map(t => grEsc(t)).join(', ') + '</div>';
+    grStartQueue(notFound);
+  } else {
+    grClearQueue();
   }
   resultsDiv.innerHTML = html;
   resultsDiv.style.display = 'block';
@@ -8316,8 +8319,9 @@ function initGlobe() {
 </div>
 
 <script>
-function openGenreRequest() {
+function openGenreRequest(name) {
   document.getElementById('genre-request-overlay').classList.add('open');
+  if (name) document.getElementById('gr-name').value = name;
   document.getElementById('gr-name').focus();
 }
 function closeGenreRequest() {
@@ -8395,7 +8399,7 @@ function grRenderResult(inputName, data, submitBtn) {
       </div>
       <div class="gr-next">管理者が内容を確認後、マップに追加されます。</div>
       <div class="gr-action-row">
-        <button class="gr-btn-map" onclick="closeGenreRequest()">← マップに戻る</button>
+        <button class="gr-btn-map" onclick="grCloseAndNext()">${grNextLabel()}</button>
       </div>`);
 
   } else if (data.status === 'not_found') {
@@ -8404,9 +8408,10 @@ function grRenderResult(inputName, data, submitBtn) {
       <div class="gr-ai-checks">
         ${grAiBlock('Gemini – 実在確認', false, gem.reason || '実在するジャンルとして確認できませんでした。')}
       </div>
-      <div class="gr-next">ジャンル名を変えて再申請してみてください。</div>
+      <div class="gr-next">ジャンル名を変えて再申請するか、次へ進んでください。</div>
       <div class="gr-action-row">
         <button class="gr-btn-retry" onclick="grResetForm(submitBtn)">再申請する</button>
+        <button class="gr-btn-map" onclick="grCloseAndNext()">${grNextLabel()}</button>
       </div>`);
 
   } else if (data.status === 'not_found_chatgpt') {
@@ -8417,9 +8422,10 @@ function grRenderResult(inputName, data, submitBtn) {
         ${grAiBlock('Gemini – 実在確認', true, gem.reason || '', normExtra)}
         ${grAiBlock('ChatGPT – ダブルチェック', false, data.chatgpt_reason || 'このジャンルの情報を生成できませんでした。')}
       </div>
-      <div class="gr-next">ジャンル名を変えて再申請してみてください。</div>
+      <div class="gr-next">ジャンル名を変えて再申請するか、次へ進んでください。</div>
       <div class="gr-action-row">
         <button class="gr-btn-retry" onclick="grResetForm(submitBtn)">再申請する</button>
+        <button class="gr-btn-map" onclick="grCloseAndNext()">${grNextLabel()}</button>
       </div>`);
 
   } else if (data.status === 'duplicate') {
@@ -8427,8 +8433,7 @@ function grRenderResult(inputName, data, submitBtn) {
       <div class="gr-result-title gr-title-dup">⚠ 既に登録されています</div>
       <div class="gr-ai-checks" style="color:#ccc;">${grEsc(data.message)}</div>
       <div class="gr-action-row">
-        <button class="gr-btn-map" onclick="closeGenreRequest()">← マップに戻る</button>
-        <button class="gr-btn-retry" onclick="grResetForm(submitBtn)">別のジャンルを申請</button>
+        <button class="gr-btn-map" onclick="grCloseAndNext()">${grNextLabel()}</button>
       </div>`);
 
   } else {
@@ -8445,6 +8450,67 @@ function grRenderResult(inputName, data, submitBtn) {
 function grResetForm(submitBtn) {
   document.getElementById('gr-status').style.display = 'none';
   if (submitBtn) submitBtn.disabled = false;
+}
+
+// ===== キュー管理 =====
+let grQueue = [];
+let grQueueIdx = 0;
+
+function grStartQueue(items) {
+  grQueue = items.slice();
+  grQueueIdx = 0;
+  grShowQueuePanel();
+}
+
+function grClearQueue() {
+  grQueue = [];
+  grQueueIdx = 0;
+  const panel = document.getElementById('gr-queue-panel');
+  if (panel) panel.style.display = 'none';
+}
+
+function grShowQueuePanel() {
+  const panel = document.getElementById('gr-queue-panel');
+  if (!panel) return;
+  if (grQueueIdx >= grQueue.length) {
+    grQueue = [];
+    grQueueIdx = 0;
+    panel.innerHTML = '<div style="color:#78c878;font-size:11px;">✓ すべて処理しました</div>';
+    panel.style.display = 'block';
+    setTimeout(() => { panel.style.display = 'none'; }, 2500);
+    return;
+  }
+  const cur = grQueue[grQueueIdx];
+  const pos = grQueueIdx + 1;
+  const tot = grQueue.length;
+  panel.style.display = 'block';
+  panel.innerHTML =
+    '<div style="font-size:10px;color:#7a9a7a;margin-bottom:5px;">未登録ジャンル候補 ' + pos + ' / ' + tot + ' 件</div>'
+    + '<div style="font-size:12px;color:#e0e0e0;margin-bottom:8px;">「<strong>' + grEsc(cur) + '</strong>」 をどうしますか？</div>'
+    + '<div style="display:flex;gap:6px;">'
+    + '<button onclick="grQueueApply()" style="flex:1;padding:5px 0;background:#1a3a1a;border:1px solid #3a6a3a;border-radius:5px;color:#78c878;font-size:11px;cursor:pointer;">＋ 申請する</button>'
+    + '<button onclick="grQueueSkip()" style="flex:1;padding:5px 0;background:#1a1a2a;border:1px solid #3a3a5a;border-radius:5px;color:#8a8aaa;font-size:11px;cursor:pointer;">スキップ →</button>'
+    + '</div>';
+}
+
+function grQueueApply() {
+  openGenreRequest(grQueue[grQueueIdx]);
+}
+
+function grQueueSkip() {
+  grQueueIdx++;
+  grShowQueuePanel();
+}
+
+function grCloseAndNext() {
+  closeGenreRequest();
+  grQueueIdx++;
+  grShowQueuePanel();
+}
+
+function grNextLabel() {
+  const remaining = grQueue.length - grQueueIdx - 1;
+  return remaining > 0 ? '次へ → (残り' + remaining + '件)' : '← マップに戻る';
 }
 
 document.getElementById('gr-name').addEventListener('keydown', e => {
