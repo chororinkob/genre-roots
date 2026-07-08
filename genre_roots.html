@@ -8419,9 +8419,8 @@ function grRenderResult(inputName, data, submitBtn) {
       <div class="gr-ai-checks">
         ${grAiBlock('Gemini – 実在確認', false, gem.reason || '実在するジャンルとして確認できませんでした。')}
       </div>
-      <div class="gr-next">ジャンル名を変えて再申請するか、次へ進んでください。</div>
+      <div class="gr-next">このジャンルは登録できませんでした。</div>
       <div class="gr-action-row">
-        <button class="gr-btn-retry" onclick="grResetForm()">再申請する</button>
         <button class="gr-btn-map" onclick="grCloseAndNext()">${grNextLabel()}</button>
       </div>`);
 
@@ -8433,9 +8432,8 @@ function grRenderResult(inputName, data, submitBtn) {
         ${grAiBlock('Gemini – 実在確認', true, gem.reason || '', normExtra)}
         ${grAiBlock('ChatGPT – ダブルチェック', false, data.chatgpt_reason || 'このジャンルの情報を生成できませんでした。')}
       </div>
-      <div class="gr-next">ジャンル名を変えて再申請するか、次へ進んでください。</div>
+      <div class="gr-next">このジャンルは登録できませんでした。</div>
       <div class="gr-action-row">
-        <button class="gr-btn-retry" onclick="grResetForm()">再申請する</button>
         <button class="gr-btn-map" onclick="grCloseAndNext()">${grNextLabel()}</button>
       </div>`);
 
