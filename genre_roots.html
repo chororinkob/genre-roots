@@ -254,7 +254,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v23.43<span id="genre-count">512 ジャンル　2026年7月9日現在</span></span>
+  <span id="version-info">v23.45<span id="genre-count">512 ジャンル　2026年7月9日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -4187,6 +4187,13 @@ const NODES = [
     rep_tracks:["Pretty Girl (Clairo)", "Lo Que Siento (Cuco)", "Best Friend (Rex Orange County)"],
     yt_mix:["SNuZs_IE6-Q", "gP95CF5GXNE"],
     yt_tracks:[["XxSnvhBC2cw", "SK3Rxo_YRgo"], ["AjGkbFqi67c", "D94triePAJE"], ["OqBuXQLR4Y8", "DxvFdX2yOBI"]],},
+
+  {id:"uk_drill", label:"UK Drill", cat:"hiphop", era:"2010s", suno:false,
+    desc:"UK Drillは、重低音が効いたビートとダークで不穏なメロディーが特徴的なジャンルです。メロディーはしばしばミニマルで、シンセサイザーやサンプル音が使われ、冷たく鋭い印象を与えます。ドラムマシンを用いたタイトで鋭いリズムが中心で、808ベースの重低音が特徴的です。エコーやリバーブを控えめに使い、音の輪郭がはっきりとしています。主にYouTubeやオンラインプラットフォームを通じて楽曲が広まり、ラップは速いテンポでリズミカルに展開され、感情を抑えた冷静なトーンが多いです。",
+    roots_story:"UK Drillは2010年代中盤にロンドンで誕生し、アメリカのシカゴ・ドリルから影響を受けつつも独自の進化を遂げました。ロンドンの若者たちの間で、都市の厳しい現実を反映したリリックが共感を呼び、急速に人気を博しました。初期の代表的なアーティストには67やSection Boyzが挙げられ、彼らの作品はUK Drillの基礎を築きました。その後、Headie OneやDigga Dなどのアーティストが続き、ジャンルをさらに発展させました。UK Drillは、他のジャンルとも融合し、特にUK GrimeやAfroswingとの関係が深く、これらのジャンルと共にイギリスの音楽シーンを活性化させました。なお、UK GrimeはUK Drillに先行して確立されており、UK DrillはGrimeから一定の影響を受けています。",
+    rep_tracks:["Know Better (Headie One)", "Woi (Digga D)", "Let's Lurk (67)"],
+    yt_mix:["zQgCwGrU9F4", "bhS1TqA9emE"],
+    yt_tracks:[["tMkK4JR-pho", "0ZaArVR475I"], ["izsnQ0SXFyQ", "5WZfh2xfNWM"], ["f10yTpZzuv4", "Vx70UWY2K-E"]],},
 ];
 
 const LINKS = [
@@ -5643,7 +5650,8 @@ const LINKS = [
   {s:"hiphop",t:"j_rap",w:80,desc:"アメリカン・ヒップホップから直接的な影響を受けた"},
 
   {s:"indie_pop",t:"bedroom_pop",w:80,desc:"インディーポップの影響"},
-  {s:"lofi_indie",t:"bedroom_pop",w:70,desc:"ローファイ・インディーの影響"},
+
+  {s:"drill",t:"uk_drill",w:80,desc:"シカゴ・ドリルから影響"},
 ];
 
 // ===== ROOTS POLYGON LAYOUT（無効化：全ノード自由配置） =====
@@ -6134,6 +6142,7 @@ const POPULARITY = {
   "pop_rock": 9,
   "j_rap": 7,
   "bedroom_pop": 7,
+  "uk_drill": 7,
 };
 NODES.forEach(n => {
   n.popularity = POPULARITY[n.id] || 3;
