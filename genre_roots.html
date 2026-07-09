@@ -254,7 +254,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v23.45<span id="genre-count">512 ジャンル　2026年7月9日現在</span></span>
+  <span id="version-info">v23.46<span id="genre-count">512 ジャンル　2026年7月9日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -4194,6 +4194,13 @@ const NODES = [
     rep_tracks:["Know Better (Headie One)", "Woi (Digga D)", "Let's Lurk (67)"],
     yt_mix:["zQgCwGrU9F4", "bhS1TqA9emE"],
     yt_tracks:[["tMkK4JR-pho", "0ZaArVR475I"], ["izsnQ0SXFyQ", "5WZfh2xfNWM"], ["f10yTpZzuv4", "Vx70UWY2K-E"]],},
+
+  {id:"jersey_club", label:"Jersey Club", cat:"edm", era:"2000s", suno:false,
+    desc:"Jersey Clubは、非常にリズミカルでエネルギッシュな音楽ジャンルで、キャッチーなメロディーと反復的なビートが特徴です。ドラムマシンやサンプラーを使用して、キックドラムやスネアドラムの強調されたビートが作り出され、これによりダンスフロアでの高揚感を生み出します。エコーやリバーブを多用した音響エフェクトが、音に深みと広がりを与え、ストリートパーティやクラブでのパフォーマンスに適しています。ボーカルはサンプリングされた短いフレーズが多く、リズムに合わせて繰り返されることが多いです。",
+    roots_story:"Jersey Clubは2000年代初頭にアメリカのニュージャージー州で生まれ、2010年代に広く認知されるようになりました。このジャンルは、地元のDJたちがボルチモアクラブ、ハウスミュージック、そしてヒップホップの影響を受けつつ、独自のスタイルを確立したことから始まりました。地元のクラブシーンで人気を博し、DJ SliinkやUNIIQU3といったアーティストが牽引役となり、ジャンルを広めました。初期にはローカルな現象として始まりましたが、インターネットを通じてそのエネルギッシュなスタイルが世界中に広まりました。Jersey Clubは、ダンスミュージックの一部として、他のジャンルと融合しながら進化を続けています。",
+    rep_tracks:["Put Cha Back In It (DJ Sliink)", "Werk Ya Body (UNIIQU3)", "Brick City (DJ Tameil)"],
+    yt_mix:["OGziONsFRck", "O-mEOB69W40"],
+    yt_tracks:[["LsxaYtu-Klk", "f008Do6BQt4"], ["4PvJlo0gh8c", "e5qZGlDy0Is"], ["LRbWUQaLMJo", "CfEBPBhcXxs"]],},
 ];
 
 const LINKS = [
@@ -6143,6 +6150,7 @@ const POPULARITY = {
   "j_rap": 7,
   "bedroom_pop": 7,
   "uk_drill": 7,
+  "jersey_club": 6,
 };
 NODES.forEach(n => {
   n.popularity = POPULARITY[n.id] || 3;
