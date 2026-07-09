@@ -32,6 +32,9 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
 #search:not(:placeholder-shown) + #search-clear { display: block !important; }
 .filter-btn { display: inline-block; padding: 3px 8px; border-radius: 4px; border: 1px solid #444; background: #1a1a2e; color: #ccc; font-size: 11px; cursor: pointer; margin: 2px 2px 2px 0; }
 .filter-btn.active { background: #FFD700; color: #000; border-color: #FFD700; font-weight: 700; }
+.search-mode-group { display: flex; background: #111; border: 1px solid #333; border-radius: 6px; padding: 2px; margin-bottom: 6px; }
+.search-mode-btn { flex: 1; text-align: center; padding: 4px 6px; border-radius: 4px; border: none; background: transparent; color: #555; font-size: 11px; cursor: pointer; transition: all 0.2s; white-space: nowrap; user-select: none; }
+.search-mode-btn.active { background: #1e3a5f; color: #7ab8d8; box-shadow: 0 1px 3px rgba(0,0,0,0.5); }
 
 /* hover tooltip (軽量版) */
 #tooltip { position: fixed; background: rgba(20,20,40,0.92); border: 1px solid #555; border-radius: 6px; padding: 6px 10px; font-size: 12px; pointer-events: none; display: none; z-index: 30; white-space: nowrap; color: #eee; }
@@ -251,7 +254,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v23.36<span id="genre-count">512 ジャンル　2026年7月9日現在</span></span>
+  <span id="version-info">v23.41<span id="genre-count">512 ジャンル　2026年7月9日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -266,9 +269,15 @@ svg { width: 100vw; height: 100vh; }
 <div id="left-sidebar">
 <div id="controls">
   <h3>検索 / フィルター</h3>
-  <div style="position:relative;">
-    <input id="search" type="text" placeholder="ジャンル検索（カンマ区切りで複数OK）" />
-    <span id="search-clear" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);cursor:pointer;color:#888;font-size:16px;display:none;z-index:1;">✕</span>
+  <div style="border:1px solid #2a2a3a; border-radius:8px; padding:6px 8px; background:rgba(255,255,255,0.03);">
+    <div class="search-mode-group">
+      <span class="search-mode-btn active" id="mode-label">ジャンル名</span>
+      <span class="search-mode-btn" id="mode-vibe">説明文含む</span>
+    </div>
+    <div style="position:relative;">
+      <input id="search" type="text" placeholder="ジャンル検索（カンマ区切りで複数OK）" />
+      <span id="search-clear" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);cursor:pointer;color:#888;font-size:16px;display:none;z-index:1;">✕</span>
+    </div>
   </div>
   <div style="display:none;">
     <span class="filter-btn active" data-filter="all">すべて</span>
@@ -4164,6 +4173,13 @@ const NODES = [
     rep_tracks:["Don't Stop Believin' (Journey)", "Livin' on a Prayer (Bon Jovi)", "Every Breath You Take (The Police)", "We Built This City (Starship)", "Nothing's Gonna Stop Us Now (Starship)"],
     yt_mix:["-oqfOVta_48", "vgRhxICvsIw"],
     yt_tracks:[["VcjzHMhBtf0", "1k8craCGpgs"], ["lDK9QqIzhwk", "2ognf_oRQWM"], ["OMOGaugKpzs", "6cucosmPj-A"], ["K1b8AhIsSYQ", "JW1kfoXtxzY"], ["3wxyN3z9PL4", "tub93PAAO3k"]],},
+
+  {id:"j_rap", label:"J-Rap", cat:"hiphop", era:"1990s", suno:false,
+    desc:"J-Rapは日本のヒップホップシーンを代表するジャンルで、メロディーはキャッチーでリズミカルなフローが特徴です。使用楽器にはサンプラーやドラムマシン、シンセサイザーが多用され、ビートは重厚でありながらもメロディックな要素を持ちます。音響エフェクトとしてはリバーブやディレイが使われ、立体的な音像を作り出します。想定される会場はクラブやライブハウスが多く、親密な空間でのパフォーマンスが主流です。ボーカルスタイルはリリックに重きを置き、感情豊かに語りかけるようなラップが特徴です。",
+    roots_story:"J-Rapは1990年代に日本で誕生し、アメリカのヒップホップの影響を受けつつも、日本独自の文化や言語を取り入れて発展しました。初期にはキングギドラやスチャダラパーといったアーティストがシーンを牽引し、彼らの影響で多くの若者がヒップホップに興味を持つようになりました。J-Rapはその後も進化を続け、ポップスやロックとのクロスオーバーを果たし、幅広い層に受け入れられるようになりました。現在では、サブジャンルや派生ジャンルも生まれ、J-PopやアニメBGMとも密接に関連しています。",
+    rep_tracks:["今夜はブギー・バック (スチャダラパー feat. 小沢健二)", "公開処刑 (キングギドラ)", "音色 (KREVA)"],
+    yt_mix:["ht1wW4vG_t8", "cRV7csvxjsM"],
+    yt_tracks:[["6lKTQbrM9RI", "TeSQs2jgD3A"], ["9qPz_ikz7pY", "F0XQAXit0tg"], ["", ""]],},
 ];
 
 const LINKS = [
@@ -5616,6 +5632,8 @@ const LINKS = [
   {s:"art_rock",t:"pop_rock",w:60,desc:"アート・ロックの芸術的要素からの影響"},
   {s:"alt_rock",t:"pop_rock",w:70,desc:"相互影響"},
   {s:"pop_rock",t:"alt_rock",w:70,desc:"相互影響"},
+
+  {s:"us_hiphop",t:"j_rap",w:80,desc:"アメリカン・ヒップホップから直接的な影響を受けた"},
 ];
 
 // ===== ROOTS POLYGON LAYOUT（無効化：全ノード自由配置） =====
@@ -6104,13 +6122,14 @@ const POPULARITY = {
   "arena_rock": 8,
   "goregrind": 4,
   "pop_rock": 9,
+  "j_rap": 7,
 };
 NODES.forEach(n => {
   n.popularity = POPULARITY[n.id] || 3;
   n.r = 15 + n.popularity * n.popularity * 2;
 });
 
-const LAST_UPDATED = "2026年7月8日";
+const LAST_UPDATED = "2026年7月10日";
 (function() {
   const el = document.getElementById('genre-count');
   if (el) el.textContent = NODES.length + " ジャンル　" + LAST_UPDATED + "現在";
@@ -7263,6 +7282,28 @@ function doSearch() {
 searchInput.addEventListener("input", doSearch);
 searchInput.addEventListener("paste", () => setTimeout(doSearch, 50));
 
+let searchMode = 'label';
+const searchPlaceholders = {
+  label: 'ジャンル検索（カンマ区切りで複数OK）',
+  vibe: '説明文を含めて検索（例: 哀愁、浮遊感、激しい）'
+};
+document.getElementById('mode-label').addEventListener('click', () => {
+  searchMode = 'label';
+  document.getElementById('mode-label').classList.add('active');
+  document.getElementById('mode-vibe').classList.remove('active');
+  searchInput.placeholder = searchPlaceholders.label;
+  searchInput.style.borderColor = '#444';
+  doSearch();
+});
+document.getElementById('mode-vibe').addEventListener('click', () => {
+  searchMode = 'vibe';
+  document.getElementById('mode-vibe').classList.add('active');
+  document.getElementById('mode-label').classList.remove('active');
+  searchInput.placeholder = searchPlaceholders.vibe;
+  searchInput.style.borderColor = '#3a6a8a';
+  doSearch();
+});
+
 function searchHandler(e) {
   const raw = e.target.value;
   const resultsDiv = document.getElementById("search-results");
@@ -7306,10 +7347,11 @@ function searchHandler(e) {
       const hasJapanese = /[^\x00-\x7F]/.test(tag);
       if (hasJapanese ? tag.length >= 1 : tag.length >= 3) {
         if (n.id.includes(tag) || n.label.toLowerCase().replace('\n', ' ').includes(tag)) return true;
-        // カタカナ・日本語検索：desc（日本語説明文）も対象に含める
-        if (n.desc && n.desc.includes(tag)) return true;
-        // 雰囲気・ムードキーワード検索
-        if (MOOD_KEYWORDS[n.id] && MOOD_KEYWORDS[n.id].some(kw => kw.includes(tag) || tag.includes(kw))) return true;
+        if (searchMode === 'vibe') {
+          // 説明文を含むモード：desc・ムードキーワードも検索対象
+          if (n.desc && n.desc.includes(tag)) return true;
+          if (MOOD_KEYWORDS[n.id] && MOOD_KEYWORDS[n.id].some(kw => kw.includes(tag) || tag.includes(kw))) return true;
+        }
       }
       return false;
     });
@@ -7336,8 +7378,13 @@ function searchHandler(e) {
   let html = '';
   if (foundIds.size > 0) html += '<div style="color:#0f0">✓ ' + foundIds.size + '件ヒット</div>';
   if (notFound.length > 0) {
-    html += '<div style="color:#f88;margin-top:4px">✗ 未登録: ' + notFound.map(t => grEsc(t)).join(', ') + '</div>';
-    grStartQueue(notFound);
+    if (searchMode === 'label') {
+      html += '<div style="color:#f88;margin-top:4px">✗ 未登録: ' + notFound.map(t => grEsc(t)).join(', ') + '</div>';
+      grStartQueue(notFound);
+    } else {
+      html += '<div style="color:#f88;margin-top:4px">✗ ヒットなし: ' + notFound.map(t => grEsc(t)).join(', ') + '</div>';
+      grClearQueue();
+    }
   } else {
     grClearQueue();
   }
