@@ -254,7 +254,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v23.41<span id="genre-count">512 ジャンル　2026年7月9日現在</span></span>
+  <span id="version-info">v23.43<span id="genre-count">512 ジャンル　2026年7月9日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -4180,6 +4180,13 @@ const NODES = [
     rep_tracks:["今夜はブギー・バック (スチャダラパー feat. 小沢健二)", "公開処刑 (キングギドラ)", "音色 (KREVA)"],
     yt_mix:["ht1wW4vG_t8", "cRV7csvxjsM"],
     yt_tracks:[["6lKTQbrM9RI", "TeSQs2jgD3A"], ["9qPz_ikz7pY", "F0XQAXit0tg"], ["", ""]],},
+
+  {id:"bedroom_pop", label:"Bedroom Pop", cat:"indie_pop", era:"2010s", suno:false,
+    desc:"Bedroom Popは、キャッチーで親しみやすいメロディーが特徴で、しばしばシンプルで繰り返しの多いサビを持つ。使用楽器にはアコースティックギターやシンセサイザーが多く、ドラムマシンやサンプルも使用されることがある。音響エフェクトとしては、リバーブやディレイが多用され、柔らかくドリーミーな雰囲気を作り出す。想定される会場は小規模なライブハウスやインティメートなカフェで、アーティストが自宅の寝室で録音したような親密さが感じられる。ボーカルスタイルは控えめで、時に囁くような歌い方が特徴で、感情表現は内向的で個人的なものが多い。",
+    roots_story:"Bedroom Popは2010年代にインターネットとホームレコーディング技術の進化により誕生した。アーティストたちは自宅の寝室で音楽を制作し、SoundCloudやYouTubeなどのプラットフォームを通じて作品を発表することが一般的であった。ClairoやCuco、Rex Orange Countyといったアーティストがこのジャンルを牽引し、DIY精神と個人的な表現を重視した。Bedroom Popはインディーポップやローファイミュージックと密接に関連しており、これらのジャンルから影響を受けつつも、より個人的で親密な音楽体験を提供することを目指している。ジャンルはその後も進化を続け、より多様な音楽スタイルや文化的背景を取り入れている。",
+    rep_tracks:["Pretty Girl (Clairo)", "Lo Que Siento (Cuco)", "Best Friend (Rex Orange County)"],
+    yt_mix:["SNuZs_IE6-Q", "gP95CF5GXNE"],
+    yt_tracks:[["XxSnvhBC2cw", "SK3Rxo_YRgo"], ["AjGkbFqi67c", "D94triePAJE"], ["OqBuXQLR4Y8", "DxvFdX2yOBI"]],},
 ];
 
 const LINKS = [
@@ -5633,7 +5640,10 @@ const LINKS = [
   {s:"alt_rock",t:"pop_rock",w:70,desc:"相互影響"},
   {s:"pop_rock",t:"alt_rock",w:70,desc:"相互影響"},
 
-  {s:"us_hiphop",t:"j_rap",w:80,desc:"アメリカン・ヒップホップから直接的な影響を受けた"},
+  {s:"hiphop",t:"j_rap",w:80,desc:"アメリカン・ヒップホップから直接的な影響を受けた"},
+
+  {s:"indie_pop",t:"bedroom_pop",w:80,desc:"インディーポップの影響"},
+  {s:"lofi_indie",t:"bedroom_pop",w:70,desc:"ローファイ・インディーの影響"},
 ];
 
 // ===== ROOTS POLYGON LAYOUT（無効化：全ノード自由配置） =====
@@ -6123,6 +6133,7 @@ const POPULARITY = {
   "goregrind": 4,
   "pop_rock": 9,
   "j_rap": 7,
+  "bedroom_pop": 7,
 };
 NODES.forEach(n => {
   n.popularity = POPULARITY[n.id] || 3;
