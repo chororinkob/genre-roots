@@ -264,7 +264,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v23.77<span id="genre-count">512 ジャンル　2026年7月11日現在</span></span>
+  <span id="version-info">v23.78<span id="genre-count">512 ジャンル　2026年7月11日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -4842,6 +4842,14 @@ const NODES = [
     yt_mix:["M3-T0Xam7o4", "mGF-nV2tdAg"],
     yt_tracks:[["ctUiBVT142Y", "SNIof77YZCA"], ["Qr6NOsluHYg", "v0Uc6ZWDF3c"], ["smM_bphb6pU", "eZLRhDDgIzo"]],
     aliases:["ハードコアパンク", "HCパンク", "ハードコア"],},
+
+  {id:"idm", label:"Intelligent Dance Music", cat:"early_elec", era:"1990s", suno:false,
+    desc:"IDMは、複雑で実験的なメロディーが特徴である。キャッチーさよりも音のテクスチャや構造に重きを置くため、リスナーは音の波形が変化する様子を楽しむことができる。シンセサイザーやサンプラー、ドラムマシンが主に使用され、エレクトロニックな音色が多用される。エコーやリバーブ、グリッチなどの音響エフェクトが豊富に使われ、音の空間を広げる。クラブや小規模なライブハウスでの演奏が想定されるが、リスニング体験としても楽しめる。ボーカルはあまり用いられず、インストゥルメンタルが中心である。",
+    roots_story:"IDMは1990年代初頭にイギリスを中心に誕生した。テクノやハウスといったダンスミュージックの要素を取り入れつつ、より知的で実験的なアプローチを追求した。Aphex TwinやAutechre、Boards of Canadaといったアーティストがこのジャンルを牽引し、Warp Recordsなどのレーベルがその発展を支えた。初期にはアンダーグラウンドなシーンで人気を博し、後に広範なリスナー層に受け入れられるようになった。IDMはその後、エレクトロニカやグリッチといったサブジャンルを生み出し、エレクトロニックミュージック全体に大きな影響を与えた。",
+    rep_tracks:["Windowlicker (Aphex Twin)", "Roygbiv (Boards of Canada)", "Flutter (Autechre)"],
+    yt_mix:["w07cRa9906Y", "x5DKOWz5FLs"],
+    yt_tracks:[["5ZT3gTu4Sjw", "FATTzbm78cc"], ["SM4tQcUt_mQ", "yT0gRc2c2wQ"], ["mdhtm6qjmhU", "EZFmZ0gZNZI"]],
+    aliases:["アイディーエム", "Intelligent Dance Music"],},
 ];
 
 const LINKS = [
@@ -6328,6 +6336,10 @@ const LINKS = [
   {s:"punk",t:"hardcore_punk",w:90,desc:"パンクの高速な3コード進行と反体制的な姿勢を土台に、ニューヨークやロサンゼルスのシーンでテンポをさらに上げ、シャウトに近い荒々しいボーカルとパワーコードを多用したギターサウンドを強調することでハードコアパンクが形成された"},
   {s:"hardcore_punk",t:"thrash_metal",w:70,desc:"ハードコアパンクの高速な演奏スタイルと攻撃的な短尺の楽曲構成が、スラッシュメタルのブラストビート寄りの速いリズムとパワーコードを多用したギターリフの中に取り入れられている"},
   {s:"hardcore_punk",t:"emo",w:60,desc:"ハードコアパンクの感情をむき出しにするシャウトボーカルのスタイルが、エモのより内省的で感情を吐露する歌詞表現とメロディックなボーカルラインの中に取り入れられている"},
+
+  {s:"techno",t:"idm",w:80,desc:"四つ打ちキックやシンセベースのリズム構造、TR-808/909系ドラムマシンの音色をIDMが取り込み、解体・再構築した"},
+  {s:"ambient",t:"idm",w:70,desc:"ブライアン・イーノ的な持続音・音響空間の設計手法をIDMが継承し、複雑なリズム構造と融合させた"},
+  {s:"idm",t:"glitch_music",w:90,desc:"IDMが実験的に用いたデジタルノイズ・バッファエラー・スキップ音などの手法が、グリッチの核心的な音響語彙として発展した"},
 ];
 
 // ===== ROOTS POLYGON LAYOUT（無効化：全ノード自由配置） =====
@@ -6828,6 +6840,7 @@ const POPULARITY = {
   "zydeco": 5,
   "two_tone_ska": 7,
   "hardcore_punk": 7,
+  "idm": 6,
 };
 NODES.forEach(n => {
   n.popularity = POPULARITY[n.id] || 3;
