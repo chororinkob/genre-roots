@@ -53,9 +53,19 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
 .sp-section { margin-bottom: 14px; }
 .sp-section h4 { font-size: 12px; letter-spacing: 0.5px; color: #fff; font-weight: 700; margin-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 4px; }
 .sp-section p { color: #ccc; line-height: 1.6; font-size: 13px; }
-.sp-influence-row { display: flex; align-items: baseline; gap: 6px; margin-bottom: 4px; font-size: 12px; color: #bbb; }
-.sp-influence-row .pct { font-weight: 700; color: #7ecfff; font-size: 11px; min-width: 32px; }
-.sp-influence-row .reason { color: #888; font-size: 11px; }
+.sp-card { margin-bottom: 16px; }
+.sp-card:last-child { margin-bottom: 0; }
+.sp-card-row { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; flex-wrap: nowrap; }
+.sp-card-name { font-size: 13px; font-weight: 700; color: #7ecfff; flex-shrink: 0; max-width: 96px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-decoration: none; cursor: pointer; }
+.sp-card-name.self { color: #ddd; cursor: default; }
+.sp-meter { position: relative; flex: 1 1 auto; min-width: 48px; height: 15px; border-radius: 8px; background: rgba(255,255,255,0.07); overflow: hidden; }
+.sp-meter-fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 8px; overflow: hidden; }
+.sp-meter-fill.in { background: linear-gradient(90deg, #1f5f85, #4fb4e8); }
+.sp-meter-fill.out { background: linear-gradient(90deg, #1f7a52, #57d197); }
+.sp-meter-chevrons { position: absolute; inset: 0; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='15'%3E%3Cpath d='M2 1 L7.5 7.5 L2 14' stroke='white' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: repeat-x; background-size: 11px 15px; opacity: 0.4; }
+.sp-meter-pct { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 9.5px; font-weight: 800; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.75); letter-spacing: 0.1px; line-height: 1; }
+.sp-mutual-arrow { color: #c9a6ff; font-weight: 700; font-size: 13px; flex-shrink: 0; }
+.sp-card-desc { font-size: 12px; color: #aaa; line-height: 1.7; }
 .sp-genre-link:hover { color: #fff !important; text-decoration: underline !important; }
 #sp-yt-wrap { border-radius: 8px; overflow: hidden; }
 
@@ -254,7 +264,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v23.54<span id="genre-count">512 ジャンル　2026年7月10日現在</span></span>
+  <span id="version-info">v23.55<span id="genre-count">512 ジャンル　2026年7月10日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -7207,16 +7217,32 @@ node.on("click", (e, d) => {
     spTracksSec.style.display = 'none';
   }
 
-  // 影響を受けた（一方向のみ）
+  const selfName = d.label.replace("\n"," ");
+
+  // 影響を受けた（一方向のみ）：左＝影響元、右＝自分
   const incoming = linkData.filter(l => l.t === d.id && !l.mutual);
   spIn.innerHTML = incoming.length
-    ? incoming.map(l => `<div class="sp-influence-row"><span class="pct">${l.w}%</span><b><a href="#" class="sp-genre-link" data-id="${l.s}" style="color:#7ecfff;text-decoration:none;cursor:pointer;">${nodeMap[l.s]?.label?.replace("\n"," ")}</a></b><span class="reason">— ${l.desc||''}</span></div>`).join('')
+    ? incoming.map(l => `<div class="sp-card">
+        <div class="sp-card-row">
+          <a href="#" class="sp-genre-link sp-card-name" data-id="${l.s}">${nodeMap[l.s]?.label?.replace("\n"," ")}</a>
+          <span class="sp-meter"><span class="sp-meter-fill in" style="width:${l.w}%"><span class="sp-meter-chevrons"></span></span><span class="sp-meter-pct">${l.w}%</span></span>
+          <span class="sp-card-name self">${selfName}</span>
+        </div>
+        <div class="sp-card-desc">${l.desc||''}</div>
+      </div>`).join('')
     : '<span style="color:#666">なし</span>';
 
-  // 影響を与えた（一方向のみ）
+  // 影響を与えた（一方向のみ）：左＝自分、右＝影響先
   const outgoing = linkData.filter(l => l.s === d.id && !l.mutual);
   spOut.innerHTML = outgoing.length
-    ? outgoing.map(l => `<div class="sp-influence-row"><span class="pct">${l.w}%</span><b><a href="#" class="sp-genre-link" data-id="${l.t}" style="color:#7ecfff;text-decoration:none;cursor:pointer;">${nodeMap[l.t]?.label?.replace("\n"," ")}</a></b><span class="reason">— ${l.desc||''}</span></div>`).join('')
+    ? outgoing.map(l => `<div class="sp-card">
+        <div class="sp-card-row">
+          <span class="sp-card-name self">${selfName}</span>
+          <span class="sp-meter"><span class="sp-meter-fill out" style="width:${l.w}%"><span class="sp-meter-chevrons"></span></span><span class="sp-meter-pct">${l.w}%</span></span>
+          <a href="#" class="sp-genre-link sp-card-name" data-id="${l.t}">${nodeMap[l.t]?.label?.replace("\n"," ")}</a>
+        </div>
+        <div class="sp-card-desc">${l.desc||''}</div>
+      </div>`).join('')
     : '<span style="color:#666">なし</span>';
 
   // 相互に影響し合ったジャンル
@@ -7225,7 +7251,14 @@ node.on("click", (e, d) => {
   spMutual.innerHTML = mutualLinks.length
     ? mutualLinks.map(l => {
         const otherId = l.s === d.id ? l.t : l.s;
-        return `<div class="sp-influence-row"><b><a href="#" class="sp-genre-link" data-id="${otherId}" style="color:#7ecfff;text-decoration:none;cursor:pointer;">${nodeMap[otherId]?.label?.replace("\n"," ")}</a></b><span class="reason">— ${l.desc||''}</span></div>`;
+        return `<div class="sp-card">
+          <div class="sp-card-row">
+            <span class="sp-card-name self">${selfName}</span>
+            <span class="sp-mutual-arrow">⇄</span>
+            <a href="#" class="sp-genre-link sp-card-name" data-id="${otherId}">${nodeMap[otherId]?.label?.replace("\n"," ")}</a>
+          </div>
+          <div class="sp-card-desc">${l.desc||''}</div>
+        </div>`;
       }).join('')
     : '<span style="color:#666">なし</span>';
 
