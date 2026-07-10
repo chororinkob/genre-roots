@@ -254,7 +254,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v23.52<span id="genre-count">512 ジャンル　2026年7月10日現在</span></span>
+  <span id="version-info">v23.53<span id="genre-count">512 ジャンル　2026年7月10日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -4775,6 +4775,14 @@ const NODES = [
     yt_mix:["Mg8V7moWwKQ", "YQjPuIrR0Dk"],
     yt_tracks:[["KJohGa66FJM", "PevFV3qAvQw"], ["ZJg5Op5W7yw", "AfoFCf5QU78"], ["4HNZNvlhlN4", "6oVcgrbeByo"]],
     aliases:["ゴスペル", "ゴスペルミュージック", "Gospel Music", "ブラック・ゴスペル", "Black Gospel"],},
+
+  {id:"klezmer", label:"Klezmer", cat:"middle_east", era:"17th–19th century", suno:false,
+    desc:"クレズマー音楽は、ユダヤ人の伝統的な音楽で、特に東欧のアシュケナジー系ユダヤ人コミュニティで発展しました。メロディーは非常に感情的で、しばしば哀愁を帯びた旋律が特徴です。使用される楽器には、クラリネット、バイオリン、アコーディオン、ツィンバロムなどがあり、これらが独特の音色を生み出します。音響エフェクトはあまり使用されず、生の音が重視されます。演奏はしばしば結婚式や祝祭で行われ、親密な会場から大規模なフェスティバルまで幅広く対応します。ボーカルスタイルは、感情豊かで、時にはユーモラスな表現が見られます。",
+    roots_story:"クレズマーは少なくとも17〜18世紀には東欧のアシュケナジー系ユダヤ人コミュニティで演奏されており、19世紀に大きく発展しました。元々は結婚式や宗教的な祝祭で演奏される音楽で、ユダヤ人の移民によってアメリカにもたらされ、現地のジャズやブルースの語法を吸収しながら発展しました。20世紀初頭には、アメリカでのユダヤ人移民の間で人気を博し、クラリネット奏者のナフトゥレ・ブランドワインやデイヴ・タラスなどがこのジャンルの発展に寄与しました。第二次世界大戦後には一時衰退しましたが、1970年代以降、再び注目を集め、現代のアーティストたちによって新たな解釈が加えられています。",
+    rep_tracks:["Der Heyser Bulgar (Naftule Brandwein)", "Freilach Fun Der Chupe (Dave Tarras)", "Romanian Fantasy (Andy Statman)"],
+    yt_mix:["iSU0UG4VSEI", "q1oG32IrNP4"],
+    yt_tracks:[["f8N-vT6hX9c", "Xyhg-UdFaMc"], ["zL1vkQMSsN0", "3jAG3PrChs8"], ["b9TcOdqE0Uc", "zPVvaWSBwxw"]],
+    aliases:["クレズマー", "クレズマー音楽", "クレツマー", "Klezmer Music"],},
 ];
 
 const LINKS = [
@@ -6730,6 +6738,7 @@ const POPULARITY = {
   "uk_drill": 7,
   "jersey_club": 6,
   "gospel": 7,
+  "klezmer": 6,
 };
 NODES.forEach(n => {
   n.popularity = POPULARITY[n.id] || 3;
