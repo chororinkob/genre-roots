@@ -264,7 +264,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v23.78<span id="genre-count">512 ジャンル　2026年7月11日現在</span></span>
+  <span id="version-info">v23.79<span id="genre-count">512 ジャンル　2026年7月11日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -4850,6 +4850,14 @@ const NODES = [
     yt_mix:["w07cRa9906Y", "x5DKOWz5FLs"],
     yt_tracks:[["5ZT3gTu4Sjw", "FATTzbm78cc"], ["SM4tQcUt_mQ", "yT0gRc2c2wQ"], ["mdhtm6qjmhU", "EZFmZ0gZNZI"]],
     aliases:["アイディーエム", "Intelligent Dance Music"],},
+
+  {id:"ranchera", label:"Ranchera", cat:"latin", era:"1910s", suno:false,
+    desc:"ランチェラはメキシコの伝統的な音楽ジャンルで、感情豊かなメロディーが特徴だ。曲調はしばしばドラマチックで、サビは特に力強く、聴く者の心を揺さぶる。使用楽器は主にギター、トランペット、バイオリンなどで、これらが織りなす音色は温かく、時に哀愁を帯びている。エコーやリバーブがかかることが多く、音の広がりを感じさせる。小さなカフェや野外フェスティバルでの演奏が似合う。ボーカルスタイルは情熱的で、感情を込めたシャウトやビブラートが多用される。",
+    roots_story:"ランチェラはメキシコ革命の時代に誕生し、農村部での生活や愛、失恋をテーマにした歌詞が多い。革命後の社会不安の中で、民衆の心の支えとなる音楽として発展した。ペドロ・インファンテやホセ・アルフレド・ヒメネスといったアーティストがこのジャンルを牽引し、メキシコ文化の象徴となった。20世紀中頃には映画やラジオを通じて広まり、ラテンアメリカ全体で人気を博した。マリアッチ音楽と密接に関連しており、しばしば混同されるが、ランチェラはより個人的で内省的なテーマを持つ。時代とともにポップやロックの要素を取り入れつつも、伝統的なスタイルを守り続けている。",
+    rep_tracks:["Cien Años (Pedro Infante)", "El Rey (José Alfredo Jiménez)", "Volver, Volver (Vicente Fernández)"],
+    yt_mix:["RFskXBDVgUc", "jGgK8DvLAi8"],
+    yt_tracks:[["uMY71QLyQgI", "diSAz7xfpvE"], ["ZipzeNiBe_E", "WI5npBQ38Nc"], ["NPg_jbGYzgA", "ugNQ5uIN09Q"]],
+    aliases:["ランチェラ", "ランチェーラ", "Ranchero", "Música ranchera"],},
 ];
 
 const LINKS = [
@@ -6340,6 +6348,9 @@ const LINKS = [
   {s:"techno",t:"idm",w:80,desc:"四つ打ちキックやシンセベースのリズム構造、TR-808/909系ドラムマシンの音色をIDMが取り込み、解体・再構築した"},
   {s:"ambient",t:"idm",w:70,desc:"ブライアン・イーノ的な持続音・音響空間の設計手法をIDMが継承し、複雑なリズム構造と融合させた"},
   {s:"idm",t:"glitch_music",w:90,desc:"IDMが実験的に用いたデジタルノイズ・バッファエラー・スキップ音などの手法が、グリッチの核心的な音響語彙として発展した"},
+
+  {s:"mariachi",t:"ranchera",w:80,desc:"ランチェラのトランペットによる劇的なブラスフレーズとバイオリンの哀愁あるユニゾン奏法はマリアッチ編成と共有され、ランチェラ歌手がマリアッチ楽団を従えて演奏する形式が定着したことで、ビブラートを多用する情熱的な歌唱法と大編成の器楽伴奏スタイルが双方向に発展した。"},
+  {s:"ranchera",t:"mariachi",w:80,desc:"ランチェラのトランペットによる劇的なブラスフレーズとバイオリンの哀愁あるユニゾン奏法はマリアッチ編成と共有され、ランチェラ歌手がマリアッチ楽団を従えて演奏する形式が定着したことで、ビブラートを多用する情熱的な歌唱法と大編成の器楽伴奏スタイルが双方向に発展した。"},
 ];
 
 // ===== ROOTS POLYGON LAYOUT（無効化：全ノード自由配置） =====
@@ -6841,6 +6852,7 @@ const POPULARITY = {
   "two_tone_ska": 7,
   "hardcore_punk": 7,
   "idm": 6,
+  "ranchera": 8,
 };
 NODES.forEach(n => {
   n.popularity = POPULARITY[n.id] || 3;
