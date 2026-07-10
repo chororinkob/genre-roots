@@ -254,7 +254,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v23.53<span id="genre-count">512 ジャンル　2026年7月10日現在</span></span>
+  <span id="version-info">v23.54<span id="genre-count">512 ジャンル　2026年7月10日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -4783,6 +4783,14 @@ const NODES = [
     yt_mix:["iSU0UG4VSEI", "q1oG32IrNP4"],
     yt_tracks:[["f8N-vT6hX9c", "Xyhg-UdFaMc"], ["zL1vkQMSsN0", "3jAG3PrChs8"], ["b9TcOdqE0Uc", "zPVvaWSBwxw"]],
     aliases:["クレズマー", "クレズマー音楽", "クレツマー", "Klezmer Music"],},
+
+  {id:"spirituals", label:"Spirituals", cat:"blues_sub", era:"19th century", suno:false,
+    desc:"スピリチュアルズは、アフリカ系アメリカ人の奴隷たちによって歌われた宗教的な歌で、深い感情と魂の叫びが特徴です。メロディーはシンプルでありながら力強く、しばしばコール＆レスポンスの形式を取り、集団で歌われることが多いです。楽器はほとんど使われず、主にアカペラで歌われますが、手拍子や足踏みがリズムを強調します。エコーやリバーブのような音響効果はなく、自然な声の響きが重視されます。歌い手たちは感情を込めて歌い、深い信仰と希望を表現します。教会や野外での集会で歌われることが多く、聴衆と歌い手が一体となる体験を生み出します。",
+    roots_story:"スピリチュアルズは19世紀のアメリカ南部で、奴隷制の下で苦しむアフリカ系アメリカ人によって生まれました。彼らはキリスト教の教えを取り入れ、自分たちの信仰と希望を歌に託しました。スピリチュアルズは、奴隷たちの精神的な支えとなり、自由への願いを込めたメッセージを伝える手段として機能しました。19世紀後半には、自由になったアフリカ系アメリカ人の間で広まり、後にブルースやゴスペル、ジャズといったジャンルの基礎を築く要素となりました。スピリチュアルズは、アメリカの音楽文化における重要な遺産であり、今日でも多くのアーティストによって歌い継がれています。",
+    rep_tracks:["Swing Low, Sweet Chariot (Traditional)", "Go Down Moses (Traditional)", "Wade in the Water (Traditional)"],
+    yt_mix:["2jxKy5LaiXU", "a398XbEvHxg"],
+    yt_tracks:[["YOe8BHDxv2g", "ljup8cIRzIk"], ["vf6jBP4YXwo", "bXFz-4w1YhA"], ["fxZ4H-gq_lc", "7_euSS86dvE"]],
+    aliases:["スピリチュアルズ", "黒人霊歌", "ネグロ・スピリチュアル", "アフリカン・アメリカン・スピリチュアルズ"],},
 ];
 
 const LINKS = [
@@ -6245,6 +6253,9 @@ const LINKS = [
   {s:"gospel",t:"soul",w:85,desc:"コール＆レスポンス形式の歌唱構造、シャウトやメリスマを多用する感情的なボーカル技法、オルガンやピアノによるリズム伴奏スタイルがそのままソウルに受け継がれた。サム・クックやアレサ・フランクリンのように、教会の聖歌隊で歌唱を磨いた歌手たちが世俗音楽に転向したことで、ゴスペルの発声法・アレンジ感覚が丸ごとソウルの音楽性の土台になった。"},
   {s:"gospel",t:"rnb",w:80,desc:"教会での即興的な装飾唱法（アドリブでのこぶし回し）と、バックコーラスが主旋律に重なるように分厚いハーモニーを作る手法がそのまま取り入れられた。曲の後半でボーカルが感情的に盛り上がっていく「ビルドアップ」の構成も、ゴスペルの礼拝で高揚感を作る手法がルーツになっている。"},
   {s:"gospel",t:"rock_n_roll",w:70,desc:"リトル・リチャードのように教会のピアノ演奏やシャウト唱法を仕込まれた歌手たちが、そのエネルギッシュな発声法をそのままロックンロールのステージパフォーマンスに持ち込んだ。手拍子やタンバリンで刻む単純明快なビート感、コーラス隊が主旋律に呼応する「コール＆レスポンス」的な掛け合いも、教会音楽の高揚感を作る手法がルーツになっている。"},
+
+  {s:"spirituals",t:"gospel",w:90,desc:"リードシンガーが歌詞の一節を呼びかけ、会衆が定型句で応答するコール＆レスポンス構造が、ゴスペルの礼拝形式においてそのまま採用された。また聖書の物語や詩篇を日常語に置き換えて歌う歌詞作法、および教会・野外集会での全員参加型の集団歌唱という実践形式も、ゴスペルの礼拝演奏スタイルを形成する直接的な雛形となった。"},
+  {s:"spirituals",t:"blues",w:85,desc:"苦悩・悲嘆・希望を飾らず一人称で吐露する歌唱表現法が、ブルースの個人的な感情告白スタイルに転用された。ペンタトニックスケールを骨格とするシンプルな音程跳躍のメロディー輪郭は、ブルースのボーカルラインに踏襲された。さらにフィールドホラー（野外労働歌）と共有する声を張り上げて遠くへ呼びかける発声法や、語りかけるようにピッチを滑らせるメリスマ的節回しが、ブルース歌手の発声技法の基盤となった。"},
 ];
 
 // ===== ROOTS POLYGON LAYOUT（無効化：全ノード自由配置） =====
@@ -6739,6 +6750,7 @@ const POPULARITY = {
   "jersey_club": 6,
   "gospel": 7,
   "klezmer": 6,
+  "spirituals": 7,
 };
 NODES.forEach(n => {
   n.popularity = POPULARITY[n.id] || 3;
