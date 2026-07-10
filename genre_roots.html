@@ -264,7 +264,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v23.79<span id="genre-count">512 ジャンル　2026年7月11日現在</span></span>
+  <span id="version-info">v23.80<span id="genre-count">512 ジャンル　2026年7月11日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -4858,6 +4858,14 @@ const NODES = [
     yt_mix:["RFskXBDVgUc", "jGgK8DvLAi8"],
     yt_tracks:[["uMY71QLyQgI", "diSAz7xfpvE"], ["ZipzeNiBe_E", "WI5npBQ38Nc"], ["NPg_jbGYzgA", "ugNQ5uIN09Q"]],
     aliases:["ランチェラ", "ランチェーラ", "Ranchero", "Música ranchera"],},
+
+  {id:"latin_pop", label:"Latin Pop", cat:"latin", era:"1980s", suno:false,
+    desc:"ラテンポップは、キャッチーでメロディックな要素が特徴である。サビは特に印象的で、リズミカルなビートと共に耳に残る。ギターやシンセサイザーが主要な楽器として用いられ、ラテン音楽特有のリズムが加わる。エコーやリバーブが多用され、広がりのある音響効果を持つ。アリーナやフェスティバルなど大規模な会場でのパフォーマンスが想定される。ボーカルは情熱的で、感情豊かに歌い上げるスタイルが多い。",
+    roots_story:"ラテンポップは1950〜60年代のラテン音楽のポップ化を起源とし、1980年代にスペイン語圏のポップスとして現代的な形へと発展した。リッキー・マーティンやシャキーラ、エンリケ・イグレシアスといったアーティストがこのジャンルを牽引し、国際的な人気を博した。ラテン音楽のリズムとポップのメロディックな要素を融合させたスタイルが特徴で、英語圏のポップミュージックとクロスオーバーすることでさらなる進化を遂げた。1990年代後半から2000年代初頭にかけて、ラテンポップは世界的なブームを迎え、現在でも多くのアーティストによって新しい音楽が生み出され続けている。",
+    rep_tracks:["Livin' la Vida Loca (Ricky Martin)", "Hips Don't Lie (Shakira)", "Bailando (Enrique Iglesias)"],
+    yt_mix:["Us2ZvSRUB1k", "RGNv4XI0jgI"],
+    yt_tracks:[["p47fEXGabaY", "6_NJtZG5z6s"], ["DUT5rEU6pqM", "2Ndra-1Pwug"], ["NUsoVlDFqZg", "b8I-7Wk_Vbc"]],
+    aliases:["ラテンポップ", "ラテン・ポップ", "Latino Pop", "Pop Latino", "Latin Pop Music"],},
 ];
 
 const LINKS = [
@@ -6351,6 +6359,9 @@ const LINKS = [
 
   {s:"mariachi",t:"ranchera",w:80,desc:"ランチェラのトランペットによる劇的なブラスフレーズとバイオリンの哀愁あるユニゾン奏法はマリアッチ編成と共有され、ランチェラ歌手がマリアッチ楽団を従えて演奏する形式が定着したことで、ビブラートを多用する情熱的な歌唱法と大編成の器楽伴奏スタイルが双方向に発展した。"},
   {s:"ranchera",t:"mariachi",w:80,desc:"ランチェラのトランペットによる劇的なブラスフレーズとバイオリンの哀愁あるユニゾン奏法はマリアッチ編成と共有され、ランチェラ歌手がマリアッチ楽団を従えて演奏する形式が定着したことで、ビブラートを多用する情熱的な歌唱法と大編成の器楽伴奏スタイルが双方向に発展した。"},
+
+  {s:"pop_music",t:"latin_pop",w:80,desc:"ラテンポップはポップの四つ打ちキックやIV-V-I進行を取り入れ、一方でポップはクラーベリズムに基づくシンコペーション、情熱的なビブラートを多用する歌唱法、アコースティックギターのアルペジオといったラテン的語法を吸収することで、双方の音楽的語彙を相互に拡張してきた。"},
+  {s:"latin_pop",t:"pop_music",w:80,desc:"ラテンポップはポップの四つ打ちキックやIV-V-I進行を取り入れ、一方でポップはクラーベリズムに基づくシンコペーション、情熱的なビブラートを多用する歌唱法、アコースティックギターのアルペジオといったラテン的語法を吸収することで、双方の音楽的語彙を相互に拡張してきた。"},
 ];
 
 // ===== ROOTS POLYGON LAYOUT（無効化：全ノード自由配置） =====
@@ -6853,6 +6864,7 @@ const POPULARITY = {
   "hardcore_punk": 7,
   "idm": 6,
   "ranchera": 8,
+  "latin_pop": 9,
 };
 NODES.forEach(n => {
   n.popularity = POPULARITY[n.id] || 3;
