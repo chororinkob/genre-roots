@@ -264,7 +264,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v23.73<span id="genre-count">512 ジャンル　2026年7月10日現在</span></span>
+  <span id="version-info">v23.74<span id="genre-count">512 ジャンル　2026年7月10日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -4817,6 +4817,14 @@ const NODES = [
     yt_mix:["rdUy6x38yYg", "RFskXBDVgUc"],
     yt_tracks:[["U6qMQnNst9U", "zhHrefOdlLs"], ["yjJDv1IeF8I", "OHeHOb3E-2g"], ["azBIZn948zc", "kPiT43Ns-yg"]],
     aliases:["マリアッチ", "Mariachi Band", "マリアッチ・バンド"],},
+
+  {id:"zydeco", label:"Zydeco", cat:"blues_sub", era:"1940s", suno:false,
+    desc:"ザディコはアコーディオンとウォッシュボードが特徴的な音楽である。メロディーはリズミカルでダンスに適したテンポを持ち、キャッチーなフレーズが多い。アコーディオンの軽快な音色とウォッシュボードのリズムが絡み合い、独特のグルーヴを生む。エコーやリバーブはあまり使われず、シンプルで生の音が強調される。小規模なダンスホールやフェスティバルでの演奏が多く、観客と近い距離でのライブ感が魅力である。ボーカルは力強く、感情豊かに歌い上げるスタイルが一般的である。",
+    roots_story:"ザディコは1940年代にアメリカ南部ルイジアナ州で独自のジャンルとして確立した音楽である。ルイジアナ・クレオール（アフリカ系クレオール）の伝統的なダンス音楽であるラ・ラを基盤とし、ケイジャン音楽が用いるダイアトニック・アコーディオンの奏法やブルース・R&Bのコード感・リズム感を吸収することで独自のスタイルを形成した。初期のザディコは農村地域でのダンスパーティーで演奏され、地域コミュニティの中で重要な役割を果たした。クリフトン・シェニエがこのジャンルを全国に広めた重要なアーティストであり、彼の活動によってザディコは広く知られるようになった。ザディコはブルースやR&Bと相互に影響を与え合いながら発展し、現代でも多くのミュージシャンに影響を与え続けている。",
+    rep_tracks:["Zydeco Sont Pas Salés (Clifton Chenier)", "My Toot Toot (Rockin' Sidney)", "Hot Tamale Baby (Buckwheat Zydeco)"],
+    yt_mix:["w24aIhr9XLU", "fa8vyTfugcI"],
+    yt_tracks:[["NSRcxdTqNiM", "ufpB5JvzgD8"], ["Yqf10CmdiD0", "u2-tgeH4j78"], ["3BsSj9WBsd4", "KmlAzBbLuF8"]],
+    aliases:["ザディコ", "ザイデコ"],},
 ];
 
 const LINKS = [
@@ -6291,6 +6299,9 @@ const LINKS = [
 
   {s:"norteno",t:"mariachi",w:50,desc:"クアトロ拍子・ワルツ系リズムの枠組みと農村生活を題材とする歌詞主題をマリアッチとノルテーニョが部分的に受け渡してきたが、ノルテーニョはアコーディオンとセクストを主軸とする独立した系統であり、相互の浸透は限定的にとどまる"},
   {s:"mariachi",t:"norteno",w:50,desc:"クアトロ拍子・ワルツ系リズムの枠組みと農村生活を題材とする歌詞主題をマリアッチとノルテーニョが部分的に受け渡してきたが、ノルテーニョはアコーディオンとセクストを主軸とする独立した系統であり、相互の浸透は限定的にとどまる"},
+
+  {s:"blues",t:"zydeco",w:70,desc:"ブルースのコード進行と12小節構造をザディコが取り込み、逆にザディコの跳ねたリズム感やアコーディオン主導の編成がブルースのルイジアナ地域変種に浸透した"},
+  {s:"zydeco",t:"blues",w:70,desc:"ブルースのコード進行と12小節構造をザディコが取り込み、逆にザディコの跳ねたリズム感やアコーディオン主導の編成がブルースのルイジアナ地域変種に浸透した"},
 ];
 
 // ===== ROOTS POLYGON LAYOUT（無効化：全ノード自由配置） =====
@@ -6788,6 +6799,7 @@ const POPULARITY = {
   "spirituals": 7,
   "baltimore_club": 6,
   "mariachi": 8,
+  "zydeco": 5,
 };
 NODES.forEach(n => {
   n.popularity = POPULARITY[n.id] || 3;
