@@ -264,7 +264,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v23.75<span id="genre-count">512 ジャンル　2026年7月10日現在</span></span>
+  <span id="version-info">v23.76<span id="genre-count">512 ジャンル　2026年7月10日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -4833,6 +4833,14 @@ const NODES = [
     yt_mix:["xOiWM6XY44A", "ME3wTyrrSqI"],
     yt_tracks:[["lgCZN1rU5co", "Sn4ntpOXE6w"], ["SOJSM46nWwo", "C9N8piRFVcU"], ["iFbwOhV137Q", "YKDDN58TzGU"]],
     aliases:["ツートーンスカ", "2トーンスカ", "2トーン", "ツートーン", "Two Tone Ska", "Two Tone", "2 Tone"],},
+
+  {id:"hardcore_punk", label:"Hardcore Punk", cat:"rock", era:"1970s", suno:false,
+    desc:"ハードコアパンクは、激しいエネルギーと速いテンポが特徴の音楽ジャンルである。メロディーはシンプルでキャッチーというよりも、攻撃的で直線的な印象を与える。ギターはディストーションが強く、パワーコードが多用される。ドラムは速いビートで、スネアとバスドラムがリズミカルに叩かれる。音響エフェクトは少なく、リバーブやエコーはほとんど使われない。ライブは小規模なクラブやガレージで行われることが多く、観客との距離が近い。ボーカルはシャウトや叫び声に近く、感情をむき出しにするスタイルが多い。",
+    roots_story:"ハードコアパンクは1970年代後半にアメリカで誕生した。ニューヨークやロサンゼルスを中心に、パンクロックの過激な形として発展した。社会的・政治的なメッセージを強く打ち出し、DIY精神を重視する文化が根付いている。バンドとしてはブラック・フラッグやデッド・ケネディーズが代表的で、彼らの活動がジャンルの発展を牽引した。1980年代にはアメリカ全土に広がり、さらにヨーロッパや日本にも影響を与えた。サブジャンルとしては、メロディックハードコアやスラッシュメタルとの融合が見られる。1990年代以降もインディーズシーンで根強い人気を保ち、時折メインストリームに影響を与えることもある。",
+    rep_tracks:["Nervous Breakdown (Black Flag)", "Holiday in Cambodia (Dead Kennedys)", "Minor Threat (Minor Threat)"],
+    yt_mix:["M3-T0Xam7o4", "mGF-nV2tdAg"],
+    yt_tracks:[["ctUiBVT142Y", "SNIof77YZCA"], ["Qr6NOsluHYg", "v0Uc6ZWDF3c"], ["smM_bphb6pU", "eZLRhDDgIzo"]],
+    aliases:["ハードコアパンク", "HCパンク", "ハードコア"],},
 ];
 
 const LINKS = [
@@ -6312,6 +6320,9 @@ const LINKS = [
   {s:"zydeco",t:"blues",w:70,desc:"ブルースのコード進行と12小節構造をザディコが取り込み、逆にザディコの跳ねたリズム感やアコーディオン主導の編成がブルースのルイジアナ地域変種に浸透した"},
 
   {s:"ska",t:"two_tone_ska",w:80,desc:"スカが持つオフビート（2拍・4拍）を強調するギターカッティングのリズムパターンと、トランペット・トロンボーン・サックスによるホーンセクションがメロディーラインを担う編成を、2 Tone Skaはそのまま演奏上の骨格として採用した"},
+
+  {s:"hardcore_punk",t:"thrash_metal",w:70,desc:"速いリズムと攻撃的なギターが影響"},
+  {s:"hardcore_punk",t:"emo",w:60,desc:"感情表現の激しさがボーカルに伝わる"},
 ];
 
 // ===== ROOTS POLYGON LAYOUT（無効化：全ノード自由配置） =====
@@ -6811,6 +6822,7 @@ const POPULARITY = {
   "mariachi": 8,
   "zydeco": 5,
   "two_tone_ska": 7,
+  "hardcore_punk": 7,
 };
 NODES.forEach(n => {
   n.popularity = POPULARITY[n.id] || 3;
