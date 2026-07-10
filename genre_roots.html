@@ -264,7 +264,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v23.76<span id="genre-count">512 ジャンル　2026年7月10日現在</span></span>
+  <span id="version-info">v23.77<span id="genre-count">512 ジャンル　2026年7月11日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -333,6 +333,7 @@ svg { width: 100vw; height: 100vh; }
   <div class="legend-item" data-cat="east_asian"><div class="legend-dot" style="background:#827717"></div><span class="legend-label">東アジア系</span></div>
   <div class="legend-item" data-cat="sacred"><div class="legend-dot" style="background:#C9A66B"></div><span class="legend-label">宗教/ゴスペル系</span></div>
   <div class="legend-item" data-cat="indie_pop"><div class="legend-dot" style="background:#F2967D"></div><span class="legend-label">インディーポップ系</span></div>
+  <div class="legend-item" data-cat="ska"><div class="legend-dot" style="background:#00BFA0"></div><span class="legend-label">スカ系</span></div>
 </div>
 </div>
 
@@ -6297,8 +6298,10 @@ const LINKS = [
   {s:"hiphop",t:"j_rap",w:80,desc:"アメリカのヒップホップのラップのフロウとビートメイキングの手法が、日本語ラップの独自の韻の踏み方と融合しJ-Rapの音楽性を形成した"},
 
   {s:"indie_pop",t:"bedroom_pop",w:80,desc:"インディーポップの軽やかなメロディーラインとDIY精神が、ベッドルームポップの自宅録音による親密なサウンドの中に取り入れられている"},
+  {s:"lofi_rock",t:"bedroom_pop",w:70,desc:"Lo-fi(ロー・ファイ)の意図的に粗い音質を活かした自宅録音の手法が、ベッドルームポップの寝室で完結する親密な制作スタイルとローファイな質感のサウンドプロダクションに直接取り入れられた"},
 
   {s:"drill",t:"uk_drill",w:80,desc:"シカゴドリルの暗く不穏なビートとストリートの現実を描いたリリックが、UKドリルのロンドンのシーンにおける独自のスライドベースとフロウに発展した"},
+  {s:"grime",t:"uk_drill",w:50,desc:"先行するグライムのMCによる攻撃的なラップ文化と鋭いビート構造が、UKドリルの独自のスライドベースとダークなフロウの土台となり、後にグライムのアーティストたちがドリルのビートを取り入れる相互的な関係も生まれた"},
 
   {s:"gospel",t:"soul",w:85,desc:"コール＆レスポンス形式の歌唱構造、シャウトやメリスマを多用する感情的なボーカル技法、オルガンやピアノによるリズム伴奏スタイルがそのままソウルに受け継がれた。サム・クックやアレサ・フランクリンのように、教会の聖歌隊で歌唱を磨いた歌手たちが世俗音楽に転向したことで、ゴスペルの発声法・アレンジ感覚が丸ごとソウルの音楽性の土台になった。"},
   {s:"gospel",t:"rnb",w:80,desc:"教会での即興的な装飾唱法（アドリブでのこぶし回し）と、バックコーラスが主旋律に重なるように分厚いハーモニーを作る手法がそのまま取り入れられた。曲の後半でボーカルが感情的に盛り上がっていく「ビルドアップ」の構成も、ゴスペルの礼拝で高揚感を作る手法がルーツになっている。"},
@@ -6320,9 +6323,11 @@ const LINKS = [
   {s:"zydeco",t:"blues",w:70,desc:"ブルースのコード進行と12小節構造をザディコが取り込み、逆にザディコの跳ねたリズム感やアコーディオン主導の編成がブルースのルイジアナ地域変種に浸透した"},
 
   {s:"ska",t:"two_tone_ska",w:80,desc:"スカが持つオフビート（2拍・4拍）を強調するギターカッティングのリズムパターンと、トランペット・トロンボーン・サックスによるホーンセクションがメロディーラインを担う編成を、2 Tone Skaはそのまま演奏上の骨格として採用した"},
+  {s:"punk",t:"two_tone_ska",w:70,desc:"パンクが確立した2〜3分以内の短くテンポの速い楽曲構成と、体制批判・人種差別反対を直接的な言葉で訴える歌詞の書き方を、2 Tone Skaは社会的メッセージを発信する手法として自らの楽曲制作に組み込んだ"},
 
-  {s:"hardcore_punk",t:"thrash_metal",w:70,desc:"速いリズムと攻撃的なギターが影響"},
-  {s:"hardcore_punk",t:"emo",w:60,desc:"感情表現の激しさがボーカルに伝わる"},
+  {s:"punk",t:"hardcore_punk",w:90,desc:"パンクの高速な3コード進行と反体制的な姿勢を土台に、ニューヨークやロサンゼルスのシーンでテンポをさらに上げ、シャウトに近い荒々しいボーカルとパワーコードを多用したギターサウンドを強調することでハードコアパンクが形成された"},
+  {s:"hardcore_punk",t:"thrash_metal",w:70,desc:"ハードコアパンクの高速な演奏スタイルと攻撃的な短尺の楽曲構成が、スラッシュメタルのブラストビート寄りの速いリズムとパワーコードを多用したギターリフの中に取り入れられている"},
+  {s:"hardcore_punk",t:"emo",w:60,desc:"ハードコアパンクの感情をむき出しにするシャウトボーカルのスタイルが、エモのより内省的で感情を吐露する歌詞表現とメロディックなボーカルラインの中に取り入れられている"},
 ];
 
 // ===== ROOTS POLYGON LAYOUT（無効化：全ノード自由配置） =====
@@ -6870,6 +6875,7 @@ const CAT_COLOR = {
   blues_sub:  "#4FC3F7",
   sacred:     "#C9A66B",
   indie_pop:  "#F2967D",
+  ska:        "#00BFA0",
 };
 
 // ===== GRAPH SETUP =====
