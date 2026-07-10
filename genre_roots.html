@@ -254,7 +254,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v23.50<span id="genre-count">512 ジャンル　2026年7月9日現在</span></span>
+  <span id="version-info">v23.51<span id="genre-count">512 ジャンル　2026年7月10日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -321,6 +321,8 @@ svg { width: 100vw; height: 100vh; }
   <div class="legend-item" data-cat="middle_east"><div class="legend-dot" style="background:#BF360C"></div><span class="legend-label">中東/アラブ系</span></div>
   <div class="legend-item" data-cat="south_asian"><div class="legend-dot" style="background:#311B92"></div><span class="legend-label">南アジア系</span></div>
   <div class="legend-item" data-cat="east_asian"><div class="legend-dot" style="background:#827717"></div><span class="legend-label">東アジア系</span></div>
+  <div class="legend-item" data-cat="sacred"><div class="legend-dot" style="background:#C9A66B"></div><span class="legend-label">宗教/ゴスペル系</span></div>
+  <div class="legend-item" data-cat="indie_pop"><div class="legend-dot" style="background:#F2967D"></div><span class="legend-label">インディーポップ系</span></div>
 </div>
 </div>
 
@@ -6232,7 +6234,9 @@ const LINKS = [
 
   {s:"drill",t:"uk_drill",w:80,desc:"シカゴ・ドリルから影響"},
 
-  {s:"gospel",t:"soul",w:85,desc:"ソウルに影響"},
+  {s:"gospel",t:"soul",w:85,desc:"コール＆レスポンス形式の歌唱構造、シャウトやメリスマを多用する感情的なボーカル技法、オルガンやピアノによるリズム伴奏スタイルがそのままソウルに受け継がれた。サム・クックやアレサ・フランクリンのように、教会の聖歌隊で歌唱を磨いた歌手たちが世俗音楽に転向したことで、ゴスペルの発声法・アレンジ感覚が丸ごとソウルの音楽性の土台になった。"},
+  {s:"gospel",t:"rnb",w:80,desc:"教会での即興的な装飾唱法（アドリブでのこぶし回し）と、バックコーラスが主旋律に重なるように分厚いハーモニーを作る手法がそのまま取り入れられた。曲の後半でボーカルが感情的に盛り上がっていく「ビルドアップ」の構成も、ゴスペルの礼拝で高揚感を作る手法がルーツになっている。"},
+  {s:"gospel",t:"rock_n_roll",w:70,desc:"リトル・リチャードのように教会のピアノ演奏やシャウト唱法を仕込まれた歌手たちが、そのエネルギッシュな発声法をそのままロックンロールのステージパフォーマンスに持ち込んだ。手拍子やタンバリンで刻む単純明快なビート感、コーラス隊が主旋律に呼応する「コール＆レスポンス」的な掛け合いも、教会音楽の高揚感を作る手法がルーツになっている。"},
 ];
 
 // ===== ROOTS POLYGON LAYOUT（無効化：全ノード自由配置） =====
@@ -6771,6 +6775,8 @@ const CAT_COLOR = {
   jazz_sub:   "#CFB53B",
   classical_sub:"#78909C",
   blues_sub:  "#4FC3F7",
+  sacred:     "#C9A66B",
+  indie_pop:  "#F2967D",
 };
 
 // ===== GRAPH SETUP =====
