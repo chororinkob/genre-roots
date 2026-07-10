@@ -254,7 +254,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v23.49<span id="genre-count">512 ジャンル　2026年7月9日現在</span></span>
+  <span id="version-info">v23.50<span id="genre-count">512 ジャンル　2026年7月9日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -4765,6 +4765,14 @@ const NODES = [
     yt_tracks:[["LsxaYtu-Klk", "f008Do6BQt4"], ["4PvJlo0gh8c", "e5qZGlDy0Is"], ["LRbWUQaLMJo", "CfEBPBhcXxs"]],
   
     aliases:["ジャージークラブ"],},
+
+  {id:"gospel", label:"Gospel", cat:"sacred", era:"1920s-1930s", suno:false,
+    desc:"ゴスペル音楽は、力強く感情的なメロディーが特徴で、聴く人の心を揺さぶるようなサビが多い。ピアノやオルガンが中心となり、しばしばクワイアのコーラスが加わることで、豊かなハーモニーが生まれる。エコーやリバーブがかかった音響効果が、教会のような広がりを感じさせる。大規模な教会や野外でのパフォーマンスが想定されることが多い。ボーカルスタイルは、感情を込めたシャウトや、ソウルフルな表現が特徴で、しばしばコールアンドレスポンス形式が用いられる。",
+    roots_story:"ゴスペル音楽は、1920〜1930年代のアメリカ（主に南部・中西部）で、アフリカ系アメリカ人の教会音楽として確立した。奴隷時代のスピリチュアルやワークソングがそのルーツであり、宗教的なメッセージを伝えることを目的としている。トーマス・A・ドーシーはシカゴを拠点にこのジャンルを体系化し、マヘリア・ジャクソンといったアーティストが教会の枠を超えて広めていった。ゴスペルは、リズム・アンド・ブルースやソウルミュージック、ロックンロールに大きな影響を与え、現代のポップミュージックにもその影響が見られる。サブジャンルとしては、トラディショナル・ゴスペルやコンテンポラリー・ゴスペルがあり、それぞれ異なるスタイルで発展している。全盛期は1950年代から1960年代にかけてで、その後も多くのアーティストによって新しい解釈が加えられ続けている。",
+    rep_tracks:["Oh Happy Day (Edwin Hawkins Singers)", "Amazing Grace (Mahalia Jackson)", "Take My Hand, Precious Lord (Thomas A. Dorsey)"],
+    yt_mix:["Mg8V7moWwKQ", "YQjPuIrR0Dk"],
+    yt_tracks:[["KJohGa66FJM", "PevFV3qAvQw"], ["ZJg5Op5W7yw", "AfoFCf5QU78"], ["4HNZNvlhlN4", "6oVcgrbeByo"]],
+    aliases:["ゴスペル", "ゴスペルミュージック", "Gospel Music", "ブラック・ゴスペル", "Black Gospel"],},
 ];
 
 const LINKS = [
@@ -6223,6 +6231,8 @@ const LINKS = [
   {s:"indie_pop",t:"bedroom_pop",w:80,desc:"インディーポップの影響"},
 
   {s:"drill",t:"uk_drill",w:80,desc:"シカゴ・ドリルから影響"},
+
+  {s:"gospel",t:"soul",w:85,desc:"ソウルに影響"},
 ];
 
 // ===== ROOTS POLYGON LAYOUT（無効化：全ノード自由配置） =====
@@ -6715,6 +6725,7 @@ const POPULARITY = {
   "bedroom_pop": 7,
   "uk_drill": 7,
   "jersey_club": 6,
+  "gospel": 7,
 };
 NODES.forEach(n => {
   n.popularity = POPULARITY[n.id] || 3;
