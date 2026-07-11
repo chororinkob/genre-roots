@@ -278,7 +278,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v23.90<span id="genre-count">512 ジャンル　2026年7月11日現在</span></span>
+  <span id="version-info">v23.91<span id="genre-count">512 ジャンル　2026年7月11日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -7552,6 +7552,12 @@ spCorrSend.onclick = async () => {
     }
 
     const requestId = data.request_id;
+    // ログ部分は更新のたびに中身を丸ごと書き換えるため、放っておくと毎回スクロール位置が
+    // 先頭に戻ってしまう。更新直後に自動で最下部（＝最新のログ）までスクロールさせる。
+    const scrollLogToBottom = () => {
+      const logEl = document.getElementById('sp-corr-log');
+      if (logEl) logEl.scrollTop = logEl.scrollHeight;
+    };
     const poll = async () => {
       try {
         const sres = await fetch('/correction_request/status/' + requestId);
@@ -7560,6 +7566,7 @@ spCorrSend.onclick = async () => {
         if (!sdata.done) {
           spCorrResult.className = 'ok';
           spCorrResult.innerHTML = logHtml + '処理中…';
+          scrollLogToBottom();
           return;
         }
         clearInterval(spCorrPolling); spCorrPolling = null;
@@ -7575,6 +7582,7 @@ spCorrSend.onclick = async () => {
           spCorrResult.className = 'err';
           spCorrResult.innerHTML = logHtml + 'エラー：' + (result.message || '処理に失敗しました。');
         }
+        scrollLogToBottom();
         spCorrSend.disabled = false;
         spCorrSend.textContent = '送信';
       } catch (e) {
