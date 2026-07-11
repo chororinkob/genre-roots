@@ -278,7 +278,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v23.89<span id="genre-count">512 ジャンル　2026年7月11日現在</span></span>
+  <span id="version-info">v23.90<span id="genre-count">512 ジャンル　2026年7月11日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -7513,15 +7513,29 @@ spCorrCancel.onclick = () => {
   spCorrText.value = '';
   spCorrResult.className = '';
   spCorrResult.innerHTML = '';
+  if (spCorrPolling) { clearInterval(spCorrPolling); spCorrPolling = null; }
 };
+let spCorrPolling = null;
+
+function spCorrRenderLog(log) {
+  if (!log || log.length === 0) return '';
+  const lines = log.map(e => {
+    const t = new Date(e.time).toLocaleTimeString('ja-JP');
+    return `<div style="padding:2px 0;color:#9db8d0;">[${t}] ${e.message}</div>`;
+  }).join('');
+  return `<div id="sp-corr-log" style="max-height:180px;overflow-y:auto;background:#0d0d1a;border-radius:6px;padding:8px 10px;margin-bottom:8px;font-size:11px;">${lines}</div>`;
+}
+
 spCorrSend.onclick = async () => {
   const comment = spCorrText.value.trim();
   const d = window._currentNode;
   if (!comment || !d) return;
   spCorrSend.disabled = true;
   spCorrSend.textContent = '送信中…';
-  spCorrResult.className = '';
-  spCorrResult.innerHTML = '';
+  spCorrResult.className = 'ok';
+  spCorrResult.innerHTML = '送信しています…';
+  if (spCorrPolling) { clearInterval(spCorrPolling); spCorrPolling = null; }
+
   try {
     const res = await fetch('/correction_request', {
       method: 'POST',
@@ -7529,21 +7543,49 @@ spCorrSend.onclick = async () => {
       body: JSON.stringify({ genre_id: d.id, comment })
     });
     const data = await res.json();
-    if (data.status === 'not_an_error') {
-      spCorrResult.className = 'not-error';
-      spCorrResult.innerHTML = 'これは間違いではありません。<br>' + (data.reasoning || '').replace(/\n/g, '<br>');
-    } else if (data.status === 'pending') {
-      spCorrResult.className = 'ok';
-      spCorrResult.innerHTML = '修正依頼を送信しました。管理者の確認をお待ちください。<br>' + (data.reasoning || '').replace(/\n/g, '<br>');
-      spCorrText.value = '';
-    } else {
+    if (data.status !== 'processing' || !data.request_id) {
       spCorrResult.className = 'err';
       spCorrResult.innerHTML = 'エラー：' + (data.message || '送信に失敗しました。ローカルサーバーが起動しているか確認してください。');
+      spCorrSend.disabled = false;
+      spCorrSend.textContent = '送信';
+      return;
     }
+
+    const requestId = data.request_id;
+    const poll = async () => {
+      try {
+        const sres = await fetch('/correction_request/status/' + requestId);
+        const sdata = await sres.json();
+        const logHtml = spCorrRenderLog(sdata.log);
+        if (!sdata.done) {
+          spCorrResult.className = 'ok';
+          spCorrResult.innerHTML = logHtml + '処理中…';
+          return;
+        }
+        clearInterval(spCorrPolling); spCorrPolling = null;
+        const result = sdata.result || {};
+        if (result.status === 'not_an_error') {
+          spCorrResult.className = 'not-error';
+          spCorrResult.innerHTML = logHtml + 'これは間違いではありません。<br>' + (result.reasoning || '').replace(/\n/g, '<br>');
+        } else if (result.status === 'pending') {
+          spCorrResult.className = 'ok';
+          spCorrResult.innerHTML = logHtml + '修正依頼を送信しました。管理者の確認をお待ちください。<br>' + (result.reasoning || '').replace(/\n/g, '<br>');
+          spCorrText.value = '';
+        } else {
+          spCorrResult.className = 'err';
+          spCorrResult.innerHTML = logHtml + 'エラー：' + (result.message || '処理に失敗しました。');
+        }
+        spCorrSend.disabled = false;
+        spCorrSend.textContent = '送信';
+      } catch (e) {
+        // 一時的な通信エラーはポーリング継続（サーバー再起動直後等を想定）
+      }
+    };
+    poll();
+    spCorrPolling = setInterval(poll, 2000);
   } catch (e) {
     spCorrResult.className = 'err';
     spCorrResult.innerHTML = 'エラー：修正依頼の送信に失敗しました。ローカルサーバー（localhost:5000）が起動していない可能性があります。';
-  } finally {
     spCorrSend.disabled = false;
     spCorrSend.textContent = '送信';
   }
