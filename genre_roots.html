@@ -278,7 +278,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v23.98<span id="genre-count">512 ジャンル　2026年7月12日現在</span></span>
+  <span id="version-info">v24.0<span id="genre-count">512 ジャンル　2026年7月12日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -421,6 +421,8 @@ svg { width: 100vw; height: 100vh; }
 <svg id="graph"></svg>
 
 <script>
+// 曲名検索・ジャンル追加・修正依頼などのバックエンドAPI（Render）
+const API_BASE = 'https://genre-roots-server.onrender.com';
 window._ytk = ['AIzaSyBuMKsa','B80xm8J-iHQX','qdh71rIMUX1KZfM'].join('');
 // ===== INSTRUMENTS & EFFECTS DATA =====
 const INST_ITEMS = [
@@ -7537,7 +7539,7 @@ spCorrSend.onclick = async () => {
   if (spCorrPolling) { clearInterval(spCorrPolling); spCorrPolling = null; }
 
   try {
-    const res = await fetch('/correction_request', {
+    const res = await fetch(API_BASE + '/correction_request', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ genre_id: d.id, comment })
@@ -7560,7 +7562,7 @@ spCorrSend.onclick = async () => {
     };
     const poll = async () => {
       try {
-        const sres = await fetch('/correction_request/status/' + requestId);
+        const sres = await fetch(API_BASE + '/correction_request/status/' + requestId);
         const sdata = await sres.json();
         const logHtml = spCorrRenderLog(sdata.log);
         if (!sdata.done) {
@@ -7593,7 +7595,7 @@ spCorrSend.onclick = async () => {
     spCorrPolling = setInterval(poll, 2000);
   } catch (e) {
     spCorrResult.className = 'err';
-    spCorrResult.innerHTML = 'エラー：修正依頼の送信に失敗しました。ローカルサーバー（localhost:5000）が起動していない可能性があります。';
+    spCorrResult.innerHTML = 'エラー：修正依頼の送信に失敗しました。サーバーが起動していないか、通信に問題がある可能性があります。時間をおいて再度お試しください。';
     spCorrSend.disabled = false;
     spCorrSend.textContent = '送信';
   }
@@ -7667,7 +7669,7 @@ let vcGeminiPolling = null;
 async function vcGeminiVerifyShowReport() {
   const gvBody = document.getElementById('vc-gemini-body');
   if (!gvBody) return;
-  const res = await fetch('/admin/video_check/gemini_verify/report');
+  const res = await fetch(API_BASE + '/admin/video_check/gemini_verify/report');
   const report = await res.json();
   if (report.status === 'no_report') {
     gvBody.innerHTML = '<div style="color:#888;">まだ実行されていません。</div>';
@@ -7687,7 +7689,7 @@ async function vcGeminiVerifyShowReport() {
 async function vcGeminiVerifyPoll(requestId) {
   const gvBody = document.getElementById('vc-gemini-body');
   if (!gvBody) { clearInterval(vcGeminiPolling); vcGeminiPolling = null; return; }
-  const res = await fetch('/admin/video_check/gemini_verify/status/' + requestId);
+  const res = await fetch(API_BASE + '/admin/video_check/gemini_verify/status/' + requestId);
   const data = await res.json();
   const logHtml = vcRenderList('経過', data.log ? data.log.map(l => ({text: l.message})) : [], it => `<div style="padding:2px 0;color:#9db8d0;font-size:11px;">${it.text}</div>`);
   if (data.running) {
@@ -7709,7 +7711,7 @@ async function vcGeminiVerifyStart() {
   const gvBody = document.getElementById('vc-gemini-body');
   gvBody.innerHTML = '<div style="color:#7eb8f7;">開始しています…</div>';
   try {
-    const res = await fetch('/admin/video_check/gemini_verify/start', { method: 'POST' });
+    const res = await fetch(API_BASE + '/admin/video_check/gemini_verify/start', { method: 'POST' });
     const data = await res.json();
     if (data.status !== 'started' || !data.request_id) {
       gvBody.innerHTML = `<div style="color:#e07878;">${data.status === 'already_running' ? '既に実行中です。' : 'エラーが発生しました。'}</div>`;
@@ -7724,7 +7726,7 @@ async function vcGeminiVerifyStart() {
 }
 
 async function vcCheckStatus() {
-  const res = await fetch('/admin/video_check/status');
+  const res = await fetch(API_BASE + '/admin/video_check/status');
   const data = await res.json();
   if (data.running) {
     const progress = (data.total ? `${data.done || 0} / ${data.total} ジャンル` : '開始しています…');
@@ -7735,7 +7737,7 @@ async function vcCheckStatus() {
       vcBody.innerHTML = `<div style="color:#e07878;">エラーが発生しました：${data.error}</div>`;
       return;
     }
-    const repRes = await fetch('/admin/video_check/report');
+    const repRes = await fetch(API_BASE + '/admin/video_check/report');
     const report = await repRes.json();
     if (report.status === 'no_report') {
       vcBody.innerHTML = '<div style="color:#888;">まだチェックが実行されていません。</div>';
@@ -7748,20 +7750,20 @@ async function vcCheckStatus() {
 vcBtn.onclick = async () => {
   vcOverlay.style.display = 'block';
   try {
-    const statusRes = await fetch('/admin/video_check/status');
+    const statusRes = await fetch(API_BASE + '/admin/video_check/status');
     const status = await statusRes.json();
     if (!status.running) {
       if (!confirm('全ジャンルのメイン動画・代表曲動画をチェックします。本数が多いため数分〜十数分かかりますが、実行しますか？\n（既に一度実行済みの場合は前回の結果を先に表示します）')) {
-        const repRes = await fetch('/admin/video_check/report');
+        const repRes = await fetch(API_BASE + '/admin/video_check/report');
         const report = await repRes.json();
         if (report.status !== 'no_report') vcShowReport(report);
         else vcBody.innerHTML = '<div style="color:#888;">まだチェックが実行されていません。</div>';
         return;
       }
-      await fetch('/admin/video_check/start', { method: 'POST' });
+      await fetch(API_BASE + '/admin/video_check/start', { method: 'POST' });
     }
   } catch (e) {
-    vcBody.innerHTML = 'エラー：ローカルサーバー（localhost:5000）が起動していない可能性があります。';
+    vcBody.innerHTML = 'エラー：サーバーが起動していないか、通信に問題がある可能性があります。時間をおいて再度お試しください。';
     return;
   }
   vcCheckStatus();
@@ -9552,7 +9554,7 @@ async function submitGenreRequest() {
   grShowResult('<div class="gr-processing"><span class="gr-spinner"></span>AIが実在確認・情報生成中です。1〜2分かかります…</div>');
 
   try {
-    const res  = await fetch('/request_genre', {
+    const res  = await fetch(API_BASE + '/request_genre', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({genre_name: name, note})
@@ -9690,5 +9692,643 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
   if (e.key === 'Enter') submitGenreRequest();
 });
 </script>
+
+<!-- ===== Music Recognition Panel（マイクパネル）埋め込み ===== -->
+﻿<style>
+/* === Music Recognition Panel === */
+#mic-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+  z-index: 200;
+  backdrop-filter: blur(3px);
+  align-items: center;
+  justify-content: center;
+}
+#mic-overlay.open { display: flex; }
+
+#mic-panel {
+  background: #16162a;
+  border: 1px solid rgba(255,255,255,0.13);
+  border-radius: 18px;
+  padding: 28px 26px 24px;
+  width: 360px;
+  max-width: 92vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+}
+
+#mic-panel-close {
+  position: absolute;
+  top: 13px; right: 15px;
+  background: none; border: none;
+  color: #888; font-size: 20px; cursor: pointer; line-height: 1;
+}
+#mic-panel-close:hover { color: #fff; }
+
+#mic-panel-title { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 5px; }
+#mic-panel-sub { font-size: 12px; color: #666; margin-bottom: 20px; line-height: 1.5; }
+
+.mic-btn-zone {
+  position: relative; width: 110px; height: 110px;
+  margin: 0 auto 10px;
+  display: flex; align-items: center; justify-content: center;
+}
+.mic-ring {
+  position: absolute; inset: 0; border-radius: 50%;
+  border: 1.5px solid rgba(233,69,96,0.5);
+  opacity: 0; pointer-events: none;
+}
+.mic-panel-recording .mic-ring-1 { animation: mic-expand 1.8s ease-out infinite; }
+.mic-panel-recording .mic-ring-2 { animation: mic-expand 1.8s ease-out 0.6s infinite; }
+.mic-panel-recording .mic-ring-3 { animation: mic-expand 1.8s ease-out 1.2s infinite; }
+@keyframes mic-expand {
+  0%   { transform: scale(1);   opacity: 0.7; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+.mic-listen-btn {
+  position: relative; z-index: 1;
+  width: 110px; height: 110px; border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.1);
+  background: #1a1a2e; color: #888;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: background 0.25s, border-color 0.25s, color 0.25s;
+  outline: none;
+}
+.mic-listen-btn:hover { border-color: rgba(255,255,255,0.2); color: #eee; }
+.mic-panel-recording .mic-listen-btn { background: #e94560; border-color: #e94560; color: #fff; }
+.mic-panel-processing .mic-listen-btn { background: #141428; color: #444; cursor: default; pointer-events: none; }
+.mic-listen-btn svg { width: 38px; height: 38px; }
+
+#mic-eq-canvas { width: 100%; height: 40px; display: block; margin-bottom: 6px; opacity: 0; transition: opacity 0.3s; }
+.mic-panel-recording #mic-eq-canvas, .mic-panel-processing #mic-eq-canvas { opacity: 1; }
+
+#mic-status { font-size: 12px; color: #666; min-height: 18px; margin-bottom: 6px; }
+.mic-panel-recording #mic-status { color: #e94560; }
+#mic-countdown { font-size: 26px; font-variant-numeric: tabular-nums; color: #e94560; min-height: 32px; font-weight: 300; margin-bottom: 10px; }
+
+.mic-file-row { display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
+.mic-file-label {
+  padding: 7px 18px;
+  background: #1a1a2e; border: 1px dashed rgba(255,255,255,0.15);
+  border-radius: 8px; color: #777; font-size: 12px; cursor: pointer;
+}
+.mic-file-label:hover { border-color: rgba(255,255,255,0.3); color: #ccc; }
+
+#mic-confirm { display: none; text-align: center; padding: 6px 0; }
+#mic-confirm.visible { display: block; }
+#mic-confirm-msg { font-size: 14px; color: #eee; margin-bottom: 5px; font-weight: 600; }
+#mic-confirm-sub { font-size: 12px; color: #777; margin-bottom: 14px; line-height: 1.5; }
+.mic-confirm-actions { display: flex; gap: 8px; justify-content: center; }
+.mic-confirm-gemini { padding: 8px 18px; background: #e94560; border: none; border-radius: 7px; color: #fff; font-size: 12px; cursor: pointer; }
+.mic-confirm-gemini:hover { background: #d63e55; }
+.mic-confirm-cancel { padding: 8px 18px; background: none; border: 1px solid rgba(255,255,255,0.15); border-radius: 7px; color: #aaa; font-size: 12px; cursor: pointer; }
+.mic-confirm-cancel:hover { color: #fff; }
+
+#mic-result { display: none; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.09); border-radius: 10px; padding: 14px 15px; text-align: left; margin-top: 10px; }
+#mic-result.visible { display: block; }
+#mic-result-title { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 2px; }
+#mic-result-artist { font-size: 12px; color: #777; margin-bottom: 10px; }
+.mic-genre-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.mic-genre-tag {
+  background: rgba(233,69,96,0.14); color: #e94560;
+  border: 1px solid rgba(233,69,96,0.22); padding: 4px 11px;
+  border-radius: 100px; font-size: 12px; cursor: pointer;
+}
+.mic-genre-tag:hover { background: rgba(233,69,96,0.28); }
+.mic-highlight-btn {
+  width: 100%; padding: 9px;
+  background: none; border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 7px; color: #ccc; font-size: 12px; cursor: pointer;
+}
+.mic-highlight-btn:hover { border-color: rgba(255,255,255,0.28); color: #fff; }
+
+#mic-error { display: none; font-size: 12px; color: #f87171; margin-top: 8px; white-space: pre-line; }
+#mic-error.visible { display: block; }
+
+#mic-apply-note { display: none; margin-top: 8px; font-size: 11px; color: #5ec87a; line-height: 1.6; background: rgba(80,200,120,0.07); border-radius: 5px; padding: 6px 8px; }
+#mic-apply-note.visible { display: block; }
+#mic-dismiss-btn { display: block; width: 100%; margin-top: 10px; padding: 7px; background: none; border: 1px solid rgba(255,255,255,0.1); border-radius: 7px; color: #555; font-size: 11px; cursor: pointer; }
+#mic-dismiss-btn:hover { color: #999; border-color: rgba(255,255,255,0.22); }
+#mic-yt-area { display: none; margin-bottom: 10px; }
+#mic-yt-area.visible { display: block; }
+#mic-yt-frame { width: 100%; height: 170px; border: none; border-radius: 8px; background: #000; display: block; }
+#mic-yt-loading { font-size: 11px; color: #666; padding: 6px 0; text-align: center; }
+#mic-yt-fallback { display: none; font-size: 11px; text-align: center; padding: 4px 0; }
+#mic-yt-fallback a { color: #ff7070; text-decoration: none; }
+#mic-yt-fallback a:hover { text-decoration: underline; }
+
+#mic-trigger-btn {
+  display: block; width: 100%; padding: 8px 12px;
+  background: #e94560; border: none; border-radius: 7px;
+  color: #fff; font-size: 12px; cursor: pointer; font-weight: 600;
+  margin-bottom: 10px; white-space: nowrap;
+}
+#mic-trigger-btn:hover { background: #d63e55; }
+
+#mic-log-area { display: none; margin-top: 10px; background: rgba(0,0,0,0.25); border-radius: 7px; padding: 10px 12px; text-align: left; }
+#mic-log-area.visible { display: block; }
+.mic-log-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; color: #555; margin-bottom: 7px; }
+.mic-log-line { font-family: ui-monospace, 'Cascadia Mono', monospace; font-size: 10.5px; color: #666; line-height: 1.7; }
+#mic-panel-version { position: absolute; bottom: 8px; right: 12px; font-size: 10px; color: #333; pointer-events: none; }
+</style>
+
+<!-- ===== Music Recognition Panel ===== -->
+<div id="mic-overlay">
+  <div id="mic-panel">
+    <button id="mic-panel-close" onclick="closeMicPanel()">✕</button>
+    <div id="mic-panel-version">v2.14</div>
+    <div id="mic-panel-title">🎵 音楽を聴かせてください</div>
+    <div id="mic-panel-sub">ジャンルを調べてマップに表示します</div>
+
+    <div class="mic-btn-zone">
+      <div class="mic-ring mic-ring-1"></div>
+      <div class="mic-ring mic-ring-2"></div>
+      <div class="mic-ring mic-ring-3"></div>
+      <button class="mic-listen-btn" onclick="micToggleListen()">
+        <svg viewBox="0 0 52 52" fill="none">
+          <rect x="18" y="5" width="16" height="26" rx="8" fill="currentColor"/>
+          <path d="M11 25c0 8.284 6.716 15 15 15s15-6.716 15-15" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+          <line x1="26" y1="40" x2="26" y2="47" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="18" y1="47" x2="34" y2="47" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <canvas id="mic-eq-canvas"></canvas>
+    <div id="mic-status">タップして音楽を聴かせてください</div>
+    <div id="mic-countdown"></div>
+
+    <div class="mic-file-row" id="mic-file-row">
+      <label class="mic-file-label" for="micAudioFile">🎵 ファイルを選ぶ</label>
+      <input type="file" id="micAudioFile" accept=".mp3,.wav,.ogg,.m4a,.webm" style="display:none" onchange="micOnFileSelect(this)">
+    </div>
+
+    <div id="mic-error"></div>
+
+    <div id="mic-confirm">
+      <div id="mic-confirm-msg">Shazamで特定できませんでした</div>
+      <div id="mic-confirm-sub">音楽が流れていた場合は、Gemini AI による解析を試みることができます</div>
+      <div class="mic-confirm-actions">
+        <button class="mic-confirm-gemini" onclick="micSendToGemini()">Gemini で解析する</button>
+        <button class="mic-confirm-cancel" onclick="micResetToIdle()">やめる</button>
+      </div>
+    </div>
+
+    <div id="mic-result">
+      <div id="mic-result-title"></div>
+      <div id="mic-result-artist"></div>
+      <div class="mic-genre-tags" id="mic-genre-tags"></div>
+      <div id="mic-yt-area">
+        <div id="mic-yt-loading">YouTube を検索中...</div>
+        <iframe id="mic-yt-frame" allow="autoplay;encrypted-media" allowfullscreen style="display:none"></iframe>
+        <div id="mic-yt-fallback"></div>
+      </div>
+      <button class="mic-highlight-btn" onclick="micGoToMap()">ジャンルマップで確認する</button>
+      <div id="mic-log-area">
+        <div class="mic-log-eyebrow">処理</div>
+        <div id="mic-log-lines"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== Music Recognition Panel =====
+let micState = 'idle';
+let micStream = null, micAudioCtx = null, micAnalyser = null;
+let micMediaRec = null, micRecChunks = [], micUsedMime = '';
+let micAnimId = null, micTickId = null;
+let micIsCancelled = false, micMaxVol = 0, micFakePhase = 0;
+let micFoundGenres = [], micFoundTitle = '', micFoundArtist = '';
+const MIC_RECORD_SEC = 20;
+
+function openMicPanel() {
+  document.getElementById('mic-overlay').classList.add('open');
+}
+function closeMicPanel() {
+  if (micState === 'recording') micStopListening(true);
+  document.getElementById('mic-overlay').classList.remove('open');
+  const ytFrame = document.getElementById('mic-yt-frame');
+  if (ytFrame) ytFrame.src = '';
+  micResetToIdle();
+}
+
+function micSetState(s) {
+  micState = s;
+  const panel = document.getElementById('mic-panel');
+  panel.classList.remove('mic-panel-recording', 'mic-panel-processing');
+  if (s === 'recording') panel.classList.add('mic-panel-recording');
+  if (s === 'processing') panel.classList.add('mic-panel-processing');
+  const statusMap = {
+    idle: 'タップして音楽を聴かせてください',
+    recording: '聴き取り中 — もう一度タップでキャンセル',
+    processing: '解析中...',
+    result: '見つかりました！'
+  };
+  document.getElementById('mic-status').textContent = statusMap[s] || '';
+  document.getElementById('mic-file-row').style.display = (s === 'recording' || s === 'processing') ? 'none' : '';
+}
+
+async function micToggleListen() {
+  if (micState === 'processing') return;
+  if (micState === 'recording') { micStopListening(true); return; }
+  micHideError(); micHideResult(); micHideConfirm();
+  try {
+    micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  } catch (err) {
+    micShowError('マイクへのアクセスが許可されていません。\nブラウザのアドレスバー横の鍵マークから許可してください。');
+    return;
+  }
+  micAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  micAnalyser = micAudioCtx.createAnalyser();
+  micAnalyser.fftSize = 512;
+  micAnalyser.smoothingTimeConstant = 0.78;
+  micAudioCtx.createMediaStreamSource(micStream).connect(micAnalyser);
+  micUsedMime = micPickMimeType();
+  try {
+    micMediaRec = new MediaRecorder(micStream, micUsedMime ? { mimeType: micUsedMime } : {});
+  } catch (_) { micMediaRec = new MediaRecorder(micStream); }
+  micMaxVol = 0; micRecChunks = [];
+  micMediaRec.ondataavailable = e => { if (e.data.size > 0) micRecChunks.push(e.data); };
+  micMediaRec.onstop = micOnRecordingStop;
+  micMediaRec.start(200);
+  micSetState('recording');
+  micResizeCanvas(); micDrawListening();
+  let left = MIC_RECORD_SEC;
+  document.getElementById('mic-countdown').textContent = left + '秒';
+  micTickId = setInterval(() => {
+    left--;
+    document.getElementById('mic-countdown').textContent = left > 0 ? left + '秒' : '';
+    if (left <= 0) micStopListening(false);
+  }, 1000);
+}
+
+function micStopListening(cancel = false) {
+  micIsCancelled = cancel;
+  clearInterval(micTickId);
+  cancelAnimationFrame(micAnimId);
+  if (micMediaRec && micMediaRec.state !== 'inactive') micMediaRec.stop();
+  if (micStream) { micStream.getTracks().forEach(t => t.stop()); micStream = null; }
+  if (micAudioCtx) { micAudioCtx.close(); micAudioCtx = null; micAnalyser = null; }
+}
+
+function micOnRecordingStop() {
+  if (micIsCancelled) {
+    micIsCancelled = false;
+    micClearCanvas();
+    document.getElementById('mic-countdown').textContent = '';
+    micSetState('idle');
+    return;
+  }
+  micSetState('processing');
+  micFakePhase = 0; micResizeCanvas(); micDrawProcessing();
+  micSendAudio();
+}
+
+async function micSendAudio() {
+  if (micMaxVol < 0.015) {
+    micClearCanvas();
+    document.getElementById('mic-countdown').textContent = '';
+    micSetState('idle');
+    micShowError('音が検出できませんでした。\n音楽を再生してからもう一度お試しください。');
+    return;
+  }
+  const mime = micUsedMime || (micMediaRec && micMediaRec.mimeType) || 'audio/webm';
+  const ext  = mime.includes('mp4') ? 'mp4' : mime.includes('ogg') ? 'ogg' : 'webm';
+  const blob = new Blob(micRecChunks, { type: mime });
+  const fd = new FormData();
+  fd.append('audio', blob, 'recording.' + ext);
+  fd.append('source', 'mic');
+  await micDoRecognize(fd);
+}
+
+async function micOnFileSelect(input) {
+  const file = input.files[0];
+  if (!file) return;
+  input.value = '';
+  micHideError(); micHideResult(); micHideConfirm();
+  micSetState('processing');
+  micFakePhase = 0; micResizeCanvas(); micDrawProcessing();
+  const fd = new FormData();
+  fd.append('audio', file);
+  await micDoRecognize(fd);
+}
+
+async function micDoRecognize(formData) {
+  try {
+    const res  = await fetch((window.API_BASE || '') + '/recognize', { method: 'POST', body: formData });
+    const data = await res.json();
+    cancelAnimationFrame(micAnimId);
+    micClearCanvas();
+    document.getElementById('mic-countdown').textContent = '';
+    if (data.error) { micShowError(data.error); micSetState('idle'); return; }
+    if (data.needs_confirmation) { micSetState('idle'); micShowConfirm(); return; }
+    micDisplayResult(data);
+    micSetState('result');
+  } catch (err) {
+    cancelAnimationFrame(micAnimId);
+    micClearCanvas();
+    micShowError('通信エラーが発生しました。サーバーが起動しているか確認してください。');
+    micSetState('idle');
+  }
+}
+
+async function micSendToGemini() {
+  micHideConfirm(); micHideError();
+  micSetState('processing');
+  micFakePhase = 0; micResizeCanvas(); micDrawProcessing();
+  const mime = micUsedMime || (micMediaRec && micMediaRec.mimeType) || 'audio/webm';
+  const ext  = mime.includes('mp4') ? 'mp4' : mime.includes('ogg') ? 'ogg' : 'webm';
+  const blob = new Blob(micRecChunks, { type: mime });
+  const fd = new FormData();
+  fd.append('audio', blob, 'recording.' + ext);
+  fd.append('source', 'gemini_direct');
+  await micDoRecognize(fd);
+}
+
+function micEsc(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function micDisplayResult(data) {
+  micFoundTitle  = data.title  || '';
+  micFoundArtist = data.artist || '';
+  document.getElementById('mic-result-title').textContent  = micFoundTitle  || '不明';
+  document.getElementById('mic-result-artist').textContent = micFoundArtist ? '🎤 ' + micFoundArtist : '';
+
+  // ボタンを再表示（前回使用で非表示になっている場合のリセット）
+  const hBtn = document.querySelector('.mic-highlight-btn');
+  if (hBtn) hBtn.style.display = '';
+
+  // YouTubeエリアをリセット
+  const ytFrame = document.getElementById('mic-yt-frame');
+  if (ytFrame) { ytFrame.src = ''; ytFrame.style.display = 'none'; }
+  const ytArea = document.getElementById('mic-yt-area');
+  if (ytArea) ytArea.classList.remove('visible');
+
+  // YouTubeプレイヤー（Shazamで曲名が取れた場合のみ検索・表示）
+  if (micFoundTitle && micFoundTitle !== '不明') {
+    micSearchYoutube(micFoundTitle, micFoundArtist);
+  } else {
+    document.getElementById('mic-yt-area').classList.remove('visible');
+  }
+
+  micFoundGenres = data.genres || [];
+  const tagsEl = document.getElementById('mic-genre-tags');
+  tagsEl.innerHTML = '';
+  micFoundGenres.forEach(g => {
+    const s = document.createElement('span');
+    s.className = 'mic-genre-tag';
+    s.textContent = g;
+    s.onclick = () => micHighlightByGenres([g]);
+    tagsEl.appendChild(s);
+  });
+  document.getElementById('mic-result').classList.add('visible');
+
+  // ログエリアを「結果サマリー」として表示（処理ステータスは除外）
+  const logArea  = document.getElementById('mic-log-area');
+  const logLines = document.getElementById('mic-log-lines');
+  const summary  = micBuildSourceSummary(data);
+  if (summary) {
+    logLines.innerHTML = summary;
+    logArea.classList.add('visible');
+  } else {
+    logLines.innerHTML = '';
+    logArea.classList.remove('visible');
+  }
+}
+
+// 処理ステータスを除いた結果サマリーを生成する
+function micBuildSourceSummary(data) {
+  const parts = [];
+  if (data.title && data.title !== '不明') {
+    parts.push('<span style="color:#4a4a6a">Shazam</span>　' +
+      micEsc(data.title) + '　/　' + micEsc(data.artist));
+  }
+  const srcLabel = {
+    'track':         'Last.fm（曲タグ）',
+    'artist+gemini': 'Last.fm アーティストタグ → Gemini 補正',
+    'gemini':        'Gemini（音声から直接判断）'
+  }[data.genre_source];
+  if (srcLabel && data.genres && data.genres.length) {
+    parts.push('<span style="color:#4a4a6a">' + micEsc(srcLabel) + '</span>　' +
+      data.genres.map(g => micEsc(g)).join(', '));
+  }
+  return parts.map(p => '<div class="mic-log-line">' + p + '</div>').join('');
+}
+
+// マイクパネル内のYouTubeプレイヤーに認識した曲を検索・表示する
+async function micSearchYoutube(title, artist) {
+  const area     = document.getElementById('mic-yt-area');
+  const loading  = document.getElementById('mic-yt-loading');
+  const frame    = document.getElementById('mic-yt-frame');
+  const fallback = document.getElementById('mic-yt-fallback');
+  const q        = (title + ' ' + artist).trim();
+  const qEnc     = encodeURIComponent(q);
+
+  area.classList.add('visible');
+  loading.style.display = '';
+  frame.style.display   = 'none';
+  fallback.style.display = 'none';
+  frame.src = '';
+
+  const ytKey = window._ytk;
+  if (ytKey) {
+    try {
+      const res  = await fetch(
+        'https://www.googleapis.com/youtube/v3/search?part=snippet&q=' + qEnc +
+        '&type=video&maxResults=1&videoEmbeddable=true&key=' + ytKey
+      );
+      const data = await res.json();
+      if (data.items && data.items.length > 0) {
+        const vid = data.items[0].id.videoId;
+        frame.src           = 'https://www.youtube.com/embed/' + vid + '?autoplay=1&rel=0';
+        frame.style.display = 'block';
+        loading.style.display = 'none';
+        return;
+      }
+    } catch (e) { console.warn('[mic] YouTube API error:', e); }
+  }
+
+  // API失敗 or キーなし → 別タブリンクを表示
+  loading.style.display  = 'none';
+  fallback.style.display = 'block';
+  fallback.innerHTML = '▶ <a href="https://www.youtube.com/results?search_query=' +
+    qEnc + '" target="_blank">' + micEsc(q) + ' を YouTube で検索</a>';
+}
+
+// ジャンル名をIDとラベルの完全一致のみで特定してハイライトする
+// ハイフン・スペース・アンダースコアを除去した正規化形式でも照合する
+// 戻り値: { foundIds: Set, missedGenres: string[] }
+function micHighlightByGenres(genres) {
+  const foundIds     = new Set();
+  const missedGenres = [];
+  const normStr      = s => s.toLowerCase().replace(/[\s\-_]/g, '');
+
+  genres.forEach(g => {
+    const tag     = g.trim().toLowerCase();
+    const tagNorm = normStr(g);
+    let hit = false;
+    NODES.forEach(n => {
+      const nLabel = n.label.toLowerCase().replace(/\n/g, ' ');
+      const nNorm  = normStr(n.id);
+      const lNorm  = normStr(nLabel);
+      // 完全一致・正規化一致
+      // ラベルを "/" で分割したセグメント単位で一致確認
+      // （例: "Glam Metal / Hair Metal" → ["Glam Metal","Hair Metal"] → "Hair Metal" にヒット）
+      // （例: "Lo-fi Hip Hop" → ["Lo-fi Hip Hop"] → "Hip Hop" はヒットしない）
+      const segments = n.label.replace(/\n/g, ' ').split('/').map(s => normStr(s.trim()));
+      // aliases（別名リスト）との完全一致も確認する（例: "Enka\n(演歌)" の別名 "演歌" と "演歌" が一致）
+      const aliasHit = Array.isArray(n.aliases) && n.aliases.some(a => normStr(a) === tagNorm || a.toLowerCase() === tag);
+      if (n.id === tag || nLabel === tag || nNorm === tagNorm || lNorm === tagNorm
+          || segments.includes(tagNorm) || aliasHit) {
+        foundIds.add(n.id);
+        hit = true;
+      }
+    });
+    if (!hit) missedGenres.push(g.trim());
+  });
+
+  if (foundIds.size > 0) {
+    // 既存のsearchHandlerと同じハイライト処理をdesc/MOODなしで適用
+    window._nodeFocused = false;
+    node.classed('focus-highlight', false).classed('focus-dim', false)
+        .classed('cat-highlight', false);
+    link.classed('focus-highlight', false).classed('focus-dim', false);
+    linkLabelG.classed('focus-highlight', false).classed('focus-dim', false);
+    closePanel();
+
+    node.classed('search-match', d => foundIds.has(d.id));
+    node.classed('cat-dim', d => !foundIds.has(d.id));
+    twinkleActive = false;
+    node.select('circle').attr('fill', d => {
+      if (!foundIds.has(d.id)) return monoColor(d);
+      const el = nodeById[d.id];
+      return el ? d3.select(el).attr('data-cat-color') : monoColor(d);
+    });
+    startHighlightFlash(foundIds);
+    link.classed('focus-dim', true);
+    linkLabelG.classed('focus-dim', true);
+
+    window._searchActive = true;
+  }
+
+  return { foundIds, missedGenres };
+}
+
+function micGoToMap() {
+  closeMicPanel();
+  if (!micFoundGenres.length) return;
+
+  // 前回の検索状態をリセット（検索窓の残った内容・結果エリアをクリア）
+  const _si = document.getElementById('search');
+  if (_si) _si.value = '';
+  const _rd = document.getElementById('search-results');
+  if (_rd) { _rd.innerHTML = ''; _rd.style.display = 'none'; }
+
+  // 検索窓は使わず、micHighlightByGenres の精度高いマッチングで直接ハイライト
+  const { foundIds, missedGenres } = micHighlightByGenres(micFoundGenres);
+
+  // 未登録ジャンルがあれば申請フローを起動
+  if (missedGenres.length > 0 && typeof grStartQueue === 'function') {
+    grStartQueue(missedGenres);
+  }
+}
+
+function micResetToIdle() {
+  micHideResult(); micHideConfirm(); micClearCanvas();
+  document.getElementById('mic-countdown').textContent = '';
+  micSetState('idle');
+}
+
+function micShowError(msg) { const el = document.getElementById('mic-error'); el.textContent = msg; el.classList.add('visible'); }
+function micHideError()    { document.getElementById('mic-error').classList.remove('visible'); }
+function micShowConfirm()  { document.getElementById('mic-confirm').classList.add('visible'); }
+function micHideConfirm()  { document.getElementById('mic-confirm').classList.remove('visible'); }
+function micHideResult()   { document.getElementById('mic-result').classList.remove('visible'); }
+
+const micEqCanvas = document.getElementById('mic-eq-canvas');
+const micEqCtx = micEqCanvas.getContext('2d');
+function micResizeCanvas() {
+  const w = micEqCanvas.offsetWidth;
+  if (w > 0) { micEqCanvas.width = w; micEqCanvas.height = 40; }
+}
+function micDrawListening() {
+  if (micState !== 'recording' || !micAnalyser) return;
+  const w = micEqCanvas.width, h = micEqCanvas.height;
+  const data = new Uint8Array(micAnalyser.frequencyBinCount);
+  micAnalyser.getByteFrequencyData(data);
+  const rms = Math.sqrt(data.reduce((sum, v) => sum + v * v, 0) / data.length) / 255;
+  if (rms > micMaxVol) micMaxVol = rms;
+  micEqCtx.clearRect(0, 0, w, h);
+  const NUM = 24, barW = w / NUM, gap = 2;
+  for (let i = 0; i < NUM; i++) {
+    const val = data[Math.floor(i * data.length / NUM)];
+    const barH = Math.max(2, (val / 255) * h);
+    const grad = micEqCtx.createLinearGradient(0, h - barH, 0, h);
+    grad.addColorStop(0, 'rgba(233,69,96,0.92)');
+    grad.addColorStop(1, 'rgba(233,69,96,0.2)');
+    micEqCtx.fillStyle = grad;
+    micEqCtx.fillRect(i * barW + gap / 2, h - barH, barW - gap, barH);
+  }
+  micAnimId = requestAnimationFrame(micDrawListening);
+}
+function micDrawProcessing() {
+  if (micState !== 'processing') return;
+  micFakePhase += 0.05;
+  const w = micEqCanvas.width, h = micEqCanvas.height;
+  const NUM = 24, barW = w / NUM, gap = 2;
+  micEqCtx.clearRect(0, 0, w, h);
+  for (let i = 0; i < NUM; i++) {
+    const t = i / NUM;
+    const barH = h * (0.12 + 0.52 * Math.abs(Math.sin(micFakePhase * 1.5 + t * Math.PI * 2.4)));
+    micEqCtx.fillStyle = 'rgba(233,69,96,0.42)';
+    micEqCtx.fillRect(i * barW + gap / 2, h - barH, barW - gap, barH);
+  }
+  micAnimId = requestAnimationFrame(micDrawProcessing);
+}
+function micClearCanvas() { micEqCtx.clearRect(0, 0, micEqCanvas.width, micEqCanvas.height); }
+function micPickMimeType() {
+  const candidates = ['audio/webm;codecs=opus','audio/webm','audio/ogg;codecs=opus','audio/mp4'];
+  return candidates.find(t => MediaRecorder.isTypeSupported(t)) || '';
+}
+
+// オーバーレイ外クリックで閉じる
+document.getElementById('mic-overlay').addEventListener('click', function(e) {
+  if (e.target === this) closeMicPanel();
+});
+</script>
+
+<script>
+// 検索/フィルター見出し（h3）を非表示にして、その位置に音楽認識ボタンを配置する
+(function() {
+  function addMicButton() {
+    if (document.getElementById('mic-trigger-btn')) return;
+    var btn = document.createElement('button');
+    btn.id = 'mic-trigger-btn';
+    btn.onclick = function() { openMicPanel(); };
+    btn.textContent = '🎵 これなんて曲？';
+
+    var controls = document.getElementById('controls');
+    var h3 = controls && controls.querySelector('h3');
+    if (h3) {
+      h3.style.display = 'none';
+      controls.insertBefore(btn, h3.nextElementSibling);
+    }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', addMicButton);
+  } else {
+    addMicButton();
+  }
+})();
+</script>
+
 </body>
 </html>
