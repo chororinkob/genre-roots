@@ -67,6 +67,20 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
 .sp-mutual-arrow { color: #c9a6ff; font-weight: 700; font-size: 13px; flex-shrink: 0; }
 .sp-card-desc { font-size: 12px; color: #aaa; line-height: 1.7; }
 .sp-genre-link:hover { color: #fff !important; text-decoration: underline !important; }
+#sp-correction-sec { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 14px; margin-top: 4px; }
+#sp-correction-btn { width: 100%; padding: 8px 10px; background: #1a1a2e; border: 1px solid #444; border-radius: 6px; color: #aaa; font-size: 12px; cursor: pointer; transition: all 0.15s; }
+#sp-correction-btn:hover { background: #23233d; color: #eee; border-color: #666; }
+#sp-correction-form { margin-top: 10px; }
+#sp-correction-prompt { font-size: 12px; color: #ccc; margin-bottom: 6px; line-height: 1.5; }
+#sp-correction-text { width: 100%; min-height: 64px; padding: 8px; background: #12121e; border: 1px solid #444; border-radius: 6px; color: #eee; font-size: 12px; resize: vertical; box-sizing: border-box; font-family: inherit; }
+#sp-correction-actions { display: flex; gap: 8px; margin-top: 8px; }
+#sp-correction-send { padding: 6px 14px; background: #1565C0; border: none; border-radius: 5px; color: #fff; font-size: 12px; font-weight: 700; cursor: pointer; }
+#sp-correction-send:disabled { background: #333; color: #777; cursor: default; }
+#sp-correction-cancel { padding: 6px 14px; background: #2a2a3e; border: 1px solid #444; border-radius: 5px; color: #aaa; font-size: 12px; cursor: pointer; }
+#sp-correction-result { margin-top: 10px; font-size: 12px; line-height: 1.6; padding: 8px 10px; border-radius: 6px; display: none; }
+#sp-correction-result.ok { display: block; background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.3); color: #7ee0a0; }
+#sp-correction-result.not-error { display: block; background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.3); color: #f0c375; }
+#sp-correction-result.err { display: block; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.3); color: #f28b8b; }
 #sp-yt-wrap { border-radius: 8px; overflow: hidden; }
 
 svg { width: 100vw; height: 100vh; }
@@ -264,7 +278,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v23.83<span id="genre-count">512 ジャンル　2026年7月11日現在</span></span>
+  <span id="version-info">v23.84<span id="genre-count">512 ジャンル　2026年7月11日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -374,6 +388,18 @@ svg { width: 100vw; height: 100vh; }
     <div class="sp-section" id="sp-mutual-sec">
       <h4>相互に影響し合ったジャンル</h4>
       <div id="sp-mutual"></div>
+    </div>
+    <div class="sp-section" id="sp-correction-sec">
+      <button id="sp-correction-btn">✎ このジャンルについて修正依頼</button>
+      <div id="sp-correction-form" style="display:none;">
+        <p id="sp-correction-prompt"></p>
+        <textarea id="sp-correction-text" placeholder="例：影響元にパンクロックが無いのはおかしい／音楽性の説明が実態と違う気がする"></textarea>
+        <div id="sp-correction-actions">
+          <button id="sp-correction-send">送信</button>
+          <button id="sp-correction-cancel">キャンセル</button>
+        </div>
+        <div id="sp-correction-result"></div>
+      </div>
     </div>
   </div>
 </div>
@@ -980,7 +1006,7 @@ const NODES = [
     desc:"シンセサイザーとドラムマシンを主体にした日本発の電子ポップス。YMO（Yellow Magic Orchestra）に代表される、精密でクールな打ち込みサウンドにポップなメロディが乗るスタイル。西洋のシンセポップと比べて、東洋的な音階やテクノロジーへの親和性が独特の色を加えている。テンポは中速でダンサブル。無機質な電子音の中に日本的な繊細さと遊び心が共存する、知的でスタイリッシュな音楽。テクノ歌謡は歌謡曲にシンセを導入した大衆化バージョン。",
     roots_story:"1978年、YMO（細野晴臣・坂本龍一・高橋幸宏）が結成。「テクノポリス」「ライディーン」(1979)が日本で社会現象的ヒットとなり、海外でも「Behind the Mask」がMichael Jacksonにカバーされるなど国際的評価を得た。Kraftwerkの影響を受けつつも、東洋的メロディとユーモアを取り入れた独自のスタイルを確立。P-MODEL（平沢進）、ヒカシュー、プラスチックスが同時期に活動し「テクノポップ御三家」とも。歌謡曲の世界では松田聖子「SWEET MEMORIES」等にシンセが導入され「テクノ歌謡」という和製ジャンルに。Perfume（中田ヤスタカプロデュース）が2000年代にテクノポップを現代に蘇らせた。",
     rep_tracks:["Technopolis (Yellow Magic Orchestra)", "Rydeen (Yellow Magic Orchestra)", "Art Mania (P-MODEL)", "Natsu Nandesu (Hikashu)", "Polyrhythm (Perfume)"],
-    yt_mix:["1uZPpqN6kSU", "VD2cvrQqwzs"],
+    yt_mix:["28f6znYxFfM", "zFADf3CW8zI"],
     yt_tracks:[["28f6znYxFfM", "zFADf3CW8zI"], ["Yxep-gS-Btg", "Yksraf8Wtek"], ["elG7JavR_1o", "d6lyxXJtWDE"], ["VIo3uq8HAgc", "O_fN3Dy4T5Y"], ["KbiSxunJatM", "XDtq9Q5W_zA"]],
     aliases:["テクノ歌謡", "テクノポップ", "Technopop", "Techno Pop"],},
 
@@ -3900,7 +3926,7 @@ const NODES = [
     desc:"1990年代の東京・渋谷を中心にしたポップムーブメントで、フレンチポップ、ボサノヴァ、ラウンジ、ソフトロック、イェイェなど1960年代音楽をサンプリング・引用したおしゃれなポップスが特徴。音楽は軽快で洗練されており、都会的な雰囲気を持つ。Pizzicato Five、Cornelius、カヒミ・カリィが代表的なアーティストである。",
     roots_story:"1993年頃、渋谷のレコード店HMV/WAVEを中心に形成され、Flipper's Guitar（小山田圭吾/小沢健二）が先駆けとなった。Pizzicato Fiveの「東京は夜の七時」、Corneliusの『Fantasma』(1997)、カヒミ・カリィ、ORIGINAL LOVE、Fantastic Plastic Machineがこのムーブメントを支えた。Trattoria Records（小山田主宰）が重要なレーベルで、2000年代以降は沈静化したが、海外での再評価が続いている。",
     rep_tracks:["東京は夜の七時（Pizzicato Five）", "Star Fruits Surf Rider（Cornelius）", "My First Karie（カヒミ・カリィ）"],
-    yt_mix:["zterzCDU6_o", "I0dwoQ5OFGU"],
+    yt_mix:["3d0ejbGvwJ4", "8x_XUZ3n1xc"],
     yt_tracks:[["3d0ejbGvwJ4", "NYSkccJqA3E"], ["8x_XUZ3n1xc", "C4EddUE80m0"], ["KuStdrMA-Gc", "L4BQsKQIrDk"]],
     popularity:6,
     aliases:["渋谷系"],},
@@ -7381,6 +7407,17 @@ node.on("click", (e, d) => {
   spCopy.onclick = () => { const copyText = d.label.replace('\n',' '); navigator.clipboard.writeText(copyText).then(() => { spCopy.textContent='コピー済み'; setTimeout(()=>spCopy.textContent='コピー', 1500); }); };
 
   window._currentNode = d;  // rep_tracks再生時に参照
+
+  // 修正依頼フォームをジャンルが切り替わるたびにリセット
+  document.getElementById('sp-correction-form').style.display = 'none';
+  document.getElementById('sp-correction-btn').style.display = '';
+  document.getElementById('sp-correction-text').value = '';
+  const spCorrResult = document.getElementById('sp-correction-result');
+  spCorrResult.className = '';
+  spCorrResult.innerHTML = '';
+  document.getElementById('sp-correction-prompt').textContent =
+    `「${name}」に関して、どこが気になりますか？どこを修正したいですか？`;
+
   openPanel();
 
   // パネルのスクロールを先頭に戻す
@@ -7433,6 +7470,61 @@ node.on("click", (e, d) => {
 });
 
 spClose.onclick = () => closePanel();
+
+// 修正依頼ボタン
+const spCorrBtn    = document.getElementById('sp-correction-btn');
+const spCorrForm   = document.getElementById('sp-correction-form');
+const spCorrText   = document.getElementById('sp-correction-text');
+const spCorrSend   = document.getElementById('sp-correction-send');
+const spCorrCancel = document.getElementById('sp-correction-cancel');
+const spCorrResult = document.getElementById('sp-correction-result');
+
+spCorrBtn.onclick = () => {
+  spCorrBtn.style.display = 'none';
+  spCorrForm.style.display = 'block';
+  spCorrText.focus();
+};
+spCorrCancel.onclick = () => {
+  spCorrForm.style.display = 'none';
+  spCorrBtn.style.display = '';
+  spCorrText.value = '';
+  spCorrResult.className = '';
+  spCorrResult.innerHTML = '';
+};
+spCorrSend.onclick = async () => {
+  const comment = spCorrText.value.trim();
+  const d = window._currentNode;
+  if (!comment || !d) return;
+  spCorrSend.disabled = true;
+  spCorrSend.textContent = '送信中…';
+  spCorrResult.className = '';
+  spCorrResult.innerHTML = '';
+  try {
+    const res = await fetch('/correction_request', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ genre_id: d.id, comment })
+    });
+    const data = await res.json();
+    if (data.status === 'not_an_error') {
+      spCorrResult.className = 'not-error';
+      spCorrResult.innerHTML = 'これは間違いではありません。<br>' + (data.reasoning || '').replace(/\n/g, '<br>');
+    } else if (data.status === 'pending') {
+      spCorrResult.className = 'ok';
+      spCorrResult.innerHTML = '修正依頼を送信しました。管理者の確認をお待ちください。<br>' + (data.reasoning || '').replace(/\n/g, '<br>');
+      spCorrText.value = '';
+    } else {
+      spCorrResult.className = 'err';
+      spCorrResult.innerHTML = 'エラー：' + (data.message || '送信に失敗しました。ローカルサーバーが起動しているか確認してください。');
+    }
+  } catch (e) {
+    spCorrResult.className = 'err';
+    spCorrResult.innerHTML = 'エラー：修正依頼の送信に失敗しました。ローカルサーバー（localhost:5000）が起動していない可能性があります。';
+  } finally {
+    spCorrSend.disabled = false;
+    spCorrSend.textContent = '送信';
+  }
+};
 
 // サイドパネル内のリンククリック処理
 panel.addEventListener('click', (e) => {
