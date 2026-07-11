@@ -278,7 +278,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v23.87<span id="genre-count">512 ジャンル　2026年7月11日現在</span></span>
+  <span id="version-info">v23.88<span id="genre-count">512 ジャンル　2026年7月11日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -4903,6 +4903,14 @@ const NODES = [
     yt_mix:["Us2ZvSRUB1k", "RGNv4XI0jgI"],
     yt_tracks:[["p47fEXGabaY", "6_NJtZG5z6s"], ["DUT5rEU6pqM", "2Ndra-1Pwug"], ["NUsoVlDFqZg", "b8I-7Wk_Vbc"]],
     aliases:["ラテンポップ", "ラテン・ポップ", "Latino Pop", "Pop Latino", "Latin Pop Music"],},
+
+  {id:"j_fusion", label:"J-Fusion", cat:"jazz_sub", era:"1970s", suno:false,
+    desc:"J-Fusionは、ジャズの即興性とロックやファンクのリズムを融合させた音楽ジャンルである。メロディーはキャッチーでありながらも複雑なコード進行を持ち、サビではエネルギッシュな展開が特徴だ。使用楽器にはエレキギター、ベース、ドラム、シンセサイザーが含まれ、特にギターとシンセサイザーのソロが多用される。音響エフェクトとしてはリバーブやディレイが用いられ、立体感のある音響を作り出す。想定される会場はクラブや小規模なライブハウスで、観客との一体感を重視した演奏が行われる。ボーカルスタイルは多様で、インストゥルメンタルが主流だが、時折ファルセットやシャウトを用いたボーカルも見られる。",
+    roots_story:"J-Fusionは1970年代の日本で誕生した。アメリカのジャズ・フュージョンの影響を受けつつ、日本独自の音楽文化と結びついて発展した。渡辺貞夫やカシオペア、T-SQUAREといったアーティストがこのジャンルを牽引し、彼らの音楽は国内外で高く評価された。J-Fusionは、ジャズの即興性とロックのエネルギーを融合させたもので、特に日本の高度経済成長期における都市文化と密接に関連している。1980年代にはさらに多様なスタイルが生まれ、ポップスやアニメ音楽とも結びつき、広範な影響を与えた。近年では再評価される動きが活発化しており、高中正義はその象徴的な存在として注目を集めている。ハワイアンやトロピカルな雰囲気を取り入れた独自のサウンドが改めて評価され、ワールドワイドなツアーを展開するなど国際舞台で精力的に活動している。新しい世代のミュージシャンもこのスタイルを取り入れており、J-Fusionは現在進行形のジャンルとして息づいている。",
+    rep_tracks:["Asayake (カシオペア)", "Omens of Love (T-SQUARE)", "California Shower (渡辺貞夫)", "Saudade (高中正義)"],
+    yt_mix:[],
+    yt_tracks:[["", ""], ["", ""], ["", ""], ["", ""]],
+    aliases:["ジェイフュージョン", "J-Fusion", "日本フュージョン", "Japanese Fusion"],},
 ];
 
 const LINKS = [
@@ -6400,6 +6408,8 @@ const LINKS = [
 
   {s:"pop_music",t:"latin_pop",w:80,desc:"ラテンポップはポップの四つ打ちキックやIV-V-I進行を取り入れ、一方でポップはクラーベリズムに基づくシンコペーション、情熱的なビブラートを多用する歌唱法、アコースティックギターのアルペジオといったラテン的語法を吸収することで、双方の音楽的語彙を相互に拡張してきた。"},
   {s:"latin_pop",t:"pop_music",w:80,desc:"ラテンポップはポップの四つ打ちキックやIV-V-I進行を取り入れ、一方でポップはクラーベリズムに基づくシンコペーション、情熱的なビブラートを多用する歌唱法、アコースティックギターのアルペジオといったラテン的語法を吸収することで、双方の音楽的語彙を相互に拡張してきた。"},
+
+  {s:"fusion",t:"j_fusion",w:85,desc:"J-Fusionはアメリカのジャズ・フュージョンから多大な影響を受けている。特に、エレクトリックギターやシンセサイザーを用いた即興演奏のスタイル、複雑なコード進行にロックのグルーヴを組み合わせる手法がそのまま受け継がれ、日本独自の音楽文化と結びついて発展した。"},
 ];
 
 // ===== ROOTS POLYGON LAYOUT（無効化：全ノード自由配置） =====
@@ -6903,6 +6913,7 @@ const POPULARITY = {
   "idm": 6,
   "ranchera": 8,
   "latin_pop": 9,
+  "j_fusion": 7,
 };
 NODES.forEach(n => {
   n.popularity = POPULARITY[n.id] || 3;
