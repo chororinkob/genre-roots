@@ -278,7 +278,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v23.92<span id="genre-count">512 ジャンル　2026年7月11日現在</span></span>
+  <span id="version-info">v23.93<span id="genre-count">512 ジャンル　2026年7月11日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -7649,7 +7649,78 @@ function vcShowReport(report) {
     html += '<div style="margin-top:14px;color:#78d478;">問題は見つかりませんでした。</div>';
   }
 
+  if (s.mix_flagged_count + s.track_flagged_count > 0) {
+    html += `<div style="margin-top:14px;padding-top:14px;border-top:1px solid #333;">
+      <button id="vc-gemini-btn" style="padding:6px 14px;background:#5a3a8a;border:none;border-radius:6px;color:#fff;font-size:12px;cursor:pointer;">🔍 Geminiで「要確認」を絞り込む</button>
+      <div id="vc-gemini-body" style="margin-top:10px;font-size:12px;color:#ccc;line-height:1.7;"></div>
+    </div>`;
+  }
+
   vcBody.innerHTML = html;
+
+  const gvBtn = document.getElementById('vc-gemini-btn');
+  if (gvBtn) gvBtn.onclick = vcGeminiVerifyStart;
+}
+
+let vcGeminiPolling = null;
+
+async function vcGeminiVerifyShowReport() {
+  const gvBody = document.getElementById('vc-gemini-body');
+  if (!gvBody) return;
+  const res = await fetch('/admin/video_check/gemini_verify/report');
+  const report = await res.json();
+  if (report.status === 'no_report') {
+    gvBody.innerHTML = '<div style="color:#888;">まだ実行されていません。</div>';
+    return;
+  }
+  const s = report.summary;
+  let html = `<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;background:#0d0d1a;border-radius:6px;padding:8px 10px;margin-bottom:8px;">
+    <div>本当に間違い: <b style="color:#e07878;">${s.confirmed_bad_count}件</b></div>
+    <div>問題なし: <b style="color:#78d478;">${s.confirmed_ok_count}件</b></div>
+    <div>未確認: <b style="color:#888;">${s.unchecked_count}件</b></div>
+  </div>`;
+  html += vcRenderList('Geminiが「本当に間違い」と確認したもの', report.confirmed_bad,
+    it => `<div style="padding:3px 0;">${it.label}${it.track ? ' / ' + it.track : ''}（${it.kind === 'mix' ? 'メイン動画' : '代表曲動画'} "${it.vid}"）→ 実際は「${it.gemini && it.gemini.detected_genre || '不明'}」</div>`);
+  gvBody.innerHTML = html;
+}
+
+async function vcGeminiVerifyPoll(requestId) {
+  const gvBody = document.getElementById('vc-gemini-body');
+  if (!gvBody) { clearInterval(vcGeminiPolling); vcGeminiPolling = null; return; }
+  const res = await fetch('/admin/video_check/gemini_verify/status/' + requestId);
+  const data = await res.json();
+  const logHtml = vcRenderList('経過', data.log ? data.log.map(l => ({text: l.message})) : [], it => `<div style="padding:2px 0;color:#9db8d0;font-size:11px;">${it.text}</div>`);
+  if (data.running) {
+    gvBody.innerHTML = logHtml + '<div style="color:#7eb8f7;">処理中…</div>';
+    const logEl = gvBody.querySelector('div[style*="overflow-y:auto"]');
+    if (logEl) logEl.scrollTop = logEl.scrollHeight;
+    return;
+  }
+  clearInterval(vcGeminiPolling); vcGeminiPolling = null;
+  if (data.error) {
+    gvBody.innerHTML = logHtml + `<div style="color:#e07878;">エラー：${data.error}</div>`;
+    return;
+  }
+  gvBody.innerHTML = logHtml;
+  vcGeminiVerifyShowReport();
+}
+
+async function vcGeminiVerifyStart() {
+  const gvBody = document.getElementById('vc-gemini-body');
+  gvBody.innerHTML = '<div style="color:#7eb8f7;">開始しています…</div>';
+  try {
+    const res = await fetch('/admin/video_check/gemini_verify/start', { method: 'POST' });
+    const data = await res.json();
+    if (data.status !== 'started' || !data.request_id) {
+      gvBody.innerHTML = `<div style="color:#e07878;">${data.status === 'already_running' ? '既に実行中です。' : 'エラーが発生しました。'}</div>`;
+      return;
+    }
+    if (vcGeminiPolling) clearInterval(vcGeminiPolling);
+    vcGeminiPolling = setInterval(() => vcGeminiVerifyPoll(data.request_id), 2000);
+    vcGeminiVerifyPoll(data.request_id);
+  } catch (e) {
+    gvBody.innerHTML = '<div style="color:#e07878;">エラー：ローカルサーバーに接続できませんでした。</div>';
+  }
 }
 
 async function vcCheckStatus() {
