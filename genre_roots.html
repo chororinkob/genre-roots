@@ -278,7 +278,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.24<span id="genre-count">512 ジャンル　2026年7月13日現在</span></span>
+  <span id="version-info">v24.26<span id="genre-count">512 ジャンル　2026年7月13日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -9564,11 +9564,52 @@ async function submitGenreRequest() {
       body: JSON.stringify({genre_name: name, note})
     });
     const data = await res.json();
-    grRenderResult(name, data, submitBtn);
+    if (data.status !== 'processing' || !data.request_id) {
+      grShowResult(`<div class="gr-processing" style="color:#e07878">エラー: ${grEsc(data.message || '送信に失敗しました。')}</div>`);
+      submitBtn.disabled = false;
+      return;
+    }
+    grPollGenreRequest(name, data.request_id, submitBtn);
   } catch(e) {
     grShowResult(`<div class="gr-processing" style="color:#e07878">通信エラー: ${grEsc(e.message)}</div>`);
     submitBtn.disabled = false;
   }
+}
+
+function grRenderLog(log) {
+  if (!log || log.length === 0) return '';
+  const lines = log.map(e => {
+    const t = new Date(e.time).toLocaleTimeString('ja-JP');
+    return `<div style="padding:2px 0;color:#9db8d0;">[${t}] ${grEsc(e.message)}</div>`;
+  }).join('');
+  return `<div style="max-height:160px;overflow-y:auto;background:#0d0d1a;border-radius:6px;padding:8px 10px;margin-bottom:8px;font-size:11px;">${lines}</div>`;
+}
+
+let grPolling = null;
+
+// ジャンル追加の全処理（ChatGPT+Claude+YouTube+GitHub保存）は1〜2分かかり、
+// 1本のfetchで待ち続けるとRender/Cloudflare経由の接続がタイムアウトして
+// 「Load failed」になってしまう。そのため送信直後はrequest_idだけを受け取り、
+// 進捗状況を2秒おきにポーリングして取得する方式にしている。
+function grPollGenreRequest(name, requestId, submitBtn) {
+  if (grPolling) { clearInterval(grPolling); grPolling = null; }
+  const poll = async () => {
+    try {
+      const sres  = await fetch(API_BASE + '/request_genre/status/' + requestId);
+      const sdata = await sres.json();
+      const logHtml = grRenderLog(sdata.log);
+      if (!sdata.done) {
+        grShowResult(`<div class="gr-processing">${logHtml}<span class="gr-spinner"></span>処理中…</div>`);
+        return;
+      }
+      clearInterval(grPolling); grPolling = null;
+      grRenderResult(name, sdata.result || {}, submitBtn);
+    } catch (e) {
+      // 一時的な通信エラーはポーリング継続（サーバー再起動直後等を想定）
+    }
+  };
+  poll();
+  grPolling = setInterval(poll, 2000);
 }
 
 function grRenderResult(inputName, data, submitBtn) {
