@@ -278,7 +278,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.18<span id="genre-count">512 ジャンル　2026年7月13日現在</span></span>
+  <span id="version-info">v24.19<span id="genre-count">512 ジャンル　2026年7月13日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -286,9 +286,9 @@ svg { width: 100vw; height: 100vh; }
   <div style="display:flex;gap:6px;margin-left:auto;align-items:center;">
     <a id="help-link" href="manual.html" title="使い方ガイド" style="padding:4px 10px;background:none;border:1px solid #555;border-radius:5px;color:#ccc;font-size:11px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;">❓<span class="m-full" style="margin-left:4px;">ヘルプ</span></a>
     <button id="fit-view" style="padding:4px 12px;background:#1565C0;border:1px solid #555;border-radius:5px;color:#fff;font-size:11px;cursor:pointer;"><span class="m-full">全体表示</span><span class="m-short" style="display:none">全体</span></button>
-    <button id="video-check-btn" style="padding:4px 12px;background:#2a2a50;border:1px solid #555;border-radius:5px;color:#ccc;font-size:11px;cursor:pointer;">🔍 全件動画チェック</button>
     <button id="save-layout" style="padding:4px 12px;background:#2a2a50;border:1px solid #555;border-radius:5px;color:#ccc;font-size:11px;cursor:pointer;">配置を保存</button>
     <button id="reset-layout" style="padding:4px 12px;background:#2a2a50;border:1px solid #555;border-radius:5px;color:#ccc;font-size:11px;cursor:pointer;">配置リセット</button>
+    <button id="video-check-btn" title="全件動画チェック（管理者用）" style="padding:4px 8px;margin-left:8px;background:none;border:1px solid #333;border-radius:5px;color:#666;font-size:12px;cursor:pointer;">🔍</button>
   </div>
 </div>
 
@@ -9849,9 +9849,20 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 #mic-history-list { display: none; margin-bottom: 8px; max-height: 170px; overflow-y: auto; }
 #mic-history-list.visible { display: block; }
 .mic-history-item { padding: 6px 8px; border-radius: 7px; background: rgba(255,255,255,0.03); margin-bottom: 5px; }
+.mic-history-item-head { display: flex; align-items: center; gap: 6px; }
 .mic-history-item-title { color: #ccc; font-weight: 600; font-size: 11px; }
 .mic-history-item-artist { color: #666; font-size: 10.5px; margin-top: 1px; }
 .mic-history-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 5px; }
+.mic-history-play {
+  flex-shrink: 0; width: 18px; height: 18px; border-radius: 50%;
+  background: rgba(233,69,96,0.16); color: #e94560; border: none;
+  font-size: 8px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
+  padding: 0 0 0 1px; line-height: 1;
+}
+.mic-history-play:hover { background: rgba(233,69,96,0.3); }
+.mic-history-play.playing { background: #e94560; color: #fff; }
+.mic-history-player { margin-top: 6px; border-radius: 6px; overflow: hidden; }
+.mic-history-player iframe { width: 100%; height: 110px; border: none; display: block; }
 .mic-history-tag {
   background: rgba(233,69,96,0.10); color: #e94560; border: 1px solid rgba(233,69,96,0.18);
   padding: 2px 8px; border-radius: 100px; font-size: 10.5px; cursor: pointer;
@@ -9864,7 +9875,7 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 <div id="mic-overlay">
   <div id="mic-panel">
     <button id="mic-panel-close" onclick="closeMicPanel()">✕</button>
-    <div id="mic-panel-version">v2.20</div>
+    <div id="mic-panel-version">v2.21</div>
     <div id="mic-panel-title">🎵 音楽を聴かせてください</div>
     <div id="mic-panel-sub">ジャンルを調べてマップに表示します</div>
 
@@ -10161,6 +10172,7 @@ async function micSearchYoutube(title, artist) {
         frame.src           = 'https://www.youtube.com/embed/' + vid + '?autoplay=1&rel=0';
         frame.style.display = 'block';
         loading.style.display = 'none';
+        micUpdateLatestHistoryVideoId(vid);
         return;
       }
     } catch (e) { console.warn('[mic] YouTube API error:', e); }
@@ -10348,9 +10360,18 @@ function micLoadHistory() {
 function micSaveHistoryEntry(title, artist, genres) {
   if (!genres || !genres.length) return;
   let hist = micLoadHistory();
-  hist.unshift({ title: title || '不明', artist: artist || '', genres, ts: Date.now() });
+  hist.unshift({ title: title || '不明', artist: artist || '', genres, videoId: null, ts: Date.now() });
   hist = hist.slice(0, MIC_HISTORY_MAX);
   try { localStorage.setItem(MIC_HISTORY_KEY, JSON.stringify(hist)); } catch (e) {}
+}
+
+// micSearchYoutube が見つけた動画IDを、直近保存した履歴（先頭）に紐付ける
+function micUpdateLatestHistoryVideoId(videoId) {
+  const hist = micLoadHistory();
+  if (hist.length > 0) {
+    hist[0].videoId = videoId;
+    try { localStorage.setItem(MIC_HISTORY_KEY, JSON.stringify(hist)); } catch (e) {}
+  }
 }
 
 function micRenderHistory() {
@@ -10361,14 +10382,43 @@ function micRenderHistory() {
     listEl.innerHTML = '<div id="mic-history-empty">まだ履歴がありません</div>';
     return;
   }
-  listEl.innerHTML = hist.map(h => {
+  listEl.innerHTML = hist.map((h, i) => {
     const tags = h.genres.map(g => `<span class="mic-history-tag" data-genre="${micEsc(g)}">${micEsc(g)}</span>`).join('');
+    const playBtn = h.videoId
+      ? `<button class="mic-history-play" data-idx="${i}" data-vid="${micEsc(h.videoId)}" title="YouTubeで見る">▶</button>`
+      : '';
     return `<div class="mic-history-item">
-      <div class="mic-history-item-title">${micEsc(h.title)}</div>
+      <div class="mic-history-item-head">
+        <div class="mic-history-item-title">${micEsc(h.title)}</div>
+        ${playBtn}
+      </div>
       ${h.artist ? `<div class="mic-history-item-artist">${micEsc(h.artist)}</div>` : ''}
       <div class="mic-history-tags">${tags}</div>
     </div>`;
   }).join('');
+}
+
+// 履歴の▶ボタンをクリックしたら、その曲名の項目内に小さいYouTubeプレイヤーを
+// 開閉する（同時に複数再生されないよう、開く前に他のプレイヤーは閉じる）
+function micToggleHistoryVideo(btnEl) {
+  const listEl = document.getElementById('mic-history-list');
+  const idx = btnEl.dataset.idx;
+  const videoId = btnEl.dataset.vid;
+  const existingPlayer = listEl.querySelector('.mic-history-player');
+  const wasThisOne = existingPlayer && existingPlayer.dataset.idx === idx;
+  if (existingPlayer) {
+    existingPlayer.remove();
+    const prevBtn = listEl.querySelector('.mic-history-play.playing');
+    if (prevBtn) prevBtn.classList.remove('playing');
+  }
+  if (wasThisOne) return;
+  const item = btnEl.closest('.mic-history-item');
+  const player = document.createElement('div');
+  player.className = 'mic-history-player';
+  player.dataset.idx = idx;
+  player.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0" allow="autoplay;encrypted-media" allowfullscreen></iframe>`;
+  item.appendChild(player);
+  btnEl.classList.add('playing');
 }
 
 function micToggleHistory() {
@@ -10379,8 +10429,14 @@ function micToggleHistory() {
   listEl.classList.toggle('visible', willShow);
 }
 
-// 履歴のジャンルタグをクリックしたら、そのジャンルの説明パネルへジャンプする
+// 履歴のジャンルタグをクリックしたら、そのジャンルの説明パネルへジャンプする。
+// ▶ボタンをクリックしたら、その項目内で小さいYouTubeプレイヤーを開閉する。
 document.addEventListener('click', function(e) {
+  const playBtn = e.target.closest('.mic-history-play');
+  if (playBtn) {
+    micToggleHistoryVideo(playBtn);
+    return;
+  }
   const tag = e.target.closest('.mic-history-tag');
   if (!tag) return;
   const genre = tag.dataset.genre;
