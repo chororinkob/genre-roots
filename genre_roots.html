@@ -278,7 +278,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.5<span id="genre-count">512 ジャンル　2026年7月12日現在</span></span>
+  <span id="version-info">v24.7<span id="genre-count">512 ジャンル　2026年7月12日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -9781,16 +9781,6 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 }
 .mic-file-label:hover { border-color: rgba(255,255,255,0.3); color: #ccc; }
 
-#mic-confirm { display: none; text-align: center; padding: 6px 0; }
-#mic-confirm.visible { display: block; }
-#mic-confirm-msg { font-size: 14px; color: #eee; margin-bottom: 5px; font-weight: 600; }
-#mic-confirm-sub { font-size: 12px; color: #777; margin-bottom: 14px; line-height: 1.5; }
-.mic-confirm-actions { display: flex; gap: 8px; justify-content: center; }
-.mic-confirm-gemini { padding: 8px 18px; background: #e94560; border: none; border-radius: 7px; color: #fff; font-size: 12px; cursor: pointer; }
-.mic-confirm-gemini:hover { background: #d63e55; }
-.mic-confirm-cancel { padding: 8px 18px; background: none; border: 1px solid rgba(255,255,255,0.15); border-radius: 7px; color: #aaa; font-size: 12px; cursor: pointer; }
-.mic-confirm-cancel:hover { color: #fff; }
-
 #mic-result { display: none; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.09); border-radius: 10px; padding: 14px 15px; text-align: left; margin-top: 10px; }
 #mic-result.visible { display: block; }
 #mic-result-title { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 2px; }
@@ -9862,7 +9852,7 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 <div id="mic-overlay">
   <div id="mic-panel">
     <button id="mic-panel-close" onclick="closeMicPanel()">✕</button>
-    <div id="mic-panel-version">v2.16</div>
+    <div id="mic-panel-version">v2.17</div>
     <div id="mic-panel-title">🎵 音楽を聴かせてください</div>
     <div id="mic-panel-sub">ジャンルを調べてマップに表示します</div>
 
@@ -9890,15 +9880,6 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
     </div>
 
     <div id="mic-error"></div>
-
-    <div id="mic-confirm">
-      <div id="mic-confirm-msg">Shazamで特定できませんでした</div>
-      <div id="mic-confirm-sub">音楽が流れていた場合は、Gemini AI による解析を試みることができます</div>
-      <div class="mic-confirm-actions">
-        <button class="mic-confirm-gemini" onclick="micSendToGemini()">Gemini で解析する</button>
-        <button class="mic-confirm-cancel" onclick="micResetToIdle()">やめる</button>
-      </div>
-    </div>
 
     <div id="mic-result">
       <div id="mic-result-title"></div>
@@ -9958,7 +9939,7 @@ function micSetState(s) {
 async function micToggleListen() {
   if (micState === 'processing') return;
   if (micState === 'recording') { micStopListening(true); return; }
-  micHideError(); micHideResult(); micHideConfirm();
+  micHideError(); micHideResult();
   try {
     micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
   } catch (err) {
@@ -10032,7 +10013,7 @@ async function micOnFileSelect(input) {
   const file = input.files[0];
   if (!file) return;
   input.value = '';
-  micHideError(); micHideResult(); micHideConfirm();
+  micHideError(); micHideResult();
   micSetState('processing');
   micFakePhase = 0; micResizeCanvas(); micDrawProcessing();
   const fd = new FormData();
@@ -10048,7 +10029,6 @@ async function micDoRecognize(formData) {
     micClearCanvas();
     document.getElementById('mic-countdown').textContent = '';
     if (data.error) { micShowError(data.error); micSetState('idle'); return; }
-    if (data.needs_confirmation) { micSetState('idle'); micShowConfirm(); return; }
     micDisplayResult(data);
     micSetState('result');
   } catch (err) {
@@ -10057,19 +10037,6 @@ async function micDoRecognize(formData) {
     micShowError('通信エラーが発生しました。サーバーが起動しているか確認してください。');
     micSetState('idle');
   }
-}
-
-async function micSendToGemini() {
-  micHideConfirm(); micHideError();
-  micSetState('processing');
-  micFakePhase = 0; micResizeCanvas(); micDrawProcessing();
-  const mime = micUsedMime || (micMediaRec && micMediaRec.mimeType) || 'audio/webm';
-  const ext  = mime.includes('mp4') ? 'mp4' : mime.includes('ogg') ? 'ogg' : 'webm';
-  const blob = new Blob(micRecChunks, { type: mime });
-  const fd = new FormData();
-  fd.append('audio', blob, 'recording.' + ext);
-  fd.append('source', 'gemini_direct');
-  await micDoRecognize(fd);
 }
 
 function micEsc(s) {
@@ -10271,15 +10238,13 @@ function micGoToMap() {
 }
 
 function micResetToIdle() {
-  micHideResult(); micHideConfirm(); micClearCanvas();
+  micHideResult(); micClearCanvas();
   document.getElementById('mic-countdown').textContent = '';
   micSetState('idle');
 }
 
 function micShowError(msg) { const el = document.getElementById('mic-error'); el.textContent = msg; el.classList.add('visible'); }
 function micHideError()    { document.getElementById('mic-error').classList.remove('visible'); }
-function micShowConfirm()  { document.getElementById('mic-confirm').classList.add('visible'); }
-function micHideConfirm()  { document.getElementById('mic-confirm').classList.remove('visible'); }
 function micHideResult()   { document.getElementById('mic-result').classList.remove('visible'); }
 
 const micEqCanvas = document.getElementById('mic-eq-canvas');
