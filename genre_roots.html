@@ -278,7 +278,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.28<span id="genre-count">512 ジャンル　2026年7月13日現在</span></span>
+  <span id="version-info">v24.30<span id="genre-count">512 ジャンル　2026年7月13日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -8451,13 +8451,20 @@ function searchHandler(e) {
 
   tags.forEach(tag => {
     const tagId = tag.replace(/[\s-]/g, '_');
+    // 「ポップ・ミュージック」のような中黒（・）区切りの表記ゆれを吸収するため、
+    // 中黒・スペースを除いた正規化版でも比較する（aliasesとの照合漏れ対策）。
+    const normJp = s => s.replace(/[・\s]/g, '');
+    const tagNorm = normJp(tag);
     const matches = NODES.filter(n => {
       if (n.id === tagId || n.label.toLowerCase().replace('\n', ' ') === tag) return true;
       // 日本語（漢字・ひらがな・カタカナ）は1文字でも有効、英字は誤ヒット防止のため3文字以上
       const hasJapanese = /[^\x00-\x7F]/.test(tag);
       if (hasJapanese ? tag.length >= 1 : tag.length >= 3) {
         if (n.id.includes(tag) || n.label.toLowerCase().replace('\n', ' ').includes(tag)) return true;
-        if (n.aliases && n.aliases.some(a => a.toLowerCase().includes(tag))) return true;
+        if (n.aliases && n.aliases.some(a => {
+          const al = a.toLowerCase();
+          return al.includes(tag) || normJp(al).includes(tagNorm);
+        })) return true;
         if (searchMode === 'vibe') {
           // 説明文を含むモード：desc・成り立ち・代表曲（アーティスト名含む）・ムードキーワードも検索対象
           if (n.desc && n.desc.toLowerCase().includes(tag)) return true;
