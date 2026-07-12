@@ -278,7 +278,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.11<span id="genre-count">512 ジャンル　2026年7月13日現在</span></span>
+  <span id="version-info">v24.13<span id="genre-count">512 ジャンル　2026年7月13日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -9785,13 +9785,16 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 #mic-result.visible { display: block; }
 #mic-result-title { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 2px; }
 #mic-result-artist { font-size: 12px; color: #777; margin-bottom: 10px; }
-.mic-genre-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.mic-genre-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 6px; }
 .mic-genre-tag {
   background: rgba(233,69,96,0.14); color: #e94560;
   border: 1px solid rgba(233,69,96,0.22); padding: 4px 11px;
   border-radius: 100px; font-size: 12px; cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
 }
 .mic-genre-tag:hover { background: rgba(233,69,96,0.28); }
+.mic-genre-tag.selected { background: #e94560; color: #fff; border-color: #e94560; }
+#mic-genre-hint { font-size: 10.5px; color: #555; margin-bottom: 12px; }
 .mic-highlight-btn {
   width: 100%; padding: 9px;
   background: none; border: 1px solid rgba(255,255,255,0.12);
@@ -9814,13 +9817,17 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 #mic-yt-fallback a { color: #ff7070; text-decoration: none; }
 #mic-yt-fallback a:hover { text-decoration: underline; }
 
+/* 「これなんて曲？」ボタンと履歴トグルを、1つの赤い枠にまとめて視覚的に紐付ける */
+#mic-trigger-wrap {
+  background: #e94560; border-radius: 7px; margin-bottom: 10px; overflow: hidden;
+}
 #mic-trigger-btn {
   display: block; width: 100%; padding: 8px 12px;
-  background: #e94560; border: none; border-radius: 7px;
+  background: none; border: none;
   color: #fff; font-size: 12px; cursor: pointer; font-weight: 600;
-  margin-bottom: 10px; white-space: nowrap;
+  white-space: nowrap;
 }
-#mic-trigger-btn:hover { background: #d63e55; }
+#mic-trigger-btn:hover { background: rgba(0,0,0,0.12); }
 
 #mic-log-area { display: none; margin-top: 10px; background: rgba(0,0,0,0.25); border-radius: 7px; padding: 10px 12px; text-align: left; }
 #mic-log-area.visible { display: block; }
@@ -9830,10 +9837,12 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 
 /* === 「これなんて曲？」履歴 === */
 #mic-history-toggle {
-  display: block; width: 100%; text-align: center; margin: 2px 0 8px;
-  padding: 2px; font-size: 11px; color: #777; background: none; border: none; cursor: pointer;
+  display: block; width: 100%; text-align: center;
+  padding: 4px 2px; font-size: 10.5px; color: rgba(255,255,255,0.8);
+  background: rgba(0,0,0,0.14); border: none; border-top: 1px solid rgba(255,255,255,0.15);
+  cursor: pointer;
 }
-#mic-history-toggle:hover { color: #ccc; }
+#mic-history-toggle:hover { background: rgba(0,0,0,0.24); color: #fff; }
 #mic-history-list { display: none; margin-bottom: 8px; max-height: 170px; overflow-y: auto; }
 #mic-history-list.visible { display: block; }
 .mic-history-item { padding: 6px 8px; border-radius: 7px; background: rgba(255,255,255,0.03); margin-bottom: 5px; }
@@ -9852,7 +9861,7 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 <div id="mic-overlay">
   <div id="mic-panel">
     <button id="mic-panel-close" onclick="closeMicPanel()">✕</button>
-    <div id="mic-panel-version">v2.19</div>
+    <div id="mic-panel-version">v2.20</div>
     <div id="mic-panel-title">🎵 音楽を聴かせてください</div>
     <div id="mic-panel-sub">ジャンルを調べてマップに表示します</div>
 
@@ -9885,6 +9894,7 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
       <div id="mic-result-title"></div>
       <div id="mic-result-artist"></div>
       <div class="mic-genre-tags" id="mic-genre-tags"></div>
+      <div id="mic-genre-hint">確認したいジャンルをタップして選んでください</div>
       <div id="mic-yt-area">
         <div id="mic-yt-loading">YouTube を検索中...</div>
         <iframe id="mic-yt-frame" allow="autoplay;encrypted-media" allowfullscreen style="display:none"></iframe>
@@ -9907,6 +9917,7 @@ let micMediaRec = null, micRecChunks = [], micUsedMime = '';
 let micAnimId = null, micTickId = null;
 let micIsCancelled = false, micMaxVol = 0, micFakePhase = 0;
 let micFoundGenres = [], micFoundTitle = '', micFoundArtist = '';
+let micSelectedGenres = new Set();
 const MIC_RECORD_SEC = 20;
 
 function openMicPanel() {
@@ -10067,6 +10078,7 @@ function micDisplayResult(data) {
   }
 
   micFoundGenres = data.genres || [];
+  micSelectedGenres = new Set();
   micSaveHistoryEntry(micFoundTitle, micFoundArtist, micFoundGenres);
   const tagsEl = document.getElementById('mic-genre-tags');
   tagsEl.innerHTML = '';
@@ -10074,7 +10086,15 @@ function micDisplayResult(data) {
     const s = document.createElement('span');
     s.className = 'mic-genre-tag';
     s.textContent = g;
-    s.onclick = () => micHighlightByGenres([g]);
+    s.onclick = () => {
+      if (micSelectedGenres.has(g)) {
+        micSelectedGenres.delete(g);
+        s.classList.remove('selected');
+      } else {
+        micSelectedGenres.add(g);
+        s.classList.add('selected');
+      }
+    };
     tagsEl.appendChild(s);
   });
   document.getElementById('mic-result').classList.add('visible');
@@ -10227,8 +10247,13 @@ function micHighlightByGenres(genres) {
 }
 
 function micGoToMap() {
+  // 選択したジャンルだけを対象にする（何も選んでいなければ選ぶよう案内する）
+  const genresToCheck = Array.from(micSelectedGenres);
+  if (!genresToCheck.length) {
+    micShowError('確認したいジャンルをタップして選んでから押してください。');
+    return;
+  }
   closeMicPanel();
-  if (!micFoundGenres.length) return;
 
   // 前回の検索状態をリセット（検索窓の残った内容・結果エリアをクリア）
   const _si = document.getElementById('search');
@@ -10237,7 +10262,7 @@ function micGoToMap() {
   if (_rd) { _rd.innerHTML = ''; _rd.style.display = 'none'; }
 
   // 検索窓は使わず、micHighlightByGenres の精度高いマッチングで直接ハイライト
-  const { foundIds, missedGenres } = micHighlightByGenres(micFoundGenres);
+  const { foundIds, missedGenres } = micHighlightByGenres(genresToCheck);
 
   // 見つかったジャンルが1つもジャンルマップに存在しなかった場合は、
   // 何も絞り込まれない状態（全ジャンル表示）だけだと分かりにくいので案内を出す
@@ -10375,6 +10400,9 @@ document.getElementById('mic-overlay').addEventListener('click', function(e) {
 (function() {
   function addMicButton() {
     if (document.getElementById('mic-trigger-btn')) return;
+    var wrap = document.createElement('div');
+    wrap.id = 'mic-trigger-wrap';
+
     var btn = document.createElement('button');
     btn.id = 'mic-trigger-btn';
     btn.onclick = function() { openMicPanel(); };
@@ -10382,8 +10410,11 @@ document.getElementById('mic-overlay').addEventListener('click', function(e) {
 
     var histToggle = document.createElement('button');
     histToggle.id = 'mic-history-toggle';
-    histToggle.textContent = '🕘 これまでの履歴';
+    histToggle.textContent = '🕘 履歴';
     histToggle.onclick = function() { micToggleHistory(); };
+
+    wrap.appendChild(btn);
+    wrap.appendChild(histToggle);
 
     var histList = document.createElement('div');
     histList.id = 'mic-history-list';
@@ -10393,8 +10424,7 @@ document.getElementById('mic-overlay').addEventListener('click', function(e) {
     if (h3) {
       h3.style.display = 'none';
       var anchor = h3.nextElementSibling;
-      controls.insertBefore(btn, anchor);
-      controls.insertBefore(histToggle, anchor);
+      controls.insertBefore(wrap, anchor);
       controls.insertBefore(histList, anchor);
     }
   }
