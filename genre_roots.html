@@ -278,7 +278,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.2<span id="genre-count">512 ジャンル　2026年7月12日現在</span></span>
+  <span id="version-info">v24.3<span id="genre-count">512 ジャンル　2026年7月12日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -9837,13 +9837,32 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 .mic-log-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; color: #555; margin-bottom: 7px; }
 .mic-log-line { font-family: ui-monospace, 'Cascadia Mono', monospace; font-size: 10.5px; color: #666; line-height: 1.7; }
 #mic-panel-version { position: absolute; bottom: 8px; right: 12px; font-size: 10px; color: #333; pointer-events: none; }
+
+/* === 「これなんて曲？」履歴 === */
+#mic-history-toggle {
+  display: block; width: 100%; text-align: center; margin: 2px 0 8px;
+  padding: 2px; font-size: 11px; color: #777; background: none; border: none; cursor: pointer;
+}
+#mic-history-toggle:hover { color: #ccc; }
+#mic-history-list { display: none; margin-bottom: 8px; max-height: 170px; overflow-y: auto; }
+#mic-history-list.visible { display: block; }
+.mic-history-item { padding: 6px 8px; border-radius: 7px; background: rgba(255,255,255,0.03); margin-bottom: 5px; }
+.mic-history-item-title { color: #ccc; font-weight: 600; font-size: 11px; }
+.mic-history-item-artist { color: #666; font-size: 10.5px; margin-top: 1px; }
+.mic-history-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 5px; }
+.mic-history-tag {
+  background: rgba(233,69,96,0.10); color: #e94560; border: 1px solid rgba(233,69,96,0.18);
+  padding: 2px 8px; border-radius: 100px; font-size: 10.5px; cursor: pointer;
+}
+.mic-history-tag:hover { background: rgba(233,69,96,0.22); }
+#mic-history-empty { font-size: 11px; color: #555; text-align: center; padding: 8px 0; }
 </style>
 
 <!-- ===== Music Recognition Panel ===== -->
 <div id="mic-overlay">
   <div id="mic-panel">
     <button id="mic-panel-close" onclick="closeMicPanel()">✕</button>
-    <div id="mic-panel-version">v2.14</div>
+    <div id="mic-panel-version">v2.15</div>
     <div id="mic-panel-title">🎵 音楽を聴かせてください</div>
     <div id="mic-panel-sub">ジャンルを調べてマップに表示します</div>
 
@@ -10081,6 +10100,7 @@ function micDisplayResult(data) {
   }
 
   micFoundGenres = data.genres || [];
+  micSaveHistoryEntry(micFoundTitle, micFoundArtist, micFoundGenres);
   const tagsEl = document.getElementById('mic-genre-tags');
   tagsEl.innerHTML = '';
   micFoundGenres.forEach(g => {
@@ -10113,9 +10133,10 @@ function micBuildSourceSummary(data) {
       micEsc(data.title) + '　/　' + micEsc(data.artist));
   }
   const srcLabel = {
-    'track':         'Last.fm（曲タグ）',
-    'artist+gemini': 'Last.fm アーティストタグ → Gemini 補正',
-    'gemini':        'Gemini（音声から直接判断）'
+    'track':           'Last.fm（曲タグ）',
+    'artist+gemini':   'Last.fm アーティストタグ → Gemini 補正',
+    'wikidata+gemini': 'Wikidata → Gemini 補正',
+    'gemini':          'Gemini（音声から直接判断）'
   }[data.genre_source];
   if (srcLabel && data.genres && data.genres.length) {
     parts.push('<span style="color:#4a4a6a">' + micEsc(srcLabel) + '</span>　' +
@@ -10300,6 +10321,62 @@ function micPickMimeType() {
   return candidates.find(t => MediaRecorder.isTypeSupported(t)) || '';
 }
 
+// ===== 「これなんて曲？」履歴 =====
+const MIC_HISTORY_KEY = 'micHistory';
+const MIC_HISTORY_MAX = 15;
+
+function micLoadHistory() {
+  try { return JSON.parse(localStorage.getItem(MIC_HISTORY_KEY) || '[]'); }
+  catch (e) { return []; }
+}
+
+function micSaveHistoryEntry(title, artist, genres) {
+  if (!genres || !genres.length) return;
+  let hist = micLoadHistory();
+  hist.unshift({ title: title || '不明', artist: artist || '', genres, ts: Date.now() });
+  hist = hist.slice(0, MIC_HISTORY_MAX);
+  try { localStorage.setItem(MIC_HISTORY_KEY, JSON.stringify(hist)); } catch (e) {}
+}
+
+function micRenderHistory() {
+  const listEl = document.getElementById('mic-history-list');
+  if (!listEl) return;
+  const hist = micLoadHistory();
+  if (!hist.length) {
+    listEl.innerHTML = '<div id="mic-history-empty">まだ履歴がありません</div>';
+    return;
+  }
+  listEl.innerHTML = hist.map(h => {
+    const tags = h.genres.map(g => `<span class="mic-history-tag" data-genre="${micEsc(g)}">${micEsc(g)}</span>`).join('');
+    return `<div class="mic-history-item">
+      <div class="mic-history-item-title">${micEsc(h.title)}</div>
+      ${h.artist ? `<div class="mic-history-item-artist">${micEsc(h.artist)}</div>` : ''}
+      <div class="mic-history-tags">${tags}</div>
+    </div>`;
+  }).join('');
+}
+
+function micToggleHistory() {
+  const listEl = document.getElementById('mic-history-list');
+  if (!listEl) return;
+  const willShow = !listEl.classList.contains('visible');
+  if (willShow) micRenderHistory();
+  listEl.classList.toggle('visible', willShow);
+}
+
+// 履歴のジャンルタグをクリックしたら、そのジャンルの説明パネルへジャンプする
+document.addEventListener('click', function(e) {
+  const tag = e.target.closest('.mic-history-tag');
+  if (!tag) return;
+  const genre = tag.dataset.genre;
+  if (typeof micHighlightByGenres !== 'function' || typeof node === 'undefined') return;
+  const { foundIds } = micHighlightByGenres([genre]);
+  if (foundIds.size > 0) {
+    const firstId = Array.from(foundIds)[0];
+    node.filter(n => n.id === firstId).dispatch('click');
+  }
+});
+
 // オーバーレイ外クリックで閉じる
 document.getElementById('mic-overlay').addEventListener('click', function(e) {
   if (e.target === this) closeMicPanel();
@@ -10316,11 +10393,22 @@ document.getElementById('mic-overlay').addEventListener('click', function(e) {
     btn.onclick = function() { openMicPanel(); };
     btn.textContent = '🎵 これなんて曲？';
 
+    var histToggle = document.createElement('button');
+    histToggle.id = 'mic-history-toggle';
+    histToggle.textContent = '🕘 これまでの履歴';
+    histToggle.onclick = function() { micToggleHistory(); };
+
+    var histList = document.createElement('div');
+    histList.id = 'mic-history-list';
+
     var controls = document.getElementById('controls');
     var h3 = controls && controls.querySelector('h3');
     if (h3) {
       h3.style.display = 'none';
-      controls.insertBefore(btn, h3.nextElementSibling);
+      var anchor = h3.nextElementSibling;
+      controls.insertBefore(btn, anchor);
+      controls.insertBefore(histToggle, anchor);
+      controls.insertBefore(histList, anchor);
     }
   }
   if (document.readyState === 'loading') {
