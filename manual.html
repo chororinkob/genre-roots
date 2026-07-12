@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>使い方ガイド — 音楽ジャンルルーツ辞典</title>
+<style>
+  :root {
+    --bg: #0f0f1a; --surface: #16162a; --surface-2: #1e1e38;
+    --text: #f0f0f8; --text-2: #9a9aae; --border: rgba(255,255,255,0.09);
+    --accent: #e94560; --ok: #22c55e; --info: #7ecfff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: "Hiragino Sans", "Noto Sans JP", system-ui, -apple-system, sans-serif;
+    padding: 0 0 80px; line-height: 1.75;
+  }
+  .top-bar {
+    position: sticky; top: 0; z-index: 10;
+    background: rgba(15,15,26,0.92); backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 20px;
+  }
+  .top-bar a {
+    color: var(--text-2); text-decoration: none; font-size: 12.5px;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .top-bar a:hover { color: var(--text); }
+
+  .page { max-width: 700px; margin: 0 auto; padding: 44px 20px 0; }
+  .eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+  h1 { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 10px; }
+  .lede { font-size: 14px; color: var(--text-2); margin-bottom: 44px; line-height: 1.75; }
+
+  .toc { display: flex; flex-direction: column; gap: 6px; margin-bottom: 48px; padding: 16px 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; }
+  .toc-title { font-size: 10.5px; font-weight: 700; color: var(--text-2); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+  .toc a { font-size: 12.5px; color: var(--info); text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+
+  section { margin-bottom: 52px; }
+  .sec-num { font-size: 11px; font-weight: 700; color: var(--accent); letter-spacing: 0.06em; margin-bottom: 6px; }
+  h2 { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
+  p { font-size: 13.5px; color: #d8d8e6; margin-bottom: 14px; }
+  p.muted { color: var(--text-2); font-size: 12.5px; }
+
+  .step { display: flex; gap: 14px; margin-bottom: 18px; }
+  .step-num {
+    width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
+    background: rgba(233,69,96,0.14); color: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; margin-top: 1px;
+  }
+  .step-body { flex: 1; }
+  .step-title { font-size: 13.5px; font-weight: 600; margin-bottom: 3px; color: var(--text); }
+  .step-desc { font-size: 12.5px; color: var(--text-2); line-height: 1.65; }
+
+  .tip {
+    background: rgba(126,207,255,0.06); border: 1px solid rgba(126,207,255,0.2);
+    border-radius: 8px; padding: 12px 16px; font-size: 12.5px; color: #b8dcf0; margin: 16px 0;
+  }
+  .tip b { color: var(--info); }
+
+  .ui-tag {
+    display: inline-block; font-size: 11px; font-family: "Courier New", monospace;
+    background: var(--surface-2); border: 1px solid var(--border);
+    padding: 2px 8px; border-radius: 5px; color: #e0e0f0;
+  }
+
+  .footer-note { text-align: center; font-size: 11px; color: #55556a; margin-top: 60px; }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <a href="genre_roots.html">← ジャンルマップに戻る</a>
+</div>
+
+<div class="page">
+
+  <div class="eyebrow">使い方ガイド</div>
+  <h1>音楽ジャンルルーツ辞典の使い方</h1>
+  <p class="lede">
+    このサイトは、音楽ジャンルどうしの成り立ちや影響関係を地図のようにたどれる事典です。
+    ジャンルを眺めるだけでなく、「この曲は何ジャンル？」を調べたり、載っていないジャンルをリクエストしたり、
+    間違いを見つけたら教えてもらうこともできます。
+  </p>
+
+  <div class="toc">
+    <div class="toc-title">目次</div>
+    <a href="#map">1. ジャンルマップの見方</a>
+    <a href="#search">2. ジャンルを探す</a>
+    <a href="#mic">3. 「これなんて曲？」で調べる</a>
+    <a href="#add">4. 載っていないジャンルをリクエストする</a>
+    <a href="#fix">5. 間違いを見つけたら</a>
+  </div>
+
+  <section id="map">
+    <div class="sec-num">1</div>
+    <h2>ジャンルマップの見方</h2>
+    <p>マップに散らばっている丸(ノード)ひとつひとつが、ひとつの音楽ジャンルです。丸どうしをつなぐ線は「影響を与えた／受けた」という関係を表しています。</p>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">丸をクリックする</div>
+        <div class="step-desc">画面右側にそのジャンルの説明パネルが開きます。音楽性の特徴、生まれた背景のストーリー、代表曲、影響関係にあるジャンルへのリンクが見られます。</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">代表曲をクリックする</div>
+        <div class="step-desc">説明パネル内の代表曲名をクリックすると、その場でYouTube動画が再生されます。</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-title">関連ジャンルのリンクをたどる</div>
+        <div class="step-desc">説明パネル内に出てくる他ジャンル名をクリックすると、そのジャンルの説明パネルに切り替わります。ジャンルからジャンルへ、ルーツをたどっていけます。</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="search">
+    <div class="sec-num">2</div>
+    <h2>ジャンルを探す</h2>
+    <p>画面左側の検索欄にジャンル名を入力すると、マップ上で該当するジャンルが光ってハイライトされます。カンマ区切りで複数のジャンル名を一度に検索することもできます。</p>
+    <div class="tip"><b>ヒント：</b>「説明文含む」モードに切り替えると、ジャンル名だけでなく説明文の中の言葉でも検索できます。「切ない」「夏」のような雰囲気の言葉から、それっぽいジャンルを探すのにも使えます。</div>
+  </section>
+
+  <section id="mic">
+    <div class="sec-num">3</div>
+    <h2>「これなんて曲？」で調べる</h2>
+    <p>今流れている曲や、持っている音源が何ジャンルなのか分からないとき、聴かせるだけで調べられる機能です。左側の <span class="ui-tag">🎵 これなんて曲？</span> ボタンから開きます。</p>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">音楽を聴かせる</div>
+        <div class="step-desc">マイクのボタンをタップして音楽を再生するか、音声ファイルを選んでアップロードします。</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">曲名・アーティスト名・ジャンルが表示される</div>
+        <div class="step-desc">曲が特定できると、曲名とアーティスト名、考えられるジャンルがタグの形でいくつか出てきます。</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-title">気になるジャンルだけタップして選ぶ</div>
+        <div class="step-desc">表示されたジャンルの中には、関係のないものが混ざることもあります。マップで確認したいジャンルだけをタップして選んでください（選ぶと赤く塗りつぶされます）。</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <div class="step-title">「ジャンルマップで確認する」を押す</div>
+        <div class="step-desc">選んだジャンルがマップ上でハイライトされます。もしそのジャンルがまだ辞典に載っていなければ、続けて追加のリクエストに進めます。</div>
+      </div>
+    </div>
+    <div class="tip"><b>履歴：</b>ボタンの下にある「🕘 履歴」を押すと、これまで調べた曲の一覧が見られます。ジャンルタグをタップすれば、その場でジャンルの説明パネルにジャンプできます。</div>
+  </section>
+
+  <section id="add">
+    <div class="sec-num">4</div>
+    <h2>載っていないジャンルをリクエストする</h2>
+    <p>検索や「これなんて曲？」でヒットしなかったジャンルは、その場で追加をリクエストできます。リクエストされたジャンルは自動で情報が作成され、内容を確認したうえで辞典に追加されます（すぐには反映されないことがあります）。</p>
+  </section>
+
+  <section id="fix">
+    <div class="sec-num">5</div>
+    <h2>間違いを見つけたら</h2>
+    <p>説明文が事実と違う、代表曲の動画が別のジャンルのものになっている、といった間違いに気づいたら、ジャンルの説明パネルにある <span class="ui-tag">✎ このジャンルについて修正依頼</span> から教えてください。内容を確認したうえで、必要な修正が反映されます。</p>
+    <p class="muted">どんな些細な指摘でも大歓迎です。こうした指摘の積み重ねで、この辞典はより正確なものになっていきます。</p>
+  </section>
+
+  <div class="footer-note">音楽ジャンルルーツ辞典 使い方ガイド ・ 最終更新：2026-07-13</div>
+
+</div>
+</body>
+</html>
