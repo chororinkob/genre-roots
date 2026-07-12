@@ -278,7 +278,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.7<span id="genre-count">512 ジャンル　2026年7月12日現在</span></span>
+  <span id="version-info">v24.9<span id="genre-count">512 ジャンル　2026年7月13日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -9852,7 +9852,7 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 <div id="mic-overlay">
   <div id="mic-panel">
     <button id="mic-panel-close" onclick="closeMicPanel()">✕</button>
-    <div id="mic-panel-version">v2.17</div>
+    <div id="mic-panel-version">v2.18</div>
     <div id="mic-panel-title">🎵 音楽を聴かせてください</div>
     <div id="mic-panel-sub">ジャンルを調べてマップに表示します</div>
 
@@ -10100,10 +10100,8 @@ function micBuildSourceSummary(data) {
       micEsc(data.title) + '　/　' + micEsc(data.artist));
   }
   const srcLabel = {
-    'track':           'Last.fm（曲タグ）',
-    'artist+gemini':   'Last.fm アーティストタグ → Gemini 補正',
-    'wikidata+gemini': 'Wikidata → Gemini 補正',
-    'gemini':          'Gemini（音声から直接判断）'
+    'wikidata': 'Wikidata',
+    'gemini':   'Gemini（音声から直接判断）'
   }[data.genre_source];
   if (srcLabel && data.genres && data.genres.length) {
     parts.push('<span style="color:#4a4a6a">' + micEsc(srcLabel) + '</span>　' +
