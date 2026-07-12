@@ -278,7 +278,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.9<span id="genre-count">512 ジャンル　2026年7月13日現在</span></span>
+  <span id="version-info">v24.11<span id="genre-count">512 ジャンル　2026年7月13日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -9852,7 +9852,7 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 <div id="mic-overlay">
   <div id="mic-panel">
     <button id="mic-panel-close" onclick="closeMicPanel()">✕</button>
-    <div id="mic-panel-version">v2.18</div>
+    <div id="mic-panel-version">v2.19</div>
     <div id="mic-panel-title">🎵 音楽を聴かせてください</div>
     <div id="mic-panel-sub">ジャンルを調べてマップに表示します</div>
 
@@ -10204,6 +10204,23 @@ function micHighlightByGenres(genres) {
     linkLabelG.classed('focus-dim', true);
 
     window._searchActive = true;
+  } else {
+    // 1件もヒットしなかった場合、前回のハイライト（別の曲を調べた時の点滅等）が
+    // 残ったままにならないよう、検索窓を空にした時と同じ状態にリセットする
+    stopHighlightFlash();
+    window._nodeFocused = false;
+    node.classed('search-match', false);
+    node.classed('cat-dim', false);
+    node.classed('cat-highlight', false);
+    node.classed('focus-highlight', false);
+    node.classed('focus-dim', false);
+    node.select('circle').attr('fill', d => monoColor(d)).attr('opacity', 1);
+    link.classed('focus-dim', false);
+    link.classed('focus-highlight', false);
+    linkLabelG.classed('focus-dim', false);
+    linkLabelG.classed('focus-highlight', false);
+    twinkleActive = true;
+    window._searchActive = false;
   }
 
   return { foundIds, missedGenres };
