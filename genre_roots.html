@@ -278,7 +278,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.23<span id="genre-count">512 ジャンル　2026年7月13日現在</span></span>
+  <span id="version-info">v24.24<span id="genre-count">512 ジャンル　2026年7月13日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -9698,7 +9698,7 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 </script>
 
 <!-- ===== Music Recognition Panel（マイクパネル）埋め込み ===== -->
-﻿<style>
+<style>
 /* === Music Recognition Panel === */
 #mic-overlay {
   display: none;
@@ -9855,12 +9855,12 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 .mic-history-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 5px; }
 .mic-history-play {
   flex-shrink: 0; width: 18px; height: 18px; border-radius: 50%;
-  background: rgba(233,69,96,0.16); color: #e94560; border: none;
+  background: rgba(34,197,94,0.16); color: #22c55e; border: none;
   font-size: 8px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
   padding: 0 0 0 1px; line-height: 1;
 }
-.mic-history-play:hover { background: rgba(233,69,96,0.3); }
-.mic-history-play.playing { background: #e94560; color: #fff; }
+.mic-history-play:hover { background: rgba(34,197,94,0.3); }
+.mic-history-play.playing { background: #22c55e; color: #fff; }
 .mic-history-player { margin-top: 6px; border-radius: 6px; overflow: hidden; }
 .mic-history-player iframe { width: 100%; height: 110px; border: none; display: block; }
 .mic-history-tag {
@@ -9875,7 +9875,7 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 <div id="mic-overlay">
   <div id="mic-panel">
     <button id="mic-panel-close" onclick="closeMicPanel()">✕</button>
-    <div id="mic-panel-version">v2.22</div>
+    <div id="mic-panel-version">v2.23</div>
     <div id="mic-panel-title">🎵 音楽を聴かせてください</div>
     <div id="mic-panel-sub">ジャンルを調べてマップに表示します</div>
 
