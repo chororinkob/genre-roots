@@ -278,7 +278,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.15<span id="genre-count">512 ジャンル　2026年7月13日現在</span></span>
+  <span id="version-info">v24.17<span id="genre-count">512 ジャンル　2026年7月13日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -8459,8 +8459,10 @@ function searchHandler(e) {
         if (n.id.includes(tag) || n.label.toLowerCase().replace('\n', ' ').includes(tag)) return true;
         if (n.aliases && n.aliases.some(a => a.toLowerCase().includes(tag))) return true;
         if (searchMode === 'vibe') {
-          // 説明文を含むモード：desc・ムードキーワードも検索対象
-          if (n.desc && n.desc.includes(tag)) return true;
+          // 説明文を含むモード：desc・成り立ち・代表曲（アーティスト名含む）・ムードキーワードも検索対象
+          if (n.desc && n.desc.toLowerCase().includes(tag)) return true;
+          if (n.roots_story && n.roots_story.toLowerCase().includes(tag)) return true;
+          if (n.rep_tracks && n.rep_tracks.some(t => t.toLowerCase().includes(tag))) return true;
           if (MOOD_KEYWORDS[n.id] && MOOD_KEYWORDS[n.id].some(kw => kw.includes(tag) || tag.includes(kw))) return true;
         }
       }
