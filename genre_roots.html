@@ -278,7 +278,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.34<span id="genre-count">512 ジャンル　2026年7月13日現在</span></span>
+  <span id="version-info">v24.35<span id="genre-count">512 ジャンル　2026年7月13日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -4915,6 +4915,14 @@ const NODES = [
     yt_mix:[],
     yt_tracks:[["", ""], ["", ""], ["", ""], ["", ""]],
     aliases:["ジェイフュージョン", "J-Fusion", "日本フュージョン", "Japanese Fusion"],},
+
+  {id:"contemporary_rnb", label:"Contemporary R&B", cat:"rnb", era:"1980s", suno:false,
+    desc:"コンテンポラリー・R&Bは、キャッチーなメロディーラインと洗練されたサウンドが特徴である。シンセサイザーやドラムマシンが多用され、エレクトロニックな音色が前面に出ることが多い。エコーやリバーブを駆使した音響効果が、楽曲に広がりと深みを与える。クラブやアリーナでのパフォーマンスが想定され、ダンスフロアを意識したリズムが多い。ボーカルスタイルは感情豊かで、ファルセットやコーラスワークが用いられることが多い。",
+    roots_story:"コンテンポラリー・R&Bは1980年代にアメリカで誕生した。ソウルやファンク、ディスコの要素を取り入れつつ、ポップやヒップホップの影響を受けて進化した。マイケル・ジャクソンやプリンス、ホイットニー・ヒューストンといったアーティストがこのジャンルの発展を牽引した。1990年代以降、ヒップホップとの融合が進み、ビヨンセやアッシャーといったアーティストが新たなスタイルを確立した。2000年代にはネオ・ソウルやオルタナティブR&Bといった派生ジャンルも生まれ、多様性が増した。",
+    rep_tracks:["I Will Always Love You (Whitney Houston)", "Ignition (R. Kelly)", "Crazy in Love (Beyoncé)"],
+    yt_mix:["IPyWElKZJ0g", "hwkq1qlVbqc"],
+    yt_tracks:[["3JWTaaS7LdU", "-aZXKvm32JI"], ["hqwieO9A9Kk", "ZDV9R3CFvrA"], ["ViwtNLUqkMY", "Fza-mF31CuQ"]],
+    aliases:["コンテンポラリーR&B", "現代R&B", "コンテンポラリーアールアンドビー"],},
 ];
 
 const LINKS = [
@@ -6414,6 +6422,11 @@ const LINKS = [
   {s:"latin_pop",t:"pop_music",w:80,desc:"ラテンポップはポップの四つ打ちキックやIV-V-I進行を取り入れ、一方でポップはクラーベリズムに基づくシンコペーション、情熱的なビブラートを多用する歌唱法、アコースティックギターのアルペジオといったラテン的語法を吸収することで、双方の音楽的語彙を相互に拡張してきた。"},
 
   {s:"fusion",t:"j_fusion",w:85,desc:"J-Fusionはアメリカのジャズ・フュージョンから多大な影響を受けている。特に、エレクトリックギターやシンセサイザーを用いた即興演奏のスタイル、複雑なコード進行にロックのグルーヴを組み合わせる手法がそのまま受け継がれ、日本独自の音楽文化と結びついて発展した。"},
+
+  {s:"rnb",t:"contemporary_rnb",w:80,desc:"伝統的なR&Bが持つコール・アンド・レスポンス型のボーカル構成やバックビートのリズム感を受け継ぎつつ、生演奏のホーンセクションをシンセサイザーやドラムマシンに置き換えることで、よりエレクトロニックでラジオ向けのサウンドへと再構築した。"},
+  {s:"hiphop",t:"contemporary_rnb",w:70,desc:"R&Bのアーティストがヒップホップのプロデューサーによる808ベースやサンプリングを多用したトラックを採用し、ラッパーとのフィーチャリングが常態化。一方ヒップホップ側もR&Bのフックやメロディックな歌唱法を取り込み、1990年代以降のポップR&Bとラップが融合した楽曲スタイルを確立した。"},
+  {s:"contemporary_rnb",t:"hiphop",w:70,desc:"R&Bのアーティストがヒップホップのプロデューサーによる808ベースやサンプリングを多用したトラックを採用し、ラッパーとのフィーチャリングが常態化。一方ヒップホップ側もR&Bのフックやメロディックな歌唱法を取り込み、1990年代以降のポップR&Bとラップが融合した楽曲スタイルを確立した。"},
+  {s:"contemporary_rnb",t:"neo_soul",w:60,desc:"コンテンポラリーR&Bが確立したマルチトラック・コーラスワークや繊細なファルセット唱法、プロツールスによる精緻なボーカル編集技法が、ディアンジェロやエリカ・バドゥらネオ・ソウルのアーティストに引き継がれ、より生楽器志向のグルーヴと融合した深みある表現へと発展した。"},
 ];
 
 // ===== ROOTS POLYGON LAYOUT（無効化：全ノード自由配置） =====
@@ -6918,6 +6931,7 @@ const POPULARITY = {
   "ranchera": 8,
   "latin_pop": 9,
   "j_fusion": 7,
+  "contemporary_rnb": 9,
 };
 NODES.forEach(n => {
   n.popularity = POPULARITY[n.id] || 3;
