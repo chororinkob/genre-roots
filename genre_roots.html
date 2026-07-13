@@ -278,7 +278,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.48<span id="genre-count">533 ジャンル　2026年7月13日現在</span></span>
+  <span id="version-info">v24.50<span id="genre-count">533 ジャンル　2026年7月14日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -9620,17 +9620,50 @@ function grRenderLog(log) {
 }
 
 let grPolling = null;
+let grPollFailCount = 0;
 
 // ジャンル追加の全処理（ChatGPT+Claude+YouTube+GitHub保存）は1〜2分かかり、
 // 1本のfetchで待ち続けるとRender/Cloudflare経由の接続がタイムアウトして
 // 「Load failed」になってしまう。そのため送信直後はrequest_idだけを受け取り、
 // 進捗状況を2秒おきにポーリングして取得する方式にしている。
+// 注意：サーバー再起動（デプロイ等）が処理の途中で挟まると、進捗はメモリ上にしか
+// 持っていないためrequest_idごと消える。この場合/status/<id>は404を返すので、
+// 「404＝もう戻ってこない」と即座に判断してポーリングを打ち切り、再申請を促す
+// （以前はここでdoneのチェックしかしておらず、404が来ても無限に「処理中…」の
+// まま固まって見えるバグがあった）。
 function grPollGenreRequest(name, requestId, submitBtn) {
   if (grPolling) { clearInterval(grPolling); grPolling = null; }
+  grPollFailCount = 0;
   const poll = async () => {
     try {
-      const sres  = await fetch(API_BASE + '/request_genre/status/' + requestId);
+      const sres = await fetch(API_BASE + '/request_genre/status/' + requestId);
+      if (sres.status === 404) {
+        clearInterval(grPolling); grPolling = null;
+        grShowResult(`
+          <div class="gr-result-title gr-title-err">✗ 処理中にサーバーが再起動しました</div>
+          <div class="gr-ai-checks" style="color:#e07878;">進捗情報が失われたため、結果を確認できませんでした。お手数ですが、もう一度申請してください。</div>
+          <div class="gr-action-row">
+            <button class="gr-btn-retry" onclick="grResetForm()">再申請する</button>
+          </div>`);
+        if (submitBtn) submitBtn.disabled = false;
+        return;
+      }
       const sdata = await sres.json();
+      if (!sres.ok) {
+        grPollFailCount++;
+        if (grPollFailCount >= 20) {
+          clearInterval(grPolling); grPolling = null;
+          grShowResult(`
+            <div class="gr-result-title gr-title-err">✗ エラーが発生しました</div>
+            <div class="gr-ai-checks" style="color:#e07878;">${grEsc(sdata.message || '進捗の確認に失敗し続けました。')}</div>
+            <div class="gr-action-row">
+              <button class="gr-btn-retry" onclick="grResetForm()">再申請する</button>
+            </div>`);
+          if (submitBtn) submitBtn.disabled = false;
+        }
+        return;
+      }
+      grPollFailCount = 0;
       const logHtml = grRenderLog(sdata.log);
       if (!sdata.done) {
         grShowResult(`<div class="gr-processing">${logHtml}<span class="gr-spinner"></span>処理中…</div>`);
@@ -9639,7 +9672,18 @@ function grPollGenreRequest(name, requestId, submitBtn) {
       clearInterval(grPolling); grPolling = null;
       grRenderResult(name, sdata.result || {}, submitBtn);
     } catch (e) {
-      // 一時的な通信エラーはポーリング継続（サーバー再起動直後等を想定）
+      // 一時的な通信エラーは既定回数までポーリング継続（サーバー再起動直後等を想定）
+      grPollFailCount++;
+      if (grPollFailCount >= 20) {
+        clearInterval(grPolling); grPolling = null;
+        grShowResult(`
+          <div class="gr-result-title gr-title-err">✗ 通信エラーが発生しました</div>
+          <div class="gr-ai-checks" style="color:#e07878;">${grEsc(e.message || '不明なエラー')}</div>
+          <div class="gr-action-row">
+            <button class="gr-btn-retry" onclick="grResetForm()">再申請する</button>
+          </div>`);
+        if (submitBtn) submitBtn.disabled = false;
+      }
     }
   };
   poll();
