@@ -278,7 +278,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.46<span id="genre-count">533 ジャンル　2026年7月13日現在</span></span>
+  <span id="version-info">v24.48<span id="genre-count">533 ジャンル　2026年7月13日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -9983,7 +9983,7 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 <div id="mic-overlay">
   <div id="mic-panel">
     <button id="mic-panel-close" onclick="closeMicPanel()">✕</button>
-    <div id="mic-panel-version">v2.24</div>
+    <div id="mic-panel-version">v2.25</div>
     <div id="mic-panel-title">🎵 音楽を聴かせてください</div>
     <div id="mic-panel-sub">ジャンルを調べてマップに表示します</div>
 
@@ -10267,6 +10267,8 @@ function micRenderGenreTags(genres) {
   });
 }
 
+const MIC_RECHECK_LABEL = '🔁 AIに聴き直してもらう';
+
 // Wikidataの判定結果のときだけ、「AIに聴き直してもらう」ボタンを出す
 // （録音済みの音声が残っている場合のみ。ファイル選択・録音のどちらでも対応）
 function micRenderRecheckButton(genreSource) {
@@ -10275,7 +10277,7 @@ function micRenderRecheckButton(genreSource) {
   if (genreSource !== 'wikidata' || !micLastAudioBlob) return;
   const btn = document.createElement('button');
   btn.className = 'mic-recheck-btn';
-  btn.textContent = '🔁 このジャンル、違う気がする？AIに聴き直してもらう';
+  btn.textContent = MIC_RECHECK_LABEL;
   btn.onclick = micRecheckWithGemini;
   area.appendChild(btn);
 }
@@ -10285,16 +10287,21 @@ function micRenderRecheckButton(genreSource) {
 async function micRecheckWithGemini() {
   const btn = document.querySelector('.mic-recheck-btn');
   if (!micLastAudioBlob) return;
-  if (btn) { btn.disabled = true; btn.textContent = 'Geminiが聴き直しています…'; }
+  if (btn) { btn.disabled = true; btn.textContent = 'Geminiが確認中…（数十秒かかることがあります）'; }
   try {
     const fd = new FormData();
     fd.append('audio', micLastAudioBlob, 'recheck.' + micLastAudioExt);
     fd.append('title', micFoundTitle || '');
     fd.append('artist', micFoundArtist || '');
-    const res  = await fetch((window.API_BASE || '') + '/recognize/gemini_recheck', { method: 'POST', body: fd });
-    const data = await res.json();
+    const res = await fetch((window.API_BASE || '') + '/recognize/gemini_recheck', { method: 'POST', body: fd });
+    let data;
+    try {
+      data = await res.json();
+    } catch (parseErr) {
+      throw new Error('サーバーからの応答を読み取れませんでした（HTTP ' + res.status + '）');
+    }
     if (data.error) {
-      if (btn) { btn.disabled = false; btn.textContent = '🔁 このジャンル、違う気がする？AIに聴き直してもらう'; }
+      if (btn) { btn.disabled = false; btn.textContent = MIC_RECHECK_LABEL; }
       micShowError(data.error);
       return;
     }
@@ -10304,11 +10311,18 @@ async function micRecheckWithGemini() {
     document.getElementById('mic-recheck-area').innerHTML = '';
     const logArea  = document.getElementById('mic-log-area');
     const logLines = document.getElementById('mic-log-lines');
-    const summary  = micBuildSourceSummary({ ...data, title: micFoundTitle, artist: micFoundArtist });
-    if (summary) { logLines.innerHTML = summary; logArea.classList.add('visible'); }
+    if (micFoundGenres.length === 0) {
+      // Geminiが確信を持てるジャンルを挙げられなかった場合、何も表示されない
+      // まま「反応がない」ように見えてしまっていたため、はっきり伝える。
+      logLines.innerHTML = '<div class="mic-log-line" style="color:#e07878">Geminiでもジャンルを判定できませんでした。</div>';
+      logArea.classList.add('visible');
+    } else {
+      const summary = micBuildSourceSummary({ ...data, title: micFoundTitle, artist: micFoundArtist });
+      if (summary) { logLines.innerHTML = summary; logArea.classList.add('visible'); }
+    }
   } catch (err) {
-    if (btn) { btn.disabled = false; btn.textContent = '🔁 このジャンル、違う気がする？AIに聴き直してもらう'; }
-    micShowError('通信エラーが発生しました。もう一度お試しください。');
+    if (btn) { btn.disabled = false; btn.textContent = MIC_RECHECK_LABEL; }
+    micShowError('通信エラーが発生しました：' + (err && err.message ? err.message : '不明なエラー') + '\nもう一度お試しください。');
   }
 }
 
