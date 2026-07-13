@@ -278,7 +278,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.36<span id="genre-count">512 ジャンル　2026年7月13日現在</span></span>
+  <span id="version-info">v24.37<span id="genre-count">512 ジャンル　2026年7月13日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -4923,6 +4923,14 @@ const NODES = [
     yt_mix:["IPyWElKZJ0g", "hwkq1qlVbqc"],
     yt_tracks:[["3JWTaaS7LdU", "-aZXKvm32JI"], ["hqwieO9A9Kk", "ZDV9R3CFvrA"], ["ViwtNLUqkMY", "Fza-mF31CuQ"]],
     aliases:["コンテンポラリーR&B", "現代R&B", "コンテンポラリーアールアンドビー"],},
+
+  {id:"d_beat", label:"D-beat", cat:"punk", era:"1980s", suno:false,
+    desc:"D-beatは、激しいリズムとシンプルなメロディーが特徴のパンクの一形態である。ギターはディストーションを強くかけた荒々しい音色で、リフは反復的で直線的なものが多い。ドラムは高速で、特にスネアドラムが8分音符で連続的に刻まれ、キックドラムがシンコペーションを伴って絡む特徴的なビートパターンが印象的である。ボーカルにはエコーやリバーブが深くかけられることが多く、ガレージや小規模なライブハウスの粗削りな音響と相まって独特の轟音感を生み出す。ボーカルはシャウトや叫び声に近いスタイルで、怒りや反抗の感情を強く表現する。",
+    roots_story:"D-beatは1980年代初頭にイギリスで生まれた。Dischargeというバンドがこのスタイルを確立し、その名にちなんでD-beatと呼ばれるようになった。彼らの音楽は、パンクの反抗精神をさらに過激にしたもので、特に政治的なメッセージを強調していた。D-beatはその後、スカンジナビアを中心に広まり、スウェーデンやフィンランドのバンドがこのスタイルを発展させた。Crust punkやgrindcoreといったジャンルにも影響を与え、パンクのサブジャンルとしての地位を確立した。",
+    rep_tracks:["Hear Nothing See Nothing Say Nothing (Discharge)", "Why (Discharge)", "Protest and Survive (Discharge)"],
+    yt_mix:["rBD8PnLlwNM", "6fnYOPwDWe0"],
+    yt_tracks:[["h49yLu6kkVs", "nsp0DMipMpI"], ["r8votp1DVms", "0v1xxM8TOxs"], ["-2ZxmNfY-gw", "W1LZ_K0kP0g"]],
+    aliases:["ディービート", "Dischargeビート", "ディスチャージビート"],},
 ];
 
 const LINKS = [
@@ -6427,6 +6435,9 @@ const LINKS = [
   {s:"hiphop",t:"contemporary_rnb",w:70,desc:"R&Bのアーティストがヒップホップのプロデューサーによる808ベースやサンプリングを多用したトラックを採用し、ラッパーとのフィーチャリングが常態化。一方ヒップホップ側もR&Bのフックやメロディックな歌唱法を取り込み、1990年代以降のポップR&Bとラップが融合した楽曲スタイルを確立した。"},
   {s:"contemporary_rnb",t:"hiphop",w:70,desc:"R&Bのアーティストがヒップホップのプロデューサーによる808ベースやサンプリングを多用したトラックを採用し、ラッパーとのフィーチャリングが常態化。一方ヒップホップ側もR&Bのフックやメロディックな歌唱法を取り込み、1990年代以降のポップR&Bとラップが融合した楽曲スタイルを確立した。"},
   {s:"contemporary_rnb",t:"neo_soul",w:60,desc:"コンテンポラリーR&Bが確立したマルチトラック・コーラスワークや繊細なファルセット唱法、プロツールスによる精緻なボーカル編集技法が、ディアンジェロやエリカ・バドゥらネオ・ソウルのアーティストに引き継がれ、より生楽器志向のグルーヴと融合した深みある表現へと発展した。"},
+
+  {s:"d_beat",t:"crust_punk",w:80,desc:"Dischargeが確立したスネアの8分音符連打とキックのシンコペーションによるD-beatリズムパターンと、MID帯域を強調したギターのヘヴィなディストーションサウンド、および反戦・反権力を訴える歌詞スタイルが、Crust punkのサウンドと思想的基盤として直接引き継がれた。"},
+  {s:"d_beat",t:"grindcore",w:70,desc:"D-beatの高速スネア連打とエコーを多用したシャウト系ボーカルの攻撃性が、Napalm DeathらによるGrindcore形成期においてブラストビート開発の参照点の一つとなり、極端な短尺・高速化と組み合わさることでより過激なリズム表現と怒号スタイルのボーカルとして発展した。"},
 ];
 
 // ===== ROOTS POLYGON LAYOUT（無効化：全ノード自由配置） =====
@@ -6932,6 +6943,7 @@ const POPULARITY = {
   "latin_pop": 9,
   "j_fusion": 7,
   "contemporary_rnb": 9,
+  "d_beat": 5,
 };
 NODES.forEach(n => {
   n.popularity = POPULARITY[n.id] || 3;
