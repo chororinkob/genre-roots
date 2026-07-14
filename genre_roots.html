@@ -10076,11 +10076,11 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 }
 .mic-highlight-btn:hover { border-color: rgba(255,255,255,0.28); color: #fff; }
 
-#mic-recheck-area { margin-bottom: 8px; }
+#mic-recheck-area { margin-top: 10px; margin-bottom: 8px; text-align: center; }
 .mic-recheck-btn {
-  width: 100%; padding: 7px;
+  display: inline-block; width: auto; max-width: 100%; padding: 7px 14px;
   background: none; border: 1px dashed rgba(255,255,255,0.16);
-  border-radius: 7px; color: #999; font-size: 11px; cursor: pointer;
+  border-radius: 7px; color: #999; font-size: 10.5px; cursor: pointer;
 }
 .mic-recheck-btn:hover { border-color: rgba(255,255,255,0.3); color: #ccc; }
 .mic-recheck-btn:disabled { opacity: .5; cursor: default; }
@@ -10155,7 +10155,7 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 <div id="mic-overlay">
   <div id="mic-panel">
     <button id="mic-panel-close" onclick="closeMicPanel()">✕</button>
-    <div id="mic-panel-version">v2.25</div>
+    <div id="mic-panel-version">v2.26</div>
     <div id="mic-panel-title">🎵 音楽を聴かせてください</div>
     <div id="mic-panel-sub">ジャンルを調べてマップに表示します</div>
 
@@ -10189,17 +10189,17 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
       <div id="mic-result-artist"></div>
       <div class="mic-genre-tags" id="mic-genre-tags"></div>
       <div id="mic-genre-hint">確認したいジャンルをタップして選んでください</div>
-      <div id="mic-recheck-area"></div>
+      <button class="mic-highlight-btn" onclick="micGoToMap()">選択したジャンルをマップで確認する</button>
       <div id="mic-yt-area">
         <div id="mic-yt-loading">YouTube を検索中...</div>
         <iframe id="mic-yt-frame" allow="autoplay;encrypted-media" allowfullscreen style="display:none"></iframe>
         <div id="mic-yt-fallback"></div>
       </div>
-      <button class="mic-highlight-btn" onclick="micGoToMap()">選択したジャンルをマップで確認する</button>
       <div id="mic-log-area">
         <div class="mic-log-eyebrow">処理</div>
         <div id="mic-log-lines"></div>
       </div>
+      <div id="mic-recheck-area"></div>
     </div>
   </div>
 </div>
@@ -10439,7 +10439,7 @@ function micRenderGenreTags(genres) {
   });
 }
 
-const MIC_RECHECK_LABEL = '🔁 AIに聴き直してもらう';
+const MIC_RECHECK_LABEL = 'ジャンルがおかしいので、AIに聴き直してもらう';
 
 // Wikidataの判定結果のときだけ、「AIに聴き直してもらう」ボタンを出す
 // （録音済みの音声が残っている場合のみ。ファイル選択・録音のどちらでも対応）
