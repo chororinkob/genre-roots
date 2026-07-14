@@ -1,8 +1,19 @@
 """
 genre_roots.html のバージョン番号と最終更新日を自動インクリメントするスクリプト
-GitHub Actions から push 時に実行される
+GitHub Actions から push 時に実行される。
+
+genre_adder.py側（ジャンル追加・修正依頼の承認）は、pushする前に自分自身で
+既にバージョンを1つ上げている。このスクリプトがそれに気づかず無条件にもう
+1つ上げてしまうと、1回の承認につきgenre_roots.htmlへのpushが2回発生し、
+GitHub Pagesのデプロイ待ち行列を無駄に2倍に増やしてしまう（1回のデプロイに
+数十分かかることもあり、行列が伸びるほど反映の確認待ちが長引く）。
+そのため、直前のコミット時点のバージョンと比較し、既にバージョンが
+上がっている場合はここでの二重の更新をスキップする。
+（動画差し替えバッチ等、まだ自前でバージョンを上げていない他の経路のための
+保険としては、このスクリプト自体は残す。）
 """
 import re
+import subprocess
 import sys
 from datetime import datetime
 
@@ -10,6 +21,27 @@ HTML_PATH = "genre_roots.html"
 
 with open(HTML_PATH, "r", encoding="utf-8") as f:
     html = f.read()
+
+
+def _extract_version(text):
+    m = re.search(r'<span id="version-info">v(\d+)\.(\d+)', text)
+    return (int(m.group(1)), int(m.group(2))) if m else None
+
+
+current_version = _extract_version(html)
+try:
+    prev_html = subprocess.run(
+        ["git", "show", "HEAD~1:genre_roots.html"],
+        capture_output=True, encoding="utf-8", check=True,
+    ).stdout
+    prev_version = _extract_version(prev_html)
+except subprocess.CalledProcessError:
+    prev_version = None
+
+if prev_version and current_version and current_version > prev_version:
+    print(f"バージョンは既に更新済みです（v{prev_version[0]}.{prev_version[1]} → "
+          f"v{current_version[0]}.{current_version[1]}）。二重更新を避けるためスキップします。")
+    sys.exit(0)
 
 # ── バージョン番号インクリメント (v23.25 → v23.26) ──────────────────────
 ver_match = re.search(r'<span id="version-info">v(\d+)\.(\d+)', html)
