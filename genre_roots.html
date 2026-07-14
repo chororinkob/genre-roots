@@ -9715,11 +9715,57 @@ window.addEventListener('message', (e) => {
     const overlay = document.getElementById('gr-preview-overlay');
     if (overlay) overlay.remove();
   } else if (e && e.data && e.data.type === 'gr-correction-approved') {
-    // 修正が反映されたので、ページを丸ごと再読み込みして最新のマップを表示する
-    // （オーバーレイ・メッセージも含めて画面全体が入れ替わるため、閉じる処理は不要）
+    // 修正の承認直後はGitHub Pagesへの反映がまだ間に合っていないことがある
+    // （git push自体は完了していても、実際に公開されるまで数秒〜数十秒の
+    // タイムラグがあるため）。そのまま再読み込みすると古い内容のまま表示
+    // されてしまうので、期待するバージョン番号とジャンルIDをsessionStorageに
+    // 覚えておき、再読み込み後に内容が追いついているか確認してから、対象の
+    // ジャンルパネルを開き直す（追いついていなければ自動で再試行する）。
+    sessionStorage.setItem('gr_pending_reopen', JSON.stringify({
+      genreId: e.data.genreId || null,
+      expectedVersion: e.data.expectedVersion || null,
+      attempts: 0,
+    }));
     window.location.reload();
   }
 });
+
+function grShowReloadingNotice() {
+  const el = document.createElement('div');
+  el.id = 'gr-reloading-notice';
+  el.style.cssText = 'position:fixed;top:16px;left:50%;transform:translateX(-50%);background:#1a2a40;border:1px solid #3a6aa0;color:#7eb8f7;padding:10px 20px;border-radius:8px;font-size:13px;z-index:20000;';
+  el.textContent = '反映を確認しています…';
+  document.body.appendChild(el);
+}
+
+// 修正承認後の再読み込みで戻ってきた場合、内容が追いついているか確認し、
+// 追いついていれば対象ジャンルのパネルを開き直す。追いついていなければ
+// 自動的に再読み込みして再確認する（最大15回・約30秒）。
+(function grCheckPendingReopen() {
+  const raw = sessionStorage.getItem('gr_pending_reopen');
+  if (!raw) return;
+  let pending;
+  try { pending = JSON.parse(raw); } catch (err) { sessionStorage.removeItem('gr_pending_reopen'); return; }
+
+  const MAX_ATTEMPTS = 15;
+  const versionText = (document.getElementById('version-info')?.textContent || '');
+  const versionMatches = !pending.expectedVersion || versionText.indexOf(pending.expectedVersion) === 0;
+
+  if (versionMatches || pending.attempts >= MAX_ATTEMPTS) {
+    sessionStorage.removeItem('gr_pending_reopen');
+    if (pending.genreId) {
+      setTimeout(() => {
+        const target = node.filter(n => n.id === pending.genreId);
+        if (!target.empty()) target.dispatch('click');
+      }, 300);
+    }
+  } else {
+    pending.attempts++;
+    sessionStorage.setItem('gr_pending_reopen', JSON.stringify(pending));
+    grShowReloadingNotice();
+    setTimeout(() => window.location.reload(), 2000);
+  }
+})();
 
 function grOpenPreview(token) {
   grOpenIframeOverlay(`${API_BASE}/admin/preview/${encodeURIComponent(token)}`);
