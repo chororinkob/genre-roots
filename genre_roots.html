@@ -278,7 +278,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.58<span id="genre-count">533 ジャンル　2026年7月14日現在</span></span>
+  <span id="version-info">v24.63<span id="genre-count">533 ジャンル　2026年7月14日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -2680,7 +2680,7 @@ const NODES = [
     desc:"スラックキーギター（変則チューニングのアコースティックギター）、スチールギター（膝に載せて金属バーで弾くラップスチール）、ウクレレの甘い音色が紡ぐ、太平洋の楽園の音楽。ゆったりしたテンポ、波のように揺れるリズム、フラダンスと一体化した優雅なメロディが特徴。ハワイの風と花の香りが漂ってくるような、究極のリラクゼーション音楽。",
     roots_story:"1880年代、ハワイ王国時代にポルトガル移民が持ち込んだウクレレ、メキシコ・スペインのギターとハワイの伝統音楽が融合。Joseph Kekuku（1889年頃）がスチールギターを発明したとされる。Israel Kamakawiwo'ole（IZ）の「Over the Rainbow/What a Wonderful World」(1993)はYouTubeで10億回以上再生され、ハワイ音楽を世界に広めた最大のヒット。Gabby Pahinui、Keola Beamerがスラックキーギターの巨匠。",
     rep_tracks:["Over the Rainbow/What a Wonderful World (Israel Kamakawiwo'ole)", "Hi'ilawe (Gabby Pahinui)", "Honolulu City Lights (Keola Beamer)", "Pua Lilia (Ledward Kaapana)", "Kaulana Na Pua (The Sons of Hawaii)"],
-    yt_mix:["E723yq1BGwA", "ThwCMpnX90Q"],
+    yt_mix:["V1bFr2SWP1I", "Z26BvHOD_sg"],
     yt_tracks:[["V1bFr2SWP1I", "Z26BvHOD_sg"], ["6UFdA20Fv0k", "4X19WJJitLc"], ["ouzbwVWdaN0", "98e7A1XdkxM"], ["GvBnEHvckfM", "j6xsj_-lg0o"], ["bhibLQFebpQ", "2tBqFrtjBkk"]],
     aliases:["ハワイアン", "Hawaiian Music", "ハワイ音楽"],},
 
@@ -6284,7 +6284,8 @@ const LINKS = [
   {s:"ghazal",t:"bollywood",w:30,desc:"ガザルの詩的な歌詞と洗練された歌唱技法が、ボリウッド映画音楽の情感豊かな楽曲制作の中に取り入れられている"},
   {s:"bollywood",t:"indian_pop",w:45,desc:"ボリウッド映画音楽のオーケストラアレンジと親しみやすい旋律が、インディアンポップの楽曲制作の基盤となっている"},
   {s:"pop_music",t:"indian_pop",w:40,desc:"西洋のポップスのキャッチーなメロディーラインと制作技術が、インディアンポップの楽曲制作に取り入れられている"},
-  {s:"kayokyoku",t:"jpop",w:65,desc:"歌謡曲の親しみやすいメロディーラインと歌唱スタイルが、J-POPの基本的な楽曲構成の直接的な母体となった"},
+  {s:"pop_music",t:"kayokyoku",w:50,desc:"20世紀初頭の西洋ポピュラー音楽の明快な和声進行・サビを際立たせる楽曲構成・メロディ重視のスタイルが、レコード産業とともに日本へ流入し、歌謡曲の音楽的骨格を形成する主要な基盤となった"},
+{s:"kayokyoku",t:"jpop",w:65,desc:"歌謡曲の親しみやすいメロディーラインと歌唱スタイルが、J-POPの基本的な楽曲構成の直接的な母体となった"},
   {s:"kayokyoku",t:"enka",w:55,desc:"歌謡曲の情感豊かな歌唱表現が、演歌のこぶしを効かせたより伝統的な歌唱スタイルへと分化した"},
   {s:"kayokyoku",t:"mood_kayo",w:50,desc:"歌謡曲のメロディーラインが、ムード歌謡の都会的なジャズ・ラテン風の和声を持つスタイルへと分化した"},
   {s:"rock_n_roll",t:"group_sounds",w:50,desc:"ロックンロールのギター中心のバンドサウンドが、グループサウンズの日本のバンドたちの演奏スタイルの中に取り入れられている"},
