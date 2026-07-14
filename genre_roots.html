@@ -9704,6 +9704,17 @@ function grOpenIframeOverlay(url) {
   document.body.appendChild(overlay);
 }
 
+// iframe内（別オリジンのcorrection_preview.html等）から「閉じてほしい」という
+// 合図を受け取って、このオーバーレイを閉じる（承認完了後の「マップに戻る」ボタン・
+// 自動クローズ用。iframeと親ページはオリジンが違うため、直接DOM操作はできず
+// postMessageで連絡してもらう必要がある）。
+window.addEventListener('message', (e) => {
+  if (e && e.data && e.data.type === 'gr-close-overlay') {
+    const overlay = document.getElementById('gr-preview-overlay');
+    if (overlay) overlay.remove();
+  }
+});
+
 function grOpenPreview(token) {
   grOpenIframeOverlay(`${API_BASE}/admin/preview/${encodeURIComponent(token)}`);
 }
