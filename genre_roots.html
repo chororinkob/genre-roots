@@ -9787,6 +9787,13 @@ window.addEventListener('message', (e) => {
     const overlay = document.getElementById('gr-preview-overlay');
     if (overlay) overlay.remove();
   } else if (e && e.data && e.data.type === 'gr-correction-approved') {
+    // 承認自体はここで届いた時点で完了している。裏側のGitHub連携（この後の
+    // データ取得・パネル再オープンより後にも別途進む）を待つ理由はないので、
+    // 「修正依頼」のオーバーレイはこの時点ですぐ閉じる（閉じずに残すと、
+    // 画面はもう更新されているのに確認パネルだけ「処理中」のまま居座って
+    // 邪魔になっていた）。
+    const overlay = document.getElementById('gr-preview-overlay');
+    if (overlay) overlay.remove();
     if (e.data.genreId) {
       grRefreshGenreAndReopenPanel(e.data.genreId);
     } else {
