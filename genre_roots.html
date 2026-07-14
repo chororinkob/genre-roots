@@ -278,7 +278,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.78<span id="genre-count">533 ジャンル　2026年7月14日現在</span></span>
+  <span id="version-info">v24.79<span id="genre-count">533 ジャンル　2026年7月14日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -9792,8 +9792,28 @@ window.addEventListener('message', (e) => {
     } else {
       window.location.reload();
     }
+  } else if (e && e.data && e.data.type === 'gr-genre-added') {
+    // 新規追加されたジャンルはブラウザ側のNODESにまだ存在しないため、修正依頼の
+    // ようなその場でのデータ差し替えではなく、ページ自体を読み込み直す必要がある。
+    // GitHub Pagesではなくこのサーバー自身の/rootsから読み込むことで、GitHub Pages
+    // への反映（数分〜数十分かかることがある）を待たずに済む。
+    if (e.data.genreId) {
+      window.location.href = API_BASE + '/roots?genre=' + encodeURIComponent(e.data.genreId);
+    } else {
+      window.location.href = API_BASE + '/roots';
+    }
   }
 });
+
+// /roots?genre=... で開かれた場合、指定ジャンルの説明パネルを自動的に開く
+// （ジャンル追加申請の承認直後の遷移用。node/NODESの初期化が終わった後の
+// この位置で実行する）。
+if (window.__grAutoOpenGenre) {
+  setTimeout(() => {
+    const target = node.filter(n => n.id === window.__grAutoOpenGenre);
+    if (!target.empty()) target.dispatch('click');
+  }, 300);
+}
 
 function grOpenPreview(token) {
   grOpenIframeOverlay(`${API_BASE}/admin/preview/${encodeURIComponent(token)}`);
