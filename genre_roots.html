@@ -278,7 +278,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.83<span id="genre-count">533 ジャンル　2026年7月14日現在</span></span>
+  <span id="version-info">v24.84<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -9755,6 +9755,12 @@ function _grExtractRelatedLinks(html, genreId) {
 }
 
 async function grRefreshGenreAndReopenPanel(genreId) {
+  // /rootsの取得・データの反映に失敗した場合（通信エラー、Renderの起床待ち等）、
+  // 以前は何もせず古いデータのままパネルだけ開いてしまい、「承認したのに画面が
+  // 変わらない。手動で更新したら直った」という分かりにくい状態になっていた。
+  // 失敗した場合は黙って諦めず、確実に最新化されるページの再読み込みに
+  // フォールバックする（手動更新と同じ結果を自動でも再現する）。
+  let succeeded = false;
   try {
     const res  = await fetch(API_BASE + '/roots?_=' + Date.now(), { cache: 'no-store' });
     const html = await res.text();
@@ -9771,9 +9777,14 @@ async function grRefreshGenreAndReopenPanel(genreId) {
       }
       freshLinks.forEach(l => LINKS.push(l));
       rebuildLinkData();
+      succeeded = true;
     }
   } catch (e) {
-    // 取得に失敗しても致命的ではない（データはそのまま、パネルだけ開く）
+    // 下のフォールバックに進む
+  }
+  if (!succeeded) {
+    window.location.reload();
+    return;
   }
   const target = node.filter(n => n.id === genreId);
   if (!target.empty()) target.dispatch('click');
