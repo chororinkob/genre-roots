@@ -278,7 +278,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.50<span id="genre-count">533 ジャンル　2026年7月14日現在</span></span>
+  <span id="version-info">v24.52<span id="genre-count">533 ジャンル　2026年7月14日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -7550,8 +7550,7 @@ let spCorrPolling = null;
 function spCorrRenderLog(log) {
   if (!log || log.length === 0) return '';
   const lines = log.map(e => {
-    const t = new Date(e.time).toLocaleTimeString('ja-JP');
-    return `<div style="padding:2px 0;color:#9db8d0;">[${t}] ${e.message}</div>`;
+    return `<div style="padding:2px 0;color:#9db8d0;">${e.message}</div>`;
   }).join('');
   return `<div id="sp-corr-log" style="max-height:180px;overflow-y:auto;background:#0d0d1a;border-radius:6px;padding:8px 10px;margin-bottom:8px;font-size:11px;">${lines}</div>`;
 }
