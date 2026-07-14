@@ -18,6 +18,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          # デフォルトのfetch-depth:1（浅いクローン）だとHEAD~1（1つ前のコミット）
+          # を取得できず、bump_version.py側の「既にバージョンが上がっているか」の
+          # 比較チェックが常にNone（比較不能）扱いになって二重更新を防げなかった。
+          fetch-depth: 2
 
       - name: Set up Python
         uses: actions/setup-python@v5

@@ -7064,17 +7064,26 @@ defs.append("marker")
 
 const nodeMap = Object.fromEntries(NODES.map(n => [n.id, n]));
 
-// 相互リンクを1本に統合（2本目を除去し、1本目にmutualフラグ）
-const pairSet = new Set();
-const mutualPairs = new Set();
-LINKS.forEach(l => {
-  if (pairSet.has(l.t + '|' + l.s)) mutualPairs.add(l.t + '|' + l.s);
-  pairSet.add(l.s + '|' + l.t);
-});
-const linkData = LINKS.filter(l => !mutualPairs.has(l.s + '|' + l.t)).map(l => {
-  const isMutual = mutualPairs.has(l.t + '|' + l.s);
-  return {...l, source: l.s, target: l.t, mutual: isMutual};
-});
+// 相互リンクを1本に統合（2本目を除去し、1本目にmutualフラグ）。
+// LINKSが後から書き換わった場合（修正依頼の承認直後など）に、同じロジックで
+// 作り直せるよう関数化している（linkData自体はconstのまま中身だけ差し替える。
+// D3のグラフ描画がこの配列を参照しているため、束縛自体は変えない）。
+function rebuildLinkData() {
+  const pairSet = new Set();
+  const mutualPairs = new Set();
+  LINKS.forEach(l => {
+    if (pairSet.has(l.t + '|' + l.s)) mutualPairs.add(l.t + '|' + l.s);
+    pairSet.add(l.s + '|' + l.t);
+  });
+  const fresh = LINKS.filter(l => !mutualPairs.has(l.s + '|' + l.t)).map(l => {
+    const isMutual = mutualPairs.has(l.t + '|' + l.s);
+    return {...l, source: l.s, target: l.t, mutual: isMutual};
+  });
+  linkData.length = 0;
+  fresh.forEach(x => linkData.push(x));
+}
+const linkData = [];
+rebuildLinkData();
 
 // Pre-compute degree for performance
 NODES.forEach(n => { n._degree = 0; });
@@ -9710,6 +9719,66 @@ function grOpenIframeOverlay(url) {
   document.body.appendChild(overlay);
 }
 
+// genre_roots.html自体（GitHub Pages）はgit push後の反映に数分〜数十分かかる
+// ことがある。承認した本人がすぐ結果を確認したいだけなら、その反映を待つ
+// 必要は本来ない。承認直後の最新内容はRenderのサーバー側にはその場ですぐ
+// 届いているため、そちらから直接取得して、今開いているページのNODES/LINKS
+// データだけをその場で書き換える（ページの再読み込みは行わない）。
+// GitHub Pages自体への反映は裏で普通に進めておけばよく、他の人が後から
+// アクセスした時にはそのタイミングで自然と最新になっている。
+function _grExtractNodeBlockText(html, genreId) {
+  const starts = [];
+  const re = /\{id:"/g;
+  let m;
+  while ((m = re.exec(html))) starts.push(m.index);
+  for (let i = 0; i < starts.length; i++) {
+    const start = starts[i];
+    const end = i + 1 < starts.length ? starts[i + 1] : html.length;
+    const block = html.slice(start, end);
+    if (block.startsWith('{id:"' + genreId + '"')) {
+      return block.trim().replace(/,\s*$/, '');
+    }
+  }
+  return null;
+}
+
+function _grExtractRelatedLinks(html, genreId) {
+  const linkRe = /\{s:"([^"]*)",t:"([^"]*)",w:(\d+),desc:"((?:[^"\\]|\\.)*)"\}/g;
+  const results = [];
+  let m;
+  while ((m = linkRe.exec(html))) {
+    if (m[1] === genreId || m[2] === genreId) {
+      results.push({ s: m[1], t: m[2], w: parseInt(m[3], 10), desc: m[4] });
+    }
+  }
+  return results;
+}
+
+async function grRefreshGenreAndReopenPanel(genreId) {
+  try {
+    const res  = await fetch(API_BASE + '/roots?_=' + Date.now(), { cache: 'no-store' });
+    const html = await res.text();
+    const blockText = _grExtractNodeBlockText(html, genreId);
+    if (blockText) {
+      const freshNode = new Function('return ' + blockText)();
+      const idx = NODES.findIndex(n => n.id === genreId);
+      if (idx >= 0) Object.assign(NODES[idx], freshNode);
+
+      const freshLinks = _grExtractRelatedLinks(html, genreId);
+      for (let i = LINKS.length - 1; i >= 0; i--) {
+        const l = LINKS[i];
+        if (l.s === genreId || l.t === genreId) LINKS.splice(i, 1);
+      }
+      freshLinks.forEach(l => LINKS.push(l));
+      rebuildLinkData();
+    }
+  } catch (e) {
+    // 取得に失敗しても致命的ではない（データはそのまま、パネルだけ開く）
+  }
+  const target = node.filter(n => n.id === genreId);
+  if (!target.empty()) target.dispatch('click');
+}
+
 // iframe内（別オリジンのcorrection_preview.html等）からの合図を受け取る。
 // iframeと親ページはオリジンが違うため、直接DOM操作はできずpostMessageで
 // 連絡してもらう必要がある。
@@ -9718,57 +9787,13 @@ window.addEventListener('message', (e) => {
     const overlay = document.getElementById('gr-preview-overlay');
     if (overlay) overlay.remove();
   } else if (e && e.data && e.data.type === 'gr-correction-approved') {
-    // 修正の承認直後はGitHub Pagesへの反映がまだ間に合っていないことがある
-    // （git push自体は完了していても、実際に公開されるまで数秒〜数十秒の
-    // タイムラグがあるため）。そのまま再読み込みすると古い内容のまま表示
-    // されてしまうので、期待するバージョン番号とジャンルIDをsessionStorageに
-    // 覚えておき、再読み込み後に内容が追いついているか確認してから、対象の
-    // ジャンルパネルを開き直す（追いついていなければ自動で再試行する）。
-    sessionStorage.setItem('gr_pending_reopen', JSON.stringify({
-      genreId: e.data.genreId || null,
-      expectedVersion: e.data.expectedVersion || null,
-      attempts: 0,
-    }));
-    window.location.reload();
+    if (e.data.genreId) {
+      grRefreshGenreAndReopenPanel(e.data.genreId);
+    } else {
+      window.location.reload();
+    }
   }
 });
-
-function grShowReloadingNotice() {
-  const el = document.createElement('div');
-  el.id = 'gr-reloading-notice';
-  el.style.cssText = 'position:fixed;top:16px;left:50%;transform:translateX(-50%);background:#1a2a40;border:1px solid #3a6aa0;color:#7eb8f7;padding:10px 20px;border-radius:8px;font-size:13px;z-index:20000;';
-  el.textContent = '反映を確認しています…';
-  document.body.appendChild(el);
-}
-
-// 修正承認後の再読み込みで戻ってきた場合、内容が追いついているか確認し、
-// 追いついていれば対象ジャンルのパネルを開き直す。追いついていなければ
-// 自動的に再読み込みして再確認する（最大15回・約30秒）。
-(function grCheckPendingReopen() {
-  const raw = sessionStorage.getItem('gr_pending_reopen');
-  if (!raw) return;
-  let pending;
-  try { pending = JSON.parse(raw); } catch (err) { sessionStorage.removeItem('gr_pending_reopen'); return; }
-
-  const MAX_ATTEMPTS = 15;
-  const versionText = (document.getElementById('version-info')?.textContent || '');
-  const versionMatches = !pending.expectedVersion || versionText.indexOf(pending.expectedVersion) === 0;
-
-  if (versionMatches || pending.attempts >= MAX_ATTEMPTS) {
-    sessionStorage.removeItem('gr_pending_reopen');
-    if (pending.genreId) {
-      setTimeout(() => {
-        const target = node.filter(n => n.id === pending.genreId);
-        if (!target.empty()) target.dispatch('click');
-      }, 300);
-    }
-  } else {
-    pending.attempts++;
-    sessionStorage.setItem('gr_pending_reopen', JSON.stringify(pending));
-    grShowReloadingNotice();
-    setTimeout(() => window.location.reload(), 2000);
-  }
-})();
 
 function grOpenPreview(token) {
   grOpenIframeOverlay(`${API_BASE}/admin/preview/${encodeURIComponent(token)}`);

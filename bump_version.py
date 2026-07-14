@@ -35,7 +35,12 @@ try:
         capture_output=True, encoding="utf-8", check=True,
     ).stdout
     prev_version = _extract_version(prev_html)
-except subprocess.CalledProcessError:
+except subprocess.CalledProcessError as e:
+    # HEAD~1が取得できない場合（浅いクローンでfetch-depthが足りない等）、
+    # 比較できないまま無条件にバージョンを上げてしまうと二重更新防止が
+    # 効かなくなるため、原因が分かるように警告を残しておく。
+    print(f"警告: HEAD~1のgenre_roots.htmlを取得できませんでした"
+          f"（fetch-depthが足りない可能性があります）: {e}", file=sys.stderr)
     prev_version = None
 
 if prev_version and current_version and current_version > prev_version:
