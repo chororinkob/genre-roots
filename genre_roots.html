@@ -10040,12 +10040,15 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 .mic-panel-processing .mic-listen-btn { background: #141428; color: #444; cursor: default; pointer-events: none; }
 .mic-listen-btn svg { width: 38px; height: 38px; }
 
-#mic-eq-canvas { width: 100%; height: 40px; display: block; margin-bottom: 6px; opacity: 0; transition: opacity 0.3s; }
-.mic-panel-recording #mic-eq-canvas, .mic-panel-processing #mic-eq-canvas { opacity: 1; }
+/* 録音中・解析中以外はイコライザーとカウントダウンの表示領域そのものを畳んで、
+   「見つかりました」等のステータス文言の前後に無駄な余白が残らないようにする */
+#mic-eq-canvas { width: 100%; height: 40px; display: none; margin-bottom: 6px; }
+.mic-panel-recording #mic-eq-canvas, .mic-panel-processing #mic-eq-canvas { display: block; }
 
 #mic-status { font-size: 12px; color: #666; min-height: 18px; margin-bottom: 6px; }
 .mic-panel-recording #mic-status { color: #e94560; }
-#mic-countdown { font-size: 26px; font-variant-numeric: tabular-nums; color: #e94560; min-height: 32px; font-weight: 300; margin-bottom: 10px; }
+#mic-countdown { font-size: 26px; font-variant-numeric: tabular-nums; color: #e94560; font-weight: 300; display: none; margin-bottom: 10px; }
+.mic-panel-recording #mic-countdown, .mic-panel-processing #mic-countdown { display: block; min-height: 32px; }
 
 .mic-file-row { display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
 .mic-file-label {
@@ -10068,21 +10071,25 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 }
 .mic-genre-tag:hover { background: rgba(233,69,96,0.28); }
 .mic-genre-tag.selected { background: #e94560; color: #fff; border-color: #e94560; }
-#mic-genre-hint { font-size: 10.5px; color: #555; margin-bottom: 12px; }
+#mic-genre-hint { font-size: 11.5px; color: #ddd; font-weight: 600; margin-bottom: 12px; }
 .mic-highlight-btn {
-  width: 100%; padding: 9px;
-  background: none; border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 7px; color: #ccc; font-size: 12px; cursor: pointer;
+  width: 100%; padding: 11px; margin-bottom: 12px;
+  background: #e94560; border: none;
+  border-radius: 8px; color: #fff; font-size: 13px; font-weight: 700; cursor: pointer;
+  box-shadow: 0 3px 10px rgba(233,69,96,0.4);
+  transition: background 0.15s, transform 0.1s;
 }
-.mic-highlight-btn:hover { border-color: rgba(255,255,255,0.28); color: #fff; }
+.mic-highlight-btn:hover { background: #ff5470; }
+.mic-highlight-btn:active { transform: scale(0.98); }
 
 #mic-recheck-area { margin-top: 10px; margin-bottom: 8px; text-align: center; }
 .mic-recheck-btn {
-  display: inline-block; width: auto; max-width: 100%; padding: 7px 14px;
-  background: none; border: 1px dashed rgba(255,255,255,0.16);
-  border-radius: 7px; color: #999; font-size: 10.5px; cursor: pointer;
+  display: inline-block; width: auto; max-width: 100%; padding: 9px 16px;
+  background: rgba(255,255,255,0.09); border: 1px solid rgba(255,255,255,0.28);
+  border-radius: 8px; color: #eee; font-size: 11px; font-weight: 600; cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
 }
-.mic-recheck-btn:hover { border-color: rgba(255,255,255,0.3); color: #ccc; }
+.mic-recheck-btn:hover { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.45); }
 .mic-recheck-btn:disabled { opacity: .5; cursor: default; }
 
 #mic-error { display: none; font-size: 12px; color: #f87171; margin-top: 8px; white-space: pre-line; }
@@ -10155,7 +10162,7 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 <div id="mic-overlay">
   <div id="mic-panel">
     <button id="mic-panel-close" onclick="closeMicPanel()">✕</button>
-    <div id="mic-panel-version">v2.28</div>
+    <div id="mic-panel-version">v2.29</div>
     <div id="mic-panel-title">🎵 音楽を聴かせてください</div>
     <div id="mic-panel-sub">ジャンルを調べてマップに表示します</div>
 
@@ -10683,8 +10690,14 @@ function micDrawListening() {
   if (rms > micMaxVol) micMaxVol = rms;
   micEqCtx.clearRect(0, 0, w, h);
   const NUM = 24, barW = w / NUM, gap = 2;
+  // 周波数ビンは0Hz〜ナイキスト周波数まで等間隔だが、音楽・声のエネルギーは
+  // 低〜中音域に集中している。全域を均等に24本へ割り振ると、低音側の動きが
+  // 数本のバーに圧縮されて途切れて見え、逆に高音側はほとんど動かないまま
+  // 幅だけ無駄に取ってしまう。検出範囲を低音寄りの2/3（高音側1/3をカット）に
+  // 絞ることで、実際に動きのある帯域により多くのバーを割り当てる。
+  const usableLen = Math.floor(data.length * 2 / 3);
   for (let i = 0; i < NUM; i++) {
-    const val = data[Math.floor(i * data.length / NUM)];
+    const val = data[Math.floor(i * usableLen / NUM)];
     const barH = Math.max(2, (val / 255) * h);
     const grad = micEqCtx.createLinearGradient(0, h - barH, 0, h);
     grad.addColorStop(0, 'rgba(233,69,96,0.92)');
