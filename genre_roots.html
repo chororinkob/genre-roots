@@ -278,7 +278,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.92<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v24.93<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -9533,6 +9533,9 @@ function initGlobe() {
 }
 .gr-btn-map   { background: #2a5a2a; color: #aee; }
 .gr-btn-retry { background: #1a1a30; color: #888; }
+/* 「生成内容を確認する」（主要な操作）と誤って押し間違えないよう、
+   「次へ」は控えめな色にして視覚的に区別する */
+.gr-btn-next  { background: #1a1a30; color: #778; flex: 0.7; }
 /* スピナー */
 .gr-spinner {
   display:inline-block; width:12px; height:12px;
@@ -9861,10 +9864,10 @@ function grRenderResult(inputName, data, submitBtn) {
         ${grAiBlock('ChatGPT – 実在確認＋情報生成', true, '9項目のジャンル情報を生成しました。')}
         ${grAiBlock('Claude – ファクトチェック', true, '内容を検証しました。')}
       </div>
-      <div class="gr-next">生成された内容をこの場で確認できます。</div>
+      <div class="gr-next">生成された内容をこの場で確認できます。「${grNextLabel()}」で確認を後回しにしても、内容は承認待ち一覧に残ります。</div>
       <div class="gr-action-row">
         ${data.token ? `<button class="gr-btn-map" onclick="grOpenPreview('${grEsc(data.token)}')">生成内容を確認する</button>` : ''}
-        <button class="gr-btn-map" onclick="grCloseAndNext()">${grNextLabel()}</button>
+        <button class="gr-btn-next" onclick="grCloseAndNext()">${grNextLabel()}</button>
       </div>`);
 
   } else if (data.status === 'similar_found') {
@@ -10096,9 +10099,10 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 
 #mic-recheck-area { margin-top: 10px; margin-bottom: 8px; text-align: center; }
 .mic-recheck-btn {
-  display: inline-block; width: auto; max-width: 100%; padding: 9px 16px;
+  display: inline-block; width: auto; max-width: 100%; padding: 8px 16px;
   background: rgba(255,255,255,0.09); border: 1px solid rgba(255,255,255,0.28);
   border-radius: 8px; color: #eee; font-size: 11px; font-weight: 600; cursor: pointer;
+  text-align: center; line-height: 1.6;
   transition: background 0.15s, border-color 0.15s;
 }
 .mic-recheck-btn:hover { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.45); }
@@ -10174,7 +10178,7 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 <div id="mic-overlay">
   <div id="mic-panel">
     <button id="mic-panel-close" onclick="closeMicPanel()">✕</button>
-    <div id="mic-panel-version">v2.29</div>
+    <div id="mic-panel-version">v2.30</div>
     <div id="mic-panel-title">🎵 音楽を聴かせてください</div>
     <div id="mic-panel-sub">ジャンルを調べてマップに表示します</div>
 
@@ -10458,7 +10462,9 @@ function micRenderGenreTags(genres) {
   });
 }
 
-const MIC_RECHECK_LABEL = 'ジャンルがおかしいので、AIに聴き直してもらう';
+// 画面幅によって中途半端な位置で自動改行されてしまっていたため、
+// 意図した位置で2行に固定する（textContentではなくinnerHTMLで反映する）
+const MIC_RECHECK_LABEL = 'ジャンルが違うようなので<br>AIに聞き直してもらう';
 
 // Wikidataの判定結果のときだけ、「AIに聴き直してもらう」ボタンを出す
 // （録音済みの音声が残っている場合のみ。ファイル選択・録音のどちらでも対応）
@@ -10468,7 +10474,7 @@ function micRenderRecheckButton(genreSource) {
   if (genreSource !== 'wikidata' || !micLastAudioBlob) return;
   const btn = document.createElement('button');
   btn.className = 'mic-recheck-btn';
-  btn.textContent = MIC_RECHECK_LABEL;
+  btn.innerHTML = MIC_RECHECK_LABEL;
   btn.onclick = micRecheckWithGemini;
   area.appendChild(btn);
 }
@@ -10492,7 +10498,7 @@ async function micRecheckWithGemini() {
       throw new Error('サーバーからの応答を読み取れませんでした（HTTP ' + res.status + '）');
     }
     if (data.error) {
-      if (btn) { btn.disabled = false; btn.textContent = MIC_RECHECK_LABEL; }
+      if (btn) { btn.disabled = false; btn.innerHTML = MIC_RECHECK_LABEL; }
       micShowError(data.error);
       return;
     }
@@ -10512,7 +10518,7 @@ async function micRecheckWithGemini() {
       if (summary) { logLines.innerHTML = summary; logArea.classList.add('visible'); }
     }
   } catch (err) {
-    if (btn) { btn.disabled = false; btn.textContent = MIC_RECHECK_LABEL; }
+    if (btn) { btn.disabled = false; btn.innerHTML = MIC_RECHECK_LABEL; }
     micShowError('通信エラーが発生しました：' + (err && err.message ? err.message : '不明なエラー') + '\nもう一度お試しください。');
   }
 }
