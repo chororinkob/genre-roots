@@ -278,7 +278,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.90<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v24.91<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -4931,6 +4931,14 @@ const NODES = [
     yt_mix:["rBD8PnLlwNM", "6fnYOPwDWe0"],
     yt_tracks:[["h49yLu6kkVs", "nsp0DMipMpI"], ["r8votp1DVms", "0v1xxM8TOxs"], ["-2ZxmNfY-gw", "W1LZ_K0kP0g"]],
     aliases:["ディービート", "Dischargeビート", "ディスチャージビート"],},
+
+  {id:"chanson", label:"Chanson", cat:"pop", era:"19th century", suno:false,
+    desc:"シャンソンはフランスの伝統的な音楽ジャンルで、メロディーはしばしば感情豊かで叙情的である。ピアノやアコーディオンが主要な楽器として用いられ、時にはギターやストリングスも加わる。音響エフェクトは控えめで、リバーブが軽くかかる程度である。小規模なカフェや劇場での演奏が一般的で、親密な雰囲気を醸し出す。ボーカルスタイルは語りかけるような歌い方が特徴で、感情表現が豊かである。",
+    roots_story:"シャンソンは19世紀のフランスで発展した音楽ジャンルで、詩的な歌詞とメロディーが特徴である。もともとは中世の吟遊詩人によって歌われていたが、19世紀に入ると都市文化の中で再び注目を集めた。エディット・ピアフやシャルル・アズナヴールなどのアーティストがこのジャンルを牽引し、フランス国内外で人気を博した。20世紀にはジャズやポップスの影響を受けつつも、独自のスタイルを維持し続けた。シャンソンはフランス文化の象徴として、今もなお多くの人々に愛されている。",
+    rep_tracks:["La Vie en rose (Édith Piaf)", "Ne me quitte pas (Jacques Brel)", "La Bohème (Charles Aznavour)"],
+    yt_mix:["4KS9xjj6L00", "fTKqtvXjkvo"],
+    yt_tracks:[["qPU8mENUBXk", "rzeLynj1GYM"], ["e0esAGxzP6Y", "Vz6r0TP4FBI"], ["fVfnEyLOkrM", "hWLc0J52b2I"]],
+    aliases:["シャンソン", "Chanson française", "French chanson"],},
 ];
 
 const LINKS = [
@@ -6444,6 +6452,9 @@ const LINKS = [
 
   {s:"d_beat",t:"crust_punk",w:80,desc:"Dischargeが確立したスネアの8分音符連打とキックのシンコペーションによるD-beatリズムパターンと、MID帯域を強調したギターのヘヴィなディストーションサウンド、および反戦・反権力を訴える歌詞スタイルが、Crust punkのサウンドと思想的基盤として直接引き継がれた。"},
   {s:"d_beat",t:"grindcore",w:70,desc:"D-beatの高速スネア連打とエコーを多用したシャウト系ボーカルの攻撃性が、Napalm DeathらによるGrindcore形成期においてブラストビート開発の参照点の一つとなり、極端な短尺・高速化と組み合わさることでより過激なリズム表現と怒号スタイルのボーカルとして発展した。"},
+
+  {s:"jazz",t:"chanson",w:60,desc:"20世紀初頭のパリにおいて、ジャズのウッドベースとブラシドラムによるスウィングビート、およびセブンスコードを多用したハーモニー進行がシャンソンに取り込まれ、従来のワルツ的な拍節感に代わるグルーヴ感が生まれた。"},
+  {s:"chanson",t:"pop_music",w:70,desc:"シャンソンのAABA形式のメロディー構造と、語りかけるようなクルーン唱法（親密な低音域での発声）は、1960年代以降の欧米ポップスにおけるバラード編曲の雛形となり、ストリングスアレンジを伴う感情表現の様式として広く定着した。"},
 ];
 
 // ===== ROOTS POLYGON LAYOUT（無効化：全ノード自由配置） =====
@@ -6950,6 +6961,7 @@ const POPULARITY = {
   "j_fusion": 7,
   "contemporary_rnb": 9,
   "d_beat": 5,
+  "chanson": 7,
 };
 NODES.forEach(n => {
   n.popularity = POPULARITY[n.id] || 3;
