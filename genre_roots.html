@@ -278,7 +278,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.93<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v24.94<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -288,7 +288,12 @@ svg { width: 100vw; height: 100vh; }
     <button id="fit-view" style="padding:4px 12px;background:#1565C0;border:1px solid #555;border-radius:5px;color:#fff;font-size:11px;cursor:pointer;"><span class="m-full">全体表示</span><span class="m-short" style="display:none">全体</span></button>
     <button id="save-layout" style="padding:4px 12px;background:#2a2a50;border:1px solid #555;border-radius:5px;color:#ccc;font-size:11px;cursor:pointer;">配置を保存</button>
     <button id="reset-layout" style="padding:4px 12px;background:#2a2a50;border:1px solid #555;border-radius:5px;color:#ccc;font-size:11px;cursor:pointer;">配置リセット</button>
-    <button id="video-check-btn" title="全件動画チェック（管理者用）" style="padding:4px 8px;margin-left:8px;background:none;border:1px solid #333;border-radius:5px;color:#666;font-size:12px;cursor:pointer;">🔍</button>
+    <!-- 管理者用メニュー：通常は非表示。?admin=1 を付けたURLでアクセスした
+         ときだけ表示する（一般の来訪者には見えないようにするため）。 -->
+    <div id="admin-menu-wrap" style="display:none;gap:6px;align-items:center;margin-left:8px;">
+      <button id="video-check-btn" title="全件動画チェック（管理者用）" style="padding:4px 8px;background:none;border:1px solid #333;border-radius:5px;color:#666;font-size:12px;cursor:pointer;">🔍</button>
+      <a id="admin-pending-link" href="https://genre-roots-server.onrender.com/admin" target="_blank" rel="noopener" title="承認待ち一覧（管理者用）" style="padding:4px 8px;background:none;border:1px solid #333;border-radius:5px;color:#666;font-size:12px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;">📋</a>
+    </div>
   </div>
 </div>
 
@@ -426,6 +431,13 @@ svg { width: 100vw; height: 100vh; }
 const API_BASE = 'https://genre-roots-server.onrender.com';
 window.API_BASE = API_BASE; // 別のscriptタグ（マイクパネル等）からも参照できるようにする
 window._ytk = ['AIzaSyBuMKsa','B80xm8J-iHQX','qdh71rIMUX1KZfM'].join('');
+
+// 管理者用メニュー（全件動画チェック・承認待ち一覧）は、一般の来訪者には
+// 見えないよう普段は非表示にし、URLに ?admin=1 を付けたときだけ表示する。
+if (new URLSearchParams(location.search).get('admin') === '1') {
+  const adminMenu = document.getElementById('admin-menu-wrap');
+  if (adminMenu) adminMenu.style.display = 'flex';
+}
 // ===== INSTRUMENTS & EFFECTS DATA =====
 const INST_ITEMS = [
   {cat:"効果・雰囲気・BGM系",sub:"ボーカル編成・演奏形態",name:"a cappella",desc:"楽器を使わず、人の声だけで演奏される音楽。複数の声が重なり合うハーモニーや、声でリズムやベースラインを表現するパートが特徴。"},
