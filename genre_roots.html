@@ -278,7 +278,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.104<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v24.105<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -4975,6 +4975,14 @@ const NODES = [
     yt_mix:["BOn-sXalHxI", "t5E4b6LWh0g"],
     yt_tracks:[["bxo9mtJjvS0", "Y59pC4FcBxM"], ["hcm55lU9knw", "ALRxqOpMewE"], ["kV3n-lcOfRs", "_4wDhHDtrJY"]],
     aliases:["セルタネージョ", "ブラジリアンカントリー", "セルタネージョ・ユニヴェルシタリオ", "セルタネージョ・ライス"],},
+
+  {id:"kizomba", label:"Kizomba", cat:"african", era:"1980s", suno:false,
+    desc:"キゾンバは、滑らかでメロディックなリズムが特徴である。メロディーはしばしば感情的で、ロマンティックな雰囲気を醸し出す。使用される楽器には、シンセサイザーやドラムマシンがあり、これらが独特のリズムを生み出す。エコーやリバーブが多用され、音に深みと広がりを与える。クラブやダンスホールでの演奏が一般的で、親密な雰囲気を持つ。ボーカルスタイルは、柔らかく、感情豊かで、しばしばポルトガル語やクレオール語で歌われる。",
+    roots_story:"キゾンバは1980年代にアンゴラで誕生した音楽ジャンルである。アンゴラの伝統音楽であるセムバと、カリブ海のズークの影響を受けて発展した。初期のキゾンバは、アンゴラの都市部で人気を博し、やがてポルトガルや他のポルトガル語圏の国々に広がった。キゾンバは、ダンスと密接に結びついており、ペアダンスとしても知られている。アーティストとしては、Eduardo PaimやDon Kikasがこのジャンルの発展に寄与した。2000年代以降、ヨーロッパやアメリカでも人気が高まり、国際的なダンスイベントで頻繁に取り上げられるようになった。",
+    rep_tracks:["Dança Kizomba (Anselmo Ralph)", "Atchu Tchutcha (Nerú Americano)", "Comando (C4 Pedro)"],
+    yt_mix:["qbJ1_cY7z6Q", "QTYY_qhxadA"],
+    yt_tracks:[["V4xo2RURcNM", "whH2oDg28-k"], ["1_HEz8hQArE", "EXL1bdK0nxk"], ["nUTuWZoba54", "1EjIZWP85B8"]],
+    aliases:["キゾンバ", "Kizomba"],},
 ];
 
 const LINKS = [
@@ -6503,6 +6511,8 @@ const LINKS = [
 
   {s:"country",t:"sertanejo",w:70,desc:"アメリカのカントリーミュージックからアコースティックギターによるコード・ストラミング奏法と、個人の喜怒哀楽を語るストーリーテリング型の歌詞構造を取り入れ、ブラジル農村の風土と融合させることでSertanejo独自のスタイルが形成された。"},
   {s:"sertanejo",t:"latin_pop",w:60,desc:"Sertanejo Universitárioの台頭以降、デュエットによるユニゾン唱法や反復するキャッチーなサビ構成、エレクトリックギターを前面に出したポップアレンジがラテンポップの楽曲制作手法として広く採用されるようになった。"},
+
+  {s:"zouk",t:"kizomba",w:70,desc:"カリブ海のズークが持つ2/4拍子ベースの滑らかなグルーヴと、シンセサイザーによる厚みのあるコードワーク、ドラムマシンの規則的なビートパターンをキゾンバは取り込み、アンゴラ的な感性と融合させることでロマンティックで親密なダンス音楽としての独自スタイルを確立した。"},
 ];
 
 // ===== ROOTS POLYGON LAYOUT（無効化：全ノード自由配置） =====
@@ -7013,6 +7023,7 @@ const POPULARITY = {
   "fado": 6,
   "dungeon_synth": 4,
   "sertanejo": 8,
+  "kizomba": 6,
 };
 NODES.forEach(n => {
   n.popularity = POPULARITY[n.id] || 3;
