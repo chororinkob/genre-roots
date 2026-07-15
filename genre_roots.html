@@ -708,7 +708,7 @@ const NODES = [
     rep_tracks:["Once in a Lifetime (Talking Heads)", "Heart of Glass (Blondie)", "Cars (Gary Numan)", "Hungry Like the Wolf (Duran Duran)", "Whip It (Devo)"],
     yt_mix:["9mKxQ26gdHw", "94Cl9LycZrY"],
     yt_tracks:[["5IsSpAOD6K8", "fR0jgT9UX0Q"], ["WGU_4-5RaxU", "M6zdLTfH-As"], ["Im3JzxlatUs", "LrjM8Fi7J58"], ["oJL-lCzEXgI", "A-H-0p5RKc8"], ["j_QLzthSkfM", "3bXEHGUvVrA"]],
-    aliases:["ニューウェーブ"],},
+    aliases:["ニューウェーブ", "ニューウェイヴ"],},
 
   {id:"electro", label:"Electro", cat:"synthpop", era:"1982", suno:false,
     desc:"Roland TR-808ドラムマシンの乾いたキックとカチッとしたスネア、機械的に正確なビートが生み出すファンキーなグルーヴ。人間の演奏では出せない精密さとファンクの黒いノリが同居する独特のサウンド。シンセベースが太く弾み、ボコーダー（ロボット声）で処理されたボーカルが近未来的な空気を演出する。テンポは中程度でヘッドノッキングに最適。冷たくて硬質なのにどこか踊りたくなる、人間と機械の間にある音楽。",
@@ -1529,7 +1529,7 @@ const NODES = [
     rep_tracks:["Smells Like Teen Spirit（Nirvana）", "Losing My Religion（R.E.M.）", "Creep（Radiohead）", "Just Like Heaven（The Cure）", "Where Is My Mind?（Pixies）"],
     yt_mix:["Q9yh7Vw435Q", "qyivczZI5pw"],
     yt_tracks:[["hTWKbfoikeg", "69Wqhhun5_o"], ["xwtdhWltSIg", "OKvCV8MFIaw"], ["XFkzRNyygfk", "SLbSsv_2u4A"], ["n3nPiBai66M", "1ASpBpT8bRQ"], ["OJ62RzJkYUo", "N3oCS85HvpY"]],
-    aliases:["オルタナティブロック", "オルタナ", "Alternative Rock"],},
+    aliases:["オルタナティブロック", "オルタナティヴロック", "オルタナ", "Alternative Rock"],},
 
   {id:"grunge", label:"Grunge", cat:"rock", era:"1991", suno:true,
     desc:"パンクの攻撃性とヘヴィメタルの重さを、シアトルの曇り空のような鬱々とした空気感で包んだロック。歪んだギターの壁、気だるく投げやりなボーカル、暗く内省的な歌詞が特徴。テンポは中速が多く、静と動の極端なダイナミクスがある。ファッションもフランネルシャツにボロボロのジーンズという「わざとらしくない」スタイル。華やかさとは対極的な、90年代の閉塞感と怒りを体現した音楽。",
@@ -10155,7 +10155,7 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 <div id="mic-overlay">
   <div id="mic-panel">
     <button id="mic-panel-close" onclick="closeMicPanel()">✕</button>
-    <div id="mic-panel-version">v2.26</div>
+    <div id="mic-panel-version">v2.27</div>
     <div id="mic-panel-title">🎵 音楽を聴かせてください</div>
     <div id="mic-panel-sub">ジャンルを調べてマップに表示します</div>
 
@@ -10540,12 +10540,13 @@ async function micSearchYoutube(title, artist) {
 }
 
 // ジャンル名をIDとラベルの完全一致のみで特定してハイライトする
-// ハイフン・スペース・アンダースコアを除去した正規化形式でも照合する
+// ハイフン・スペース・アンダースコア・中黒(・/･/·)を除去した正規化形式でも照合する
+// （例:「ニュー・ウェイヴ」→「ニューウェイヴ」として、中黒なし表記の別名と一致させる）
 // 戻り値: { foundIds: Set, missedGenres: string[] }
 function micHighlightByGenres(genres) {
   const foundIds     = new Set();
   const missedGenres = [];
-  const normStr      = s => s.toLowerCase().replace(/[\s\-_]/g, '');
+  const normStr      = s => s.toLowerCase().replace(/[\s\-_・･·]/g, '');
 
   genres.forEach(g => {
     const tag     = g.trim().toLowerCase();
