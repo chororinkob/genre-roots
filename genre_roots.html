@@ -10155,7 +10155,7 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 <div id="mic-overlay">
   <div id="mic-panel">
     <button id="mic-panel-close" onclick="closeMicPanel()">✕</button>
-    <div id="mic-panel-version">v2.27</div>
+    <div id="mic-panel-version">v2.28</div>
     <div id="mic-panel-title">🎵 音楽を聴かせてください</div>
     <div id="mic-panel-sub">ジャンルを調べてマップに表示します</div>
 
@@ -10539,14 +10539,25 @@ async function micSearchYoutube(title, artist) {
     qEnc + '" target="_blank">' + micEsc(q) + ' を YouTube で検索</a>';
 }
 
+// 「ヴ」表記を対応する「バ行」表記に統一する（ヴァ→バ、ヴィ→ビ、ヴ→ブ、ヴェ→ベ、ヴォ→ボ）
+// 例:「オルタナティヴ」→「オルタナティブ」、「ヴォーカル」→「ボーカル」
+// これは規則的な変換のみに対応するもので、「ウェーブ」と「ウェイヴ」のように
+// そもそも読み方の当て方自体が違う表記ゆれまでは吸収できない（それらは別名として
+// NODESのaliasesに個別登録する必要がある）
+function micNormKana(s) {
+  return s.replace(/ヴァ/g, 'バ').replace(/ヴィ/g, 'ビ').replace(/ヴェ/g, 'ベ')
+          .replace(/ヴォ/g, 'ボ').replace(/ヴ/g, 'ブ');
+}
+
 // ジャンル名をIDとラベルの完全一致のみで特定してハイライトする
-// ハイフン・スペース・アンダースコア・中黒(・/･/·)を除去した正規化形式でも照合する
-// （例:「ニュー・ウェイヴ」→「ニューウェイヴ」として、中黒なし表記の別名と一致させる）
+// ハイフン・スペース・アンダースコア・中黒(・/･/·)を除去し、「ヴ」表記も統一した
+// 正規化形式でも照合する
+// （例:「オルタナティヴ・ロック」→「オルタナティブロック」として、既存の別名と一致させる）
 // 戻り値: { foundIds: Set, missedGenres: string[] }
 function micHighlightByGenres(genres) {
   const foundIds     = new Set();
   const missedGenres = [];
-  const normStr      = s => s.toLowerCase().replace(/[\s\-_・･·]/g, '');
+  const normStr      = s => micNormKana(s.toLowerCase()).replace(/[\s\-_・･·]/g, '');
 
   genres.forEach(g => {
     const tag     = g.trim().toLowerCase();
