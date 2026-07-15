@@ -278,7 +278,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.95<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v24.96<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -4951,6 +4951,14 @@ const NODES = [
     yt_mix:["4KS9xjj6L00", "fTKqtvXjkvo"],
     yt_tracks:[["qPU8mENUBXk", "rzeLynj1GYM"], ["e0esAGxzP6Y", "Vz6r0TP4FBI"], ["fVfnEyLOkrM", "hWLc0J52b2I"]],
     aliases:["シャンソン", "Chanson française", "French chanson"],},
+
+  {id:"fado", label:"Fado", cat:"latin", era:"1820s", suno:false,
+    desc:"ファドは哀愁を帯びたメロディーが特徴である。ギターラ・ポルトゲーザと呼ばれる12弦ギターやクラシックギターが主に用いられ、シンプルながらも深い響きを持つ。石造りの小空間に生まれる自然な残響が、歌の切なさを一層引き立てる。小さなタベルナやカフェでの演奏が一般的で、親密な雰囲気が漂う。ボーカルは感情豊かで、しばしば悲しみや郷愁を表現するために、力強くも繊細な歌い方がされる。",
+    roots_story:"ファドは19世紀初頭のポルトガル、特にリスボンで誕生した。社会的には船乗りや労働者階級の人々の間で広まり、彼らの生活や感情を歌にしたものである。アマリア・ロドリゲスなどのアーティストがこのジャンルを国際的に知らしめた。20世紀には、ファドはポルトガルの国民的音楽としての地位を確立し、時代とともに様々なスタイルやサブジャンルが生まれた。近年では、伝統的なスタイルを守りつつも、現代的なアレンジを取り入れた新しいファドも登場している。",
+    rep_tracks:["Coimbra (Amália Rodrigues)", "Povo Que Lavas No Rio (Amália Rodrigues)", "Estranha Forma de Vida (Amália Rodrigues)"],
+    yt_mix:["gG_RoRDammo", "Yq5pm9S7x9w"],
+    yt_tracks:[["XQ_IXtJ1Oco", "nX7oQjRPeiI"], ["NMLUxxjSVMs", "p4I87Cnbr2w"], ["VGgIlLfVEmQ", "JgezqwBkT2Y"]],
+    aliases:["ファド", "Fado"],},
 ];
 
 const LINKS = [
@@ -6974,6 +6982,7 @@ const POPULARITY = {
   "contemporary_rnb": 9,
   "d_beat": 5,
   "chanson": 7,
+  "fado": 6,
 };
 NODES.forEach(n => {
   n.popularity = POPULARITY[n.id] || 3;
