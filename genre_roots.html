@@ -278,7 +278,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.100<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v24.101<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -9807,8 +9807,15 @@ async function grRefreshGenreAndReopenPanel(genreId) {
   // /rootsの取得・データの反映に失敗した場合（通信エラー、Renderの起床待ち等）、
   // 以前は何もせず古いデータのままパネルだけ開いてしまい、「承認したのに画面が
   // 変わらない。手動で更新したら直った」という分かりにくい状態になっていた。
-  // 失敗した場合は黙って諦めず、確実に最新化されるページの再読み込みに
-  // フォールバックする（手動更新と同じ結果を自動でも再現する）。
+  //
+  // 以前はここで単にwindow.location.reload()（今のページの再読み込み）に
+  // フォールバックしていたが、これだと「どのジャンルを開いていたか」という
+  // 情報が失われ、パネルが閉じたただのジャンルマップに戻るだけになって
+  // しまっていた（このページ自体がGitHub Pagesの古いキャッシュの場合、
+  // 修正内容もまだ反映されていない）。ジャンル追加の承認直後と同じ、
+  // Render自身の/roots?genre=Xへ遷移する方式にフォールバックすることで、
+  // 常に最新データを取得しつつ、該当ジャンルのパネルも自動で開かれるように
+  // した（node/NODES初期化後のwindow.__grAutoOpenGenre処理を参照）。
   let succeeded = false;
   try {
     const res  = await fetch(API_BASE + '/roots?_=' + Date.now(), { cache: 'no-store' });
@@ -9832,7 +9839,7 @@ async function grRefreshGenreAndReopenPanel(genreId) {
     // 下のフォールバックに進む
   }
   if (!succeeded) {
-    window.location.reload();
+    window.location.href = API_BASE + '/roots?genre=' + encodeURIComponent(genreId);
     return;
   }
   const target = node.filter(n => n.id === genreId);
