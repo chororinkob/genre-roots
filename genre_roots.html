@@ -278,7 +278,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.109<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v24.110<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -5007,6 +5007,14 @@ const NODES = [
     yt_mix:["3V3x9HNKIlg", "dN88P85_KuI"],
     yt_tracks:[["Bqi7DSA1Vd4", "2_buCx9CKic"], ["w-cFY_GRUzI", "FUzlnhbeKXY"], ["dvfZ95ueOcQ", "sADUuDB2MzI"]],
     aliases:["テハーノ", "テハノ", "Tex-Mex", "テックスメックス"],},
+
+  {id:"pansori", label:"Pansori", cat:"east_asian", era:"17th century", suno:false,
+    desc:"パンソリは韓国の伝統的な音楽ジャンルで、主に一人の歌い手（소리꾼、ソリクン）と一人の鼓手（고수、コス）によって演じられる。メロディーは感情豊かで、時には激しく、時には静かに流れる。使用楽器は主にブク（소리북、バレル型太鼓）で、リズムを刻む役割を果たす。音響エフェクトは少なく、自然な声と楽器の音が中心である。会場は小規模な劇場や野外が一般的で、観客との距離が近い。歌い方は力強く、感情を込めた表現が特徴で、物語を語るように進行する。",
+    roots_story:"パンソリは17世紀の朝鮮半島で誕生した。農村の祭りや市場で演じられ、庶民の娯楽として親しまれた。19世紀には宮廷でも演じられるようになり、社会的地位が向上した。パンソリは物語を語る形式で、歌い手が様々なキャラクターを演じ分ける。20世紀に入ると、録音技術の発展により広く知られるようになり、韓国の伝統文化として世界的に評価されるようになった。現代でも伝統を守りつつ、新しい解釈や演出が試みられている。",
+    rep_tracks:["春香歌 (伝承曲)", "沈清歌 (伝承曲)", "水宮歌 (伝承曲)"],
+    yt_mix:["KU5jtaWyUho", "LjBXKcjlYAc"],
+    yt_tracks:[["NFVoeKknsDI", "x7xZgYY6dXs"], ["NFVoeKknsDI", "GpKGx8XkG_4"], ["NFVoeKknsDI", "6DL7U0SXCIc"]],
+    aliases:["パンソリ", "P'ansori", "판소리"],},
 ];
 
 const LINKS = [
@@ -7061,6 +7069,7 @@ const POPULARITY = {
   "nueva_cancion": 6,
   "cajun": 5,
   "tejano": 7,
+  "pansori": 5,
 };
 NODES.forEach(n => {
   n.popularity = POPULARITY[n.id] || 3;
