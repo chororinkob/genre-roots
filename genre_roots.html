@@ -278,7 +278,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.108<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v24.109<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -4999,6 +4999,14 @@ const NODES = [
     yt_mix:["Uk85eUs06q4", "3K2kxwlZFhM"],
     yt_tracks:[["Uk85eUs06q4", "vZYmLWfPEko"], ["04NhkP86Rpk", "4wtZdJ-y9Kw"], ["JhValHdo2Aw", "nf0he709d1k"]],
     aliases:["ケイジャン", "Cajun Music", "Musique cadienne"],},
+
+  {id:"tejano", label:"Tejano", cat:"latin", era:"1950s", suno:false,
+    desc:"Tejanoは、キャッチーでダンスフレンドリーなメロディーが特徴である。アコーディオンやバホ・セクストといった伝統的な楽器に加え、エレキギターやシンセサイザーも用いられる。リズムはポルカやワルツの影響を受けており、軽快でありながらも力強い。エコーやリバーブを効果的に使い、広がりのある音響を作り出す。クラブやダンスホールでの演奏が多く、観客を巻き込むエネルギッシュなパフォーマンスが魅力だ。ボーカルは感情豊かで、時にシャウトやコーラスワークを交え、聴衆を引き込む。",
+    roots_story:"Tejanoは、1950年代にアメリカのテキサス州で誕生した音楽ジャンルである。メキシコ系アメリカ人のコミュニティを中心に発展し、メキシコの伝統音楽とアメリカのポップやロックの要素を融合させた。リトル・ジョーやセリーナなどのアーティストがこのジャンルを牽引し、1980年代から1990年代にかけて全盛期を迎えた。Tejanoは、クンビアやノルテーニョといった他のラテン音楽ジャンルとも密接に関連しており、これらのジャンルと相互に影響を与え合いながら進化してきた。近年では、若い世代のアーティストによって新たな要素が取り入れられ、再び注目を集めている。",
+    rep_tracks:["Baila Esta Cumbia (Selena)", "Las Nubes (Little Joe y La Familia)", "Amor Prohibido (Selena)"],
+    yt_mix:["3V3x9HNKIlg", "dN88P85_KuI"],
+    yt_tracks:[["Bqi7DSA1Vd4", "2_buCx9CKic"], ["w-cFY_GRUzI", "FUzlnhbeKXY"], ["dvfZ95ueOcQ", "sADUuDB2MzI"]],
+    aliases:["テハーノ", "テハノ", "Tex-Mex", "テックスメックス"],},
 ];
 
 const LINKS = [
@@ -6535,6 +6543,10 @@ const LINKS = [
   {s:"zydeco",t:"cajun",w:70,desc:"CajunとZydecoはともにルイジアナ州を基盤とし、ダイアトニック・アコーディオンの演奏技法とフレンチ・クレオール語の歌唱スタイルを共有する。Zydecoはそこにアフリカ系アメリカ人のブルース・コード進行とR&Bのシンコペーションを加え、ウォッシュボード（フロッタワール）を導入することでよりパーカッシブなリズム構造を確立した。"},
   {s:"cajun",t:"zydeco",w:70,desc:"CajunとZydecoはともにルイジアナ州を基盤とし、ダイアトニック・アコーディオンの演奏技法とフレンチ・クレオール語の歌唱スタイルを共有する。Zydecoはそこにアフリカ系アメリカ人のブルース・コード進行とR&Bのシンコペーションを加え、ウォッシュボード（フロッタワール）を導入することでよりパーカッシブなリズム構造を確立した。"},
   {s:"cajun",t:"country",w:50,desc:"Cajunのフィドル奏法、特にダブルストップや装飾音を多用するスタイルは、ウェスタン・スウィングを経由してカントリー音楽のフィドル演奏に吸収された。また、ワルツとツーステップを基本とするCajunのダンスリズムは、ホンキートンクやカントリーのダンスホール文化における拍子感覚の形成に寄与した。"},
+
+  {s:"norteno",t:"tejano",w:80,desc:"両ジャンルはアコーディオンによるメロディーラインとバホ・セクストの低音弦伴奏を共有し、ポルカ由来の2拍子リズムパターンや3拍子ワルツのグルーヴを相互に取り入れながら、テキサス・メキシコ国境地帯の演奏スタイルとして並行して発展した。"},
+  {s:"tejano",t:"norteno",w:80,desc:"両ジャンルはアコーディオンによるメロディーラインとバホ・セクストの低音弦伴奏を共有し、ポルカ由来の2拍子リズムパターンや3拍子ワルツのグルーヴを相互に取り入れながら、テキサス・メキシコ国境地帯の演奏スタイルとして並行して発展した。"},
+  {s:"tejano",t:"cumbia",w:70,desc:"Tejanoはクンビア固有の2拍子シンコペーションリズムとギロやコンガによるパーカッションの絡みを吸収し、アコーディオンのリフと組み合わせることで、ダンスホール向けの反復グルーヴを持つ独自のTejano-cumbiaスタイルを確立した。"},
 ];
 
 // ===== ROOTS POLYGON LAYOUT（無効化：全ノード自由配置） =====
@@ -7048,6 +7060,7 @@ const POPULARITY = {
   "kizomba": 6,
   "nueva_cancion": 6,
   "cajun": 5,
+  "tejano": 7,
 };
 NODES.forEach(n => {
   n.popularity = POPULARITY[n.id] || 3;
