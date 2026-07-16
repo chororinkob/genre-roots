@@ -278,7 +278,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.110<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v24.111<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -5015,6 +5015,14 @@ const NODES = [
     yt_mix:["KU5jtaWyUho", "LjBXKcjlYAc"],
     yt_tracks:[["NFVoeKknsDI", "x7xZgYY6dXs"], ["NFVoeKknsDI", "GpKGx8XkG_4"], ["NFVoeKknsDI", "6DL7U0SXCIc"]],
     aliases:["パンソリ", "P'ansori", "판소리"],},
+
+  {id:"gamelan", label:"Gamelan", cat:"southeast_asian", era:"Ancient", suno:false,
+    desc:"ガムランはインドネシアの伝統的な音楽で、特にジャワ島やバリ島で広く演奏される。メロディーは複雑で、しばしば反復的なパターンを持ち、音の波形は滑らかで流れるような印象を与える。使用される楽器は金属製の打楽器を中心とし、クノン（Kenong）、ボナン（Bonang）、ゴング（Gong）などが含まれるほか、木琴系のガンバン（Gambang）も重要な役割を担う。これらの楽器は独特の共鳴音を生み出し、エコーやリバーブのような音響効果を自然に生み出す。ガムランは通常、寺院や儀式の場で演奏されることが多く、屋外での演奏も一般的である。ボーカルはしばしば合唱形式で、感情豊かでありながらも控えめな表現が特徴である。",
+    roots_story:"ガムランはインドネシアの古代から続く音楽形式で、その起源はヒンドゥー教や仏教の影響を受けた時代にさかのぼる。ジャワ島やバリ島で特に発展し、宮廷音楽としても重要な役割を果たした。ガムランは宗教的儀式や舞踊、影絵芝居の伴奏として用いられ、その音楽は地域ごとに異なるスタイルを持つ。ジャワのガムランはより荘厳でゆったりとしたテンポを持ち、バリのガムランは速いテンポとダイナミックなリズムが特徴である。20世紀には、ガムランの影響を受けた現代音楽や実験音楽が西洋でも注目され、スティーブ・ライヒがガムランのポリリズム構造を直接研究してミニマリズム音楽に取り入れたほか、フィリップ・グラスもその反復的手法から間接的な影響を受けた。",
+    rep_tracks:["Sekar Sungsang (Gamelan Semar Pegulingan)", "Tabuh Pisan (Gamelan Gong Kebyar)", "Ladrang Wilujeng (Gamelan Jawa)"],
+    yt_mix:["UEWCCSuHsuQ", "jkR3w3ql1rU"],
+    yt_tracks:[["bNmKjxr-f-Q", "zSgiULuonhU"], ["7yo39dftUpY", "DJA2OO9Ttug"], ["Qym_z3zivCk", "UnbERHGk3no"]],
+    aliases:["ガムラン", "ガムラン音楽", "Gamelan", "Gamelan Music"],},
 ];
 
 const LINKS = [
@@ -6555,6 +6563,8 @@ const LINKS = [
   {s:"norteno",t:"tejano",w:80,desc:"両ジャンルはアコーディオンによるメロディーラインとバホ・セクストの低音弦伴奏を共有し、ポルカ由来の2拍子リズムパターンや3拍子ワルツのグルーヴを相互に取り入れながら、テキサス・メキシコ国境地帯の演奏スタイルとして並行して発展した。"},
   {s:"tejano",t:"norteno",w:80,desc:"両ジャンルはアコーディオンによるメロディーラインとバホ・セクストの低音弦伴奏を共有し、ポルカ由来の2拍子リズムパターンや3拍子ワルツのグルーヴを相互に取り入れながら、テキサス・メキシコ国境地帯の演奏スタイルとして並行して発展した。"},
   {s:"tejano",t:"cumbia",w:70,desc:"Tejanoはクンビア固有の2拍子シンコペーションリズムとギロやコンガによるパーカッションの絡みを吸収し、アコーディオンのリフと組み合わせることで、ダンスホール向けの反復グルーヴを持つ独自のTejano-cumbiaスタイルを確立した。"},
+
+  {s:"gamelan",t:"minimalism_classical",w:70,desc:"ガムランのコルトモ構造（colotomic structure）による周期的な拍節管理と、ボナンやゴングが生み出す倍音豊かな持続音の層状テクスチャーが、スティーブ・ライヒの「フェイジング」技法やフィリップ・グラスの反復的アルペジオ構造に直接・間接的に吸収され、ミニマリズムの語法を形成した。"},
 ];
 
 // ===== ROOTS POLYGON LAYOUT（無効化：全ノード自由配置） =====
@@ -7070,6 +7080,7 @@ const POPULARITY = {
   "cajun": 5,
   "tejano": 7,
   "pansori": 5,
+  "gamelan": 5,
 };
 NODES.forEach(n => {
   n.popularity = POPULARITY[n.id] || 3;
