@@ -278,7 +278,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.106<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v24.107<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -4991,6 +4991,14 @@ const NODES = [
     yt_mix:["nJ7-vHekCqM", "34vE9S5BYOk"],
     yt_tracks:[["w67-hlaUSIs", "Y5KZSlUxBi8"], ["1q2_zOfuGcA", "4yOjnpVKsoQ"], ["O3B1TBdNW8o", "EIvmWTMIp3w"]],
     aliases:["ヌエバ・カンシオン", "Nueva Canción", "新しい歌"],},
+
+  {id:"cajun", label:"Cajun", cat:"country_folk", era:"1920s", suno:false,
+    desc:"Cajun音楽は、アコーディオンやフィドルを中心にしたダンス音楽である。メロディーはシンプルでキャッチー、リズムは軽快でダンスに適している。アコーディオンのリード音とフィドルの高音が絡み合い、独特のリズムを生み出す。エコーやリバーブはほとんど使われず、ライブ感を重視した音作りが特徴である。フェイス・ドド（fais do-do）と呼ばれるダンスパーティや小規模なダンスホールでの演奏が一般的で、ボーカルはフランス語で歌われることが多く、感情豊かに語りかけるスタイルが多い。",
+    roots_story:"Cajun音楽は、18世紀にカナダのアカディアからルイジアナに移住したフランス系移民によってもたらされた音楽に起源を持つ。彼らの文化と音楽は、ルイジアナの多様な民族と交わりながら独自のスタイルを形成した。1920年代には録音技術の発展により、Cajun音楽は広く知られるようになった。アコーディオンとフィドルが主要な楽器として用いられ、ダンス音楽としての性格が強い。1940年代にはスウィングやカントリーの影響を受け、さらに進化を遂げた。1970年代にはCajunリバイバルが起こり、伝統的なスタイルが再評価された。今日では、Cajun音楽はルイジアナの文化遺産として大切にされている。",
+    rep_tracks:["Jolie Blonde (Harry Choates)", "Allons à Lafayette (Joe Falcon)", "La Porte d'en Arrière (D.L. Menard)"],
+    yt_mix:["3K2kxwlZFhM", "VHbXDoZkjgM"],
+    yt_tracks:[["Uk85eUs06q4", "vZYmLWfPEko"], ["04NhkP86Rpk", "4wtZdJ-y9Kw"], ["JhValHdo2Aw", "nf0he709d1k"]],
+    aliases:["ケイジャン", "Cajun Music", "Musique cadienne"],},
 ];
 
 const LINKS = [
@@ -6523,6 +6531,10 @@ const LINKS = [
   {s:"zouk",t:"kizomba",w:70,desc:"カリブ海のズークが持つ2/4拍子ベースの滑らかなグルーヴと、シンセサイザーによる厚みのあるコードワーク、ドラムマシンの規則的なビートパターンをキゾンバは取り込み、アンゴラ的な感性と融合させることでロマンティックで親密なダンス音楽としての独自スタイルを確立した。"},
 
   {s:"folk",t:"nueva_cancion",w:80,desc:"フォーク音楽からギター・チャランゴ・ケーナといったアコースティック楽器の編成と、シンプルなコード進行に乗せた語りかけるような弾き語りスタイルを継承し、集会や野外での集団合唱を促すコーラス構造を発展させた。"},
+
+  {s:"zydeco",t:"cajun",w:70,desc:"CajunとZydecoはともにルイジアナ州を基盤とし、ダイアトニック・アコーディオンの演奏技法とフレンチ・クレオール語の歌唱スタイルを共有する。Zydecoはそこにアフリカ系アメリカ人のブルース・コード進行とR&Bのシンコペーションを加え、ウォッシュボード（フロッタワール）を導入することでよりパーカッシブなリズム構造を確立した。"},
+  {s:"cajun",t:"zydeco",w:70,desc:"CajunとZydecoはともにルイジアナ州を基盤とし、ダイアトニック・アコーディオンの演奏技法とフレンチ・クレオール語の歌唱スタイルを共有する。Zydecoはそこにアフリカ系アメリカ人のブルース・コード進行とR&Bのシンコペーションを加え、ウォッシュボード（フロッタワール）を導入することでよりパーカッシブなリズム構造を確立した。"},
+  {s:"cajun",t:"country",w:50,desc:"Cajunのフィドル奏法、特にダブルストップや装飾音を多用するスタイルは、ウェスタン・スウィングを経由してカントリー音楽のフィドル演奏に吸収された。また、ワルツとツーステップを基本とするCajunのダンスリズムは、ホンキートンクやカントリーのダンスホール文化における拍子感覚の形成に寄与した。"},
 ];
 
 // ===== ROOTS POLYGON LAYOUT（無効化：全ノード自由配置） =====
@@ -7035,13 +7047,14 @@ const POPULARITY = {
   "sertanejo": 8,
   "kizomba": 6,
   "nueva_cancion": 6,
+  "cajun": 5,
 };
 NODES.forEach(n => {
   n.popularity = POPULARITY[n.id] || 3;
   n.r = 15 + n.popularity * n.popularity * 2;
 });
 
-const LAST_UPDATED = "2026年7月15日";
+const LAST_UPDATED = "2026年7月16日";
 (function() {
   const el = document.getElementById('genre-count');
   if (el) el.textContent = NODES.length + " ジャンル　" + LAST_UPDATED + "現在";
