@@ -278,7 +278,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.113<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v24.114<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -5032,6 +5032,14 @@ const NODES = [
     yt_mix:["pM2_Y4i___k", "ctsx1JBJZDk"],
     yt_tracks:[["tT3CSg7HmmY", "LW6qGy3RtwY"], ["F2igfNzFqHw", "3A4T1FNPHHI"], ["CcXUqYU7dIk", "q5eBlv1dxtU"]],
     aliases:["レベティコ", "レベティカ"],},
+
+  {id:"kuduro", label:"Kuduro", cat:"african", era:"1990s", suno:false,
+    desc:"Kuduroはエネルギッシュでリズミカルな音楽ジャンルである。ビートは速く、力強いドラムパターンが特徴で、電子音が多用される。シンセサイザーやサンプラーが主な楽器として用いられ、重低音が響く。エコーやリバーブがかかった音響エフェクトが、ダンスフロアでの高揚感を演出する。クラブや野外フェスティバルでのパフォーマンスが想定される。ボーカルは力強く、時にラップのようなスタイルで、感情豊かに歌われることが多い。",
+    roots_story:"Kuduroは1990年代にアンゴラで誕生した音楽ジャンルである。アンゴラの首都ルアンダで、地元の若者たちが伝統的な音楽と現代の電子音楽を融合させて生み出した。初期のKuduroは、地元のダンスパーティーやストリートでのパフォーマンスを通じて広まった。Tony Amadoがこのジャンルのパイオニアとされ、彼の影響でKuduroは国際的な注目を集めるようになった。2000年代には、ポルトガルやブラジルなどのポルトガル語圏の国々でも人気を博し、国際的な音楽フェスティバルでも取り上げられるようになった。Kuduroはその後も進化を続け、他の音楽ジャンルとの融合を通じて新たなスタイルを生み出している。",
+    rep_tracks:["Windeck (Buraka Som Sistema)", "Tchiriri (Puto Prata)", "Kuduro (Tony Amado)"],
+    yt_mix:["JC9a0RGB4_U", "uTWi2mLrntk"],
+    yt_tracks:[["Bv-c5SQuolE", "hcJr-3XDx5s"], ["hHgvOXHULUU", "WJAFxSHgcMI"], ["hndq2ex1aqI", "tHu2UkregvQ"]],
+    aliases:["クドゥーロ", "クドゥロ"],},
 ];
 
 const LINKS = [
@@ -6577,6 +6585,8 @@ const LINKS = [
 
   {s:"blues",t:"rebetiko",w:70,desc:"Rebetikoとブルースはともにペンタトニック的な旋律構造と即興演奏を重視し、社会的疎外層の苦悩を歌詞に乗せる点で並行的に発展した。ブズーキのベンド奏法とブルースギターのスライド・チョーキングは、異なる文化圏で生まれながら類似した表現技法として機能している。"},
   {s:"rebetiko",t:"blues",w:70,desc:"Rebetikoとブルースはともにペンタトニック的な旋律構造と即興演奏を重視し、社会的疎外層の苦悩を歌詞に乗せる点で並行的に発展した。ブズーキのベンド奏法とブルースギターのスライド・チョーキングは、異なる文化圏で生まれながら類似した表現技法として機能している。"},
+
+  {s:"afrobeat",t:"kuduro",w:70,desc:"アフロビート由来の複合的なポリリズム構造とコール・アンド・レスポンス的なボーカル手法を受け継ぎ、それをドラムマシンや電子シンセサイザーによる高速BPMのビートと組み合わせることで、Kuduro独自のダンスミュージックの骨格を形成した。"},
 ];
 
 // ===== ROOTS POLYGON LAYOUT（無効化：全ノード自由配置） =====
@@ -7094,6 +7104,7 @@ const POPULARITY = {
   "pansori": 5,
   "gamelan": 5,
   "rebetiko": 6,
+  "kuduro": 7,
 };
 NODES.forEach(n => {
   n.popularity = POPULARITY[n.id] || 3;
