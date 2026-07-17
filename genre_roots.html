@@ -278,7 +278,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.112<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v24.113<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -5024,6 +5024,14 @@ const NODES = [
     yt_mix:["UEWCCSuHsuQ", "jkR3w3ql1rU"],
     yt_tracks:[["bNmKjxr-f-Q", "zSgiULuonhU"], ["7yo39dftUpY", "DJA2OO9Ttug"], ["Qym_z3zivCk", "UnbERHGk3no"]],
     aliases:["ガムラン", "ガムラン音楽", "Gamelan", "Gamelan Music"],},
+
+  {id:"rebetiko", label:"Rebetiko", cat:"middle_east", era:"1920s", suno:false,
+    desc:"Rebetikoはギリシャの都市部で生まれた音楽ジャンルで、哀愁漂うメロディーが特徴だ。主にブズーキ、バグラマ、ギターなどの弦楽器が用いられ、これらが独特のリズムと旋律を奏でる。歌詞はしばしば社会の底辺に生きる人々の生活や感情を描写し、感情豊かに歌われる。リバーブやエコーなどのエフェクトはあまり使われず、アコースティックな音色が重視される。小さなタヴェルナやカフェでの演奏が一般的で、親密な雰囲気の中で楽しむ音楽である。",
+    roots_story:"Rebetikoは1920年代のギリシャで、特に都市部の労働者階級や移民の間で発展した。オスマン帝国の崩壊後、アジア・マイナーからの難民がギリシャに流入し、彼らの音楽がRebetikoの基礎となった。初期のRebetikoは、社会のアウトサイダーや犯罪者、麻薬中毒者などの生活をテーマにしており、当時の権力者からはしばしば非難された。1930年代から1940年代にかけて、マルコス・ヴァンヴァカリスやヴァシリス・ツィツァニスといったアーティストがこのジャンルを牽引し、より広い聴衆に受け入れられるようになった。戦後には一時衰退したが、1970年代以降のリバイバルで再び注目を集め、現在でもギリシャ文化の重要な一部として親しまれている。",
+    rep_tracks:["Misirlou (Tetos Demetriades)", "Frangosyriani (Markos Vamvakaris)", "To Minore Tis Avgis (Vassilis Tsitsanis)"],
+    yt_mix:["pM2_Y4i___k", "ctsx1JBJZDk"],
+    yt_tracks:[["tT3CSg7HmmY", "LW6qGy3RtwY"], ["F2igfNzFqHw", "3A4T1FNPHHI"], ["CcXUqYU7dIk", "q5eBlv1dxtU"]],
+    aliases:["レベティコ", "レベティカ"],},
 ];
 
 const LINKS = [
@@ -6566,6 +6574,9 @@ const LINKS = [
   {s:"tejano",t:"cumbia",w:70,desc:"Tejanoはクンビア固有の2拍子シンコペーションリズムとギロやコンガによるパーカッションの絡みを吸収し、アコーディオンのリフと組み合わせることで、ダンスホール向けの反復グルーヴを持つ独自のTejano-cumbiaスタイルを確立した。"},
 
   {s:"gamelan",t:"minimalism_classical",w:70,desc:"ガムランのコルトモ構造（colotomic structure）による周期的な拍節管理と、ボナンやゴングが生み出す倍音豊かな持続音の層状テクスチャーが、スティーブ・ライヒの「フェイジング」技法やフィリップ・グラスの反復的アルペジオ構造に直接・間接的に吸収され、ミニマリズムの語法を形成した。"},
+
+  {s:"blues",t:"rebetiko",w:70,desc:"Rebetikoとブルースはともにペンタトニック的な旋律構造と即興演奏を重視し、社会的疎外層の苦悩を歌詞に乗せる点で並行的に発展した。ブズーキのベンド奏法とブルースギターのスライド・チョーキングは、異なる文化圏で生まれながら類似した表現技法として機能している。"},
+  {s:"rebetiko",t:"blues",w:70,desc:"Rebetikoとブルースはともにペンタトニック的な旋律構造と即興演奏を重視し、社会的疎外層の苦悩を歌詞に乗せる点で並行的に発展した。ブズーキのベンド奏法とブルースギターのスライド・チョーキングは、異なる文化圏で生まれながら類似した表現技法として機能している。"},
 ];
 
 // ===== ROOTS POLYGON LAYOUT（無効化：全ノード自由配置） =====
@@ -7082,13 +7093,14 @@ const POPULARITY = {
   "tejano": 7,
   "pansori": 5,
   "gamelan": 5,
+  "rebetiko": 6,
 };
 NODES.forEach(n => {
   n.popularity = POPULARITY[n.id] || 3;
   n.r = 15 + n.popularity * n.popularity * 2;
 });
 
-const LAST_UPDATED = "2026年7月16日";
+const LAST_UPDATED = "2026年7月17日";
 (function() {
   const el = document.getElementById('genre-count');
   if (el) el.textContent = NODES.length + " ジャンル　" + LAST_UPDATED + "現在";
