@@ -10092,7 +10092,7 @@ function grRenderResult(inputName, data, submitBtn) {
       <div class="gr-result-title gr-title-ng">✗ 申請を受け付けられませんでした</div>
       <div class="gr-ai-checks">
         ${grAiBlock('ChatGPT – 実在確認', false, data.chatgpt_reason || '実在する音楽ジャンルとして確認できませんでした。')}
-        ${data.claude_reason ? grAiBlock('AIによる再確認', false, data.claude_reason) : ''}
+        ${data.claude_reason ? grAiBlock('Claudeによる再確認', false, data.claude_reason) : ''}
       </div>
       <div class="gr-next">このジャンルは登録できませんでした。</div>
       <div class="gr-action-row">
