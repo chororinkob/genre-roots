@@ -278,7 +278,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.117<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v24.118<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -5048,6 +5048,14 @@ const NODES = [
     yt_mix:["r-VZ3vuVdvU", "Toax6Vtnpjk"],
     yt_tracks:[["9lFatvLhwpg", "95pOnqYfLMg"], ["gcL5BcMnzVI", ""], ["uOslNDylfyU", "FOskk0xlUG0"]],
     aliases:["マラベンタ", "Marrebenta", "マレベンタ"],},
+
+  {id:"morna", label:"Morna", cat:"african", era:"19th century", suno:false,
+    desc:"モルナは、カーボベルデの伝統的な音楽ジャンルで、感情豊かなメロディーが特徴だ。ギターやカヴァキーニョ、ヴァイオリンなどの弦楽器が主に用いられ、時にはアコーディオンも加わる。音響エフェクトは少なく、アコースティックな響きが重視される。小さなカフェや親密なライブハウスでの演奏が似合う。ボーカルはしっとりとした感情表現が求められ、歌詞には愛や郷愁が込められることが多い。",
+    roots_story:"モルナは19世紀にカーボベルデで誕生した。ポルトガルの植民地時代に、アフリカのリズムとポルトガルのファドが融合して生まれたとされる。セザリア・エヴォラがこのジャンルを国際的に広めたことで知られる。モルナは、カーボベルデの文化的アイデンティティを象徴する音楽として、国内外で愛され続けている。20世紀後半には、ジャズやボサノヴァの影響を受け、より洗練されたスタイルへと発展した。",
+    rep_tracks:["Sodade (Cesária Évora)", "Angola (Cesária Évora)", "Mar Azul (Cesária Évora)"],
+    yt_mix:["x32B29eTDgQ", "oufKjv7tv_o"],
+    yt_tracks:[["ERYY8GJ-i0I", "Mo4dmYifj0U"], ["nmOuOyXEwrI", "n7xxbw3g9uA"], ["wrE7NrAfLnA", "7ABdCyzZIzk"]],
+    aliases:["モルナ", "Morna"],},
 ];
 
 const LINKS = [
@@ -6601,6 +6609,9 @@ const LINKS = [
   {s:"marrabenta",t:"afropop",w:40,desc:"マラベンタのリズムパターンと旋律構造は、モザンビークおよび周辺南部アフリカのアフロポップアーティストたちに吸収され、現代的なプロダクションと融合した形で継承されている。特にシンコペーションの処理方法と、ポルトガル語・現地語を混在させる歌詞スタイルが後続世代に引き継がれた。"},
   {s:"soca",t:"marrabenta",w:20,desc:"直接的な影響関係は薄いが、植民地時代の都市労働者文化から生まれたダンスミュージックとしての社会的機能と、シンプルなコード進行の上に複雑なリズムを重ねる構造的アプローチにおいて類似した発展経路をたどっており、ワールドミュージックの文脈で並列して論じられることがある。"},
   {s:"marrabenta",t:"soca",w:20,desc:"直接的な影響関係は薄いが、植民地時代の都市労働者文化から生まれたダンスミュージックとしての社会的機能と、シンプルなコード進行の上に複雑なリズムを重ねる構造的アプローチにおいて類似した発展経路をたどっており、ワールドミュージックの文脈で並列して論じられることがある。"},
+
+  {s:"fado",t:"morna",w:70,desc:"ファドが持つ「サウダーデ（saudade）」の概念と短調を基調とした旋律構造がモルナに取り込まれ、ギターによる哀愁を帯びたアルペジオ奏法や、喪失・望郷をテーマとする歌詞の様式がモルナの音楽的骨格を形成した。"},
+  {s:"bossa_nova",t:"morna",w:40,desc:"20世紀後半、ボサノヴァのシンコペーションを抑えた柔らかなリズム処理と、テンションコードを多用するアコースティックギターの和声アプローチがモルナの編曲に取り入れられ、よりコスモポリタンな音響へと洗練された。"},
 ];
 
 // ===== ROOTS POLYGON LAYOUT（無効化：全ノード自由配置） =====
@@ -7120,6 +7131,7 @@ const POPULARITY = {
   "rebetiko": 6,
   "kuduro": 7,
   "marrabenta": 3,
+  "morna": 6,
 };
 NODES.forEach(n => {
   n.popularity = POPULARITY[n.id] || 3;
