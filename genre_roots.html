@@ -278,7 +278,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.120<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v24.121<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -10066,8 +10066,8 @@ function grRenderResult(inputName, data, submitBtn) {
     grShowResult(`
       <div class="gr-result-title gr-title-ok">✓ 申請を受け付けました</div>
       <div class="gr-ai-checks">
-        ${grAiBlock('ChatGPT – 実在確認＋情報生成', true, '9項目のジャンル情報を生成しました。')}
-        ${grAiBlock('Claude – ファクトチェック', true, '内容を検証しました。')}
+        ${grAiBlock((data.generator_engine || 'AI') + ' – 実在確認＋情報生成', true, '9項目のジャンル情報を生成しました。')}
+        ${grAiBlock((data.factcheck_engine || 'AI') + ' – ファクトチェック', true, '内容を検証しました。')}
       </div>
       <div class="gr-next">生成された内容をこの場で確認できます。「${grNextLabel()}」で確認を後回しにしても、内容は承認待ち一覧に残ります。</div>
       <div class="gr-action-row">
@@ -10091,8 +10091,8 @@ function grRenderResult(inputName, data, submitBtn) {
     grShowResult(`
       <div class="gr-result-title gr-title-ng">✗ 申請を受け付けられませんでした</div>
       <div class="gr-ai-checks">
-        ${grAiBlock('ChatGPT – 実在確認', false, data.chatgpt_reason || '実在する音楽ジャンルとして確認できませんでした。')}
-        ${data.claude_reason ? grAiBlock('Claudeによる再確認', false, data.claude_reason) : ''}
+        ${grAiBlock((data.primary_engine || 'AI') + ' – 実在確認', false, data.primary_reason || '実在する音楽ジャンルとして確認できませんでした。')}
+        ${data.secondary_reason ? grAiBlock((data.secondary_engine || 'AI') + 'による再確認', false, data.secondary_reason) : ''}
       </div>
       <div class="gr-next">このジャンルは登録できませんでした。</div>
       <div class="gr-action-row">
