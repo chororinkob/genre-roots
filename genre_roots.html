@@ -278,7 +278,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.124<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v24.125<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -10115,7 +10115,25 @@ function grOpenCorrectionPreview(token) {
 }
 
 function grRenderResult(inputName, data, submitBtn) {
-  if (data.status === 'pending') {
+  if (data.status === 'pending' && data.factcheck_failed) {
+    // v24.122〜: ファクトチェック自体が行えなかった場合（AIサービスの利用上限超過等）は、
+    // 通常の「✓ 申請を受け付けました」（＝検証済みであるかのような表現）ではなく、
+    // 検証できていない旨を謝罪つきで伝える。以前はこの場合も通常と全く同じ「内容を
+    // 検証しました。」という表示になってしまい、実際には確認されていないことが
+    // 伝わらなかった。
+    grShowResult(`
+      <div class="gr-result-title gr-title-dup">申し訳ございません</div>
+      <div class="gr-ai-checks">
+        ${grAiBlock((data.generator_engine || 'AI') + ' – 実在確認＋情報生成', true, '9項目のジャンル情報を生成しました。')}
+        ${grAiBlock((data.factcheck_engine || 'AI') + ' – ファクトチェック', false, 'ただいま内容の確認を行うことができませんでした。')}
+      </div>
+      <div class="gr-next">${grEsc(data.message || '')}</div>
+      <div class="gr-action-row">
+        ${data.token ? `<button class="gr-btn-map" onclick="grOpenPreview('${grEsc(data.token)}')">生成内容を確認する</button>` : ''}
+        <button class="gr-btn-next" onclick="grCloseAndNext()">${grNextLabel()}</button>
+      </div>`);
+
+  } else if (data.status === 'pending') {
     grShowResult(`
       <div class="gr-result-title gr-title-ok">✓ 申請を受け付けました</div>
       <div class="gr-ai-checks">
