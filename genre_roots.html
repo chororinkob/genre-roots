@@ -50,6 +50,8 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
 #sp-body { padding: 14px 16px; }
 .sp-suno { display: inline-block; background: #FFD700; color: #000; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 10px; margin-bottom: 10px; }
 .sp-era { font-size: 12px; color: #ccc; margin-bottom: 10px; }
+.sp-cat { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: #ccc; margin-bottom: 4px; }
+.sp-cat-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 .sp-section { margin-bottom: 14px; }
 .sp-section h4 { font-size: 12px; letter-spacing: 0.5px; color: #fff; font-weight: 700; margin-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 4px; }
 .sp-section p { color: #ccc; line-height: 1.6; font-size: 13px; }
@@ -278,7 +280,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.131<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v24.132<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -382,6 +384,7 @@ svg { width: 100vw; height: 100vh; }
       <button id="sp-yt-next" style="display:none;margin-top:3px;padding:4px 10px;background:#1565C0;border:none;border-radius:4px;color:#fff;font-size:11px;font-weight:700;cursor:pointer;">次▶</button>
     </div>
     <div id="sp-suno-wrap"></div>
+    <div id="sp-cat" class="sp-cat" style="display:none;"></div>
     <div id="sp-era" class="sp-era"></div>
     <div class="sp-section" id="sp-desc-sec">
       <h4>音楽性・特徴</h4>
@@ -7650,6 +7653,7 @@ const spTag     = document.getElementById("sp-tag");
 const spCopy    = document.getElementById("sp-copy");
 const spClose   = document.getElementById("sp-close");
 const spSunoW   = document.getElementById("sp-suno-wrap");
+const spCat     = document.getElementById("sp-cat");
 const spEra     = document.getElementById("sp-era");
 const spDesc    = document.getElementById("sp-desc");
 const spIn      = document.getElementById("sp-in");
@@ -7700,6 +7704,18 @@ node.on("click", (e, d) => {
   const name = d.label.replace("\n", " ");
   spTag.textContent = name;
   spSunoW.innerHTML = '';
+  // カテゴリー表示。凡例(legend-item)に既にカテゴリごとの日本語ラベルが
+  // 用意されているので、そこから読み取って使う（別に一覧を持つと表記が
+  // ずれるリスクがあるため、凡例を唯一の情報源にする）。
+  if (d.cat) {
+    const catLabelEl = document.querySelector('.legend-item[data-cat="' + d.cat + '"] .legend-label');
+    const catLabel = catLabelEl ? catLabelEl.textContent : d.cat;
+    const catColor = CAT_COLOR[d.cat] || '#888';
+    spCat.innerHTML = `<span class="sp-cat-dot" style="background:${catColor}"></span>カテゴリ：${grEsc(catLabel)}`;
+    spCat.style.display = '';
+  } else {
+    spCat.style.display = 'none';
+  }
   spEra.textContent  = d.era ? `発祥時期：${d.era}` : '';
   spDesc.textContent = d.desc || '（説明なし）';
 
