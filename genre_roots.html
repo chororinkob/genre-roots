@@ -9806,8 +9806,8 @@ function initGlobe() {
 
 <div id="genre-request-overlay">
   <div id="genre-request-card">
-    <h2>ジャンル追加申請 <span class="gr-ver">v1.4</span></h2>
-    <p class="gr-sub">載っていないジャンルを申請できます。AIが情報を生成し、管理者確認後にマップへ追加されます。</p>
+    <h2>ジャンル追加申請 <span class="gr-ver">v1.5</span></h2>
+    <p class="gr-sub">載っていないジャンルを申請できます。AIが情報を生成し、確認画面で承認されると、マップへ追加されます。</p>
 
     <label for="gr-name">ジャンル名 <span style="color:#e06060">*</span></label>
     <input type="text" id="gr-name" placeholder="例: Arena Rock、ニュージャック・スウィング">
@@ -10156,7 +10156,7 @@ function grRenderResult(inputName, data, submitBtn) {
         ${grAiBlock((data.generator_engine || 'AI') + ' – 実在確認＋情報生成', true, '9項目のジャンル情報を生成しました。')}
         ${grAiBlock((data.factcheck_engine || 'AI') + ' – ファクトチェック', true, '内容を検証しました。')}
       </div>
-      <div class="gr-next">生成された内容をこの場で確認できます。「${grNextLabel()}」で確認を後回しにしても、内容は承認待ち一覧に残ります。</div>
+      <div class="gr-next">生成された内容をこの場で確認できます。「${grNextLabel()}」で確認を後回しにしても、内容は承認待ち一覧に残り、管理者が確認後、内容が妥当であれば承認されます。</div>
       <div class="gr-action-row">
         ${data.token ? `<button class="gr-btn-map" onclick="grOpenPreview('${grEsc(data.token)}')">生成内容を確認する</button>` : ''}
         <button class="gr-btn-next" onclick="grCloseAndNext()">${grNextLabel()}</button>
