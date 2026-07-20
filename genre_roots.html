@@ -117,7 +117,7 @@ svg { width: 100vw; height: 100vh; }
 .node.focus-dim { opacity: 0.05; }
 .link.focus-dim { opacity: 0.03 !important; }
 .link.focus-highlight { opacity: 1 !important; stroke-width: 16px !important; filter: drop-shadow(0 0 4px rgba(255,255,255,0.5)); }
-.link-flow-mark { fill: none; stroke: #fff; stroke-width: 3px; stroke-linecap: round; stroke-linejoin: round; opacity: 0.95; pointer-events: none; }
+.link-flow-mark { fill: none; stroke: #cfd8ff; stroke-width: 3px; stroke-linecap: round; stroke-linejoin: round; opacity: 0.75; filter: drop-shadow(0 0 2px rgba(180,190,255,0.6)); pointer-events: none; }
 .link-label-group.focus-dim { opacity: 0.03 !important; }
 .link-label-group.focus-highlight { opacity: 1 !important; }
 .legend-item[data-cat] { cursor: pointer; padding: 2px 5px; border-radius: 4px; margin-left: -5px; transition: background 0.15s; }
@@ -282,7 +282,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.139<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v24.140<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -7488,7 +7488,7 @@ const link = g.append("g").selectAll("line")
 // でその線の実座標(x1,y1→x2,y2)をそのまま使い、線の向きに正確に沿わせる
 // （objectBoundingBoxだと斜めの線で向きがずれてしまうため）。
 const flowMarksG = g.append("g").attr("id", "link-flow-marks").style("pointer-events", "none");
-const FLOW_MARK_COUNT = 10;  // 1本の線あたりに流す矢印の数（40だと線の色が埋もれて見えなくなった）
+const FLOW_MARK_COUNT = 15;  // 1本の線あたりに流す矢印の数（40だと線の色が埋もれて見えなくなった、10だとやや少なかった）
 const FLOW_MARK_DUR   = 8;   // 矢印1つが線を端から端まで移動する秒数
 // 矢印の先端（chevron）を進行方向の先頭(ローカル原点0,0)に置く形にした。
 // animateMotionのrotate="auto"により、先端が常に進行方向を向く。
@@ -7792,12 +7792,7 @@ node.on("click", (e, d) => {
   link.classed('focus-highlight', l => l.s === d.id || l.t === d.id);
   link.classed('focus-dim', l => l.s !== d.id && l.t !== d.id);
   _syncLinkFlowMarks();
-  link.attr("marker-end", l => (l.s === d.id || l.t === d.id) ? l.target.__data__ ? d3.select(l).attr("data-marker-end") : "none" : "none");
-  link.each(function(l) {
-    const show = l.s === d.id || l.t === d.id;
-    d3.select(this).attr("marker-end", show ? d3.select(this).attr("data-marker-end") : "none");
-    d3.select(this).attr("marker-start", show ? d3.select(this).attr("data-marker-start") : "none");
-  });
+  // 三角形の矢印マーカーは表示しない（流れる矢印マークが方向を示すため不要になった）
   linkLabelG.classed('focus-highlight', l => l.s === d.id || l.t === d.id);
   linkLabelG.classed('focus-dim', l => l.s !== d.id && l.t !== d.id);
 
@@ -8317,15 +8312,16 @@ svg.on("click", () => {
 
 simulation.on("tick", () => {
   link
+    // 以前はmutual（相互影響）の線だけ始点をノードの円周まで引っ込めていて、
+    // それ以外の線は始点がノードの中心のままだった（終点は常に円周基準）ため
+    // 始点と終点で基準がずれて見えていた。両方とも常に円周基準に統一する。
     .attr("x1", d => {
-      if (!d.mutual) return d.source.x;
       const dx = d.target.x - d.source.x, dy = d.target.y - d.source.y;
       const dist = Math.sqrt(dx*dx + dy*dy) || 1;
       const r = d.source.r + 7;
       return dist > r ? d.source.x + dx/dist * r : d.source.x;
     })
     .attr("y1", d => {
-      if (!d.mutual) return d.source.y;
       const dx = d.target.x - d.source.x, dy = d.target.y - d.source.y;
       const dist = Math.sqrt(dx*dx + dy*dy) || 1;
       const r = d.source.r + 7;
