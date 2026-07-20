@@ -296,7 +296,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.147<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v24.148<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -10682,6 +10682,7 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 #mic-yt-fallback { display: none; font-size: 11px; text-align: center; padding: 4px 0; }
 #mic-yt-fallback a { color: #ff7070; text-decoration: none; }
 #mic-yt-fallback a:hover { text-decoration: underline; }
+.mic-yt-fail-reason { font-size: 10px; color: #777; margin-top: 3px; }
 
 /* 「これなんて曲？」ボタンと履歴トグルを、1つの赤い枠にまとめて視覚的に紐付ける */
 #mic-trigger-wrap {
@@ -10738,7 +10739,7 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 <div id="mic-overlay">
   <div id="mic-panel">
     <button id="mic-panel-close" onclick="closeMicPanel()">✕</button>
-    <div id="mic-panel-version">v2.30</div>
+    <div id="mic-panel-version">v2.31</div>
     <div id="mic-panel-title">🎵 音楽を聴かせてください</div>
     <div id="mic-panel-sub">ジャンルを調べてマップに表示します</div>
 
@@ -11098,6 +11099,10 @@ async function micSearchYoutube(title, artist) {
   fallback.style.display = 'none';
   frame.src = '';
 
+  // 検索がうまくいかなかった理由を画面にも残しておく。以前はAPIがエラーを
+  // 返してきた場合（利用上限超過など）もfetch自体は成功扱いになるため、
+  // 何も記録が残らず「なぜリンク表示になったか」が後から分からなかった。
+  let failReason = '';
   const ytKey = window._ytk;
   if (ytKey) {
     try {
@@ -11114,14 +11119,41 @@ async function micSearchYoutube(title, artist) {
         micUpdateLatestHistoryVideoId(vid);
         return;
       }
-    } catch (e) { console.warn('[mic] YouTube API error:', e); }
+      failReason = micYtFailReason(data, res.status);
+      console.warn('[mic] YouTube検索で動画が見つかりませんでした。', {status: res.status, response: data});
+    } catch (e) {
+      failReason = '通信エラーが発生しました（' + (e && e.message ? e.message : '不明なエラー') + '）';
+      console.warn('[mic] YouTube API error:', e);
+    }
+  } else {
+    failReason = 'YouTube検索用のキーが読み込めませんでした';
   }
 
   // API失敗 or キーなし → 別タブリンクを表示
   loading.style.display  = 'none';
   fallback.style.display = 'block';
   fallback.innerHTML = '▶ <a href="https://www.youtube.com/results?search_query=' +
-    qEnc + '" target="_blank">' + micEsc(q) + ' を YouTube で検索</a>';
+    qEnc + '" target="_blank">' + micEsc(q) + ' を YouTube で検索</a>' +
+    (failReason ? '<div class="mic-yt-fail-reason">' + micEsc(failReason) + '</div>' : '');
+}
+
+// YouTube検索が失敗した理由を、分かりやすい日本語に変換する。
+// data.errorがある場合（APIキーの利用上限超過・制限など、YouTube側が
+// エラーとして返してきたケース）を優先的に判定し、それ以外は
+// 「単純に一致する動画がなかった」ものとして扱う。
+function micYtFailReason(data, status) {
+  if (data && data.error) {
+    const reason = (data.error.errors && data.error.errors[0] && data.error.errors[0].reason) || '';
+    const message = data.error.message || '';
+    if (reason === 'quotaExceeded' || /quota/i.test(message)) {
+      return 'YouTube検索の利用上限に達しています（時間をおくと再び使えるようになります）';
+    }
+    if (/referer|referrer/i.test(reason) || /referer|referrer/i.test(message)) {
+      return 'このサイトからのアクセスがYouTube側で許可されていません';
+    }
+    return 'YouTube検索でエラーが発生しました（' + (message || ('コード' + status)) + '）';
+  }
+  return '一致する動画が見つかりませんでした';
 }
 
 // 「ヴ」表記を対応する「バ行」表記に統一する（ヴァ→バ、ヴィ→ビ、ヴ→ブ、ヴェ→ベ、ヴォ→ボ）
