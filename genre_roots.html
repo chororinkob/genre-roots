@@ -116,8 +116,8 @@ svg { width: 100vw; height: 100vh; }
 .node.cat-dim { opacity: 0.05; pointer-events: none; }
 .node.focus-dim { opacity: 0.05; }
 .link.focus-dim { opacity: 0.03 !important; }
-.link.focus-highlight { opacity: 1 !important; stroke-width: 8px !important; filter: drop-shadow(0 0 4px rgba(255,255,255,0.5)); }
-.link-flow-mark { fill: none; stroke: #fff; stroke-width: 7px; stroke-linecap: round; stroke-linejoin: round; opacity: 0.95; pointer-events: none; }
+.link.focus-highlight { opacity: 1 !important; stroke-width: 16px !important; filter: drop-shadow(0 0 4px rgba(255,255,255,0.5)); }
+.link-flow-mark { fill: none; stroke: #fff; stroke-width: 3px; stroke-linecap: round; stroke-linejoin: round; opacity: 0.95; pointer-events: none; }
 .link-label-group.focus-dim { opacity: 0.03 !important; }
 .link-label-group.focus-highlight { opacity: 1 !important; }
 .legend-item[data-cat] { cursor: pointer; padding: 2px 5px; border-radius: 4px; margin-left: -5px; transition: background 0.15s; }
@@ -282,7 +282,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.138<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v24.139<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -7490,10 +7490,12 @@ const link = g.append("g").selectAll("line")
 const flowMarksG = g.append("g").attr("id", "link-flow-marks").style("pointer-events", "none");
 const FLOW_MARK_COUNT = 10;  // 1本の線あたりに流す矢印の数（40だと線の色が埋もれて見えなくなった）
 const FLOW_MARK_DUR   = 8;   // 矢印1つが線を端から端まで移動する秒数
-// 矢印の先端（chevron）を進行方向の先頭(ローカル原点0,0)に置き、そこから
-// 後ろ(-x方向)に向かって尾を伸ばす形にした。animateMotionのrotate="auto"
-// により、先端が常に進行方向を向く。
-const FLOW_MARK_GLYPH = "M-30,0 L-9,0 M-9,-7.5 L0,0 L-9,7.5";
+// 矢印の先端（chevron）を進行方向の先頭(ローカル原点0,0)に置く形にした。
+// animateMotionのrotate="auto"により、先端が常に進行方向を向く。
+// 一時期グラデーション用に後ろへ「尾」を伸ばしていたが、グラデーションは
+// 線本体に移したため不要になり、キノコのような不格好な形になっていた。
+// シンプルな「＞」形に戻した。
+const FLOW_MARK_GLYPH = "M-9,-7.5 L0,0 L-9,7.5";
 
 function _syncLinkFlowMarks() {
   const activeIdx = new Set();
@@ -7516,8 +7518,10 @@ function _syncLinkFlowMarks() {
       gradSel = defs.append("linearGradient")
         .attr("id", gradId)
         .attr("gradientUnits", "userSpaceOnUse");
-      gradSel.append("stop").attr("class", "g0").attr("offset", "0%").attr("stop-color", baseColor).attr("stop-opacity", 0.2);
-      gradSel.append("stop").attr("class", "g1").attr("offset", "100%").attr("stop-color", baseColor).attr("stop-opacity", 1);
+      // 0%=根元(source)側を濃く、100%=矢印の先端(target)側を薄くする
+      // （最初は逆にしてしまい「向きが逆」と指摘されたため入れ替えた）
+      gradSel.append("stop").attr("class", "g0").attr("offset", "0%").attr("stop-color", baseColor).attr("stop-opacity", 1);
+      gradSel.append("stop").attr("class", "g1").attr("offset", "100%").attr("stop-color", baseColor).attr("stop-opacity", 0.2);
     }
     gradSel.attr("x1", x1).attr("y1", y1).attr("x2", x2).attr("y2", y2);
     this.setAttribute('stroke', `url(#${gradId})`);
