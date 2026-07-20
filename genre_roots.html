@@ -72,8 +72,13 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
 .sp-meter-chevrons-rev { transform: scaleX(-1); }
 /* 相互影響のバーは矢印同士の間隔が詰まりすぎて「流れている」というより
    「ギラギラ点滅している」ように見えてしまったため、矢印の絵柄は同じまま
-   タイルの幅だけ2倍にして間隔を広げたもの（.wide）。 */
-.sp-meter-chevrons.wide { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='15'%3E%3Cpath d='M2 1 L7.5 7.5 L2 14' stroke='white' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-size: 22px 15px; animation-name: sp-chevron-flow-wide; }
+   タイルの幅だけ2倍にして間隔を広げたもの（.wide）。
+   タイル幅を2倍にした際、animation-durationを据え置いたまま（0.6s）
+   にしていたため、同じ0.6秒で2倍の距離(22px)を動くことになり、実際の
+   移動速度が2倍になってしまっていた（「矢印の動きが倍速い」という指摘の
+   原因）。durationも2倍(1.2s)にして、実際のピクセル速度を他のバーと
+   揃える。 */
+.sp-meter-chevrons.wide { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='15'%3E%3Cpath d='M2 1 L7.5 7.5 L2 14' stroke='white' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-size: 22px 15px; animation-name: sp-chevron-flow-wide; animation-duration: 1.2s; }
 @keyframes sp-chevron-flow-wide { to { background-position: 22px 0; } }
 .sp-meter-pct { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 9.5px; font-weight: 800; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.75); letter-spacing: 0.1px; line-height: 1; }
 .sp-mutual-arrow { color: #c9a6ff; font-weight: 700; font-size: 13px; flex-shrink: 0; }
@@ -291,7 +296,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.144<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v24.145<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -7509,17 +7514,17 @@ const FLOW_MARK_GLYPH = "M-9,-7.5 L0,0 L-9,7.5";
 // grp（1本の線に対応する<g>）の中に、指定した経路(pathD)に沿って流れる
 // 矢印マークをcount個追加する。motionClassで向き(fwd-motion/rev-motion)を
 // 区別できるようにしておき、後で経路だけを更新するときに使う。
-function _addFlowMarks(grp, count, pathD, motionClass) {
+function _addFlowMarks(grp, count, pathD, motionClass, dur) {
   for (let k = 0; k < count; k++) {
     const mark = grp.append("path")
       .attr("class", "link-flow-mark")
       .attr("d", FLOW_MARK_GLYPH);
     mark.append("animateMotion")
       .attr("class", motionClass)
-      .attr("dur", FLOW_MARK_DUR + "s")
+      .attr("dur", dur + "s")
       .attr("repeatCount", "indefinite")
       .attr("rotate", "auto")
-      .attr("begin", (k * FLOW_MARK_DUR / count) + "s")
+      .attr("begin", (k * dur / count) + "s")
       .attr("path", pathD);
   }
 }
@@ -7571,10 +7576,10 @@ function _syncLinkFlowMarks() {
         // 相互影響の線は、片方向だけでなく両方向から矢印がすれ違うように
         // 流す。本数は片方向あたり半分にして、密度が単方向の線と揃うようにする。
         const halfCount = Math.round(FLOW_MARK_COUNT / 2);
-        _addFlowMarks(grp, halfCount, pathD,  "fwd-motion");
-        _addFlowMarks(grp, halfCount, pathRD, "rev-motion");
+        _addFlowMarks(grp, halfCount, pathD,  "fwd-motion", FLOW_MARK_DUR);
+        _addFlowMarks(grp, halfCount, pathRD, "rev-motion", FLOW_MARK_DUR);
       } else {
-        _addFlowMarks(grp, FLOW_MARK_COUNT, pathD, "fwd-motion");
+        _addFlowMarks(grp, FLOW_MARK_COUNT, pathD, "fwd-motion", FLOW_MARK_DUR);
       }
     } else if (grp.attr("data-path") !== pathD) {
       // ノードが動いて線の位置が変わった場合だけ経路を作り直す
@@ -9128,6 +9133,28 @@ function clearHighlight() {
   lockedCat = null;
   document.querySelectorAll('.legend-item[data-cat]').forEach(el => el.style.background = '');
 
+}
+
+// タイトル（左上の「音楽ジャンルルーツ辞典」）をクリックしたら、選択状態・
+// 検索・カテゴリ絞り込みを全部解除して、ズームも全体表示に戻す。
+// 多くのサイトでタイトルをクリックするとトップに戻るのと同じ考え方。
+function _grResetToOverview() {
+  closePanel();
+  clearHighlight();
+  window._nodeFocused = false;
+  window._searchActive = false;
+  if (searchInput) searchInput.value = '';
+  document.getElementById("search-results").style.display = "none";
+  node.classed('focus-highlight', false);
+  node.classed('focus-dim', false);
+  node.classed('search-match', false);
+  node.select("circle").attr("opacity", 1);
+  fitToView();
+}
+const headerTitleEl = document.querySelector('#header h1');
+if (headerTitleEl) {
+  headerTitleEl.style.cursor = 'pointer';
+  headerTitleEl.addEventListener('click', _grResetToOverview);
 }
 
 document.querySelectorAll('.legend-item[data-cat]').forEach(item => {
