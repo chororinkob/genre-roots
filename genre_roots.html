@@ -296,7 +296,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.145<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v24.146<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -7479,6 +7479,12 @@ const link = g.append("g").selectAll("line")
   .attr("class", "link")
   .attr("stroke", d => d.mutual ? "#fff" : (CAT_COLOR[nodeMap[d.s]?.cat] || "#555"))
   .attr("data-base-color", d => d.mutual ? "#fff" : (CAT_COLOR[nodeMap[d.s]?.cat] || "#555"))
+  // ハイライト時のグラデーションで「元のジャンルの色→先のジャンルの色」を
+  // 表現するため、両端それぞれの実際のカテゴリ色を持たせておく
+  // （data-base-colorは非選択時の単色表示・相互ならグラデーションの
+  // 端の色として使うので、mutualでも常に#fffではなく実際の色にする）。
+  .attr("data-source-color", d => CAT_COLOR[nodeMap[d.s]?.cat] || "#555")
+  .attr("data-target-color", d => CAT_COLOR[nodeMap[d.t]?.cat] || "#555")
   .attr("stroke-width", d => d.mutual ? 6 + d.w / 12 : 4 + d.w / 10)
   .attr("marker-end", "none")
   .attr("marker-start", "none")
@@ -7542,9 +7548,13 @@ function _syncLinkFlowMarks() {
     const x2 = +this.getAttribute('x2'), y2 = +this.getAttribute('y2');
     const pathD  = `M${x1},${y1} L${x2},${y2}`;
     const pathRD = `M${x2},${y2} L${x1},${y1}`; // 相互影響用：逆向きの経路
-    const baseColor = this.getAttribute('data-base-color');
+    const sourceColor = this.getAttribute('data-source-color');
+    const targetColor = this.getAttribute('data-target-color');
 
     // 線本体のグラデーション（線ごとに1個、色・座標が変わったときだけ作り直す/更新する）
+    // 「元の色から先の色へ変わる」ことに意味を持たせたいとの要望を受け、
+    // 単色の濃淡ではなく、元のジャンル・先のジャンルそれぞれの実際の色を
+    // 使った2色グラデーションにした。
     const gradId = `link-grad-${i}`;
     let gradSel = defs.select(`#${gradId}`);
     if (gradSel.empty()) {
@@ -7553,17 +7563,18 @@ function _syncLinkFlowMarks() {
         .attr("gradientUnits", "userSpaceOnUse");
       if (d.mutual) {
         // 相互影響の線は、片方の端だけ濃いと「そちらから流れている」ように
-        // 見えてしまい実態と合わない（どちらの方向からも来る関係のため）。
-        // 真ん中を濃く、両端（どちらのジャンルの側も）を同じように薄くする
-        // 左右対称のグラデーションにする。
-        gradSel.append("stop").attr("offset", "0%").attr("stop-color", baseColor).attr("stop-opacity", 0.2);
-        gradSel.append("stop").attr("offset", "50%").attr("stop-color", baseColor).attr("stop-opacity", 1);
-        gradSel.append("stop").attr("offset", "100%").attr("stop-color", baseColor).attr("stop-opacity", 0.2);
+        // 見えてしまい実態と合わない（どちらの方向からも来る関係のため）ため、
+        // 「真ん中が明るく強調される」表現は残しつつ、両端はそれぞれの
+        // ジャンルの色、真ん中に近づくほど明るく（白に）変化するようにする。
+        gradSel.append("stop").attr("offset", "0%").attr("stop-color", sourceColor).attr("stop-opacity", 0.2);
+        gradSel.append("stop").attr("offset", "50%").attr("stop-color", "#fff").attr("stop-opacity", 1);
+        gradSel.append("stop").attr("offset", "100%").attr("stop-color", targetColor).attr("stop-opacity", 0.2);
       } else {
-        // 0%=根元(source)側を濃く、100%=矢印の先端(target)側を薄くする
+        // 0%=根元(source)側を元のジャンルの色で濃く、
+        // 100%=矢印の先端(target)側を先のジャンルの色で薄くする
         // （最初は逆にしてしまい「向きが逆」と指摘されたため入れ替えた）
-        gradSel.append("stop").attr("class", "g0").attr("offset", "0%").attr("stop-color", baseColor).attr("stop-opacity", 1);
-        gradSel.append("stop").attr("class", "g1").attr("offset", "100%").attr("stop-color", baseColor).attr("stop-opacity", 0.2);
+        gradSel.append("stop").attr("class", "g0").attr("offset", "0%").attr("stop-color", sourceColor).attr("stop-opacity", 1);
+        gradSel.append("stop").attr("class", "g1").attr("offset", "100%").attr("stop-color", targetColor).attr("stop-opacity", 0.2);
       }
     }
     gradSel.attr("x1", x1).attr("y1", y1).attr("x2", x2).attr("y2", y2);
