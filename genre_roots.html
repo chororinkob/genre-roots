@@ -282,7 +282,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.140<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v24.141<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -7497,6 +7497,24 @@ const FLOW_MARK_DUR   = 8;   // 矢印1つが線を端から端まで移動す�
 // シンプルな「＞」形に戻した。
 const FLOW_MARK_GLYPH = "M-9,-7.5 L0,0 L-9,7.5";
 
+// grp（1本の線に対応する<g>）の中に、指定した経路(pathD)に沿って流れる
+// 矢印マークをcount個追加する。motionClassで向き(fwd-motion/rev-motion)を
+// 区別できるようにしておき、後で経路だけを更新するときに使う。
+function _addFlowMarks(grp, count, pathD, motionClass) {
+  for (let k = 0; k < count; k++) {
+    const mark = grp.append("path")
+      .attr("class", "link-flow-mark")
+      .attr("d", FLOW_MARK_GLYPH);
+    mark.append("animateMotion")
+      .attr("class", motionClass)
+      .attr("dur", FLOW_MARK_DUR + "s")
+      .attr("repeatCount", "indefinite")
+      .attr("rotate", "auto")
+      .attr("begin", (k * FLOW_MARK_DUR / count) + "s")
+      .attr("path", pathD);
+  }
+}
+
 function _syncLinkFlowMarks() {
   const activeIdx = new Set();
   link.each(function(d, i) {
@@ -7508,7 +7526,8 @@ function _syncLinkFlowMarks() {
     activeIdx.add(i);
     const x1 = +this.getAttribute('x1'), y1 = +this.getAttribute('y1');
     const x2 = +this.getAttribute('x2'), y2 = +this.getAttribute('y2');
-    const pathD = `M${x1},${y1} L${x2},${y2}`;
+    const pathD  = `M${x1},${y1} L${x2},${y2}`;
+    const pathRD = `M${x2},${y2} L${x1},${y1}`; // 相互影響用：逆向きの経路
     const baseColor = this.getAttribute('data-base-color');
 
     // 線本体のグラデーション（線ごとに1個、色・座標が変わったときだけ作り直す/更新する）
@@ -7529,21 +7548,20 @@ function _syncLinkFlowMarks() {
     let grp = flowMarksG.select(`g[data-idx="${i}"]`);
     if (grp.empty()) {
       grp = flowMarksG.append("g").attr("data-idx", i).attr("data-path", pathD);
-      for (let k = 0; k < FLOW_MARK_COUNT; k++) {
-        const mark = grp.append("path")
-          .attr("class", "link-flow-mark")
-          .attr("d", FLOW_MARK_GLYPH);
-        mark.append("animateMotion")
-          .attr("dur", FLOW_MARK_DUR + "s")
-          .attr("repeatCount", "indefinite")
-          .attr("rotate", "auto")
-          .attr("begin", (k * FLOW_MARK_DUR / FLOW_MARK_COUNT) + "s")
-          .attr("path", pathD);
+      if (d.mutual) {
+        // 相互影響の線は、片方向だけでなく両方向から矢印がすれ違うように
+        // 流す。本数は片方向あたり半分にして、密度が単方向の線と揃うようにする。
+        const halfCount = Math.round(FLOW_MARK_COUNT / 2);
+        _addFlowMarks(grp, halfCount, pathD,  "fwd-motion");
+        _addFlowMarks(grp, halfCount, pathRD, "rev-motion");
+      } else {
+        _addFlowMarks(grp, FLOW_MARK_COUNT, pathD, "fwd-motion");
       }
     } else if (grp.attr("data-path") !== pathD) {
       // ノードが動いて線の位置が変わった場合だけ経路を作り直す
       grp.attr("data-path", pathD);
-      grp.selectAll("animateMotion").attr("path", pathD);
+      grp.selectAll(".fwd-motion").attr("path", pathD);
+      grp.selectAll(".rev-motion").attr("path", pathRD);
     }
   });
   // ハイライトが外れた線の矢印は消す
