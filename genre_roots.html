@@ -296,7 +296,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.146<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v24.147<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -7570,11 +7570,14 @@ function _syncLinkFlowMarks() {
         gradSel.append("stop").attr("offset", "50%").attr("stop-color", "#fff").attr("stop-opacity", 1);
         gradSel.append("stop").attr("offset", "100%").attr("stop-color", targetColor).attr("stop-opacity", 0.2);
       } else {
-        // 0%=根元(source)側を元のジャンルの色で濃く、
-        // 100%=矢印の先端(target)側を先のジャンルの色で薄くする
+        // 片方向の線は「先のジャンルの色」を混ぜない単色に戻した。元の
+        // ジャンルの色が先に向かって飛んでいき、近づくにつれて薄くなる
+        // 表現の方が意味合いとして自然、との判断による（2色化は試したが
+        // 元の単色濃淡の方がよいとのことで差し戻し）。
+        // 0%=根元(source)側を濃く、100%=矢印の先端(target)側を薄くする
         // （最初は逆にしてしまい「向きが逆」と指摘されたため入れ替えた）
         gradSel.append("stop").attr("class", "g0").attr("offset", "0%").attr("stop-color", sourceColor).attr("stop-opacity", 1);
-        gradSel.append("stop").attr("class", "g1").attr("offset", "100%").attr("stop-color", targetColor).attr("stop-opacity", 0.2);
+        gradSel.append("stop").attr("class", "g1").attr("offset", "100%").attr("stop-color", sourceColor).attr("stop-opacity", 0.2);
       }
     }
     gradSel.attr("x1", x1).attr("y1", y1).attr("x2", x2).attr("y2", y2);
