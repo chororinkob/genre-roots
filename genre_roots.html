@@ -117,7 +117,7 @@ svg { width: 100vw; height: 100vh; }
 .node.focus-dim { opacity: 0.05; }
 .link.focus-dim { opacity: 0.03 !important; }
 .link.focus-highlight { opacity: 1 !important; stroke-width: 8px !important; filter: drop-shadow(0 0 4px rgba(255,255,255,0.5)); }
-.link-flow-mark { fill: none; stroke: url(#flow-mark-gradient); stroke-width: 7px; stroke-linecap: round; stroke-linejoin: round; opacity: 0.95; pointer-events: none; }
+.link-flow-mark { fill: none; stroke: #fff; stroke-width: 7px; stroke-linecap: round; stroke-linejoin: round; opacity: 0.95; pointer-events: none; }
 .link-label-group.focus-dim { opacity: 0.03 !important; }
 .link-label-group.focus-highlight { opacity: 1 !important; }
 .legend-item[data-cat] { cursor: pointer; padding: 2px 5px; border-radius: 4px; margin-left: -5px; transition: background 0.15s; }
@@ -282,7 +282,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.137<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v24.138<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -7464,6 +7464,7 @@ const link = g.append("g").selectAll("line")
   .join("line")
   .attr("class", "link")
   .attr("stroke", d => d.mutual ? "#fff" : (CAT_COLOR[nodeMap[d.s]?.cat] || "#555"))
+  .attr("data-base-color", d => d.mutual ? "#fff" : (CAT_COLOR[nodeMap[d.s]?.cat] || "#555"))
   .attr("stroke-width", d => d.mutual ? 6 + d.w / 12 : 4 + d.w / 10)
   .attr("marker-end", "none")
   .attr("marker-start", "none")
@@ -7478,36 +7479,49 @@ const link = g.append("g").selectAll("line")
 // ならなかった。そのため、実際に矢印形のpathをanimateMotionで線に沿って
 // 移動させる方式に変更した。ハイライトされている（=選択中のジャンルに
 // つながる）数本の線だけが対象なので、リンク総数が多くても負荷は小さい。
-// 矢印の後ろに伸びる「尾」に、暗い(透明)→明るい(白)のグラデーションをかける。
-// 矢印の先端（chevron）自体は小さく、グラデーションをかけてもほぼ変化が
-// 見て取れる距離がなかったため、尾を長く伸ばしてグラデーションが変化する
-// 距離を十分に確保した（objectBoundingBoxなので図形1個ごとの見た目に
-// 自動で追従し、回転させても崩れない）。
-defs.append("linearGradient")
-  .attr("id", "flow-mark-gradient")
-  .attr("x1", "0%").attr("y1", "0%").attr("x2", "100%").attr("y2", "0%")
-  .call(grad => {
-    grad.append("stop").attr("offset", "0%").attr("stop-color", "#fff").attr("stop-opacity", 0);
-    grad.append("stop").attr("offset", "100%").attr("stop-color", "#fff").attr("stop-opacity", 1);
-  });
-
+//
+// グラデーション（濃い→薄い/明るい）は、線（<line class="link">）本体に
+// かける。矢印マーク側にかけたところ「そこじゃない、線自体にかけて
+// ほしかった」と指摘されたための修正。各線は元々CAT_COLOR由来の単色
+// だったため、同じ色の低い不透明度→高い不透明度のグラデーションに差し
+// 替える。線ごとに向き・角度が異なるため、gradientUnits="userSpaceOnUse"
+// でその線の実座標(x1,y1→x2,y2)をそのまま使い、線の向きに正確に沿わせる
+// （objectBoundingBoxだと斜めの線で向きがずれてしまうため）。
 const flowMarksG = g.append("g").attr("id", "link-flow-marks").style("pointer-events", "none");
-const FLOW_MARK_COUNT = 40;  // 1本の線あたりに流す矢印の数（当初4だと少なすぎた）
+const FLOW_MARK_COUNT = 10;  // 1本の線あたりに流す矢印の数（40だと線の色が埋もれて見えなくなった）
 const FLOW_MARK_DUR   = 8;   // 矢印1つが線を端から端まで移動する秒数
 // 矢印の先端（chevron）を進行方向の先頭(ローカル原点0,0)に置き、そこから
 // 後ろ(-x方向)に向かって尾を伸ばす形にした。animateMotionのrotate="auto"
-// により、先端が常に進行方向を向く。translateでの位置調整が不要になった分、
-// シンプルにもなっている。
+// により、先端が常に進行方向を向く。
 const FLOW_MARK_GLYPH = "M-30,0 L-9,0 M-9,-7.5 L0,0 L-9,7.5";
 
 function _syncLinkFlowMarks() {
   const activeIdx = new Set();
   link.each(function(d, i) {
-    if (!this.classList.contains('focus-highlight')) return;
+    if (!this.classList.contains('focus-highlight')) {
+      // ハイライトが外れたら線の色を元に戻す（グラデーションをかけっぱなしにしない）
+      this.setAttribute('stroke', this.getAttribute('data-base-color'));
+      return;
+    }
     activeIdx.add(i);
     const x1 = +this.getAttribute('x1'), y1 = +this.getAttribute('y1');
     const x2 = +this.getAttribute('x2'), y2 = +this.getAttribute('y2');
     const pathD = `M${x1},${y1} L${x2},${y2}`;
+    const baseColor = this.getAttribute('data-base-color');
+
+    // 線本体のグラデーション（線ごとに1個、色・座標が変わったときだけ作り直す/更新する）
+    const gradId = `link-grad-${i}`;
+    let gradSel = defs.select(`#${gradId}`);
+    if (gradSel.empty()) {
+      gradSel = defs.append("linearGradient")
+        .attr("id", gradId)
+        .attr("gradientUnits", "userSpaceOnUse");
+      gradSel.append("stop").attr("class", "g0").attr("offset", "0%").attr("stop-color", baseColor).attr("stop-opacity", 0.2);
+      gradSel.append("stop").attr("class", "g1").attr("offset", "100%").attr("stop-color", baseColor).attr("stop-opacity", 1);
+    }
+    gradSel.attr("x1", x1).attr("y1", y1).attr("x2", x2).attr("y2", y2);
+    this.setAttribute('stroke', `url(#${gradId})`);
+
     let grp = flowMarksG.select(`g[data-idx="${i}"]`);
     if (grp.empty()) {
       grp = flowMarksG.append("g").attr("data-idx", i).attr("data-path", pathD);
