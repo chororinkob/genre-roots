@@ -70,6 +70,11 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
 /* 相互影響用：同じ矢印模様を左右反転させて重ねるだけで、逆方向に流れて見える
    （新しい画像やアニメーションを用意せず、既存のsp-meter-chevronsを再利用） */
 .sp-meter-chevrons-rev { transform: scaleX(-1); }
+/* 相互影響のバーは矢印同士の間隔が詰まりすぎて「流れている」というより
+   「ギラギラ点滅している」ように見えてしまったため、矢印の絵柄は同じまま
+   タイルの幅だけ2倍にして間隔を広げたもの（.wide）。 */
+.sp-meter-chevrons.wide { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='15'%3E%3Cpath d='M2 1 L7.5 7.5 L2 14' stroke='white' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-size: 22px 15px; animation-name: sp-chevron-flow-wide; }
+@keyframes sp-chevron-flow-wide { to { background-position: 22px 0; } }
 .sp-meter-pct { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 9.5px; font-weight: 800; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.75); letter-spacing: 0.1px; line-height: 1; }
 .sp-mutual-arrow { color: #c9a6ff; font-weight: 700; font-size: 13px; flex-shrink: 0; }
 .sp-card-desc { font-size: 12px; color: #aaa; line-height: 1.7; }
@@ -286,7 +291,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.142<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v24.143<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -7541,10 +7546,20 @@ function _syncLinkFlowMarks() {
       gradSel = defs.append("linearGradient")
         .attr("id", gradId)
         .attr("gradientUnits", "userSpaceOnUse");
-      // 0%=根元(source)側を濃く、100%=矢印の先端(target)側を薄くする
-      // （最初は逆にしてしまい「向きが逆」と指摘されたため入れ替えた）
-      gradSel.append("stop").attr("class", "g0").attr("offset", "0%").attr("stop-color", baseColor).attr("stop-opacity", 1);
-      gradSel.append("stop").attr("class", "g1").attr("offset", "100%").attr("stop-color", baseColor).attr("stop-opacity", 0.2);
+      if (d.mutual) {
+        // 相互影響の線は、片方の端だけ濃いと「そちらから流れている」ように
+        // 見えてしまい実態と合わない（どちらの方向からも来る関係のため）。
+        // 真ん中を濃く、両端（どちらのジャンルの側も）を同じように薄くする
+        // 左右対称のグラデーションにする。
+        gradSel.append("stop").attr("offset", "0%").attr("stop-color", baseColor).attr("stop-opacity", 0.2);
+        gradSel.append("stop").attr("offset", "50%").attr("stop-color", baseColor).attr("stop-opacity", 1);
+        gradSel.append("stop").attr("offset", "100%").attr("stop-color", baseColor).attr("stop-opacity", 0.2);
+      } else {
+        // 0%=根元(source)側を濃く、100%=矢印の先端(target)側を薄くする
+        // （最初は逆にしてしまい「向きが逆」と指摘されたため入れ替えた）
+        gradSel.append("stop").attr("class", "g0").attr("offset", "0%").attr("stop-color", baseColor).attr("stop-opacity", 1);
+        gradSel.append("stop").attr("class", "g1").attr("offset", "100%").attr("stop-color", baseColor).attr("stop-opacity", 0.2);
+      }
     }
     gradSel.attr("x1", x1).attr("y1", y1).attr("x2", x2).attr("y2", y2);
     this.setAttribute('stroke', `url(#${gradId})`);
@@ -7918,7 +7933,7 @@ node.on("click", (e, d) => {
         return `<div class="sp-card">
           <div class="sp-card-row">
             <span class="sp-card-name self">${selfName}</span>
-            <span class="sp-meter"><span class="sp-meter-fill mutual" style="width:${l.w}%"><span class="sp-meter-chevrons"></span><span class="sp-meter-chevrons sp-meter-chevrons-rev"></span></span><span class="sp-meter-pct">${l.w}%</span></span>
+            <span class="sp-meter"><span class="sp-meter-fill mutual" style="width:${l.w}%"><span class="sp-meter-chevrons wide"></span><span class="sp-meter-chevrons sp-meter-chevrons-rev wide"></span></span><span class="sp-meter-pct">${l.w}%</span></span>
             <a href="#" class="sp-genre-link sp-card-name" data-id="${otherId}">${nodeMap[otherId]?.label?.replace("\n"," ")}</a>
           </div>
           <div class="sp-card-desc">${l.desc||''}</div>
