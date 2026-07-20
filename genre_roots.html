@@ -64,7 +64,8 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
 .sp-meter-fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 8px; overflow: hidden; }
 .sp-meter-fill.in { background: linear-gradient(90deg, #1f5f85, #4fb4e8); }
 .sp-meter-fill.out { background: linear-gradient(90deg, #1f7a52, #57d197); }
-.sp-meter-chevrons { position: absolute; inset: 0; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='15'%3E%3Cpath d='M2 1 L7.5 7.5 L2 14' stroke='white' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: repeat-x; background-size: 11px 15px; opacity: 0.4; }
+.sp-meter-chevrons { position: absolute; inset: 0; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='15'%3E%3Cpath d='M2 1 L7.5 7.5 L2 14' stroke='white' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: repeat-x; background-size: 11px 15px; opacity: 0.4; animation: sp-chevron-flow 0.6s linear infinite; }
+@keyframes sp-chevron-flow { to { background-position: -11px 0; } }
 .sp-meter-pct { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 9.5px; font-weight: 800; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.75); letter-spacing: 0.1px; line-height: 1; }
 .sp-mutual-arrow { color: #c9a6ff; font-weight: 700; font-size: 13px; flex-shrink: 0; }
 .sp-card-desc { font-size: 12px; color: #aaa; line-height: 1.7; }
@@ -115,7 +116,8 @@ svg { width: 100vw; height: 100vh; }
 .node.cat-dim { opacity: 0.05; pointer-events: none; }
 .node.focus-dim { opacity: 0.05; }
 .link.focus-dim { opacity: 0.03 !important; }
-.link.focus-highlight { opacity: 1 !important; stroke-width: 8px !important; filter: drop-shadow(0 0 4px rgba(255,255,255,0.5)); }
+.link.focus-highlight { opacity: 1 !important; stroke-width: 8px !important; filter: drop-shadow(0 0 4px rgba(255,255,255,0.5)); stroke-dasharray: 3 9; animation: gr-link-flow 0.5s linear infinite; }
+@keyframes gr-link-flow { to { stroke-dashoffset: -12; } }
 .link-label-group.focus-dim { opacity: 0.03 !important; }
 .link-label-group.focus-highlight { opacity: 1 !important; }
 .legend-item[data-cat] { cursor: pointer; padding: 2px 5px; border-radius: 4px; margin-left: -5px; transition: background 0.15s; }
@@ -280,7 +282,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.133<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v24.134<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
