@@ -291,7 +291,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.143<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v24.144<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -10326,6 +10326,17 @@ window.addEventListener('message', (e) => {
 // 開くようにする（万一収束しない場合に備えて上限のタイムアウトも設ける）。
 if (window.__grAutoOpenGenre) {
   const _grAutoOpenId = window.__grAutoOpenGenre;
+  // このURL(?genre=...)を使うのは今回の表示1回だけにする。消しておかないと、
+  // このタブを後で（それこそ何日も後で、別のジャンルが承認された後でも）
+  // 再読み込みするたびに、この時点の?genre=の値がずっと開き直されてしまう
+  // （実際に「常に最後に承認したジャンルが開く」という不具合として報告された）。
+  // 履歴には残さずURLだけ書き換える（genre以外のパラメータ(admin=1等)は残す）。
+  try {
+    const _grUrl = new URL(location.href);
+    _grUrl.searchParams.delete('genre');
+    history.replaceState(null, '', _grUrl.pathname + _grUrl.search + _grUrl.hash);
+  } catch (e) { /* URL操作に失敗しても致命的ではないので無視する */ }
+
   let _grAutoOpened = false;
   const _grOpenAutoTarget = () => {
     if (_grAutoOpened) return;
