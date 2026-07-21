@@ -296,7 +296,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.161<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v24.162<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -1049,7 +1049,7 @@ const NODES = [
     yt_mix:["WaLCFNfw3S4", "irI8ka6wqt0"],
     yt_tracks:[["hN5-1N4dBQI", "EOBFlqhgHvQ"], ["wgleFnpn0RM", "fD1WP-imzgg"], ["YnvN6CR5rL4", "HTKYGmDdJBQ"], ["xYq0bwuLhqs", "hXconvD57nc"], ["Yj-An_u7Kpk", "1WlyUM8zo1g"]],
     aliases:["シュランツ"],},
-  {id:"techno_kayo", label:"Techno Pop\n(テクノ歌謡)", cat:"synthpop", era:"1978", suno:true,
+  {id:"techno_kayo", label:"Techno Pop", cat:"synthpop", era:"1978", suno:true,
     desc:"シンセサイザーとドラムマシンを主体にした日本発の電子ポップス。YMO（Yellow Magic Orchestra）に代表される、精密でクールな打ち込みサウンドにポップなメロディが乗るスタイル。西洋のシンセポップと比べて、東洋的な音階やテクノロジーへの親和性が独特の色を加えている。テンポは中速でダンサブル。無機質な電子音の中に日本的な繊細さと遊び心が共存する、知的でスタイリッシュな音楽。テクノ歌謡は歌謡曲にシンセを導入した大衆化バージョン。",
     roots_story:"1978年、YMO（細野晴臣・坂本龍一・高橋幸宏）が結成。「テクノポリス」「ライディーン」(1979)が日本で社会現象的ヒットとなり、海外でも「Behind the Mask」がMichael Jacksonにカバーされるなど国際的評価を得た。Kraftwerkの影響を受けつつも、東洋的メロディとユーモアを取り入れた独自のスタイルを確立。P-MODEL（平沢進）、ヒカシュー、プラスチックスが同時期に活動し「テクノポップ御三家」とも。歌謡曲の世界では松田聖子「SWEET MEMORIES」等にシンセが導入され「テクノ歌謡」という和製ジャンルに。Perfume（中田ヤスタカプロデュース）が2000年代にテクノポップを現代に蘇らせた。",
     rep_tracks:["Technopolis (Yellow Magic Orchestra)", "Rydeen (Yellow Magic Orchestra)", "Art Mania (P-MODEL)", "Natsu Nandesu (Hikashu)", "Polyrhythm (Perfume)"],
@@ -1754,7 +1754,7 @@ const NODES = [
     aliases:["カッワーリー"],},
 
   // 南アジア系
-  {id:"raga", label:"Raga\n(ラーガ)", cat:"south_asian", era:"ancient", suno:true,
+  {id:"raga", label:"Raga", cat:"south_asian", era:"ancient", suno:true,
     desc:"インド古典音楽の核心であるラーガ（旋法体系）に基づく、深い精神性と即興性を持つ音楽。シタール（弦楽器）やサロード、タブラ（打楽器）、タンプーラ（持続低音楽器）が主な楽器。1つの演奏が30分〜数時間に及び、ゆっくりとした導入部（アーラープ）から徐々にテンポを上げていく構成。西洋音楽の12音階とは異なる微分音を使い、音の「揺れ」が深い情感を生む。瞑想的でありながら、高速パッセージでは驚異的な技巧を見せる。",
     roots_story:"数千年の歴史を持つインドの古典音楽伝統。北インド古典音楽（ヒンドゥスターニー音楽）と南インド古典音楽（カルナーティック音楽）の2大系統がある。Ravi Shankar（シタール）は1960年代にThe BeatlesのGeorge Harrisonに影響を与え、インド音楽を西洋に紹介した最も重要な人物。モントレー・ポップ・フェスティバル(1967)での演奏は伝説。Ali Akbar Khan（サロード）、Zakir Hussain（タブラ）も国際的に活躍。ラーガはジャズの即興演奏にも影響を与え、John ColtraneやMiles Davisも研究した。",
     rep_tracks:["Raga Jog (Ravi Shankar)", "Raga Bhimpalasi (Ali Akbar Khan)", "Raga Yaman (Zakir Hussain)"],
@@ -1779,7 +1779,7 @@ const NODES = [
     aliases:["バングラ"],},
 
   // 東アジア系
-  {id:"enka", label:"Enka\n(演歌)", cat:"east_asian", era:"1960s", suno:true,
+  {id:"enka", label:"Enka", cat:"east_asian", era:"1960s", suno:true,
     desc:"日本人の心の琴線に触れる「こぶし」（声を震わせる技法）と、ペンタトニック（5音音階）の哀愁に満ちたメロディが最大の特徴。テーマは別れ、故郷、酒、海、雪といった日本の情緒に深く根ざした世界。ストリングスのアレンジとエコーのかかったボーカルが演歌独特の「湿った」空気感を作る。テンポはゆったり〜中速。日本の温泉街や赤提灯の居酒屋が似合う、日本人の感情の原風景のような音楽。",
     roots_story:"1960年代に現在の形が確立。美空ひばり「悲しい酒」(1966)が演歌の象徴的名曲。古賀政男が「古賀メロディー」と呼ばれる作曲法で演歌の基盤を築いた。北島三郎、都はるみ、石川さゆり「津軽海峡・冬景色」(1977)が代表的アーティスト。NHK紅白歌合戦が演歌の最大の発表の場。近年はジェロ（アメリカ出身の黒人演歌歌手）が話題になるなど、国際的な広がりも見せている。氷川きよしは2000年代に若い世代にも演歌を届けた。",
     rep_tracks:["津軽海峡・冬景色 (石川さゆり)", "悲しい酒 (美空ひばり)", "北の宿から (都はるみ)", "まつり (北島三郎)", "海雪 (ジェロ)"],
@@ -1803,7 +1803,7 @@ const NODES = [
     yt_tracks:[["gdZLi9oWNZg", "kK29Q_LpVUw"], ["9bZkp7q19f0", "CVxMTl6cUSE"], ["IHNzOHi8sJs", "jOJbXvjZ-cQ"], ["TQTlCHxyuu8", "dx9gQRCT_kM"], ["4TWR90KJl84", "dly3BvtmXbA"]],
     aliases:["Kポップ", "ケーポップ", "K-POP", "韓国ポップ"],},
 
-  {id:"anime_music", label:"Anime Music\n(アニソン)", cat:"east_asian", era:"1970s", suno:true,
+  {id:"anime_music", label:"Anison", cat:"east_asian", era:"1970s", suno:true,
     desc:"日本のアニメーション作品のOP/ED（オープニング/エンディング）テーマとして作られた音楽。ジャンルの幅は極めて広く、ロック、ポップ、ジャズ、クラシカル、EDM、メタルなどあらゆるスタイルが含まれる。共通するのはアニメの世界観を音で表現する「物語性」と、聴いた瞬間に作品が脳裏に浮かぶ「キャッチーさ」。90秒のOP/EDに起承転結を詰め込む構成力が日本独自の職人技。アニメの世界的普及とともに国際的な人気を獲得。",
     roots_story:"1970年代の「宇宙戦艦ヤマト」「銀河鉄道999」でアニソンが独自のジャンルとして認識され始めた。影山ヒロノブ、水木一郎（「アニキ」）がスーパーロボット系の熱い主題歌で黄金期を築いた。1990年代に声優が歌手活動を兼ねる文化が定着。2000年代にはLiSA「紅蓮華」（鬼滅の刃、2019年）が社会現象的ヒットに。YOASOBI「アイドル」（推しの子、2023年）はSpotifyバイラルチャートで世界1位を獲得。Linked Horizon、澤野弘之が進撃の巨人等で映画音楽レベルのスケールをアニソンに持ち込んだ。",
     rep_tracks:["紅蓮華（LiSA）", "アイドル（YOASOBI）", "残酷な天使のテーゼ（高橋洋子）", "君の知らない物語（supercell）", "only my railgun（fripSide）"],
@@ -2000,7 +2000,7 @@ const NODES = [
     yt_tracks:[["_me2yfR7Jfk", "cyjGWywCLg4"], ["ZgRPDC4xE4A", "ON4NXPUx-E8"], ["Nxwt_s1lM04", "AfjteCMzYUo"], ["bzuuxp7dsxQ", "Z8AOKs2jk_k"], ["Hh9yZWeTmVM", "h1PN7LEH2Vs"]],
     aliases:["ジェイロック", "J-ROCK"],},
 
-  {id:"visual_kei", label:"Visual Kei\n(V系)", cat:"rock", era:"1980s", suno:true,
+  {id:"visual_kei", label:"Visual Kei", cat:"rock", era:"1980s", suno:true,
     desc:"派手な衣装、メイク、髪型というビジュアル面の強烈なインパクトと、ヘヴィメタルからポップスまで幅広い音楽性が一体化した日本独自のロックムーブメント。音楽的には様々だが、ドラマチックで感情的な楽曲構成、激しいパートと美しいパートの落差が特徴的。テンポも様々。「見る音楽」としての側面が強く、ライブパフォーマンスが最大の見せ場。",
     roots_story:"1980年代、X JAPAN（当時X）のYOSHIKIがヴィジュアル系の創始者的存在。「BLUE BLOOD」(1989)がシーンの金字塔。LUNA SEA、MALICE MIZER、Dir en greyが1990年代に続く。MALICE MIZERのGacktはソロでも大きな成功を収めた。海外ではJanne Da Arc、the GazettEが支持を集め、「Visual Kei」は英語圏でもそのまま通じる日本発の音楽用語となった。",
     rep_tracks:["Kurenai (X JAPAN)", "ROSIER (LUNA SEA)", "Gekka no Yasoukyoku (MALICE MIZER)", "Cage (Dir en grey)", "Filth in the Beauty (the GazettE)"],
@@ -2216,7 +2216,7 @@ const NODES = [
     aliases:["エモラップ"],},
 
   // 追加バッチ6（最終）
-  {id:"shidaiqu", label:"Shidaiqu\n(時代曲)", cat:"east_asian", era:"1920s", suno:true,
+  {id:"shidaiqu", label:"Shidaiqu", cat:"east_asian", era:"1920s", suno:true,
     desc:"1920〜40年代の上海で花開いた、アメリカのジャズやポップスと中国の伝統的メロディが融合した華やかな大衆歌謡。上海租界の国際的な空気を反映し、西洋のビッグバンドサウンドに中国語の歌詞と東洋的な旋律が乗る。テンポは中速でダンサブル。映画とともに発展し、「東洋のパリ」と呼ばれた上海の黄金時代を象徴する音楽。",
     roots_story:"1920年代、上海の映画産業とナイトクラブ文化から誕生。Li Jinhui「毛毛雨」(1927)が最初のヒット。Zhou Xuan（周璇）「夜来香」(1944)が時代曲の永遠の名曲。1949年の共産党政権成立後、上海の音楽家たちが香港に移住し、香港映画音楽の基盤に。Teresa Teng（鄧麗君）は時代曲の伝統を受け継ぎつつ現代化した。C-POP（華語ポップ）の直接の先祖。",
     rep_tracks:["毛毛雨（Li Jinhui）", "夜来香（Zhou Xuan）", "何日君再来（周璇）", "甜蜜蜜（Teresa Teng）"],
@@ -2533,7 +2533,7 @@ const NODES = [
     yt_tracks:[["MQOG5BkY2Bc", "68JQmKitwZc"], ["LKsmmWKKnwo", "-7Wt2O_1kSo"], ["JpGKWUdRnXE", "xdrzoCa__tk"]],
     aliases:["UKトラップ"],},
 
-  {id:"mahraganat", label:"Mahraganat\n(マフラガナート)", cat:"middle_east", era:"2007", suno:true,
+  {id:"mahraganat", label:"Mahraganat", cat:"middle_east", era:"2007", suno:true,
     desc:"エジプトのストリートから生まれた、若者の怒りと祝祭のエネルギーが爆発するダンスミュージック。シンセの派手な旋律、ドラムマシンのタイトなビート、オートチューンで処理されたアラビア語ラップ、エジプト方言のスラングが特徴。テンポはBPM 100〜130で、カイロの下町の結婚式やストリートパーティーで大音量で鳴り響く。エジプトの若い世代のリアルな声を反映している。",
     roots_story:"2007年頃、カイロのスラム地区で安価なソフトウェアとPC1台で作られ始めた。Sadat & Fifty、Oka Wi Ortegaの「Ah Ya Donia」(2012)が初期の代表曲である。エジプト革命(2011年)後に若者の表現手段として爆発的に広まり、WegzやMarwan Moussaが現在のスターとなっている。エジプトの音楽業界からは長らく「下品」と見なされたが、現在はエジプトで最も聴かれている音楽ジャンルの一つに成長している。",
     rep_tracks:["Ah Ya Donia (Oka Wi Ortega)", "El 3aw (Sadat & Fifty)", "Dorak Gai (Wegz)"],
@@ -2725,7 +2725,7 @@ const NODES = [
     yt_tracks:[["KPFduKf_wcs", "j7G3579voRc"], ["oQKKCXXRcKE", "a9_da2P5JjQ"], ["Uf05LcydF7o", "8vC6TtSCYFo"], ["06_9LOj75g4", "e-cC4h6zUJM"], ["9hNa6YVxXyA", "F6eoJTwNXaU"]],
     aliases:["アマピアノ"],},
 
-  {id:"vocaloid_music", label:"Vocaloid\n(ボカロ)", cat:"east_asian", era:"2007", suno:true,
+  {id:"vocaloid_music", label:"Vocaloid", cat:"east_asian", era:"2007", suno:true,
     desc:"初音ミクに代表されるボーカロイド（歌声合成ソフトウェア）を使って作られた、インターネット発の日本の音楽文化。人間には歌えないような超高速・超高音の楽曲、電子的に加工された可愛らしい声、ニコニコ動画/YouTube発の独特のクリエイター文化が特徴。ジャンルは多岐にわたり、ポップ、ロック、エレクトロニカ、ジャズなどあらゆるスタイルがボカロで制作される。テクノロジーと創作の民主化を体現する文化。",
     roots_story:"2007年、クリプトン・フューチャー・メディアが初音ミクを発売し、ニコニコ動画で爆発的ブームに。supercell（ryo）「メルト」(2007)、wowaka「ローリンガール」(2010)、DECO*27、ハチ（後の米津玄師）が黎明期のボカロPとして活躍。米津玄師はボカロP「ハチ」としての活動からJ-POP最大のアーティストに成長した。YOASOBI（Ayase）もボカロP出身。2023年には初音ミクのコンサート（ホログラフィックライブ）が世界各地で開催。",
     rep_tracks:["メルト (supercell)", "ローリンガール (wowaka)", "千本桜 (黒うさP)", "ゴーストルール (DECO*27)", "夜に駆ける (YOASOBI)"],
@@ -2757,7 +2757,7 @@ const NODES = [
     yt_tracks:[["gsKn5KX6XnU", "ePuoO0Ytuzw"], ["uhsP1qBo_Ok", "aYDtVXqC7IM"], ["48FGDETX5Iw", "Fal0Qt7niyk"]],
     aliases:["ターボフォーク"],},
 
-  {id:"mood_kayo", label:"Mood Kayō\n(ムード歌謡)", cat:"east_asian", era:"1950s", suno:true,
+  {id:"mood_kayo", label:"Mood Kayō", cat:"east_asian", era:"1950s", suno:true,
     desc:"ムーディーなオーケストラアレンジと甘い男性ボーカルが織りなす、昭和の夜の大人の音楽。ストリングスの贅沢なアレンジ、マイルドなジャズ的コード進行、ラテンリズムの導入が特徴。テンポはゆったり〜中速。クラブやキャバレーで演奏される「夜の音楽」として、高度経済成長期の日本の社交場文化と結びついていた。",
     roots_story:"1950〜60年代、日本のナイトクラブ文化の中で発展。フランク永井「有楽町で逢いましょう」(1957)がムード歌謡の代表曲。ロス・インディオス&シルヴィア「別れても好きな人」(1979)が大ヒット。鶴田浩二、石原裕次郎もムード歌謡的な楽曲を多く歌った。演歌とは異なり、西洋音楽（ジャズ、ラテン）の影響がより強く、都会的で洗練されたイメージ。",
     rep_tracks:["有楽町で逢いましょう (フランク永井)", "別れても好きな人 (ロス・インディオス&シルヴィア)", "夜霧よ今夜も有難う (石原裕次郎)"],
@@ -2765,7 +2765,7 @@ const NODES = [
     yt_tracks:[["7Nog3QNmCq4", "9eYrOG4Z_O0"], ["A5sFK9hj5y0", "Gx8EB43E2OM"], ["rVG3x1BsE-4", "ibijAPJEFNM"]],
     aliases:["ムード歌謡"],},
 
-  {id:"minyo", label:"Min'yō\n(民謡)", cat:"east_asian", era:"ancient", suno:true,
+  {id:"minyo", label:"Min'yō", cat:"east_asian", era:"ancient", suno:true,
     desc:"日本各地の風土と暮らしから生まれた伝統的な歌。三味線、尺八、太鼓などの和楽器の伴奏に、こぶし（装飾的な声の揺れ）を効かせた独特の歌唱法が特徴。ヨナ抜き音階（ペンタトニック）のメロディが日本的な哀愁と素朴さを生む。労働歌、祭りの歌、酒席の歌など、生活に密着した歌が地域ごとに受け継がれている。日本音楽の最も深いルーツ。",
     roots_story:"日本各地で古くから口承で伝えられてきた歌。「ソーラン節」（北海道のニシン漁の歌）、「花笠音頭」（山形）、「安来節」（島根）など地域ごとに独自の民謡がある。江差追分（北海道）は日本民謡の最高峰とされ、全国大会が開催される。民謡をポップスに取り入れた例として、THE BOOMの「島唄」(1992)は沖縄民謡をベースにした大ヒット。吉田兄弟は津軽三味線で世界ツアーを行い、民謡楽器の国際的認知度を高めた。",
     rep_tracks:["ソーラン節", "花笠音頭", "島唄 (THE BOOM)"],
@@ -2773,7 +2773,7 @@ const NODES = [
     yt_tracks:[["cx8AcBvFzFY", "5qIQ1UrO0cU"], ["Xse9836gtkc", "jQUzIydj-_g"], ["jIBS2wHx0pc", "TZeUBDF4FPs"]],
     aliases:["民謡", "日本民謡"],},
 
-  {id:"mandopop", label:"Mandopop\n(C-POP)", cat:"east_asian", era:"1920s", suno:true,
+  {id:"mandopop", label:"Mandopop", cat:"east_asian", era:"1920s", suno:true,
     desc:"北京語（マンダリン）で歌われる中華圏のポピュラー音楽。台湾、香港、中国大陸、シンガポール、マレーシアなど中華圏全域で聴かれる。バラードが非常に人気で、美しいメロディと感情的な歌詞が特徴。テンポはゆったり〜中速が主流。近年はK-POP的なダンスポップや欧米のトレンドを取り入れた楽曲も増えている。中華圏10億人以上のリスナーを持つ巨大市場。",
     roots_story:"1920年代の上海で、ジャズとアメリカンポップスの影響を受けた「時代曲」（Shidaiqu）として誕生。1970年代に台湾のTeresa Teng（鄧麗君）が中華圏全域のスーパースターに。「月亮代表我的心」は永遠の名曲。Jay Chou（周杰倫）は2000年代にR&B/ヒップホップを取り入れた独自のスタイルで「アジアのキング・オブ・ポップ」と呼ばれた。JJ Lin、Eric Chou、鄧紫棋（G.E.M.）が現代の代表。",
     rep_tracks:["月亮代表我的心 (Teresa Teng)", "七里香 (Jay Chou)", "可惜沒如果 (JJ Lin)"],
@@ -3063,7 +3063,7 @@ const NODES = [
     aliases:["アシッドジャズ"],},
 
   // ポップス系追加
-  {id:"city_pop", label:"City Pop\n(シティポップ)", cat:"pop", era:"1975", suno:true,
+  {id:"city_pop", label:"City Pop", cat:"pop", era:"1975", suno:true,
     desc:"1970〜80年代の日本の都市生活の煌めきを音にした、洗練されたポップス。AOR（大人向けロック）、ソウル、ファンク、フュージョンの影響を受けた高品質なプロダクション、透明感のあるボーカル、都会的でおしゃれなアレンジが特徴。テンポは中速で、ドライブ中の夜景やネオンの街が脳裏に浮かぶ。2010年代後半からYouTubeのアルゴリズムで海外に「発見」され、世界的リバイバルが起きた。",
     roots_story:"1975年頃から1980年代にかけて、大瀧詠一「A LONG VACATION」(1981)、山下達郎「FOR YOU」(1982)、竹内まりや「Plastic Love」(1984)が代表作。松原みき「真夜中のドア/Stay With Me」(1979)は2020年にSpotifyバイラルチャートで世界1位を獲得し、40年越しの世界的ヒットに。角松敏生、杏里「悲しみがとまらない」も海外で再発見された。シティポップのリバイバルはヴェイパーウェーブとフューチャーファンクのサンプリング素材としての人気が発端。",
     rep_tracks:["Plastic Love (竹内まりや)", "真夜中のドア/Stay With Me (松原みき)", "Ride on Time (山下達郎)", "悲しみがとまらない (杏里)", "A LONG VACATION (大瀧詠一)"],
@@ -3454,7 +3454,7 @@ const NODES = [
     yt_mix:["-jmkY7JSSVU", "PI-hHMh7-bs"],
     yt_tracks:[["bi30_cYSHS0", "M_Kjs4vFnqI"], ["1Wg2huulil4", "lVIf3NXf-_g"], ["PzJ-Wa3MkRQ", "hoH6QghAFh8"]],
     aliases:["スイジッドコア"],},
-  {id:"darkcore_dnb", label:"Darkcore\n(DnB)", cat:"dnb", era:"1992", suno:true,
+  {id:"darkcore_dnb", label:"Darkcore", cat:"dnb", era:"1992", suno:true,
     desc:"初期ジャングル/DnBシーンの暗い側面を持つ。ホラー映画的なサンプル、重い低音、暗いアトモスフィアが特徴で、後のダークステップやニューロファンクの先駆となった。重厚で不穏なベースラインと、緊張感のあるブレイクビーツが特徴。",
     roots_story:"1992年頃に4 Hero（初期）、Goldie（初期）、Doc Scottがジャングルの暗い方向を追求し始め、後にDnBのダークサイドとして発展。初期のジャングルシーンから進化し、より複雑で深みのある音楽へと変化していった。",
     rep_tracks:["Terminator (Goldie)", "Here Come the Drumz (Doc Scott)", "Journey from the Light (4 Hero)"],
@@ -3495,7 +3495,7 @@ const NODES = [
     yt_tracks:[["10rLJjBLQZ8", "tPytYrYqDbA"], ["EXV6EmSBULY", "ZLr5EXyoQCE"], ["wNSBShPEQKk", "D7ccVBKTkjc"], [], ["VCm-FkwnH_c", "vm9Ij0la1LE"]],
     popularity:5,
     aliases:["ノイズロック"],},
-  {id:"garage_rock", label:"Garage Rock\n(60s)", cat:"rock", era:"1963", suno:true,
+  {id:"garage_rock", label:"Garage Rock", cat:"rock", era:"1963", suno:true,
     desc:"1960年代アメリカの若者が自宅のガレージで演奏した、粗く荒々しいロックンロール。プロの技術より情熱とエネルギーを優先し、歪んだギター、シンプルなコード、叫ぶようなボーカルが特徴。パンクロックの直接の前身とされる。DIY精神が強く、演奏技術よりも感情表現を重視する。",
     roots_story:"1963〜67年頃のアメリカで爆発的に広がった。The Sonics、The Standells、The Seeds、? and the Mysterians、The 13th Floor Elevatorsが代表。Nuggets（1972年のコンピ）がジャンルを再定義。後のパンク、ガレージロック・リバイバル（The Strokes等）に直結する美学を持つ。Garage Rockはその後のロックの発展に大きな影響を与え、現在でも多くのバンドに受け継がれている。",
     rep_tracks:["Louie Louie (The Kingsmen)", "Pushin' Too Hard (The Seeds)", "96 Tears (? and the Mysterians)", "You're Gonna Miss Me (The 13th Floor Elevators)", "Have Love, Will Travel (The Sonics)"],
@@ -3841,7 +3841,7 @@ const NODES = [
     yt_tracks:[["QBrzK1eCngo", "dPv33vCU3k8"], ["0nL8al7PtgI", "hKFIGJHXU-0"], ["323gmlHv61g", "QYHxGBH6o4M"], ["MPZuFTR09wg", "4VtRcsvP6m0"], ["HcjU1zf2hEc", "bPTxNbmRMJQ"]],
     popularity:5,
     aliases:["フットワーク", "ジューク", "Juke"],},
-  {id:"minimal_house", label:"Minimal House\n/ Microhouse", cat:"house", era:"2000s", suno:true,
+  {id:"minimal_house", label:"Minimal House", cat:"house", era:"2000s", suno:true,
     desc:"ハウスの4つ打ちを極限まで削ぎ落とし、クリック音やグリッチ（音の歪み）、微細な音響変化、ミニマルなループで構成されるスタイル。テクノのミニマリズムとハウスのグルーヴが交差し、非常に洗練された音楽体験を提供する。VillalobosやRichie Hawtin、Kompakt周辺のアーティストが中心で、音の隙間を感じさせる静寂と緊張感が特徴。",
     roots_story:"2000年代前半にケルンのKompaktレーベル（Michael Mayer、Superpitcher）とベルリンのPerlon（Zip、Baby Ford）が中心となって発展した。Ricardo VillalobosやRichie Hawtin（M_nus）が重要な役割を果たし、Akufenの「My Way」(2002)のマイクロサンプリング手法が象徴的である。ベルリンのBar 25やPanorama Bar文化と結びつき、クラブシーンでの重要なジャンルとなった。",
     rep_tracks:["Dexter (Ricardo Villalobos)", "Spastik (Richie Hawtin)", "My Way (Akufen)", "Mandarine Girl (Booka Shade)", "Timecode (Justus Köhncke)"],
@@ -3969,7 +3969,7 @@ const NODES = [
     yt_tracks:[["iONTGnmFcYE", "_FEZPkX0sv8"], ["HjR8Fxalzkg", "-7JZFp3iiYU"], ["htAgHw09ViA", "DTBsCUSdh24"]],
     popularity:6,
     aliases:["和モノ", "シティファンク"],},
-  {id:"shibuya_kei", label:"Shibuya-kei\n(渋谷系)", cat:"east_asian", era:"1993", suno:true,
+  {id:"shibuya_kei", label:"Shibuya-kei", cat:"east_asian", era:"1993", suno:true,
     desc:"1990年代の東京・渋谷を中心にしたポップムーブメントで、フレンチポップ、ボサノヴァ、ラウンジ、ソフトロック、イェイェなど1960年代音楽をサンプリング・引用したおしゃれなポップスが特徴。音楽は軽快で洗練されており、都会的な雰囲気を持つ。Pizzicato Five、Cornelius、カヒミ・カリィが代表的なアーティストである。",
     roots_story:"1993年頃、渋谷のレコード店HMV/WAVEを中心に形成され、Flipper's Guitar（小山田圭吾/小沢健二）が先駆けとなった。Pizzicato Fiveの「東京は夜の七時」、Corneliusの『Fantasma』(1997)、カヒミ・カリィ、ORIGINAL LOVE、Fantastic Plastic Machineがこのムーブメントを支えた。Trattoria Records（小山田主宰）が重要なレーベルで、2000年代以降は沈静化したが、海外での再評価が続いている。",
     rep_tracks:["東京は夜の七時（Pizzicato Five）", "Star Fruits Surf Rider（Cornelius）", "My First Karie（カヒミ・カリィ）"],
@@ -4052,7 +4052,7 @@ const NODES = [
     popularity:5,
   
     aliases:["ノイズポップ"],},
-  {id:"slowcore", label:"Slowcore\n/ Sadcore", cat:"rock", era:"1990s", suno:true,
+  {id:"slowcore", label:"Slowcore", cat:"rock", era:"1990s", suno:true,
     desc:"Slowcoreは、極端に遅いテンポ、静かな演奏、ミニマルな編成、内省的で憂鬱な歌詞が特徴のインディーロックの一形態である。音楽はしばしば「悲しいロック」としてSadcoreとも呼ばれる。代表的なバンドにはLow、Codeine、Red House Painters、Idahoがある。",
     roots_story:"Slowcoreは1990年代初頭に登場し、Codeineの『Frigid Stars LP』(1990)やLowの『I Could Live in Hope』(1994)が代表作として知られる。Red House PaintersのMark Kozelekはフォーク寄りのスロウコアを展開し、Ida、Bedhead、Duster、Carissa's Wierdなどもこのジャンルに貢献した。Sun Kil Moonは2000年代以降の継承者である。",
     rep_tracks:["Words (Low)", "D (Codeine)", "Katy Song (Red House Painters)"],
@@ -4060,7 +4060,7 @@ const NODES = [
     yt_tracks:[["EbCF2OqZOfE", "mrUoK_TvVa8"], ["PmSPPYG9dp4", "Grubv86suXc"], ["f963bYBS8L4", "NFQ4nuUuwNo"]],
     popularity:4,
     aliases:["スローコア", "サッドコア"],},
-  {id:"dance_punk", label:"Dance-Punk\n/ Dance-Rock", cat:"rock", era:"1979", suno:true,
+  {id:"dance_punk", label:"Dance-Punk", cat:"rock", era:"1979", suno:true,
     desc:"Dance-Punkは、パンクやニューウェーブのエネルギーとディスコやファンクのダンサブルなビートを融合した音楽スタイルである。ポストパンクの踊れる側面を発展させたもので、代表的なバンドにはGang of Four、LCD Soundsystem、Franz Ferdinand、!!!がある。",
     roots_story:"Dance-Punkは1979年頃にGang of Four、Delta 5、A Certain Ratioがポストパンクにファンク要素を導入したことから始まった。2000年代にLCD Soundsystemの『Sound of Silver』(2007)、Franz Ferdinand、The Rapture、!!!（Chk Chk Chk）がリバイバルを牽引し、DFA Records（James Murphy主宰）が中心レーベルとして重要な役割を果たした。",
     rep_tracks:["Damaged Goods (Gang of Four)", "Daft Punk Is Playing at My House (LCD Soundsystem)", "Take Me Out (Franz Ferdinand)"],
@@ -4125,7 +4125,7 @@ const NODES = [
     yt_tracks:[["nTizYn3-QN0", "ScN4OaGPDng"], ["AR8D2yqgQ1U", "sWBueqYA2Es"], ["UMPC8QJF6sI", "6sSKbcwKHXw"], ["xhm-EqcPta0", "VFFRyLyE7BI"], ["4B2a6l6wM2k", "KxCxbtGWmAo"]],
     popularity:7,
     aliases:["ニューロマンティック"],},
-  {id:"glam_metal", label:"Glam Metal\n/ Hair Metal", cat:"metal", era:"1981", suno:true,
+  {id:"glam_metal", label:"Glam Metal", cat:"metal", era:"1981", suno:true,
     desc:"派手な衣装、長髪、メイク、キャッチーなギターリフ、パワーバラードを特徴とするメタル。ギターソロが多用され、エネルギッシュでノリやすい曲調が多い。Mötley Crüe、Poison、Def Leppard、Bon Jovi、Whitesnake、Warrant、Skid Rowが代表で、1980年代Sunset Stripシーンの象徴。",
     roots_story:"1981年頃、LAのSunset Strip（Whisky a Go Go、The Troubadour）で形成された。Mötley Crüeの『Shout at the Devil』(1983)、Bon Joviの『Slippery When Wet』(1986)、Def Leppardの『Hysteria』(1987)が商業的頂点を迎えた。Poison、Warrant、Skid Row、Ratt、Cinderellaなども人気を博したが、1991年のNirvana『Nevermind』の登場でグランジに置き換えられた。",
     rep_tracks:["Shout at the Devil (Mötley Crüe)", "Livin' on a Prayer (Bon Jovi)", "Pour Some Sugar on Me (Def Leppard)", "Every Rose Has Its Thorn (Poison)", "Here I Go Again (Whitesnake)"],
@@ -4294,7 +4294,7 @@ const NODES = [
     yt_tracks:[["vL4bPlqb7Q0", "pM5oBTv8jI4"], ["XsECs8b9UP4", "-RSlvG7uppM"], ["uOV2KWDREB8", "7oykdSyKtbM"], ["NE2AvbROl5k", "h6JizQVBdAw"], ["0wLOXfLUOaw", "4JuY34601Mw"]],
     popularity:5,
     aliases:["ハードトランス"],},
-  {id:"psybient", label:"Psybient\n/ Psychill", cat:"ambient", era:"1994", suno:true,
+  {id:"psybient", label:"Psybient", cat:"ambient", era:"1994", suno:true,
     desc:"アンビエントにサイケデリック・トランス的な音色、有機的テクスチャー、ワールドミュージック要素を加えたダウンテンポの音楽。ゆったりとしたテンポと幻想的なサウンドスケープが特徴で、聴く者を深い瞑想状態に誘う。Shpongle、Ott、Entheogenic、Carbon Based Lifeformsが代表的なアーティスト。",
     roots_story:"1994年頃に、Shpongle（Simon Posford + Raja Ram）の『Are You Shpongled?』(1998)が決定的な作品として登場。The Irresistible Force、Ott、Entheogenic、Carbon Based Lifeforms、Kalya Scintillaなどがこのジャンルの発展に貢献した。ゴアトランスやサイケデリックトランスのチルアウトルームから発展し、Twisted RecordsやNano Recordsが重要なレーベルとなった。",
     rep_tracks:["Divine Moments of Truth (Shpongle)", "Splitting an Atom (Ott)", "Spaced (Entheogenic)", "World of Sleepers (Carbon Based Lifeforms)", "Dance of the Seven Sisters (Kalya Scintilla)"],
@@ -4422,7 +4422,7 @@ const NODES = [
     yt_tracks:[["he_ghOAXbSM", "WL8l8olaMmI"], ["OztuGomczAo", "x4C46PGp6yA"], ["XIbJylD_c84", "TlYxS9kQljs"]],
     popularity:7,
     aliases:["トロピカリア"],},
-  {id:"mpb", label:"MPB\n(Música Popular\nBrasileira)", cat:"latin", era:"1960s", suno:true,
+  {id:"mpb", label:"MPB\nMúsica Popular Brasileira", labelSmall2:true, cat:"latin", era:"1960s", suno:true,
     desc:"ブラジルのポピュラー音楽の総称的ジャンルで、ボサノヴァ、サンバ、トロピカリア、ロック、ジャズなどを融合した洗練されたブラジリアン・ポップである。Chico Buarque、Milton Nascimento、Elis Regina、Marisa Monteが代表的なアーティストで、メロディックでリズミカルな曲調が特徴。",
     roots_story:"1960年代後半から1970年代にかけて、ボサノヴァとトロピカリアを基盤に発展した。Chico BuarqueやMilton Nascimentoの『Clube da Esquina』(1972)はこのジャンルの代表的な作品である。Elis ReginaやJorge Benも重要な役割を果たし、1980年代以降はDjavan、Ivan Lins、Marisa Monte、Tribalistasが活躍した。ブラジル国内で最も幅広く消費される音楽カテゴリとなっている。",
     rep_tracks:["Construção (Chico Buarque)", "Travessia (Milton Nascimento)", "Águas de Março (Elis Regina & Tom Jobim)"],
@@ -4462,7 +4462,7 @@ const NODES = [
     yt_tracks:[["BnvNfE9fOv4", "84SSCUhpa7U"], ["3coFfbVgRso", "FHDhP6PQyb0"], ["1ocd-A-lItU", "uFuVcltnCzc"], ["-fCV6FGi5FE", "R-oxNQQhA-Y"], ["cqmAn17nD4I", "03oWs8gXm1w"]],
     popularity:6,
     aliases:["ノルテーニョ"],},
-  {id:"corrido", label:"Corrido\n/ Corridos\nTumbados", cat:"latin", era:"1910s", suno:true,
+  {id:"corrido", label:"Corrido", cat:"latin", era:"1910s", suno:true,
     desc:"メキシコの物語歌であるコリードは、革命や英雄、犯罪、移民をテーマにしたバラッド形式の音楽である。現代のCorridos Tumbados（倒れたコリード）はトラップやアーバン要素を導入し、若者に人気がある。Peso PlumaやNatanael Cano、Fuerza Regidaが代表的なアーティストである。",
     roots_story:"コリードは1910年代のメキシコ革命期に英雄譚として発展し、「La Cucaracha」などの有名なコリードが生まれた。1990年代以降、ナルココリード（麻薬密売テーマ）が物議を醸した。2019年頃からNatanael Canoの「Soy El Diablo」がCorridos Tumbados（トラップ融合コリード）を確立し、Peso Plumaの『Génesis』(2023)がBillboard Latinチャートで大成功を収めた。",
     rep_tracks:["Soy El Diablo (Natanael Cano)", "Génesis (Peso Pluma)", "La Cucaracha (Traditional)", "El Jefe de Jefes (Los Tigres del Norte)", "Amor Tumbado (Natanael Cano)"],
@@ -4551,7 +4551,7 @@ const NODES = [
     yt_tracks:[["ucc1cD_GMOk", "hy60C6O3f_E"], ["AJCnKvvTUwA", "ZLLpkFcBreo"], ["C_TKv06pP-k", "yJ25mnw6U9M"]],
     popularity:5,
     aliases:["グナワ"],},
-  {id:"shaabi", label:"Shaabi\n(Egyptian)", cat:"middle_east", era:"1970s", suno:true,
+  {id:"shaabi", label:"Shaabi", cat:"middle_east", era:"1970s", suno:true,
     desc:"Shaabiはエジプトの庶民的なポピュラー音楽で、アラビア口語の歌詞や電子オルガン、シンセサイザー、打楽器が特徴である。音楽は街角的な生々しさを持ち、しばしば社会的なメッセージを含んでいる。ノリの良いリズムとキャッチーなメロディーが人々を引きつける。",
     roots_story:"Shaabiは1970年代にAhmed Adaweyaの「Zahma Ya Donya Zahma」がカイロの庶民層で爆発的な人気を博したことから始まった。これは既存のArabic Popエリートへの反発から生まれた音楽である。Hasan El AsmarやHakimの「El Salamo Aleiko」などが続き、2000年代以降にはElectroShaabiからMahraganatへと発展した。Shaabiは結婚式やストリートパーティーでよく演奏される。",
     rep_tracks:["Zahma Ya Donya Zahma (Ahmed Adaweya)", "El Salamo Aleiko (Hakim)", "Habibi Ya Einy (Hossam Ramzy)"],
@@ -4576,7 +4576,7 @@ const NODES = [
     popularity:5,
   
     aliases:["ガザル"],},
-  {id:"indian_pop", label:"Indian Pop\n/ Indi-Pop", cat:"south_asian", era:"1980s", suno:true,
+  {id:"indian_pop", label:"Indian Pop", cat:"south_asian", era:"1980s", suno:true,
     desc:"インディアン・ポップはインドの現代ポップミュージックであり、ボリウッド映画音楽とは独立した非映画の商業ポップを指す。多様な音楽スタイルを取り入れ、ダンスビートやキャッチーなメロディが特徴である。代表的なアーティストにはAlisha Chinai、Lucky Ali、KK、Sonu Nigam、Badshah、Diljit Dosanjhがいる。",
     roots_story:"インディアン・ポップは1980年代に台頭し、Alisha Chinaiの「Made in India」(1995)がインディポップの代名詞となった。Lucky AliやColonial Cousins、Falguni Pathakもこのジャンルを牽引した。2000年代以降はBadshahの「DJ Waley Babu」やHoney Singh、Diljit Dosanjhがパンジャブ系ポップを牽引し、ストリーミング時代においてBollywood non-filmi musicが大きく成長している。",
     rep_tracks:["Made in India (Alisha Chinai)", "O Sanam (Lucky Ali)", "DJ Waley Babu (Badshah)"],
@@ -4584,7 +4584,7 @@ const NODES = [
     yt_tracks:[["IvloHsmi_vg", "P1JCScrplTw"], ["dWqb-WqbGh8", "6bmDbIk8zUc"], ["OulN7vTDq1I", "a_XqaDoWe8o"]],
     popularity:6,
     aliases:["インディアンポップ", "Indi-Pop"],},
-  {id:"kayokyoku", label:"Kayōkyoku\n(歌謡曲)", cat:"east_asian", era:"1920s", suno:true,
+  {id:"kayokyoku", label:"Kayōkyoku", cat:"east_asian", era:"1920s", suno:true,
     desc:"歌謡曲は日本の大衆歌謡の総称で、西洋音楽の和声やメロディと日本的な節回しや情緒が融合した音楽である。昭和日本のポピュラー音楽の主流であり、美空ひばり、坂本九、山口百恵、松田聖子が代表的なアーティストである。J-POPの直接の前身としても知られている。",
     roots_story:"歌謡曲は1920年代に西洋音楽教育の普及とレコード産業の発展から成立した。古賀政男や服部良一が初期の重要な作曲家である。美空ひばりの「悲しき口笛」(1949)や坂本九の「上を向いて歩こう（SUKIYAKI）」(1963)が全米1位を獲得するなど、国際的にも成功を収めた。1970年代から1980年代にかけてはアイドル歌謡（松田聖子、中森明菜）が隆盛を極め、1990年代にJ-POPという呼称に置き換わった。",
     rep_tracks:["悲しき口笛 (美空ひばり)", "上を向いて歩こう (坂本九)", "赤いスイートピー (松田聖子)"],
@@ -4593,7 +4593,7 @@ const NODES = [
     popularity:8,
   
     aliases:["歌謡曲"],},
-  {id:"group_sounds", label:"Group Sounds\n(GS)", cat:"east_asian", era:"1966", suno:true,
+  {id:"group_sounds", label:"Group Sounds", cat:"east_asian", era:"1966", suno:true,
     desc:"グループ・サウンズ（GS）は1960年代後半の日本のロックバンド・ブームを指す。The Beatlesなどの英米ロックに影響を受けたエレキギター中心のバンド音楽が特徴である。The Spiders、The Tigers、The Tempters、ザ・ブルーコメッツが代表的なバンドである。",
     roots_story:"グループ・サウンズは1966年のThe Beatlesの来日を契機に日本で爆発的なブームを迎えた。ザ・スパイダース（堺正章）、ザ・タイガース（沢田研二）、ザ・テンプターズ、ザ・ブルーコメッツが人気を博し、特にザ・ブルーコメッツの「ブルー・シャトウ」(1967)はレコード大賞を受賞した。1970年頃にブームは終焉を迎えたが、その後はっぴいえんどなどのニューロックや日本語ロックに引き継がれた。",
     rep_tracks:["ブルー・シャトウ (ザ・ブルーコメッツ)", "フリフリ (ザ・スパイダース)", "君だけに愛を (ザ・タイガース)"],
@@ -4658,7 +4658,7 @@ const NODES = [
     popularity:5,
   
     aliases:["現代音楽", "現代クラシック"],},
-  {id:"film_score", label:"Film Score\n/ 映画音楽", cat:"classical_sub", era:"1930s", suno:true,
+  {id:"film_score", label:"Film Score", cat:"classical_sub", era:"1930s", suno:true,
     desc:"映画のために作曲された音楽で、オーケストラや電子音、ジャンルを問わない多様なスタイルを持つ。物語や感情、映像と不可分の関係にあり、映画のシーンを引き立てる役割を果たす。John Williamsの壮大なオーケストラ作品や、Hans Zimmerの緻密なサウンドデザインが代表的である。",
     roots_story:"1930年代のハリウッド黄金期にMax Steinerの『King Kong』(1933)で本格化した。Bernard HerrmannはHitchcock映画で、Ennio Morriconeはマカロニウエスタンで名を馳せた。John Williamsの『Star Wars』(1977)は映画音楽の歴史において最も影響力のある作品の一つである。Hans ZimmerやHoward Shore、久石譲（宮崎駿映画）、坂本龍一（『戦場のメリークリスマス』）も重要な作曲家である。",
     rep_tracks:["Star Wars Main Theme (John Williams)", "The Good, the Bad and the Ugly (Ennio Morricone)", "Inception (Hans Zimmer)", "Merry Christmas Mr. Lawrence (Ryuichi Sakamoto)", "Spirited Away (Joe Hisaishi)"],
@@ -7783,11 +7783,24 @@ node.append("circle")
   .attr("class", d => d.suno ? "suno" : "")
   .attr("fill-opacity", 0.85);
 
+// 日本語の漢字・ひらがな・カタカナ・全角記号は、半角の英数字よりずっと幅が
+// 広い（だいたいフォントサイズと同じ幅の正方形に近い）。以前は全ての文字を
+// 半角前提（フォントサイズの0.55倍）で計算していたため、日本語を含む
+// ラベル（例:「渋谷系（しぶやけい）」）の実際の幅を大きく過小評価しており、
+// 縮小すべきなのに縮小されず円からはみ出す原因になっていた
+// （はみ出しチェックのスクリプトでも同じ理由で見つけられていなかった）。
+function _isWideChar(ch) {
+  const code = ch.codePointAt(0);
+  return (code >= 0x3000 && code <= 0x30FF)   // 全角記号・ひらがな・カタカナ
+      || (code >= 0x3400 && code <= 0x9FFF)   // CJK統合漢字
+      || (code >= 0xFF00 && code <= 0xFFEF)   // 全角英数・記号
+      || (code >= 0x20000 && code <= 0x2FFFF); // CJK統合漢字拡張
+}
 function fitFontSize(text, r) {
   const baseSize = Math.max(16, r * 0.7);
   const maxWidth = r * 1.6;
-  const charWidth = baseSize * 0.55;
-  const textWidth = text.length * charWidth;
+  let textWidth = 0;
+  for (const ch of text) textWidth += baseSize * (_isWideChar(ch) ? 1 : 0.55);
   if (textWidth > maxWidth) return Math.max(10, baseSize * maxWidth / textWidth);
   return baseSize;
 }
@@ -7800,6 +7813,22 @@ function fitFontSize(text, r) {
 // （"Experimental Electronic"での報告で発覚。同じ計算式を使う2行の
 // ジャンル名すべてに共通する問題だったため、個別対応ではなく計算式
 // そのものを直す）。行間を、実際に描画されるフォントサイズに比例させる。
+// d.labelSmall2 が立っているジャンルは、1行目を「正式名」、2行目を
+// 「別名・読み方」の小さい添え書きとして表示する（例:"Shibuya-kei"を
+// 大きく、"渋谷系"を小さく）。以前はどちらも同じ大きさで、しかも
+// カッコ「(...)」やスラッシュ「/ ...」を含んだまま2行目に詰め込んで
+// いたため、その分だけ余計に幅を取って円からはみ出しやすくなっていた。
+// カッコ・スラッシュはデータ側から取り除いたうえで、2行目のフォント
+// サイズを「1行目の0.65倍」と「2行目自身の文字数から計算した適正
+// サイズ」の小さい方に制限し、常に1行目より小さく収まるようにする。
+function _label2FontSize(d) {
+  const line2 = d.label.split("\n")[1];
+  const natural = fitFontSize(line2, d.r);
+  if (!d.labelSmall2) return natural;
+  const line1Size = fitFontSize(d.label.split("\n")[0], d.r);
+  return Math.min(natural, line1Size * 0.65);
+}
+
 node.append("text")
   .text(d => d.label.split("\n")[0])
   .attr("dy", d => {
@@ -7812,10 +7841,10 @@ node.append("text")
 
 node.filter(d => d.label.includes("\n")).append("text")
   .text(d => d.label.split("\n")[1])
-  .attr("dy", d => fitFontSize(d.label.split("\n")[1], d.r) * 0.55)
-  .style("font-size", d => fitFontSize(d.label.split("\n")[1], d.r) + "px")
+  .attr("dy", d => _label2FontSize(d) * 0.55)
+  .style("font-size", d => _label2FontSize(d) + "px")
   .style("font-weight", "700")
-  .style("fill", "#fff");
+  .style("fill", d => d.labelSmall2 ? "#ccc" : "#fff");
 
 // hover: 軽量ツールチップ（ジャンル名のみ）
 const tooltip = document.getElementById("tooltip");
