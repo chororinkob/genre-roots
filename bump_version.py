@@ -48,7 +48,10 @@ if prev_version and current_version and current_version > prev_version:
           f"v{current_version[0]}.{current_version[1]}）。二重更新を避けるためスキップします。")
     sys.exit(0)
 
-# ── バージョン番号インクリメント (v23.25 → v23.26) ──────────────────────
+# ── バージョン番号インクリメント (v23.25 → v23.26。小数点以下が99を超える
+# 場合は繰り上げて v23.99 → v24.0 とする。2026-07-22、繰り上げ処理が
+# 存在しなかったせいで小数点以下が3桁(v24.100〜)まで伸びてしまったため
+# 追加。過去分はv25.67として手動で補正済み） ──────────────────────
 ver_match = re.search(r'<span id="version-info">v(\d+)\.(\d+)', html)
 if not ver_match:
     print("ERROR: バージョン番号が見つかりません", file=sys.stderr)
@@ -57,8 +60,12 @@ if not ver_match:
 major = int(ver_match.group(1))
 minor = int(ver_match.group(2))
 new_minor = minor + 1
+new_major = major
+if new_minor > 99:
+    new_major = major + 1
+    new_minor = 0
 old_ver_str = f"v{major}.{minor}"
-new_ver_str = f"v{major}.{new_minor}"
+new_ver_str = f"v{new_major}.{new_minor}"
 
 html = html.replace(
     f'<span id="version-info">{old_ver_str}',
