@@ -296,7 +296,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.154<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v24.155<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -7586,7 +7586,7 @@ const flowMarksG = g.append("g").attr("id", "link-flow-marks").style("pointer-ev
 // 矢印の本数が多すぎて動作が重くなり、音楽の再生が途切れる不具合が
 // 報告されたため、間隔を3倍(23→69)にして本数をおおよそ3分の1に減らした。
 const FLOW_MARK_SPACING = 69;  // 矢印同士の間隔（線の長さによらず一定）
-const FLOW_MARK_SPEED   = 44;  // 矢印が動く速さ：1秒あたりに進む距離（線の長さによらず一定）
+const FLOW_MARK_SPEED   = 88;  // 矢印が動く速さ：1秒あたりに進む距離（線の長さによらず一定）
 // 矢印の先端（chevron）を進行方向の先頭(ローカル原点0,0)に置く形にした。
 // animateMotionのrotate="auto"により、先端が常に進行方向を向く。
 // 一時期グラデーション用に後ろへ「尾」を伸ばしていたが、グラデーションは
