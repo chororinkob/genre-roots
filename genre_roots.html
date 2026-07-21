@@ -296,7 +296,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.152<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v24.153<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -7576,8 +7576,15 @@ const link = g.append("g").selectAll("line")
 // でその線の実座標(x1,y1→x2,y2)をそのまま使い、線の向きに正確に沿わせる
 // （objectBoundingBoxだと斜めの線で向きがずれてしまうため）。
 const flowMarksG = g.append("g").attr("id", "link-flow-marks").style("pointer-events", "none");
-const FLOW_MARK_COUNT = 15;  // 1本の線あたりに流す矢印の数（40だと線の色が埋もれて見えなくなった、10だとやや少なかった）
-const FLOW_MARK_DUR   = 8;   // 矢印1つが線を端から端まで移動する秒数
+// 以前は「1本の線あたり矢印15個・8秒で端から端まで」という固定値だったため、
+// 線が長いほど矢印同士の間隔が広がって速く見え、線が短いほど間隔が詰まって
+// 遅く見えてしまっていた（線の長さによって間隔・速さがバラバラという指摘）。
+// 「間隔(px相当の単位)」と「速さ(単位/秒)」の方を固定にし、矢印の本数と
+// 所要時間は線の実際の長さから逆算するようにした。基準値は、これまで
+// 承認されていた「本数15・8秒」を、だいたいの標準的な線の長さ(350)で
+// 割って算出している。
+const FLOW_MARK_SPACING = 23;  // 矢印同士の間隔（線の長さによらず一定）
+const FLOW_MARK_SPEED   = 44;  // 矢印が動く速さ：1秒あたりに進む距離（線の長さによらず一定）
 // 矢印の先端（chevron）を進行方向の先頭(ローカル原点0,0)に置く形にした。
 // animateMotionのrotate="auto"により、先端が常に進行方向を向く。
 // 一時期グラデーション用に後ろへ「尾」を伸ばしていたが、グラデーションは
@@ -7658,15 +7665,23 @@ function _syncLinkFlowMarks() {
 
     let grp = flowMarksG.select(`g[data-idx="${i}"]`);
     if (grp.empty()) {
+      // 線の実際の長さから、間隔・速さが線の長さによらず一定になるよう
+      // 本数と所要時間を逆算する（本数は最低2個、極端に長い線でも矢印が
+      // 増えすぎないよう上限も設ける）。
+      const lineLen = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2) || 1;
+      const dur = Math.max(1, lineLen / FLOW_MARK_SPEED);
       grp = flowMarksG.append("g").attr("data-idx", i).attr("data-path", pathD);
       if (d.mutual) {
         // 相互影響の線は、片方向だけでなく両方向から矢印がすれ違うように
-        // 流す。本数は片方向あたり半分にして、密度が単方向の線と揃うようにする。
-        const halfCount = Math.round(FLOW_MARK_COUNT / 2);
-        _addFlowMarks(grp, halfCount, pathD,  "fwd-motion", FLOW_MARK_DUR);
-        _addFlowMarks(grp, halfCount, pathRD, "rev-motion", FLOW_MARK_DUR);
+        // 流す。間隔は単方向の2倍にして、密度が単方向の線と揃うようにする
+        // （以前「本数15」に対して「片方向あたり半分の約7〜8個」にしていた
+        // のと同じ比率）。
+        const halfCount = Math.max(2, Math.min(60, Math.round(lineLen / (FLOW_MARK_SPACING * 2))));
+        _addFlowMarks(grp, halfCount, pathD,  "fwd-motion", dur);
+        _addFlowMarks(grp, halfCount, pathRD, "rev-motion", dur);
       } else {
-        _addFlowMarks(grp, FLOW_MARK_COUNT, pathD, "fwd-motion", FLOW_MARK_DUR);
+        const count = Math.max(2, Math.min(60, Math.round(lineLen / FLOW_MARK_SPACING)));
+        _addFlowMarks(grp, count, pathD, "fwd-motion", dur);
       }
     } else if (grp.attr("data-path") !== pathD) {
       // ノードが動いて線の位置が変わった場合だけ経路を作り直す
