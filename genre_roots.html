@@ -47,7 +47,9 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
 #sp-copy:hover { background: #3a3a70; color: #fff; }
 #sp-close { padding: 4px 10px; background: rgba(255,255,255,0.1); border: 1px solid #666; border-radius: 4px; color: #fff; font-size: 16px; cursor: pointer; line-height: 1; }
 #sp-close:hover { background: rgba(255,255,255,0.25); }
-#sp-autoplay-row { display: flex; align-items: center; justify-content: flex-end; gap: 6px; margin-bottom: 5px; font-size: 11px; color: #999; user-select: none; }
+#sp-autoplay-row { display: flex; align-items: center; gap: 6px; margin-bottom: 5px; font-size: 11px; color: #999; user-select: none; }
+#sp-autoplay-row .sp-cat { margin-bottom: 0; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sp-autoplay-switch-group { display: flex; align-items: center; gap: 6px; flex-shrink: 0; margin-left: auto; }
 .sp-switch { position: relative; display: inline-block; width: 32px; height: 18px; flex-shrink: 0; }
 .sp-switch input { opacity: 0; width: 0; height: 0; }
 .sp-switch-slider { position: absolute; inset: 0; background: #555; border-radius: 18px; cursor: pointer; transition: background .15s; }
@@ -403,18 +405,20 @@ svg { width: 100vw; height: 100vh; }
   <div id="sp-body">
     <div id="sp-yt-wrap" style="margin-bottom:6px;">
       <div id="sp-autoplay-row" style="display:none;">
-        自動再生
-        <label class="sp-switch">
-          <input type="checkbox" id="sp-autoplay-checkbox">
-          <span class="sp-switch-slider"></span>
-        </label>
+        <div id="sp-cat" class="sp-cat" style="display:none;"></div>
+        <div class="sp-autoplay-switch-group">
+          自動再生
+          <label class="sp-switch">
+            <input type="checkbox" id="sp-autoplay-checkbox">
+            <span class="sp-switch-slider"></span>
+          </label>
+        </div>
       </div>
       <iframe id="sp-yt-player" width="100%" height="180" style="border:none;border-radius:8px;" allow="autoplay;encrypted-media" allowfullscreen></iframe>
       <button id="sp-yt-unmute" style="display:none;"></button>
       <button id="sp-yt-next" style="display:none;margin-top:3px;padding:4px 10px;background:#1565C0;border:none;border-radius:4px;color:#fff;font-size:11px;font-weight:700;cursor:pointer;">次▶</button>
     </div>
     <div id="sp-suno-wrap"></div>
-    <div id="sp-cat" class="sp-cat" style="display:none;"></div>
     <div id="sp-era" class="sp-era"></div>
     <div class="sp-section" id="sp-desc-sec">
       <h4>音楽性・特徴</h4>
