@@ -296,7 +296,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.160<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v24.161<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -7792,16 +7792,27 @@ function fitFontSize(text, r) {
   return baseSize;
 }
 
+// 2行になるジャンル名（例:"Experimental\nElectronic"）は、以前は行間が
+// 「-15」「35」という固定値になっていて、実際の文字の大きさ(fitFontSizeで
+// ジャンルごとに変わる)を全く考慮していなかった。人気度が低く円が小さい
+// ジャンルほど文字も小さく表示されるのに、行間だけは変わらず一定のまま
+// だったため、2行目が円の外にはみ出てしまう不具合になっていた
+// （"Experimental Electronic"での報告で発覚。同じ計算式を使う2行の
+// ジャンル名すべてに共通する問題だったため、個別対応ではなく計算式
+// そのものを直す）。行間を、実際に描画されるフォントサイズに比例させる。
 node.append("text")
   .text(d => d.label.split("\n")[0])
-  .attr("dy", d => d.label.includes("\n") ? -15 : 1)
+  .attr("dy", d => {
+    if (!d.label.includes("\n")) return 1;
+    return -fitFontSize(d.label.split("\n")[0], d.r) * 0.55;
+  })
   .style("font-size", d => fitFontSize(d.label.split("\n")[0], d.r) + "px")
   .style("font-weight", "700")
   .style("fill", "#fff");
 
 node.filter(d => d.label.includes("\n")).append("text")
   .text(d => d.label.split("\n")[1])
-  .attr("dy", 35)
+  .attr("dy", d => fitFontSize(d.label.split("\n")[1], d.r) * 0.55)
   .style("font-size", d => fitFontSize(d.label.split("\n")[1], d.r) + "px")
   .style("font-weight", "700")
   .style("fill", "#fff");
