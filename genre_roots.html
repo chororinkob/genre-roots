@@ -47,6 +47,13 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
 #sp-copy:hover { background: #3a3a70; color: #fff; }
 #sp-close { padding: 4px 10px; background: rgba(255,255,255,0.1); border: 1px solid #666; border-radius: 4px; color: #fff; font-size: 16px; cursor: pointer; line-height: 1; }
 #sp-close:hover { background: rgba(255,255,255,0.25); }
+#sp-autoplay-row { display: flex; align-items: center; justify-content: flex-end; gap: 6px; margin-bottom: 5px; font-size: 11px; color: #999; user-select: none; }
+.sp-switch { position: relative; display: inline-block; width: 32px; height: 18px; flex-shrink: 0; }
+.sp-switch input { opacity: 0; width: 0; height: 0; }
+.sp-switch-slider { position: absolute; inset: 0; background: #555; border-radius: 18px; cursor: pointer; transition: background .15s; }
+.sp-switch-slider::before { content: ""; position: absolute; height: 14px; width: 14px; left: 2px; top: 2px; background: #fff; border-radius: 50%; transition: transform .15s; }
+.sp-switch input:checked + .sp-switch-slider { background: #1565C0; }
+.sp-switch input:checked + .sp-switch-slider::before { transform: translateX(14px); }
 #sp-body { padding: 14px 16px; }
 .sp-suno { display: inline-block; background: #FFD700; color: #000; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 10px; margin-bottom: 10px; }
 .sp-era { font-size: 12px; color: #ccc; margin-bottom: 10px; }
@@ -395,6 +402,13 @@ svg { width: 100vw; height: 100vh; }
   </div>
   <div id="sp-body">
     <div id="sp-yt-wrap" style="margin-bottom:6px;">
+      <div id="sp-autoplay-row" style="display:none;">
+        自動再生
+        <label class="sp-switch">
+          <input type="checkbox" id="sp-autoplay-checkbox">
+          <span class="sp-switch-slider"></span>
+        </label>
+      </div>
       <iframe id="sp-yt-player" width="100%" height="180" style="border:none;border-radius:8px;" allow="autoplay;encrypted-media" allowfullscreen></iframe>
       <button id="sp-yt-unmute" style="display:none;"></button>
       <button id="sp-yt-next" style="display:none;margin-top:3px;padding:4px 10px;background:#1565C0;border:none;border-radius:4px;color:#fff;font-size:11px;font-weight:700;cursor:pointer;">次▶</button>
@@ -7880,13 +7894,43 @@ node.on("mouseover", (e, d) => {
 })
 .on("mouseout", () => tooltip.style.display = "none");
 
+// 自動再生ON/OFF設定（パソコン・ブラウザごとにlocalStorageへ記憶。
+// 初期値はON=これまで通りの挙動。人によっては急に音が鳴って驚くという
+// 声があったため、パネル内のスイッチでOFFにできるようにした。
+// YouTube埋め込み(iframe)は別オリジンなので、動画の画面上に直接ボタンを
+// 乗せることはできず、パネル側のUIとして外に置く形にしている。
+const SP_AUTOPLAY_KEY = 'sp_yt_autoplay';
+function spAutoplayEnabled() {
+  return localStorage.getItem(SP_AUTOPLAY_KEY) !== '0';
+}
+function spSetAutoplayEnabled(on) {
+  localStorage.setItem(SP_AUTOPLAY_KEY, on ? '1' : '0');
+}
+(function initSpAutoplayToggle() {
+  const row = document.getElementById('sp-autoplay-row');
+  const checkbox = document.getElementById('sp-autoplay-checkbox');
+  if (!row || !checkbox) return;
+  if (window.innerWidth > 768) row.style.display = 'flex';  // スマホは元々自動再生されないため表示しない
+  checkbox.checked = spAutoplayEnabled();
+  checkbox.addEventListener('change', () => {
+    spSetAutoplayEnabled(checkbox.checked);
+    if (!checkbox.checked) {
+      // OFFにした瞬間、今流れている曲もすぐ止める
+      const player = document.getElementById('sp-yt-player');
+      if (player && player.src) {
+        player.contentWindow.postMessage(JSON.stringify({event:'command', func:'pauseVideo', args:[]}), '*');
+      }
+    }
+  });
+})();
+
 // 固定VideoIDで再生（APIなし）。backup_idはエラー時に自動切り替え
 function playByVideoId(primaryId, backupId) {
   const player = document.getElementById('sp-yt-player');
   const unmuteBtn = document.getElementById('sp-yt-unmute');
   const nextBtn   = document.getElementById('sp-yt-next');
   player.dataset.backupId = backupId || '';
-  player.src = `https://www.youtube.com/embed/${primaryId}?autoplay=1&rel=0&enablejsapi=1`;
+  player.src = `https://www.youtube.com/embed/${primaryId}?autoplay=${spAutoplayEnabled() ? 1 : 0}&rel=0&enablejsapi=1`;
   if (unmuteBtn) unmuteBtn.style.display = 'none';
   if (nextBtn)   nextBtn.style.display   = 'none';
 }
@@ -7906,7 +7950,7 @@ function playYtTrack(idx) {
     .then(data => {
       if (data.items && data.items.length > 0) {
         const videoId = data.items[0].id.videoId;
-        player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&enablejsapi=1`;
+        player.src = `https://www.youtube.com/embed/${videoId}?autoplay=${spAutoplayEnabled() ? 1 : 0}&rel=0&enablejsapi=1`;
         unmuteBtn.style.display = 'none';
       } else {
         // greatest hits mixが見つからない場合、ジャンル名+musicで再検索
@@ -7915,7 +7959,7 @@ function playYtTrack(idx) {
           .then(r2 => r2.json())
           .then(d2 => {
             if (d2.items && d2.items.length > 0) {
-              player.src = `https://www.youtube.com/embed/${d2.items[0].id.videoId}?autoplay=1&rel=0&enablejsapi=1`;
+              player.src = `https://www.youtube.com/embed/${d2.items[0].id.videoId}?autoplay=${spAutoplayEnabled() ? 1 : 0}&rel=0&enablejsapi=1`;
             }
           });
       }
@@ -7943,14 +7987,14 @@ function searchAndPlayTrack(query) {
     .then(r => r.json())
     .then(data => {
       if (data.items && data.items.length > 0) {
-        player.src = `https://www.youtube.com/embed/${data.items[0].id.videoId}?autoplay=1&rel=0&enablejsapi=1`;
+        player.src = `https://www.youtube.com/embed/${data.items[0].id.videoId}?autoplay=${spAutoplayEnabled() ? 1 : 0}&rel=0&enablejsapi=1`;
       } else {
         const fallbackQ = encodeURIComponent(query.replace(' / ', ' ') + ' official');
         fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${fallbackQ}&type=video&maxResults=1&videoEmbeddable=true&key=${ytKey}`)
           .then(r2 => r2.json())
           .then(d2 => {
             if (d2.items && d2.items.length > 0) {
-              player.src = `https://www.youtube.com/embed/${d2.items[0].id.videoId}?autoplay=1&rel=0&enablejsapi=1`;
+              player.src = `https://www.youtube.com/embed/${d2.items[0].id.videoId}?autoplay=${spAutoplayEnabled() ? 1 : 0}&rel=0&enablejsapi=1`;
             }
           });
       }
@@ -7973,7 +8017,7 @@ window.addEventListener('message', (e) => {
       const backupId = player && player.dataset.backupId;
       if (backupId) {
         console.warn('YT error', data.info, '→ backup:', backupId);
-        player.src = `https://www.youtube.com/embed/${backupId}?autoplay=1&rel=0&enablejsapi=1`;
+        player.src = `https://www.youtube.com/embed/${backupId}?autoplay=${spAutoplayEnabled() ? 1 : 0}&rel=0&enablejsapi=1`;
         player.dataset.backupId = '';
       }
     }
