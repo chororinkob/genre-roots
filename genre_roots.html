@@ -296,7 +296,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.155<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v24.156<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -10829,7 +10829,7 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 <div id="mic-overlay">
   <div id="mic-panel">
     <button id="mic-panel-close" onclick="closeMicPanel()">✕</button>
-    <div id="mic-panel-version">v2.31</div>
+    <div id="mic-panel-version">v2.32</div>
     <div id="mic-panel-title">🎵 音楽を聴かせてください</div>
     <div id="mic-panel-sub">ジャンルを調べてマップに表示します</div>
 
@@ -11393,9 +11393,13 @@ function micDrawListening() {
   // 周波数ビンは0Hz〜ナイキスト周波数まで等間隔だが、音楽・声のエネルギーは
   // 低〜中音域に集中している。全域を均等に24本へ割り振ると、低音側の動きが
   // 数本のバーに圧縮されて途切れて見え、逆に高音側はほとんど動かないまま
-  // 幅だけ無駄に取ってしまう。検出範囲を低音寄りの2/3（高音側1/3をカット）に
-  // 絞ることで、実際に動きのある帯域により多くのバーを割り当てる。
-  const usableLen = Math.floor(data.length * 2 / 3);
+  // 幅だけ無駄に取ってしまう。検出範囲を低音寄りに絞ることで、実際に動きの
+  // ある帯域により多くのバーを割り当てる。
+  // 当初2/3（高音側1/3をカット）にしていたが、それでもまだ低音側が
+  // 詰まって見え、逆に高音側には検出できていない範囲が残っているとの
+  // 指摘を受け、24本のうち高音側4本分に相当する幅をさらに低音側へ
+  // 回した（2/3 × (24-4)/24 = 5/9 に縮小）。
+  const usableLen = Math.floor(data.length * 5 / 9);
   for (let i = 0; i < NUM; i++) {
     const val = data[Math.floor(i * usableLen / NUM)];
     const barH = Math.max(2, (val / 255) * h);
