@@ -11,8 +11,12 @@ permissions:
 
 jobs:
   version-bump:
-    # github-actions bot 自身がプッシュした場合はスキップ（無限ループ防止）
-    if: github.actor != 'github-actions[bot]'
+    # github-actions bot 自身がプッシュした場合はスキップ（無限ループ防止）。
+    # また、ジャンル追加・修正依頼の反映（genre_adder.py経由、コミット
+    # メッセージに[skip-version-bump]の目印が入る）もスキップする。
+    # バージョン番号はコード変更の回数を表すものであり、データ変更では
+    # 上げない方針のため（2026-07-22合意）。
+    if: github.actor != 'github-actions[bot]' && !contains(github.event.head_commit.message, '[skip-version-bump]')
     runs-on: ubuntu-latest
 
     steps:
