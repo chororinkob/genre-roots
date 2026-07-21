@@ -296,7 +296,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.150<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v24.151<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -7611,11 +7611,16 @@ function _syncLinkFlowMarks() {
       if (d.mutual) {
         // 相互影響の線は、片方の端だけ濃いと「そちらから流れている」ように
         // 見えてしまい実態と合わない（どちらの方向からも来る関係のため）ため、
-        // 「真ん中が明るく強調される」表現は残しつつ、両端はそれぞれの
-        // ジャンルの色、真ん中に近づくほど明るく（白に）変化するようにする。
-        gradSel.append("stop").attr("offset", "0%").attr("stop-color", sourceColor).attr("stop-opacity", 0.2);
+        // 両端はそれぞれのジャンルの色、真ん中に近づくほど明るく（白に）
+        // 変化するようにする。
+        // 以前は端の不透明度を0.2にして「薄く」見せていたが、これだと
+        // 暗い背景の上では単に色が薄暗く沈んで見えるだけで、狙った「白に
+        // 溶け込んでいく」感じにならなかった。不透明度は3点とも1のままにし、
+        // 色そのものをオレンジ→白→茶色のように直接混ぜ合わせることで、
+        // 端から中心に向かって自然に白くなっていく見た目にした。
+        gradSel.append("stop").attr("offset", "0%").attr("stop-color", sourceColor).attr("stop-opacity", 1);
         gradSel.append("stop").attr("offset", "50%").attr("stop-color", "#fff").attr("stop-opacity", 1);
-        gradSel.append("stop").attr("offset", "100%").attr("stop-color", targetColor).attr("stop-opacity", 0.2);
+        gradSel.append("stop").attr("offset", "100%").attr("stop-color", targetColor).attr("stop-opacity", 1);
       } else {
         // 片方向の線は「先のジャンルの色」を混ぜない単色に戻した。元の
         // ジャンルの色が先に向かって飛んでいき、近づくにつれて薄くなる
