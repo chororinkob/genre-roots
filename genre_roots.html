@@ -296,7 +296,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v24.162<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v24.163<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -831,7 +831,7 @@ const NODES = [
     yt_tracks:[["6KnYw4EwYGc", "JlwcQR5HHck"], ["HFWKJ2FUiAQ", "6GFteqnmoxg"], ["aKrw5wOlSng", "6hhIudIuKzA"], ["hThAlY3Q2Kw", "lyVsRGyd2r8"]],
     aliases:["エセリアルウェーブ"],},
 
-  {id:"harsh_noise", label:"Harsh Noise", cat:"industrial", era:"1980s", suno:true,
+  {id:"harsh_noise", label:"Harsh\nNoise", cat:"industrial", era:"1980s", suno:true,
     desc:"音楽と騒音の境界を完全に消し去った極限の音響表現。フィードバック、歪み、静電気のような電子ノイズが壁のように押し寄せ、メロディ・リズム・ハーモニーといった音楽の要素は一切存在しない。耳が痛くなるほどの音圧で聴く者の感覚を圧倒する。心地よさとは対極にあるが、その激しさの中に「音そのものの力」を純粋に体験する独特のカタルシスがある。聴覚の限界に挑戦する、最も過激な音楽表現の一つ。",
     roots_story:"1970年代後半のインダストリアル音楽を極端に推し進めた形で誕生。日本のMerzbow（秋田昌美）が1980年代からハーシュノイズの最重要アーティストとして膨大な作品を発表し続けており、ジャンルの代名詞的存在。「パルスデーモン」(1996)は400作以上あるディスコグラフィーの中でも代表作。Masonna、Incapacitants、非常階段ら日本のジャパノイズ（Japanoise）勢がジャンルを牽引。アメリカではWolf Eyes、Prurient、Kevin Drumm、ヨーロッパではVomir（フランス）のHNW（Harsh Noise Wall）が一つのサブジャンルとして確立された。",
     rep_tracks:["Pulse Demon (Merzbow)", "Venereology (Merzbow)", "Live at No Fun Fest (Wolf Eyes)", "Sheer Hellish Miasma (Kevin Drumm)"],
@@ -864,7 +864,7 @@ const NODES = [
     yt_tracks:[["HIQ0dd7B_FU", "q0RevuyTY5M"], ["8tV5Q9WlIZ8", "qBn0Jnf7_3M"], ["ukw1P4aZegU", "GiR3xsTGzGo"], ["rt97c92WjRw", "MzUf5mXP4ZQ"], ["SZxrMwtBZaY", "KRgg0Q7ZUxc"]],
     aliases:["スペースアンビエント"],},
 
-  {id:"ritual_ambient", label:"Ritual Ambient", cat:"ambient", era:"1980s", suno:true,
+  {id:"ritual_ambient", label:"Ritual\nAmbient", cat:"ambient", era:"1980s", suno:true,
     desc:"古代の儀式や祈りの場にいるような、神秘的で呪術的な音響空間。民族楽器（ディジュリドゥ、シンギングボウル、フレームドラム）の倍音、詠唱のようなボーカル、鈴や鐘の残響が電子音のドローンと混ざり合う。聴いていると意識が変容するような、トランス状態に近い感覚を生む。テンポはゆったりか、パーカッションの原始的リズムが催眠的に繰り返される。焚き火を囲む夜の儀式、寺院の読経、シャーマンの太鼓のような原始的な神聖さを帯びた音楽。",
     roots_story:"1980年代、ダークアンビエント/インダストリアルのアーティストたちが古代の儀式や異教文化に目を向け始めた。Zero Kama（ドイツ）は人骨で作った楽器で演奏するという極端なコンセプトで話題に。Ain Soph（日本）、Hybryds（ベルギー）が初期の代表格。1990年代にはAenigma Project、Daemonia Nymphe（ギリシャ）が古代ギリシャの音楽を再構築。Heilung（デンマーク/ノルウェー）は2010年代にバイキング時代の儀式音楽を壮大なパフォーマンスで再現し、一般の注目を集めた。Wardruna（ノルウェー）もTV番組「ヴァイキング」のサウンドトラックで知名度を上げた。",
     rep_tracks:["Fremde Zeit - Additium (Zero Kama)", "Krigsgaldr (Heilung)", "Helvegen (Wardruna)"],
@@ -7801,7 +7801,7 @@ function fitFontSize(text, r) {
   const maxWidth = r * 1.6;
   let textWidth = 0;
   for (const ch of text) textWidth += baseSize * (_isWideChar(ch) ? 1 : 0.55);
-  if (textWidth > maxWidth) return Math.max(10, baseSize * maxWidth / textWidth);
+  if (textWidth > maxWidth) return Math.max(6.5, baseSize * maxWidth / textWidth);
   return baseSize;
 }
 
