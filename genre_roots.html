@@ -341,7 +341,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.71<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.72<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -7792,26 +7792,42 @@ function _addFlowMarks(grp, count, pathD, motionClass, dur) {
 // 使ったやわらかい光の帯を線に沿って流す（説明パネルの光る帯と同じ
 // 考え方・同じ1周2秒。animateMotionのrotate="auto"により、矢印と同じく
 // どんな角度の線でも自動的に向きに追従する）。
-// 帯は中心(ローカル原点)を基準にした矩形で、幅は線の長さの34%
-// （説明パネルの光る帯と同じ比率）、fillに「透明→色→色→透明」の
-// グラデーションを使うことで、輪郭のない柔らかい光に見せている。
+// 帯は中心(ローカル原点)を基準にした「線(line)」で、幅は線の長さの34%
+// （説明パネルの光る帯と同じ比率）。太さはstroke-widthで指定し、
+// vector-effect:non-scaling-strokeを付けることで、ベースの線と同じく
+// マップのズーム倍率に関わらず太さが一定に見えるようにしている
+// （以前は矩形(rect)のfillで描いていたが、fillの幅・高さはズームで
+// そのまま縮んでしまい、線本体だけ太くなって光は細いままという
+// ズレが起きていたための修正）。
+// strokeに「透明→色→色→透明」のグラデーションを使うことで、
+// 輪郭のない柔らかい光に見せている。
 const GLOW_DUR = 2; // 秒。説明パネルの --flow-dur と揃える
 function _addGlowMarks(grp, pathD, motionClass, colorHex, lineLen, thickness) {
   const gradId = "link-glow-grad-" + Math.random().toString(36).slice(2);
   const lightColor = _lightenHex(colorHex, 0.5);
-  const grad = defs.append("linearGradient").attr("id", gradId);
+  const sweepLen = lineLen * 0.34;
+  // 高さ(y1=y2=0)のある線にobjectBoundingBoxのグラデーションを使うと
+  // バウンディングボックスの高さがゼロになり挙動が不安定になるため、
+  // 線のローカル座標(-sweepLen/2〜sweepLen/2)に合わせてuserSpaceOnUseで
+  // 明示的に指定する
+  const grad = defs.append("linearGradient")
+    .attr("id", gradId)
+    .attr("gradientUnits", "userSpaceOnUse")
+    .attr("x1", -sweepLen / 2).attr("y1", 0)
+    .attr("x2", sweepLen / 2).attr("y2", 0);
   grad.append("stop").attr("offset", "0%").attr("stop-color", lightColor).attr("stop-opacity", 0);
   grad.append("stop").attr("offset", "45%").attr("stop-color", lightColor).attr("stop-opacity", 1);
   grad.append("stop").attr("offset", "55%").attr("stop-color", lightColor).attr("stop-opacity", 1);
   grad.append("stop").attr("offset", "100%").attr("stop-color", lightColor).attr("stop-opacity", 0);
 
-  const sweepLen = lineLen * 0.34;
-  const rect = grp.append("rect")
+  const rect = grp.append("line")
     .attr("class", "link-glow-mark")
     .attr("data-grad-id", gradId)
-    .attr("x", -sweepLen / 2).attr("y", -thickness / 2)
-    .attr("width", sweepLen).attr("height", thickness)
-    .attr("fill", `url(#${gradId})`)
+    .attr("x1", -sweepLen / 2).attr("y1", 0)
+    .attr("x2", sweepLen / 2).attr("y2", 0)
+    .attr("stroke", `url(#${gradId})`)
+    .attr("stroke-width", thickness)
+    .attr("vector-effect", "non-scaling-stroke")
     .style("filter", "blur(0.6px)");
   rect.append("animateMotion")
     .attr("class", motionClass)
