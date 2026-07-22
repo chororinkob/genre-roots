@@ -332,7 +332,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.69<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.70<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -7538,7 +7538,7 @@ function _scoreMeterHtml(l, dirClass) {
   ).join('');
   const railInner = dirClass === 'mutual'
     ? '<span class="sp-flow-sweep a"></span><span class="sp-flow-sweep b"></span>'
-    : '<span class="sp-flow-sweep"></span>';
+    : '<span class="sp-flow-sweep a"></span>';
   return `<span class="sp-score-wrap">
       <span class="sp-score">${chips}</span>
       <span class="sp-flow-rail ${dirClass}">${railInner}</span>
@@ -7914,7 +7914,10 @@ setInterval(_syncLinkFlowMarks, 200);
 const linkLabelG = g.append("g").selectAll("g")
   .data(linkData)
   .join("g")
-  .attr("class", "link-label-group");
+  .attr("class", "link-label-group")
+  // 5項目採点済みのリンクは太さ・光る帯で表現するため、％や「相互」の
+  // ラベル自体(背景の角丸四角ごと)を表示しない
+  .style("display", d => d.score ? "none" : null);
 
 linkLabelG.append("rect")
   .attr("class", "link-label-bg")
@@ -7926,7 +7929,9 @@ linkLabelG.append("text")
   .attr("class", "link-label")
   .attr("text-anchor", "middle")
   .attr("dominant-baseline", "central")
-  .text(d => d.mutual ? "相互" : d.w + "%");
+  // 5項目採点(d.score)済みのリンクは、太さと光る帯で表現するため
+  // ％表示・「相互」の文字は出さない（未採点のリンクは従来通り）
+  .text(d => d.score ? "" : (d.mutual ? "相互" : d.w + "%"));
 
 const node = g.append("g").selectAll("g")
   .data(NODES)
