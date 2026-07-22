@@ -341,7 +341,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.75<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.76<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -7770,16 +7770,15 @@ const FLOW_MARK_GLYPH = "M-9,-7.5 L0,0 L-9,7.5";
 // 区別できるようにしておき、後で経路だけを更新するときに使う。
 // scale(既定1)は矢印自体の大きさ(幅)の倍率。5項目採点済みのリンクは
 // 線の太さに応じて矢印も大きく/小さくする（2026-07-22追加）。
-// vector-effect: non-scaling-strokeを付けることで、scaleで矢印の形(幅)は
-// 大きく/小さくなっても、線そのものの太さ(stroke-width)は一定のまま
-// 変わらないようにしている（「幅は変えたいが太さまで一緒に太くなるのは
-// ダサい」とのご指摘への対応）。
+// ※vector-effect: non-scaling-strokeを一度試したが、線の太さが
+// レベルによらず常に一律3px(CSS基準値)になってしまい、それまで
+// scale<1で一緒に細くなっていたレベル2・3の矢印がかえって太く見える
+// ようになってしまったため元に戻した（2026-07-22）。
 function _addFlowMarks(grp, count, pathD, motionClass, dur, scale) {
   for (let k = 0; k < count; k++) {
     const mark = grp.append("path")
       .attr("class", "link-flow-mark")
-      .attr("d", FLOW_MARK_GLYPH)
-      .attr("vector-effect", "non-scaling-stroke");
+      .attr("d", FLOW_MARK_GLYPH);
     if (scale && scale !== 1) mark.attr("transform", `scale(${scale})`);
     mark.append("animateMotion")
       .attr("class", motionClass)
