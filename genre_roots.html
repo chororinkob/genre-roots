@@ -137,7 +137,12 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
 #sp-yt-wrap { border-radius: 8px; overflow: hidden; }
 
 svg { width: 100vw; height: 100vh; }
-.link { stroke-opacity: 0; fill: none; pointer-events: none; }
+/* vector-effect: non-scaling-stroke を付けないと、線の太さがマップの
+   拡大縮小(d3.zoom)に応じて画面上でも一緒に縮んでしまう。560以上の
+   ノードを表示する都合上、普段はかなり縮小して見ていることが多く、
+   太さの差(7px/11pxなど)が画面上では1px未満の違いになって見分けが
+   つかなくなっていた可能性が高いための対応（2026-07-22） */
+.link { stroke-opacity: 0; fill: none; pointer-events: none; vector-effect: non-scaling-stroke; }
 .link.focus-highlight { stroke-opacity: 0.6 !important; pointer-events: auto; }
 .node circle { cursor: pointer; stroke-width: 2; transition: fill 0.3s ease-in, opacity 0.3s ease-in, filter 0.3s ease-in; }
 .node circle.flash-on { filter: brightness(2.5) drop-shadow(0 0 30px currentColor) drop-shadow(0 0 60px currentColor); }
@@ -166,7 +171,11 @@ svg { width: 100vw; height: 100vh; }
 .node.cat-dim { opacity: 0.05; pointer-events: none; }
 .node.focus-dim { opacity: 0.05; }
 .link.focus-dim { opacity: 0.03 !important; }
-.link.focus-highlight { opacity: 1 !important; filter: drop-shadow(0 0 4px rgba(255,255,255,0.5)); }
+/* ぼかし半径を4px→1.5pxに縮小。線が細い(7px)/太い(11〜19px)の差を
+   グローの広がりが吸収してしまい、太さの違いが見た目に反映されにくく
+   なっていたための調整（2026-07-22、5段階の太さが実機で見分けにくいと
+   ご指摘を受けて対応） */
+.link.focus-highlight { opacity: 1 !important; filter: drop-shadow(0 0 1.5px rgba(255,255,255,0.5)); }
 .link-flow-mark { fill: none; stroke: #cfd8ff; stroke-width: 3px; stroke-linecap: round; stroke-linejoin: round; opacity: 0.75; filter: drop-shadow(0 0 2px rgba(180,190,255,0.6)); pointer-events: none; }
 .link-label-group.focus-dim { opacity: 0.03 !important; }
 .link-label-group.focus-highlight { opacity: 1 !important; }
@@ -332,7 +341,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.70<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.71<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
