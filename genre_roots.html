@@ -341,7 +341,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.76<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.77<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -7611,7 +7611,13 @@ const svg = d3.select("#graph");
 const w = window.innerWidth, h = window.innerHeight;
 const g = svg.append("g");
 
-const zoom = d3.zoom().scaleExtent([0.005, 6]).on("zoom", e => g.attr("transform", e.transform));
+// 現在のズーム倍率(k)を常に把握しておく。線はvector-effect:
+// non-scaling-strokeでズームの影響を受けないようにしているが、矢印は
+// (レベルによる大きさの違いをscale()で表現している都合上)同じ手法が
+// 使えないため、ズーム倍率の逆数を掛けて打ち消す方式で対応する
+// （_addFlowMarks・_syncLinkFlowMarks参照。2026-07-22）。
+let currentZoomK = 1;
+const zoom = d3.zoom().scaleExtent([0.005, 6]).on("zoom", e => { g.attr("transform", e.transform); currentZoomK = e.transform.k; });
 svg.call(zoom);
 
 function fitToView() {
@@ -7765,6 +7771,17 @@ const FLOW_MARK_SPEED   = 88;  // 矢印が動く速さ：1秒あたりに進む
 // シンプルな「＞」形に戻した。
 const FLOW_MARK_GLYPH = "M-9,-7.5 L0,0 L-9,7.5";
 
+// 矢印1個(d3セレクション)に、data-desired-scale(本来のレベル別の大きさ)を
+// 現在のズーム倍率(currentZoomK)で打ち消したtransformを当てる。
+// ズームするたびに呼び直すことで、矢印の見た目の大きさが常にズーム倍率に
+// 関わらず一定（レベルの違いだけを反映）になるようにする。
+function _applyArrowZoomScale(sel) {
+  const desired = +sel.attr("data-desired-scale") || 1;
+  const effective = desired / currentZoomK;
+  if (Math.abs(effective - 1) > 0.001) sel.attr("transform", `scale(${effective})`);
+  else sel.attr("transform", null);
+}
+
 // grp（1本の線に対応する<g>）の中に、指定した経路(pathD)に沿って流れる
 // 矢印マークをcount個追加する。motionClassで向き(fwd-motion/rev-motion)を
 // 区別できるようにしておき、後で経路だけを更新するときに使う。
@@ -7774,12 +7791,19 @@ const FLOW_MARK_GLYPH = "M-9,-7.5 L0,0 L-9,7.5";
 // レベルによらず常に一律3px(CSS基準値)になってしまい、それまで
 // scale<1で一緒に細くなっていたレベル2・3の矢印がかえって太く見える
 // ようになってしまったため元に戻した（2026-07-22）。
+// 線はvector-effectでズームの影響を受けないが、矢印はscale()で
+// レベルの大きさを表現している都合上同じ手法が使えない。ズーム
+// するとレベルによる大きさの違いが線とズレて見えてしまうため、
+// data-desired-scaleに「本来の(ズーム抜きの)大きさ」を保存しておき、
+// _applyArrowZoomScaleで現在のズーム倍率を打ち消した値を都度当てる。
 function _addFlowMarks(grp, count, pathD, motionClass, dur, scale) {
+  const desired = scale || 1;
   for (let k = 0; k < count; k++) {
     const mark = grp.append("path")
       .attr("class", "link-flow-mark")
-      .attr("d", FLOW_MARK_GLYPH);
-    if (scale && scale !== 1) mark.attr("transform", `scale(${scale})`);
+      .attr("d", FLOW_MARK_GLYPH)
+      .attr("data-desired-scale", desired);
+    _applyArrowZoomScale(mark);
     mark.append("animateMotion")
       .attr("class", motionClass)
       .attr("dur", dur + "s")
@@ -7875,6 +7899,10 @@ function _syncLinkFlowMarks() {
       grp.selectAll(".fwd-motion").attr("path", pathD);
       grp.selectAll(".rev-motion").attr("path", pathRD);
     }
+    // 既存の矢印も、ズーム倍率が変わっていれば毎回(200msごと)当て直す。
+    // これをしないと、矢印を出した時点のズーム倍率のまま固定されてしまい、
+    // その後さらにズームすると線と矢印の大きさがズレていく。
+    grp.selectAll(".link-flow-mark").each(function() { _applyArrowZoomScale(d3.select(this)); });
   });
   // ハイライトが外れた線の矢印は消す
   flowMarksG.selectAll("g[data-idx]").each(function() {
