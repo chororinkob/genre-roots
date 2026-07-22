@@ -341,7 +341,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.73<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.74<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -7558,11 +7558,12 @@ function _scoreMeterHtml(l, dirClass) {
     </span>
     <span class="sp-score-total"><b>${total}</b>/5</span>`;
 }
-// スコア(1〜5)→マップの線の太さ(px)。0点は実際には起こらない
-// （リンクが存在する時点で最低1項目は該当している）ため、1段階目を
-// 3pxとし、そこから4pxずつ増やして5段階：3 / 7 / 11 / 15 / 19px
+// スコア(1〜5)→マップの線の太さ(px)。均等に+4pxずつ(3/7/11/15/19)では
+// 隣同士の差が小さすぎて見分けがつかないとのご指摘を受け、1段階上がる
+// ごとに太さが倍になる指数的な刻みに変更：2 / 4 / 8 / 16 / 32px
+// （2026-07-22）
 function _linkStrokeWidth(d) {
-  if (d.score) return 3 + (_scoreTotal(d.score) - 1) * 4;
+  if (d.score) return 2 * Math.pow(2, _scoreTotal(d.score) - 1);
   return d.mutual ? 6 + d.w / 12 : 4 + d.w / 10; // 未採点リンクは従来通りwベース
 }
 
@@ -7850,8 +7851,8 @@ function _syncLinkFlowMarks() {
       // ご指摘を受けて不採用にし、他のジャンルと同じ矢印方式に統一した
       // （2026-07-22）。5項目採点済みのリンクは、線の太さ(_linkStrokeWidth)
       // に合わせて矢印自体の大きさもscaleで拡大縮小する。基準(scale=1)は
-      // 5段階の中央値である11pxとし、そこからの比率で決める。
-      const arrowScale = d.score ? _linkStrokeWidth(d) / 11 : 1;
+      // 5段階(2/4/8/16/32px)の中央値である8pxとし、そこからの比率で決める。
+      const arrowScale = d.score ? _linkStrokeWidth(d) / 8 : 1;
       if (d.mutual) {
         // 相互影響の線は、片方向だけでなく両方向から矢印がすれ違うように
         // 流す。間隔は単方向の2倍にして、密度が単方向の線と揃うようにする
