@@ -176,12 +176,7 @@ svg { width: 100vw; height: 100vh; }
    なっていたための調整（2026-07-22、5段階の太さが実機で見分けにくいと
    ご指摘を受けて対応） */
 .link.focus-highlight { opacity: 1 !important; filter: drop-shadow(0 0 1.5px rgba(255,255,255,0.5)); }
-/* 矢印の太さはレベル(大きさ)によらず常に一定にする。以前はtransform:scale()で
-   大きさを表現していたため、線の太さもscale倍率と一緒に太くなってしまって
-   いた（レベル5で最大12pxまで太くなり「太くしないで」と指摘された）。
-   vector-effect: non-scaling-strokeで、大きさ用のscale()の影響を受けない
-   ようにした上で、基準の太さも1.5pxまで細くした（2026-07-23）。 */
-.link-flow-mark { fill: none; stroke: #cfd8ff; stroke-width: 1.5px; stroke-linecap: round; stroke-linejoin: round; opacity: 0.75; filter: drop-shadow(0 0 1.5px rgba(180,190,255,0.6)); pointer-events: none; vector-effect: non-scaling-stroke; }
+.link-flow-mark { fill: none; stroke: #cfd8ff; stroke-width: 3px; stroke-linecap: round; stroke-linejoin: round; opacity: 0.75; filter: drop-shadow(0 0 2px rgba(180,190,255,0.6)); pointer-events: none; }
 .link-label-group.focus-dim { opacity: 0.03 !important; }
 .link-label-group.focus-highlight { opacity: 1 !important; }
 .legend-item[data-cat] { cursor: pointer; padding: 2px 5px; border-radius: 4px; margin-left: -5px; transition: background 0.15s; }
@@ -346,7 +341,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.78<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.77<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -7774,28 +7769,15 @@ const FLOW_MARK_SPEED   = 88;  // 矢印が動く速さ：1秒あたりに進む
 // 一時期グラデーション用に後ろへ「尾」を伸ばしていたが、グラデーションは
 // 線本体に移したため不要になり、キノコのような不格好な形になっていた。
 // シンプルな「＞」形に戻した。
-// 矢印の"開き幅"(sizeScale)はpathの座標そのものに直接反映させる。以前は
-// transform:scale()で大きさを表現していたが、それだと矢印の輪郭線の太さ
-// まで一緒に何倍にもなってしまい（レベル5で最大12pxまで太くなる）、
-// 「太くしないで、幅（開き）だけ変えて」と指摘された。pathの座標に
-// 直接持たせれば、太さ(CSSのstroke-width)は一切変わらず、大きさだけを
-// 変えられる（2026-07-23）。
-const FLOW_MARK_BASE_HALF_W = 7.5;  // 基準(sizeScale=1)の開き幅
-const FLOW_MARK_BASE_LEN = 9;       // 基準(sizeScale=1)の長さ(進行方向)
-function _flowArrowGlyph(sizeScale) {
-  const hw = FLOW_MARK_BASE_HALF_W * sizeScale;
-  const len = FLOW_MARK_BASE_LEN * sizeScale;
-  return `M-${len},-${hw} L0,0 L-${len},${hw}`;
-}
+const FLOW_MARK_GLYPH = "M-9,-7.5 L0,0 L-9,7.5";
 
-// 矢印1個(d3セレクション)に、現在のズーム倍率(currentZoomK)を打ち消す
-// transformを当てる。ズームするたびに呼び直すことで、矢印の見た目の
-// 大きさが常にズーム倍率に関わらず一定になるようにする（大きさ自体は
-// 上のpath座標で表現済みなので、ここでは常に「等倍(1)」を基準にズーム
-// だけを打ち消す）。太さはvector-effect: non-scaling-strokeで別途
-// 常に一定にしているので、このtransformの影響も受けない。
+// 矢印1個(d3セレクション)に、data-desired-scale(本来のレベル別の大きさ)を
+// 現在のズーム倍率(currentZoomK)で打ち消したtransformを当てる。
+// ズームするたびに呼び直すことで、矢印の見た目の大きさが常にズーム倍率に
+// 関わらず一定（レベルの違いだけを反映）になるようにする。
 function _applyArrowZoomScale(sel) {
-  const effective = 1 / currentZoomK;
+  const desired = +sel.attr("data-desired-scale") || 1;
+  const effective = desired / currentZoomK;
   if (Math.abs(effective - 1) > 0.001) sel.attr("transform", `scale(${effective})`);
   else sel.attr("transform", null);
 }
@@ -7803,15 +7785,24 @@ function _applyArrowZoomScale(sel) {
 // grp（1本の線に対応する<g>）の中に、指定した経路(pathD)に沿って流れる
 // 矢印マークをcount個追加する。motionClassで向き(fwd-motion/rev-motion)を
 // 区別できるようにしておき、後で経路だけを更新するときに使う。
-// sizeScale(既定1)は矢印自体の大きさ(開き幅・長さ)の倍率。5項目採点済み
-// のリンクは線の太さに応じて矢印も大きく/小さくする（2026-07-22追加、
-// 2026-07-23にscale()方式からpath座標方式へ変更）。
-function _addFlowMarks(grp, count, pathD, motionClass, dur, sizeScale) {
-  const glyph = _flowArrowGlyph(sizeScale || 1);
+// scale(既定1)は矢印自体の大きさ(幅)の倍率。5項目採点済みのリンクは
+// 線の太さに応じて矢印も大きく/小さくする（2026-07-22追加）。
+// ※vector-effect: non-scaling-strokeを一度試したが、線の太さが
+// レベルによらず常に一律3px(CSS基準値)になってしまい、それまで
+// scale<1で一緒に細くなっていたレベル2・3の矢印がかえって太く見える
+// ようになってしまったため元に戻した（2026-07-22）。
+// 線はvector-effectでズームの影響を受けないが、矢印はscale()で
+// レベルの大きさを表現している都合上同じ手法が使えない。ズーム
+// するとレベルによる大きさの違いが線とズレて見えてしまうため、
+// data-desired-scaleに「本来の(ズーム抜きの)大きさ」を保存しておき、
+// _applyArrowZoomScaleで現在のズーム倍率を打ち消した値を都度当てる。
+function _addFlowMarks(grp, count, pathD, motionClass, dur, scale) {
+  const desired = scale || 1;
   for (let k = 0; k < count; k++) {
     const mark = grp.append("path")
       .attr("class", "link-flow-mark")
-      .attr("d", glyph);
+      .attr("d", FLOW_MARK_GLYPH)
+      .attr("data-desired-scale", desired);
     _applyArrowZoomScale(mark);
     mark.append("animateMotion")
       .attr("class", motionClass)
@@ -7887,25 +7878,20 @@ function _syncLinkFlowMarks() {
       // 光る帯の演出は「流れる方向が分かりにくい・相互がほぼ見えない」との
       // ご指摘を受けて不採用にし、他のジャンルと同じ矢印方式に統一した
       // （2026-07-22）。5項目採点済みのリンクは、線の太さ(_linkStrokeWidth)
-      // に合わせて矢印自体の大きさも拡大縮小する。基準(sizeScale=1)は
-      // 5段階(2/4/8/16/32px)の中央値である8pxとする。線の太さは1段階ごとに
-      // 倍々(2倍)で増えるが、矢印の大きさまで同じ比率で大きくすると線から
-      // はみ出て見た目が悪くなる（「矢印がデカすぎる」「間隔が詰まって見える」
-      // と指摘された）ため、平方根で緩やかに変化させる：レベル1(2px)で0.5倍、
-      // レベル3(8px)で1倍、レベル5(32px)で2倍と、太さの4倍の差に対して
-      // 矢印の大きさは2倍の差に収まるようにしている（2026-07-23）。
-      const sizeScale = d.score ? Math.sqrt(_linkStrokeWidth(d) / 8) : 1;
+      // に合わせて矢印自体の大きさもscaleで拡大縮小する。基準(scale=1)は
+      // 5段階(2/4/8/16/32px)の中央値である8pxとし、そこからの比率で決める。
+      const arrowScale = d.score ? _linkStrokeWidth(d) / 8 : 1;
       if (d.mutual) {
         // 相互影響の線は、片方向だけでなく両方向から矢印がすれ違うように
         // 流す。間隔は単方向の2倍にして、密度が単方向の線と揃うようにする
         // （以前「本数15」に対して「片方向あたり半分の約7〜8個」にしていた
         // のと同じ比率）。
         const halfCount = Math.max(2, Math.min(60, Math.round(lineLen / (FLOW_MARK_SPACING * 2))));
-        _addFlowMarks(grp, halfCount, pathD,  "fwd-motion", dur, sizeScale);
-        _addFlowMarks(grp, halfCount, pathRD, "rev-motion", dur, sizeScale);
+        _addFlowMarks(grp, halfCount, pathD,  "fwd-motion", dur, arrowScale);
+        _addFlowMarks(grp, halfCount, pathRD, "rev-motion", dur, arrowScale);
       } else {
         const count = Math.max(2, Math.min(60, Math.round(lineLen / FLOW_MARK_SPACING)));
-        _addFlowMarks(grp, count, pathD, "fwd-motion", dur, sizeScale);
+        _addFlowMarks(grp, count, pathD, "fwd-motion", dur, arrowScale);
       }
     } else if (grp.attr("data-path") !== pathD) {
       // ノードが動いて線の位置が変わった場合だけ経路を作り直す
