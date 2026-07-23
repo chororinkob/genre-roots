@@ -75,10 +75,13 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
    「Future Funk」のような1つのジャンル名の途中で改行されてしまい、
    光る帯が表す「AからBへ」という関係が読み取れなくなるとの指摘を
    受けて、この2段構成に変更した。2026-07-23） */
-.sp-card-score-row { display: flex; justify-content: center; margin-bottom: 6px; }
+/* 「AからBに流れている」という意味合いが伝わるよう、名前の行(1段目)の
+   すぐ下に光る帯の行(2段目)をくっつくくらいの間隔で配置する
+   （2026-07-23、順番を入れ替え・間隔を詰めた）。 */
+.sp-card-names-row { display: flex; align-items: baseline; justify-content: center; flex-wrap: wrap; gap: 6px; margin-bottom: 3px; text-align: center; }
+.sp-card-score-row { display: flex; justify-content: center; margin-bottom: 8px; }
 .sp-card-score-row > .sp-meter,
-.sp-card-score-row > .sp-score-wrap { width: 100%; max-width: 240px; }
-.sp-card-names-row { display: flex; align-items: baseline; justify-content: center; flex-wrap: wrap; gap: 6px; margin-bottom: 6px; text-align: center; }
+.sp-card-score-row > .sp-score-wrap { width: 100%; }
 .sp-card-name { font-size: 13px; font-weight: 700; color: #7ecfff; line-height: 1.3; text-decoration: none; cursor: pointer; }
 .sp-card-name.self { color: #ddd; cursor: default; }
 .sp-card-arrow { color: #666; font-size: 13px; flex-shrink: 0; }
@@ -120,17 +123,26 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
 .sp-score-legend { display: flex; align-items: center; justify-content: center; gap: 6px; flex-wrap: wrap; font-size: 9px; color: #777; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 7px; margin-bottom: 10px; }
 .sp-score-legend span { display: flex; align-items: center; gap: 3px; }
 .sp-score-legend i { width: 13px; height: 13px; border-radius: 4px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); display: inline-flex; align-items: center; justify-content: center; font-size: 8px; font-weight: 700; color: #aaa; font-style: normal; }
-.sp-score-wrap { display: flex; flex-direction: column; align-items: center; gap: 3px; }
-.sp-score { display: flex; align-items: center; justify-content: center; gap: 3px; }
-.sp-chip { position: relative; width: 19px; height: 19px; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 9.5px; font-weight: 700; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); color: #4a4a5a; }
+.sp-score-wrap { display: flex; flex-direction: column; align-items: stretch; gap: 3px; }
+/* チップが中央に寄って左右が空くとの指摘を受け、5つを幅いっぱいに
+   等分するgridに変更。正方形にこだわらず横長の長方形にして、
+   1文字(リ/和/楽/歌/文)ではなく「リズム」等の短い単語をそのまま
+   収められるようにした（2026-07-23、legendが要らなくなるかは
+   見た目を見てから判断）。 */
+.sp-score { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
+.sp-chip { position: relative; height: 20px; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); color: #4a4a5a; white-space: nowrap; }
 .sp-chip.on { color: #fff; border-color: transparent; box-shadow: 0 0 6px -1px currentColor; }
 .sp-chip.on.in     { background: linear-gradient(145deg, #2a76a3, #4fb4e8); }
 .sp-chip.on.out    { background: linear-gradient(145deg, #23935f, #57d197); }
 .sp-chip.on.mutual { background: linear-gradient(145deg, #7e4bc0, #c9a6ff); }
+/* チップを幅いっぱいに広げたことで、合計(x/5)を隣に置く隙間が
+   無くなり重なって見えていたため、光るレールと同じ行の右端に
+   固定表示する形にした（2026-07-23）。 */
+.sp-flow-rail-row { display: flex; align-items: center; gap: 6px; }
 .sp-score-total { font-size: 10px; font-weight: 700; color: #888; flex-shrink: 0; font-variant-numeric: tabular-nums; }
 .sp-score-total b { color: #ddd; }
 :root { --flow-dur: 2s; }
-.sp-flow-rail { position: relative; width: 100%; border-radius: 4px; overflow: hidden; height: 4px; }
+.sp-flow-rail { position: relative; flex: 1 1 auto; border-radius: 4px; overflow: hidden; height: 4px; }
 .sp-flow-sweep { position: absolute; top: 0; bottom: 0; width: 34%; filter: blur(.4px);
   background: linear-gradient(90deg, transparent, currentColor 45%, currentColor 55%, transparent); }
 .sp-flow-sweep.a { animation: sp-flow-ltr var(--flow-dur) linear infinite; }
@@ -353,7 +365,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.83<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.84<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -7545,8 +7557,8 @@ const LAST_UPDATED = "2026年7月21日";
 // 表示するフォールバックにしている（Future Funkの8本のリンクで先行導入。
 // マップ側の線の太さ・矢印は今回は変更せず、従来通りのまま）。
 const SCORE_DIMS = [
-  {key:'r', label:'リ'}, {key:'h', label:'和'}, {key:'i', label:'楽'},
-  {key:'v', label:'歌'}, {key:'c', label:'文'},
+  {key:'r', label:'リズム'}, {key:'h', label:'和音'}, {key:'i', label:'楽器'},
+  {key:'v', label:'歌唱'}, {key:'c', label:'文化'},
 ];
 function _scoreTotal(score) {
   return SCORE_DIMS.reduce((sum, d) => sum + (score[d.key] ? 1 : 0), 0);
@@ -7567,9 +7579,11 @@ function _scoreMeterHtml(l, dirClass) {
     : '<span class="sp-flow-sweep a"></span>';
   return `<span class="sp-score-wrap">
       <span class="sp-score">${chips}</span>
-      <span class="sp-flow-rail ${dirClass}">${railInner}</span>
-    </span>
-    <span class="sp-score-total"><b>${total}</b>/5</span>`;
+      <span class="sp-flow-rail-row">
+        <span class="sp-flow-rail ${dirClass}">${railInner}</span>
+        <span class="sp-score-total"><b>${total}</b>/5</span>
+      </span>
+    </span>`;
 }
 
 // ===== CATEGORY COLORS =====
@@ -8257,12 +8271,12 @@ node.on("click", (e, d) => {
   const incoming = linkData.filter(l => l.t === d.id && !l.mutual);
   spIn.innerHTML = incoming.length
     ? incoming.map(l => `<div class="sp-card">
-        <div class="sp-card-score-row">${_scoreMeterHtml(l, "in")}</div>
         <div class="sp-card-names-row">
           <a href="#" class="sp-genre-link sp-card-name" data-id="${l.s}">${nodeMap[l.s]?.label?.replace("\n"," ")}</a>
           <span class="sp-card-arrow">→</span>
           <span class="sp-card-name self">${selfName}</span>
         </div>
+        <div class="sp-card-score-row">${_scoreMeterHtml(l, "in")}</div>
         <div class="sp-card-desc">${l.desc||''}</div>
       </div>`).join('')
     : '<span style="color:#666">なし</span>';
@@ -8271,12 +8285,12 @@ node.on("click", (e, d) => {
   const outgoing = linkData.filter(l => l.s === d.id && !l.mutual);
   spOut.innerHTML = outgoing.length
     ? outgoing.map(l => `<div class="sp-card">
-        <div class="sp-card-score-row">${_scoreMeterHtml(l, "out")}</div>
         <div class="sp-card-names-row">
           <span class="sp-card-name self">${selfName}</span>
           <span class="sp-card-arrow">→</span>
           <a href="#" class="sp-genre-link sp-card-name" data-id="${l.t}">${nodeMap[l.t]?.label?.replace("\n"," ")}</a>
         </div>
+        <div class="sp-card-score-row">${_scoreMeterHtml(l, "out")}</div>
         <div class="sp-card-desc">${l.desc||''}</div>
       </div>`).join('')
     : '<span style="color:#666">なし</span>';
@@ -8288,12 +8302,12 @@ node.on("click", (e, d) => {
     ? mutualLinks.map(l => {
         const otherId = l.s === d.id ? l.t : l.s;
         return `<div class="sp-card">
-          <div class="sp-card-score-row">${_scoreMeterHtml(l, "mutual")}</div>
           <div class="sp-card-names-row">
             <span class="sp-card-name self">${selfName}</span>
             <span class="sp-card-arrow">↔</span>
             <a href="#" class="sp-genre-link sp-card-name" data-id="${otherId}">${nodeMap[otherId]?.label?.replace("\n"," ")}</a>
           </div>
+          <div class="sp-card-score-row">${_scoreMeterHtml(l, "mutual")}</div>
           <div class="sp-card-desc">${l.desc||''}</div>
         </div>`;
       }).join('')
