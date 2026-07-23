@@ -67,15 +67,21 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
 .sp-card { margin-bottom: 16px; }
 .sp-card:last-child { margin-bottom: 0; }
 /* 中央のチップ/バーの位置が左右の名前の長さで揺れ、名前が長いと
-   反対側の名前が枠からはみ出す不具合があったため、左詰めのflexから
-   3カラム(左名前1fr・中央固定幅・右名前1fr)のgridに変更した。
-   これで中央のチップは常に真ん中固定になり、名前は長ければ2行に
-   折り返す（省略記号で消えることはなくなる）（2026-07-23）。 */
-.sp-card-row { display: grid; grid-template-columns: 1fr 120px 1fr; align-items: center; gap: 6px; margin-bottom: 6px; }
-.sp-card-name { font-size: 13px; font-weight: 700; color: #7ecfff; line-height: 1.25; overflow-wrap: break-word; word-break: break-word; text-decoration: none; cursor: pointer; }
+   反対側の名前が枠からはみ出す不具合があったため、名前とチップ/バーを
+   同じ行に詰め込むのをやめ、2段構成にした：
+   1段目＝チップ/バー(光る帯)だけで1行、2段目＝「影響元 → 影響先」の
+   ジャンル名を矢印でつないだ1つのまとまりとして表示する。
+   （3カラムgridで名前を個別に2行折り返しさせる案を一度試したが、
+   「Future Funk」のような1つのジャンル名の途中で改行されてしまい、
+   光る帯が表す「AからBへ」という関係が読み取れなくなるとの指摘を
+   受けて、この2段構成に変更した。2026-07-23） */
+.sp-card-score-row { display: flex; justify-content: center; margin-bottom: 6px; }
+.sp-card-score-row > .sp-meter,
+.sp-card-score-row > .sp-score-wrap { width: 100%; max-width: 240px; }
+.sp-card-names-row { display: flex; align-items: baseline; justify-content: center; flex-wrap: wrap; gap: 6px; margin-bottom: 6px; text-align: center; }
+.sp-card-name { font-size: 13px; font-weight: 700; color: #7ecfff; line-height: 1.3; text-decoration: none; cursor: pointer; }
 .sp-card-name.self { color: #ddd; cursor: default; }
-.sp-card-row .sp-card-name:first-child { text-align: right; }
-.sp-card-row .sp-card-name:last-child { text-align: left; }
+.sp-card-arrow { color: #666; font-size: 13px; flex-shrink: 0; }
 .sp-meter { position: relative; height: 15px; border-radius: 8px; background: rgba(255,255,255,0.07); overflow: hidden; }
 .sp-meter-fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 8px; overflow: hidden; }
 .sp-meter-fill.in { background: linear-gradient(90deg, #1f5f85, #4fb4e8); }
@@ -347,7 +353,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.82<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.83<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -8251,9 +8257,10 @@ node.on("click", (e, d) => {
   const incoming = linkData.filter(l => l.t === d.id && !l.mutual);
   spIn.innerHTML = incoming.length
     ? incoming.map(l => `<div class="sp-card">
-        <div class="sp-card-row">
+        <div class="sp-card-score-row">${_scoreMeterHtml(l, "in")}</div>
+        <div class="sp-card-names-row">
           <a href="#" class="sp-genre-link sp-card-name" data-id="${l.s}">${nodeMap[l.s]?.label?.replace("\n"," ")}</a>
-          ${_scoreMeterHtml(l, "in")}
+          <span class="sp-card-arrow">→</span>
           <span class="sp-card-name self">${selfName}</span>
         </div>
         <div class="sp-card-desc">${l.desc||''}</div>
@@ -8264,9 +8271,10 @@ node.on("click", (e, d) => {
   const outgoing = linkData.filter(l => l.s === d.id && !l.mutual);
   spOut.innerHTML = outgoing.length
     ? outgoing.map(l => `<div class="sp-card">
-        <div class="sp-card-row">
+        <div class="sp-card-score-row">${_scoreMeterHtml(l, "out")}</div>
+        <div class="sp-card-names-row">
           <span class="sp-card-name self">${selfName}</span>
-          ${_scoreMeterHtml(l, "out")}
+          <span class="sp-card-arrow">→</span>
           <a href="#" class="sp-genre-link sp-card-name" data-id="${l.t}">${nodeMap[l.t]?.label?.replace("\n"," ")}</a>
         </div>
         <div class="sp-card-desc">${l.desc||''}</div>
@@ -8280,9 +8288,10 @@ node.on("click", (e, d) => {
     ? mutualLinks.map(l => {
         const otherId = l.s === d.id ? l.t : l.s;
         return `<div class="sp-card">
-          <div class="sp-card-row">
+          <div class="sp-card-score-row">${_scoreMeterHtml(l, "mutual")}</div>
+          <div class="sp-card-names-row">
             <span class="sp-card-name self">${selfName}</span>
-            ${_scoreMeterHtml(l, "mutual")}
+            <span class="sp-card-arrow">↔</span>
             <a href="#" class="sp-genre-link sp-card-name" data-id="${otherId}">${nodeMap[otherId]?.label?.replace("\n"," ")}</a>
           </div>
           <div class="sp-card-desc">${l.desc||''}</div>
