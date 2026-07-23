@@ -92,33 +92,6 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
 .sp-meter-pct { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 9.5px; font-weight: 800; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.75); letter-spacing: 0.1px; line-height: 1; }
 .sp-mutual-arrow { color: #c9a6ff; font-weight: 700; font-size: 13px; flex-shrink: 0; }
 .sp-card-desc { font-size: 12px; color: #aaa; line-height: 1.7; }
-
-/* ---- 影響度：5項目採点チップ＋光るレール（旧%メーターの後継。
-   l.scoreがあるリンクだけこちらを使い、まだ採点していないリンクは
-   従来の%メーターにフォールバックする） ---- */
-.sp-score-legend { display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; font-size: 10px; color: #777; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 7px; padding: 7px 8px; margin-bottom: 10px; }
-.sp-score-legend span { display: flex; align-items: center; gap: 3px; }
-.sp-score-legend i { width: 14px; height: 14px; border-radius: 4px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); display: inline-flex; align-items: center; justify-content: center; font-size: 8px; font-weight: 700; color: #aaa; font-style: normal; }
-.sp-score-wrap { flex: 1 1 auto; min-width: 118px; display: flex; flex-direction: column; align-items: center; gap: 3px; }
-.sp-score { display: flex; align-items: center; justify-content: center; gap: 3px; }
-.sp-chip { position: relative; width: 19px; height: 19px; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 9.5px; font-weight: 700; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); color: #4a4a5a; }
-.sp-chip.on { color: #fff; border-color: transparent; box-shadow: 0 0 6px -1px currentColor; }
-.sp-chip.on.in     { background: linear-gradient(145deg, #2a76a3, #4fb4e8); }
-.sp-chip.on.out    { background: linear-gradient(145deg, #23935f, #57d197); }
-.sp-chip.on.mutual { background: linear-gradient(145deg, #7e4bc0, #c9a6ff); }
-.sp-score-total { font-size: 10px; font-weight: 700; color: #888; flex-shrink: 0; font-variant-numeric: tabular-nums; }
-.sp-score-total b { color: #ddd; }
-:root { --flow-dur: 2s; }
-.sp-flow-rail { position: relative; width: 100%; border-radius: 4px; overflow: hidden; height: 4px; }
-.sp-flow-sweep { position: absolute; top: 0; bottom: 0; width: 34%; filter: blur(.4px);
-  background: linear-gradient(90deg, transparent, currentColor 45%, currentColor 55%, transparent); }
-.sp-flow-sweep.a { animation: sp-flow-ltr var(--flow-dur) linear infinite; }
-.sp-flow-sweep.b { animation: sp-flow-rtl var(--flow-dur) linear infinite; opacity: .65; }
-.sp-flow-rail.in { color: #4fb4e8; }
-.sp-flow-rail.out { color: #57d197; }
-.sp-flow-rail.mutual .sp-flow-sweep { color: #c9a6ff; }
-@keyframes sp-flow-ltr { from { left: -34%; } to { left: 100%; } }
-@keyframes sp-flow-rtl { from { left: 100%; } to { left: -34%; } }
 .sp-genre-link:hover { color: #fff !important; text-decoration: underline !important; }
 #sp-correction-sec { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 14px; margin-top: 4px; }
 #sp-correction-btn { width: 100%; padding: 8px 10px; background: #1a1a2e; border: 1px solid #444; border-radius: 6px; color: #aaa; font-size: 12px; cursor: pointer; transition: all 0.15s; }
@@ -137,12 +110,7 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
 #sp-yt-wrap { border-radius: 8px; overflow: hidden; }
 
 svg { width: 100vw; height: 100vh; }
-/* vector-effect: non-scaling-stroke を付けないと、線の太さがマップの
-   拡大縮小(d3.zoom)に応じて画面上でも一緒に縮んでしまう。560以上の
-   ノードを表示する都合上、普段はかなり縮小して見ていることが多く、
-   太さの差(7px/11pxなど)が画面上では1px未満の違いになって見分けが
-   つかなくなっていた可能性が高いための対応（2026-07-22） */
-.link { stroke-opacity: 0; fill: none; pointer-events: none; vector-effect: non-scaling-stroke; }
+.link { stroke-opacity: 0; fill: none; pointer-events: none; }
 .link.focus-highlight { stroke-opacity: 0.6 !important; pointer-events: auto; }
 .node circle { cursor: pointer; stroke-width: 2; transition: fill 0.3s ease-in, opacity 0.3s ease-in, filter 0.3s ease-in; }
 .node circle.flash-on { filter: brightness(2.5) drop-shadow(0 0 30px currentColor) drop-shadow(0 0 60px currentColor); }
@@ -171,11 +139,7 @@ svg { width: 100vw; height: 100vh; }
 .node.cat-dim { opacity: 0.05; pointer-events: none; }
 .node.focus-dim { opacity: 0.05; }
 .link.focus-dim { opacity: 0.03 !important; }
-/* ぼかし半径を4px→1.5pxに縮小。線が細い(7px)/太い(11〜19px)の差を
-   グローの広がりが吸収してしまい、太さの違いが見た目に反映されにくく
-   なっていたための調整（2026-07-22、5段階の太さが実機で見分けにくいと
-   ご指摘を受けて対応） */
-.link.focus-highlight { opacity: 1 !important; filter: drop-shadow(0 0 1.5px rgba(255,255,255,0.5)); }
+.link.focus-highlight { opacity: 1 !important; stroke-width: 16px !important; filter: drop-shadow(0 0 4px rgba(255,255,255,0.5)); }
 .link-flow-mark { fill: none; stroke: #cfd8ff; stroke-width: 3px; stroke-linecap: round; stroke-linejoin: round; opacity: 0.75; filter: drop-shadow(0 0 2px rgba(180,190,255,0.6)); pointer-events: none; }
 .link-label-group.focus-dim { opacity: 0.03 !important; }
 .link-label-group.focus-highlight { opacity: 1 !important; }
@@ -341,7 +305,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.78<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.79<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -467,13 +431,6 @@ svg { width: 100vw; height: 100vh; }
     <div class="sp-section" id="sp-tracks-sec" style="display:none;">
       <h4>代表曲・アーティスト</h4>
       <div id="sp-tracks"></div>
-    </div>
-    <div id="sp-score-legend" class="sp-score-legend" style="display:none;">
-      <span><i>リ</i>リズム</span>
-      <span><i>和</i>和音</span>
-      <span><i>楽</i>楽器</span>
-      <span><i>歌</i>歌唱法</span>
-      <span><i>文</i>文化的背景</span>
     </div>
     <div class="sp-section" id="sp-in-sec">
       <h4>影響を受けたジャンル（ルーツ）</h4>
@@ -5261,11 +5218,7 @@ const NODES = [
     desc:"フューチャーファンクの音は、まるで1980年代の日本のシティポップやディスコをタイムカプセルに詰め込み、現代のデジタル処理で再構築したような質感を持つ。メロディーは極めてキャッチーで、原曲から切り取られたボーカルフレーズやホーンのリフがループし、脳裏に焼き付くような甘くノスタルジックな旋律が繰り返される。サビに相当する部分では音圧が一気に上がり、分厚いコーラスレイヤーとシンセのグリッサンドが重なって、まるで光の中に飛び込むような高揚感をもたらす。使用楽器はほぼすべてサンプルベースで構成されており、オリジナルのアナログシンセ音（特にローランドJuno-106やYamaha DX7系の音色）、スラップベース、ブラスセクション、エレクトリックピアノのコードカッティングが素材として多用される。これらのサンプルはチョップ（細切れに分割）され、ピッチシフトやタイムストレッチを経て新たなグルーヴに再配置される。ドラムはファンクの16分音符を基調としたタイトなスネアとハイハットのパターンを持ちながら、ハウスミュージック的な4つ打ちキックが加わることで、踊りやすいビートが生まれる。音響エフェクトとしてはサイドチェインコンプレッションが顕著で、キックに合わせてシンセパッドが「ポンポン」と呼吸するような揺らぎが生じる。ボーカルサンプルにはピッチシフトが施され、原曲より高く・細く加工されることが多く、アニメ的・人工的な可愛らしさを帯びる。リバーブは浅めで、全体的にクリアかつ明るいミックスが好まれる。想定される会場はクラブや小規模なパーティースペースよりも、むしろインターネット上の仮想空間やヘッドフォンリスニングが主体であり、アニメのMVやループ動画と組み合わせてYouTubeやSoundCloudで消費されることが多い。ボーカルスタイルは基本的にサンプリングによるもので、生の歌唱はほとんど存在しない。代わりに、日本語の女性ボーカルフレーズが断片的に挿入され、言語的な意味よりも音としての質感・テクスチャーとして機能する。",
     roots_story:"フューチャーファンクは2010年代初頭にインターネット上で自然発生的に誕生したジャンルであり、その起源はヴェイパーウェイヴという先行ジャンルと深く結びついている。ヴェイパーウェイヴは2010年前後にTumblrやBandcampを中心に広まった実験的な電子音楽で、1980〜90年代のイージーリスニング・ニューエイジ・コーポレートミュージックをスローダウン・ピッチシフトして消費資本主義への批評を込めた作品群であった。フューチャーファンクはそのヴェイパーウェイヴの美学を継承しつつ、テンポを大幅に上げ（おおむね110〜130BPM）、ダンスフロア向けのエネルギーを注入することで独自の方向性を確立した。\n\n素材として特に重視されたのが日本の1970〜80年代シティポップおよびディスコ・ファンクであった。山下達郎、竹内まりや、松原みき、角松敏生、杏里といったアーティストの楽曲が頻繁にサンプリングされ、その洗練されたコード進行・ブラスアレンジ・スラップベースラインが新たなコンテキストで蘇った。これらの楽曲が選ばれた背景には、著作権管理が比較的緩やかだった時期のインターネット流通環境と、日本語という「意味が直接伝わらない」言語が持つ音響的な異国情緒・ノスタルジア効果があった。\n\nジャンルの形成に決定的な役割を果たしたのはSoundCloudおよびYouTubeというプラットフォームであり、匿名または半匿名のプロデューサーたちが次々と楽曲をアップロードした。初期の代表的アーティストとしてはMacross 82-99（マクロス82-99）、Yung Bae、Flamingosis、Desired、Luxury Eliteなどが挙げられる。Macross 82-99はフランス人プロデューサーであり、アニメ的なビジュアルと高速ファンクサンプルを組み合わせたスタイルでジャンルの雛形を作った。Yung Baeはアメリカ・ポートランド出身で、よりストレートなファンクグルーヴを前面に出したアプローチでフューチャーファンクを広く認知させた。\n\nビジュアル面ではアニメのループGIFや1980年代の日本のアニメ映像（特に「超時空要塞マクロス」「シティハンター」「めぞん一刻」などの作品）が楽曲のMVとして使用され、音楽とアニメ文化が不可分に結びついた。この「アニメ＋シティポップサンプル＋ハウスビート」という組み合わせはジャンルのアイデンティティとなり、リスナー層もアニメファン・ヴェイパーウェイヴ愛好者・ダンスミュージックファンが重なる独特のコミュニティを形成した。\n\n音楽的な影響源はファンク・ディスコ・ハウスに加え、フレンチハウス（ダフト・パンクやフィルターハウスの系譜）も重要である。フレンチハウスが1990年代後半に確立したサンプルのフィルタリング・ピッチシフト・ループ技法は、フューチャーファンクのプロデューサーたちに直接的な方法論を提供した。また、ニュージャックスウィングやブギーファンクの影響も随所に見られ、特にシンセベースの動きやドラムプログラミングにその痕跡が残っている。\n\n2014〜2016年頃がジャンルの最盛期とされ、SoundCloudのフォロワー数が急増し、コンピレーションアルバムが多数リリースされた。「Dream Catalogue」「Geometric Lullaby」「Ailanthus Records」などのインターネットレーベルがジャンルの流通を担い、物理メディアではなくデジタルダウンロードやストリーミングが主な配布手段であった。\n\n2017年以降、ジャンルは飽和状態に近づき、テンプレート的な楽曲が増加したことで批判も生まれた。同じシティポップサンプルの使い回しや、技術的に単純なチョップ＆ループへの依存が指摘され、革新性の欠如が問われた。一方でこの時期、シティポップそのものへの国際的な再評価が進み（竹内まりやの「Plastic Love」がYouTubeで爆発的に拡散したのは2017〜2018年）、フューチャーファンクがその再評価の一端を担ったという見方もある。\n\nサブジャンルとしては、よりメロウでチルアウト寄りの「チルウェイヴ・フューチャーファンク」、ハードコアテクノの影響を受けた高速版、ブラジルのバイレファンキとの融合など多様な派生が生まれた。また、日本国内でもフューチャーファンクの影響を受けた「シティポップリバイバル」の動きが起き、新世代のアーティストが意識的に1980年代サウンドを再現する楽曲を制作するようになった。\n\n2020年代に入ると、フューチャーファンクはTikTokやSpotifyのプレイリスト文化とも接続し、「ローファイヒップホップ」と並ぶ「作業用BGM」「ドライブ用BGM」としての需要を獲得した。ジャンルとしての革新性は落ち着いたものの、インターネット音楽文化における重要な一章として定着しており、シティポップ・ヴェイパーウェイヴ・ハウスの交差点に位置する独自の美学は今も多くのプロデューサーに継承されている。",
     rep_tracks:["Chou Chou (Macross 82-99)", "Do It Again (Yung Bae)", "Spend the Night (Flamingosis)"],
-    // 元のID(qXC4AyjRikg)が著作権者(Molebeat)の申し立てでブロックされたため、
-    // 別の埋め込み可能な動画に差し替え（2026-07-22、oEmbedで埋め込み可能な
-    // ことは確認済みだが、地域限定ブロックまではoEmbedでは検出できないため
-    // 実際の再生確認はチョロさんにお願いしたい）
-    yt_mix:["84YxwrxRc5s", "ttj86XjvtWc"],
+    yt_mix:["qXC4AyjRikg", "tbWS0j2fulY"],
     yt_tracks:[["mNbAVXM4FKo", "XX0GHBpIqsc"], ["VdPolKIqntc", "vaG_I9aBENw"], ["7Ic4JGC9qps", "eZyEkqccWcg"]],
     aliases:["フューチャーファンク", "Future Funk", "FF（ジャンル略称）", "アニメファンク"],},
 ];
@@ -6967,16 +6920,16 @@ const LINKS = [
   {s:"post_dubstep",t:"deconstructed_club",w:70,desc:"ポスト・ダブステップとデコンストラクテッド・クラブは2010年代前半のロンドンのアンダーグラウンドシーンで相互に影響し合った。ポスト・ダブステップの低域重視の音響設計とビートの解体的傾向がデコンストラクテッド・クラブに吸収される一方、デコンストラクテッド・クラブの実験的手法がポスト・ダブステップのより前衛的な方向性を刺激した。"},
   {s:"deconstructed_club",t:"post_dubstep",w:70,desc:"ポスト・ダブステップとデコンストラクテッド・クラブは2010年代前半のロンドンのアンダーグラウンドシーンで相互に影響し合った。ポスト・ダブステップの低域重視の音響設計とビートの解体的傾向がデコンストラクテッド・クラブに吸収される一方、デコンストラクテッド・クラブの実験的手法がポスト・ダブステップのより前衛的な方向性を刺激した。"},
 
-  {s:"vaporwave",t:"future_funk",w:90,score:{r:1,h:0,i:1,v:0,c:1},desc:"フューチャーファンクはヴェイパーウェイヴのサンプリング美学・ノスタルジア志向・インターネット匿名文化を直接継承しているが、スローダウンではなくテンポアップという逆方向の加工を選択し、ダンスフロア向けのエネルギーを注入することで独自ジャンルとして分岐した。ピッチシフトやタイムストレッチによるサンプル加工の方法論はほぼそのまま受け継がれている。"},
-  {s:"city_pop",t:"future_funk",w:95,score:{r:0,h:1,i:1,v:0,c:1},desc:"山下達郎・竹内まりや・松原みきらの1980年代シティポップ楽曲が主要サンプル素材であり、洗練されたコード進行（maj7・add9コードの多用）、スラップベースライン、ブラスセクションのアレンジ、エレクトリックピアノのカッティングがフューチャーファンクのグルーヴの核を形成している。"},
-  {s:"funk",t:"future_funk",w:80,score:{r:1,h:0,i:1,v:0,c:0},desc:"16分音符を基調としたタイトなドラムパターン、スラップベースの奏法、ブラスセクションのシンコペーションといったファンクの基本語法が、サンプリングを通じてフューチャーファンクのリズム構造に直接組み込まれている。ジェームス・ブラウン的なグルーヴの「ポケット」感覚がビートの根幹にある。"},
-  {s:"disco",t:"future_funk",w:75,score:{r:1,h:0,i:1,v:0,c:1},desc:"4つ打ちキックとオープンハイハットの組み合わせ、フィリーソウル的なストリングスアレンジ、ダンスフロアを意識した反復構造がディスコから受け継がれている。特に日本のディスコ歌謡（1970〜80年代）のサンプルが多用され、そのキラキラしたシンセ音色がジャンルの音響的アイデンティティを形成している。"},
-  {s:"french_house",t:"future_funk",w:70,score:{r:1,h:0,i:1,v:0,c:0},desc:"ダフト・パンクやカシアスが確立したサンプルのローパスフィルタリング・ピッチシフト・タイトなループ構成という方法論がフューチャーファンクのプロダクション技法に直接影響を与えている。特に「サンプルを素材として大胆に変形しながらも原曲のグルーヴを保持する」というアプローチはフレンチハウスの直系といえる。"},
-  {s:"new_jack_swing",t:"future_funk",w:45,score:{r:1,h:0,i:1,v:0,c:0},desc:"テディ・ライリーが確立したスウィングビートのドラムプログラミング（シャッフルしたスネアとハイハットのパターン）やシンセベースの動きが、フューチャーファンクの一部楽曲のリズムアレンジに影響を与えており、特にYung Baeらの作品にその痕跡が聴き取れる。"},
-  {s:"nu_disco",t:"future_funk",w:55,score:{r:0,h:0,i:1,v:0,c:1},desc:"ニューディスコとフューチャーファンクはともに1970〜80年代のディスコ・ファンクを現代的に再解釈するという共通の志向を持ち、サンプリング技法・フィルタリング・ダンスフロア指向の点で相互に影響し合っている。ただしニューディスコがライブ演奏を重視するのに対し、フューチャーファンクは完全なサンプルベースのプロダクションを基本とする点で方法論が異なる。"},
-  {s:"future_funk",t:"nu_disco",w:55,score:{r:0,h:0,i:1,v:0,c:1},desc:"ニューディスコとフューチャーファンクはともに1970〜80年代のディスコ・ファンクを現代的に再解釈するという共通の志向を持ち、サンプリング技法・フィルタリング・ダンスフロア指向の点で相互に影響し合っている。ただしニューディスコがライブ演奏を重視するのに対し、フューチャーファンクは完全なサンプルベースのプロダクションを基本とする点で方法論が異なる。"},
-  {s:"chillwave",t:"future_funk",w:40,score:{r:0,h:0,i:1,v:0,c:1},desc:"チルウェイヴとフューチャーファンクはともにインターネット発生のノスタルジア志向ジャンルであり、リバーブやコーラスエフェクトによる「夢のような」音響質感を共有している。フューチャーファンクのよりメロウな派生作品はチルウェイヴと境界が曖昧になることがあり、相互に聴衆を共有している。"},
-  {s:"future_funk",t:"chillwave",w:40,score:{r:0,h:0,i:1,v:0,c:1},desc:"チルウェイヴとフューチャーファンクはともにインターネット発生のノスタルジア志向ジャンルであり、リバーブやコーラスエフェクトによる「夢のような」音響質感を共有している。フューチャーファンクのよりメロウな派生作品はチルウェイヴと境界が曖昧になることがあり、相互に聴衆を共有している。"},
+  {s:"vaporwave",t:"future_funk",w:90,desc:"フューチャーファンクはヴェイパーウェイヴのサンプリング美学・ノスタルジア志向・インターネット匿名文化を直接継承しているが、スローダウンではなくテンポアップという逆方向の加工を選択し、ダンスフロア向けのエネルギーを注入することで独自ジャンルとして分岐した。ピッチシフトやタイムストレッチによるサンプル加工の方法論はほぼそのまま受け継がれている。"},
+  {s:"city_pop",t:"future_funk",w:95,desc:"山下達郎・竹内まりや・松原みきらの1980年代シティポップ楽曲が主要サンプル素材であり、洗練されたコード進行（maj7・add9コードの多用）、スラップベースライン、ブラスセクションのアレンジ、エレクトリックピアノのカッティングがフューチャーファンクのグルーヴの核を形成している。"},
+  {s:"funk",t:"future_funk",w:80,desc:"16分音符を基調としたタイトなドラムパターン、スラップベースの奏法、ブラスセクションのシンコペーションといったファンクの基本語法が、サンプリングを通じてフューチャーファンクのリズム構造に直接組み込まれている。ジェームス・ブラウン的なグルーヴの「ポケット」感覚がビートの根幹にある。"},
+  {s:"disco",t:"future_funk",w:75,desc:"4つ打ちキックとオープンハイハットの組み合わせ、フィリーソウル的なストリングスアレンジ、ダンスフロアを意識した反復構造がディスコから受け継がれている。特に日本のディスコ歌謡（1970〜80年代）のサンプルが多用され、そのキラキラしたシンセ音色がジャンルの音響的アイデンティティを形成している。"},
+  {s:"french_house",t:"future_funk",w:70,desc:"ダフト・パンクやカシアスが確立したサンプルのローパスフィルタリング・ピッチシフト・タイトなループ構成という方法論がフューチャーファンクのプロダクション技法に直接影響を与えている。特に「サンプルを素材として大胆に変形しながらも原曲のグルーヴを保持する」というアプローチはフレンチハウスの直系といえる。"},
+  {s:"new_jack_swing",t:"future_funk",w:45,desc:"テディ・ライリーが確立したスウィングビートのドラムプログラミング（シャッフルしたスネアとハイハットのパターン）やシンセベースの動きが、フューチャーファンクの一部楽曲のリズムアレンジに影響を与えており、特にYung Baeらの作品にその痕跡が聴き取れる。"},
+  {s:"nu_disco",t:"future_funk",w:55,desc:"ニューディスコとフューチャーファンクはともに1970〜80年代のディスコ・ファンクを現代的に再解釈するという共通の志向を持ち、サンプリング技法・フィルタリング・ダンスフロア指向の点で相互に影響し合っている。ただしニューディスコがライブ演奏を重視するのに対し、フューチャーファンクは完全なサンプルベースのプロダクションを基本とする点で方法論が異なる。"},
+  {s:"future_funk",t:"nu_disco",w:55,desc:"ニューディスコとフューチャーファンクはともに1970〜80年代のディスコ・ファンクを現代的に再解釈するという共通の志向を持ち、サンプリング技法・フィルタリング・ダンスフロア指向の点で相互に影響し合っている。ただしニューディスコがライブ演奏を重視するのに対し、フューチャーファンクは完全なサンプルベースのプロダクションを基本とする点で方法論が異なる。"},
+  {s:"chillwave",t:"future_funk",w:40,desc:"チルウェイヴとフューチャーファンクはともにインターネット発生のノスタルジア志向ジャンルであり、リバーブやコーラスエフェクトによる「夢のような」音響質感を共有している。フューチャーファンクのよりメロウな派生作品はチルウェイヴと境界が曖昧になることがあり、相互に聴衆を共有している。"},
+  {s:"future_funk",t:"chillwave",w:40,desc:"チルウェイヴとフューチャーファンクはともにインターネット発生のノスタルジア志向ジャンルであり、リバーブやコーラスエフェクトによる「夢のような」音響質感を共有している。フューチャーファンクのよりメロウな派生作品はチルウェイヴと境界が曖昧になることがあり、相互に聴衆を共有している。"},
 ];
 
 // ===== ROOTS POLYGON LAYOUT（無効化：全ノード自由配置） =====
@@ -7519,53 +7472,11 @@ NODES.forEach(n => {
   n.r = 15 + n.popularity * n.popularity * 2;
 });
 
-const LAST_UPDATED = "2026年7月23日";
+const LAST_UPDATED = "2026年7月21日";
 (function() {
   const el = document.getElementById('genre-count');
   if (el) el.textContent = NODES.length + " ジャンル　" + LAST_UPDATED + "現在";
 })();
-
-// 影響度の5項目採点（リズム・和音・楽器・歌唱法・文化的背景）。
-// l.score が付いているリンクだけ新しいチップ＋光るレール表示・
-// スコア連動の太さにし、まだ採点していないリンク（大多数）は
-// 従来の%メーター・w連動の太さのまま表示するフォールバックにしている
-// （Future Funkの8本のリンクで先行導入。マップ側のstroke-width計算
-// でも使うため、d3がline要素を作るより前のここで定義する）。
-const SCORE_DIMS = [
-  {key:'r', label:'リ'}, {key:'h', label:'和'}, {key:'i', label:'楽'},
-  {key:'v', label:'歌'}, {key:'c', label:'文'},
-];
-function _scoreTotal(score) {
-  return SCORE_DIMS.reduce((sum, d) => sum + (score[d.key] ? 1 : 0), 0);
-}
-function _scoreMeterHtml(l, dirClass) {
-  if (!l.score) {
-    const chevrons = dirClass === 'mutual'
-      ? '<span class="sp-meter-chevrons wide"></span><span class="sp-meter-chevrons sp-meter-chevrons-rev wide"></span>'
-      : '<span class="sp-meter-chevrons"></span>';
-    return `<span class="sp-meter"><span class="sp-meter-fill ${dirClass}" style="width:${l.w}%">${chevrons}</span><span class="sp-meter-pct">${l.w}%</span></span>`;
-  }
-  const total = _scoreTotal(l.score);
-  const chips = SCORE_DIMS.map(d =>
-    `<span class="sp-chip${l.score[d.key] ? ' on ' + dirClass : ''}">${d.label}</span>`
-  ).join('');
-  const railInner = dirClass === 'mutual'
-    ? '<span class="sp-flow-sweep a"></span><span class="sp-flow-sweep b"></span>'
-    : '<span class="sp-flow-sweep a"></span>';
-  return `<span class="sp-score-wrap">
-      <span class="sp-score">${chips}</span>
-      <span class="sp-flow-rail ${dirClass}">${railInner}</span>
-    </span>
-    <span class="sp-score-total"><b>${total}</b>/5</span>`;
-}
-// スコア(1〜5)→マップの線の太さ(px)。均等に+4pxずつ(3/7/11/15/19)では
-// 隣同士の差が小さすぎて見分けがつかないとのご指摘を受け、1段階上がる
-// ごとに太さが倍になる指数的な刻みに変更：2 / 4 / 8 / 16 / 32px
-// （2026-07-22）
-function _linkStrokeWidth(d) {
-  if (d.score) return 2 * Math.pow(2, _scoreTotal(d.score) - 1);
-  return d.mutual ? 6 + d.w / 12 : 4 + d.w / 10; // 未採点リンクは従来通りwベース
-}
 
 // ===== CATEGORY COLORS =====
 const CAT_COLOR = {
@@ -7611,13 +7522,7 @@ const svg = d3.select("#graph");
 const w = window.innerWidth, h = window.innerHeight;
 const g = svg.append("g");
 
-// 現在のズーム倍率(k)を常に把握しておく。線はvector-effect:
-// non-scaling-strokeでズームの影響を受けないようにしているが、矢印は
-// (レベルによる大きさの違いをscale()で表現している都合上)同じ手法が
-// 使えないため、ズーム倍率の逆数を掛けて打ち消す方式で対応する
-// （_addFlowMarks・_syncLinkFlowMarks参照。2026-07-22）。
-let currentZoomK = 1;
-const zoom = d3.zoom().scaleExtent([0.005, 6]).on("zoom", e => { g.attr("transform", e.transform); currentZoomK = e.transform.k; });
+const zoom = d3.zoom().scaleExtent([0.005, 6]).on("zoom", e => g.attr("transform", e.transform));
 svg.call(zoom);
 
 function fitToView() {
@@ -7730,7 +7635,7 @@ const link = g.append("g").selectAll("line")
   // 端の色として使うので、mutualでも常に#fffではなく実際の色にする）。
   .attr("data-source-color", d => CAT_COLOR[nodeMap[d.s]?.cat] || "#555")
   .attr("data-target-color", d => CAT_COLOR[nodeMap[d.t]?.cat] || "#555")
-  .attr("stroke-width", d => _linkStrokeWidth(d))
+  .attr("stroke-width", d => d.mutual ? 6 + d.w / 12 : 4 + d.w / 10)
   .attr("marker-end", "none")
   .attr("marker-start", "none")
   .attr("data-marker-end", d => d.mutual ? "url(#arrow-mutual-end)" : `url(#arrow-${nodeMap[d.s]?.cat || "rock"})`)
@@ -7771,39 +7676,14 @@ const FLOW_MARK_SPEED   = 88;  // 矢印が動く速さ：1秒あたりに進む
 // シンプルな「＞」形に戻した。
 const FLOW_MARK_GLYPH = "M-9,-7.5 L0,0 L-9,7.5";
 
-// 矢印1個(d3セレクション)に、data-desired-scale(本来のレベル別の大きさ)を
-// 現在のズーム倍率(currentZoomK)で打ち消したtransformを当てる。
-// ズームするたびに呼び直すことで、矢印の見た目の大きさが常にズーム倍率に
-// 関わらず一定（レベルの違いだけを反映）になるようにする。
-function _applyArrowZoomScale(sel) {
-  const desired = +sel.attr("data-desired-scale") || 1;
-  const effective = desired / currentZoomK;
-  if (Math.abs(effective - 1) > 0.001) sel.attr("transform", `scale(${effective})`);
-  else sel.attr("transform", null);
-}
-
 // grp（1本の線に対応する<g>）の中に、指定した経路(pathD)に沿って流れる
 // 矢印マークをcount個追加する。motionClassで向き(fwd-motion/rev-motion)を
 // 区別できるようにしておき、後で経路だけを更新するときに使う。
-// scale(既定1)は矢印自体の大きさ(幅)の倍率。5項目採点済みのリンクは
-// 線の太さに応じて矢印も大きく/小さくする（2026-07-22追加）。
-// ※vector-effect: non-scaling-strokeを一度試したが、線の太さが
-// レベルによらず常に一律3px(CSS基準値)になってしまい、それまで
-// scale<1で一緒に細くなっていたレベル2・3の矢印がかえって太く見える
-// ようになってしまったため元に戻した（2026-07-22）。
-// 線はvector-effectでズームの影響を受けないが、矢印はscale()で
-// レベルの大きさを表現している都合上同じ手法が使えない。ズーム
-// するとレベルによる大きさの違いが線とズレて見えてしまうため、
-// data-desired-scaleに「本来の(ズーム抜きの)大きさ」を保存しておき、
-// _applyArrowZoomScaleで現在のズーム倍率を打ち消した値を都度当てる。
-function _addFlowMarks(grp, count, pathD, motionClass, dur, scale) {
-  const desired = scale || 1;
+function _addFlowMarks(grp, count, pathD, motionClass, dur) {
   for (let k = 0; k < count; k++) {
     const mark = grp.append("path")
       .attr("class", "link-flow-mark")
-      .attr("d", FLOW_MARK_GLYPH)
-      .attr("data-desired-scale", desired);
-    _applyArrowZoomScale(mark);
+      .attr("d", FLOW_MARK_GLYPH);
     mark.append("animateMotion")
       .attr("class", motionClass)
       .attr("dur", dur + "s")
@@ -7875,23 +7755,17 @@ function _syncLinkFlowMarks() {
       const lineLen = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2) || 1;
       const dur = Math.max(1, lineLen / FLOW_MARK_SPEED);
       grp = flowMarksG.append("g").attr("data-idx", i).attr("data-path", pathD);
-      // 光る帯の演出は「流れる方向が分かりにくい・相互がほぼ見えない」との
-      // ご指摘を受けて不採用にし、他のジャンルと同じ矢印方式に統一した
-      // （2026-07-22）。5項目採点済みのリンクは、線の太さ(_linkStrokeWidth)
-      // に合わせて矢印自体の大きさもscaleで拡大縮小する。基準(scale=1)は
-      // 5段階(2/4/8/16/32px)の中央値である8pxとし、そこからの比率で決める。
-      const arrowScale = d.score ? _linkStrokeWidth(d) / 8 : 1;
       if (d.mutual) {
         // 相互影響の線は、片方向だけでなく両方向から矢印がすれ違うように
         // 流す。間隔は単方向の2倍にして、密度が単方向の線と揃うようにする
         // （以前「本数15」に対して「片方向あたり半分の約7〜8個」にしていた
         // のと同じ比率）。
         const halfCount = Math.max(2, Math.min(60, Math.round(lineLen / (FLOW_MARK_SPACING * 2))));
-        _addFlowMarks(grp, halfCount, pathD,  "fwd-motion", dur, arrowScale);
-        _addFlowMarks(grp, halfCount, pathRD, "rev-motion", dur, arrowScale);
+        _addFlowMarks(grp, halfCount, pathD,  "fwd-motion", dur);
+        _addFlowMarks(grp, halfCount, pathRD, "rev-motion", dur);
       } else {
         const count = Math.max(2, Math.min(60, Math.round(lineLen / FLOW_MARK_SPACING)));
-        _addFlowMarks(grp, count, pathD, "fwd-motion", dur, arrowScale);
+        _addFlowMarks(grp, count, pathD, "fwd-motion", dur);
       }
     } else if (grp.attr("data-path") !== pathD) {
       // ノードが動いて線の位置が変わった場合だけ経路を作り直す
@@ -7899,10 +7773,6 @@ function _syncLinkFlowMarks() {
       grp.selectAll(".fwd-motion").attr("path", pathD);
       grp.selectAll(".rev-motion").attr("path", pathRD);
     }
-    // 既存の矢印も、ズーム倍率が変わっていれば毎回(200msごと)当て直す。
-    // これをしないと、矢印を出した時点のズーム倍率のまま固定されてしまい、
-    // その後さらにズームすると線と矢印の大きさがズレていく。
-    grp.selectAll(".link-flow-mark").each(function() { _applyArrowZoomScale(d3.select(this)); });
   });
   // ハイライトが外れた線の矢印は消す
   flowMarksG.selectAll("g[data-idx]").each(function() {
@@ -7916,10 +7786,7 @@ setInterval(_syncLinkFlowMarks, 200);
 const linkLabelG = g.append("g").selectAll("g")
   .data(linkData)
   .join("g")
-  .attr("class", "link-label-group")
-  // 5項目採点済みのリンクは太さ・光る帯で表現するため、％や「相互」の
-  // ラベル自体(背景の角丸四角ごと)を表示しない
-  .style("display", d => d.score ? "none" : null);
+  .attr("class", "link-label-group");
 
 linkLabelG.append("rect")
   .attr("class", "link-label-bg")
@@ -7931,9 +7798,7 @@ linkLabelG.append("text")
   .attr("class", "link-label")
   .attr("text-anchor", "middle")
   .attr("dominant-baseline", "central")
-  // 5項目採点(d.score)済みのリンクは、太さと光る帯で表現するため
-  // ％表示・「相互」の文字は出さない（未採点のリンクは従来通り）
-  .text(d => d.score ? "" : (d.mutual ? "相互" : d.w + "%"));
+  .text(d => d.mutual ? "相互" : d.w + "%");
 
 const node = g.append("g").selectAll("g")
   .data(NODES)
@@ -8300,7 +8165,7 @@ node.on("click", (e, d) => {
     ? incoming.map(l => `<div class="sp-card">
         <div class="sp-card-row">
           <a href="#" class="sp-genre-link sp-card-name" data-id="${l.s}">${nodeMap[l.s]?.label?.replace("\n"," ")}</a>
-          ${_scoreMeterHtml(l, "in")}
+          <span class="sp-meter"><span class="sp-meter-fill in" style="width:${l.w}%"><span class="sp-meter-chevrons"></span></span><span class="sp-meter-pct">${l.w}%</span></span>
           <span class="sp-card-name self">${selfName}</span>
         </div>
         <div class="sp-card-desc">${l.desc||''}</div>
@@ -8313,7 +8178,7 @@ node.on("click", (e, d) => {
     ? outgoing.map(l => `<div class="sp-card">
         <div class="sp-card-row">
           <span class="sp-card-name self">${selfName}</span>
-          ${_scoreMeterHtml(l, "out")}
+          <span class="sp-meter"><span class="sp-meter-fill out" style="width:${l.w}%"><span class="sp-meter-chevrons"></span></span><span class="sp-meter-pct">${l.w}%</span></span>
           <a href="#" class="sp-genre-link sp-card-name" data-id="${l.t}">${nodeMap[l.t]?.label?.replace("\n"," ")}</a>
         </div>
         <div class="sp-card-desc">${l.desc||''}</div>
@@ -8329,17 +8194,13 @@ node.on("click", (e, d) => {
         return `<div class="sp-card">
           <div class="sp-card-row">
             <span class="sp-card-name self">${selfName}</span>
-            ${_scoreMeterHtml(l, "mutual")}
+            <span class="sp-meter"><span class="sp-meter-fill mutual" style="width:${l.w}%"><span class="sp-meter-chevrons wide"></span><span class="sp-meter-chevrons sp-meter-chevrons-rev wide"></span></span><span class="sp-meter-pct">${l.w}%</span></span>
             <a href="#" class="sp-genre-link sp-card-name" data-id="${otherId}">${nodeMap[otherId]?.label?.replace("\n"," ")}</a>
           </div>
           <div class="sp-card-desc">${l.desc||''}</div>
         </div>`;
       }).join('')
     : '<span style="color:#666">なし</span>';
-
-  // 5項目採点(l.score)を1本でも使っているジャンルの時だけ、凡例を表示する
-  document.getElementById('sp-score-legend').style.display =
-    [...incoming, ...outgoing, ...mutualLinks].some(l => l.score) ? '' : 'none';
 
   // YouTube埋め込みプレイヤー（固定ID優先、なければAPI検索）
   if (d.yt_mix && d.yt_mix.length > 0) {
