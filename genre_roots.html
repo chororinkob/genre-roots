@@ -66,10 +66,17 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
 .sp-section p { color: #ccc; line-height: 1.6; font-size: 13px; }
 .sp-card { margin-bottom: 16px; }
 .sp-card:last-child { margin-bottom: 0; }
-.sp-card-row { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; flex-wrap: nowrap; }
-.sp-card-name { font-size: 13px; font-weight: 700; color: #7ecfff; flex-shrink: 0; max-width: 96px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-decoration: none; cursor: pointer; }
+/* 中央のチップ/バーの位置が左右の名前の長さで揺れ、名前が長いと
+   反対側の名前が枠からはみ出す不具合があったため、左詰めのflexから
+   3カラム(左名前1fr・中央固定幅・右名前1fr)のgridに変更した。
+   これで中央のチップは常に真ん中固定になり、名前は長ければ2行に
+   折り返す（省略記号で消えることはなくなる）（2026-07-23）。 */
+.sp-card-row { display: grid; grid-template-columns: 1fr 120px 1fr; align-items: center; gap: 6px; margin-bottom: 6px; }
+.sp-card-name { font-size: 13px; font-weight: 700; color: #7ecfff; line-height: 1.25; overflow-wrap: break-word; word-break: break-word; text-decoration: none; cursor: pointer; }
 .sp-card-name.self { color: #ddd; cursor: default; }
-.sp-meter { position: relative; flex: 1 1 auto; min-width: 48px; height: 15px; border-radius: 8px; background: rgba(255,255,255,0.07); overflow: hidden; }
+.sp-card-row .sp-card-name:first-child { text-align: right; }
+.sp-card-row .sp-card-name:last-child { text-align: left; }
+.sp-meter { position: relative; height: 15px; border-radius: 8px; background: rgba(255,255,255,0.07); overflow: hidden; }
 .sp-meter-fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 8px; overflow: hidden; }
 .sp-meter-fill.in { background: linear-gradient(90deg, #1f5f85, #4fb4e8); }
 .sp-meter-fill.out { background: linear-gradient(90deg, #1f7a52, #57d197); }
@@ -97,10 +104,17 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
    l.scoreがあるリンクだけこちらを使い、まだ採点していないリンクは
    従来の%メーターにフォールバックする）。説明パネルのみで使用し、
    マップ側の線の太さ・矢印・光る帯は今回は変更しない。 ---- */
-.sp-score-legend { display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; font-size: 10px; color: #777; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 7px; padding: 7px 8px; margin-bottom: 10px; }
+/* 凡例が「代表曲・アーティスト」の説明のように唐突に見え、実際に
+   指している下の3セクション(影響を受けた/与えた/相互)との関係が
+   分かりにくいとの指摘を受け、凡例をこの3セクションと同じ枠(.sp-influence-group)
+   で囲み、上部にくっついたキャプションのように見せる（2026-07-23）。 */
+.sp-influence-group { border: 1px solid rgba(255,255,255,0.10); border-radius: 8px; padding: 10px 10px 2px; margin-bottom: 14px; }
+.sp-influence-group .sp-section { margin-bottom: 14px; }
+.sp-influence-group .sp-section:last-child { margin-bottom: 6px; }
+.sp-score-legend { display: flex; align-items: center; justify-content: center; gap: 6px; flex-wrap: wrap; font-size: 9px; color: #777; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 7px; margin-bottom: 10px; }
 .sp-score-legend span { display: flex; align-items: center; gap: 3px; }
-.sp-score-legend i { width: 14px; height: 14px; border-radius: 4px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); display: inline-flex; align-items: center; justify-content: center; font-size: 8px; font-weight: 700; color: #aaa; font-style: normal; }
-.sp-score-wrap { flex: 1 1 auto; min-width: 118px; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+.sp-score-legend i { width: 13px; height: 13px; border-radius: 4px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); display: inline-flex; align-items: center; justify-content: center; font-size: 8px; font-weight: 700; color: #aaa; font-style: normal; }
+.sp-score-wrap { display: flex; flex-direction: column; align-items: center; gap: 3px; }
 .sp-score { display: flex; align-items: center; justify-content: center; gap: 3px; }
 .sp-chip { position: relative; width: 19px; height: 19px; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 9.5px; font-weight: 700; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); color: #4a4a5a; }
 .sp-chip.on { color: #fff; border-color: transparent; box-shadow: 0 0 6px -1px currentColor; }
@@ -333,7 +347,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.81<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.82<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -460,12 +474,13 @@ svg { width: 100vw; height: 100vh; }
       <h4>代表曲・アーティスト</h4>
       <div id="sp-tracks"></div>
     </div>
+    <div id="sp-influence-group" class="sp-influence-group">
     <div id="sp-score-legend" class="sp-score-legend" style="display:none;">
       <span><i>リ</i>リズム</span>
       <span><i>和</i>和音</span>
       <span><i>楽</i>楽器</span>
       <span><i>歌</i>歌唱法</span>
-      <span><i>文</i>文化的背景</span>
+      <span><i>文</i>文化背景</span>
     </div>
     <div class="sp-section" id="sp-in-sec">
       <h4>影響を受けたジャンル（ルーツ）</h4>
@@ -478,6 +493,7 @@ svg { width: 100vw; height: 100vh; }
     <div class="sp-section" id="sp-mutual-sec">
       <h4>相互に影響し合ったジャンル</h4>
       <div id="sp-mutual"></div>
+    </div>
     </div>
     <div class="sp-section" id="sp-correction-sec">
       <button id="sp-correction-btn">✎ このジャンルについて修正依頼</button>
