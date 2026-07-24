@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.247<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.248<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -5732,7 +5732,7 @@ const LINKS = [
   {s:"pop_music",t:"operatic_pop",w:55,score:{"r":0,"h":1,"i":1,"v":1,"c":0},desc:"ポップスのキャッチーなメロディーラインを土台に、オペラ的な声楽技術とオーケストラアレンジを加えることでオペラティックポップが形成された"},
   {s:"jpop",t:"j_ballad",w:70,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"J-POPの転調を多用したドラマチックな楽曲構成を土台に、よりスローなテンポとピアノ主体のアレンジを強調することでJバラードが形成された"},
   {s:"eurodance",t:"partyschlager",w:40,score:{"r":1,"h":1,"i":0,"v":0,"c":0},desc:"ユーロダンスの四つ打ちビートとキャッチーなフックが、ドイツのパーティーシュラーガーにおいてよりシンプルでシンガロングしやすい構成に取り入れられた"},
-  {s:"city_pop",t:"city_pop_modern",w:80,desc:"シティポップのAOR的な洗練されたコード進行とファンキーなベースラインが、現代のシティポップモダンにおいてよりモダンなミックスとローファイな質感で再解釈されている"},
+  {s:"city_pop",t:"city_pop_modern",w:80,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"シティポップのAOR的な洗練されたコード進行とファンキーなベースラインが、現代のシティポップモダンにおいてよりモダンなミックスとローファイな質感で再解釈されている"},
   {s:"soul",t:"smooth_soul",w:70,score:{"r":0,"h":0,"i":1,"v":1,"c":1},desc:"ソウルの感情的なシャウトボーカルを土台に、よりメロウで柔らかいアレンジとリラックスしたテンポを重視することでスムースソウルが形成された"},
   {s:"soul",t:"latin_rnb",w:45,score:{"r":1,"h":0,"i":1,"v":1,"c":0},desc:"ソウルのメリスマを交えた歌唱表現が、ラテンR&Bにおいてラテンパーカッションのリズムパターンと組み合わされた"},
   {s:"reggaeton",t:"latin_rnb",w:40,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"レゲトンのデンボウのリズムパターンが、ラテンR&Bにおいてよりスムースなボーカル表現と組み合わされた"},
@@ -6386,7 +6386,7 @@ const LINKS = [
   {s:"mandopop",t:"kpop",w:40,score:{"r":0,"h":1,"i":0,"v":0,"c":0},desc:"マンドポップの歌ものとしての旋律が、K-POPの洗練された制作技術とダンスパフォーマンスの中に取り入れられている"},
   {s:"kpop",t:"mandopop",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":1},desc:"K-POPの洗練された制作技術とダンスパフォーマンスが、マンドポップの歌ものとしての楽曲制作の中に取り入れられている"},
   {s:"city_pop",t:"vaporwave",w:40,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"シティポップのAOR的な洗練されたサウンドが、ヴェイパーウェイヴによってサンプリングされ再文脈化されたことで再評価・復興した"},
-  {s:"city_pop_modern",t:"city_pop",w:40,desc:"シティポップモダンのモダンなミックス技術が、シティポップのAOR的な洗練されたコード進行を現代的に更新する形で取り入れている"},
+  {s:"city_pop_modern",t:"city_pop",w:40,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"シティポップモダンのモダンなミックス技術が、シティポップのAOR的な洗練されたコード進行を現代的に更新する形で取り入れている"},
   {s:"city_pop_modern",t:"vaporwave",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"シティポップモダンの洗練された現代的な再現が、ヴェイパーウェイヴの懐古的な音像処理と互いに影響し合っている"},
   {s:"vaporwave",t:"city_pop_modern",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":1},desc:"ヴェイパーウェイヴの懐古的なサンプリング美学が、シティポップモダンの洗練された現代的な再現の中に取り入れられている"},
   {s:"funk",t:"city_pop",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":1},desc:"ファンクのスラップベースによるグルーヴが、シティポップのより洗練されたアレンジの中に取り入れられた"},
