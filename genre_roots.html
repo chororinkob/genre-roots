@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.211<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.212<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -5744,7 +5744,7 @@ const LINKS = [
   {s:"chiptune",t:"plugg",w:30,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"チップチューンの8ビットゲーム機由来のシンプルなシンセ音色が、プラグの浮遊感のあるメロディーラインの音作りに取り入れられた"},
   {s:"country",t:"bro_country",w:60,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"カントリーのアコースティックな楽器編成を土台に、よりポップでロック的なプロダクションとキャッチーなフックを加えることでブロカントリーが形成された"},
   {s:"tango",t:"neotango",w:60,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"タンゴのバンドネオンとストリングスによる情熱的なアンサンブルが、ネオタンゴにおいてエレクトロニカ的なビートと電子音響処理に組み合わされた"},
-  {s:"renaissance",t:"baroque",w:70,desc:"ルネサンス音楽の多声音楽の対位法を土台に、より劇的な強弱の対比と装飾的な旋律を加えることでバロック音楽が形成された"},
+  {s:"renaissance",t:"baroque",w:70,score:{"r":0,"h":1,"i":0,"v":0,"c":0},desc:"ルネサンス音楽の多声音楽の対位法を土台に、より劇的な強弱の対比と装飾的な旋律を加えることでバロック音楽が形成された"},
   {s:"classical",t:"neoclassicism_music",w:65,score:{"r":0,"h":1,"i":0,"v":0,"c":0},desc:"クラシック音楽のロマン派的な過剰な感情表現への反動として、より簡潔で古典的な形式美への回帰を志向することで新古典主義音楽が形成された"},
 
   // 追加バッチ3リンク
@@ -6895,7 +6895,7 @@ const LINKS = [
   {s:"carnatic",t:"bollywood",w:30,score:{"r":0,"h":1,"i":0,"v":0,"c":0},desc:"カルナータカ古典音楽のラーガに基づく複雑な旋律装飾が、ボリウッド映画音楽の一部の楽曲の旋律表現の中に取り入れられている"},
   {s:"carnatic",t:"fusion",w:20,score:{"r":1,"h":1,"i":0,"v":0,"c":0},desc:"カルナータカ古典音楽の複雑なリズムサイクルと旋律装飾が、シャクティなどのバンドを通じてジャズフュージョンの即興演奏と交流している"},
   // 孤立修正31件 (v11.1)
-  {s:"baroque",t:"baroque_pop",w:35,desc:"バロック音楽のハープシコードやストリングスによる対位法的な旋律の重なりが、バロック・ポップの装飾的なオーケストレーションにそのまま取り入れられた。"},
+  {s:"baroque",t:"baroque_pop",w:35,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"バロック音楽のハープシコードやストリングスによる対位法的な旋律の重なりが、バロック・ポップの装飾的なオーケストレーションにそのまま取り入れられた。"},
   {s:"folk",t:"forro",w:45,score:{"r":0,"h":0,"i":0,"v":0,"c":1},desc:"フォークの民俗音楽としての伝統が、フォホーのアコーディオンとザブンバによるブラジル北東部の伝統的なダンスミュージックの中に取り入れられている"},
   {s:"folk",t:"medieval",w:40,score:{"r":0,"h":0,"i":0,"v":1,"c":1},desc:"フォークの口承で伝えられる物語性のある歌の伝統が、中世音楽の吟遊詩人による口承音楽の伝統と重なり合っている"},
   {s:"medieval",t:"renaissance",w:55,desc:"中世音楽の単旋律のグレゴリオ聖歌や初期の多声音楽の書法を土台にしつつ、より複雑な対位法とハーモニーの理論を発展させることでルネサンス音楽が形成された。"},
