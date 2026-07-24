@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.195<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.196<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -5675,7 +5675,7 @@ const LINKS = [
   {s:"highlife",t:"afropop",w:50,score:{"r":0,"h":1,"i":0,"v":0,"c":0},desc:"ハイライフのギターによる明るい旋律が、アフロポップにおいてより現代的な打ち込みビートと組み合わされた"},
 
   // 中東/南アジア系
-  {s:"raga",t:"bollywood",w:50,desc:"ラーガのインド古典音楽における旋法(ラーガ)に基づいた即興的な旋律が、ボリウッド映画音楽のオーケストラアレンジの中でより親しみやすい形に大衆化された"},
+  {s:"raga",t:"bollywood",w:50,score:{"r":0,"h":1,"i":0,"v":0,"c":0},desc:"ラーガのインド古典音楽における旋法(ラーガ)に基づいた即興的な旋律が、ボリウッド映画音楽のオーケストラアレンジの中でより親しみやすい形に大衆化された"},
   {s:"bollywood",t:"bhangra",w:35,desc:"ボリウッド映画音楽のオーケストラによる華やかな編曲手法が、バングラーのドール(太鼓)のリズムに現代的なポップスのアレンジとして取り入れられた"},
 
   // カリブ系
@@ -6488,7 +6488,7 @@ const LINKS = [
   {s:"rnb",t:"latin_rnb",w:50,desc:"R&Bのスムースなボーカル表現を土台に、ラテンパーカッションのリズムパターンを加えることでラテンR&Bが形成された"},
 
   // 孤立ノード解消
-  {s:"raga",t:"chinese_traditional",w:30,desc:"ラーガの旋法に基づく即興的な音楽性が、中国伝統音楽の五声音階に基づく旋律の伝統と東洋音楽としての美学を共有している"},
+  {s:"raga",t:"chinese_traditional",w:30,score:{"r":0,"h":1,"i":0,"v":0,"c":1},desc:"ラーガの旋法に基づく即興的な音楽性が、中国伝統音楽の五声音階に基づく旋律の伝統と東洋音楽としての美学を共有している"},
   {s:"folk",t:"andean",w:45,score:{"r":0,"h":0,"i":0,"v":1,"c":1},desc:"フォークの物語性のある歌詞の伝統が、アンデス音楽のケーナやチャランゴといった先住民族の楽器による民俗音楽と重なり合っている"},
   {s:"soul",t:"bolero_latin",w:30,score:{"r":0,"h":0,"i":0,"v":1,"c":0},desc:"ソウルの感情豊かなロマンチックな歌唱表現が、ボレロのスペイン語による情熱的なバラードの歌唱スタイルに取り入れられた"},
   {s:"bossa_nova",t:"bolero_latin",w:35,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"ボサノヴァの静かで洗練されたギター伴奏が、ボレロのロマンチックなラテンバラードとしての音楽性と共通している"},
