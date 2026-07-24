@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.278<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.279<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -6586,7 +6586,7 @@ const LINKS = [
   {s:"soul",t:"yacht_rock",w:40,score:{"r":0,"h":0,"i":0,"v":1,"c":0},desc:"ソウルの滑らかなボーカルハーモニーが、ヨットロックの洗練されたスムースなサウンドプロダクションの中に取り入れられている"},
   {s:"rock",t:"aor",w:50,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"ロックのバンド編成による演奏が、AORのラジオ向けに洗練されたスタジオプロダクションの中に取り入れられている"},
   {s:"soft_rock",t:"aor",w:50,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"ソフトロックの柔らかいバンドサウンドが、AORの耳あたりの良いメロディーラインの中に取り入れられている"},
-  {s:"aor",t:"city_pop",w:45,desc:"AORの洗練されたコード進行とスタジオプロダクションの技術が、シティポップの都会的なサウンドの中に取り入れられている"},
+  {s:"aor",t:"city_pop",w:45,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"AORの洗練されたコード進行とスタジオプロダクションの技術が、シティポップの都会的なサウンドの中に取り入れられている"},
   {s:"hiphop",t:"k_hiphop",w:60,score:{"r":1,"h":0,"i":1,"v":1,"c":1},desc:"アメリカのヒップホップのラップとビートメイキングの手法が、韓国のヒップホップシーンにそのまま取り入れられK-ヒップホップが形成された"},
   {s:"kpop",t:"k_hiphop",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":1},desc:"K-POPのグループ制作体制とプロダクション技術が、K-ヒップホップのアーティストたちの楽曲制作と交差している"},
   {s:"mandopop",t:"cantopop",w:50,score:{"r":0,"h":1,"i":0,"v":1,"c":1},desc:"マンドポップの中国語による歌ものとしての楽曲構成が、カントポップの広東語による楽曲制作と中華圏ポップスとしての伝統を共有している"},
@@ -6650,7 +6650,7 @@ const LINKS = [
   {s:"jpop",t:"j_pop_idol",w:60,score:{"r":0,"h":1,"i":0,"v":0,"c":1},desc:"J-POPのキャッチーなメロディーラインの作り方が、J-POPアイドルの振り付けを重視した楽曲制作の中に取り入れられている"},
   {s:"dance_pop",t:"j_pop_idol",w:40,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"ダンスポップの強調された四つ打ちビートが、J-POPアイドルの群舞を伴うパフォーマンス向けの楽曲の中に取り入れられている"},
   {s:"j_pop_idol",t:"kpop",w:40,score:{"r":0,"h":0,"i":0,"v":0,"c":1},desc:"J-POPアイドルの振り付けを重視した育成システムが、K-POPアイドルのグループ制作体制の初期モデルとして参照された"},
-  {s:"city_pop",t:"city_funk",w:60,desc:"シティポップの都会的なコード進行とファンキーなベースラインが、シティファンクの和モノのグルーヴ感のあるアレンジと重複している"},
+  {s:"city_pop",t:"city_funk",w:60,score:{"r":0,"h":1,"i":1,"v":0,"c":1},desc:"シティポップの都会的なコード進行とファンキーなベースラインが、シティファンクの和モノのグルーヴ感のあるアレンジと重複している"},
   {s:"funk",t:"city_funk",w:50,score:{"r":1,"h":0,"i":1,"v":0,"c":1},desc:"ファンクのスラップベースとシンコペーションの効いたグルーヴが、シティファンクの和モノのリズムセクションの中に取り入れられている"},
   {s:"indie_pop",t:"shibuya_kei",w:45,score:{"r":0,"h":1,"i":0,"v":0,"c":0},desc:"インディーポップの軽やかなメロディーラインが、渋谷系のポップで折衷的な音楽性の中に取り入れられている"},
   {s:"bossa_nova",t:"shibuya_kei",w:35,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"ボサノヴァの静かで洗練されたギター伴奏が、渋谷系のアーティストたちの楽曲の中に引用素材として取り入れられている"},
@@ -6873,7 +6873,7 @@ const LINKS = [
   {s:"disco",t:"boogie_genre",w:50,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ディスコの四つ打ちビートが、ブギーのシンセベースを多用したより電子的なグルーヴへと発展した"},
   {s:"funk",t:"boogie_genre",w:50,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ファンクのシンコペーションの効いたグルーヴが、ブギーのシンセベースによるダンスサウンドの中に取り入れられている"},
   {s:"boogie_genre",t:"deep_house",w:35,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ブギーのシンセベースによるグルーヴ感のあるサウンドが、ディープハウスのジャジーなコード感のあるアレンジの中に取り入れられている"},
-  {s:"boogie_genre",t:"city_pop",w:30,desc:"ブギーのファンキーなグルーヴとシンセベースの音作りが、シティポップの都会的なサウンドの美学と共有されている"},
+  {s:"boogie_genre",t:"city_pop",w:30,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ブギーのファンキーなグルーヴとシンセベースの音作りが、シティポップの都会的なサウンドの美学と共有されている"},
   {s:"disco",t:"space_disco",w:55,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ディスコの四つ打ちビートが、スペースディスコのシンセサイザーによる宇宙的な音色とより電子的なサウンドへと発展した"},
   {s:"synth_pop",t:"space_disco",w:30,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"シンセポップの宇宙的なシンセサイザーの音色が、スペースディスコの電子的なダンスサウンドの中に取り入れられている"},
   {s:"space_disco",t:"italo_disco",w:45,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"スペースディスコのシンセサイザーによる宇宙的な音色が、イタロディスコのシンセベースによるダンスサウンドの前身となった"},
