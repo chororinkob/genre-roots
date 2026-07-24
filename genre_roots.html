@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.197<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.198<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -5768,7 +5768,7 @@ const LINKS = [
   {s:"hiphop",t:"illbient",w:35,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"ヒップホップのサンプリングによるビート制作の手法が、イルビエントの実験的で暗い音響コラージュに取り入れられた"},
   {s:"folk",t:"folktronica",w:55,score:{"r":0,"h":0,"i":1,"v":1,"c":0},desc:"フォークのアコースティックギターと物語性のある歌詞を土台に、エレクトロニカ的な打ち込みビートを加えることでフォークトロニカが形成された"},
   {s:"ambient",t:"folktronica",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"アンビエントの持続音による音響処理が、フォークトロニカにおいてアコースティック楽器のより有機的なサウンドと組み合わされた"},
-  {s:"bhangra",t:"asian_underground",w:50,desc:"バングラーのドール(太鼓)のリズムパターンとパンジャブ語の歌唱が、エイジアン・アンダーグラウンドにおいて電子音とブレイクビートに組み合わされた"},
+  {s:"bhangra",t:"asian_underground",w:50,score:{"r":1,"h":0,"i":0,"v":1,"c":0},desc:"バングラーのドール(太鼓)のリズムパターンとパンジャブ語の歌唱が、エイジアン・アンダーグラウンドにおいて電子音とブレイクビートに組み合わされた"},
   {s:"dnb",t:"asian_underground",w:35,score:{"r":1,"h":0,"i":0,"v":0,"c":1},desc:"ドラムンベースの高速なブレイクビートが、エイジアン・アンダーグラウンドにおいて南アジアの民族楽器の旋律とタブラの打楽器パターンに組み合わされた"},
   {s:"bebop",t:"post_bop",w:75,desc:"ビバップの高速なコード進行に基づく即興演奏の技法を土台に、より自由な和声とリズムの解釈を加えることでポストバップが形成された"},
   {s:"cool_jazz",t:"post_bop",w:50,desc:"クールジャズの抑制された音色とゆったりとしたテンポ感が、ポストバップのより多様な即興表現のアプローチの一部として統合された"},
@@ -6343,7 +6343,7 @@ const LINKS = [
   {s:"bhangra",t:"bollywood",w:40,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"バングラーのドール(太鼓)のリズムパターンが、ボリウッド映画音楽のポップなオーケストラ編曲の中に取り入れられている"},
   {s:"bollywood",t:"asian_underground",w:40,score:{"r":0,"h":1,"i":0,"v":0,"c":0},desc:"ボリウッド映画音楽の華やかな旋律が、エイジアン・アンダーグラウンドのクラブ向けの電子ビートのサンプリング素材として使われている"},
   {s:"asian_underground",t:"bollywood",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"エイジアン・アンダーグラウンドの電子的なビートメイキングが、ボリウッド映画音楽の華やかな旋律の中に取り入れられている"},
-  {s:"asian_underground",t:"bhangra",w:40,desc:"エイジアン・アンダーグラウンドの電子音とブレイクビートが、バングラーのドールのリズムパターンとパンジャブ語の歌唱の中に取り入れられている"},
+  {s:"asian_underground",t:"bhangra",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"エイジアン・アンダーグラウンドの電子音とブレイクビートが、バングラーのドールのリズムパターンとパンジャブ語の歌唱の中に取り入れられている"},
   {s:"bhangra",t:"hiphop",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":1},desc:"バングラーのドールとトゥンビ(弦楽器)のリズムパターンが、ヒップホップのラップとビートメイキングの手法と互いに影響し合っている"},
   {s:"hiphop",t:"bhangra",w:40,score:{"r":1,"h":0,"i":0,"v":0,"c":1},desc:"ヒップホップのラップとビートメイキングの手法が、バングラーのドールのリズムパターンの中に取り入れられている"},
   {s:"asian_underground",t:"dnb",w:40,score:{"r":0,"h":1,"i":1,"v":0,"c":1},desc:"エイジアン・アンダーグラウンドの南アジアの民族楽器の旋律とタブラの打楽器パターンが、ドラムンベースの高速なブレイクビートの中に取り入れられている"},
