@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.129<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.130<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -5567,7 +5567,7 @@ const LINKS = [
   {s:"trance",t:"euphoric_trance",w:65,score:{"r":0,"h":1,"i":0,"v":0,"c":0},desc:"トランスの高揚感のあるビルドアップ構造を土台に、感動的なメロディーラインとコード進行をより強調することでユーフォリックトランスが形成された"},
   {s:"trance",t:"nrg_trance",w:65,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"トランスのビート構造を土台に、テンポを上げてよりエネルギッシュで攻撃的なアレンジを加えることでNRGトランスが形成された"},
   {s:"trance",t:"progressive_trance",w:65,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"トランスの高揚感のあるビート構造を土台に、プログレッシブハウス由来のじわじわとレイヤーを積み重ねる長い展開を加えることでプログレッシブトランスが形成された"},
-  {s:"euro_trance",t:"euphoric_trance",w:60,desc:"ユーロトランスのポップなメロディーラインを土台に、より感動的なコード進行とビルドアップを強調することでユーフォリックトランスが形成された"},
+  {s:"euro_trance",t:"euphoric_trance",w:60,score:{"r":0,"h":1,"i":0,"v":0,"c":0},desc:"ユーロトランスのポップなメロディーラインを土台に、より感動的なコード進行とビルドアップを強調することでユーフォリックトランスが形成された"},
 
   // ハードコア系
   {s:"acid_house",t:"hardcore_rave",w:60,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"アシッドハウスのTB-303による歪んだベースサウンドを土台に、テンポを大幅に上げて過激なキックを強調することでハードコアレイヴが形成された"},
@@ -6169,8 +6169,8 @@ const LINKS = [
   {s:"goa_trance",t:"nitzhonot",w:40,score:{"r":0,"h":1,"i":0,"v":0,"c":0},desc:"ゴアトランスのサイケデリックな旋律性が、ニッツォノットの祝祭的な高揚感のあるビートの中に取り入れられている"},
   {s:"nitzhonot",t:"goa_trance",w:40,score:{"r":0,"h":0,"i":0,"v":0,"c":1},desc:"ニッツォノットの祝祭的な高揚感が、ゴアトランスのサイケデリックな旋律性の中に取り入れられている"},
   {s:"euro_trance",t:"trance",w:40,score:{"r":0,"h":1,"i":0,"v":0,"c":0},desc:"ユーロトランスのキャッチーでポップなメロディーラインが、トランスの長尺で高揚感のあるビート構造の中に取り入れられている"},
-  {s:"euro_trance",t:"hands_up",w:40,desc:"ユーロトランスの明るいメロディーラインが、ハンズアップの高速でポップなダンスフロア向けのアレンジと互いに影響し合っている"},
-  {s:"hands_up",t:"euro_trance",w:40,desc:"ハンズアップの高速なテンポが、ユーロトランスの明るいメロディーラインの中に取り入れられている"},
+  {s:"euro_trance",t:"hands_up",w:40,score:{"r":0,"h":1,"i":0,"v":0,"c":0},desc:"ユーロトランスの明るいメロディーラインが、ハンズアップの高速でポップなダンスフロア向けのアレンジと互いに影響し合っている"},
+  {s:"hands_up",t:"euro_trance",w:40,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"ハンズアップの高速なテンポが、ユーロトランスの明るいメロディーラインの中に取り入れられている"},
   {s:"hands_up",t:"eurodance",w:40,desc:"ハンズアップの高速なダンスフロア向けの高揚感が、ユーロダンスの歌ものとしての楽曲構成の中に取り入れられている"},
   {s:"eurobeat",t:"eurodance",w:40,desc:"ユーロビートの高速で規則的なシンセビートと、ユーロダンスの歌ものとしてのポップな構成が、互いに参照し合いながら並行して発展した"},
   {s:"hi_nrg",t:"eurobeat",w:40,desc:"Hi-NRGの高速な四つ打ちビートが、ユーロビートの派手でキャッチーなメロディーラインと互いに影響し合っている"},
