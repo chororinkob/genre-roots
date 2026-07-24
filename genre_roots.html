@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.155<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.156<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -6116,10 +6116,10 @@ const LINKS = [
   {s:"edm",t:"electro_house",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"EDMの巨大な音圧を持つサウンドプロダクションが、エレクトロハウスのドロップの構成の中に取り入れられている"},
   {s:"big_room",t:"electro_house",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"ビッグルームハウスの大規模なドロップの演出が、エレクトロハウスの歪んだシンセリードの音色の中に取り入れられている"},
   {s:"festival_edm",t:"big_room",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"フェスティバルEDMの盛り上げてから落とす楽曲構成が、ビッグルームハウスの巨大なドロップの演出と互いに影響し合っている"},
-  {s:"edm",t:"pop_edm",w:40,desc:"EDMのドロップの構成が、ポップEDMの歌ものとしてのボーカルパートと互いに影響し合っている"},
-  {s:"pop_edm",t:"edm",w:40,desc:"ポップEDMの歌ものとしてのフック構成が、EDMのドロップを中心とした楽曲構成の中に取り入れられている"},
-  {s:"edm",t:"edm_trap",w:40,desc:"EDMのビルドアップの構成が、EDMトラップの808ベースとハイハットロールのビートパターンと互いに影響し合っている"},
-  {s:"edm_trap",t:"edm",w:40,desc:"EDMトラップの808ベースとハイハットのビートパターンが、EDMのビルドアップの構成の中に取り入れられている"},
+  {s:"edm",t:"pop_edm",w:40,score:{"r":0,"h":0,"i":1,"v":1,"c":0},desc:"EDMのドロップの構成が、ポップEDMの歌ものとしてのボーカルパートと互いに影響し合っている"},
+  {s:"pop_edm",t:"edm",w:40,score:{"r":0,"h":1,"i":0,"v":1,"c":0},desc:"ポップEDMの歌ものとしてのフック構成が、EDMのドロップを中心とした楽曲構成の中に取り入れられている"},
+  {s:"edm",t:"edm_trap",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"EDMのビルドアップの構成が、EDMトラップの808ベースとハイハットロールのビートパターンと互いに影響し合っている"},
+  {s:"edm_trap",t:"edm",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"EDMトラップの808ベースとハイハットのビートパターンが、EDMのビルドアップの構成の中に取り入れられている"},
   {s:"moombahton",t:"reggaeton",w:40,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"ムームバートンのレゲトン由来のデンボウのリズム感覚が、レゲトンのEDM的なシンセサウンド処理と互いに影響し合っている"},
   {s:"reggaeton",t:"moombahton",w:40,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"レゲトンのデンボウのリズムパターンが、ムームバートンのEDM的なシンセサウンド処理の中に取り入れられている"},
   {s:"moombahton",t:"electro_house",w:40,score:{"r":1,"h":0,"i":0,"v":0,"c":1},desc:"ムームバートンのラテン的なシンコペーションのリズムが、エレクトロハウスの歪んだシンセの音色と互いに影響し合っている"},
@@ -6380,8 +6380,8 @@ const LINKS = [
   {s:"kpop",t:"dance_pop",w:40,desc:"K-POPの複合的で転調を多用した曲展開が、ダンスポップの強調された四つ打ちビートと互いに影響し合っている"},
   {s:"dance_pop",t:"kpop",w:40,desc:"ダンスポップの強調された四つ打ちビートが、K-POPの複合的な曲展開の中に取り入れられている"},
   {s:"kpop",t:"hiphop",w:40,score:{"r":0,"h":0,"i":1,"v":1,"c":0},desc:"K-POPのラップパートとトラックプロダクションが、ヒップホップのビートメイキングの手法の中に取り入れられている"},
-  {s:"kpop",t:"edm",w:40,desc:"K-POPの歌ものと群舞のパフォーマンス構成が、EDMのドロップを中心とした楽曲構成と互いに影響し合っている"},
-  {s:"edm",t:"kpop",w:40,desc:"EDMのドロップを中心とした楽曲構成が、K-POPの群舞を伴うパフォーマンス向けの楽曲構成の中に取り入れられている"},
+  {s:"kpop",t:"edm",w:40,score:{"r":0,"h":0,"i":0,"v":1,"c":1},desc:"K-POPの歌ものと群舞のパフォーマンス構成が、EDMのドロップを中心とした楽曲構成と互いに影響し合っている"},
+  {s:"edm",t:"kpop",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":1},desc:"EDMのドロップを中心とした楽曲構成が、K-POPの群舞を伴うパフォーマンス向けの楽曲構成の中に取り入れられている"},
   {s:"mandopop",t:"jpop",w:40,desc:"マンドポップのメロディーと編曲手法が、J-POPの歌唱の表現方法と互いに影響し合っている"},
   {s:"mandopop",t:"kpop",w:40,desc:"マンドポップの歌ものとしての旋律が、K-POPの洗練された制作技術とダンスパフォーマンスの中に取り入れられている"},
   {s:"kpop",t:"mandopop",w:40,desc:"K-POPの洗練された制作技術とダンスパフォーマンスが、マンドポップの歌ものとしての楽曲制作の中に取り入れられている"},
@@ -6419,7 +6419,7 @@ const LINKS = [
   {s:"dubstep",t:"dubstyle",w:45,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"ダブステップのウォブルベースが、ダブスタイルにおいてハードスタイルの跳ねるようなキックドラムと組み合わされた"},
   {s:"hardstyle",t:"subground",w:50,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ハードスタイルの跳ねるようなキックを土台に、よりミニマルでアンダーグラウンド志向のアレンジを加えることでサブグラウンドが形成された"},
   {s:"techno",t:"subground",w:40,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"テクノの引き算の美学によるミニマルなビート構造が、サブグラウンドのアンダーグラウンド志向のアレンジに取り入れられた"},
-  {s:"edm",t:"jungle_terror",w:45,desc:"EDMのドロップの構成を土台に、よりトライバルなパーカッションと野性的な唸り声のサンプルを加えることでジャングルテラーが形成された"},
+  {s:"edm",t:"jungle_terror",w:45,score:{"r":1,"h":0,"i":1,"v":0,"c":1},desc:"EDMのドロップの構成を土台に、よりトライバルなパーカッションと野性的な唸り声のサンプルを加えることでジャングルテラーが形成された"},
   {s:"moombahton",t:"jungle_terror",w:40,score:{"r":1,"h":0,"i":0,"v":0,"c":1},desc:"ムームバートンのラテン的なシンコペーションのリズムが、ジャングルテラーのより野性的でトライバルなパーカッションに発展した"},
   {s:"gabber",t:"nu_style",w:55,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"ガバの歪んだキックドラムのサウンドを土台に、よりモダンで洗練されたプロダクション技術を加えることでニュースタイルが形成された"},
   {s:"speedcore",t:"flashcore",w:60,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"スピードコアの極端に速いテンポのビートが、フラッシュコアにおいてより過激なノイズサウンドと融合した"},
