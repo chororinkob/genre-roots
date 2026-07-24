@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.119<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.120<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -6120,8 +6120,8 @@ const LINKS = [
   {s:"pop_edm",t:"edm",w:40,desc:"ポップEDMの歌ものとしてのフック構成が、EDMのドロップを中心とした楽曲構成の中に取り入れられている"},
   {s:"edm",t:"edm_trap",w:40,desc:"EDMのビルドアップの構成が、EDMトラップの808ベースとハイハットロールのビートパターンと互いに影響し合っている"},
   {s:"edm_trap",t:"edm",w:40,desc:"EDMトラップの808ベースとハイハットのビートパターンが、EDMのビルドアップの構成の中に取り入れられている"},
-  {s:"moombahton",t:"reggaeton",w:40,desc:"ムームバートンのレゲトン由来のデンボウのリズム感覚が、レゲトンのEDM的なシンセサウンド処理と互いに影響し合っている"},
-  {s:"reggaeton",t:"moombahton",w:40,desc:"レゲトンのデンボウのリズムパターンが、ムームバートンのEDM的なシンセサウンド処理の中に取り入れられている"},
+  {s:"moombahton",t:"reggaeton",w:40,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"ムームバートンのレゲトン由来のデンボウのリズム感覚が、レゲトンのEDM的なシンセサウンド処理と互いに影響し合っている"},
+  {s:"reggaeton",t:"moombahton",w:40,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"レゲトンのデンボウのリズムパターンが、ムームバートンのEDM的なシンセサウンド処理の中に取り入れられている"},
   {s:"moombahton",t:"electro_house",w:40,score:{"r":1,"h":0,"i":0,"v":0,"c":1},desc:"ムームバートンのラテン的なシンコペーションのリズムが、エレクトロハウスの歪んだシンセの音色と互いに影響し合っている"},
   {s:"electro_house",t:"moombahton",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"エレクトロハウスの歪んだシンセの音色が、ムームバートンのラテン的なシンコペーションのリズムの中に取り入れられている"},
   {s:"two_step",t:"uk_garage",w:40,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"2ステップの跳ねるようなビート構造が、UKガラージのハイハットとキックを細かく刻むシャッフル感のあるリズムパターンの中に取り入れられている"},
@@ -6420,7 +6420,7 @@ const LINKS = [
   {s:"hardstyle",t:"subground",w:50,desc:"ハードスタイルの跳ねるようなキックを土台に、よりミニマルでアンダーグラウンド志向のアレンジを加えることでサブグラウンドが形成された"},
   {s:"techno",t:"subground",w:40,desc:"テクノの引き算の美学によるミニマルなビート構造が、サブグラウンドのアンダーグラウンド志向のアレンジに取り入れられた"},
   {s:"edm",t:"jungle_terror",w:45,desc:"EDMのドロップの構成を土台に、よりトライバルなパーカッションと野性的な唸り声のサンプルを加えることでジャングルテラーが形成された"},
-  {s:"moombahton",t:"jungle_terror",w:40,desc:"ムームバートンのラテン的なシンコペーションのリズムが、ジャングルテラーのより野性的でトライバルなパーカッションに発展した"},
+  {s:"moombahton",t:"jungle_terror",w:40,score:{"r":1,"h":0,"i":0,"v":0,"c":1},desc:"ムームバートンのラテン的なシンコペーションのリズムが、ジャングルテラーのより野性的でトライバルなパーカッションに発展した"},
   {s:"gabber",t:"nu_style",w:55,desc:"ガバの歪んだキックドラムのサウンドを土台に、よりモダンで洗練されたプロダクション技術を加えることでニュースタイルが形成された"},
   {s:"speedcore",t:"flashcore",w:60,desc:"スピードコアの極端に速いテンポのビートが、フラッシュコアにおいてより過激なノイズサウンドと融合した"},
   {s:"grindcore",t:"cybergrind",w:60,desc:"グラインドコアのブラストビートを多用した過激な演奏が、サイバーグラインドにおいてよりデジタルで電子的な音響処理に発展した"},
@@ -6446,7 +6446,7 @@ const LINKS = [
   {s:"gabber",t:"doomcore",w:50,desc:"ガバの歪んだキックドラムのサウンドが、ドゥームコアにおいてテンポを極端に落とした重厚なビートに再構築された"},
   {s:"doom_metal",t:"doomcore",w:35,desc:"ドゥームメタルの極端に遅く重厚なリフの感覚が、ドゥームコアの電子的なビートの中に取り入れられた"},
   {s:"gabber",t:"lento_violento",w:45,desc:"ガバの歪んだキックドラムのサウンドが、イタリアのシーンでテンポを落とした重厚なレント・ヴィオレントへと解釈し直された"},
-  {s:"moombahton",t:"moombahcore",w:60,desc:"ムームバートンのラテン的なシンコペーションのリズムが、ムームバコアにおいてハードコア由来の攻撃的なキックドラムと融合した"},
+  {s:"moombahton",t:"moombahcore",w:60,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"ムームバートンのラテン的なシンコペーションのリズムが、ムームバコアにおいてハードコア由来の攻撃的なキックドラムと融合した"},
   {s:"dubstep",t:"moombahcore",w:40,desc:"ダブステップの重低音のサブベースが、ムームバコアのハードコアなキックドラムの中に取り入れられた"},
   {s:"breakcore",t:"raggacore",w:55,desc:"ブレイクコアのドラムパターンを細かく切り刻む編集手法が、レゲエのサンプルと融合しラガコアが形成された"},
   {s:"dancehall",t:"raggacore",w:40,desc:"ダンスホールのMCによるトースティングが、ラガコアのハードコア由来の高速なビートの中に取り入れられた"},
