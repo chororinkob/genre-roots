@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.228<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.229<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -6060,8 +6060,8 @@ const LINKS = [
   {s:"grindcore",t:"crust_punk",w:40,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"グラインドコアのブラストビートを多用した過激な演奏が、クラストパンクの政治的な歌詞と荒々しいサウンドの中に取り入れられている"},
   {s:"grindcore",t:"mathcore",w:40,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"グラインドコアの高速なブラストビートが、マスコアの変拍子を多用した複雑なリフ展開の中に取り入れられている"},
   {s:"mathcore",t:"grindcore",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"マスコアの変拍子を多用した複雑なリフ展開が、グラインドコアの高速なブラストビートの中に取り入れられている"},
-  {s:"mathcore",t:"djent",w:40,desc:"マスコアの複雑な変拍子のリズムパターンが、ジェントの低くチューニングされたポリリズミックなリフと互いに影響し合っている"},
-  {s:"djent",t:"mathcore",w:40,desc:"ジェントの低音を強調したポリリズミックなリフが、マスコアの複雑な変拍子のリズムパターンの中に取り入れられている"},
+  {s:"mathcore",t:"djent",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"マスコアの複雑な変拍子のリズムパターンが、ジェントの低くチューニングされたポリリズミックなリフと互いに影響し合っている"},
+  {s:"djent",t:"mathcore",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ジェントの低音を強調したポリリズミックなリフが、マスコアの複雑な変拍子のリズムパターンの中に取り入れられている"},
   {s:"sludge_metal",t:"post_metal",w:40,desc:"スラッジメタルの重厚で汚れた音質のリフが、ポストメタルの長い時間をかけた音響的な構築美の中に取り入れられた"},
   {s:"shoegaze",t:"post_metal",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"シューゲイザーの複数のエフェクターを重ねた音の壁の作り方が、ポストメタルの重厚な音響的構成美に取り入れられた"},
   {s:"symphonic_metal",t:"power_metal",w:40,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"シンフォニックメタルの荘厳なオーケストラアレンジが、パワーメタルの高揚感のあるメロディックなコード進行と互いに影響し合っている"},
@@ -6535,7 +6535,7 @@ const LINKS = [
   {s:"madchester",t:"britpop",w:60,score:{"r":1,"h":1,"i":0,"v":0,"c":0},desc:"マッドチェスターのダンスビートを取り入れたロックサウンドが、ブリットポップのキャッチーなメロディーラインの前身となった"},
   {s:"prog_rock",t:"progressive_metal",w:60,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"プログレッシブロックの変拍子を多用した緻密な構成美が、プログレッシブメタルの複雑なリフ展開の中に取り入れられている"},
   {s:"heavy_metal",t:"progressive_metal",w:55,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"ヘヴィメタルの重厚なディストーションギターのリフが、プログレッシブメタルの複雑な楽曲構成の中に取り入れられている"},
-  {s:"progressive_metal",t:"djent",w:60,desc:"プログレッシブメタルの複雑な変拍子のリズムパターンが、ジェントのポリリズミックな低音リフの革新的なリズム表現に取り入れられている"},
+  {s:"progressive_metal",t:"djent",w:60,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"プログレッシブメタルの複雑な変拍子のリズムパターンが、ジェントのポリリズミックな低音リフの革新的なリズム表現に取り入れられている"},
   {s:"thrash_metal",t:"groove_metal",w:65,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"スラッシュメタルの高速なリフが、グルーヴメタルにおいてテンポを落としてよりグルーヴ感のある重厚なリフに再構築された"},
   {s:"heavy_metal",t:"groove_metal",w:45,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ヘヴィメタルの重厚なディストーションギターのリフが、グルーヴメタルのグルーヴ感のあるリズムパターンの基盤となっている"},
   {s:"groove_metal",t:"nu_metal",w:50,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"グルーヴメタルのグルーヴ感のある重厚なリフが、ニューメタルの低音を強調したギターリフの中に取り入れられている"},
