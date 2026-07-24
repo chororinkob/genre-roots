@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.108<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.109<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -6016,9 +6016,9 @@ const LINKS = [
   {s:"indie_pop",t:"indie_rock",w:40,desc:"インディーポップの軽やかなメロディーラインが、インディーロックのDIY精神によるローファイな録音手法と互いに影響し合っている"},
   {s:"jangle_pop",t:"indie_pop",w:40,desc:"ジャングルポップのリッケンバッカーなどによるきらびやかな12弦ギターの音色が、インディーポップのDIY的な美学に取り入れられた"},
   {s:"dream_pop",t:"shoegaze",w:40,desc:"ドリームポップの浮遊感のあるボーカルと幻想的なギターサウンドが、シューゲイザーの音の壁を作るノイズギターの手法に取り入れられた"},
-  {s:"dream_pop",t:"ethereal_wave",w:40,desc:"ドリームポップの幻想的なボーカル処理が、エセリアル・ウェイヴのリバーブを多用したコーラスワークと互いに影響し合っている"},
-  {s:"ethereal_wave",t:"dream_pop",w:40,desc:"エセリアル・ウェイヴの浮遊感のあるコーラスワークが、ドリームポップの幻想的なボーカル処理の中に取り入れられている"},
-  {s:"ethereal_wave",t:"shoegaze",w:40,desc:"エセリアル・ウェイヴの浮遊感のあるボーカル処理が、シューゲイザーの音の壁を作るギターサウンドの中でのボーカルの扱い方に取り入れられた"},
+  {s:"dream_pop",t:"ethereal_wave",w:40,score:{"r":0,"h":0,"i":1,"v":1,"c":0},desc:"ドリームポップの幻想的なボーカル処理が、エセリアル・ウェイヴのリバーブを多用したコーラスワークと互いに影響し合っている"},
+  {s:"ethereal_wave",t:"dream_pop",w:40,score:{"r":0,"h":0,"i":1,"v":1,"c":0},desc:"エセリアル・ウェイヴの浮遊感のあるコーラスワークが、ドリームポップの幻想的なボーカル処理の中に取り入れられている"},
+  {s:"ethereal_wave",t:"shoegaze",w:40,score:{"r":0,"h":0,"i":1,"v":1,"c":0},desc:"エセリアル・ウェイヴの浮遊感のあるボーカル処理が、シューゲイザーの音の壁を作るギターサウンドの中でのボーカルの扱い方に取り入れられた"},
   {s:"indie_rock",t:"garage_rock_revival",w:40,desc:"インディーロックのローファイな制作感覚が、ガレージロックリバイバルの粗削りなギターサウンドの録音手法に取り入れられた"},
   {s:"punk",t:"garage_rock_revival",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":1},desc:"パンクの粗削りで衝動的な演奏スタイルが、ガレージロックリバイバルの原始的なロックサウンドの再現に取り入れられた"},
   {s:"punk",t:"new_wave",w:40,score:{"r":0,"h":1,"i":0,"v":0,"c":0},desc:"パンクの簡潔な3コード進行が、ニューウェーブのシンセサイザーを用いたポップな作曲手法の中に取り入れられた"},
