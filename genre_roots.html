@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.280<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.281<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -5918,7 +5918,7 @@ const LINKS = [
 
   // ブルース系サブジャンル
   {s:"blues",t:"delta_blues",w:90,score:{"r":1,"h":1,"i":1,"v":1,"c":1},desc:"ブルース全体の源流として、デルタブルースのスライドギターと素朴で力強い弾き語りのスタイルがブルースの音楽性の原型を形作った。12小節進行・ブルーノート・シャウト唱法など、ほぼ全ての語法がここに遡る。"},
-  {s:"delta_blues",t:"chicago_blues",w:80,desc:"デルタブルースのスライドギターと素朴な歌唱スタイルが、アフリカ系アメリカ人の北部への移住とともにシカゴでエレキギターとバンド編成による電化されたサウンドへと発展した"},
+  {s:"delta_blues",t:"chicago_blues",w:80,score:{"r":0,"h":0,"i":1,"v":1,"c":1},desc:"デルタブルースのスライドギターと素朴な歌唱スタイルが、アフリカ系アメリカ人の北部への移住とともにシカゴでエレキギターとバンド編成による電化されたサウンドへと発展した"},
   {s:"blues",t:"piano_blues",w:70,score:{"r":1,"h":1,"i":0,"v":0,"c":1},desc:"ブルースの12小節進行とブルーノートの音使いが、ピアノブルースにおいて左手のウォーキングベースと右手の装飾的なフレーズによる鍵盤表現に置き換えられた"},
   {s:"blues",t:"harmonica_blues",w:70,score:{"r":1,"h":1,"i":1,"v":0,"c":1},desc:"ブルースのブルーノートとベンドの音使いが、ハーモニカブルースにおいてハーモニカを吸って音程を下げるベンド奏法（クロスハープ）による表現に置き換えられた"},
   {s:"blues",t:"jump_blues",w:65,score:{"r":1,"h":1,"i":1,"v":0,"c":1},desc:"ブルースの12小節進行を土台に、テンポを上げてホーンセクションによる跳ねるようなリズムを加えることでジャンプブルースが形成された"},
@@ -6854,7 +6854,7 @@ const LINKS = [
   {s:"jazz",t:"texas_blues",w:25,score:{"r":0,"h":1,"i":0,"v":0,"c":0},desc:"ジャズの洗練されたコード進行が、テキサスブルースのギター演奏の中に部分的に取り入れられている"},
   {s:"texas_blues",t:"contemporary_blues",w:45,desc:"テキサスブルースの自由なギターソロを重視したスタイルが、コンテンポラリー・ブルースのロック的なギターサウンドの中に取り入れられている"},
   {s:"chicago_blues",t:"british_blues",w:60,desc:"シカゴブルースのエレキギターによる電化されたサウンドが、イギリスのミュージシャンたちによって熱心に受容されブリティッシュブルースが形成された"},
-  {s:"delta_blues",t:"british_blues",w:40,desc:"デルタブルースのスライドギターと素朴な歌唱スタイルが、イギリスのミュージシャンたちによって再発見されブリティッシュブルースに取り入れられた"},
+  {s:"delta_blues",t:"british_blues",w:40,score:{"r":0,"h":0,"i":1,"v":1,"c":1},desc:"デルタブルースのスライドギターと素朴な歌唱スタイルが、イギリスのミュージシャンたちによって再発見されブリティッシュブルースに取り入れられた"},
   {s:"british_blues",t:"blues_rock",w:65,score:{"r":0,"h":0,"i":1,"v":0,"c":1},desc:"ブリティッシュブルースのイギリス的な解釈によるブルースサウンドが、ブルースロックのディストーションギターによるリフの直接的な母体となった"},
   {s:"british_blues",t:"hard_rock",w:45,desc:"ブリティッシュブルースの電化されたブルースサウンドが、ハードロックの音圧の高いギターリフの中に取り入れられている"},
   {s:"soul",t:"philly_soul",w:65,score:{"r":0,"h":1,"i":1,"v":1,"c":1},desc:"ソウルの感情豊かな歌唱表現が、フィラデルフィアソウルのストリングスを多用した洗練されたオーケストラアレンジの中に取り入れられている"},
