@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.282<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.283<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -6831,7 +6831,7 @@ const LINKS = [
   {s:"jazz",t:"swing_jazz",w:65,score:{"r":1,"h":1,"i":1,"v":0,"c":1},desc:"ジャズの即興演奏と複雑なコード進行を土台にしつつ、ビッグバンド編成でダンスしやすい一定のリズムを前面に出すことで、より広い大衆に踊られるスウィングが確立された。"},
   {s:"big_band",t:"swing_jazz",w:60,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ビッグバンドの複数のホーンセクションによる編成が、スウィングのダンス向けの一定のリズムを前面に出す演奏フォーマットとなった"},
   {s:"swing_jazz",t:"bebop",w:45,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"スウィングのダンス向けの一定のリズムへの反動として、より高速で複雑なコード進行に基づく即興演奏を追求したビバップが生まれた"},
-  {s:"swing_jazz",t:"jump_blues",w:40,desc:"スウィングのビッグバンド編成によるホーンアレンジが、ジャンプブルースの跳ねるようなリズムのホーンアンサンブルの中に取り入れられている"},
+  {s:"swing_jazz",t:"jump_blues",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"スウィングのビッグバンド編成によるホーンアレンジが、ジャンプブルースの跳ねるようなリズムのホーンアンサンブルの中に取り入れられている"},
   {s:"bebop",t:"hard_bop",w:60,score:{"r":0,"h":1,"i":0,"v":0,"c":0},desc:"ビバップの高速で複雑なコード進行に基づく即興演奏を土台にしつつ、ブルースやゴスペルのフィーリングを取り入れることでよりグルーヴ感のあるハードバップが形成された。"},
   {s:"blues",t:"hard_bop",w:35,score:{"r":0,"h":1,"i":0,"v":0,"c":0},desc:"ブルースのブルーノートと感情表現が、ハードバップのブルース由来のグルーヴ感のあるフィーリングの中に取り入れられている"},
   {s:"hard_bop",t:"post_bop",w:50,score:{"r":1,"h":1,"i":0,"v":0,"c":0},desc:"ハードバップのブルース・ゴスペル由来のグルーヴ感を踏襲しつつ、モーダルジャズやフリージャズの語法を取り入れることで、より自由度の高いポストバップが形成された。"},
@@ -6852,7 +6852,7 @@ const LINKS = [
   {s:"classical",t:"vgm",w:35,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"クラシック音楽のオーケストラによる管弦楽法が、ビデオゲーム音楽のより壮大なスコアリングの中に取り入れられている"},
   {s:"blues",t:"texas_blues",w:65,score:{"r":1,"h":1,"i":1,"v":0,"c":1},desc:"ブルースの12小節進行とブルーノートの音使いが、テキサスブルースのより自由なギターソロを重視した地域様式へと発展した"},
   {s:"jazz",t:"texas_blues",w:25,score:{"r":0,"h":1,"i":0,"v":0,"c":0},desc:"ジャズの洗練されたコード進行が、テキサスブルースのギター演奏の中に部分的に取り入れられている"},
-  {s:"texas_blues",t:"contemporary_blues",w:45,desc:"テキサスブルースの自由なギターソロを重視したスタイルが、コンテンポラリー・ブルースのロック的なギターサウンドの中に取り入れられている"},
+  {s:"texas_blues",t:"contemporary_blues",w:45,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"テキサスブルースの自由なギターソロを重視したスタイルが、コンテンポラリー・ブルースのロック的なギターサウンドの中に取り入れられている"},
   {s:"chicago_blues",t:"british_blues",w:60,score:{"r":0,"h":0,"i":1,"v":0,"c":1},desc:"シカゴブルースのエレキギターによる電化されたサウンドが、イギリスのミュージシャンたちによって熱心に受容されブリティッシュブルースが形成された"},
   {s:"delta_blues",t:"british_blues",w:40,score:{"r":0,"h":0,"i":1,"v":1,"c":1},desc:"デルタブルースのスライドギターと素朴な歌唱スタイルが、イギリスのミュージシャンたちによって再発見されブリティッシュブルースに取り入れられた"},
   {s:"british_blues",t:"blues_rock",w:65,score:{"r":0,"h":0,"i":1,"v":0,"c":1},desc:"ブリティッシュブルースのイギリス的な解釈によるブルースサウンドが、ブルースロックのディストーションギターによるリフの直接的な母体となった"},
