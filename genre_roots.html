@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.220<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.221<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -5900,7 +5900,7 @@ const LINKS = [
   {s:"alt_rock",t:"indie_pop",w:55,score:{"r":0,"h":1,"i":0,"v":0,"c":1},desc:"オルタナティヴロックのインディー精神を土台に、より軽やかでキャッチーなメロディーラインを強調することでインディーポップが形成された"},
   {s:"indie_pop",t:"dream_pop",w:60,score:{"r":0,"h":1,"i":1,"v":1,"c":0},desc:"インディーポップの軽やかなメロディーラインを土台に、リバーブを多用した幻想的なギターサウンドと浮遊感のあるボーカルを加えることでドリームポップが形成された"},
   {s:"rock",t:"j_rock",w:45,score:{"r":0,"h":0,"i":1,"v":0,"c":1},desc:"ロックのバンド編成とギターサウンドが、日本のシーンにおいて独自のメロディー感覚と歌詞世界を持つJロックとして受容された"},
-  {s:"j_rock",t:"visual_kei",w:65,desc:"Jロックのバンド編成とメロディックな楽曲構成が、ヴィジュアル系において過激なメイクアップやファッションと結びついた美学的な演出に発展した"},
+  {s:"j_rock",t:"visual_kei",w:65,score:{"r":0,"h":1,"i":1,"v":0,"c":1},desc:"Jロックのバンド編成とメロディックな楽曲構成が、ヴィジュアル系において過激なメイクアップやファッションと結びついた美学的な演出に発展した"},
   {s:"punk",t:"pop_punk",w:70,score:{"r":1,"h":1,"i":0,"v":1,"c":0},desc:"パンクの高速な3コード進行を土台に、よりキャッチーなポップスのメロディーラインとコーラスを加えることでポップパンクが形成された"},
   {s:"punk",t:"emo",w:60,score:{"r":0,"h":1,"i":1,"v":1,"c":0},desc:"パンクの衝動的な演奏スタイルを土台に、より内省的で感情を吐露する歌詞とメロディックなギターラインを加えることでエモが形成された"},
   {s:"punk",t:"psychobilly",w:50,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"パンクの高速な演奏と攻撃的な姿勢が、サイコビリーにおいてロカビリーのアップライトベースとホラー映画的なテーマに組み合わされた"},
@@ -6824,7 +6824,7 @@ const LINKS = [
   {s:"kayokyoku",t:"mood_kayo",w:50,desc:"歌謡曲のメロディーラインが、ムード歌謡の都会的なジャズ・ラテン風の和声を持つスタイルへと分化した"},
   {s:"rock_n_roll",t:"group_sounds",w:50,score:{"r":0,"h":0,"i":1,"v":0,"c":1},desc:"ロックンロールのギター中心のバンドサウンドが、グループサウンズの日本のバンドたちの演奏スタイルの中に取り入れられている"},
   {s:"kayokyoku",t:"group_sounds",w:40,desc:"歌謡曲の親しみやすいメロディーラインが、グループサウンズの日本のバンドサウンドの基盤の一部となっている"},
-  {s:"group_sounds",t:"j_rock",w:45,desc:"グループサウンズのバンド編成による演奏スタイルが、Jロックのバンドサウンドの前史となった"},
+  {s:"group_sounds",t:"j_rock",w:45,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"グループサウンズのバンド編成による演奏スタイルが、Jロックのバンドサウンドの前史となった"},
   {s:"rnb",t:"k_rnb",w:50,desc:"アメリカンR&Bのグルーヴ感、官能的なボーカルスタイル、コード進行などがK-R&Bの楽曲構造の根幹を成しており、DeanやCrushらはアメリカのR&Bアーティストから直接的な影響を受けた楽曲制作を行っている"},
 {s:"neo_soul",t:"k_rnb",w:40,desc:"ネオソウルのアナログな質感を持つ生演奏とメリスマを多用した歌唱表現が、K-R&Bのボーカル表現の中に取り入れられている"},
   {s:"kpop",t:"k_rnb",w:35,score:{"r":0,"h":0,"i":1,"v":1,"c":0},desc:"K-POPの洗練された制作技術が、K-R&Bのより歌唱表現を重視した楽曲制作と交差している"},
