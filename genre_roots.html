@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.94<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.95<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -940,7 +940,7 @@ const NODES = [
     aliases:["ヒップホップ", "Hip-Hop", "HipHop", "ラップ", "Rap"],},
 
   {id:"newage", label:"New Age", cat:"ambient", era:"1970s", suno:false,
-    desc:"聴いていると心が静まり、ふわっと浮遊感に包まれるような穏やかな音楽。シンセサイザーの柔らかいパッド音、ピアノやハープの繊細な旋律、水の流れや鳥のさえずりといった自然音が組み合わさる。リズムは控えめか存在せず、メロディはゆったりと反復する。瞑想やヨガ、マッサージのBGMとしてよく使われるが、単なる背景音楽ではなく、聴く人を日常から切り離して穏やかな内面世界へ誘う力がある。明るく透明感のある響きが特徴で、暗さや攻撃性とは無縁の癒やしの音楽。",
+    desc:"聴いていると心が静まり、ふわっと浮遊感に包まれるような穏やかな音楽。シンセサイザーの柔らかいパッド音（音の輪郭を丸くぼかした、持続的な和音の音色）、ピアノやハープの繊細な旋律、水の流れや鳥のさえずりといった自然音が組み合わさる。リズムは控えめか存在せず、メロディはゆったりと反復する。瞑想やヨガ、マッサージのBGMとしてよく使われるが、単なる背景音楽ではなく、聴く人を日常から切り離して穏やかな内面世界へ誘う力がある。明るく透明感のある響きが特徴で、暗さや攻撃性とは無縁の癒やしの音楽。",
     roots_story:"1970年代、Brian Enoのアンビエント実験とは別の流れとして、スピリチュアリズムやニューエイジ思想と結びついた音楽が形成された。ドイツのKlaus Schulze、Tangerine Dreamの電子音楽、日本の喜多郎のシンセサイザー作品が初期の代表格。Windham Hillレコード（1976年設立）がアコースティックなニューエイジを確立し、George Winston、Will Ackermannらがピアノ・ギター主体の作品で人気を得た。Enya「Orinoco Flow」(1988)が世界的ヒットとなりジャンルを大衆化。1987年にはグラミー賞にニューエイジ部門が新設された。スパやヨガスタジオのBGMとしても広く浸透し、後のチルアウト・アンビエント文化の下地を作った。",
     rep_tracks:["Orinoco Flow (Enya)", "Spiegel im Spiegel (Arvo Pärt)", "Song for the Ocean (Paul Winter)", "Autumn (George Winston)", "Silk Road (喜多郎)"],
     yt_mix:["TjNSmEvqWxU", "iXAbte4QXKs"],
@@ -5482,7 +5482,7 @@ const LINKS = [
   {s:"miami_bass",t:"baile_funk",w:60,desc:"マイアミベースの808による重低音と高速なビート感覚が、ブラジルに伝わりバイレファンキのパーカッシブなリズムトラックの土台となった"},
   {s:"hiphop",t:"trap",w:70,score:{"r":1,"h":0,"i":1,"v":0,"c":1},desc:"アトランタなど南部ヒップホップのハイハットの細かい連打とスネアのシンコペーションが、トラップのビートパターンの基本形として発展した"},
   {s:"trap",t:"edm_trap",w:60,desc:"トラップのハイハットロールと808ベースのビートパターンを土台に、EDM的な派手なシンセドロップとビルドアップの構成を加えることでEDMトラップが形成された"},
-  {s:"newage",t:"ambient",w:50,desc:"ニューエイジの瞑想・ヒーリングを目的としたゆったりとしたシンセサウンドが、アンビエントの環境音楽的な持続音の美学に取り入れられた"},
+  {s:"newage",t:"ambient",w:50,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"ニューエイジの瞑想・ヒーリングを目的としたゆったりとしたシンセサウンドが、アンビエントの環境音楽的な持続音の美学に取り入れられた"},
   {s:"classical",t:"neoclassical_dw",w:55,desc:"クラシックのオーケストラ編成、特にストリングスのレガートな旋律線とティンパニによる荘厳な低音強調が、ネオクラシカル・ダークウェイヴの楽曲構成にそのまま取り入れられた。"},
 
   // 初期電子音楽
@@ -6075,7 +6075,7 @@ const LINKS = [
   {s:"krautrock",t:"ambient",w:40,score:{"r":0,"h":1,"i":1,"v":0,"c":1},desc:"タンジェリン・ドリームやクラスターによるシンセサイザーの持続音・電子音響実験が、アンビエントの空間的な表現の直接的な先駆けとなった。ブライアン・イーノ自身が彼らからの影響を公言している。"},
   {s:"krautrock",t:"prog_rock",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":1},desc:"クラウトロックの反復するミニマルなビートが、プログレッシブロックの長尺で複雑な楽曲構成と互いに影響し合っている"},
   {s:"prog_rock",t:"krautrock",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":1},desc:"プログレッシブロックの長尺な楽曲構成が、クラウトロックの反復するモータリック・ビートの中に取り入れられている"},
-  {s:"ambient",t:"newage",w:40,desc:"アンビエントの環境音楽的な持続音の美学が、ニューエイジの瞑想・ヒーリングを目的としたシンセサウンドと互いに影響し合っている"},
+  {s:"ambient",t:"newage",w:40,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"アンビエントの環境音楽的な持続音の美学が、ニューエイジの瞑想・ヒーリングを目的としたシンセサウンドと互いに影響し合っている"},
   {s:"drone_music",t:"ambient",w:40,desc:"ドローンの単一の音の持続に集中する美学が、アンビエントの空間的な音響処理の中に取り入れられている"},
   {s:"drone_music",t:"minimalism_classical",w:40,desc:"ドローンの持続音への集中が、ミニマル・ミュージックの短いフレーズを反復させる作曲手法と互いに影響し合っている"},
   {s:"minimalism_classical",t:"drone_music",w:40,desc:"ミニマル・ミュージックの反復する構造が、ドローンの持続音への音響的な集中の中に取り入れられている"},
@@ -6760,7 +6760,7 @@ const LINKS = [
   {s:"electro",t:"electroclash",w:40,desc:"エレクトロのTR-808によるロボット的な音色が、エレクトロクラッシュの電子的なサウンドの中に取り入れられている"},
   {s:"electroclash",t:"electro_house",w:40,desc:"エレクトロクラッシュのパンク的エネルギーとエレクトロサウンドが、エレクトロハウスの歪んだシンセサウンドの中に取り入れられている"},
   {s:"disco",t:"balearic_beat",w:35,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"ディスコの四つ打ちビートによるダンサブルな要素が、バレアリックビートの折衷的なダンスサウンドの中に取り入れられている"},
-  {s:"newage",t:"balearic_beat",w:25,desc:"ニューエイジの瞑想的で癒やしのあるシンセサウンドが、バレアリックビートのリラックスした雰囲気の中に取り入れられている"},
+  {s:"newage",t:"balearic_beat",w:25,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"ニューエイジの瞑想的で癒やしのあるシンセサウンドが、バレアリックビートのリラックスした雰囲気の中に取り入れられている"},
   {s:"balearic_beat",t:"acid_house",w:40,desc:"バレアリックビートの折衷的なイビサ島のクラブ文化が、アシッドハウスのダンスミュージック文化の形成に影響を与えた"},
   {s:"balearic_beat",t:"downtempo",w:35,desc:"バレアリックビートのリラックスした折衷的なサウンドが、ダウンテンポのチルアウト文化の源流となった"},
   {s:"ebm",t:"new_beat",w:50,desc:"EBMの硬質なシーケンサーベースによる機械的なサウンドが、ニュービートのベルギー発のスローなテンポのダンスサウンドの中に取り入れられている"},
