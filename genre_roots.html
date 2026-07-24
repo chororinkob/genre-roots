@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.123<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.124<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -6085,8 +6085,8 @@ const LINKS = [
   {s:"industrial",t:"techno",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"インダストリアルの工業的な硬い音質が、テクノの反復する四つ打ちビートの中に取り入れられている"},
   {s:"techno",t:"industrial",w:40,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"テクノの反復する四つ打ちビートが、インダストリアルの機械的なノイズサウンドと互いに影響し合っている"},
   {s:"synth_pop",t:"ebm",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"シンセポップのメロディックなシンセサイザーの音作りが、EBMの硬質なシーケンサーベースのサウンドに取り入れられた"},
-  {s:"industrial_techno",t:"hard_techno",w:40,desc:"インダストリアルテクノの金属的で工業的なノイズが、ハードテクノの強調されたキックドラムのサウンドと互いに影響し合っている"},
-  {s:"hard_techno",t:"industrial_techno",w:40,desc:"ハードテクノの音圧の強いキックドラムが、インダストリアルテクノの金属的なノイズサウンドの中に取り入れられている"},
+  {s:"industrial_techno",t:"hard_techno",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"インダストリアルテクノの金属的で工業的なノイズが、ハードテクノの強調されたキックドラムのサウンドと互いに影響し合っている"},
+  {s:"hard_techno",t:"industrial_techno",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ハードテクノの音圧の強いキックドラムが、インダストリアルテクノの金属的なノイズサウンドの中に取り入れられている"},
   {s:"industrial_techno",t:"ebm",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"インダストリアルテクノの機械的なベースサウンドが、EBMの硬質な四つ打ちビートと互いに影響し合っている"},
   {s:"ebm",t:"industrial_techno",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"EBMの硬質なシーケンサーベースが、インダストリアルテクノの機械的な四つ打ちビートの中に取り入れられている"},
   {s:"chicago_house",t:"detroit_techno",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"シカゴハウスのソウルフルな四つ打ちビートが、デトロイトテクノの機械的で未来的なシンセサウンドに取り入れられた"},
@@ -6104,8 +6104,8 @@ const LINKS = [
   {s:"techno",t:"dub_techno",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"テクノの反復するビート構造が、ダブテクノのディレイとリバーブによる深い残響を持つ空間処理と互いに影響し合っている"},
   {s:"dub_techno",t:"techno",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"ダブテクノの深い残響を持つ空間的な音響処理が、テクノの反復するビート構造の中に取り入れられている"},
   {s:"hard_techno",t:"techno",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ハードテクノの音圧の強いキックドラムが、テクノの反復する四つ打ちビート構造の中に取り入れられている"},
-  {s:"hard_techno",t:"schranz",w:40,desc:"ハードテクノの音圧の強いキックドラムが、シュランツの極限まで歪ませたテンポと音圧に取り入れられた"},
-  {s:"schranz",t:"hard_techno",w:40,desc:"シュランツの極端に歪んだキックドラムが、ハードテクノの音圧を強調したサウンドの中に取り入れられている"},
+  {s:"hard_techno",t:"schranz",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ハードテクノの音圧の強いキックドラムが、シュランツの極限まで歪ませたテンポと音圧に取り入れられた"},
+  {s:"schranz",t:"hard_techno",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"シュランツの極端に歪んだキックドラムが、ハードテクノの音圧を強調したサウンドの中に取り入れられている"},
   {s:"minimal_techno",t:"ambient",w:40,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"ミニマルテクノの引き算の美学による反復するビートが、アンビエントの空間的な持続音の表現と互いに影響し合っている"},
   {s:"ambient",t:"minimal_techno",w:40,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"アンビエントの持続音による空間表現が、ミニマルテクノの反復する引き算の美学の中に取り入れられている"},
   {s:"progressive_house",t:"progressive_trance",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"プログレッシブハウスのじわじわとレイヤーを積み重ねる長い展開が、プログレッシブトランスの上昇感のあるビルドアップと互いに影響し合っている"},
@@ -6466,7 +6466,7 @@ const LINKS = [
   {s:"gabber",t:"uptempo_hardcore",w:65,desc:"ガバの歪んだキックドラムのサウンドが、アップテンポにおいてさらにテンポを上げた極端な高速ビートに発展した"},
   {s:"gabber",t:"terrorcore",w:60,desc:"ガバの歪んだキックドラムのサウンドが、テラーコアにおいて最も過激で攻撃的な音圧へと先鋭化した"},
   {s:"hardstyle",t:"jumpstyle",w:55,desc:"ハードスタイルの跳ねるようなキックドラムが、ジャンプスタイルの特徴的なダンスステップに合わせたビートパターンに発展した"},
-  {s:"hard_techno",t:"hard_dance",w:50,desc:"ハードテクノの音圧の強いキックドラムが、ハードダンスという複数のハード系ジャンルを包括するカテゴリの基準となった"},
+  {s:"hard_techno",t:"hard_dance",w:50,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ハードテクノの音圧の強いキックドラムが、ハードダンスという複数のハード系ジャンルを包括するカテゴリの基準となった"},
   {s:"dnb",t:"crossbreed",w:50,desc:"ドラムンベースの高速なブレイクビートが、クロスブリードにおいてガバの歪んだキックドラムと融合した"},
   {s:"gabber",t:"crossbreed",w:50,desc:"ガバの歪んだキックドラムのサウンドが、クロスブリードにおいてドラムンベースの高速なブレイクビートと融合した"},
   {s:"hardcore_rave",t:"darkcore_genre",w:60,desc:"ハードコアレイヴの過激なビートを土台に、より不協和音を多用した暗いシンセサウンドを加えることでダークコアが形成された"},
