@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.140<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.141<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -5580,7 +5580,7 @@ const LINKS = [
   {s:"gabber",t:"speedcore",w:75,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ガバの歪んだキックドラムのサウンドを土台に、テンポをさらに極端に上げることでスピードコアが形成された"},
   {s:"gabber",t:"hardstyle",w:60,score:{"r":1,"h":1,"i":1,"v":0,"c":0},desc:"ガバの歪んだキックドラムのサウンドを土台に、より跳ねるようなリズムパターンとメロディックなシンセラインを加えることでハードスタイルが形成された"},
   {s:"trance",t:"nitzhonot",w:50,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"トランスの反復する高揚感のあるビート構造が、イスラエルのシーンでより硬質で高速なベースラインを強調する形へと変容しニッツォノットが形成された"},
-  {s:"eurodance",t:"hands_up",w:55,desc:"ユーロダンスの歌ものとしての楽曲構成を土台に、テンポを上げてよりダンスフロア向けの高揚感を強調することでハンズアップが形成された"},
+  {s:"eurodance",t:"hands_up",w:55,score:{"r":1,"h":0,"i":0,"v":1,"c":0},desc:"ユーロダンスの歌ものとしての楽曲構成を土台に、テンポを上げてよりダンスフロア向けの高揚感を強調することでハンズアップが形成された"},
   {s:"synthwave",t:"hardwave",w:50,desc:"シンセウェイヴの80年代的なシンセサウンドを土台に、より歪んだ音色と攻撃的なビートを加えることでハードウェイヴが形成された"},
   {s:"hardcore_rave",t:"mainstream_hardcore",w:50,score:{"r":1,"h":1,"i":1,"v":1,"c":0},desc:"ハードコアレイヴの高速キックとディストーションのかかったベースサウンドを踏襲しつつ、よりキャッチーなメロディーラインとシンガロング可能なフックを加えることで、より広い層に向けたメインストリーム・ハードコアが確立された。"},
 
@@ -6171,7 +6171,7 @@ const LINKS = [
   {s:"euro_trance",t:"trance",w:40,score:{"r":0,"h":1,"i":0,"v":0,"c":0},desc:"ユーロトランスのキャッチーでポップなメロディーラインが、トランスの長尺で高揚感のあるビート構造の中に取り入れられている"},
   {s:"euro_trance",t:"hands_up",w:40,score:{"r":0,"h":1,"i":0,"v":0,"c":0},desc:"ユーロトランスの明るいメロディーラインが、ハンズアップの高速でポップなダンスフロア向けのアレンジと互いに影響し合っている"},
   {s:"hands_up",t:"euro_trance",w:40,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"ハンズアップの高速なテンポが、ユーロトランスの明るいメロディーラインの中に取り入れられている"},
-  {s:"hands_up",t:"eurodance",w:40,desc:"ハンズアップの高速なダンスフロア向けの高揚感が、ユーロダンスの歌ものとしての楽曲構成の中に取り入れられている"},
+  {s:"hands_up",t:"eurodance",w:40,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"ハンズアップの高速なダンスフロア向けの高揚感が、ユーロダンスの歌ものとしての楽曲構成の中に取り入れられている"},
   {s:"eurobeat",t:"eurodance",w:40,desc:"ユーロビートの高速で規則的なシンセビートと、ユーロダンスの歌ものとしてのポップな構成が、互いに参照し合いながら並行して発展した"},
   {s:"hi_nrg",t:"eurobeat",w:40,desc:"Hi-NRGの高速な四つ打ちビートが、ユーロビートの派手でキャッチーなメロディーラインと互いに影響し合っている"},
   {s:"eurobeat",t:"hi_nrg",w:40,desc:"ユーロビートの派手なメロディーラインが、Hi-NRGの高速な四つ打ちビートの中に取り入れられている"},
