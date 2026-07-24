@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.137<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.138<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -6199,8 +6199,8 @@ const LINKS = [
   {s:"hardcore_rave",t:"jungle",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ハードコアレイヴの過激で高速なビート感覚が、ジャングルの高速なブレイクビートと重いベースラインと互いに影響し合っている"},
   {s:"jungle",t:"hardcore_rave",w:40,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"ジャングルの高速なブレイクビートが、ハードコアレイヴの過激なビート感覚の中に取り入れられている"},
   {s:"gabber",t:"mainstream_hardcore",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"ガバの歪んだキックドラムのサウンドが、メインストリーム・ハードコアのより整理されたキャッチーな楽曲構成に取り入れられた"},
-  {s:"hardstyle",t:"mainstream_hardcore",w:40,desc:"ハードスタイルのメロディックなシンセラインが、メインストリーム・ハードコアの攻撃的なキックドラムと互いに影響し合っている"},
-  {s:"mainstream_hardcore",t:"hardstyle",w:40,desc:"メインストリーム・ハードコアの攻撃的なキックドラムが、ハードスタイルのメロディックなシンセラインの中に取り入れられている"},
+  {s:"hardstyle",t:"mainstream_hardcore",w:40,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"ハードスタイルのメロディックなシンセラインが、メインストリーム・ハードコアの攻撃的なキックドラムと互いに影響し合っている"},
+  {s:"mainstream_hardcore",t:"hardstyle",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"メインストリーム・ハードコアの攻撃的なキックドラムが、ハードスタイルのメロディックなシンセラインの中に取り入れられている"},
   {s:"hardstyle",t:"hardcore_edm",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"ハードスタイルの跳ねるようなキックの音響設計が、ハードコアEDMのビルドアップとドロップの構成と互いに影響し合っている"},
   {s:"hardcore_edm",t:"hardstyle",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"ハードコアEDMのビルドアップとドロップの構成が、ハードスタイルのキックの音響設計の中に取り入れられている"},
   {s:"hardcore_edm",t:"mainstream_hardcore",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ハードコアEDMの現代的なEDMプロダクション技術が、メインストリーム・ハードコアの高速なキックとレイヴ感のあるビートと互いに影響し合っている"},
