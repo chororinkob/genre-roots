@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.139<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.140<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -6215,10 +6215,10 @@ const LINKS = [
   {s:"gabber",t:"breakcore",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"ガバの歪んだキックドラムのサウンドが、ブレイクコアの切り刻まれたドラム編集の中に取り入れられている"},
   {s:"j_core",t:"hardcore_edm",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"Jコアの高速なキックドラムが、ハードコアEDMのポップでアニメ的なメロディーフックと互いに影響し合っている"},
   {s:"hardcore_edm",t:"j_core",w:40,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"ハードコアEDMのビルドアップとドロップの構成が、Jコアのアニメ的なメロディーフックの中に取り入れられている"},
-  {s:"j_core",t:"anime_music",w:40,desc:"Jコアの高速な電子ビートが、アニメソングのキャッチーな旋律と声ネタのサンプリングと互いに影響し合っている"},
-  {s:"anime_music",t:"j_core",w:40,desc:"アニメソングのキャッチーな旋律が、Jコアの高速な電子ビートの中に取り入れられている"},
-  {s:"j_core",t:"vocaloid_music",w:40,desc:"Jコアの高速なビートとめまぐるしい展開が、ボーカロイド楽曲の合成音声のボーカルと互いに影響し合っている"},
-  {s:"vocaloid_music",t:"j_core",w:40,desc:"ボーカロイド楽曲の合成音声によるボーカルが、Jコアの高速なビートの中に取り入れられている"},
+  {s:"j_core",t:"anime_music",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":1},desc:"Jコアの高速な電子ビートが、アニメソングのキャッチーな旋律と声ネタのサンプリングと互いに影響し合っている"},
+  {s:"anime_music",t:"j_core",w:40,score:{"r":0,"h":1,"i":0,"v":0,"c":0},desc:"アニメソングのキャッチーな旋律が、Jコアの高速な電子ビートの中に取り入れられている"},
+  {s:"j_core",t:"vocaloid_music",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"Jコアの高速なビートとめまぐるしい展開が、ボーカロイド楽曲の合成音声のボーカルと互いに影響し合っている"},
+  {s:"vocaloid_music",t:"j_core",w:40,score:{"r":0,"h":0,"i":0,"v":1,"c":0},desc:"ボーカロイド楽曲の合成音声によるボーカルが、Jコアの高速なビートの中に取り入れられている"},
   {s:"dnb",t:"jungle",w:40,desc:"ドラムンベースの洗練されたプロダクションが、ジャングルの高速なブレイクビートと重いベースラインの中に取り入れられている"},
   {s:"liquid_dnb",t:"dnb",w:40,desc:"リキッドDnBのソウルやジャズ由来の柔らかいコード進行が、ドラムンベースの高速なブレイクビート構造の中に取り入れられている"},
   {s:"neurofunk",t:"dnb",w:40,desc:"ニューロファンクの硬質で複雑なベースサウンドの設計が、ドラムンベースの高速なブレイクビートの中に取り入れられている"},
@@ -6401,7 +6401,7 @@ const LINKS = [
   {s:"psytrance",t:"hard_psy",w:50,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"サイケデリックトランスのサイケデリックなアルペジオを土台に、よりキックドラムの音圧を強化することでハードサイが形成された"},
   {s:"uptempo_hardcore",t:"piep_kicks",w:50,desc:"アップテンポの極端に速いテンポのキックドラムが、ピープキックスにおいて甲高い実験的なキックの音色処理に発展した"},
   {s:"speedcore",t:"melodic_speedcore",w:65,score:{"r":1,"h":1,"i":1,"v":0,"c":0},desc:"スピードコアの極端に速いテンポのビートを土台に、よりメロディックなシンセラインを加えることでメロディックスピードコアが形成された"},
-  {s:"j_core",t:"melodic_speedcore",w:40,desc:"Jコアのアニメ的なキャッチーなメロディー感覚が、メロディックスピードコアの高速なビートに乗せたメロディーラインに取り入れられた"},
+  {s:"j_core",t:"melodic_speedcore",w:40,score:{"r":0,"h":1,"i":0,"v":0,"c":0},desc:"Jコアのアニメ的なキャッチーなメロディー感覚が、メロディックスピードコアの高速なビートに乗せたメロディーラインに取り入れられた"},
   {s:"speedcore",t:"atmospheric_speedcore",w:60,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"スピードコアの極端に速いテンポのビートを土台に、アンビエント由来の持続音による空間的な音響処理を加えることでアトモスフェリック・スピードコアが形成された"},
   {s:"speedcore",t:"speednoise",w:60,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"スピードコアの極端に速いテンポのビートが、ハーシュノイズの過激に歪ませたノイズサウンドと融合しスピードノイズが形成された"},
   {s:"harsh_noise",t:"speednoise",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ハーシュノイズの過激に歪ませたノイズサウンドが、スピードノイズにおいて極端に速いテンポのビートと組み合わされた"},
@@ -6426,7 +6426,7 @@ const LINKS = [
   {s:"grindcore",t:"cybergrind",w:60,desc:"グラインドコアのブラストビートを多用した過激な演奏が、サイバーグラインドにおいてよりデジタルで電子的な音響処理に発展した"},
   {s:"speedcore",t:"splittercore",w:70,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"スピードコアの極端に速いテンポが、スプリッターコアにおいてさらに極限まで加速された"},
   {s:"breakcore",t:"mashcore",w:60,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"ブレイクコアのドラムパターンを細かく切り刻む編集手法が、マッシュコアにおいてポップスの素材をマッシュアップする形に発展した"},
-  {s:"j_core",t:"mashcore",w:50,desc:"Jコアのアニメ的な声ネタのサンプリングが、マッシュコアのポップ素材を組み合わせる制作手法と共有されている"},
+  {s:"j_core",t:"mashcore",w:50,score:{"r":0,"h":0,"i":1,"v":0,"c":1},desc:"Jコアのアニメ的な声ネタのサンプリングが、マッシュコアのポップ素材を組み合わせる制作手法と共有されている"},
   {s:"acid_house",t:"breakbeat_hardcore",w:55,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"アシッドハウスのTB-303による酸っぱいベースサウンドが、ブレイクビートハードコアの高速なドラムブレイクと組み合わされた"},
   {s:"rave",t:"breakbeat_hardcore",w:60,score:{"r":1,"h":0,"i":0,"v":0,"c":1},desc:"レイヴの大規模なダンスイベントの高揚感が、ブレイクビートハードコアの高速なドラムパターンに発展した"},
   {s:"crossbreed",t:"skullstep",w:55,desc:"クロスブリードのドラムンベースとガバを融合したサウンドを土台に、より暗く攻撃的なテーマを加えることでスカルステップが形成された"},
