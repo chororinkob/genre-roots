@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.163<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.164<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -6153,8 +6153,8 @@ const LINKS = [
   {s:"future_bass",t:"hardwave",w:40,score:{"r":1,"h":1,"i":1,"v":0,"c":0},desc:"フューチャーベースの明るいコード感のあるシンセサウンドが、ハードウェイヴの暗い低音とトラップ的なビートの中に取り入れられている"},
   {s:"lofi_hiphop",t:"jazz",w:40,score:{"r":0,"h":1,"i":0,"v":0,"c":1},desc:"Lo-fi Hip Hopのジャジーなコードとサンプリング素材が、ジャズのビート的な質感を持つ再解釈の中に互いに影響し合っている"},
   {s:"jazz",t:"lofi_hiphop",w:40,score:{"r":0,"h":1,"i":0,"v":0,"c":1},desc:"ジャズのセブンスコードによる浮遊感のあるヴォイシングが、Lo-fi Hip Hopのサンプリング素材として使われている"},
-  {s:"lofi_hiphop",t:"boom_bap",w:40,desc:"Lo-fi Hip Hopのローファイなドラムの質感が、ブンバップのパンチの効いたドラムパターンをより柔らかく再解釈する形で取り入れられている"},
-  {s:"boom_bap",t:"lofi_hiphop",w:40,desc:"ブンバップのパンチの効いたキックとスネアのドラムパターンが、Lo-fi Hip Hopのよりローファイで柔らかい質感の中に取り入れられている"},
+  {s:"lofi_hiphop",t:"boom_bap",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"Lo-fi Hip Hopのローファイなドラムの質感が、ブンバップのパンチの効いたドラムパターンをより柔らかく再解釈する形で取り入れられている"},
+  {s:"boom_bap",t:"lofi_hiphop",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ブンバップのパンチの効いたキックとスネアのドラムパターンが、Lo-fi Hip Hopのよりローファイで柔らかい質感の中に取り入れられている"},
   {s:"trip_hop",t:"hiphop",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"トリップホップの映画的で暗い質感のビートメイキングが、ヒップホップのブレイクビートサンプリングの手法と互いに影響し合っている"},
   {s:"trip_hop",t:"jazz",w:40,score:{"r":0,"h":0,"i":0,"v":0,"c":1},desc:"トリップホップのスローなテンポの暗いビート感が、ジャズの和声とサンプリング素材の中に取り入れられている"},
   {s:"jazz",t:"trip_hop",w:40,score:{"r":0,"h":1,"i":0,"v":0,"c":1},desc:"ジャズの複雑な和声進行が、トリップホップのサンプリング素材として使われスローなビート感と組み合わされている"},
@@ -6575,7 +6575,7 @@ const LINKS = [
   {s:"boom_bap",t:"conscious_rap",w:50,desc:"ブンバップのパンチの効いたドラムパターンが、コンシャスラップの言葉選びを重視したリリシズムの中に取り入れられている"},
   {s:"hiphop",t:"jazz_rap",w:55,score:{"r":0,"h":1,"i":1,"v":0,"c":1},desc:"ヒップホップのサンプリングによるビート制作手法が、ジャズラップのジャズ的なコード進行のサンプリングの基盤となっている"},
   {s:"jazz",t:"jazz_rap",w:50,score:{"r":0,"h":1,"i":1,"v":0,"c":1},desc:"ジャズのセブンスコードによるヴォイシングとホーンのフレーズが、ジャズラップのサンプリング素材として使われている"},
-  {s:"jazz_rap",t:"lofi_hiphop",w:45,desc:"ジャズラップのジャズ的なサンプリングの手法が、Lo-fi Hip Hopのジャジーなコードのサンプリングの中に取り入れられている"},
+  {s:"jazz_rap",t:"lofi_hiphop",w:45,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"ジャズラップのジャズ的なサンプリングの手法が、Lo-fi Hip Hopのジャジーなコードのサンプリングの中に取り入れられている"},
   {s:"hiphop",t:"abstract_hip_hop",w:55,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"ヒップホップのビートメイキングの手法が、アブストラクト・ヒップホップの実験的で非線形なトラック構成の中に取り入れられている"},
   {s:"boom_bap",t:"abstract_hip_hop",w:40,desc:"ブンバップのパンチの効いたドラムパターンが、アブストラクト・ヒップホップのより実験的なビート変奏の中に取り入れられている"},
   {s:"hiphop",t:"horrorcore",w:55,score:{"r":0,"h":0,"i":0,"v":1,"c":1},desc:"ヒップホップのラップの手法が、ホラーコアのホラー映画的な不穏な歌詞世界の中に取り入れられている"},
