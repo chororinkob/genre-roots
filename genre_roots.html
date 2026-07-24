@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.161<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.162<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -6385,10 +6385,10 @@ const LINKS = [
   {s:"mandopop",t:"jpop",w:40,desc:"マンドポップのメロディーと編曲手法が、J-POPの歌唱の表現方法と互いに影響し合っている"},
   {s:"mandopop",t:"kpop",w:40,desc:"マンドポップの歌ものとしての旋律が、K-POPの洗練された制作技術とダンスパフォーマンスの中に取り入れられている"},
   {s:"kpop",t:"mandopop",w:40,desc:"K-POPの洗練された制作技術とダンスパフォーマンスが、マンドポップの歌ものとしての楽曲制作の中に取り入れられている"},
-  {s:"city_pop",t:"vaporwave",w:40,desc:"シティポップのAOR的な洗練されたサウンドが、ヴェイパーウェイヴによってサンプリングされ再文脈化されたことで再評価・復興した"},
+  {s:"city_pop",t:"vaporwave",w:40,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"シティポップのAOR的な洗練されたサウンドが、ヴェイパーウェイヴによってサンプリングされ再文脈化されたことで再評価・復興した"},
   {s:"city_pop_modern",t:"city_pop",w:40,desc:"シティポップモダンのモダンなミックス技術が、シティポップのAOR的な洗練されたコード進行を現代的に更新する形で取り入れている"},
-  {s:"city_pop_modern",t:"vaporwave",w:40,desc:"シティポップモダンの洗練された現代的な再現が、ヴェイパーウェイヴの懐古的な音像処理と互いに影響し合っている"},
-  {s:"vaporwave",t:"city_pop_modern",w:40,desc:"ヴェイパーウェイヴの懐古的なサンプリング美学が、シティポップモダンの洗練された現代的な再現の中に取り入れられている"},
+  {s:"city_pop_modern",t:"vaporwave",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"シティポップモダンの洗練された現代的な再現が、ヴェイパーウェイヴの懐古的な音像処理と互いに影響し合っている"},
+  {s:"vaporwave",t:"city_pop_modern",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":1},desc:"ヴェイパーウェイヴの懐古的なサンプリング美学が、シティポップモダンの洗練された現代的な再現の中に取り入れられている"},
   {s:"funk",t:"city_pop",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":1},desc:"ファンクのスラップベースによるグルーヴが、シティポップのより洗練されたアレンジの中に取り入れられた"},
   {s:"city_pop",t:"fusion",w:40,desc:"シティポップの都会的な歌ものとしての楽曲構成が、ジャズフュージョンの複雑な和声進行と高い演奏技術と互いに影響し合っている"},
   {s:"disco",t:"city_pop",w:40,score:{"r":1,"h":1,"i":1,"v":0,"c":1},desc:"ディスコの四つ打ちビートとストリングスアレンジが、シティポップの都会的なコード進行の中に取り入れられた"},
@@ -6411,7 +6411,7 @@ const LINKS = [
   {s:"jungle",t:"darkcore_dnb",w:50,score:{"r":1,"h":1,"i":1,"v":0,"c":0},desc:"ジャングルの高速なブレイクビートを土台に、より不協和音を多用した暗いシンセサウンドを加えることでダークコアが形成された"},
 
   // ハードコア系追加3リンク
-  {s:"vaporwave",t:"hardvapour",w:55,desc:"ヴェイパーウェイヴの懐古的なサンプリング美学を土台に、より歪んだ攻撃的なビートを加えることでハードヴェイパーが形成された"},
+  {s:"vaporwave",t:"hardvapour",w:55,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ヴェイパーウェイヴの懐古的なサンプリング美学を土台に、より歪んだ攻撃的なビートを加えることでハードヴェイパーが形成された"},
   {s:"gabber",t:"hardvapour",w:35,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"ガバの歪んだキックドラムのサウンドが、ハードヴェイパーの暗く過激なサウンドの中に取り入れられた"},
   {s:"happy_hardcore",t:"bouncy_techno",w:55,score:{"r":0,"h":1,"i":0,"v":0,"c":0},desc:"ハッピーハードコアの明るいメロディーラインを土台に、よりレイヴ向けの跳ねるようなキックを強調することでバウンシーテクノが形成された"},
   {s:"electro_house",t:"melbourne_bounce",w:50,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"エレクトロハウスの歪んだシンセサウンドが、オーストラリアのシーンでより跳ねるようなベースラインを加えられメルボルンバウンスへと発展した"},
@@ -6607,7 +6607,7 @@ const LINKS = [
   {s:"trip_hop",t:"downtempo",w:50,desc:"トリップホップの映画的で暗いビート感が、ダウンテンポのゆったりとしたリラックスしたビートの中に取り入れられている"},
   {s:"synth_pop",t:"chillwave",w:40,score:{"r":0,"h":1,"i":1,"v":0,"c":1},desc:"シンセポップの80年代的なノスタルジックなシンセサウンドが、チルウェイヴのぼんやりとした夏の記憶のような音響処理に取り入れられている"},
   {s:"indie_rock",t:"chillwave",w:40,desc:"インディーロックのDIY精神とローファイな録音手法が、チルウェイヴの宅録的な音響処理の中に取り入れられている"},
-  {s:"chillwave",t:"vaporwave",w:45,desc:"チルウェイヴのノスタルジックでぼんやりとした音響処理の美学が、ヴェイパーウェイヴの懐古的なサンプリング作品に取り入れられている"},
+  {s:"chillwave",t:"vaporwave",w:45,score:{"r":0,"h":0,"i":1,"v":0,"c":1},desc:"チルウェイヴのノスタルジックでぼんやりとした音響処理の美学が、ヴェイパーウェイヴの懐古的なサンプリング作品に取り入れられている"},
   {s:"uk_garage",t:"future_garage",w:50,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"UKガラージのシャッフルするビート感覚が、フューチャーガラージのより間を活かした実験的なビート構成の中に取り入れられている"},
   {s:"dubstep",t:"future_garage",w:45,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ダブステップの重低音とスペースの効いたビート構成が、フューチャーガラージの空間的な音響処理の中に取り入れられている"},
   {s:"future_garage",t:"uk_bass",w:40,desc:"フューチャーガラージの実験的な間を活かしたビート構成が、UKベースの多ジャンル性を持つビートメイキングと合流した"},
