@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.201<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.202<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -6070,8 +6070,8 @@ const LINKS = [
   {s:"nu_metal",t:"hiphop",w:40,score:{"r":0,"h":0,"i":1,"v":1,"c":1},desc:"ニューメタルのラップパートとDJによるスクラッチが、ヒップホップの攻撃的なフロウとビートメイキングの中に取り入れられている"},
   {s:"funk_metal",t:"nu_metal",w:40,desc:"ファンクメタルのスラップベースによるグルーヴが、ニューメタルの低音を強調したラップパートに取り入れられた"},
   {s:"gothic_rock",t:"visual_kei",w:40,score:{"r":0,"h":0,"i":0,"v":0,"c":1},desc:"ゴシックロックの暗く荘厳な美学が、ヴィジュアル系の過激なメイクアップとファッションによる派手な視覚表現に取り入れられた"},
-  {s:"j_rock",t:"anime_music",w:40,desc:"Jロックのバンド編成によるドラマチックな展開が、アニメソングの主題歌としての楽曲構成と互いに影響し合っている"},
-  {s:"anime_music",t:"j_rock",w:40,desc:"アニメソングのキャッチーなメロディーラインが、Jロックのバンドサウンドによる主題歌制作の中に取り入れられている"},
+  {s:"j_rock",t:"anime_music",w:40,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"Jロックのバンド編成によるドラマチックな展開が、アニメソングの主題歌としての楽曲構成と互いに影響し合っている"},
+  {s:"anime_music",t:"j_rock",w:40,score:{"r":0,"h":1,"i":0,"v":0,"c":0},desc:"アニメソングのキャッチーなメロディーラインが、Jロックのバンドサウンドによる主題歌制作の中に取り入れられている"},
   {s:"krautrock",t:"ambient",w:40,score:{"r":0,"h":1,"i":1,"v":0,"c":1},desc:"タンジェリン・ドリームやクラスターによるシンセサイザーの持続音・電子音響実験が、アンビエントの空間的な表現の直接的な先駆けとなった。ブライアン・イーノ自身が彼らからの影響を公言している。"},
   {s:"krautrock",t:"prog_rock",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":1},desc:"クラウトロックの反復するミニマルなビートが、プログレッシブロックの長尺で複雑な楽曲構成と互いに影響し合っている"},
   {s:"prog_rock",t:"krautrock",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":1},desc:"プログレッシブロックの長尺な楽曲構成が、クラウトロックの反復するモータリック・ビートの中に取り入れられている"},
@@ -6372,8 +6372,8 @@ const LINKS = [
   {s:"dance_pop",t:"jpop",w:40,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"ダンスポップの強調された四つ打ちビートが、J-POPのアイドル文化的な楽曲構成の中に取り入れられている"},
   {s:"anime_music",t:"jpop",w:40,score:{"r":0,"h":1,"i":0,"v":0,"c":0},desc:"アニメソングの主題歌としてのドラマチックな展開が、J-POPのキャッチーなサビの作り方と互いに影響し合っている"},
   {s:"vocaloid_music",t:"jpop",w:40,score:{"r":0,"h":1,"i":0,"v":1,"c":0},desc:"ボーカロイド楽曲の高速でめまぐるしい展開と合成音声のボーカルが、J-POPのメロディーの語法の中に取り入れられている"},
-  {s:"vocaloid_music",t:"anime_music",w:40,desc:"ボーカロイド楽曲のインターネット文化発の高速な展開が、アニメソングのアニメ的な旋律と互いに影響し合っている"},
-  {s:"anime_music",t:"vocaloid_music",w:40,desc:"アニメソングのキャッチーな旋律が、ボーカロイド楽曲のインターネット文化発の高速な展開の中に取り入れられている"},
+  {s:"vocaloid_music",t:"anime_music",w:40,score:{"r":1,"h":0,"i":0,"v":0,"c":1},desc:"ボーカロイド楽曲のインターネット文化発の高速な展開が、アニメソングのアニメ的な旋律と互いに影響し合っている"},
+  {s:"anime_music",t:"vocaloid_music",w:40,score:{"r":0,"h":1,"i":0,"v":0,"c":0},desc:"アニメソングのキャッチーな旋律が、ボーカロイド楽曲のインターネット文化発の高速な展開の中に取り入れられている"},
   {s:"vocaloid_music",t:"electropop",w:40,score:{"r":0,"h":0,"i":1,"v":1,"c":0},desc:"ボーカロイド楽曲の合成音声と高速なメロディーが、エレクトロポップのシンセサイザーによる制作手法と互いに影響し合っている"},
   {s:"electropop",t:"vocaloid_music",w:40,score:{"r":0,"h":0,"i":1,"v":1,"c":0},desc:"エレクトロポップのシンセサイザーによる電子的な音作りが、ボーカロイド楽曲の合成音声のボーカルの中に取り入れられている"},
   {s:"kpop",t:"jpop",w:40,score:{"r":0,"h":0,"i":0,"v":0,"c":1},desc:"K-POPのグループ制作体制と振り付けを重視する手法が、J-POPのアイドル育成システムと海外展開の中に取り入れられている"},
