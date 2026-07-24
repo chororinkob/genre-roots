@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.135<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.136<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -6207,10 +6207,10 @@ const LINKS = [
   {s:"mainstream_hardcore",t:"hardcore_edm",w:40,desc:"メインストリーム・ハードコアの高速なキックとレイヴ感が、ハードコアEDMの現代的なプロダクション技術の中に取り入れられている"},
   {s:"speedcore",t:"breakcore",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"スピードコアの極端に速いテンポが、ブレイクコアのドラムパターンを細かく切り刻んで再構築する編集手法と互いに影響し合っている"},
   {s:"breakcore",t:"speedcore",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ブレイクコアのドラムパターンを細かく切り刻む編集手法が、スピードコアの極端に速いテンポの中に取り入れられている"},
-  {s:"breakcore",t:"jungle",w:40,desc:"ブレイクコアのドラムパターンを細かく切り刻む編集手法が、ジャングルの高速なブレイクビートを過激に再解釈する形で取り入れられた"},
-  {s:"jungle",t:"breakcore",w:40,desc:"ジャングルの高速なブレイクビートが、ブレイクコアのより過激に切り刻まれたドラムパターンの中に取り入れられている"},
-  {s:"breakcore",t:"dnb",w:40,desc:"ブレイクコアの切断的なドラム編集の手法が、ドラムンベースの高速なブレイクビート構造と互いに影響し合っている"},
-  {s:"dnb",t:"breakcore",w:40,desc:"ドラムンベースの高速なブレイクビートが、ブレイクコアのより切断的なドラム編集の中に取り入れられている"},
+  {s:"breakcore",t:"jungle",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ブレイクコアのドラムパターンを細かく切り刻む編集手法が、ジャングルの高速なブレイクビートを過激に再解釈する形で取り入れられた"},
+  {s:"jungle",t:"breakcore",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ジャングルの高速なブレイクビートが、ブレイクコアのより過激に切り刻まれたドラムパターンの中に取り入れられている"},
+  {s:"breakcore",t:"dnb",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ブレイクコアの切断的なドラム編集の手法が、ドラムンベースの高速なブレイクビート構造と互いに影響し合っている"},
+  {s:"dnb",t:"breakcore",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ドラムンベースの高速なブレイクビートが、ブレイクコアのより切断的なドラム編集の中に取り入れられている"},
   {s:"breakcore",t:"gabber",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ブレイクコアの切り刻まれたドラム編集が、ガバの歪んだキックドラムのサウンドと組み合わさりさらに過激化した"},
   {s:"gabber",t:"breakcore",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"ガバの歪んだキックドラムのサウンドが、ブレイクコアの切り刻まれたドラム編集の中に取り入れられている"},
   {s:"j_core",t:"hardcore_edm",w:40,desc:"Jコアの高速なキックドラムが、ハードコアEDMのポップでアニメ的なメロディーフックと互いに影響し合っている"},
@@ -6425,7 +6425,7 @@ const LINKS = [
   {s:"speedcore",t:"flashcore",w:60,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"スピードコアの極端に速いテンポのビートが、フラッシュコアにおいてより過激なノイズサウンドと融合した"},
   {s:"grindcore",t:"cybergrind",w:60,desc:"グラインドコアのブラストビートを多用した過激な演奏が、サイバーグラインドにおいてよりデジタルで電子的な音響処理に発展した"},
   {s:"speedcore",t:"splittercore",w:70,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"スピードコアの極端に速いテンポが、スプリッターコアにおいてさらに極限まで加速された"},
-  {s:"breakcore",t:"mashcore",w:60,desc:"ブレイクコアのドラムパターンを細かく切り刻む編集手法が、マッシュコアにおいてポップスの素材をマッシュアップする形に発展した"},
+  {s:"breakcore",t:"mashcore",w:60,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"ブレイクコアのドラムパターンを細かく切り刻む編集手法が、マッシュコアにおいてポップスの素材をマッシュアップする形に発展した"},
   {s:"j_core",t:"mashcore",w:50,desc:"Jコアのアニメ的な声ネタのサンプリングが、マッシュコアのポップ素材を組み合わせる制作手法と共有されている"},
   {s:"acid_house",t:"breakbeat_hardcore",w:55,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"アシッドハウスのTB-303による酸っぱいベースサウンドが、ブレイクビートハードコアの高速なドラムブレイクと組み合わされた"},
   {s:"rave",t:"breakbeat_hardcore",w:60,score:{"r":1,"h":0,"i":0,"v":0,"c":1},desc:"レイヴの大規模なダンスイベントの高揚感が、ブレイクビートハードコアの高速なドラムパターンに発展した"},
@@ -6448,7 +6448,7 @@ const LINKS = [
   {s:"gabber",t:"lento_violento",w:45,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ガバの歪んだキックドラムのサウンドが、イタリアのシーンでテンポを落とした重厚なレント・ヴィオレントへと解釈し直された"},
   {s:"moombahton",t:"moombahcore",w:60,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"ムームバートンのラテン的なシンコペーションのリズムが、ムームバコアにおいてハードコア由来の攻撃的なキックドラムと融合した"},
   {s:"dubstep",t:"moombahcore",w:40,desc:"ダブステップの重低音のサブベースが、ムームバコアのハードコアなキックドラムの中に取り入れられた"},
-  {s:"breakcore",t:"raggacore",w:55,desc:"ブレイクコアのドラムパターンを細かく切り刻む編集手法が、レゲエのサンプルと融合しラガコアが形成された"},
+  {s:"breakcore",t:"raggacore",w:55,score:{"r":0,"h":0,"i":1,"v":0,"c":1},desc:"ブレイクコアのドラムパターンを細かく切り刻む編集手法が、レゲエのサンプルと融合しラガコアが形成された"},
   {s:"dancehall",t:"raggacore",w:40,desc:"ダンスホールのMCによるトースティングが、ラガコアのハードコア由来の高速なビートの中に取り入れられた"},
   {s:"gabber",t:"hard_bass_genre",w:45,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"ガバの歪んだキックドラムのサウンドが、ロシアのシーンでよりメロディックなハードベースへと解釈し直された"},
   {s:"hardstyle",t:"hard_bass_genre",w:35,desc:"ハードスタイルのメロディックなシンセラインが、ハードベースのロシア的なアレンジの中に取り入れられた"},
