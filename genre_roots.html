@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.206<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.207<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -6648,7 +6648,7 @@ const LINKS = [
   {s:"arabic_pop",t:"turkish_pop",w:40,score:{"r":0,"h":1,"i":0,"v":0,"c":0},desc:"アラビックポップの中東音階に基づく旋律の伝統が、トルコポップの音楽性の中に取り入れられている"},
   {s:"pop_music",t:"turkish_pop",w:45,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"西洋のポップスのキャッチーなメロディーラインと制作技術が、トルコポップの楽曲制作に取り入れられている"},
   {s:"jpop",t:"j_pop_idol",w:60,score:{"r":0,"h":1,"i":0,"v":0,"c":1},desc:"J-POPのキャッチーなメロディーラインの作り方が、J-POPアイドルの振り付けを重視した楽曲制作の中に取り入れられている"},
-  {s:"dance_pop",t:"j_pop_idol",w:40,desc:"ダンスポップの強調された四つ打ちビートが、J-POPアイドルの群舞を伴うパフォーマンス向けの楽曲の中に取り入れられている"},
+  {s:"dance_pop",t:"j_pop_idol",w:40,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"ダンスポップの強調された四つ打ちビートが、J-POPアイドルの群舞を伴うパフォーマンス向けの楽曲の中に取り入れられている"},
   {s:"j_pop_idol",t:"kpop",w:40,score:{"r":0,"h":0,"i":0,"v":0,"c":1},desc:"J-POPアイドルの振り付けを重視した育成システムが、K-POPアイドルのグループ制作体制の初期モデルとして参照された"},
   {s:"city_pop",t:"city_funk",w:60,desc:"シティポップの都会的なコード進行とファンキーなベースラインが、シティファンクの和モノのグルーヴ感のあるアレンジと重複している"},
   {s:"funk",t:"city_funk",w:50,score:{"r":1,"h":0,"i":1,"v":0,"c":1},desc:"ファンクのスラップベースとシンコペーションの効いたグルーヴが、シティファンクの和モノのリズムセクションの中に取り入れられている"},
@@ -6744,7 +6744,7 @@ const LINKS = [
   {s:"techno",t:"melodic_techno",w:55,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"テクノの反復する四つ打ちビート構造が、メロディックテクノのよりメロディックなシンセラインの基盤となっている"},
   {s:"progressive_house",t:"melodic_techno",w:35,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"プログレッシブハウスのじわじわとレイヤーを積み重ねる構成が、メロディックテクノのメロディックな展開の中に取り入れられている"},
   {s:"trance",t:"vocal_trance",w:65,score:{"r":0,"h":0,"i":1,"v":1,"c":0},desc:"トランスの高揚感のあるビルドアップの構成が、ヴォーカルトランスの感情的なボーカルパートと組み合わされている"},
-  {s:"dance_pop",t:"vocal_trance",w:30,desc:"ダンスポップの歌ものとしてのボーカル表現が、ヴォーカルトランスの感動的なボーカルパートの中に取り入れられている"},
+  {s:"dance_pop",t:"vocal_trance",w:30,score:{"r":0,"h":0,"i":0,"v":1,"c":0},desc:"ダンスポップの歌ものとしてのボーカル表現が、ヴォーカルトランスの感動的なボーカルパートの中に取り入れられている"},
   {s:"trance",t:"hard_trance",w:55,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"トランスの高揚感のあるビート構造が、ハードトランスにおいてより硬質でテンポの速いビートへと発展した"},
   {s:"acid_house",t:"hard_trance",w:30,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"アシッドハウスのTB-303による酸っぱいベースサウンドが、ハードトランスの攻撃的なビートの中に取り入れられている"},
   {s:"hard_trance",t:"hardstyle",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ハードトランスの硬質でテンポの速いビートが、ハードスタイルの跳ねるようなキックドラムの音響設計に取り入れられている"},
