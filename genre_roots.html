@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.291<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.292<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -6569,7 +6569,7 @@ const LINKS = [
   {s:"funk",t:"gangsta_rap",w:40,score:{"r":1,"h":0,"i":0,"v":0,"c":1},desc:"ファンクのシンコペーションの効いたグルーヴが、ギャングスタラップのビートメイキングの中に取り入れられている"},
   {s:"gangsta_rap",t:"trap",w:55,score:{"r":0,"h":0,"i":0,"v":1,"c":1},desc:"ギャングスタラップのストリート由来の歌詞世界が、トラップの南部のドラッグディーリング文化を描いたリリックの中に取り入れられている"},
   {s:"gangsta_rap",t:"drill",w:50,score:{"r":0,"h":0,"i":0,"v":1,"c":0},desc:"ギャングスタラップのストリートの厳しい現実を描いた歌詞が、ドリルの都市の暴力を反映したリリックの中に取り入れられている"},
-  {s:"gangsta_rap",t:"g_funk",w:60,desc:"ギャングスタラップのストリート由来の世界観が、Gファンクのシンセを多用したゆったりとしたグルーヴのビートと組み合わされている"},
+  {s:"gangsta_rap",t:"g_funk",w:60,score:{"r":1,"h":0,"i":1,"v":0,"c":1},desc:"ギャングスタラップのストリート由来の世界観が、Gファンクのシンセを多用したゆったりとしたグルーヴのビートと組み合わされている"},
   {s:"funk",t:"g_funk",w:55,score:{"r":1,"h":0,"i":1,"v":0,"c":1},desc:"ファンクのシンセベースとゆったりとしたグルーヴが、Gファンクの西海岸的なビートメイキングの中に取り入れられている"},
   {s:"hiphop",t:"conscious_rap",w:65,score:{"r":0,"h":0,"i":0,"v":1,"c":1},desc:"ヒップホップのラップの手法が、コンシャスラップの社会問題を扱った知的なリリックの中に取り入れられている"},
   {s:"boom_bap",t:"conscious_rap",w:50,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ブンバップのパンチの効いたドラムパターンが、コンシャスラップの言葉選びを重視したリリシズムの中に取り入れられている"},
@@ -6662,7 +6662,7 @@ const LINKS = [
   {s:"french_house",t:"nu_disco",w:45,desc:"フレンチハウスのフィルターをかけたディスコサンプルの手法が、ヌーディスコの現代的なディスコ再解釈の流れの中に取り入れられている"},
   {s:"funk",t:"p_funk",w:70,score:{"r":1,"h":0,"i":1,"v":0,"c":1},desc:"ファンクのスラップベースとシンコペーションの効いたグルーヴが、Pファンクのより実験的で宇宙的なコンセプトへと拡張された"},
   {s:"psychedelic_rock",t:"p_funk",w:35,score:{"r":0,"h":0,"i":1,"v":0,"c":1},desc:"サイケデリックロックの宇宙的な音響エフェクトの使い方が、Pファンクの宇宙的なコンセプトとステージ演出の中に取り入れられている"},
-  {s:"p_funk",t:"g_funk",w:55,desc:"Pファンクのシンセを多用した宇宙的なグルーヴが、Gファンクの西海岸的なゆったりとしたビートメイキングに取り入れられている"},
+  {s:"p_funk",t:"g_funk",w:55,score:{"r":1,"h":0,"i":1,"v":0,"c":1},desc:"Pファンクのシンセを多用した宇宙的なグルーヴが、Gファンクの西海岸的なゆったりとしたビートメイキングに取り入れられている"},
   {s:"funk",t:"electro_funk",w:60,score:{"r":1,"h":0,"i":1,"v":0,"c":1},desc:"ファンクのシンコペーションの効いたベースラインとリズム感覚が、エレクトロファンクのドラムマシンとシンセベースによる電子的な音作りに置き換えられた"},
   {s:"hiphop",t:"electro_funk",w:40,score:{"r":1,"h":0,"i":0,"v":1,"c":1},desc:"ヒップホップのDJ文化とブレイクダンスの伝統が、エレクトロファンクのラップパートとブレイクビートの中に取り入れられている"},
   {s:"electro_funk",t:"detroit_techno",w:45,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"エレクトロファンクのドラムマシンとシンセベースによる電子的な音作りが、デトロイトテクノの機械的なシンセサウンドの重要な前段階となった"},
