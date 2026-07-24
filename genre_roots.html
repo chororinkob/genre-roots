@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.118<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.119<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -5544,7 +5544,7 @@ const LINKS = [
   {s:"uk_garage",t:"dubstep",w:60,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"UKガラージのシャッフルするビート構造の中の、より暗くベース主体な派生が発展し、ダブステップの重低音とスペースの効いたビート構成の土台となった"},
   {s:"progressive_house",t:"trance",w:50,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"プログレッシブハウスのじわじわとレイヤーを積み重ねる構成手法が、トランスのより明確なメロディーラインによる感情的な高揚感の作り方と重なり合いながら発展した"},
   {s:"electro_house",t:"big_room",w:75,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"エレクトロハウスの歪んだシンセリードの音色が、ビッグルームハウスにおいてフェスティバル向けの巨大なドロップの瞬間を演出するために強調された"},
-  {s:"big_room",t:"festival_edm",w:70,desc:"ビッグルームハウスの巨大なドロップとビルドアップの構成が、フェスティバルEDM全体の「盛り上げてから落とす」という楽曲構成の型として定着した"},
+  {s:"big_room",t:"festival_edm",w:70,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"ビッグルームハウスの巨大なドロップとビルドアップの構成が、フェスティバルEDM全体の「盛り上げてから落とす」という楽曲構成の型として定着した"},
   {s:"chicago_house",t:"uk_garage",w:55,score:{"r":1,"h":0,"i":0,"v":1,"c":0},desc:"シカゴハウスの四つ打ちビートと歌ものの構成が、UKガラージにおいてハイハットを細かく刻むシャッフル感のあるリズムへと変化した"},
   {s:"chicago_house",t:"electro_house",w:45,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"シカゴハウスの四つ打ちビートを土台に、より歪んだシンセリードとエレクトロ的な硬い音作りを加えることでエレクトロハウスが形成された"},
   {s:"chicago_house",t:"moombahton",w:40,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"シカゴハウスの四つ打ちビートのテンポを落とし、レゲトンのダンスホール由来のシンコペーションのリズムパターンを重ねることでムームバートンが形成された"},
@@ -6115,7 +6115,7 @@ const LINKS = [
   {s:"electro_house",t:"edm",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"エレクトロハウスのドロップの構成が、EDM全体の巨大化した音圧のあるサウンドプロダクションと互いに影響し合っている"},
   {s:"edm",t:"electro_house",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"EDMの巨大な音圧を持つサウンドプロダクションが、エレクトロハウスのドロップの構成の中に取り入れられている"},
   {s:"big_room",t:"electro_house",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"ビッグルームハウスの大規模なドロップの演出が、エレクトロハウスの歪んだシンセリードの音色の中に取り入れられている"},
-  {s:"festival_edm",t:"big_room",w:40,desc:"フェスティバルEDMの盛り上げてから落とす楽曲構成が、ビッグルームハウスの巨大なドロップの演出と互いに影響し合っている"},
+  {s:"festival_edm",t:"big_room",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"フェスティバルEDMの盛り上げてから落とす楽曲構成が、ビッグルームハウスの巨大なドロップの演出と互いに影響し合っている"},
   {s:"edm",t:"pop_edm",w:40,desc:"EDMのドロップの構成が、ポップEDMの歌ものとしてのボーカルパートと互いに影響し合っている"},
   {s:"pop_edm",t:"edm",w:40,desc:"ポップEDMの歌ものとしてのフック構成が、EDMのドロップを中心とした楽曲構成の中に取り入れられている"},
   {s:"edm",t:"edm_trap",w:40,desc:"EDMのビルドアップの構成が、EDMトラップの808ベースとハイハットロールのビートパターンと互いに影響し合っている"},
