@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.259<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.260<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -6347,8 +6347,8 @@ const LINKS = [
   {s:"bhangra",t:"hiphop",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":1},desc:"バングラーのドールとトゥンビ(弦楽器)のリズムパターンが、ヒップホップのラップとビートメイキングの手法と互いに影響し合っている"},
   {s:"hiphop",t:"bhangra",w:40,score:{"r":1,"h":0,"i":0,"v":0,"c":1},desc:"ヒップホップのラップとビートメイキングの手法が、バングラーのドールのリズムパターンの中に取り入れられている"},
   {s:"asian_underground",t:"dnb",w:40,score:{"r":0,"h":1,"i":1,"v":0,"c":1},desc:"エイジアン・アンダーグラウンドの南アジアの民族楽器の旋律とタブラの打楽器パターンが、ドラムンベースの高速なブレイクビートの中に取り入れられている"},
-  {s:"asian_underground",t:"trip_hop",w:40,desc:"エイジアン・アンダーグラウンドの南アジアの伝統楽器のサンプルと旋律が、トリップホップの暗く映画的なビートの中に取り入れられている"},
-  {s:"trip_hop",t:"asian_underground",w:40,desc:"トリップホップの暗く映画的なビートメイキングが、エイジアン・アンダーグラウンドの南アジアの旋律のサンプリングの中に取り入れられている"},
+  {s:"asian_underground",t:"trip_hop",w:40,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"エイジアン・アンダーグラウンドの南アジアの伝統楽器のサンプルと旋律が、トリップホップの暗く映画的なビートの中に取り入れられている"},
+  {s:"trip_hop",t:"asian_underground",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"トリップホップの暗く映画的なビートメイキングが、エイジアン・アンダーグラウンドの南アジアの旋律のサンプリングの中に取り入れられている"},
   {s:"mahraganat",t:"arabic_pop",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":1},desc:"マフラガナートのエジプトのストリート文化由来の電子ビートが、アラビックポップのアラブ音階に基づく旋律と互いに影響し合っている"},
   {s:"mahraganat",t:"hiphop",w:40,score:{"r":0,"h":0,"i":0,"v":1,"c":1},desc:"マフラガナートのエジプト的な旋律とビートが、ヒップホップのラップの手法と互いに影響し合っている"},
   {s:"hiphop",t:"mahraganat",w:40,score:{"r":0,"h":0,"i":0,"v":1,"c":1},desc:"ヒップホップのラップとビートメイキングの手法が、マフラガナートのエジプト的な旋律の中に取り入れられている"},
