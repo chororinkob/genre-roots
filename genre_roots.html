@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.96<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.97<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -5486,7 +5486,7 @@ const LINKS = [
   {s:"classical",t:"neoclassical_dw",w:55,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"クラシックのオーケストラ編成、特にストリングスのレガートな旋律線とティンパニによる荘厳な低音強調が、ネオクラシカル・ダークウェイヴの楽曲構成にそのまま取り入れられた。"},
 
   // 初期電子音楽
-  {s:"musique_concrete",t:"experimental_elec",w:70,desc:"ミュージック・コンクレートの環境音や日常音をテープ編集で加工する手法が、実験電子音楽におけるシンセサイザーや電子機材を使った音響実験の直接的な源流となった"},
+  {s:"musique_concrete",t:"experimental_elec",w:70,score:{"r":0,"h":0,"i":1,"v":0,"c":1},desc:"ミュージック・コンクレートの環境音や日常音をテープ編集で加工する手法が、実験電子音楽におけるシンセサイザーや電子機材を使った音響実験の直接的な源流となった"},
   {s:"experimental_elec",t:"krautrock",w:50,score:{"r":0,"h":0,"i":1,"v":0,"c":1},desc:"シュトックハウゼンに代表されるドイツの実験電子音楽が持つシンセサイザー音響実験・テープ操作の手法が、Can・Kraftwerkら初期メンバーの音楽的背景に直接取り入れられ、クラウトロックの前衛的な電子音響処理の土台となった。"},
   {s:"experimental_elec",t:"ambient",w:60,desc:"実験電子音楽のテープループやシンセサイザーによる音響処理の手法を、ブライアン・イーノが環境に溶け込むような持続音楽として体系化したことでアンビエントが確立された"},
   {s:"krautrock",t:"detroit_techno",w:55,score:{"r":1,"h":0,"i":1,"v":0,"c":1},desc:"クラウトロックのモータリック・ビート(一定テンポで反復する機械的な8分音符ドラムパターン)と、シンセサイザーによる冷たく均質な音色が、デトロイト・テクノの反復構造とアナログシンセの音作りにそのまま継承された。ジュアン・アトキンスらデトロイトの創始者たちはクラフトワークからの直接的な影響を公言している。"},
@@ -5520,7 +5520,7 @@ const LINKS = [
   {s:"coldwave",t:"darkwave",w:55,desc:"コールドウェイヴの冷たく内省的なシンセサウンドが、ダークウェイヴのより荘厳でゴシック的なアレンジと重なり合いながら発展した"},
   {s:"darkwave",t:"neoclassical_dw",w:60,desc:"ダークウェイヴの荘厳なシンセサウンドを土台に、クラシックのストリングスや合唱のサンプリングを重ねることでネオクラシカル・ダークウェイヴが形成された"},
   {s:"industrial",t:"dark_ambient",w:55,desc:"インダストリアルの工業的なノイズと不穏な音響が、ダークアンビエントにおいてリズムを排した空間的な音響処理へと落とし込まれた"},
-  {s:"musique_concrete",t:"harsh_noise",w:50,desc:"ミュージック・コンクレートのテープ編集による具体音の加工技法が、ハーシュノイズの過激に歪ませたノイズサウンドを作る手法の源流となった"},
+  {s:"musique_concrete",t:"harsh_noise",w:50,score:{"r":0,"h":0,"i":1,"v":0,"c":1},desc:"ミュージック・コンクレートのテープ編集による具体音の加工技法が、ハーシュノイズの過激に歪ませたノイズサウンドを作る手法の源流となった"},
 
   // アンビエント系
   {s:"ambient",t:"dark_ambient",w:70,desc:"アンビエントの持続音による空間的な美学を土台に、不協和音や不穏なドローンサウンドを加えることでダークアンビエントが形成された"},
@@ -6392,7 +6392,7 @@ const LINKS = [
   {s:"funk",t:"city_pop",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":1},desc:"ファンクのスラップベースによるグルーヴが、シティポップのより洗練されたアレンジの中に取り入れられた"},
   {s:"city_pop",t:"fusion",w:40,desc:"シティポップの都会的な歌ものとしての楽曲構成が、ジャズフュージョンの複雑な和声進行と高い演奏技術と互いに影響し合っている"},
   {s:"disco",t:"city_pop",w:40,score:{"r":1,"h":1,"i":1,"v":0,"c":1},desc:"ディスコの四つ打ちビートとストリングスアレンジが、シティポップの都会的なコード進行の中に取り入れられた"},
-  {s:"experimental_elec",t:"musique_concrete",w:40,desc:"実験電子音楽のシンセサイザーによる音響実験が、ミュージック・コンクレートのテープ編集による具体音の加工技法の中に取り入れられている"},
+  {s:"experimental_elec",t:"musique_concrete",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":1},desc:"実験電子音楽のシンセサイザーによる音響実験が、ミュージック・コンクレートのテープ編集による具体音の加工技法の中に取り入れられている"},
 
   // ハードコア系追加4リンク
   {s:"electro",t:"freestyle_genre",w:50,desc:"エレクトロのTR-808によるビートメイキングが、ニューヨークのラテン系コミュニティによってよりメロディックなシンセラインを加えられフリースタイルへと発展した"},
@@ -6845,7 +6845,7 @@ const LINKS = [
   {s:"jazz",t:"vocal_jazz",w:60,score:{"r":1,"h":0,"i":0,"v":1,"c":1},desc:"ジャズの即興演奏とスウィング感のあるリズムが、ヴォーカルジャズのスキャットを交えた歌唱表現の中に取り入れられている"},
   {s:"blues",t:"vocal_jazz",w:35,score:{"r":0,"h":0,"i":0,"v":1,"c":0},desc:"ブルースの感情的な歌唱表現が、ヴォーカルジャズの表現豊かなボーカルスタイルの中に取り入れられている"},
   {s:"classical",t:"contemporary_classical",w:55,score:{"r":0,"h":1,"i":0,"v":0,"c":0},desc:"クラシック音楽の和声理論と作曲技法の伝統が、コンテンポラリークラシックのより実験的な作曲手法の中に取り入れられている"},
-  {s:"musique_concrete",t:"contemporary_classical",w:35,desc:"ミュージック・コンクレートのテープ編集による音響実験の手法が、コンテンポラリークラシックの実験的な作曲手法の中に取り入れられている"},
+  {s:"musique_concrete",t:"contemporary_classical",w:35,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"ミュージック・コンクレートのテープ編集による音響実験の手法が、コンテンポラリークラシックの実験的な作曲手法の中に取り入れられている"},
   {s:"classical",t:"film_score",w:50,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"クラシック音楽のオーケストラによる管弦楽法が、映画音楽の劇的な場面転換を演出するスコアリング技法の中に取り入れられている"},
   {s:"romantic",t:"film_score",w:40,desc:"ロマン派音楽の個人の感情表現を重視した劇的なオーケストレーションが、映画音楽の感情的な場面のスコアリングの中に取り入れられている"},
   {s:"chiptune",t:"vgm",w:45,desc:"チップチューンのゲーム機の音源チップの技術的制約の中で生まれた音楽性が、ビデオゲーム音楽の初期の作曲手法の中に取り入れられている"},
