@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.134<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.135<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -6205,8 +6205,8 @@ const LINKS = [
   {s:"hardcore_edm",t:"hardstyle",w:40,desc:"ハードコアEDMのビルドアップとドロップの構成が、ハードスタイルのキックの音響設計の中に取り入れられている"},
   {s:"hardcore_edm",t:"mainstream_hardcore",w:40,desc:"ハードコアEDMの現代的なEDMプロダクション技術が、メインストリーム・ハードコアの高速なキックとレイヴ感のあるビートと互いに影響し合っている"},
   {s:"mainstream_hardcore",t:"hardcore_edm",w:40,desc:"メインストリーム・ハードコアの高速なキックとレイヴ感が、ハードコアEDMの現代的なプロダクション技術の中に取り入れられている"},
-  {s:"speedcore",t:"breakcore",w:40,desc:"スピードコアの極端に速いテンポが、ブレイクコアのドラムパターンを細かく切り刻んで再構築する編集手法と互いに影響し合っている"},
-  {s:"breakcore",t:"speedcore",w:40,desc:"ブレイクコアのドラムパターンを細かく切り刻む編集手法が、スピードコアの極端に速いテンポの中に取り入れられている"},
+  {s:"speedcore",t:"breakcore",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"スピードコアの極端に速いテンポが、ブレイクコアのドラムパターンを細かく切り刻んで再構築する編集手法と互いに影響し合っている"},
+  {s:"breakcore",t:"speedcore",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ブレイクコアのドラムパターンを細かく切り刻む編集手法が、スピードコアの極端に速いテンポの中に取り入れられている"},
   {s:"breakcore",t:"jungle",w:40,desc:"ブレイクコアのドラムパターンを細かく切り刻む編集手法が、ジャングルの高速なブレイクビートを過激に再解釈する形で取り入れられた"},
   {s:"jungle",t:"breakcore",w:40,desc:"ジャングルの高速なブレイクビートが、ブレイクコアのより過激に切り刻まれたドラムパターンの中に取り入れられている"},
   {s:"breakcore",t:"dnb",w:40,desc:"ブレイクコアの切断的なドラム編集の手法が、ドラムンベースの高速なブレイクビート構造と互いに影響し合っている"},
@@ -6400,12 +6400,12 @@ const LINKS = [
   {s:"hardstyle",t:"hard_psy",w:55,desc:"ハードスタイルの跳ねるようなキックの音響設計が、サイケデリックトランスの硬質なシンセラインと融合しハードサイが形成された"},
   {s:"psytrance",t:"hard_psy",w:50,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"サイケデリックトランスのサイケデリックなアルペジオを土台に、よりキックドラムの音圧を強化することでハードサイが形成された"},
   {s:"uptempo_hardcore",t:"piep_kicks",w:50,desc:"アップテンポの極端に速いテンポのキックドラムが、ピープキックスにおいて甲高い実験的なキックの音色処理に発展した"},
-  {s:"speedcore",t:"melodic_speedcore",w:65,desc:"スピードコアの極端に速いテンポのビートを土台に、よりメロディックなシンセラインを加えることでメロディックスピードコアが形成された"},
+  {s:"speedcore",t:"melodic_speedcore",w:65,score:{"r":1,"h":1,"i":1,"v":0,"c":0},desc:"スピードコアの極端に速いテンポのビートを土台に、よりメロディックなシンセラインを加えることでメロディックスピードコアが形成された"},
   {s:"j_core",t:"melodic_speedcore",w:40,desc:"Jコアのアニメ的なキャッチーなメロディー感覚が、メロディックスピードコアの高速なビートに乗せたメロディーラインに取り入れられた"},
-  {s:"speedcore",t:"atmospheric_speedcore",w:60,desc:"スピードコアの極端に速いテンポのビートを土台に、アンビエント由来の持続音による空間的な音響処理を加えることでアトモスフェリック・スピードコアが形成された"},
-  {s:"speedcore",t:"speednoise",w:60,desc:"スピードコアの極端に速いテンポのビートが、ハーシュノイズの過激に歪ませたノイズサウンドと融合しスピードノイズが形成された"},
+  {s:"speedcore",t:"atmospheric_speedcore",w:60,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"スピードコアの極端に速いテンポのビートを土台に、アンビエント由来の持続音による空間的な音響処理を加えることでアトモスフェリック・スピードコアが形成された"},
+  {s:"speedcore",t:"speednoise",w:60,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"スピードコアの極端に速いテンポのビートが、ハーシュノイズの過激に歪ませたノイズサウンドと融合しスピードノイズが形成された"},
   {s:"harsh_noise",t:"speednoise",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ハーシュノイズの過激に歪ませたノイズサウンドが、スピードノイズにおいて極端に速いテンポのビートと組み合わされた"},
-  {s:"speedcore",t:"suizidcore",w:55,desc:"スピードコアの極端に速いテンポのビートを土台に、より暗く陰鬱なテーマとサウンドを加えることでスイツィドコアが形成された"},
+  {s:"speedcore",t:"suizidcore",w:55,score:{"r":1,"h":0,"i":0,"v":0,"c":1},desc:"スピードコアの極端に速いテンポのビートを土台に、より暗く陰鬱なテーマとサウンドを加えることでスイツィドコアが形成された"},
   {s:"hardcore_rave",t:"breakbeat_hardcore",w:65,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"ハードコアレイヴの過激なビート感覚を土台に、ブレイクビートの高速なドラムパターンを加えることでブレイクビートハードコアが形成された"},
   {s:"hardcore_rave",t:"darkcore_dnb",w:55,score:{"r":1,"h":1,"i":1,"v":0,"c":0},desc:"ハードコアレイヴの過激なビートを土台に、より不協和音を多用した暗いシンセサウンドを加えることでダークコアが形成された"},
   {s:"jungle",t:"darkcore_dnb",w:50,desc:"ジャングルの高速なブレイクビートを土台に、より不協和音を多用した暗いシンセサウンドを加えることでダークコアが形成された"},
@@ -6422,9 +6422,9 @@ const LINKS = [
   {s:"edm",t:"jungle_terror",w:45,desc:"EDMのドロップの構成を土台に、よりトライバルなパーカッションと野性的な唸り声のサンプルを加えることでジャングルテラーが形成された"},
   {s:"moombahton",t:"jungle_terror",w:40,score:{"r":1,"h":0,"i":0,"v":0,"c":1},desc:"ムームバートンのラテン的なシンコペーションのリズムが、ジャングルテラーのより野性的でトライバルなパーカッションに発展した"},
   {s:"gabber",t:"nu_style",w:55,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"ガバの歪んだキックドラムのサウンドを土台に、よりモダンで洗練されたプロダクション技術を加えることでニュースタイルが形成された"},
-  {s:"speedcore",t:"flashcore",w:60,desc:"スピードコアの極端に速いテンポのビートが、フラッシュコアにおいてより過激なノイズサウンドと融合した"},
+  {s:"speedcore",t:"flashcore",w:60,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"スピードコアの極端に速いテンポのビートが、フラッシュコアにおいてより過激なノイズサウンドと融合した"},
   {s:"grindcore",t:"cybergrind",w:60,desc:"グラインドコアのブラストビートを多用した過激な演奏が、サイバーグラインドにおいてよりデジタルで電子的な音響処理に発展した"},
-  {s:"speedcore",t:"splittercore",w:70,desc:"スピードコアの極端に速いテンポが、スプリッターコアにおいてさらに極限まで加速された"},
+  {s:"speedcore",t:"splittercore",w:70,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"スピードコアの極端に速いテンポが、スプリッターコアにおいてさらに極限まで加速された"},
   {s:"breakcore",t:"mashcore",w:60,desc:"ブレイクコアのドラムパターンを細かく切り刻む編集手法が、マッシュコアにおいてポップスの素材をマッシュアップする形に発展した"},
   {s:"j_core",t:"mashcore",w:50,desc:"Jコアのアニメ的な声ネタのサンプリングが、マッシュコアのポップ素材を組み合わせる制作手法と共有されている"},
   {s:"acid_house",t:"breakbeat_hardcore",w:55,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"アシッドハウスのTB-303による酸っぱいベースサウンドが、ブレイクビートハードコアの高速なドラムブレイクと組み合わされた"},
@@ -6474,7 +6474,7 @@ const LINKS = [
   {s:"techno",t:"techstep",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"テクノの機械的で無機質なビート構造が、テックステップの冷たいサウンドプロダクションの中に取り入れられている"},
   {s:"gabber",t:"hardtek",w:45,score:{"r":1,"h":0,"i":1,"v":0,"c":1},desc:"ガバの歪んだキックドラムのサウンドが、フリーパーティー文化の中でハードテックというより高速な解釈へと発展した"},
   {s:"acid_techno",t:"hardtek",w:50,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"アシッドテクノのTB-303による酸っぱいベースサウンドが、ハードテックの高速なビートと融合した"},
-  {s:"speedcore",t:"extratone",w:80,desc:"スピードコアの極端に速いテンポが、エクストラトーンにおいて人間の可聴域の限界に迫るほどの究極的な高速化を遂げた"},
+  {s:"speedcore",t:"extratone",w:80,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"スピードコアの極端に速いテンポが、エクストラトーンにおいて人間の可聴域の限界に迫るほどの究極的な高速化を遂げた"},
 
   // 候補タグ承認分
   {s:"chicago_house",t:"kwaito",w:45,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"シカゴハウスの四つ打ちビートが、南アフリカのシーンでテンポを落とした独自のクワイトへと解釈し直された"},
