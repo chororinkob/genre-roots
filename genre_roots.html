@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.230<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.231<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -5957,8 +5957,8 @@ const LINKS = [
   {s:"mambo",t:"jazz",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":1},desc:"マンボのクラーベに基づくラテンリズムが、ジャズミュージシャンによってラテンジャズのリズムパターンとして取り入れられた"},
   {s:"afrobeat",t:"jazz",w:40,score:{"r":1,"h":0,"i":0,"v":0,"c":1},desc:"アフロビートの反復するポリリズムのグルーヴが、一部のジャズミュージシャンの即興演奏におけるリズムアプローチに取り入れられた"},
   {s:"jazz",t:"free_jazz",w:40,score:{"r":1,"h":1,"i":1,"v":0,"c":1},desc:"ジャズの伝統的なコード進行に基づく即興演奏の語法が、フリージャズにおいて意図的に解体され自由な即興表現へと発展した"},
-  {s:"free_jazz",t:"avant_garde",w:40,desc:"フリージャズの制約のない自由な即興演奏が、アヴァンギャルド音楽における不協和音と偶然性を重視する作曲手法と互いに影響し合っている"},
-  {s:"avant_garde",t:"free_jazz",w:40,desc:"アヴァンギャルド音楽の不協和音と実験的な音響処理の手法が、フリージャズの自由な即興演奏に取り入れられた"},
+  {s:"free_jazz",t:"avant_garde",w:40,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"フリージャズの制約のない自由な即興演奏が、アヴァンギャルド音楽における不協和音と偶然性を重視する作曲手法と互いに影響し合っている"},
+  {s:"avant_garde",t:"free_jazz",w:40,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"アヴァンギャルド音楽の不協和音と実験的な音響処理の手法が、フリージャズの自由な即興演奏に取り入れられた"},
   {s:"fusion",t:"funk",w:40,score:{"r":0,"h":1,"i":0,"v":0,"c":0},desc:"ジャズフュージョンの複雑な和声進行と高い演奏技術によるソロパートが、ファンクのベースとドラムのグルーヴと互いに影響し合いながら発展した"},
   {s:"fusion",t:"prog_rock",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ジャズフュージョンの即興演奏と電化楽器による音圧が、プログレッシブロックの変拍子を多用した長尺の楽曲構成と互いに影響し合っている"},
   {s:"prog_rock",t:"fusion",w:40,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"プログレッシブロックの変拍子を多用した複雑な楽曲構成が、ジャズフュージョンのミュージシャンたちの作曲アプローチに取り入れられた"},
@@ -6521,7 +6521,7 @@ const LINKS = [
   {s:"glam_rock",t:"new_wave",w:55,score:{"r":0,"h":1,"i":0,"v":0,"c":1},desc:"グラムロックの視覚的な演出とキャッチーなメロディーが、ニューウェーブのポップなソングライティングの中に取り入れられている"},
   {s:"glam_rock",t:"visual_kei",w:45,score:{"r":0,"h":0,"i":0,"v":0,"c":1},desc:"グラムロックの過激なメイクアップとファッションによる演出が、ヴィジュアル系の視覚的な美学の直接的な源流となった"},
   {s:"rock",t:"art_rock",w:55,score:{"r":0,"h":0,"i":1,"v":0,"c":1},desc:"ロックのバンド編成による演奏を土台に、より実験的で芸術的なコンセプトを加えることでアートロックが形成された"},
-  {s:"avant_garde",t:"art_rock",w:40,desc:"アヴァンギャルド音楽の不協和音と実験的な音響処理が、アートロックの芸術性の高いコンセプトの中に取り入れられている"},
+  {s:"avant_garde",t:"art_rock",w:40,score:{"r":0,"h":1,"i":1,"v":0,"c":1},desc:"アヴァンギャルド音楽の不協和音と実験的な音響処理が、アートロックの芸術性の高いコンセプトの中に取り入れられている"},
   {s:"art_rock",t:"prog_rock",w:55,score:{"r":0,"h":0,"i":1,"v":0,"c":1},desc:"アートロックの実験的な音響処理と芸術性の高いコンセプトが、プログレッシブロックの複雑な楽曲構成と並行しながら発展した"},
   {s:"art_rock",t:"art_pop",w:60,score:{"r":0,"h":0,"i":1,"v":0,"c":1},desc:"アートロックの実験的なアレンジと芸術性の高いコンセプトが、アートポップのキャッチーな楽曲構成と融合した"},
   {s:"rock_n_roll",t:"proto_punk",w:55,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"ロックンロールのシンプルなコード進行と衝動的な演奏スタイルが、プロトパンクの荒々しいギターサウンドの中に取り入れられている"},
