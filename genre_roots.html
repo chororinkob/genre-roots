@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.164<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.165<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -5479,7 +5479,7 @@ const LINKS = [
   {s:"breakbeat",t:"hiphop",w:70,score:{"r":1,"h":0,"i":1,"v":0,"c":1},desc:"ブレイクビートのドラムブレイク(曲中の打楽器だけの間奏部分)をループさせる手法が、ヒップホップのビート制作の基本技法として定着した"},
   {s:"hiphop",t:"lofi_hiphop",w:65,score:{"r":1,"h":1,"i":1,"v":0,"c":1},desc:"ヒップホップのサンプリングによるビート制作手法を踏襲しつつ、テンポを落としジャズやアンビエントの浮遊感のあるコードを重ねることでLo-fi Hip Hopが生まれた"},
   {s:"hiphop",t:"miami_bass",w:50,score:{"r":1,"h":0,"i":1,"v":0,"c":1},desc:"ヒップホップのラップとビートメイキングの手法を土台に、Roland TR-808による極端に強調された低音ベースを前面に出すことでマイアミベースが形成された"},
-  {s:"miami_bass",t:"baile_funk",w:60,desc:"マイアミベースの808による重低音と高速なビート感覚が、ブラジルに伝わりバイレファンキのパーカッシブなリズムトラックの土台となった"},
+  {s:"miami_bass",t:"baile_funk",w:60,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"マイアミベースの808による重低音と高速なビート感覚が、ブラジルに伝わりバイレファンキのパーカッシブなリズムトラックの土台となった"},
   {s:"hiphop",t:"trap",w:70,score:{"r":1,"h":0,"i":1,"v":0,"c":1},desc:"アトランタなど南部ヒップホップのハイハットの細かい連打とスネアのシンコペーションが、トラップのビートパターンの基本形として発展した"},
   {s:"trap",t:"edm_trap",w:60,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"トラップのハイハットロールと808ベースのビートパターンを土台に、EDM的な派手なシンセドロップとビルドアップの構成を加えることでEDMトラップが形成された"},
   {s:"newage",t:"ambient",w:50,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"ニューエイジの瞑想・ヒーリングを目的としたゆったりとしたシンセサウンドが、アンビエントの環境音楽的な持続音の美学に取り入れられた"},
@@ -6666,7 +6666,7 @@ const LINKS = [
   {s:"funk",t:"electro_funk",w:60,score:{"r":1,"h":0,"i":1,"v":0,"c":1},desc:"ファンクのシンコペーションの効いたベースラインとリズム感覚が、エレクトロファンクのドラムマシンとシンセベースによる電子的な音作りに置き換えられた"},
   {s:"hiphop",t:"electro_funk",w:40,score:{"r":1,"h":0,"i":0,"v":1,"c":1},desc:"ヒップホップのDJ文化とブレイクダンスの伝統が、エレクトロファンクのラップパートとブレイクビートの中に取り入れられている"},
   {s:"electro_funk",t:"detroit_techno",w:45,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"エレクトロファンクのドラムマシンとシンセベースによる電子的な音作りが、デトロイトテクノの機械的なシンセサウンドの重要な前段階となった"},
-  {s:"electro_funk",t:"miami_bass",w:45,desc:"エレクトロファンクのTR-808によるビートメイキングが、マイアミベースの極端に強調された低音ベースの中に取り入れられている"},
+  {s:"electro_funk",t:"miami_bass",w:45,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"エレクトロファンクのTR-808によるビートメイキングが、マイアミベースの極端に強調された低音ベースの中に取り入れられている"},
   // === 新規リンク 第2弾 (v10.1) ===
   {s:"rock_n_roll",t:"rockabilly",w:65,desc:"ロックンロールのギター中心のサウンドとバックビートのリズム感覚が、ロカビリーのアップライトベースによるスラップ奏法の直接的な原型となった"},
   {s:"country",t:"rockabilly",w:50,desc:"カントリーのアップライトベースによるスラップ奏法と、スティールギターの響きが、ロカビリーのリズムセクションとギターサウンドにそのまま受け継がれた。"},
@@ -6728,7 +6728,7 @@ const LINKS = [
   {s:"trap",t:"trap_metal",w:50,desc:"トラップの808ベースとハイハットロールのビートパターンが、トラップメタルのメタル由来の攻撃的なギターリフと組み合わされている"},
   {s:"heavy_metal",t:"trap_metal",w:40,desc:"ヘヴィメタルの重厚なディストーションギターのリフが、トラップメタルの808ベースのビートパターンの中に取り入れられている"},
   {s:"hiphop",t:"bounce_music",w:55,score:{"r":1,"h":0,"i":0,"v":1,"c":1},desc:"ヒップホップのラップとビートメイキングの手法が、バウンスのニューオーリンズ由来のダンス向けのコール＆レスポンスに取り入れられている"},
-  {s:"miami_bass",t:"bounce_music",w:35,desc:"マイアミベースの808による重低音ベースが、バウンスのダンス向けのビートメイキングの中に取り入れられている"},
+  {s:"miami_bass",t:"bounce_music",w:35,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"マイアミベースの808による重低音ベースが、バウンスのダンス向けのビートメイキングの中に取り入れられている"},
   {s:"trap",t:"rage_beat",w:55,desc:"トラップの808ベースとハイハットロールのビートパターンが、レイジビートにおいてより攻撃的で歪んだシンセサウンドへと発展した"},
   {s:"punk",t:"rage_beat",w:25,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"パンクの衝動的でエネルギッシュな演奏スタイルが、レイジビートの攻撃的なビートメイキングの中に取り入れられている"},
   {s:"hyperpop",t:"digicore",w:50,desc:"ハイパーポップのピッチを極端に上げボーカルを歪ませる実験的な手法が、デジコアのよりインターネット文化発の過激な音響処理に取り入れられている"},
