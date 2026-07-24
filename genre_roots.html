@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.124<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.125<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -5557,7 +5557,7 @@ const LINKS = [
   {s:"techno",t:"industrial_techno",w:65,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"テクノの四つ打ちビートに、インダストリアルの工業的なノイズと歪んだ機械音を重ねることでインダストリアルテクノが形成された"},
   {s:"techno",t:"intelligent_techno",w:60,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"テクノの反復するビート構造を土台に、よりダンスフロアを意識しない複雑なリズムプログラミングと実験的な音響処理を加えることでインテリジェントテクノが形成された"},
   {s:"techno",t:"schranz",w:65,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"テクノの四つ打ちビートのテンポと音圧を極限まで高め、歪んだキックを主体とすることでシュランツが形成された"},
-  {s:"dub_techno",t:"minimal_techno",w:50,desc:"ダブテクノのディレイとリバーブによる深い残響を土台に、要素をさらに削ぎ落としたシンプルなビート構造を強調することでミニマルテクノとの接点が生まれた"},
+  {s:"dub_techno",t:"minimal_techno",w:50,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ダブテクノのディレイとリバーブによる深い残響を土台に、要素をさらに削ぎ落としたシンプルなビート構造を強調することでミニマルテクノとの接点が生まれた"},
 
   // トランス系
   {s:"trance",t:"goa_trance",w:70,desc:"トランスの反復する高揚感のあるビート構造に、インドのゴアで発展したサイケデリックなアルペジオと東洋的な音階を重ねることでゴアトランスが形成された"},
@@ -6622,7 +6622,7 @@ const LINKS = [
   {s:"chicago_house",t:"footwork",w:45,score:{"r":1,"h":0,"i":0,"v":0,"c":1},desc:"シカゴハウスの四つ打ちビートによるダンス文化が、フットワークの超高速なダンスステップ向けのビートの土台となっている"},
   {s:"hiphop",t:"footwork",w:35,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ヒップホップのサンプリングによるビート制作手法が、フットワークの超高速に切り刻まれたビートの中に取り入れられている"},
   {s:"chicago_house",t:"minimal_house",w:40,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"シカゴハウスの四つ打ちビートが、ミニマルハウスの要素を削ぎ落とした引き算の美学の基盤となっている"},
-  {s:"minimal_techno",t:"minimal_house",w:50,desc:"ミニマルテクノの引き算の美学によるビート構造が、ミニマルハウスのシンプルなダンスビートの中に取り入れられている"},
+  {s:"minimal_techno",t:"minimal_house",w:50,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"ミニマルテクノの引き算の美学によるビート構造が、ミニマルハウスのシンプルなダンスビートの中に取り入れられている"},
   {s:"son_cubano",t:"mambo",w:65,desc:"ソン・クバーノのクラーベに基づくリズムパターンとトレスによる旋律が、マンボのラテンビッグバンド編成の直接的な母体となった"},
   {s:"son_cubano",t:"salsa",w:60,desc:"ソン・クバーノのクラーベのリズム構造とアンサンブル編成が、サルサの音楽性の重要な源流となっている"},
   {s:"bolero_latin",t:"bachata",w:55,desc:"ボレロのロマンチックなバラードとしての歌詞世界が、バチャータの切ないギターのアルペジオと歌唱表現の中に取り入れられている"},
@@ -6903,7 +6903,7 @@ const LINKS = [
   {s:"techno",t:"progressive_techno",w:65,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"テクノの反復する四つ打ちビート構造を土台に、より長い時間をかけてレイヤーを積み重ねていく展開を加えることでプログレッシブテクノが形成された"},
   {s:"progressive_house",t:"progressive_techno",w:55,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"プログレッシブハウスの長い時間をかけてじわじわとレイヤーを重ねていくビルドアップの構成美が、プログレッシブテクノのミニマルな要素を積み重ねる展開手法にそのまま受け継がれた。"},
   {s:"progressive_techno",t:"melodic_techno",w:60,desc:"プログレッシブテクノの長い時間をかけた展開の構成美が、メロディックテクノのよりメロディックなシンセラインへと発展した"},
-  {s:"minimal_techno",t:"progressive_techno",w:40,desc:"ミニマルテクノの要素を削ぎ落とした引き算の美学が、プログレッシブテクノのじわじわとレイヤーを積み重ねる反復的な構成の中に取り入れられている"},
+  {s:"minimal_techno",t:"progressive_techno",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ミニマルテクノの要素を削ぎ落とした引き算の美学が、プログレッシブテクノのじわじわとレイヤーを積み重ねる反復的な構成の中に取り入れられている"},
 
   {s:"arena_rock",t:"aor",w:85,desc:"アリーナロックの壮大なコーラスとラジオでのヒットを意識した洗練されたプロダクションが、AOR(アダルト・オリエンテッド・ロック)の耳あたりの良いメロディーラインと丁寧なスタジオワークの美学に受け継がれた。"},
   {s:"alt_rock",t:"arena_rock",w:70,desc:"Arena Rockの商業主義・大仰さへの反発として、オルタナティブ・ロックが台頭した"},
