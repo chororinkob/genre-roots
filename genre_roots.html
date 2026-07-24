@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.146<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.147<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -5600,7 +5600,7 @@ const LINKS = [
   {s:"dubstep",t:"deep_dubstep",w:75,desc:"ダブステップの初期のミニマルなビートとサブベースの美学が、より深く空間的な音響処理を追求することでディープダブステップへと洗練された"},
   {s:"dubstep",t:"wobble_bass",w:85,desc:"ダブステップのサブベースにLFO(低周波発振器)でフィルターを揺らす処理を加えて生まれるウォブルベースが、ジャンルを象徴する派手なサウンドとして定着した"},
   {s:"dubstep",t:"post_dubstep",w:70,desc:"ダブステップの重低音とスペースの効いたビート構成を土台に、よりジャンルの枠にとらわれない実験的なアレンジを加えることでポストダブステップが形成された"},
-  {s:"dubstep",t:"drumstep",w:55,desc:"ダブステップのハーフタイムのビート構造に、ドラムンベース由来の速いブレイクビートのドラムパターンを重ねることでドラムステップが形成された"},
+  {s:"dubstep",t:"drumstep",w:55,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"ダブステップのハーフタイムのビート構造に、ドラムンベース由来の速いブレイクビートのドラムパターンを重ねることでドラムステップが形成された"},
   {s:"post_dubstep",t:"future_bass",w:70,desc:"ポストダブステップの間を活かしたビート構成とコード感を土台に、より明るく感情的なシンセサウンドを前面に出すことでフューチャーベースが形成された"},
 
   // ユーロダンス系
@@ -6233,7 +6233,7 @@ const LINKS = [
   {s:"techno",t:"neurofunk",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"テクノの機械的に反復するビート構造が、ニューロファンクの精密なベースサウンドの設計に取り入れられている"},
   {s:"darkstep",t:"industrial",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ダークステップの重く歪んだベースサウンドが、インダストリアルの工業的な硬いノイズサウンドと互いに影響し合っている"},
   {s:"industrial",t:"darkstep",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"インダストリアルの工業的な硬いノイズサウンドが、ダークステップの高速で暗いビートの中に取り入れられている"},
-  {s:"drumstep",t:"dubstep",w:40,desc:"ドラムステップのドラムンベース由来の速いブレイクビートが、ダブステップのハーフタイムのビート構造の中に取り入れられている"},
+  {s:"drumstep",t:"dubstep",w:40,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"ドラムステップのドラムンベース由来の速いブレイクビートが、ダブステップのハーフタイムのビート構造の中に取り入れられている"},
   {s:"hiphop",t:"reggae",w:40,score:{"r":0,"h":0,"i":0,"v":1,"c":1},desc:"ヒップホップのラップとビートメイキングの手法が、レゲエのサウンドシステム文化とトースティングと互いに影響し合っている"},
   {s:"reggae",t:"hiphop",w:40,score:{"r":1,"h":0,"i":0,"v":1,"c":1},desc:"レゲエの重低音を強調するサウンドシステム文化とトースティングの手法が、ヒップホップのラップとビートメイキングの中に取り入れられている"},
   {s:"hiphop",t:"dancehall",w:40,score:{"r":0,"h":0,"i":0,"v":0,"c":1},desc:"ヒップホップのラップとプロダクションの手法が、ダンスホールのDJによるデジタルなリディム制作の文化と互いに影響し合っている"},
