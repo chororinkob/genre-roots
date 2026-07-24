@@ -122,6 +122,33 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
 .sp-mutual-arrow { color: #c9a6ff; font-weight: 700; font-size: 13px; flex-shrink: 0; }
 .sp-card-desc { font-size: 12px; color: #aaa; line-height: 1.7; }
 
+/* 音楽用語のツールチップ。ホバー/フォーカス時だけ表示する仕組みで、
+   常時動くアニメーションではない。当初はCSSのhover/focusだけで中央揃え
+   表示にしていたが、説明パネルの幅が320pxと狭く、端に近い用語だと
+   吹き出しがパネルの外に出て見切れてしまっていた（パネルがoverflow-y:
+   autoのため横方向も実質クリップされる）。そのため表示位置はJS側で
+   position:fixedとして毎回計算し、画面の外に出ないようclampする方式に
+   変更した（_positionGlossTip参照、2026-07-24、「パネルから、はみ出ると
+   切れる」との指摘）。 */
+.gloss-term { border-bottom: 1px dotted #8a8aa0; cursor: help; position: relative; }
+.gloss-term .gloss-tip {
+  display: none;
+  position: fixed;
+  background: #1a1a2e;
+  border: 1px solid #4a4a6a;
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #e0e0f0;
+  width: max-content;
+  max-width: 260px;
+  white-space: normal;
+  z-index: 200;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.5);
+  pointer-events: none;
+}
+
 /* ---- 影響度：5項目採点チップ＋光るレール（旧%メーターの後継。
    l.scoreがあるリンクだけこちらを使い、まだ採点していないリンクは
    従来の%メーターにフォールバックする）。説明パネルのみで使用し、
@@ -513,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.89<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.90<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -873,8 +900,8 @@ const NODES = [
     aliases:["ファンク"],},
 
   {id:"disco", label:"Disco", cat:"disco_cat", era:"1970s", suno:false,
-    desc:"キラキラした華やかさと高揚感にあふれたダンスミュージック。「ドン・ドン・ドン・ドン」と一定のテンポで刻む4つ打ちキック、シャカシャカ鳴り続けるハイハット、オクターブで跳ねるベースラインが基本骨格。その上にストリングス（弦楽器）の煌びやかなアレンジとソウルフルなボーカルが乗り、ミラーボールの下で踊り明かすための音楽を作り出す。テンポはBPM 110〜130で、速すぎず遅すぎない踊りやすさが心地よい。開放的で多幸感のある雰囲気が最大の魅力。",
-    roots_story:"1970年代初頭、NYのゲイ・黒人・ラテン系コミュニティのアンダーグラウンドクラブで誕生。DJ David Mancusoの「The Loft」やNicky Sianoの「The Gallery」が初期の拠点。Donna Summer「I Feel Love」(1977, Giorgio Moroder制作)はシンセサイザーを全面導入し電子音楽への橋渡しとなった。Bee Gees「Saturday Night Fever」(1977)で大衆化。しかし1979年の「Disco Demolition Night」事件に象徴されるバックラッシュで地上から姿を消す。だがシカゴのDJ達がディスコのビートをシンセで再構築し、ハウスミュージックとして再生させた。",
+    desc:"キラキラした華やかさと高揚感にあふれたダンスミュージック。「ドン・ドン・ドン・ドン」と1拍ごとに均等に刻む「四つ打ち」キック、8分音符でシャカシャカ鳴り続けるオープン/クローズドハイハット、オクターブを跳ねるように行き来するベースライン（「ディスコ・ベース」と呼ばれる）が基本骨格。その上にストリングス（弦楽器）の煌びやかなアレンジとソウルフルなボーカルが乗り、ミラーボールの下で踊り明かすための音楽を作り出す。テンポはBPM 110〜130で、速すぎず遅すぎない踊りやすさが心地よい。楽曲がDJによって途切れなく繋がれることを前提に、イントロ・アウトロが長く引き延ばされた「12インチ・シングル」というフォーマットもディスコが確立したもので、後のリミックス文化・DJ文化の原型となった。開放的で多幸感のある雰囲気が最大の魅力。",
+    roots_story:"1970年代初頭、ニューヨークのゲイ・黒人・ラテン系コミュニティという、当時の主流社会から疎外されていた人々が集うアンダーグラウンドクラブで誕生した。DJ David Mancusoが自宅で開いたパーティ「The Loft」や、Nicky Sianoの「The Gallery」が初期の重要な拠点となり、DJが単に曲をかけるだけでなく、2台のターンテーブルを使って曲を途切れなく繋ぎ続ける「ミキシング」の技術を発展させた。プロデューサーのGiorgio Moroderが手がけたDonna Summer「I Feel Love」(1977)は、生演奏を排してシンセサイザーのシーケンスだけでビートとベースラインを構築するという、当時としては革命的な制作手法をとり、後のテクノ・ハウスといった電子音楽への橋渡しとなった。映画『Saturday Night Fever』とBee Geesの音楽(1977)が世界的な大ヒットとなり、ディスコは一気に大衆文化の中心となる。しかし急速な商業化への反発から、1979年にシカゴの野球場で開催された「Disco Demolition Night」（ディスコレコードを大量に爆破するイベント）に象徴される激しいバックラッシュが起こり、表舞台から姿を消していく。だが地下に潜ったディスコの四つ打ちビートは、シカゴのDJ達（Frankie Knucklesら）によってドラムマシンで再構築され、ハウスミュージックとして生まれ変わった。",
     rep_tracks:["Stayin' Alive (Bee Gees)", "I Will Survive (Gloria Gaynor)", "Le Freak (Chic)"],
     yt_mix:["aEELsfjJ7pw", "pYeNaad2NKI"],
     yt_tracks:[["fNFzfwLM72c", "WlgoUlOkyzU"], ["6dYWe1c3OyU", "FHhZPp08s74"], ["aXgSHL7efKg", "7PC-AcrHEKU"]],
@@ -5443,7 +5470,7 @@ const LINKS = [
   {s:"blues",t:"funk",w:60,score:{"r":0,"h":1,"i":0,"v":1,"c":1},desc:"ブルースのコール＆レスポンス的なフレージングと感情表現が、ファンクのリズム重視のグルーヴにおけるボーカルのアドリブ・シャウト表現として引き継がれた。ドミナント7thを多用するブルース由来のコード感覚も、ファンクの和声語法の土台になっている。"},
   {s:"jazz",t:"soul",w:50,score:{"r":0,"h":1,"i":1,"v":0,"c":1},desc:"ジャズのビッグバンドが培ったホーンセクションのアレンジ手法と、即興的なアドリブ表現がソウルのバックバンド編成に受け継がれた。コード進行の洗練さも、ソウルのバラードや高揚感のあるナンバーの和声構造に反映されている。"},
   {s:"soul",t:"funk",w:60,score:{"r":0,"h":0,"i":0,"v":1,"c":1},desc:"ソウルのゴスペル由来のシャウトボーカルと熱量の高い歌唱表現が、ファンクのリズムセクション主体のアレンジの中でボーカルの見せ場として残された"},
-  {s:"disco",t:"chicago_house",w:70,desc:"ディスコのクラブでのDJミックス文化と、四つ打ちのダンスビートに乗せた歌ものの構成が、シカゴハウスのドラムマシンを使ったリミックス的な制作手法にそのまま引き継がれた"},
+  {s:"disco",t:"chicago_house",w:70,score:{"r":1,"h":0,"i":1,"v":0,"c":1},desc:"ディスコのクラブでのDJミックス文化と、四つ打ちのダンスビートに乗せた歌ものの構成が、シカゴハウスのドラムマシンを使ったリミックス的な制作手法にそのまま引き継がれた"},
   {s:"funk",t:"chicago_house",w:30,score:{"r":1,"h":0,"i":1,"v":0,"c":1},desc:"ファンクのベースラインが刻む16分音符主体のシンコペーション感覚と、パーカッシブなギターカッティングのグルーヴが、初期シカゴハウスのドラムマシンパターンとベースラインのプログラミングに取り込まれた。"},
   {s:"jazz",t:"chicago_house",w:15,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"ジャズのセブンスコードやエレピの浮遊感のあるヴォイシングが、一部のシカゴハウス楽曲のコード使いやシンセパッドの選択に影響を与えている。"},
   {s:"reggae",t:"dub",w:85,desc:"レゲエのリズムギターとベースを中心としたリディムトラックが、ダブのミキシング卓でのエコー・ディレイを多用した音響加工の素材としてそのまま使われた"},
@@ -5475,8 +5502,8 @@ const LINKS = [
   {s:"synth_pop",t:"electropop",w:75,desc:"シンセポップのアナログシンセによるメロディックな音作りを土台に、より現代的なデジタル制作技術とポップスの構成美を加えることでエレクトロポップが形成された"},
   {s:"synth_pop",t:"synthwave",w:65,desc:"シンセポップの80年代的なアナログシンセサウンドとゲートリバーブのかかったドラムが、シンセウェイヴにおいて懐古的なオマージュとして再現されている"},
   {s:"synth_pop",t:"techno_kayo",w:45,desc:"シンセポップの電子音による楽曲制作手法が、日本の歌謡曲的なメロディーラインとサビの構成に取り入れられることでテクノ歌謡が形成された"},
-  {s:"disco",t:"italo_disco",w:55,desc:"ディスコの四つ打ちビートとダンスフロア向けのアレンジを土台に、イタリアのプロデューサーたちがシンセサイザーとドラムマシンをより前面に出すことでイタロディスコが形成された"},
-  {s:"disco",t:"hi_nrg",w:60,desc:"ディスコのクラブ向けの四つ打ちビートを土台に、テンポを上げてシンセサイザーによる高揚感のあるアルペジオを加えることでHi-NRGが形成された"},
+  {s:"disco",t:"italo_disco",w:55,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ディスコの四つ打ちビートとダンスフロア向けのアレンジを土台に、イタリアのプロデューサーたちがシンセサイザーとドラムマシンをより前面に出すことでイタロディスコが形成された"},
+  {s:"disco",t:"hi_nrg",w:60,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ディスコのクラブ向けの四つ打ちビートを土台に、テンポを上げてシンセサイザーによる高揚感のあるアルペジオを加えることでHi-NRGが形成された"},
   {s:"funk",t:"electro",w:45,score:{"r":1,"h":0,"i":1,"v":0,"c":1},desc:"ファンクのシンコペーションの効いたベースラインとリズム感覚が、Roland TR-808のドラムマシンとボコーダーによる電子的な音作りに置き換えられることでエレクトロが形成された"},
   {s:"electro",t:"miami_bass",w:55,desc:"エレクトロのTR-808を使ったビートメイキング手法が、フロリダのDJたちによって極端に強調された低音ベースとより速いテンポへと発展させられマイアミベースが生まれた"},
   {s:"electro",t:"electropop",w:40,desc:"エレクトロのドラムマシンとボコーダーを使った電子的な音作りが、よりキャッチーなメロディーとポップスの楽曲構成に取り入れられることでエレクトロポップが形成された"},
@@ -5661,7 +5688,7 @@ const LINKS = [
   {s:"enka",t:"jpop",w:25,desc:"演歌の情感豊かな歌唱表現とメロディーラインの作り方が、歌謡曲を経由してJ-POPのバラード的な楽曲のボーカル表現の基礎となった"},
   {s:"rock_n_roll",t:"jpop",w:40,desc:"ロックンロールのヴァース・コーラス形式の楽曲構成と、エレキギター・ベース・ドラムを中心としたバンドサウンドが、J-POPの基本的な編成とソングライティングの型として取り入れられた。"},
   {s:"soul",t:"jpop",w:35,desc:"ソウルのメリスマを多用した感情的なボーカル表現とコーラスワークが、J-POPのボーカリストの歌唱スタイルに取り入れられた"},
-  {s:"disco",t:"jpop",w:30,desc:"ディスコの四つ打ちビートとシンセベースによるダンスサウンドが、小室哲哉らのプロデュースするJ-POPの打ち込みサウンドに取り入れられた"},
+  {s:"disco",t:"jpop",w:30,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ディスコの四つ打ちビートとシンセベースによるダンスサウンドが、小室哲哉らのプロデュースするJ-POPの打ち込みサウンドに取り入れられた"},
   {s:"synth_pop",t:"jpop",w:35,desc:"シンセポップのシンセサイザーとドラムマシンによる電子的な音作りが、YMOやテクノ歌謡を経由してJ-POPの打ち込みサウンドの基礎となった"},
   {s:"jpop",t:"anime_music",w:50,desc:"J-POPのキャッチーなサビの作り方と転調を多用した展開が、アニメソングの主題歌としてのドラマチックな楽曲構成に取り入れられた"},
   {s:"jpop",t:"kpop",w:30,desc:"J-POPのアイドルグループの育成システムと振り付けを重視する制作手法が、K-POPのグループ制作体制の初期モデルとして参照された"},
@@ -5672,7 +5699,7 @@ const LINKS = [
   {s:"soul",t:"pop_music",w:40,desc:"ソウルの感情豊かなメリスマとシャウトを交えたボーカル表現が、ポップスの歌唱テクニックとして広く取り入れられた"},
   {s:"pop_music",t:"dance_pop",w:70,desc:"ポップスのキャッチーなメロディーラインを土台に、より強調された四つ打ちビートとダンスフロア向けのアレンジを加えることでダンスポップが形成された"},
   {s:"pop_music",t:"art_pop",w:55,desc:"ポップスのキャッチーな楽曲構成を土台に、より実験的なアレンジと芸術性の高いコンセプトを加えることでアートポップが形成された"},
-  {s:"disco",t:"dance_pop",w:50,desc:"ディスコの四つ打ちビートと華やかなストリングスアレンジが、ダンスポップのポップスとしてのソングライティングと組み合わされた"},
+  {s:"disco",t:"dance_pop",w:50,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ディスコの四つ打ちビートと華やかなストリングスアレンジが、ダンスポップのポップスとしてのソングライティングと組み合わされた"},
 
   // ジャズ系サブジャンル
   {s:"jazz",t:"bebop",w:80,score:{"r":1,"h":1,"i":1,"v":0,"c":1},desc:"ジャズのスウィング感のあるリズムとコード進行を土台に、より高速で複雑なコード進行に基づく即興演奏を追求することでビバップが形成された"},
@@ -5710,7 +5737,7 @@ const LINKS = [
   {s:"soul",t:"latin_rnb",w:45,desc:"ソウルのメリスマを交えた歌唱表現が、ラテンR&Bにおいてラテンパーカッションのリズムパターンと組み合わされた"},
   {s:"reggaeton",t:"latin_rnb",w:40,desc:"レゲトンのデンボウのリズムパターンが、ラテンR&Bにおいてよりスムースなボーカル表現と組み合わされた"},
   {s:"funk",t:"britfunk",w:60,score:{"r":1,"h":0,"i":1,"v":0,"c":1},desc:"ファンクのスラップベースとシンコペーションの効いたリズムギターが、イギリスのバンドたちによってよりジャジーな和声感を加えられブリットファンクとして発展した"},
-  {s:"disco",t:"britfunk",w:40,desc:"ディスコのダンスフロア向けの四つ打ちビートが、ブリットファンクのグルーヴ感のあるリズムセクションのアレンジに取り入れられた"},
+  {s:"disco",t:"britfunk",w:40,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"ディスコのダンスフロア向けの四つ打ちビートが、ブリットファンクのグルーヴ感のあるリズムセクションのアレンジに取り入れられた"},
 
   // 追加バッチ4リンク
   {s:"trap",t:"plugg",w:50,desc:"トラップのハイハットロールと808ベースのビートパターンを土台に、より柔らかく浮遊感のあるシンセメロディーを加えることでプラグが形成された"},
@@ -5949,8 +5976,8 @@ const LINKS = [
   {s:"soul",t:"blues",w:40,score:{"r":0,"h":0,"i":0,"v":1,"c":1},desc:"ソウルのゴスペル由来の高揚感のあるシャウトボーカルが、ブルースの感情的な歌唱表現と互いに影響し合っている"},
   {s:"blues",t:"soul",w:40,score:{"r":0,"h":0,"i":0,"v":1,"c":1},desc:"ブルースのブルーノートと感情的な歌唱表現が、ソウルのゴスペル的な高揚感のあるボーカルスタイルに取り込まれている"},
   {s:"funk",t:"soul",w:40,score:{"r":0,"h":0,"i":0,"v":1,"c":1},desc:"ファンクのリズム重視のグルーヴが、ソウルのゴスペル由来のシャウトボーカルと熱量の高い歌唱表現の中に取り入れられている"},
-  {s:"soul",t:"disco",w:40,desc:"ソウルの感情豊かな歌唱とストリングスアレンジが、ディスコの四つ打ちビートと互いに影響し合いながら発展した"},
-  {s:"disco",t:"soul",w:40,desc:"ディスコの四つ打ちビートと華やかなストリングスが、ソウルの歌唱表現豊かなアレンジと重なり合いながら発展した"},
+  {s:"soul",t:"disco",w:40,score:{"r":0,"h":0,"i":1,"v":1,"c":1},desc:"ソウルの感情豊かな歌唱とストリングスアレンジが、ディスコの四つ打ちビートと互いに影響し合いながら発展した"},
+  {s:"disco",t:"soul",w:40,score:{"r":0,"h":0,"i":1,"v":1,"c":1},desc:"ディスコの四つ打ちビートと華やかなストリングスが、ソウルの歌唱表現豊かなアレンジと重なり合いながら発展した"},
   {s:"motown",t:"soul",w:40,desc:"モータウンのポップで洗練されたオーケストラアレンジが、ソウルの感情的な歌唱表現の中に取り入れられている"},
   {s:"neo_soul",t:"soul",w:40,desc:"ネオソウルの現代的なプロダクションが、ソウルの伝統的な生演奏の質感を再解釈する形で取り入れている"},
   {s:"hip_hop_soul",t:"neo_soul",w:40,desc:"ヒップホップソウルのビートメイキングの手法とネオソウルの生々しいボーカル表現が、互いに影響し合いながら発展した"},
@@ -5961,8 +5988,8 @@ const LINKS = [
   {s:"disco",t:"funk",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":1},desc:"ディスコの四つ打ちビートとストリングスアレンジが、ファンクのシンコペーションの効いたベースラインと互いに影響し合っている"},
   {s:"funk",t:"hiphop",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":1},desc:"ファンクのベースラインとドラムパターンが、ヒップホップのサンプリング素材として使われ、ラップのビートの土台となっている"},
   {s:"hiphop",t:"funk",w:40,score:{"r":0,"h":0,"i":0,"v":0,"c":1},desc:"ヒップホップのサンプリング文化が、ファンクのグルーヴをビートメイキングの主要な素材として取り入れている"},
-  {s:"chicago_house",t:"disco",w:40,desc:"シカゴハウスのドラムマシンによるリミックス的な制作手法が、ディスコのクラブ文化と歌ものの構成と互いに影響し合いながら発展した"},
-  {s:"dance_pop",t:"disco",w:40,desc:"ダンスポップのポップスとしてのソングライティングが、ディスコの四つ打ちビートとストリングスアレンジの中に取り入れられている"},
+  {s:"chicago_house",t:"disco",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":1},desc:"シカゴハウスのドラムマシンによるリミックス的な制作手法が、ディスコのクラブ文化と歌ものの構成と互いに影響し合いながら発展した"},
+  {s:"dance_pop",t:"disco",w:40,score:{"r":0,"h":0,"i":0,"v":0,"c":1},desc:"ダンスポップのポップスとしてのソングライティングが、ディスコの四つ打ちビートとストリングスアレンジの中に取り入れられている"},
   {s:"rock_n_roll",t:"doo_wop",w:40,desc:"ロックンロールのバックビートを強調したリズム感覚が、ドゥーワップの多声ハーモニーによるコーラスワークと互いに影響し合っている"},
   {s:"doo_wop",t:"rock_n_roll",w:40,desc:"ドゥーワップのリードボーカルとコーラス隊による多声ハーモニーが、ロックンロールのバックコーラスの手法に取り入れられている"},
   {s:"rock_n_roll",t:"country",w:40,desc:"ロックンロールのギター中心のサウンドとドラムのビート感が、カントリーの歌唱スタイルとギター奏法と互いに影響し合っている"},
@@ -6224,8 +6251,8 @@ const LINKS = [
   {s:"jazz",t:"hiphop",w:40,score:{"r":0,"h":1,"i":0,"v":0,"c":1},desc:"ジャズのセブンスコードによるヴォイシングが、ヒップホップのサンプリング素材として使われている"},
   {s:"hiphop",t:"soul",w:40,desc:"ヒップホップのサンプリングによるビート制作手法が、ソウルの感情豊かな歌唱表現をサンプリング素材とする中で互いに影響し合っている"},
   {s:"soul",t:"hiphop",w:40,desc:"ソウルの感情豊かなボーカル表現が、ヒップホップのサンプリング素材として使われている"},
-  {s:"old_school_hiphop",t:"disco",w:40,desc:"オールドスクール・ヒップホップのブレイクビートサンプリングが、ディスコのダンスフロア向けのトラックをラップ入りで再構築する手法に取り入れられた"},
-  {s:"disco",t:"old_school_hiphop",w:40,desc:"ディスコの四つ打ちビートのトラックが、オールドスクール・ヒップホップのブレイクビートサンプリングの素材として使われた"},
+  {s:"old_school_hiphop",t:"disco",w:40,score:{"r":0,"h":0,"i":0,"v":0,"c":1},desc:"オールドスクール・ヒップホップのブレイクビートサンプリングが、ディスコのダンスフロア向けのトラックをラップ入りで再構築する手法に取り入れられた"},
+  {s:"disco",t:"old_school_hiphop",w:40,score:{"r":1,"h":0,"i":0,"v":0,"c":1},desc:"ディスコの四つ打ちビートのトラックが、オールドスクール・ヒップホップのブレイクビートサンプリングの素材として使われた"},
   {s:"old_school_hiphop",t:"funk",w:40,score:{"r":0,"h":0,"i":0,"v":0,"c":1},desc:"オールドスクール・ヒップホップのブレイクビートサンプリングの手法が、ファンクのグルーヴをサンプリング素材とする文化の中に取り入れられている"},
   {s:"funk",t:"old_school_hiphop",w:40,score:{"r":1,"h":0,"i":0,"v":0,"c":1},desc:"ファンクのドラムブレイクが、オールドスクール・ヒップホップのサンプリング文化の中心的な素材となった"},
   {s:"old_school_hiphop",t:"electro",w:40,desc:"オールドスクール・ヒップホップのラップとブレイクダンスの文化が、エレクトロの機械的なドラムマシンのビートと互いに影響し合っている"},
@@ -6364,7 +6391,7 @@ const LINKS = [
   {s:"vaporwave",t:"city_pop_modern",w:40,desc:"ヴェイパーウェイヴの懐古的なサンプリング美学が、シティポップモダンの洗練された現代的な再現の中に取り入れられている"},
   {s:"funk",t:"city_pop",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":1},desc:"ファンクのスラップベースによるグルーヴが、シティポップのより洗練されたアレンジの中に取り入れられた"},
   {s:"city_pop",t:"fusion",w:40,desc:"シティポップの都会的な歌ものとしての楽曲構成が、ジャズフュージョンの複雑な和声進行と高い演奏技術と互いに影響し合っている"},
-  {s:"disco",t:"city_pop",w:40,desc:"ディスコの四つ打ちビートとストリングスアレンジが、シティポップの都会的なコード進行の中に取り入れられた"},
+  {s:"disco",t:"city_pop",w:40,score:{"r":1,"h":1,"i":1,"v":0,"c":1},desc:"ディスコの四つ打ちビートとストリングスアレンジが、シティポップの都会的なコード進行の中に取り入れられた"},
   {s:"experimental_elec",t:"musique_concrete",w:40,desc:"実験電子音楽のシンセサイザーによる音響実験が、ミュージック・コンクレートのテープ編集による具体音の加工技法の中に取り入れられている"},
 
   // ハードコア系追加4リンク
@@ -6589,7 +6616,7 @@ const LINKS = [
   {s:"uk_funky",t:"afroswing",w:40,desc:"UKファンキーのアフリカ・カリブ系のパーカッションのリズムが、アフロスウィングのUKアーバン的なビートの中に取り入れられている"},
   {s:"chicago_house",t:"tech_house",w:45,desc:"シカゴハウスのグルーヴ感のある四つ打ちビートが、テックハウスのミニマルなテクノ的要素と組み合わされている"},
   {s:"techno",t:"tech_house",w:45,desc:"テクノのミニマルで反復するビート構造が、テックハウスのグルーヴ感のあるハウスサウンドの中に取り入れられている"},
-  {s:"disco",t:"french_house",w:55,desc:"ディスコの華やかなストリングスとベースラインが、フレンチハウスのサンプリング素材として使われている"},
+  {s:"disco",t:"french_house",w:55,score:{"r":0,"h":0,"i":1,"v":0,"c":1},desc:"ディスコの華やかなストリングスとベースラインが、フレンチハウスのサンプリング素材として使われている"},
   {s:"chicago_house",t:"french_house",w:40,desc:"シカゴハウスの四つ打ちビートが、フレンチハウスのフィルターをかけたディスコサンプルのビート構造の中に取り入れられている"},
   {s:"french_house",t:"electro_house",w:40,desc:"フレンチハウスのフィルターをかけたディスコサンプルの手法が、エレクトロハウスの歪んだシンセサウンドの制作に取り入れられている"},
   {s:"chicago_house",t:"footwork",w:45,desc:"シカゴハウスの四つ打ちビートによるダンス文化が、フットワークの超高速なダンスステップ向けのビートの土台となっている"},
@@ -6628,10 +6655,10 @@ const LINKS = [
   {s:"indie_pop",t:"shibuya_kei",w:45,desc:"インディーポップの軽やかなメロディーラインが、渋谷系のポップで折衷的な音楽性の中に取り入れられている"},
   {s:"bossa_nova",t:"shibuya_kei",w:35,desc:"ボサノヴァの静かで洗練されたギター伴奏が、渋谷系のアーティストたちの楽曲の中に引用素材として取り入れられている"},
   {s:"shibuya_kei",t:"jpop",w:35,desc:"渋谷系の折衷的でおしゃれなポップスの美学が、J-POPの一部のアーティストの楽曲制作に間接的な影響を与えている"},
-  {s:"disco",t:"post_disco",w:70,desc:"ディスコの四つ打ちビートとダンスフロア向けのアレンジが、ポストディスコのグルーヴ重視のアレンジに直接継承されている"},
+  {s:"disco",t:"post_disco",w:70,score:{"r":1,"h":0,"i":1,"v":0,"c":1},desc:"ディスコの四つ打ちビートとダンスフロア向けのアレンジが、ポストディスコのグルーヴ重視のアレンジに直接継承されている"},
   {s:"funk",t:"post_disco",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":1},desc:"ファンクのスラップベースとシンコペーションの効いたリズムギターのカッティングが、ポストディスコのグルーヴ重視のアレンジに取り入れられた。"},
   {s:"post_disco",t:"chicago_house",w:55,desc:"ポストディスコのグルーヴ重視のダンスサウンドが、シカゴハウスの四つ打ちビートの直接的な前身となった"},
-  {s:"disco",t:"nu_disco",w:55,desc:"ディスコの四つ打ちビートと華やかなストリングスが、ヌーディスコにおいてより現代的なプロダクション技術で再解釈された"},
+  {s:"disco",t:"nu_disco",w:55,score:{"r":1,"h":0,"i":1,"v":0,"c":1},desc:"ディスコの四つ打ちビートと華やかなストリングスが、ヌーディスコにおいてより現代的なプロダクション技術で再解釈された"},
   {s:"french_house",t:"nu_disco",w:45,desc:"フレンチハウスのフィルターをかけたディスコサンプルの手法が、ヌーディスコの現代的なディスコ再解釈の流れの中に取り入れられている"},
   {s:"funk",t:"p_funk",w:70,score:{"r":1,"h":0,"i":1,"v":0,"c":1},desc:"ファンクのスラップベースとシンコペーションの効いたグルーヴが、Pファンクのより実験的で宇宙的なコンセプトへと拡張された"},
   {s:"psychedelic_rock",t:"p_funk",w:35,desc:"サイケデリックロックの宇宙的な音響エフェクトの使い方が、Pファンクの宇宙的なコンセプトとステージ演出の中に取り入れられている"},
@@ -6658,7 +6685,7 @@ const LINKS = [
   {s:"indie_rock",t:"slowcore",w:50,desc:"インディーロックのDIY精神を土台に、よりゆったりとしたテンポと内省的な歌詞を加えることでスロウコアが形成された"},
   {s:"dream_pop",t:"slowcore",w:35,desc:"ドリームポップの浮遊感のある静かなアレンジが、スロウコアのゆったりとしたテンポの内省的な楽曲の中に取り入れられている"},
   {s:"post_punk",t:"dance_punk",w:55,desc:"ポストパンクの鋭いギターカッティングとベースラインが、ダンスパンクのよりダンサブルなビートの中に取り入れられている"},
-  {s:"disco",t:"dance_punk",w:40,desc:"ディスコの四つ打ちビートが、ダンスパンクのパンク由来のエネルギッシュな演奏スタイルの中に取り入れられている"},
+  {s:"disco",t:"dance_punk",w:40,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"ディスコの四つ打ちビートが、ダンスパンクのパンク由来のエネルギッシュな演奏スタイルの中に取り入れられている"},
   {s:"post_punk",t:"post_punk_revival",w:65,desc:"ポストパンクの陰鬱なベースラインと実験的なアレンジが、ポストパンクリバイバルにおいて2000年代のバンドたちによって再興された"},
   {s:"indie_rock",t:"post_punk_revival",w:40,desc:"インディーロックのDIY精神とローファイな録音手法が、ポストパンクリバイバルの2000年代のシーンの中に取り入れられている"},
   {s:"punk",t:"riot_grrrl",w:60,desc:"パンクのDIY精神と反体制的な姿勢が、ライオットガールのフェミニズム的なメッセージ性のある音楽性の中に取り入れられている"},
@@ -6732,7 +6759,7 @@ const LINKS = [
   {s:"synth_pop",t:"electroclash",w:50,desc:"シンセポップのアナログシンセによる音作りが、エレクトロクラッシュにおいてよりパンク的なエネルギーを加えて再解釈された"},
   {s:"electro",t:"electroclash",w:40,desc:"エレクトロのTR-808によるロボット的な音色が、エレクトロクラッシュの電子的なサウンドの中に取り入れられている"},
   {s:"electroclash",t:"electro_house",w:40,desc:"エレクトロクラッシュのパンク的エネルギーとエレクトロサウンドが、エレクトロハウスの歪んだシンセサウンドの中に取り入れられている"},
-  {s:"disco",t:"balearic_beat",w:35,desc:"ディスコの四つ打ちビートによるダンサブルな要素が、バレアリックビートの折衷的なダンスサウンドの中に取り入れられている"},
+  {s:"disco",t:"balearic_beat",w:35,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"ディスコの四つ打ちビートによるダンサブルな要素が、バレアリックビートの折衷的なダンスサウンドの中に取り入れられている"},
   {s:"newage",t:"balearic_beat",w:25,desc:"ニューエイジの瞑想的で癒やしのあるシンセサウンドが、バレアリックビートのリラックスした雰囲気の中に取り入れられている"},
   {s:"balearic_beat",t:"acid_house",w:40,desc:"バレアリックビートの折衷的なイビサ島のクラブ文化が、アシッドハウスのダンスミュージック文化の形成に影響を与えた"},
   {s:"balearic_beat",t:"downtempo",w:35,desc:"バレアリックビートのリラックスした折衷的なサウンドが、ダウンテンポのチルアウト文化の源流となった"},
@@ -6772,7 +6799,7 @@ const LINKS = [
   {s:"reggae",t:"lovers_rock",w:55,desc:"レゲエのオフビートを強調するリズムギターが、ラヴァーズロックのよりロマンチックな歌詞世界の中に取り入れられている"},
   {s:"soul",t:"lovers_rock",w:40,desc:"ソウルの甘くメロウな歌唱表現が、ラヴァーズロックのロマンチックなボーカルスタイルの中に取り入れられている"},
   {s:"dancehall",t:"zouk",w:30,desc:"ダンスホールのカリブ海地域のダンスミュージック文化が、ズークのフランス語圏カリブ海の音楽性と共有されている"},
-  {s:"disco",t:"zouk",w:30,desc:"ディスコの四つ打ちビートが、ズークの電子的なパーカッションのリズムパターンの中に取り入れられている"},
+  {s:"disco",t:"zouk",w:30,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"ディスコの四つ打ちビートが、ズークの電子的なパーカッションのリズムパターンの中に取り入れられている"},
   {s:"merengue",t:"kompa",w:35,desc:"メレンゲの高速なリズム感覚が、コンパのハイチの音楽文化との地域的な交流の中で共有されている"},
   {s:"highlife",t:"juju_music",w:40,desc:"ハイライフのギターによる明るい旋律が、ジュジュのナイジェリアのヨルバ族の伝統音楽との地域的な交流の中で共有されている"},
   {s:"highlife",t:"fuji_music",w:30,desc:"ハイライフのギターアレンジが、フジのナイジェリアの打楽器中心の音楽性の基盤の一部となっている"},
@@ -6832,7 +6859,7 @@ const LINKS = [
   {s:"british_blues",t:"hard_rock",w:45,desc:"ブリティッシュブルースの電化されたブルースサウンドが、ハードロックの音圧の高いギターリフの中に取り入れられている"},
   {s:"soul",t:"philly_soul",w:65,desc:"ソウルの感情豊かな歌唱表現が、フィラデルフィアソウルのストリングスを多用した洗練されたオーケストラアレンジの中に取り入れられている"},
   {s:"motown",t:"philly_soul",w:40,desc:"モータウンのポップで洗練されたオーケストラアレンジの制作手法が、フィラデルフィアソウルのより華やかなプロダクションの中に取り入れられている"},
-  {s:"philly_soul",t:"disco",w:55,desc:"フィラデルフィアソウルのストリングスを多用した華やかなオーケストラアレンジが、ディスコの四つ打ちビートのサウンドの直接的な前身となった"},
+  {s:"philly_soul",t:"disco",w:55,score:{"r":0,"h":1,"i":1,"v":0,"c":1},desc:"フィラデルフィアソウルのストリングスを多用した華やかなオーケストラアレンジが、ディスコの四つ打ちビートのサウンドの直接的な前身となった"},
   {s:"philly_soul",t:"smooth_soul",w:45,desc:"フィラデルフィアソウルの洗練されたオーケストラアレンジが、スムースソウルのメロウなアレンジの中に取り入れられている"},
   {s:"soul",t:"northern_soul",w:60,desc:"ソウルのダンサブルなアップテンポのナンバーが、イギリスのクラブシーンで再発見されノーザンソウルというムーブメントを形成した"},
   {s:"motown",t:"northern_soul",w:45,desc:"モータウンのダンサブルなアップテンポのレア盤が、ノーザンソウルのDJ文化における重要なコレクションの対象となった"},
@@ -6843,11 +6870,11 @@ const LINKS = [
   {s:"soul",t:"psychedelic_soul",w:55,desc:"ソウルの感情豊かなボーカル表現が、サイケデリックソウルの音響実験的なアレンジの基盤となっている"},
   {s:"psychedelic_rock",t:"psychedelic_soul",w:45,desc:"サイケデリックロックのフィードバックノイズを多用した音響実験の手法が、サイケデリックソウルのアレンジの中に取り入れられている"},
   {s:"psychedelic_soul",t:"funk",w:50,score:{"r":0,"h":0,"i":1,"v":0,"c":1},desc:"サイケデリックソウルの音響実験的なアレンジが、ファンクのより実験的なグルーヴの中に取り入れられている"},
-  {s:"disco",t:"boogie_genre",w:50,desc:"ディスコの四つ打ちビートが、ブギーのシンセベースを多用したより電子的なグルーヴへと発展した"},
+  {s:"disco",t:"boogie_genre",w:50,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ディスコの四つ打ちビートが、ブギーのシンセベースを多用したより電子的なグルーヴへと発展した"},
   {s:"funk",t:"boogie_genre",w:50,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ファンクのシンコペーションの効いたグルーヴが、ブギーのシンセベースによるダンスサウンドの中に取り入れられている"},
   {s:"boogie_genre",t:"deep_house",w:35,desc:"ブギーのシンセベースによるグルーヴ感のあるサウンドが、ディープハウスのジャジーなコード感のあるアレンジの中に取り入れられている"},
   {s:"boogie_genre",t:"city_pop",w:30,desc:"ブギーのファンキーなグルーヴとシンセベースの音作りが、シティポップの都会的なサウンドの美学と共有されている"},
-  {s:"disco",t:"space_disco",w:55,desc:"ディスコの四つ打ちビートが、スペースディスコのシンセサイザーによる宇宙的な音色とより電子的なサウンドへと発展した"},
+  {s:"disco",t:"space_disco",w:55,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ディスコの四つ打ちビートが、スペースディスコのシンセサイザーによる宇宙的な音色とより電子的なサウンドへと発展した"},
   {s:"synth_pop",t:"space_disco",w:30,desc:"シンセポップの宇宙的なシンセサイザーの音色が、スペースディスコの電子的なダンスサウンドの中に取り入れられている"},
   {s:"space_disco",t:"italo_disco",w:45,desc:"スペースディスコのシンセサイザーによる宇宙的な音色が、イタロディスコのシンセベースによるダンスサウンドの前身となった"},
   {s:"funk",t:"go_go",w:60,score:{"r":1,"h":0,"i":1,"v":0,"c":1},desc:"ファンクのシンコペーションの効いたグルーヴとパーカッシブなリズムが、ゴーゴーのワシントンDC発の反復するパーカッションビートの中に取り入れられている"},
@@ -7097,7 +7124,7 @@ const LINKS = [
   {s:"swamp_rock",t:"psychedelic_rock",w:45,desc:"1960年代後半の時代的文脈の中で、スワンプ・ロックとサイケデリック・ロックは互いに影響を与え合った。ドクター・ジョンのヴードゥー的な神秘主義はサイケデリックな音響実験と共鳴し、一方でサイケデリック・ロックの実験精神がスワンプ・ロックのスタジオ録音に独特の空間処理をもたらした。"},
 
   {s:"schlager",t:"europop",w:75,desc:"西ドイツやスカンジナビアで根強い人気を誇ったシュラーガーの、甘く親しみやすいメロディーライン構造とコーラスの重ね方がユーロポップに直接受け継がれた。シュラーガー特有の「一度聴いたら忘れられないサビ」という楽曲設計の哲学が、ユーロポップのフック重視のソングライティングの基盤となっている。"},
-  {s:"disco",t:"europop",w:70,desc:"1970年代後半のディスコブームがユーロポップのリズム構造に深く影響を与えた。四つ打ちのキックドラム、オフビートのハイハット、弦楽器やブラスセクションによる華やかなアレンジといったディスコの要素が、ユーロポップのダンサブルな側面の形成に寄与した。ABBAのプロダクションにはディスコの影響が色濃く反映されている。"},
+  {s:"disco",t:"europop",w:70,score:{"r":1,"h":0,"i":1,"v":0,"c":1},desc:"1970年代後半のディスコブームがユーロポップのリズム構造に深く影響を与えた。四つ打ちのキックドラム、オフビートのハイハット、弦楽器やブラスセクションによる華やかなアレンジといったディスコの要素が、ユーロポップのダンサブルな側面の形成に寄与した。ABBAのプロダクションにはディスコの影響が色濃く反映されている。"},
   {s:"synth_pop",t:"europop",w:80,desc:"1980年代のシンセポップとユーロポップは相互に影響を与え合った。シンセポップのシンセサイザー主体のサウンドメイキングとドラムマシンの使用法がユーロポップに取り込まれ、逆にユーロポップのキャッチーなメロディー構造とコーラスワークがシンセポップの商業的展開に影響を与えた。a-haやペット・ショップ・ボーイズはその境界線上に位置するアーティストだ。"},
   {s:"europop",t:"synth_pop",w:80,desc:"1980年代のシンセポップとユーロポップは相互に影響を与え合った。シンセポップのシンセサイザー主体のサウンドメイキングとドラムマシンの使用法がユーロポップに取り込まれ、逆にユーロポップのキャッチーなメロディー構造とコーラスワークがシンセポップの商業的展開に影響を与えた。a-haやペット・ショップ・ボーイズはその境界線上に位置するアーティストだ。"},
   {s:"hi_nrg",t:"europop",w:65,desc:"ハイ・エナジーの高速BPMと電子的なビート構造、そしてダンスフロアを意識したエネルギッシュなプロダクションがユーロポップの1980年代以降のサウンドに取り込まれた。特にシンセベースの使い方とドラムマシンのプログラミング手法において、ハイ・エナジーのプロデューサーたちが確立した技法がユーロポップの制作現場に浸透した。"},
@@ -7755,6 +7782,116 @@ function _linkTrimRadius(nodeR, strokeWidth) {
   const half = strokeWidth / 2;
   return half < nodeR ? Math.sqrt(nodeR * nodeR - half * half) : 0;
 }
+
+// ===== 音楽用語の説明ツールチップ =====
+// 「わからない専門用語にカーソルを合わせると説明が出てほしい」との
+// 指摘を受けて実装。ジャンルごとに個別で用意するのではなく、全ジャンル
+// 共通で使い回せる用語集を1つ作り、説明文中に出現した箇所を自動で
+// 検出してツールチップ付きのspanに置き換える方式にした（人名・曲名は
+// ジャンルごとに毎回違うため、こちらは別途書きながら少しずつ足していく
+// 方針。用語集は繰り返し出てくる音楽用語専用）。ホバー/フォーカス時
+// だけ表示するCSSだけの仕組みで、常時動き続けるアニメーションではない
+// ため負荷は小さい（2026-07-24、「わからない用語にツールチップを」との指示）。
+const GLOSSARY = {
+  "オープンハイハット": "ドラムセットの、2枚の金属シンバルを重ねた打楽器（ハイハット）を、少しだけ開けた状態で叩く奏法。「シャーン」と伸びるような音になる。",
+  "クローズドハイハット": "ドラムセットの、2枚の金属シンバルを重ねた打楽器（ハイハット）を、ペダルで閉じたまま叩く奏法。歯切れの良い短い音になる。",
+  "ハイハット": "ドラムセットの一部で、2枚の金属シンバルを重ねた打楽器。ペダルで開閉でき、閉じて叩く「クローズド」は短く歯切れの良い音、少し開けて叩く「オープン」は「シャーン」と伸びる音になる。",
+  "四つ打ち": "1小節の4拍すべてでバスドラム（キック）を均等に鳴らすリズムパターン。「4拍子」という拍の数え方の枠組みとは別の話で、四つ打ちは「キックの鳴らし方」を指す言葉。4拍子の曲でもキックが1拍目・3拍目だけの曲は四つ打ちではない。",
+  "オクターブ": "音の高さの単位の1つ。ある音から、周波数がちょうど2倍（または半分）になる音までの幅のことで、ドレミファソラシドの「次のド」までの距離にあたる。",
+  "ストリングス": "バイオリンやチェロなど、弦をこすって音を出す楽器（弦楽器）群のこと。ポピュラー音楽では、そういった楽器によるオーケストラ的な演奏・音色を指すことが多い。",
+  "アルペジオ": "和音（コード）を構成する音を、同時にではなく1音ずつ順番に鳴らす演奏技法。「分散和音」とも呼ばれる。",
+  "ブルーノート": "長音階の3度・5度・7度の音を、半音〜1音ほど低めに演奏する、ブルースやジャズ特有の音使い。「泣き」のような、もの悲しい響きになる。",
+  "シンコペーション": "本来強く演奏される拍（強拍）ではなく、その裏や間の弱い部分にアクセントを置くリズムの技法。リズムに「ズレ」や「跳ねる感じ」を生む。",
+  "スラップベース": "ベースの弦を、親指で叩いたり（スラップ）人差し指で引っ張って弾いたり（プル）することで、パーカッシブでバチバチした音を出す奏法。",
+  "カッティング": "ギターのコードを、音を伸ばさずに短く歯切れよく刻むように弾く奏法。リズム楽器的にギターを使う演奏スタイル。",
+  "ウォーキングベース": "1拍ごとに違う音を刻み続け、階段を上り下りするように滑らかに音程を移動していくベースの演奏スタイル。ジャズでよく使われる。",
+  "ドミナント7th": "基本の和音（トライアド）に、さらに1音（短7度）を足した4音の和音。ブルースやジャズでよく使われる、少し緊張感のある響きの和音。",
+  "モータリック・ビート": "ドイツのクラウトロックで生まれた、一定の速さで同じリズムパターンを機械のように反復し続けるドラムのビート。",
+  "12インチ・シングル": "通常より大きい直径のレコード盤で発売されたシングル曲。溝の間隔を広く取れるため音質が良く、DJがミックスしやすいよう曲の前後を長く伸ばしたバージョンがよく収録された。",
+  "ザ・ワン": "ファンク特有の考え方で、1小節の「1拍目」を最も強く意識・強調するという演奏哲学。James Brownが特に重視したことで知られる。",
+  "ポケット": "リズム楽器同士が、微妙な「間（ま）」やズレを保ちながら組み合わさることで生まれる、心地よいグルーヴ感のこと。",
+  "コード・ヴォイシング": "同じ和音（コード）でも、どの高さにどの音を配置するかという「積み方」のこと。積み方次第で響きの印象が変わる。",
+};
+// 用語集のキーを、長い語から先に一致するよう並べ替えて正規表現を作る
+// （例:「オープンハイハット」を先に判定しないと「ハイハット」にだけ
+// マッチしてしまい、より詳しい説明を出せなくなるため）。
+const _glossaryKeys = Object.keys(GLOSSARY).sort((a, b) => b.length - a.length);
+const _glossaryRegex = new RegExp(_glossaryKeys.map(k => k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|'), 'g');
+function _escapeHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+// テキスト中の用語集に載っている語を、ツールチップ付きのspanに置き換える。
+// テキストは先にHTMLエスケープしてから置換するため、安全にinnerHTMLへ
+// 差し込める。
+function _applyGlossary(text) {
+  if (!text) return '';
+  const escaped = _escapeHtml(text);
+  return escaped.replace(_glossaryRegex, (term) => {
+    const def = GLOSSARY[term];
+    return `<span class="gloss-term" tabindex="0">${term}<span class="gloss-tip">${_escapeHtml(def)}</span></span>`;
+  });
+}
+// roots_story用：[[アーティスト / 曲名]]のYouTubeリンク変換と、用語集への
+// 置き換えを両方行う。曲名・アーティスト名にたまたま用語集の語と同じ
+// 文字列が含まれていても誤爆しないよう、[[...]]の部分は先に切り出して
+// 用語集の対象から外してから処理する。
+function _applyGlossaryAndLinks(text) {
+  if (!text) return '';
+  const parts = text.split(/(\[\[[^\]]+\]\])/g);
+  return parts.map(part => {
+    const m = part.match(/^\[\[([^\]]+)\]\]$/);
+    if (m) {
+      const inner = m[1];
+      const escapedAttr = inner.replace(/"/g, '&quot;');
+      const artist = inner.split(' / ')[0], song = inner.split(' / ')[1] || '';
+      return `<a href="#" class="yt-music-link" data-query="${escapedAttr}" style="color:#7ecfff;text-decoration:none;cursor:pointer;border-bottom:1px dotted #7ecfff;">${_escapeHtml(artist)}<span style="color:#aaa;font-size:0.9em"> ♪ ${_escapeHtml(song)}</span></a>`;
+    }
+    return _applyGlossary(part);
+  }).join('');
+}
+
+// 用語ツールチップの表示位置を、画面の外にはみ出さないよう毎回計算する。
+// 用語(.gloss-term)は説明パネル内で毎回作り直されるため、個々の要素に
+// イベントを付け直すのではなく、documentに1つだけイベントを仕込んで
+// 委譲(delegation)する方式にした（ホバー/フォーカス時にしか動かない
+// ので負荷は問題ない）。
+function _positionGlossTip(termEl) {
+  const tip = termEl.querySelector('.gloss-tip');
+  if (!tip) return;
+  tip.style.left = '0px';
+  tip.style.top = '0px';
+  tip.style.display = 'block'; // 表示してからでないとサイズ(getBoundingClientRect)が測れない
+  const termRect = termEl.getBoundingClientRect();
+  const tipRect = tip.getBoundingClientRect();
+  const margin = 8;
+  let left = termRect.left + termRect.width / 2 - tipRect.width / 2;
+  left = Math.max(margin, Math.min(left, window.innerWidth - tipRect.width - margin));
+  let top = termRect.top - tipRect.height - 8;
+  if (top < margin) top = termRect.bottom + 8; // 上にスペースがなければ下に出す
+  tip.style.left = left + 'px';
+  tip.style.top = top + 'px';
+}
+function _hideGlossTip(termEl) {
+  const tip = termEl.querySelector('.gloss-tip');
+  if (tip) tip.style.display = 'none';
+}
+document.addEventListener('mouseover', (e) => {
+  const term = e.target.closest('.gloss-term');
+  if (term) _positionGlossTip(term);
+});
+document.addEventListener('mouseout', (e) => {
+  const term = e.target.closest('.gloss-term');
+  if (term && !term.contains(e.relatedTarget)) _hideGlossTip(term);
+});
+document.addEventListener('focusin', (e) => {
+  const term = e.target.closest('.gloss-term');
+  if (term) _positionGlossTip(term);
+});
+document.addEventListener('focusout', (e) => {
+  const term = e.target.closest('.gloss-term');
+  if (term) _hideGlossTip(term);
+});
+
 function _scoreMeterHtml(l, dirClass) {
   if (!l.score) {
     const chevrons = dirClass === 'mutual'
@@ -8838,17 +8975,15 @@ node.on("click", (e, d) => {
     spCat.style.display = 'none';
   }
   spEra.textContent  = d.era ? `発祥時期：${d.era}` : '';
-  spDesc.textContent = d.desc || '（説明なし）';
+  spDesc.innerHTML = d.desc ? _applyGlossary(d.desc) : '（説明なし）';
 
-  // ルーツの経緯（[[アーティスト / 曲名]]をYouTubeリンクに変換）
+  // ルーツの経緯（[[アーティスト / 曲名]]をYouTubeリンクに変換、あわせて
+  // 用語集の語にはツールチップを付ける。両方の処理を_applyGlossaryAndLinks
+  // にまとめてある）
   const spRootsStory = document.getElementById("sp-roots-story");
   const spRootsStorySec = document.getElementById("sp-roots-story-sec");
   if (d.roots_story) {
-    const storyHtml = d.roots_story.replace(/\[\[([^\]]+)\]\]/g, (_, m) => {
-      const escaped = m.replace(/"/g, '&quot;');
-      return `<a href="#" class="yt-music-link" data-query="${escaped}" style="color:#7ecfff;text-decoration:none;cursor:pointer;border-bottom:1px dotted #7ecfff;">${m.split(' / ')[0]}<span style="color:#aaa;font-size:0.9em"> ♪ ${m.split(' / ')[1] || ''}</span></a>`;
-    });
-    spRootsStory.innerHTML = storyHtml;
+    spRootsStory.innerHTML = _applyGlossaryAndLinks(d.roots_story);
     spRootsStorySec.style.display = '';
   } else {
     spRootsStorySec.style.display = 'none';
@@ -8896,7 +9031,7 @@ node.on("click", (e, d) => {
           <a href="#" class="sp-genre-link sp-card-name" data-id="${l.s}">${nodeMap[l.s]?.label?.replace("\n"," ")}</a>${_influenceLvHtml(l)}
         </div>
         <div class="sp-card-score-row">${_scoreMeterHtml(l, "in")}</div>
-        <div class="sp-card-desc">${l.desc||''}</div>
+        <div class="sp-card-desc">${_applyGlossary(l.desc||'')}</div>
       </div>`).join('')
     : '<span style="color:#666">なし</span>';
 
@@ -8908,7 +9043,7 @@ node.on("click", (e, d) => {
           <a href="#" class="sp-genre-link sp-card-name" data-id="${l.t}">${nodeMap[l.t]?.label?.replace("\n"," ")}</a>${_influenceLvHtml(l)}
         </div>
         <div class="sp-card-score-row">${_scoreMeterHtml(l, "out")}</div>
-        <div class="sp-card-desc">${l.desc||''}</div>
+        <div class="sp-card-desc">${_applyGlossary(l.desc||'')}</div>
       </div>`).join('')
     : '<span style="color:#666">なし</span>';
 
@@ -8923,7 +9058,7 @@ node.on("click", (e, d) => {
             <a href="#" class="sp-genre-link sp-card-name" data-id="${otherId}">${nodeMap[otherId]?.label?.replace("\n"," ")}</a>${_influenceLvHtml(l)}
           </div>
           <div class="sp-card-score-row">${_scoreMeterHtml(l, "mutual")}</div>
-          <div class="sp-card-desc">${l.desc||''}</div>
+          <div class="sp-card-desc">${_applyGlossary(l.desc||'')}</div>
         </div>`;
       }).join('')
     : '<span style="color:#666">なし</span>';
