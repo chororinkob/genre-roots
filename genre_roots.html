@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.214<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.215<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -6003,8 +6003,8 @@ const LINKS = [
   {s:"americana",t:"country",w:40,score:{"r":0,"h":0,"i":1,"v":1,"c":0},desc:"アメリカーナのルーツ志向で土臭い音作りが、カントリーの伝統的な楽器編成と歌唱スタイルを再解釈する形で発展した"},
   {s:"americana",t:"folk",w:40,score:{"r":0,"h":0,"i":1,"v":1,"c":0},desc:"アメリカーナのバンド編成でのアレンジが、フォークの物語性のある歌詞と互いに影響し合っている"},
   {s:"singer_songwriter",t:"folk",w:40,score:{"r":0,"h":0,"i":0,"v":1,"c":0},desc:"シンガーソングライターの個人的な内面を描く作家性が、フォークの物語性のある弾き語りの語り口の中に取り入れられている"},
-  {s:"singer_songwriter",t:"soft_rock",w:40,desc:"シンガーソングライターの個人的な歌詞表現が、ソフトロックの柔らかいバンド編成のアレンジに取り入れられた"},
-  {s:"soft_rock",t:"adult_contemporary",w:40,desc:"ソフトロックの柔らかいバンドサウンドが、アダルト・コンテンポラリーのより洗練されたプロダクション技術に発展した"},
+  {s:"singer_songwriter",t:"soft_rock",w:40,score:{"r":0,"h":0,"i":0,"v":1,"c":0},desc:"シンガーソングライターの個人的な歌詞表現が、ソフトロックの柔らかいバンド編成のアレンジに取り入れられた"},
+  {s:"soft_rock",t:"adult_contemporary",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"ソフトロックの柔らかいバンドサウンドが、アダルト・コンテンポラリーのより洗練されたプロダクション技術に発展した"},
   {s:"prog_rock",t:"psychedelic_rock",w:40,score:{"r":0,"h":1,"i":0,"v":0,"c":0},desc:"プログレッシブロックの緻密な構成美が、サイケデリックロックの長尺で音響実験的な演奏スタイルと互いに影響し合っている"},
   {s:"psychedelic_rock",t:"raga",w:40,score:{"r":1,"h":1,"i":0,"v":0,"c":0},desc:"サイケデリックロックの電化された反復演奏が、ラーガのドローン(持続音)と旋法(ラーガ)に基づく即興性と互いに影響し合っている"},
   {s:"raga",t:"psychedelic_rock",w:40,score:{"r":0,"h":1,"i":1,"v":0,"c":1},desc:"ラーガのシタールによるドローンと旋法に基づく即興演奏が、サイケデリックロックのギターサウンドに取り入れられている"},
@@ -6582,10 +6582,10 @@ const LINKS = [
   {s:"trap",t:"soundcloud_rap",w:55,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"トラップの808ベースとハイハットロールのビートパターンが、サウンドクラウドラップのローファイな宅録的なプロダクションの中に取り入れられている"},
   {s:"cloud_rap",t:"soundcloud_rap",w:45,desc:"クラウドラップの浮遊感のあるシンセサウンドが、サウンドクラウドラップのインターネット文化発のプロダクションの中に取り入れられている"},
   {s:"emo_rap",t:"soundcloud_rap",w:45,desc:"エモラップの内省的で感情を吐露する歌詞表現が、サウンドクラウドラップのDIY的なプロダクションの中に取り入れられている"},
-  {s:"soft_rock",t:"yacht_rock",w:55,desc:"ソフトロックの柔らかいバンドサウンドが、ヨットロックのより洗練されたスタジオプロダクションの中に取り入れられている"},
+  {s:"soft_rock",t:"yacht_rock",w:55,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"ソフトロックの柔らかいバンドサウンドが、ヨットロックのより洗練されたスタジオプロダクションの中に取り入れられている"},
   {s:"soul",t:"yacht_rock",w:40,score:{"r":0,"h":0,"i":0,"v":1,"c":0},desc:"ソウルの滑らかなボーカルハーモニーが、ヨットロックの洗練されたスムースなサウンドプロダクションの中に取り入れられている"},
   {s:"rock",t:"aor",w:50,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"ロックのバンド編成による演奏が、AORのラジオ向けに洗練されたスタジオプロダクションの中に取り入れられている"},
-  {s:"soft_rock",t:"aor",w:50,desc:"ソフトロックの柔らかいバンドサウンドが、AORの耳あたりの良いメロディーラインの中に取り入れられている"},
+  {s:"soft_rock",t:"aor",w:50,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"ソフトロックの柔らかいバンドサウンドが、AORの耳あたりの良いメロディーラインの中に取り入れられている"},
   {s:"aor",t:"city_pop",w:45,desc:"AORの洗練されたコード進行とスタジオプロダクションの技術が、シティポップの都会的なサウンドの中に取り入れられている"},
   {s:"hiphop",t:"k_hiphop",w:60,score:{"r":1,"h":0,"i":1,"v":1,"c":1},desc:"アメリカのヒップホップのラップとビートメイキングの手法が、韓国のヒップホップシーンにそのまま取り入れられK-ヒップホップが形成された"},
   {s:"kpop",t:"k_hiphop",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":1},desc:"K-POPのグループ制作体制とプロダクション技術が、K-ヒップホップのアーティストたちの楽曲制作と交差している"},
