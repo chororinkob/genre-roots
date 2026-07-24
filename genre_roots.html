@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.281<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.282<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -5923,7 +5923,7 @@ const LINKS = [
   {s:"blues",t:"harmonica_blues",w:70,score:{"r":1,"h":1,"i":1,"v":0,"c":1},desc:"ブルースのブルーノートとベンドの音使いが、ハーモニカブルースにおいてハーモニカを吸って音程を下げるベンド奏法（クロスハープ）による表現に置き換えられた"},
   {s:"blues",t:"jump_blues",w:65,score:{"r":1,"h":1,"i":1,"v":0,"c":1},desc:"ブルースの12小節進行を土台に、テンポを上げてホーンセクションによる跳ねるようなリズムを加えることでジャンプブルースが形成された"},
   {s:"jazz",t:"jump_blues",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":1},desc:"ジャズのビッグバンド編成によるホーンセクションのアレンジ手法が、ジャンプブルースの跳ねるようなリズムのホーンアンサンブルに取り入れられた"},
-  {s:"piano_blues",t:"boogie_woogie",w:75,desc:"ピアノブルースの左手のウォーキングベースパターンが、ブギウギにおいてより高速で反復的な8ビートのベースラインへと発展した"},
+  {s:"piano_blues",t:"boogie_woogie",w:75,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ピアノブルースの左手のウォーキングベースパターンが、ブギウギにおいてより高速で反復的な8ビートのベースラインへと発展した"},
   {s:"boogie_woogie",t:"rock_n_roll",w:50,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ブギウギの高速で反復的なピアノのベースラインパターンが、ロックンロールのバックビートを強調したリズム感覚の直接的な原型となった"},
   {s:"jump_blues",t:"rock_n_roll",w:60,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ジャンプブルースのシャッフルビートとホーンセクションによるリズムが、ロックンロールにおいてエレキギターを中心とした編成に置き換えられた"},
   {s:"chicago_blues",t:"rock_n_roll",w:55,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"シカゴブルースのエレキギターによる歪んだ音色とバンド編成のサウンドが、ロックンロールのギター中心のサウンドプロダクションに直結した"},
@@ -6853,7 +6853,7 @@ const LINKS = [
   {s:"blues",t:"texas_blues",w:65,score:{"r":1,"h":1,"i":1,"v":0,"c":1},desc:"ブルースの12小節進行とブルーノートの音使いが、テキサスブルースのより自由なギターソロを重視した地域様式へと発展した"},
   {s:"jazz",t:"texas_blues",w:25,score:{"r":0,"h":1,"i":0,"v":0,"c":0},desc:"ジャズの洗練されたコード進行が、テキサスブルースのギター演奏の中に部分的に取り入れられている"},
   {s:"texas_blues",t:"contemporary_blues",w:45,desc:"テキサスブルースの自由なギターソロを重視したスタイルが、コンテンポラリー・ブルースのロック的なギターサウンドの中に取り入れられている"},
-  {s:"chicago_blues",t:"british_blues",w:60,desc:"シカゴブルースのエレキギターによる電化されたサウンドが、イギリスのミュージシャンたちによって熱心に受容されブリティッシュブルースが形成された"},
+  {s:"chicago_blues",t:"british_blues",w:60,score:{"r":0,"h":0,"i":1,"v":0,"c":1},desc:"シカゴブルースのエレキギターによる電化されたサウンドが、イギリスのミュージシャンたちによって熱心に受容されブリティッシュブルースが形成された"},
   {s:"delta_blues",t:"british_blues",w:40,score:{"r":0,"h":0,"i":1,"v":1,"c":1},desc:"デルタブルースのスライドギターと素朴な歌唱スタイルが、イギリスのミュージシャンたちによって再発見されブリティッシュブルースに取り入れられた"},
   {s:"british_blues",t:"blues_rock",w:65,score:{"r":0,"h":0,"i":1,"v":0,"c":1},desc:"ブリティッシュブルースのイギリス的な解釈によるブルースサウンドが、ブルースロックのディストーションギターによるリフの直接的な母体となった"},
   {s:"british_blues",t:"hard_rock",w:45,desc:"ブリティッシュブルースの電化されたブルースサウンドが、ハードロックの音圧の高いギターリフの中に取り入れられている"},
