@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.285<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.286<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -6703,7 +6703,7 @@ const LINKS = [
   {s:"folk_rock",t:"singer_songwriter",w:45,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"フォークロックのバンド編成でのアレンジ手法が、シンガーソングライターの個人的な内面を描く弾き語りの中に取り入れられている"},
   {s:"synth_pop",t:"new_romantic",w:55,score:{"r":0,"h":1,"i":0,"v":0,"c":1},desc:"シンセポップのメロディックなシンセサイザーの音作りが、ニューロマンティックの華やかなファッションと結びついた音楽性の中に取り入れられている"},
   {s:"glam_rock",t:"new_romantic",w:40,desc:"グラムロックの派手な視覚的演出が、ニューロマンティックの華やかなファッションと美学の中に取り入れられている"},
-  {s:"hard_rock",t:"glam_metal",w:60,desc:"ハードロックの音圧の高いギターリフが、グラムメタルの派手なビジュアルとキャッチーなメロディーラインの中に取り入れられている"},
+  {s:"hard_rock",t:"glam_metal",w:60,score:{"r":0,"h":1,"i":1,"v":0,"c":1},desc:"ハードロックの音圧の高いギターリフが、グラムメタルの派手なビジュアルとキャッチーなメロディーラインの中に取り入れられている"},
   {s:"glam_rock",t:"glam_metal",w:45,desc:"グラムロックの派手なメイクアップとファッションによる視覚的な演出が、グラムメタルのビジュアル面に直接受け継がれている"},
   {s:"doom_metal",t:"drone_metal",w:55,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ドゥームメタルの極端に遅く重厚なリフが、ドローンメタルにおいてさらにテンポを落とし単一の持続音に近づく形へと先鋭化した"},
   {s:"drone_music",t:"drone_metal",w:50,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"ドローンの単一の音の持続に集中する美学が、ドローンメタルの極端に遅い重厚なギターサウンドの中に取り入れられている"},
@@ -6856,7 +6856,7 @@ const LINKS = [
   {s:"chicago_blues",t:"british_blues",w:60,score:{"r":0,"h":0,"i":1,"v":0,"c":1},desc:"シカゴブルースのエレキギターによる電化されたサウンドが、イギリスのミュージシャンたちによって熱心に受容されブリティッシュブルースが形成された"},
   {s:"delta_blues",t:"british_blues",w:40,score:{"r":0,"h":0,"i":1,"v":1,"c":1},desc:"デルタブルースのスライドギターと素朴な歌唱スタイルが、イギリスのミュージシャンたちによって再発見されブリティッシュブルースに取り入れられた"},
   {s:"british_blues",t:"blues_rock",w:65,score:{"r":0,"h":0,"i":1,"v":0,"c":1},desc:"ブリティッシュブルースのイギリス的な解釈によるブルースサウンドが、ブルースロックのディストーションギターによるリフの直接的な母体となった"},
-  {s:"british_blues",t:"hard_rock",w:45,desc:"ブリティッシュブルースの電化されたブルースサウンドが、ハードロックの音圧の高いギターリフの中に取り入れられている"},
+  {s:"british_blues",t:"hard_rock",w:45,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"ブリティッシュブルースの電化されたブルースサウンドが、ハードロックの音圧の高いギターリフの中に取り入れられている"},
   {s:"soul",t:"philly_soul",w:65,score:{"r":0,"h":1,"i":1,"v":1,"c":1},desc:"ソウルの感情豊かな歌唱表現が、フィラデルフィアソウルのストリングスを多用した洗練されたオーケストラアレンジの中に取り入れられている"},
   {s:"motown",t:"philly_soul",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"モータウンのポップで洗練されたオーケストラアレンジの制作手法が、フィラデルフィアソウルのより華やかなプロダクションの中に取り入れられている"},
   {s:"philly_soul",t:"disco",w:55,score:{"r":0,"h":1,"i":1,"v":0,"c":1},desc:"フィラデルフィアソウルのストリングスを多用した華やかなオーケストラアレンジが、ディスコの四つ打ちビートのサウンドの直接的な前身となった"},
