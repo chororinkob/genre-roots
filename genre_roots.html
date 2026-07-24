@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.234<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.235<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -5801,7 +5801,7 @@ const LINKS = [
   {s:"folk",t:"viking_metal",w:40,score:{"r":0,"h":1,"i":1,"v":1,"c":0},desc:"北欧フォークの民族楽器(ニッケルハルパなど)による旋律と、叙事詩的な物語を歌う伝統が、ヴァイキングメタルの叙事的な歌詞世界と民族音楽的なメロディーラインに取り入れられた。"},
 
   // ヒップホップ系追加2リンク
-  {s:"old_school_hiphop",t:"golden_age_hiphop",w:75,desc:"オールドスクール・ヒップホップのブレイクビートとシンプルなラップスタイルが、ゴールデンエイジ・ヒップホップにおいてよりサンプリング技術が洗練されコンシャスな歌詞を持つ形に進化した"},
+  {s:"old_school_hiphop",t:"golden_age_hiphop",w:75,score:{"r":1,"h":0,"i":1,"v":1,"c":0},desc:"オールドスクール・ヒップホップのブレイクビートとシンプルなラップスタイルが、ゴールデンエイジ・ヒップホップにおいてよりサンプリング技術が洗練されコンシャスな歌詞を持つ形に進化した"},
   {s:"hiphop",t:"memphis_rap",w:60,score:{"r":1,"h":0,"i":1,"v":0,"c":1},desc:"ヒップホップのビートメイキングの手法が、メンフィスラップにおいてホラー映画的な不穏なサンプルと遅いテンポのダークな音作りに発展した"},
   {s:"memphis_rap",t:"phonk",w:65,desc:"メンフィスラップの90年代のカセットテープ由来のローファイなサンプリング手法が、フォンクにおいてより現代的でドライブ感のある音像に再構築された"},
   {s:"memphis_rap",t:"chopped_and_screwed",w:40,desc:"メンフィスラップの不穏で暗い南部的なムードが、チョップド&スクリュードにおいて曲全体の再生速度を落とし音を引き伸ばす手法に組み合わされた"},
@@ -5879,7 +5879,7 @@ const LINKS = [
 
   // ヒップホップ系追加リンク
   {s:"old_school_hiphop",t:"hiphop",w:85,score:{"r":1,"h":0,"i":1,"v":1,"c":1},desc:"オールドスクール・ヒップホップのブロックパーティーでのDJプレイとシンプルなラップのコール＆レスポンスが、ヒップホップ全体の基本フォーマットとして確立された"},
-  {s:"old_school_hiphop",t:"boom_bap",w:70,desc:"オールドスクール・ヒップホップのブレイクビートサンプリングの手法が、ブンバップにおいてよりパンチの効いたキックとスネアの強調されたドラムパターンに洗練された"},
+  {s:"old_school_hiphop",t:"boom_bap",w:70,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"オールドスクール・ヒップホップのブレイクビートサンプリングの手法が、ブンバップにおいてよりパンチの効いたキックとスネアの強調されたドラムパターンに洗練された"},
   {s:"crunk",t:"trap",w:40,score:{"r":0,"h":0,"i":1,"v":1,"c":1},desc:"クランクの南部的なコール＆レスポンスのチャントと808ベースが、トラップにおいてより暗いシンセメロディーとハイハットロールに組み合わされた"},
   {s:"trap",t:"phonk",w:55,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"トラップの808ベースとハイハットロールのビートパターンが、フォンクにおいてメンフィスラップ由来のローファイなサンプルと現代的なミックス技術に組み合わされた"},
   {s:"trap",t:"drill",w:65,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"トラップの808ベースのビートパターンが、ドリルにおいてよりピッチをスライドさせる硬く暗いベースラインへと発展した"},
