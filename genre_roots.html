@@ -63,6 +63,11 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
 .sp-cat-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 .sp-section { margin-bottom: 14px; }
 .sp-section h4 { font-size: 12px; letter-spacing: 0.5px; color: #fff; font-weight: 700; margin-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 4px; }
+/* 見出しの中で意味の要となる部分(受けた/与えた/相互に)だけ、方向の
+   配色(in=青/out=緑/mutual=紫)に合わせて色を変えて目立たせる（2026-07-23） */
+.sp-h4-em.in { color: #4fb4e8; }
+.sp-h4-em.out { color: #57d197; }
+.sp-h4-em.mutual { color: #c9a6ff; }
 .sp-section p { color: #ccc; line-height: 1.6; font-size: 13px; }
 .sp-card { margin-bottom: 16px; }
 .sp-card:last-child { margin-bottom: 0; }
@@ -75,22 +80,29 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
    「Future Funk」のような1つのジャンル名の途中で改行されてしまい、
    光る帯が表す「AからBへ」という関係が読み取れなくなるとの指摘を
    受けて、この2段構成に変更した。2026-07-23） */
-/* 「AからBに流れている」という意味合いが伝わるよう、名前の行(1段目)の
-   すぐ下に光る帯の行(2段目)をくっつくくらいの間隔で配置する
-   （2026-07-23、順番を入れ替え・間隔を詰めた）。 */
-.sp-card-names-row { display: flex; align-items: baseline; justify-content: center; flex-wrap: wrap; gap: 6px; margin-bottom: 3px; text-align: center; }
+/* 「AからBに流れている」という意味合いが伝わるよう、1段目＝名前の行、
+   2段目＝光る帯（くっつくくらいの間隔）、3段目＝5項目チップの順にする。
+   一度「名前→チップ→光る帯」の順で作ってしまい、光る帯が名前から
+   離れてしまう(間にチップが挟まる)指摘を受けて並びを直した
+   （2026-07-23）。 */
+/* ジャンル名は行の中央、影響Lvバッジは行の右端、という別々の配置に
+   したいとの要望を受け、名前をバッジと横並びで中央寄せする方式から、
+   position:relativeの行に対してバッジをposition:absoluteで右端固定
+   する方式に変更した。これで名前だけが常に真ん中に来る（2026-07-24）。 */
+.sp-card-names-row { position: relative; text-align: center; margin-bottom: 1px; padding: 0 4px; }
 .sp-card-score-row { display: flex; justify-content: center; margin-bottom: 8px; }
 .sp-card-score-row > .sp-meter,
 .sp-card-score-row > .sp-score-wrap { width: 100%; }
 .sp-card-name { font-size: 13px; font-weight: 700; color: #7ecfff; line-height: 1.3; text-decoration: none; cursor: pointer; }
-.sp-card-name.self { color: #ddd; cursor: default; }
-.sp-card-arrow { color: #666; font-size: 13px; flex-shrink: 0; }
 .sp-meter { position: relative; height: 15px; border-radius: 8px; background: rgba(255,255,255,0.07); overflow: hidden; }
 .sp-meter-fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 8px; overflow: hidden; }
 .sp-meter-fill.in { background: linear-gradient(90deg, #1f5f85, #4fb4e8); }
 .sp-meter-fill.out { background: linear-gradient(90deg, #1f7a52, #57d197); }
 .sp-meter-fill.mutual { background: linear-gradient(90deg, #6a3f99, #c9a6ff); }
-.sp-meter-chevrons { position: absolute; inset: 0; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='15'%3E%3Cpath d='M2 1 L7.5 7.5 L2 14' stroke='white' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: repeat-x; background-size: 11px 15px; opacity: 0.4; animation: sp-chevron-flow 0.6s linear infinite; }
+.sp-meter-chevrons { position: absolute; inset: 0; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='15'%3E%3Cpath d='M2 1 L7.5 7.5 L2 14' stroke='white' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: repeat-x; background-size: 11px 15px; opacity: 0.4; }
+/* アニメーション自体は.sp-anim-liveが付いてから初めて割り当てる
+   （理由は.sp-flow-sweep側のコメント参照。2026-07-24） */
+.sp-card.sp-anim-live .sp-meter-chevrons { animation: sp-chevron-flow 0.6s linear infinite; }
 @keyframes sp-chevron-flow { to { background-position: 11px 0; } }
 /* 相互影響用：同じ矢印模様を左右反転させて重ねるだけで、逆方向に流れて見える
    （新しい画像やアニメーションを用意せず、既存のsp-meter-chevronsを再利用） */
@@ -103,7 +115,8 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
    移動速度が2倍になってしまっていた（「矢印の動きが倍速い」という指摘の
    原因）。durationも2倍(1.2s)にして、実際のピクセル速度を他のバーと
    揃える。 */
-.sp-meter-chevrons.wide { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='15'%3E%3Cpath d='M2 1 L7.5 7.5 L2 14' stroke='white' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-size: 22px 15px; animation-name: sp-chevron-flow-wide; animation-duration: 1.2s; }
+.sp-meter-chevrons.wide { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='15'%3E%3Cpath d='M2 1 L7.5 7.5 L2 14' stroke='white' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-size: 22px 15px; }
+.sp-card.sp-anim-live .sp-meter-chevrons.wide { animation-name: sp-chevron-flow-wide; animation-duration: 1.2s; }
 @keyframes sp-chevron-flow-wide { to { background-position: 22px 0; } }
 .sp-meter-pct { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 9.5px; font-weight: 800; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.75); letter-spacing: 0.1px; line-height: 1; }
 .sp-mutual-arrow { color: #c9a6ff; font-weight: 700; font-size: 13px; flex-shrink: 0; }
@@ -113,17 +126,15 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
    l.scoreがあるリンクだけこちらを使い、まだ採点していないリンクは
    従来の%メーターにフォールバックする）。説明パネルのみで使用し、
    マップ側の線の太さ・矢印・光る帯は今回は変更しない。 ---- */
-/* 凡例が「代表曲・アーティスト」の説明のように唐突に見え、実際に
-   指している下の3セクション(影響を受けた/与えた/相互)との関係が
-   分かりにくいとの指摘を受け、凡例をこの3セクションと同じ枠(.sp-influence-group)
-   で囲み、上部にくっついたキャプションのように見せる（2026-07-23）。 */
+/* 「影響を受けた/与えた/相互」の3セクションをまとめて囲む枠。もとは
+   凡例(リズム/和音/楽器/歌唱法/文化背景の説明)を上部キャプションとして
+   同じ枠に入れていたが、チップ自体に単語ラベルが出るようになり凡例が
+   不要になったため撤去した。枠自体は見た目が良いとのことで残す
+   （2026-07-23）。 */
 .sp-influence-group { border: 1px solid rgba(255,255,255,0.10); border-radius: 8px; padding: 10px 10px 2px; margin-bottom: 14px; }
 .sp-influence-group .sp-section { margin-bottom: 14px; }
 .sp-influence-group .sp-section:last-child { margin-bottom: 6px; }
-.sp-score-legend { display: flex; align-items: center; justify-content: center; gap: 6px; flex-wrap: wrap; font-size: 9px; color: #777; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 7px; margin-bottom: 10px; }
-.sp-score-legend span { display: flex; align-items: center; gap: 3px; }
-.sp-score-legend i { width: 13px; height: 13px; border-radius: 4px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); display: inline-flex; align-items: center; justify-content: center; font-size: 8px; font-weight: 700; color: #aaa; font-style: normal; }
-.sp-score-wrap { display: flex; flex-direction: column; align-items: stretch; gap: 3px; }
+.sp-score-wrap { display: flex; flex-direction: column; align-items: stretch; gap: 1px; }
 /* チップが中央に寄って左右が空くとの指摘を受け、5つを幅いっぱいに
    等分するgridに変更。正方形にこだわらず横長の長方形にして、
    1文字(リ/和/楽/歌/文)ではなく「リズム」等の短い単語をそのまま
@@ -135,23 +146,117 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
 .sp-chip.on.in     { background: linear-gradient(145deg, #2a76a3, #4fb4e8); }
 .sp-chip.on.out    { background: linear-gradient(145deg, #23935f, #57d197); }
 .sp-chip.on.mutual { background: linear-gradient(145deg, #7e4bc0, #c9a6ff); }
-/* チップを幅いっぱいに広げたことで、合計(x/5)を隣に置く隙間が
-   無くなり重なって見えていたため、光るレールと同じ行の右端に
-   固定表示する形にした（2026-07-23）。 */
-.sp-flow-rail-row { display: flex; align-items: center; gap: 6px; }
-.sp-score-total { font-size: 10px; font-weight: 700; color: #888; flex-shrink: 0; font-variant-numeric: tabular-nums; }
-.sp-score-total b { color: #ddd; }
-:root { --flow-dur: 2s; }
-.sp-flow-rail { position: relative; flex: 1 1 auto; border-radius: 4px; overflow: hidden; height: 4px; }
-.sp-flow-sweep { position: absolute; top: 0; bottom: 0; width: 34%; filter: blur(.4px);
+/* チップの点灯を、上の光るレール(流れる光)が実際にそのチップの位置を
+   通過するタイミングに同期させる。1サイクル=4.5秒の内訳：
+   ①0〜2秒：レールが1回だけ流れる（帯の先端が5つのチップ位置
+     10/30/50/70/90%を通過する時刻0.15/0.45/0.75/1.04/1.34秒で、
+     該当するチップが順番に点灯していく）
+   ②2〜4秒：レールは完全に消えて動かない。点灯したチップは全部
+     まとめて4秒地点で一斉に消灯する（保持時間は最短でも約2.5秒）
+   ③4〜4.5秒：レールもチップも何も無い完全な静止（0.5秒）
+   ④4.5秒で①に戻って繰り返す
+   （2026-07-23〜24に見直した設計。バーの開始位置を画面内の端に
+   ぴったり付ける変更を一度試したが「唐突・ワープして見える」との
+   指摘を受けて元(-34%〜100%)に戻したため、この点灯タイミングも
+   その前提に合わせている）。
+   slot-0が最も早く点灯する位置、slot-4が最も遅く点灯する位置で、
+   どのチップにどのslotを割り当てるかは方向(受けた/与えた/相互)によって
+   JS側(CHIP_SLOT_BY_DIR)で変える（受けた=順番通り、与えた=逆順、
+   相互=両端から中央へ）。
+   点灯時の色は--chip-on-bg(JS側でdirClassごとに指定)を使う。 */
+/* アニメーション自体は.sp-anim-liveが付いてから初めて割り当てる
+   （スクロールで見えた瞬間に0%から動き出すようにするため。理由は
+   .sp-flow-sweep側のコメント参照。2026-07-24） */
+.sp-card.sp-anim-live .sp-chip-anim { animation-duration: 4.5s; animation-iteration-count: infinite; animation-timing-function: ease; }
+.sp-card.sp-anim-live .sp-chip-anim.slot-0 { animation-name: sp-chip-slot-0; }
+.sp-card.sp-anim-live .sp-chip-anim.slot-1 { animation-name: sp-chip-slot-1; }
+.sp-card.sp-anim-live .sp-chip-anim.slot-2 { animation-name: sp-chip-slot-2; }
+.sp-card.sp-anim-live .sp-chip-anim.slot-3 { animation-name: sp-chip-slot-3; }
+.sp-card.sp-anim-live .sp-chip-anim.slot-4 { animation-name: sp-chip-slot-4; }
+@keyframes sp-chip-slot-0 {
+  0%, 3.3%   { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.12); color: #4a4a5a; box-shadow: none; }
+  3.8%, 88.9%{ background: var(--chip-on-bg); border-color: transparent; color: #fff; box-shadow: 0 0 6px -1px #fff; }
+  89.4%, 100%{ background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.12); color: #4a4a5a; box-shadow: none; }
+}
+@keyframes sp-chip-slot-1 {
+  0%, 10%    { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.12); color: #4a4a5a; box-shadow: none; }
+  10.5%, 88.9%{ background: var(--chip-on-bg); border-color: transparent; color: #fff; box-shadow: 0 0 6px -1px #fff; }
+  89.4%, 100%{ background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.12); color: #4a4a5a; box-shadow: none; }
+}
+@keyframes sp-chip-slot-2 {
+  0%, 16.6%  { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.12); color: #4a4a5a; box-shadow: none; }
+  17.1%, 88.9%{ background: var(--chip-on-bg); border-color: transparent; color: #fff; box-shadow: 0 0 6px -1px #fff; }
+  89.4%, 100%{ background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.12); color: #4a4a5a; box-shadow: none; }
+}
+@keyframes sp-chip-slot-3 {
+  0%, 23.2%  { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.12); color: #4a4a5a; box-shadow: none; }
+  23.7%, 88.9%{ background: var(--chip-on-bg); border-color: transparent; color: #fff; box-shadow: 0 0 6px -1px #fff; }
+  89.4%, 100%{ background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.12); color: #4a4a5a; box-shadow: none; }
+}
+@keyframes sp-chip-slot-4 {
+  0%, 29.8%  { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.12); color: #4a4a5a; box-shadow: none; }
+  30.3%, 88.9%{ background: var(--chip-on-bg); border-color: transparent; color: #fff; box-shadow: 0 0 6px -1px #fff; }
+  89.4%, 100%{ background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.12); color: #4a4a5a; box-shadow: none; }
+}
+/* 合計(旧:x/5)はチップの右に置くと重なってしまうため撤去し、代わりに
+   ジャンル名の右へ「影響Lv」バッジとして表示する形にした
+   （2026-07-24、_influenceLvHtml参照）。 */
+.sp-influence-lv { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); font-size: 11px; font-weight: 600; color: #888; white-space: nowrap; }
+.sp-influence-lv b { color: #e05a5a; font-weight: 800; }
+/* 光るレールは、4.5秒サイクルの最初の2秒だけ1回流れて、あとは完全に
+   消えて動かない（チップの点灯サイクルと同じ4.5秒。opacityを0にして
+   非表示にすることで「保持中・静止中はレールが動かない」を実現する。
+   保持後の完全静止は0.5秒。2026-07-23〜24） */
+:root { --flow-dur: 4.5s; }
+.sp-flow-rail { position: relative; border-radius: 4px; overflow: hidden; height: 4px; }
+.sp-flow-sweep { position: absolute; top: 0; bottom: 0; width: 34%; filter: blur(.4px); opacity: 0;
   background: linear-gradient(90deg, transparent, currentColor 45%, currentColor 55%, transparent); }
-.sp-flow-sweep.a { animation: sp-flow-ltr var(--flow-dur) linear infinite; }
-.sp-flow-sweep.b { animation: sp-flow-rtl var(--flow-dur) linear infinite; opacity: .65; }
+/* 全カードのバー/チップ/％メーターの矢印が一斉に動き出すと安っぽく
+   見えるとの指摘を受け、各カードがスクロールで実際に画面内に入った
+   瞬間からそのカードだけアニメーションを開始したい（IntersectionObserver、
+   JS側の_observeScrollAnim参照）。
+   最初はanimation-play-state:paused/runningの切り替えで実装したが、
+   これだと「一時停止していた地点から再開する」のではなく、全要素が
+   共通の(ページ読み込み基準の)内部時計を参照したまま表示・非表示だけ
+   切り替わるだけで、結局全部同じ動きに揃ってしまう問題があった。
+   正しくは、アニメーション自体を.sp-anim-liveが付いた瞬間に初めて
+   割り当てることで、その要素ごとに時計がゼロから始まるようにする
+   必要がある。そのため、animationの指定そのものを.sp-card.sp-anim-live
+   配下のセレクタに移した（2026-07-24）。 */
+.sp-card.sp-anim-live .sp-flow-sweep.a { animation: sp-flow-ltr var(--flow-dur) linear infinite; }
+.sp-card.sp-anim-live .sp-flow-sweep.b { animation: sp-flow-rtl-dim var(--flow-dur) linear infinite; }
+/* 「与えた」(out)は右から左に流す（受けた=左から右との向きの違いを
+   表現するため。2026-07-23） */
+.sp-card.sp-anim-live .sp-flow-sweep.rev { animation: sp-flow-rtl var(--flow-dur) linear infinite; }
 .sp-flow-rail.in { color: #4fb4e8; }
 .sp-flow-rail.out { color: #57d197; }
 .sp-flow-rail.mutual .sp-flow-sweep { color: #c9a6ff; }
-@keyframes sp-flow-ltr { from { left: -34%; } to { left: 100%; } }
-@keyframes sp-flow-rtl { from { left: 100%; } to { left: -34%; } }
+/* 帯(幅34%)は画面外(-34%〜100%)から滑らかに出入りする形に戻した。
+   一度「画面内の端(0%)にぴったり付いた状態」に変更してみたが、帯の
+   幅がもともと34%と大きいため、開始直後からいきなり満幅で出現して
+   「ワープして見える」「唐突」という結果になり、この変更自体が
+   不要だったとの指摘を受けて元に戻した（2026-07-24）。 */
+@keyframes sp-flow-ltr {
+  0%     { left: -34%; opacity: 1; }
+  44.4%  { left: 100%; opacity: 1; }
+  44.5%  { opacity: 0; }
+  100%   { left: -34%; opacity: 0; }
+}
+@keyframes sp-flow-rtl {
+  0%     { left: 100%; opacity: 1; }
+  44.4%  { left: -34%; opacity: 1; }
+  44.5%  { opacity: 0; }
+  100%   { left: 100%; opacity: 0; }
+}
+/* 相互の2本目の帯(b)は、元は常時opacity:.65で少し控えめにしていたが、
+   1回流れて消える方式にしたのでopacityもキーフレームに含める必要が
+   あり、ピーク値を.65にした専用版を用意した */
+@keyframes sp-flow-rtl-dim {
+  0%     { left: 100%; opacity: .65; }
+  44.4%  { left: -34%; opacity: .65; }
+  44.5%  { opacity: 0; }
+  100%   { left: 100%; opacity: 0; }
+}
 .sp-genre-link:hover { color: #fff !important; text-decoration: underline !important; }
 #sp-correction-sec { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 14px; margin-top: 4px; }
 #sp-correction-btn { width: 100%; padding: 8px 10px; background: #1a1a2e; border: 1px solid #444; border-radius: 6px; color: #aaa; font-size: 12px; cursor: pointer; transition: all 0.15s; }
@@ -170,7 +275,19 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
 #sp-yt-wrap { border-radius: 8px; overflow: hidden; }
 
 svg { width: 100vw; height: 100vh; }
+/* stroke-linecap:roundは線の端に「出っ張り」を足す指定のため、それだと
+   逆にノードの縁からはみ出て見えてしまうと指摘された。正しくは、線の
+   端(四角い断面)がノードの円に完全に収まる位置まで引っ込める方式にした
+   （tick処理側でstrokeWidthに応じた三平方の定理の計算に変更。
+   2026-07-24）。 */
 .link { stroke-opacity: 0; fill: none; pointer-events: none; }
+/* レベル5のリンクだけ、端に丸い凹みをつける。線の端をsquare(半分の太さ
+   だけ延長した四角)にした上で、JS側(_syncLinkFlowMarks)でノードの円と
+   同じ形のclip-pathを重ねて、延長した部分をノードの円の形で切り取る。
+   切り取られた輪郭がノードの円周に沿った丸み(凹み)になる。トリミング量
+   (_linkTrimRadius、全レベル共通)や透過(0.85)には一切触れない
+   （2026-07-24）。 */
+.link.link-lvl5 { stroke-linecap: square; }
 .link.focus-highlight { stroke-opacity: 0.6 !important; pointer-events: auto; }
 .node circle { cursor: pointer; stroke-width: 2; transition: fill 0.3s ease-in, opacity 0.3s ease-in, filter 0.3s ease-in; }
 .node circle.flash-on { filter: brightness(2.5) drop-shadow(0 0 30px currentColor) drop-shadow(0 0 60px currentColor); }
@@ -180,7 +297,11 @@ svg { width: 100vw; height: 100vh; }
 .node.highlighted circle { stroke: #fff !important; stroke-width: 3 !important; }
 .link-label { font-size: 60px; fill: #fff; pointer-events: none; font-weight: 700; opacity: 0; }
 .link-label-bg { fill: rgba(26,26,46,0.82); pointer-events: none; opacity: 0; }
-.link-label-group.focus-highlight .link-label, .link-label-group.focus-highlight .link-label-bg { opacity: 1; }
+/* マップ上の「％」「相互」の文字はもう不要とのことで非表示にした。
+   linkLabelG自体はホバー/クリック時のfocus-highlight/focus-dim切り替え
+   (約20箇所)に使われ続けているが、それらは全てこの文字の表示・非表示を
+   切り替えるだけのものだったため、この1行を無効化するだけで他の挙動に
+   影響なく文字だけを消せる（2026-07-24）。 */
 
 /* 共通発光アニメーション（白） */
 @keyframes glow-white {
@@ -199,8 +320,35 @@ svg { width: 100vw; height: 100vh; }
 .node.cat-dim { opacity: 0.05; pointer-events: none; }
 .node.focus-dim { opacity: 0.05; }
 .link.focus-dim { opacity: 0.03 !important; }
-.link.focus-highlight { opacity: 1 !important; stroke-width: 16px !important; filter: drop-shadow(0 0 4px rgba(255,255,255,0.5)); }
-.link-flow-mark { fill: none; stroke: #cfd8ff; stroke-width: 3px; stroke-linecap: round; stroke-linejoin: round; opacity: 0.75; filter: drop-shadow(0 0 2px rgba(180,190,255,0.6)); pointer-events: none; }
+/* stroke-width:16px !importantで固定していたため、線の太さを変えても
+   選択(ハイライト)時には全部一律16pxになってしまい、太さの違いが
+   見えなくなっていた。線ごとの実際の太さ(_linkStrokeWidth)が反映
+   されるよう、この固定指定を外す（2026-07-24） */
+.link.focus-highlight { opacity: 1 !important; filter: drop-shadow(0 0 4px rgba(255,255,255,0.5)); }
+/* 音符バージョン：光る点の代わりに音符記号(♩♪♫♬)を流す
+   （2026-07-24、「光源を音符にしてほしい」との指示）。
+   「Future Funkのファンファンと同じくらい光ってほしい」との指摘を受け、
+   芯(link-flow-note)の後ろに、ぼかした光暈を近い層(glow-near)・遠い層
+   (glow-far)の2段階で重ねる3層構成にした。Future Funkのフラッシュ演出
+   (brightness(2.5)+drop-shadow 30px/60pxの二重がけ)と同じくらいの
+   強さ・広がりを意識している。3層とも同じ周期で明るさ・大きさを一緒に
+   脈打たせる(_addFlowNotes参照)ことで、蛍のように「ふわーん」と光を
+   放ちながら明滅する見た目にしている。 */
+.link-flow-note-glow-far { fill: #cfe0ff; text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+.link-flow-note-glow-near { fill: #ffffff; text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+.link-flow-note { fill: #ffffff; text-anchor: middle; dominant-baseline: central; pointer-events: none; filter: drop-shadow(0 0 5px rgba(230,238,255,0.95)); }
+/* ガラスのパイプ表現：奥にぼかした太い層(輪郭を背景へ柔らかくなじませる)、
+   手前に片側へ寄せた明るい筋(丸みのある表面が光を反射しているように
+   見せる反射光)を重ねる（2026-07-24、「ガラスのパイプのように」との指示） */
+.link-glass-blur { fill: none; stroke-linecap: round; opacity: 0.32; pointer-events: none; }
+.link-glass-highlight { fill: none; stroke: #fff; stroke-linecap: round; opacity: 0.5; pointer-events: none; }
+.link-glass-shadow { fill: none; stroke: #05050f; stroke-linecap: round; opacity: 0.4; pointer-events: none; }
+/* 選択中のジャンルの丸を球体っぽく見せる装飾。ガラスのパイプと同じ質感
+   （縁を柔らかく・ハイライトと影を対で）を丸に応用したもの */
+.node-sphere { pointer-events: none; }
+.node-sphere-blur { opacity: 0.35; pointer-events: none; }
+.node-sphere-hi { fill: url(#node-sphere-hi-grad); pointer-events: none; }
+.node-sphere-sh { fill: url(#node-sphere-sh-grad); pointer-events: none; }
 .link-label-group.focus-dim { opacity: 0.03 !important; }
 .link-label-group.focus-highlight { opacity: 1 !important; }
 .legend-item[data-cat] { cursor: pointer; padding: 2px 5px; border-radius: 4px; margin-left: -5px; transition: background 0.15s; }
@@ -493,23 +641,16 @@ svg { width: 100vw; height: 100vh; }
       <div id="sp-tracks"></div>
     </div>
     <div id="sp-influence-group" class="sp-influence-group">
-    <div id="sp-score-legend" class="sp-score-legend" style="display:none;">
-      <span><i>リ</i>リズム</span>
-      <span><i>和</i>和音</span>
-      <span><i>楽</i>楽器</span>
-      <span><i>歌</i>歌唱法</span>
-      <span><i>文</i>文化背景</span>
-    </div>
     <div class="sp-section" id="sp-in-sec">
-      <h4>影響を受けたジャンル（ルーツ）</h4>
+      <h4>影響を<span class="sp-h4-em in">受けた</span>ジャンル（ルーツ）</h4>
       <div id="sp-in"></div>
     </div>
     <div class="sp-section" id="sp-out-sec">
-      <h4>影響を与えたジャンル</h4>
+      <h4>影響を<span class="sp-h4-em out">与えた</span>ジャンル</h4>
       <div id="sp-out"></div>
     </div>
     <div class="sp-section" id="sp-mutual-sec">
-      <h4>相互に影響し合ったジャンル</h4>
+      <h4><span class="sp-h4-em mutual">相互に</span>影響し合ったジャンル</h4>
       <div id="sp-mutual"></div>
     </div>
     </div>
@@ -5283,7 +5424,7 @@ const NODES = [
     yt_tracks:[["XQXKelbB9wk", "kKTsYyzC62w"], ["GEs97MucUSM", ""], ["td-e4i2BL_Q", "vmKH63NJvr0"]],
     aliases:["デコンストラクテッド・クラブ", "ポスト・クラブ", "アンチ・クラブ", "Experimental Club", "Post-Club", "Decon Club"],},
 
-  {id:"future_funk", label:"Future Funk", cat:"vaporwave", era:"2010s", suno:false,
+  {id:"future_funk", label:"Future Funk", cat:"funk_cat", era:"2010s", suno:false,
     desc:"フューチャーファンクの音は、まるで1980年代の日本のシティポップやディスコをタイムカプセルに詰め込み、現代のデジタル処理で再構築したような質感を持つ。メロディーは極めてキャッチーで、原曲から切り取られたボーカルフレーズやホーンのリフがループし、脳裏に焼き付くような甘くノスタルジックな旋律が繰り返される。サビに相当する部分では音圧が一気に上がり、分厚いコーラスレイヤーとシンセのグリッサンドが重なって、まるで光の中に飛び込むような高揚感をもたらす。使用楽器はほぼすべてサンプルベースで構成されており、オリジナルのアナログシンセ音（特にローランドJuno-106やYamaha DX7系の音色）、スラップベース、ブラスセクション、エレクトリックピアノのコードカッティングが素材として多用される。これらのサンプルはチョップ（細切れに分割）され、ピッチシフトやタイムストレッチを経て新たなグルーヴに再配置される。ドラムはファンクの16分音符を基調としたタイトなスネアとハイハットのパターンを持ちながら、ハウスミュージック的な4つ打ちキックが加わることで、踊りやすいビートが生まれる。音響エフェクトとしてはサイドチェインコンプレッションが顕著で、キックに合わせてシンセパッドが「ポンポン」と呼吸するような揺らぎが生じる。ボーカルサンプルにはピッチシフトが施され、原曲より高く・細く加工されることが多く、アニメ的・人工的な可愛らしさを帯びる。リバーブは浅めで、全体的にクリアかつ明るいミックスが好まれる。想定される会場はクラブや小規模なパーティースペースよりも、むしろインターネット上の仮想空間やヘッドフォンリスニングが主体であり、アニメのMVやループ動画と組み合わせてYouTubeやSoundCloudで消費されることが多い。ボーカルスタイルは基本的にサンプリングによるもので、生の歌唱はほとんど存在しない。代わりに、日本語の女性ボーカルフレーズが断片的に挿入され、言語的な意味よりも音としての質感・テクスチャーとして機能する。",
     roots_story:"フューチャーファンクは2010年代初頭にインターネット上で自然発生的に誕生したジャンルであり、その起源はヴェイパーウェイヴという先行ジャンルと深く結びついている。ヴェイパーウェイヴは2010年前後にTumblrやBandcampを中心に広まった実験的な電子音楽で、1980〜90年代のイージーリスニング・ニューエイジ・コーポレートミュージックをスローダウン・ピッチシフトして消費資本主義への批評を込めた作品群であった。フューチャーファンクはそのヴェイパーウェイヴの美学を継承しつつ、テンポを大幅に上げ（おおむね110〜130BPM）、ダンスフロア向けのエネルギーを注入することで独自の方向性を確立した。\n\n素材として特に重視されたのが日本の1970〜80年代シティポップおよびディスコ・ファンクであった。山下達郎、竹内まりや、松原みき、角松敏生、杏里といったアーティストの楽曲が頻繁にサンプリングされ、その洗練されたコード進行・ブラスアレンジ・スラップベースラインが新たなコンテキストで蘇った。これらの楽曲が選ばれた背景には、著作権管理が比較的緩やかだった時期のインターネット流通環境と、日本語という「意味が直接伝わらない」言語が持つ音響的な異国情緒・ノスタルジア効果があった。\n\nジャンルの形成に決定的な役割を果たしたのはSoundCloudおよびYouTubeというプラットフォームであり、匿名または半匿名のプロデューサーたちが次々と楽曲をアップロードした。初期の代表的アーティストとしてはMacross 82-99（マクロス82-99）、Yung Bae、Flamingosis、Desired、Luxury Eliteなどが挙げられる。Macross 82-99はフランス人プロデューサーであり、アニメ的なビジュアルと高速ファンクサンプルを組み合わせたスタイルでジャンルの雛形を作った。Yung Baeはアメリカ・ポートランド出身で、よりストレートなファンクグルーヴを前面に出したアプローチでフューチャーファンクを広く認知させた。\n\nビジュアル面ではアニメのループGIFや1980年代の日本のアニメ映像（特に「超時空要塞マクロス」「シティハンター」「めぞん一刻」などの作品）が楽曲のMVとして使用され、音楽とアニメ文化が不可分に結びついた。この「アニメ＋シティポップサンプル＋ハウスビート」という組み合わせはジャンルのアイデンティティとなり、リスナー層もアニメファン・ヴェイパーウェイヴ愛好者・ダンスミュージックファンが重なる独特のコミュニティを形成した。\n\n音楽的な影響源はファンク・ディスコ・ハウスに加え、フレンチハウス（ダフト・パンクやフィルターハウスの系譜）も重要である。フレンチハウスが1990年代後半に確立したサンプルのフィルタリング・ピッチシフト・ループ技法は、フューチャーファンクのプロデューサーたちに直接的な方法論を提供した。また、ニュージャックスウィングやブギーファンクの影響も随所に見られ、特にシンセベースの動きやドラムプログラミングにその痕跡が残っている。\n\n2014〜2016年頃がジャンルの最盛期とされ、SoundCloudのフォロワー数が急増し、コンピレーションアルバムが多数リリースされた。「Dream Catalogue」「Geometric Lullaby」「Ailanthus Records」などのインターネットレーベルがジャンルの流通を担い、物理メディアではなくデジタルダウンロードやストリーミングが主な配布手段であった。\n\n2017年以降、ジャンルは飽和状態に近づき、テンプレート的な楽曲が増加したことで批判も生まれた。同じシティポップサンプルの使い回しや、技術的に単純なチョップ＆ループへの依存が指摘され、革新性の欠如が問われた。一方でこの時期、シティポップそのものへの国際的な再評価が進み（竹内まりやの「Plastic Love」がYouTubeで爆発的に拡散したのは2017〜2018年）、フューチャーファンクがその再評価の一端を担ったという見方もある。\n\nサブジャンルとしては、よりメロウでチルアウト寄りの「チルウェイヴ・フューチャーファンク」、ハードコアテクノの影響を受けた高速版、ブラジルのバイレファンキとの融合など多様な派生が生まれた。また、日本国内でもフューチャーファンクの影響を受けた「シティポップリバイバル」の動きが起き、新世代のアーティストが意識的に1980年代サウンドを再現する楽曲を制作するようになった。\n\n2020年代に入ると、フューチャーファンクはTikTokやSpotifyのプレイリスト文化とも接続し、「ローファイヒップホップ」と並ぶ「作業用BGM」「ドライブ用BGM」としての需要を獲得した。ジャンルとしての革新性は落ち着いたものの、インターネット音楽文化における重要な一章として定着しており、シティポップ・ヴェイパーウェイヴ・ハウスの交差点に位置する独自の美学は今も多くのプロデューサーに継承されている。",
     rep_tracks:["Chou Chou (Macross 82-99)", "Do It Again (Yung Bae)", "Spend the Night (Flamingosis)"],
@@ -7558,10 +7699,61 @@ const LAST_UPDATED = "2026年7月21日";
 // マップ側の線の太さ・矢印は今回は変更せず、従来通りのまま）。
 const SCORE_DIMS = [
   {key:'r', label:'リズム'}, {key:'h', label:'和音'}, {key:'i', label:'楽器'},
-  {key:'v', label:'歌唱'}, {key:'c', label:'文化'},
+  {key:'v', label:'歌唱法'}, {key:'c', label:'文化背景'},
 ];
+// チップ点灯アニメーションで使う、方向ごとの点灯色
+// （CSS変数--chip-on-bgとして各チップに個別に渡す。box-shadow等は
+// 共通なのでCSS側で固定値にしている）
+const CHIP_ON_BG = {
+  in:     'linear-gradient(145deg, #2a76a3, #4fb4e8)',
+  out:    'linear-gradient(145deg, #23935f, #57d197)',
+  mutual: 'linear-gradient(145deg, #7e4bc0, #c9a6ff)',
+};
+// チップ(5項目)の点灯タイミングを、光るレールの帯(sp-flow-sweep)が
+// 実際にその位置を通過する瞬間に合わせるための「スロット」割り当て。
+// 4.5秒サイクルのうち最初の2秒だけ帯が1回流れ、幅34%で
+// left:-34%→100%まで動くため、先端(帯の右端)が各チップの中心位置
+// (10/30/50/70/90%)を通過する時刻は0.15/0.45/0.75/1.04/1.34秒
+// （4.5秒基準では約3.3/10.0/16.6/23.2/29.8%）。その後2〜4秒はレールが
+// 消えて静止したまま、点灯したチップは4秒地点で一斉に消灯し、
+// 4〜4.5秒は完全な静止（何も点灯・点滅しない）にしてから次の
+// サイクルに入る（2026-07-23〜24、「保持中にレールが動くのはおかしい」
+// 「消灯は一斉でよい」「消灯後の完全静止は0.5秒でよい」「点灯保持は
+// 5秒だと長い、2.5秒でよい」との指摘を受けて見直した設計。「バーを
+// 端ぴったりに」という変更は一度試したが「唐突・ワープして見える」
+// との指摘で撤回し、元の-34%〜100%の範囲に戻した）。
+// slot-0が最も早く光る位置、slot-4が最も遅く光る位置。
+// ・受けた(in・帯は左→右)：チップの並び順(リズム→…→文化背景)そのまま = idx→slot(idx)
+// ・与えた(out・帯は右→左)：並び順と逆に光るので = idx→slot(4-idx)
+// ・相互(mutual・帯が左右から同時に流れて中央で合流)：両端(idx0,4)が最初に
+//   光り、内側(idx1,3)が次、中央(idx2)が最後に光る = 0→slot0,1→slot1,
+//   2→slot2,3→slot1,4→slot0
+const CHIP_SLOT_BY_DIR = {
+  in:     [0, 1, 2, 3, 4],
+  out:    [4, 3, 2, 1, 0],
+  mutual: [0, 1, 2, 1, 0],
+};
 function _scoreTotal(score) {
   return SCORE_DIMS.reduce((sum, d) => sum + (score[d.key] ? 1 : 0), 0);
+}
+// マップの線の太さ(px)。実際に画面へ描画されていた元の太さが16pxだった
+// ことが分かったため、レベル1=16pxを基準に、1段階ごとに1.5倍にする
+// (16/24/36/54/81px)。倍々(2倍)だとレベル5が160pxのように太くなり
+// すぎるため、1.5倍に緩めた（2026-07-24）。
+// 未採点のリンクは従来通りw(重み)ベースの太さのまま。
+// ここは線(<line class="link">)のstroke-width属性だけに使うもので、
+// 動く音符(_addFlowNotes/_syncLinkFlowMarks)は一切参照しない・変更しない。
+function _linkStrokeWidth(d) {
+  if (d.score) return 16 * Math.pow(1.5, _scoreTotal(d.score) - 1);
+  return d.mutual ? 6 + d.w / 12 : 4 + d.w / 10;
+}
+// 線をノードの円の中にちょうど収まるように引っ込める距離(中心からの半径)。
+// 線の太さ(strokeWidth)の半分を1辺とする直角三角形を考えると、
+// 断面の角がノードの円周上に来るのは中心から√(r²-(太さ/2)²)の位置
+// （三平方の定理）。太さが直径(2r)を超える場合は0(中心)にする。
+function _linkTrimRadius(nodeR, strokeWidth) {
+  const half = strokeWidth / 2;
+  return half < nodeR ? Math.sqrt(nodeR * nodeR - half * half) : 0;
 }
 function _scoreMeterHtml(l, dirClass) {
   if (!l.score) {
@@ -7570,20 +7762,52 @@ function _scoreMeterHtml(l, dirClass) {
       : '<span class="sp-meter-chevrons"></span>';
     return `<span class="sp-meter"><span class="sp-meter-fill ${dirClass}" style="width:${l.w}%">${chevrons}</span><span class="sp-meter-pct">${l.w}%</span></span>`;
   }
-  const total = _scoreTotal(l.score);
-  const chips = SCORE_DIMS.map(d =>
-    `<span class="sp-chip${l.score[d.key] ? ' on ' + dirClass : ''}">${d.label}</span>`
-  ).join('');
+  const slots = CHIP_SLOT_BY_DIR[dirClass];
+  const chips = SCORE_DIMS.map((d, idx) => {
+    const isOn = !!l.score[d.key];
+    if (!isOn) return `<span class="sp-chip">${d.label}</span>`;
+    return `<span class="sp-chip on ${dirClass} sp-chip-anim slot-${slots[idx]}" style="--chip-on-bg:${CHIP_ON_BG[dirClass]}">${d.label}</span>`;
+  }).join('');
+  // 「与えた」(out)は、光るレールも右から左に流れるようにする
+  // （受けた=左から右、与えた=右から左、という向きの違いをレール自体にも
+  // 持たせたいとのご要望。2026-07-23）
   const railInner = dirClass === 'mutual'
     ? '<span class="sp-flow-sweep a"></span><span class="sp-flow-sweep b"></span>'
-    : '<span class="sp-flow-sweep a"></span>';
+    : (dirClass === 'out' ? '<span class="sp-flow-sweep rev"></span>' : '<span class="sp-flow-sweep a"></span>');
+  // 合計(旧:x/5)は光るレールの隣だとチップと重なってしまうため、
+  // ジャンル名の右に「影響Lv」として表示する形に変更した(_influenceLvHtml
+  // 参照)。ここではレールとチップだけを返す（2026-07-24）。
   return `<span class="sp-score-wrap">
+      <span class="sp-flow-rail ${dirClass}">${railInner}</span>
       <span class="sp-score">${chips}</span>
-      <span class="sp-flow-rail-row">
-        <span class="sp-flow-rail ${dirClass}">${railInner}</span>
-        <span class="sp-score-total"><b>${total}</b>/5</span>
-      </span>
     </span>`;
+}
+// ジャンル名の右にくっつける「影響Lv」バッジ。数字だけ太字の赤にして
+// 目立たせる（「影響レベル」がジャンルマップへの影響度合いを表すという
+// ことが伝わるように、との要望を受けて設計。2026-07-24）
+function _influenceLvHtml(l) {
+  if (!l.score) return '';
+  return ` <span class="sp-influence-lv">影響Lv<b>${_scoreTotal(l.score)}</b></span>`;
+}
+
+// 「影響を受けた/与えた/相互」の各カードのバー・チップ・％メーターの
+// 矢印が全部一斉に動き出すと安っぽく見えるとの指摘を受け、各カードが
+// スクロールで実際に画面内に入った瞬間からそのカードだけアニメーションを
+// 開始するようにする。#side-panel自体がスクロールするコンテナのため、
+// IntersectionObserverのrootを#side-panelに指定する（rootを指定しないと
+// ブラウザの表示領域基準になり、パネル内でスクロールしてまだ隠れている
+// カードも「見えている」と誤判定されてしまう）。一度見えたら二度と
+// 監視し直さない（毎回最初からやり直す必要はないため）（2026-07-24）。
+const _scrollAnimObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('sp-anim-live');
+      _scrollAnimObserver.unobserve(entry.target);
+    }
+  });
+}, { root: document.getElementById('side-panel'), threshold: 0.2 });
+function _observeScrollAnim(container) {
+  container.querySelectorAll('.sp-card').forEach(card => _scrollAnimObserver.observe(card));
 }
 
 // ===== CATEGORY COLORS =====
@@ -7672,6 +7896,43 @@ Object.entries(CAT_COLOR).forEach(([cat, color]) => {
 });
 // 相互影響用の白い矢印（両端用）
 const defs = svg.append("defs");
+// 管と球の継ぎ目をふわっと馴染ませるための共有グラデーション(<mask>用)。
+// クリップパス(clip-path)は輪郭がくっきりした「白黒はっきりした」切り
+// 抜きしかできず、境目に必ずシャープな線が残っていた。SVGの<mask>なら
+// 白(見せる)〜黒(隠す)の間に灰色(半透明)も使えるため、ノードの中心に
+// 近いほど黒(隠す)、外側にいくほど白(見せる)というグラデーションを
+// マスクにかけることで、境目をグラデーションで自然に消していく。
+// gradientUnitsを既定のobjectBoundingBoxのままにしておけば、円ごとの
+// 半径に自動でスケールするので、共有定義1つで済む
+// （2026-07-24、「管と球の境目のくっきりした境界線を馴染ませたい」との
+// 指示、試作）。
+// 最初は黒→白のフェードをノード半径(r)をまたぐ形(55%〜100%)にしていた
+// ところ、ノードの実際の縁より内側でも管が半透明に透けて見えてしまい、
+// 「レベル2〜4で管がジャンルの丸に刺さって見える」不具合につながった。
+// 黒(完全に隠す)をノードの縁(r、マスク円の半径をr*1.25にしているので
+// 84%地点)のすぐ先まで維持し、フェードはノードの外側だけで起きるように
+// 変更した（2026-07-24、「透けて見えるのを直して」との指摘）。
+const socketFadeGrad = defs.append("radialGradient").attr("id", "socket-fade-grad");
+socketFadeGrad.append("stop").attr("offset", "0%").attr("stop-color", "#000");
+socketFadeGrad.append("stop").attr("offset", "84%").attr("stop-color", "#000");
+socketFadeGrad.append("stop").attr("offset", "100%").attr("stop-color", "#fff");
+// 選択中のジャンルの丸を球体っぽく見せるためのハイライト/影用グラデーション
+// （ガラスのパイプと同じ考え方：中心から片側に明るいハイライト、反対側に
+// 暗い影を対で置くと丸みに見える、をそのまま円に応用したもの。円自体は
+// 一切色を変えず、この2つを重ねるだけなので、選択中の1個以外には
+// 触れない・重くならない。2026-07-24、「ジャンルの丸も同じ質感の球体に」
+// との指示）。gradientUnitsを既定のobjectBoundingBoxのままにしておくと、
+// 円ごとの半径(r)に自動で合わせてスケールしてくれるため、ノードごとに
+// 個別定義する必要がない。中心から外側へ滑らかに透明に落ちるようにして、
+// くっきりした丸に見えないようにする。
+const nodeHiGrad = defs.append("radialGradient").attr("id", "node-sphere-hi-grad");
+nodeHiGrad.append("stop").attr("offset", "0%").attr("stop-color", "#ffffff").attr("stop-opacity", 0.85);
+nodeHiGrad.append("stop").attr("offset", "60%").attr("stop-color", "#ffffff").attr("stop-opacity", 0.25);
+nodeHiGrad.append("stop").attr("offset", "100%").attr("stop-color", "#ffffff").attr("stop-opacity", 0);
+const nodeShGrad = defs.append("radialGradient").attr("id", "node-sphere-sh-grad");
+nodeShGrad.append("stop").attr("offset", "0%").attr("stop-color", "#00040f").attr("stop-opacity", 0.55);
+nodeShGrad.append("stop").attr("offset", "60%").attr("stop-color", "#00040f").attr("stop-opacity", 0.22);
+nodeShGrad.append("stop").attr("offset", "100%").attr("stop-color", "#00040f").attr("stop-opacity", 0);
 defs.append("marker")
   .attr("id", "arrow-mutual-end")
   .attr("viewBox", "0 -4 8 8")
@@ -7731,10 +7992,17 @@ const simulation = d3.forceSimulation(NODES)
   .force("y", d3.forceY(h/2).strength(d => d.fx != null ? 0 : 0.06))
   .alphaDecay(0.05);
 
+// ガラスのパイプ表現用の層。線(<line class="link">)より先に追加して
+// 背後に描画されるようにする（線そのものより後ろにぼかしを敷きたいため）。
+const glassBlurG = g.append("g").attr("id", "link-glass-blur-layer").style("pointer-events", "none");
+
 const link = g.append("g").selectAll("line")
   .data(linkData)
   .join("line")
-  .attr("class", "link")
+  // レベル5(採点合計5)のリンクだけ、端に丸い凹みをつけるため専用クラスを
+  // 付ける。レベル1〜4・未採点のリンクはこれまで通り「link」のみ
+  // （2026-07-24、レベル5だけを対象にする指示のため他は一切変更しない）。
+  .attr("class", d => "link" + (d.score && _scoreTotal(d.score) === 5 ? " link-lvl5" : ""))
   .attr("stroke", d => d.mutual ? "#fff" : (CAT_COLOR[nodeMap[d.s]?.cat] || "#555"))
   .attr("data-base-color", d => d.mutual ? "#fff" : (CAT_COLOR[nodeMap[d.s]?.cat] || "#555"))
   // ハイライト時のグラデーションで「元のジャンルの色→先のジャンルの色」を
@@ -7743,12 +8011,16 @@ const link = g.append("g").selectAll("line")
   // 端の色として使うので、mutualでも常に#fffではなく実際の色にする）。
   .attr("data-source-color", d => CAT_COLOR[nodeMap[d.s]?.cat] || "#555")
   .attr("data-target-color", d => CAT_COLOR[nodeMap[d.t]?.cat] || "#555")
-  .attr("stroke-width", d => d.mutual ? 6 + d.w / 12 : 4 + d.w / 10)
+  .attr("stroke-width", d => _linkStrokeWidth(d))
   .attr("marker-end", "none")
   .attr("marker-start", "none")
   .attr("data-marker-end", d => d.mutual ? "url(#arrow-mutual-end)" : `url(#arrow-${nodeMap[d.s]?.cat || "rock"})`)
   .attr("data-marker-start", d => d.mutual ? "url(#arrow-mutual-start)" : "none")
   .attr("opacity", d => d.mutual ? 0.5 : null);
+
+// ガラスのパイプ表現のハイライト(反射光)の層。線より後・光源(flowMarksG)
+// より前に追加して、光源が反射光の筋の上に見えるようにする。
+const glassHighlightG = g.append("g").attr("id", "link-glass-highlight-layer").style("pointer-events", "none");
 
 // ===== 選択中のジャンルの線に「矢印が流れる」演出を重ねる =====
 // 説明パネルのsp-meter-chevronsと見た目を揃えるための演出。当初
@@ -7777,28 +8049,122 @@ const flowMarksG = g.append("g").attr("id", "link-flow-marks").style("pointer-ev
 // 報告されたため、間隔を3倍(23→69)にして本数をおおよそ3分の1に減らした。
 const FLOW_MARK_SPACING = 69;  // 矢印同士の間隔（線の長さによらず一定）
 const FLOW_MARK_SPEED   = 88;  // 矢印が動く速さ：1秒あたりに進む距離（線の長さによらず一定）
-// 矢印の先端（chevron）を進行方向の先頭(ローカル原点0,0)に置く形にした。
-// animateMotionのrotate="auto"により、先端が常に進行方向を向く。
-// 一時期グラデーション用に後ろへ「尾」を伸ばしていたが、グラデーションは
-// 線本体に移したため不要になり、キノコのような不格好な形になっていた。
-// シンプルな「＞」形に戻した。
-const FLOW_MARK_GLYPH = "M-9,-7.5 L0,0 L-9,7.5";
+// 矢印バージョン(_flowMarkGlyph/_addFlowMarks)は
+// checkpoints/genre_roots_CHECKPOINT_arrow_version.html に保存済み。
+// 光る点バージョン(_flowGlowRadius)は
+// checkpoints/genre_roots_CHECKPOINT_glass_pipe_version.html に保存済み。
+// ここからは、光る点の代わりに「音符」を流す。音楽ジャンルの地図らしい
+// 表現にしたいとの指示。フォントを追加インストールしなくても大抵の
+// 環境で表示される音符記号(♩♪♫♬、Unicodeの標準的な文字)をランダムに
+// 選んでテキストとして流す。休符も含めたかったが、汎用フォントで
+// 安定して表示できる休符の文字が見当たらなかったため、まずは音符のみ
+// 対応（2026-07-24、「光源を音符にしてほしい」との指示）。
+const NOTE_GLYPHS = ["♩", "♪", "♫", "♬"];
+function _flowNoteFontSize(strokeWidth) {
+  return Math.min(40, Math.max(10, strokeWidth * 0.5));
+}
 
-// grp（1本の線に対応する<g>）の中に、指定した経路(pathD)に沿って流れる
-// 矢印マークをcount個追加する。motionClassで向き(fwd-motion/rev-motion)を
-// 区別できるようにしておき、後で経路だけを更新するときに使う。
-function _addFlowMarks(grp, count, pathD, motionClass, dur) {
+// 光源1個1個の速さ・出発タイミング・進む道の揺れ方をランダムにして、
+// 血管の中を赤血球がふわふわ漂いながら流れるような有機的な動きにする
+// （レベルA：animateMotionの仕組みはそのまま、値をランダム化するだけの
+// 対応。2026-07-24、「有機的でふわふわした動きに」との指示）。
+// - 速さ：基準のdurに対して0.6〜1.6倍のばらつきを持たせる（同じ線の中に
+//   速いもの・遅いものが混在するように）
+// - タイミング：出発を均等割りではなくランダムにし、等間隔の行列に見えない
+//   ようにする
+// - 揺れ：直線の代わりに、線の太さに収まる程度の横揺れを持たせた曲線を
+//   経路にする。揺れの振幅・周期・位相は個体ごとにランダムに決め、両端
+//   (ノード中心側)では必ず揺れが0になるよう包絡線をかけて、線の端で
+//   ずれないようにする
+// 揺れのパラメータ(amp/freq/phase)は円のdata属性に保存しておき、ノードが
+// 動いて経路を作り直すとき（_syncLinkFlowMarksのreposition処理）に
+// 同じ個体ごとの揺れ方を維持したまま新しい座標で経路を再計算できるようにする。
+function _wavyPathD(x1, y1, x2, y2, amp, freq, phase) {
+  const dx = x2 - x1, dy = y2 - y1;
+  const len = Math.sqrt(dx * dx + dy * dy) || 1;
+  const ux = dx / len, uy = dy / len;
+  const px = -uy, py = ux; // 進行方向に垂直な単位ベクトル
+  const segs = 16;
+  let d = "";
+  for (let s = 0; s <= segs; s++) {
+    const t = s / segs;
+    const envelope = Math.sin(t * Math.PI); // 両端(t=0,1)で揺れを0にする
+    const wobble = amp * envelope * Math.sin(t * freq * Math.PI * 2 + phase);
+    const px2 = x1 + dx * t + px * wobble;
+    const py2 = y1 + dy * t + py * wobble;
+    d += (s === 0 ? "M" : "L") + px2.toFixed(2) + "," + py2.toFixed(2) + " ";
+  }
+  return d.trim();
+}
+
+// grp（1本の線に対応する<g>）の中に、始点(x1,y1)から終点(x2,y2)へ流れる
+// 音符をcount個追加する。motionClassで向き(fwd-motion/rev-motion)を
+// 区別できるようにしておき、後で経路だけを更新するときに使う。音符は
+// 進行方向に合わせて回転させない（回転すると寝たり逆さまになったりして
+// 読みにくくなるため、animateMotionにrotateを付けない）。
+function _addFlowNotes(grp, count, x1, y1, x2, y2, motionClass, dur, strokeWidth) {
+  const fontSize = _flowNoteFontSize(strokeWidth);
+  const maxAmp = Math.max(2, strokeWidth * 0.4); // 揺れの最大幅（線の太さに比例）
   for (let k = 0; k < count; k++) {
-    const mark = grp.append("path")
-      .attr("class", "link-flow-mark")
-      .attr("d", FLOW_MARK_GLYPH);
-    mark.append("animateMotion")
+    const amp = maxAmp * (0.3 + Math.random() * 0.7);
+    const freq = 1 + Math.random() * 1.5;
+    const phase = Math.random() * Math.PI * 2;
+    const durK = dur * (0.6 + Math.random() * 1.0);
+    const beginK = Math.random() * durK;
+    // 「ただ移動しているだけで光っているように見えない」との指摘を受け、
+    // 蛍のように「ふわーん、ふわーん」と明るさと大きさが一緒に脈打つ
+    // ようにした。1個体の中では同じ周期(pulseDur)で揃えるが、個体ごとの
+    // 周期は0.9〜2.7秒でランダムにばらつかせ、線の中で速い明滅・遅い明滅が
+    // 混在するようにする（2026-07-24、「早い周期・遅い周期のばらつき」との指示）。
+    const pulseDur = 0.9 + Math.random() * 1.8;
+    const pulseBegin = Math.random() * pulseDur; // 明滅のタイミングも個体ごとにずらす
+    const glyph = NOTE_GLYPHS[Math.floor(Math.random() * NOTE_GLYPHS.length)];
+
+    // 芯(core)の後ろに、同じ音符をぼかした光暈を2段階(near/far)で重ねる。
+    // Future Funkの「ファンファン」フラッシュ(brightness(2.5)+drop-shadow
+    // 30px/60pxの二重がけ)と同じくらいの光の強さ・広がりを目指し、以前の
+    // 単層glow(ぼかし4px程度)では弱すぎて「光っているように見えない」と
+    // 指摘されたため、ぼかし量・不透明度のピーク・大きさの振れ幅を大幅に
+    // 強めた3層構成にした（2026-07-24、「Future Funkと同じくらいファンファン
+    // 光ってほしい」との指摘）。3層とも同じ<g>(unit)の子にして、
+    // animateMotionは1個だけunitにかけ、常にぴったり同じ位置を保つ。
+    // data-amp/freq/phaseはunit側に持たせる（reposition処理がthis.
+    // parentNodeから読むため）。
+    const unit = grp.append("g")
+      .attr("class", "link-flow-note-unit")
+      .attr("data-amp", amp)
+      .attr("data-freq", freq)
+      .attr("data-phase", phase);
+
+    // [class, 基準フォントサイズ倍率, ぼかしpx, opacityの最小/最大, サイズ振れ幅の最小/最大倍率]
+    const layers = [
+      ["link-flow-note-glow-far",  2.6, Math.max(14, fontSize * 1.4), 0.0, 0.55, 0.65, 1.45],
+      ["link-flow-note-glow-near", 1.8, Math.max(7,  fontSize * 0.75), 0.0, 0.85, 0.7,  1.35],
+      ["link-flow-note",           1.0, 0,                             0.3, 1,    0.75, 1.3],
+    ];
+    layers.forEach(([cls, sizeMul, blurPx, opMin, opMax, sizeMin, sizeMax]) => {
+      const baseSize = fontSize * sizeMul;
+      const el = unit.append("text").attr("class", cls).attr("font-size", baseSize).text(glyph);
+      if (blurPx > 0) el.style("filter", `blur(${blurPx}px)`);
+      el.append("animate")
+        .attr("attributeName", "opacity")
+        .attr("values", `${opMin};${opMax};${opMin}`)
+        .attr("dur", pulseDur + "s")
+        .attr("begin", pulseBegin + "s")
+        .attr("repeatCount", "indefinite");
+      el.append("animate")
+        .attr("attributeName", "font-size")
+        .attr("values", `${baseSize * sizeMin};${baseSize * sizeMax};${baseSize * sizeMin}`)
+        .attr("dur", pulseDur + "s")
+        .attr("begin", pulseBegin + "s")
+        .attr("repeatCount", "indefinite");
+    });
+    unit.append("animateMotion")
       .attr("class", motionClass)
-      .attr("dur", dur + "s")
+      .attr("dur", durK + "s")
       .attr("repeatCount", "indefinite")
-      .attr("rotate", "auto")
-      .attr("begin", (k * dur / count) + "s")
-      .attr("path", pathD);
+      .attr("begin", beginK + "s")
+      .attr("path", _wavyPathD(x1, y1, x2, y2, amp, freq, phase));
   }
 }
 
@@ -7817,6 +8183,111 @@ function _syncLinkFlowMarks() {
     const pathRD = `M${x2},${y2} L${x1},${y1}`; // 相互影響用：逆向きの経路
     const sourceColor = this.getAttribute('data-source-color');
     const targetColor = this.getAttribute('data-target-color');
+
+    // ハイライト中のリンクは、端をノードの丸の形で凹ませて、球体化した
+    // ノード（選択中＋直接つながるノード、_syncNodeSphere参照）にきれいに
+    // 差し込まれているように見せる。stroke-linecap:squareで半分の太さだけ
+    // 延長した端を、ノードの円の形にフェードする<mask>で覆うことで、切り口が
+    // ノードの円周あたりでふわっと馴染むようにする。
+    // 以前はclip-path(輪郭のくっきりした「白黒」切り抜き)で作っていたが、
+    // 「境目がくっきり残って浮いて見える」と指摘され、境目をグラデーションで
+    // 自然に消せる<mask>に作り替えた（socket-fade-grad、defs参照）。
+    // 以前はレベル5(採点合計5)のリンクだけの対応だったが、ハイライト中の
+    // リンクは必ず両端とも球体化されたノードにつながる（選択中のノード⇔
+    // 直接つながるノードの間の線しかハイライトされない仕組みのため）ので、
+    // レベルを問わず全てのハイライト中のリンクに適用するようにした。
+    // トリミング量(_linkTrimRadius、全リンク共通)や透過(NODE_BASE/GLASS_
+    // FILL_OPACITY)には一切触れない
+    // （2026-07-24、「管と球の境目を馴染ませたい」との指示、試作）。
+    this.style.strokeLinecap = "square";
+    const socketMaskId = `link-socket-mask-${i}`;
+    let socketMaskSel = defs.select(`#${socketMaskId}`);
+    if (socketMaskSel.empty()) {
+      socketMaskSel = defs.append("mask").attr("id", socketMaskId).attr("maskUnits", "userSpaceOnUse");
+      socketMaskSel.append("rect").attr("class", "socket-mask-bg").attr("fill", "#fff");
+      socketMaskSel.append("circle").attr("class", "socket-mask-src").attr("fill", "url(#socket-fade-grad)");
+      socketMaskSel.append("circle").attr("class", "socket-mask-tgt").attr("fill", "url(#socket-fade-grad)");
+    }
+    const socketPad = 300; // 線・太さより十分大きい余白
+    const socketRx = Math.min(x1, x2) - socketPad, socketRy = Math.min(y1, y2) - socketPad;
+    const socketRw = Math.abs(x2 - x1) + socketPad * 2, socketRh = Math.abs(y2 - y1) + socketPad * 2;
+    socketMaskSel
+      .attr("x", socketRx).attr("y", socketRy).attr("width", socketRw).attr("height", socketRh);
+    socketMaskSel.select(".socket-mask-bg")
+      .attr("x", socketRx).attr("y", socketRy).attr("width", socketRw).attr("height", socketRh);
+    // マスク円の半径をノードの半径の1.25倍にする。socket-fade-gradは
+    // 84%位置まで黒(完全に隠す)なので、84%×1.25=1.05rまでは確実に
+    // 隠れており、フェードはそこから1.25rまでのごく狭い範囲(ノードの
+    // 外側)だけで起きる。ノードの縁より内側で管が透けて見えないように
+    // するための調整（2026-07-24）。
+    socketMaskSel.select(".socket-mask-src")
+      .attr("cx", d.source.x).attr("cy", d.source.y).attr("r", d.source.r * 1.25);
+    socketMaskSel.select(".socket-mask-tgt")
+      .attr("cx", d.target.x).attr("cy", d.target.y).attr("r", d.target.r * 1.25);
+    const socketMaskUrl = `url(#${socketMaskId})`;
+    this.removeAttribute("clip-path");
+    this.setAttribute("mask", socketMaskUrl);
+
+    // ガラスのパイプ表現：線の後ろに柔らかくぼかした太い層、線の上に片側へ
+    // 寄せた明るい筋(反射光)を重ねることで、平らなリボンではなく丸みの
+    // ある半透明のパイプに見えるようにする。動く音符(_addFlowNotes)・
+    // トリミング(_linkTrimRadius)・レベル5の丸い凹み(クリップパス)には
+    // 一切触れず、既存のクリップパスがあれば同じものをこの2層にも適用して
+    // 見た目を揃える（2026-07-24、「ガラスのパイプのように」との指示、試作）。
+    const strokeW = _linkStrokeWidth(d);
+    let glassBlur = glassBlurG.select(`line[data-idx="${i}"]`);
+    if (glassBlur.empty()) {
+      glassBlur = glassBlurG.append("line").attr("data-idx", i).attr("class", "link-glass-blur");
+    }
+    // 「ピントがずれているように見える」との指摘を受けて、ぼかしの範囲を
+    // 縮小した。線自体(<line class="link">)はぼかしていない、くっきりした
+    // ままのレイヤーなので、その上に大きくぼかした層を重ねすぎると全体が
+    // 甘く見えてしまっていた。はみ出す幅・ぼかし量とも小さくし、輪郭の
+    // すぐ際だけをふわっと縁取る程度に留める
+    // （2026-07-24、「ピントは合っていてほしい」との指摘を受けた調整）。
+    glassBlur
+      .attr("x1", x1).attr("y1", y1).attr("x2", x2).attr("y2", y2)
+      .attr("stroke", this.getAttribute("data-base-color"))
+      .attr("stroke-width", strokeW * 1.08)
+      .attr("clip-path", null)
+      .attr("mask", socketMaskUrl)
+      .style("filter", `blur(${strokeW * 0.1}px)`);
+
+    // 「反射光がただの線に見える」との指摘を受けての作り直し。原因は
+    // 2つあると考えている：(1) 反射光自体がくっきりした輪郭を持つ線の
+    // ままだったため、光がにじんでいるのではなく「線を1本重ねただけ」に
+    // 見えていた→反射光自体にもぼかしをかける。(2) 明るい筋だけでは
+    // 丸みとして認識されにくく、反対側に対になる暗い影を入れて初めて
+    // 「丸みのある表面」に見える→反対側に薄暗い影の筋を追加する
+    // （2026-07-24、「明るい筋がただの線にしか見えない」との指摘を受けた最終調整）。
+    const dxL = x2 - x1, dyL = y2 - y1;
+    const lenL = Math.sqrt(dxL * dxL + dyL * dyL) || 1;
+    const pxL = -dyL / lenL, pyL = dxL / lenL; // 進行方向に垂直な単位ベクトル
+    const hOffset = strokeW * 0.22; // 中心から片側へ寄せる量（反射光・影の位置）
+    const hBlur = strokeW * 0.07;   // 反射光・影自体のぼかし量（縮小、輪郭のぼやけすぎ対策）
+    let glassHi = glassHighlightG.select(`line.link-glass-highlight[data-idx="${i}"]`);
+    if (glassHi.empty()) {
+      glassHi = glassHighlightG.append("line").attr("data-idx", i).attr("class", "link-glass-highlight");
+    }
+    glassHi
+      .attr("x1", x1 + pxL * hOffset).attr("y1", y1 + pyL * hOffset)
+      .attr("x2", x2 + pxL * hOffset).attr("y2", y2 + pyL * hOffset)
+      .attr("stroke-width", Math.max(1, strokeW * 0.16))
+      .attr("clip-path", null)
+      .attr("mask", socketMaskUrl)
+      .style("filter", `blur(${hBlur}px)`);
+
+    let glassSh = glassHighlightG.select(`line.link-glass-shadow[data-idx="${i}"]`);
+    if (glassSh.empty()) {
+      glassSh = glassHighlightG.append("line").attr("data-idx", i).attr("class", "link-glass-shadow");
+    }
+    glassSh
+      .attr("x1", x1 - pxL * hOffset).attr("y1", y1 - pyL * hOffset)
+      .attr("x2", x2 - pxL * hOffset).attr("y2", y2 - pyL * hOffset)
+      .attr("stroke-width", Math.max(1, strokeW * 0.22))
+      .attr("clip-path", null)
+      .attr("mask", socketMaskUrl)
+      .style("filter", `blur(${hBlur}px)`);
 
     // 線本体のグラデーション（線ごとに1個、色・座標が変わったときだけ作り直す/更新する）
     // 「元の色から先の色へ変わる」ことに意味を持たせたいとの要望を受け、
@@ -7862,33 +8333,121 @@ function _syncLinkFlowMarks() {
       // 増えすぎないよう上限も設ける）。
       const lineLen = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2) || 1;
       const dur = Math.max(1, lineLen / FLOW_MARK_SPEED);
+      // 音符の大きさは線の太さに合わせて決める（本数の基準密度は
+      // 矢印バージョンと同じくFLOW_MARK_SPACING/SPEEDのまま。個体ごとの
+      // 速さ・タイミング・揺れ方はここからランダム化する）
+      const strokeWidth = _linkStrokeWidth(d);
       grp = flowMarksG.append("g").attr("data-idx", i).attr("data-path", pathD);
       if (d.mutual) {
-        // 相互影響の線は、片方向だけでなく両方向から矢印がすれ違うように
+        // 相互影響の線は、片方向だけでなく両方向から音符がすれ違うように
         // 流す。間隔は単方向の2倍にして、密度が単方向の線と揃うようにする
         // （以前「本数15」に対して「片方向あたり半分の約7〜8個」にしていた
         // のと同じ比率）。
         const halfCount = Math.max(2, Math.min(60, Math.round(lineLen / (FLOW_MARK_SPACING * 2))));
-        _addFlowMarks(grp, halfCount, pathD,  "fwd-motion", dur);
-        _addFlowMarks(grp, halfCount, pathRD, "rev-motion", dur);
+        _addFlowNotes(grp, halfCount, x1, y1, x2, y2, "fwd-motion", dur, strokeWidth);
+        _addFlowNotes(grp, halfCount, x2, y2, x1, y1, "rev-motion", dur, strokeWidth);
       } else {
         const count = Math.max(2, Math.min(60, Math.round(lineLen / FLOW_MARK_SPACING)));
-        _addFlowMarks(grp, count, pathD, "fwd-motion", dur);
+        _addFlowNotes(grp, count, x1, y1, x2, y2, "fwd-motion", dur, strokeWidth);
       }
     } else if (grp.attr("data-path") !== pathD) {
-      // ノードが動いて線の位置が変わった場合だけ経路を作り直す
+      // ノードが動いて線の位置が変わった場合だけ経路を作り直す。個体ごとの
+      // 揺れ方(amp/freq/phase、円のdata属性に保存済み)はそのまま維持し、
+      // 新しい座標で経路だけを再計算する。
       grp.attr("data-path", pathD);
-      grp.selectAll(".fwd-motion").attr("path", pathD);
-      grp.selectAll(".rev-motion").attr("path", pathRD);
+      grp.selectAll(".fwd-motion").each(function() {
+        const mark = d3.select(this.parentNode);
+        const amp = +mark.attr("data-amp"), freq = +mark.attr("data-freq"), phase = +mark.attr("data-phase");
+        d3.select(this).attr("path", _wavyPathD(x1, y1, x2, y2, amp, freq, phase));
+      });
+      grp.selectAll(".rev-motion").each(function() {
+        const mark = d3.select(this.parentNode);
+        const amp = +mark.attr("data-amp"), freq = +mark.attr("data-freq"), phase = +mark.attr("data-phase");
+        d3.select(this).attr("path", _wavyPathD(x2, y2, x1, y1, amp, freq, phase));
+      });
     }
   });
-  // ハイライトが外れた線の矢印は消す
+  // ハイライトが外れた線の矢印・ガラスのパイプ層は消す
   flowMarksG.selectAll("g[data-idx]").each(function() {
+    const idx = +d3.select(this).attr("data-idx");
+    if (!activeIdx.has(idx)) d3.select(this).remove();
+  });
+  glassBlurG.selectAll("line[data-idx]").each(function() {
+    const idx = +d3.select(this).attr("data-idx");
+    if (!activeIdx.has(idx)) d3.select(this).remove();
+  });
+  glassHighlightG.selectAll("line[data-idx]").each(function() {
     const idx = +d3.select(this).attr("data-idx");
     if (!activeIdx.has(idx)) d3.select(this).remove();
   });
 }
 setInterval(_syncLinkFlowMarks, 200);
+
+// 選択中(focus-highlightが付いた)ジャンルの丸と、それに直接つながる
+// （説明パネルに表示される）ジャンルの丸を球体っぽく見せる。新しい
+// クラスを追加すると、あちこちにあるクリア処理(clearHighlight等)にも
+// 同じクラスの解除を追加しないといけなくなるため、既存のfocus-highlight
+// クラスの管理にそのまま乗る形にし、直接つながる相手はLINKSから毎回
+// 計算する。対象は多くても数個〜十数個程度なので、全ノードをその都度
+// チェックしても負荷は小さい（_syncLinkFlowMarksと同じ考え方。要素は
+// 静止した飾りで、tickごとに座標を計算し直す必要もない）。マップ全体
+// 表示の他のノードには一切触れない。ただし、球体化した丸だけは透過率も
+// NODE_GLASS_FILL_OPACITYに変更する（ガラス玉らしさのため。対象外に
+// 戻ったら必ずNODE_BASE_FILL_OPACITYに戻す）
+// （2026-07-24、「影響を受けている球体も立体的に」「もっと透過を」との指示）。
+//
+// 選択中のノード自身(selectedId)にも装飾(blur/hi/sh)は付ける（見た目は
+// 周辺ノードと同じ球体にしたい、との指摘）。ただし選択中のノードの
+// fill-opacityだけは一切書き換えない。選択中のノードは別途
+// startHighlightFlash/flashNodeが「ファンファン」と光らせる演出を
+// fill/fill-opacityに直接かけており、こちらが同じ属性を毎tick上書き
+// すると競合して、なめらかな光り方が雑な点滅に見えてしまっていた
+// （2026-07-24、「元の綺麗な光り方に戻して」「装飾もちゃんと付けて」との指摘）。
+function _syncNodeSphere() {
+  let selectedId = null;
+  node.each(function(d) {
+    if (this.classList.contains('focus-highlight')) selectedId = d.id;
+  });
+  const sphereIds = new Set();
+  if (selectedId != null) {
+    sphereIds.add(selectedId);
+    LINKS.forEach(l => {
+      if (l.s === selectedId) sphereIds.add(l.t);
+      if (l.t === selectedId) sphereIds.add(l.s);
+    });
+  }
+  node.each(function(d) {
+    const isSphereTarget = sphereIds.has(d.id);
+    let sphere = d3.select(this).select(':scope > .node-sphere');
+    if (!isSphereTarget) {
+      if (!sphere.empty()) sphere.remove();
+      d3.select(this).select(':scope > circle').attr('fill-opacity', NODE_BASE_FILL_OPACITY);
+      return;
+    }
+    if (sphere.empty()) {
+      // テキストより後ろ・円より手前に挿入し、ジャンル名の文字が隠れないようにする
+      sphere = d3.select(this).insert("g", "text").attr("class", "node-sphere");
+      sphere.append("circle").attr("class", "node-sphere-blur");
+      sphere.append("circle").attr("class", "node-sphere-sh");
+      sphere.append("circle").attr("class", "node-sphere-hi");
+    }
+    if (d.id !== selectedId) {
+      d3.select(this).select(':scope > circle').attr('fill-opacity', NODE_GLASS_FILL_OPACITY);
+    }
+    const r = d.r;
+    sphere.select(".node-sphere-blur")
+      .attr("r", r * 1.08)
+      .attr("fill", CAT_COLOR[d.cat] || "#888")
+      .style("filter", `blur(${r * 0.1}px)`);
+    sphere.select(".node-sphere-sh")
+      .attr("r", r * 0.85)
+      .attr("cx", r * 0.32).attr("cy", r * 0.32);
+    sphere.select(".node-sphere-hi")
+      .attr("r", r * 0.5)
+      .attr("cx", -r * 0.32).attr("cy", -r * 0.32);
+  });
+}
+setInterval(_syncNodeSphere, 200);
 
 // edge label group: background rect + text
 const linkLabelG = g.append("g").selectAll("g")
@@ -7922,12 +8481,22 @@ function monoColor(d) {
   const base = 20 + p * 25;
   return `rgb(${Math.round(base*0.8)},${Math.round(base*0.85)},${Math.round(base*1.1)})`;
 }
+// 通常時の丸の透過率。他のリンクの線が重なったとき下が透けて見えるよう、
+// 意図的に少し透過させている（マップ全体・全ノード共通、変更しない）。
+const NODE_BASE_FILL_OPACITY = 0.85;
+// 球体演出(_syncNodeSphere)が付いているノードだけに使う、ガラス玉らしい
+// 透過率。「継ぎ目が浮いて見えるのは丸の透過が15%程度しかないせいでは」
+// との指摘を受け、球体化された丸（選択中＋直接つながるノード）だけ
+// もっと透過するようにした。ガラス玉は素材的にかなり透明なことが多い
+// ため、背景や重なる線がしっかり透けて見える0.45を目安にした
+// （2026-07-24、「ガラスの球っぽいような透明度で、確認は不要」との指示）。
+const NODE_GLASS_FILL_OPACITY = 0.45;
 node.append("circle")
   .attr("r", d => d.r)
   .attr("fill", d => monoColor(d))
   .attr("data-cat-color", d => CAT_COLOR[d.cat] || "#555")
   .attr("class", d => d.suno ? "suno" : "")
-  .attr("fill-opacity", 0.85);
+  .attr("fill-opacity", NODE_BASE_FILL_OPACITY);
 
 // 日本語の漢字・ひらがな・カタカナ・全角記号は、半角の英数字よりずっと幅が
 // 広い（だいたいフォントサイズと同じ幅の正方形に近い）。以前は全ての文字を
@@ -8198,6 +8767,7 @@ node.on("click", (e, d) => {
   link.classed('focus-highlight', l => l.s === d.id || l.t === d.id);
   link.classed('focus-dim', l => l.s !== d.id && l.t !== d.id);
   _syncLinkFlowMarks();
+  _syncNodeSphere();
   // 三角形の矢印マーカーは表示しない（流れる矢印マークが方向を示すため不要になった）
   linkLabelG.classed('focus-highlight', l => l.s === d.id || l.t === d.id);
   linkLabelG.classed('focus-dim', l => l.s !== d.id && l.t !== d.id);
@@ -8265,37 +8835,35 @@ node.on("click", (e, d) => {
     spTracksSec.style.display = 'none';
   }
 
-  const selfName = d.label.replace("\n"," ");
+  // セクションの見出し（「受けた」「与えた」「相互に」）で方向は
+  // 既に分かるため、カード内では相手ジャンル名だけを表示し、自分
+  // (Future Funk等)の名前・矢印は出さない（2026-07-23、指摘を受けて簡略化）。
 
-  // 影響を受けた（一方向のみ）：左＝影響元、右＝自分
+  // 影響を受けた（一方向のみ）：影響元のジャンル名
   const incoming = linkData.filter(l => l.t === d.id && !l.mutual);
   spIn.innerHTML = incoming.length
     ? incoming.map(l => `<div class="sp-card">
         <div class="sp-card-names-row">
-          <a href="#" class="sp-genre-link sp-card-name" data-id="${l.s}">${nodeMap[l.s]?.label?.replace("\n"," ")}</a>
-          <span class="sp-card-arrow">→</span>
-          <span class="sp-card-name self">${selfName}</span>
+          <a href="#" class="sp-genre-link sp-card-name" data-id="${l.s}">${nodeMap[l.s]?.label?.replace("\n"," ")}</a>${_influenceLvHtml(l)}
         </div>
         <div class="sp-card-score-row">${_scoreMeterHtml(l, "in")}</div>
         <div class="sp-card-desc">${l.desc||''}</div>
       </div>`).join('')
     : '<span style="color:#666">なし</span>';
 
-  // 影響を与えた（一方向のみ）：左＝自分、右＝影響先
+  // 影響を与えた（一方向のみ）：影響先のジャンル名
   const outgoing = linkData.filter(l => l.s === d.id && !l.mutual);
   spOut.innerHTML = outgoing.length
     ? outgoing.map(l => `<div class="sp-card">
         <div class="sp-card-names-row">
-          <span class="sp-card-name self">${selfName}</span>
-          <span class="sp-card-arrow">→</span>
-          <a href="#" class="sp-genre-link sp-card-name" data-id="${l.t}">${nodeMap[l.t]?.label?.replace("\n"," ")}</a>
+          <a href="#" class="sp-genre-link sp-card-name" data-id="${l.t}">${nodeMap[l.t]?.label?.replace("\n"," ")}</a>${_influenceLvHtml(l)}
         </div>
         <div class="sp-card-score-row">${_scoreMeterHtml(l, "out")}</div>
         <div class="sp-card-desc">${l.desc||''}</div>
       </div>`).join('')
     : '<span style="color:#666">なし</span>';
 
-  // 相互に影響し合ったジャンル
+  // 相互に影響し合ったジャンル：相手のジャンル名
   const spMutual = document.getElementById("sp-mutual");
   const mutualLinks = linkData.filter(l => l.mutual && (l.s === d.id || l.t === d.id));
   spMutual.innerHTML = mutualLinks.length
@@ -8303,9 +8871,7 @@ node.on("click", (e, d) => {
         const otherId = l.s === d.id ? l.t : l.s;
         return `<div class="sp-card">
           <div class="sp-card-names-row">
-            <span class="sp-card-name self">${selfName}</span>
-            <span class="sp-card-arrow">↔</span>
-            <a href="#" class="sp-genre-link sp-card-name" data-id="${otherId}">${nodeMap[otherId]?.label?.replace("\n"," ")}</a>
+            <a href="#" class="sp-genre-link sp-card-name" data-id="${otherId}">${nodeMap[otherId]?.label?.replace("\n"," ")}</a>${_influenceLvHtml(l)}
           </div>
           <div class="sp-card-score-row">${_scoreMeterHtml(l, "mutual")}</div>
           <div class="sp-card-desc">${l.desc||''}</div>
@@ -8313,9 +8879,11 @@ node.on("click", (e, d) => {
       }).join('')
     : '<span style="color:#666">なし</span>';
 
-  // 5項目採点(l.score)を1本でも使っているジャンルの時だけ、凡例を表示する
-  document.getElementById('sp-score-legend').style.display =
-    [...incoming, ...outgoing, ...mutualLinks].some(l => l.score) ? '' : 'none';
+  // 各カードのバー/チップ/矢印を、スクロールで実際に見えた瞬間から
+  // 動かす（一斉に動き出すと安っぽく見えるとの指摘を受けて2026-07-24追加）
+  _observeScrollAnim(spIn);
+  _observeScrollAnim(spOut);
+  _observeScrollAnim(spMutual);
 
   // YouTube埋め込みプレイヤー（固定ID優先、なければAPI検索）
   if (d.yt_mix && d.yt_mix.length > 0) {
@@ -8728,28 +9296,36 @@ simulation.on("tick", () => {
     // 以前はmutual（相互影響）の線だけ始点をノードの円周まで引っ込めていて、
     // それ以外の線は始点がノードの中心のままだった（終点は常に円周基準）ため
     // 始点と終点で基準がずれて見えていた。両方とも常に円周基準に統一する。
+    // 線が太くなると、単純に円周ぴったりの位置(半径r)で止めるだけでは、
+    // 線の断面(幅=太さ)の両端の角がノードの円からはみ出してしまう
+    // （stroke-linecap:roundで丸い出っ張りを足す案も試したが、それだと
+    // 逆に更にはみ出して見えると指摘された）。正しくは、線の太さの半分を
+    // 直角三角形の1辺とみなし、三平方の定理(√(r²-(太さ/2)²))で、断面の
+    // 角がちょうどノードの円周上に来る位置まで引っ込める。これにより、
+    // 線の断面が完全にノードの中に収まり、はみ出しも隙間もなくなる
+    // （2026-07-24）。
     .attr("x1", d => {
       const dx = d.target.x - d.source.x, dy = d.target.y - d.source.y;
       const dist = Math.sqrt(dx*dx + dy*dy) || 1;
-      const r = d.source.r + 7;
+      const r = _linkTrimRadius(d.source.r, _linkStrokeWidth(d));
       return dist > r ? d.source.x + dx/dist * r : d.source.x;
     })
     .attr("y1", d => {
       const dx = d.target.x - d.source.x, dy = d.target.y - d.source.y;
       const dist = Math.sqrt(dx*dx + dy*dy) || 1;
-      const r = d.source.r + 7;
+      const r = _linkTrimRadius(d.source.r, _linkStrokeWidth(d));
       return dist > r ? d.source.y + dy/dist * r : d.source.y;
     })
     .attr("x2", d => {
       const dx = d.target.x - d.source.x, dy = d.target.y - d.source.y;
       const dist = Math.sqrt(dx*dx + dy*dy) || 1;
-      const r = d.target.r + 7;
+      const r = _linkTrimRadius(d.target.r, _linkStrokeWidth(d));
       return dist > r ? d.target.x - dx/dist * r : d.target.x;
     })
     .attr("y2", d => {
       const dx = d.target.x - d.source.x, dy = d.target.y - d.source.y;
       const dist = Math.sqrt(dx*dx + dy*dy) || 1;
-      const r = d.target.r + 7;
+      const r = _linkTrimRadius(d.target.r, _linkStrokeWidth(d));
       return dist > r ? d.target.y - dy/dist * r : d.target.y;
     });
   node.attr("transform", d => `translate(${d.x},${d.y})`);
