@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.101<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.102<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -6179,8 +6179,8 @@ const LINKS = [
   {s:"italo_disco",t:"synth_pop",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"イタロディスコの電子音による歌ものの構成が、シンセポップのクラブ向けのベースラインと互いに影響し合っている"},
   {s:"synth_pop",t:"italo_disco",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"シンセポップのメロディックな電子音の作り方が、イタロディスコのクラブ向けのベースラインの中に取り入れられている"},
   {s:"electropop",t:"synth_pop",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"エレクトロポップの現代的なデジタル制作技術が、シンセポップの80年代的なアナログシンセサウンドの中に取り入れられている"},
-  {s:"electropop",t:"dance_pop",w:40,desc:"エレクトロポップのシンセサイザーの音色作りが、ダンスポップの歌ものとしての楽曲構成と互いに影響し合っている"},
-  {s:"dance_pop",t:"electropop",w:40,desc:"ダンスポップの歌ものとしてのフック構成が、エレクトロポップのシンセサイザーの音色作りの中に取り入れられている"},
+  {s:"electropop",t:"dance_pop",w:40,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"エレクトロポップのシンセサイザーの音色作りが、ダンスポップの歌ものとしての楽曲構成と互いに影響し合っている"},
+  {s:"dance_pop",t:"electropop",w:40,score:{"r":0,"h":1,"i":0,"v":0,"c":0},desc:"ダンスポップの歌ものとしてのフック構成が、エレクトロポップのシンセサイザーの音色作りの中に取り入れられている"},
   {s:"vaporwave",t:"retrowave",w:40,desc:"ヴェイパーウェイヴの80年代の音楽をサンプリングして加工する美学が、レトロウェイヴの懐古的なシンセサウンドの中に取り入れられた"},
   {s:"synthwave",t:"vaporwave",w:40,desc:"シンセウェイヴの80年代的な懐古的シンセ音色が、ヴェイパーウェイヴの消費文化への皮肉を込めたサンプリング作品に取り入れられた"},
   {s:"darksynth",t:"industrial",w:40,desc:"ダークシンスの歪んだ攻撃的なシンセベースが、インダストリアルの工業的な硬い質感のノイズサウンドと互いに影響し合っている"},
@@ -6374,8 +6374,8 @@ const LINKS = [
   {s:"vocaloid_music",t:"jpop",w:40,desc:"ボーカロイド楽曲の高速でめまぐるしい展開と合成音声のボーカルが、J-POPのメロディーの語法の中に取り入れられている"},
   {s:"vocaloid_music",t:"anime_music",w:40,desc:"ボーカロイド楽曲のインターネット文化発の高速な展開が、アニメソングのアニメ的な旋律と互いに影響し合っている"},
   {s:"anime_music",t:"vocaloid_music",w:40,desc:"アニメソングのキャッチーな旋律が、ボーカロイド楽曲のインターネット文化発の高速な展開の中に取り入れられている"},
-  {s:"vocaloid_music",t:"electropop",w:40,desc:"ボーカロイド楽曲の合成音声と高速なメロディーが、エレクトロポップのシンセサイザーによる制作手法と互いに影響し合っている"},
-  {s:"electropop",t:"vocaloid_music",w:40,desc:"エレクトロポップのシンセサイザーによる電子的な音作りが、ボーカロイド楽曲の合成音声のボーカルの中に取り入れられている"},
+  {s:"vocaloid_music",t:"electropop",w:40,score:{"r":0,"h":0,"i":1,"v":1,"c":0},desc:"ボーカロイド楽曲の合成音声と高速なメロディーが、エレクトロポップのシンセサイザーによる制作手法と互いに影響し合っている"},
+  {s:"electropop",t:"vocaloid_music",w:40,score:{"r":0,"h":0,"i":1,"v":1,"c":0},desc:"エレクトロポップのシンセサイザーによる電子的な音作りが、ボーカロイド楽曲の合成音声のボーカルの中に取り入れられている"},
   {s:"kpop",t:"jpop",w:40,desc:"K-POPのグループ制作体制と振り付けを重視する手法が、J-POPのアイドル育成システムと海外展開の中に取り入れられている"},
   {s:"kpop",t:"dance_pop",w:40,desc:"K-POPの複合的で転調を多用した曲展開が、ダンスポップの強調された四つ打ちビートと互いに影響し合っている"},
   {s:"dance_pop",t:"kpop",w:40,desc:"ダンスポップの強調された四つ打ちビートが、K-POPの複合的な曲展開の中に取り入れられている"},
@@ -6458,7 +6458,7 @@ const LINKS = [
   {s:"hardcore_rave",t:"frenchcore",w:45,desc:"ハードコアレイヴの過激な高速ビートが、フレンチコアのメロディックなアレンジの中に取り入れられた"},
   {s:"eurodance",t:"nightcore",w:40,desc:"ユーロダンスの四つ打ちビートとキャッチーなメロディーが、ナイトコアにおいて再生速度とピッチを上げる加工で高音化された"},
   {s:"happy_hardcore",t:"nightcore",w:50,desc:"ハッピーハードコアの高速で明るいメロディーラインが、ナイトコアのピッチを上げる加工処理の元素材として使われている"},
-  {s:"electropop",t:"hyperpop",w:50,desc:"エレクトロポップのシンセサイザーによる音作りが、ハイパーポップにおいてピッチを極端に上げボーカルを歪ませる形で誇張された"},
+  {s:"electropop",t:"hyperpop",w:50,score:{"r":0,"h":0,"i":1,"v":1,"c":0},desc:"エレクトロポップのシンセサイザーによる音作りが、ハイパーポップにおいてピッチを極端に上げボーカルを歪ませる形で誇張された"},
   {s:"pop_music",t:"hyperpop",w:40,desc:"ポップスのキャッチーなメロディーラインの構造が、ハイパーポップにおいて過剰なエフェクトで解体され再構築されている"},
   {s:"happy_hardcore",t:"uk_hardcore_genre",w:70,desc:"ハッピーハードコアの明るいメロディーラインを土台に、よりプロダクションを洗練させることでUKハードコアが形成された"},
   {s:"punk",t:"digital_hardcore",w:50,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"パンクの攻撃的な演奏スタイルが、デジタルハードコアにおいてドラムマシンによる電子的なビートに置き換えられた"},
