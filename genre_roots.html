@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.269<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.270<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -6479,7 +6479,7 @@ const LINKS = [
   // 候補タグ承認分
   {s:"chicago_house",t:"kwaito",w:45,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"シカゴハウスの四つ打ちビートが、南アフリカのシーンでテンポを落とした独自のクワイトへと解釈し直された"},
   {s:"kwaito",t:"amapiano",w:50,score:{"r":1,"h":0,"i":0,"v":0,"c":1},desc:"クワイトの南アフリカ的なゆったりとしたハウスビートが、アマピアノのログドラムによるグルーヴの重要な先行文脈となった"},
-  {s:"mbube",t:"isicathamiya",w:70,desc:"ムブベの複数人によるアカペラ合唱の伝統が、イシカタミヤのより静かで洗練されたズールー系アカペラのハーモニーと姉妹関係にある"},
+  {s:"mbube",t:"isicathamiya",w:70,score:{"r":0,"h":1,"i":0,"v":1,"c":1},desc:"ムブベの複数人によるアカペラ合唱の伝統が、イシカタミヤのより静かで洗練されたズールー系アカペラのハーモニーと姉妹関係にある"},
   {s:"jazz",t:"marabi",w:40,score:{"r":0,"h":1,"i":1,"v":0,"c":1},desc:"ジャズのピアノによるコード進行の弾き方が、マラビという南アフリカのタウンシップ音楽のピアノスタイルに取り入れられた"},
   {s:"marabi",t:"kwaito",w:45,desc:"マラビの反復する循環コード進行によるピアノスタイルが、クワイトの南アフリカ的なハウスサウンドの源流となった"},
   {s:"rnb",t:"soul",w:70,score:{"r":1,"h":0,"i":1,"v":0,"c":1},desc:"R&Bのブルース由来のバックビートとホーンセクションのアレンジが、ソウルのゴスペル由来の熱量の高い歌唱表現の前提となった"},
@@ -6589,7 +6589,7 @@ const LINKS = [
   {s:"aor",t:"city_pop",w:45,desc:"AORの洗練されたコード進行とスタジオプロダクションの技術が、シティポップの都会的なサウンドの中に取り入れられている"},
   {s:"hiphop",t:"k_hiphop",w:60,score:{"r":1,"h":0,"i":1,"v":1,"c":1},desc:"アメリカのヒップホップのラップとビートメイキングの手法が、韓国のヒップホップシーンにそのまま取り入れられK-ヒップホップが形成された"},
   {s:"kpop",t:"k_hiphop",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":1},desc:"K-POPのグループ制作体制とプロダクション技術が、K-ヒップホップのアーティストたちの楽曲制作と交差している"},
-  {s:"mandopop",t:"cantopop",w:50,desc:"マンドポップの中国語による歌ものとしての楽曲構成が、カントポップの広東語による楽曲制作と中華圏ポップスとしての伝統を共有している"},
+  {s:"mandopop",t:"cantopop",w:50,score:{"r":0,"h":1,"i":0,"v":1,"c":1},desc:"マンドポップの中国語による歌ものとしての楽曲構成が、カントポップの広東語による楽曲制作と中華圏ポップスとしての伝統を共有している"},
   {s:"pop_music",t:"cantopop",w:45,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"西洋のポップスのキャッチーなメロディーラインと制作技術が、カントポップの楽曲制作に取り入れられている"},
   {s:"country",t:"outlaw_country",w:65,score:{"r":0,"h":0,"i":1,"v":0,"c":1},desc:"カントリーの伝統的な楽器編成を土台に、ナッシュビルの商業主義への反発から反骨精神のあるアウトロー・カントリーが形成された"},
   {s:"honky_tonk",t:"outlaw_country",w:50,desc:"ホンキートンクの酒場での演奏の伝統が、アウトロー・カントリーの反骨的な歌詞世界の中に取り入れられている"},
@@ -6821,7 +6821,7 @@ const LINKS = [
 {s:"kayokyoku",t:"jpop",w:65,score:{"r":0,"h":1,"i":0,"v":1,"c":0},desc:"歌謡曲の親しみやすいメロディーラインと歌唱スタイルが、J-POPの基本的な楽曲構成の直接的な母体となった"},
 {s:"kayokyoku",t:"pop_music",w:20,score:{"r":0,"h":1,"i":0,"v":1,"c":0},desc:"坂本九の『上を向いて歩こう（SUKIYAKI）』が1963年に全米ビルボード1位を獲得したように、歌謡曲の独特のペンタトニック旋律と情感豊かな歌唱法が1960年代の西洋ポピュラー音楽シーンにも逆輸出的な影響を与えた"},
   {s:"kayokyoku",t:"enka",w:55,score:{"r":0,"h":0,"i":0,"v":1,"c":0},desc:"歌謡曲の情感豊かな歌唱表現が、演歌のこぶしを効かせたより伝統的な歌唱スタイルへと分化した"},
-  {s:"kayokyoku",t:"mood_kayo",w:50,desc:"歌謡曲のメロディーラインが、ムード歌謡の都会的なジャズ・ラテン風の和声を持つスタイルへと分化した"},
+  {s:"kayokyoku",t:"mood_kayo",w:50,score:{"r":0,"h":1,"i":0,"v":0,"c":0},desc:"歌謡曲のメロディーラインが、ムード歌謡の都会的なジャズ・ラテン風の和声を持つスタイルへと分化した"},
   {s:"rock_n_roll",t:"group_sounds",w:50,score:{"r":0,"h":0,"i":1,"v":0,"c":1},desc:"ロックンロールのギター中心のバンドサウンドが、グループサウンズの日本のバンドたちの演奏スタイルの中に取り入れられている"},
   {s:"kayokyoku",t:"group_sounds",w:40,desc:"歌謡曲の親しみやすいメロディーラインが、グループサウンズの日本のバンドサウンドの基盤の一部となっている"},
   {s:"group_sounds",t:"j_rock",w:45,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"グループサウンズのバンド編成による演奏スタイルが、Jロックのバンドサウンドの前史となった"},
