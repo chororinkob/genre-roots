@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.116<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.117<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -5542,7 +5542,7 @@ const LINKS = [
   {s:"uk_garage",t:"two_step",w:80,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"UKガラージのハイハットとキックを細かく刻むシャッフル感のあるリズムパターンが、2ステップの跳ねるようなビート構造として洗練された"},
   {s:"uk_garage",t:"speed_garage",w:75,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"UKガラージのシャッフルするリズムを土台に、より速いテンポと重いベースラインを強調することでスピードガラージが形成された"},
   {s:"uk_garage",t:"dubstep",w:60,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"UKガラージのシャッフルするビート構造の中の、より暗くベース主体な派生が発展し、ダブステップの重低音とスペースの効いたビート構成の土台となった"},
-  {s:"progressive_house",t:"trance",w:50,desc:"プログレッシブハウスのじわじわとレイヤーを積み重ねる構成手法が、トランスのより明確なメロディーラインによる感情的な高揚感の作り方と重なり合いながら発展した"},
+  {s:"progressive_house",t:"trance",w:50,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"プログレッシブハウスのじわじわとレイヤーを積み重ねる構成手法が、トランスのより明確なメロディーラインによる感情的な高揚感の作り方と重なり合いながら発展した"},
   {s:"electro_house",t:"big_room",w:75,desc:"エレクトロハウスの歪んだシンセリードの音色が、ビッグルームハウスにおいてフェスティバル向けの巨大なドロップの瞬間を演出するために強調された"},
   {s:"big_room",t:"festival_edm",w:70,desc:"ビッグルームハウスの巨大なドロップとビルドアップの構成が、フェスティバルEDM全体の「盛り上げてから落とす」という楽曲構成の型として定着した"},
   {s:"chicago_house",t:"uk_garage",w:55,score:{"r":1,"h":0,"i":0,"v":1,"c":0},desc:"シカゴハウスの四つ打ちビートと歌ものの構成が、UKガラージにおいてハイハットを細かく刻むシャッフル感のあるリズムへと変化した"},
@@ -6108,9 +6108,9 @@ const LINKS = [
   {s:"schranz",t:"hard_techno",w:40,desc:"シュランツの極端に歪んだキックドラムが、ハードテクノの音圧を強調したサウンドの中に取り入れられている"},
   {s:"minimal_techno",t:"ambient",w:40,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"ミニマルテクノの引き算の美学による反復するビートが、アンビエントの空間的な持続音の表現と互いに影響し合っている"},
   {s:"ambient",t:"minimal_techno",w:40,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"アンビエントの持続音による空間表現が、ミニマルテクノの反復する引き算の美学の中に取り入れられている"},
-  {s:"progressive_house",t:"progressive_trance",w:40,desc:"プログレッシブハウスのじわじわとレイヤーを積み重ねる長い展開が、プログレッシブトランスの上昇感のあるビルドアップと互いに影響し合っている"},
-  {s:"progressive_trance",t:"progressive_house",w:40,desc:"プログレッシブトランスの上昇感のあるビルドアップの構成が、プログレッシブハウスの長い展開の中に取り入れられている"},
-  {s:"trance",t:"progressive_house",w:40,desc:"トランスの高揚感のあるメロディーラインが、プログレッシブハウスのじわじわと積み重なるグルーヴの中に取り入れられている"},
+  {s:"progressive_house",t:"progressive_trance",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"プログレッシブハウスのじわじわとレイヤーを積み重ねる長い展開が、プログレッシブトランスの上昇感のあるビルドアップと互いに影響し合っている"},
+  {s:"progressive_trance",t:"progressive_house",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"プログレッシブトランスの上昇感のあるビルドアップの構成が、プログレッシブハウスの長い展開の中に取り入れられている"},
+  {s:"trance",t:"progressive_house",w:40,score:{"r":0,"h":1,"i":0,"v":0,"c":0},desc:"トランスの高揚感のあるメロディーラインが、プログレッシブハウスのじわじわと積み重なるグルーヴの中に取り入れられている"},
   {s:"electro",t:"electro_house",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"エレクトロの歪んだ鋭いシンセサウンドが、エレクトロハウスの四つ打ちビート構造に取り入れられた"},
   {s:"electro_house",t:"edm",w:40,desc:"エレクトロハウスのドロップの構成が、EDM全体の巨大化した音圧のあるサウンドプロダクションと互いに影響し合っている"},
   {s:"edm",t:"electro_house",w:40,desc:"EDMの巨大な音圧を持つサウンドプロダクションが、エレクトロハウスのドロップの構成の中に取り入れられている"},
@@ -6742,7 +6742,7 @@ const LINKS = [
   {s:"chicago_house",t:"soulful_house",w:45,score:{"r":1,"h":0,"i":0,"v":1,"c":0},desc:"シカゴハウスの四つ打ちビートが、ソウルフルハウスのゴスペル由来の歌ものとしてのボーカルの中に取り入れられている"},
   {s:"soul",t:"soulful_house",w:45,score:{"r":0,"h":0,"i":0,"v":1,"c":1},desc:"ソウルの感情豊かなゴスペル由来の歌唱表現が、ソウルフルハウスのボーカルパートの中に取り入れられている"},
   {s:"techno",t:"melodic_techno",w:55,desc:"テクノの反復する四つ打ちビート構造が、メロディックテクノのよりメロディックなシンセラインの基盤となっている"},
-  {s:"progressive_house",t:"melodic_techno",w:35,desc:"プログレッシブハウスのじわじわとレイヤーを積み重ねる構成が、メロディックテクノのメロディックな展開の中に取り入れられている"},
+  {s:"progressive_house",t:"melodic_techno",w:35,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"プログレッシブハウスのじわじわとレイヤーを積み重ねる構成が、メロディックテクノのメロディックな展開の中に取り入れられている"},
   {s:"trance",t:"vocal_trance",w:65,desc:"トランスの高揚感のあるビルドアップの構成が、ヴォーカルトランスの感情的なボーカルパートと組み合わされている"},
   {s:"dance_pop",t:"vocal_trance",w:30,desc:"ダンスポップの歌ものとしてのボーカル表現が、ヴォーカルトランスの感動的なボーカルパートの中に取り入れられている"},
   {s:"trance",t:"hard_trance",w:55,desc:"トランスの高揚感のあるビート構造が、ハードトランスにおいてより硬質でテンポの速いビートへと発展した"},
@@ -6901,7 +6901,7 @@ const LINKS = [
   {s:"medieval",t:"renaissance",w:55,desc:"中世音楽の単旋律のグレゴリオ聖歌や初期の多声音楽の書法を土台にしつつ、より複雑な対位法とハーモニーの理論を発展させることでルネサンス音楽が形成された。"},
   {s:"jazz",t:"smooth_jazz",w:50,score:{"r":0,"h":1,"i":0,"v":0,"c":1},desc:"ジャズの複雑なコード進行と即興演奏の手法が、スムースジャズにおいてより聴きやすく商業的に成功しやすいアレンジへと簡略化された"},
   {s:"techno",t:"progressive_techno",w:65,desc:"テクノの反復する四つ打ちビート構造を土台に、より長い時間をかけてレイヤーを積み重ねていく展開を加えることでプログレッシブテクノが形成された"},
-  {s:"progressive_house",t:"progressive_techno",w:55,desc:"プログレッシブハウスの長い時間をかけてじわじわとレイヤーを重ねていくビルドアップの構成美が、プログレッシブテクノのミニマルな要素を積み重ねる展開手法にそのまま受け継がれた。"},
+  {s:"progressive_house",t:"progressive_techno",w:55,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"プログレッシブハウスの長い時間をかけてじわじわとレイヤーを重ねていくビルドアップの構成美が、プログレッシブテクノのミニマルな要素を積み重ねる展開手法にそのまま受け継がれた。"},
   {s:"progressive_techno",t:"melodic_techno",w:60,desc:"プログレッシブテクノの長い時間をかけた展開の構成美が、メロディックテクノのよりメロディックなシンセラインへと発展した"},
   {s:"minimal_techno",t:"progressive_techno",w:40,desc:"ミニマルテクノの要素を削ぎ落とした引き算の美学が、プログレッシブテクノのじわじわとレイヤーを積み重ねる反復的な構成の中に取り入れられている"},
 
