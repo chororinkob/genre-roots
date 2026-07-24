@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.307<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.308<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -6769,7 +6769,7 @@ const LINKS = [
   {s:"new_beat",t:"goa_trance",w:35,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"ニュービートの反復するダンスサウンドが、ゴアトランスのサイケデリックなビート構造の前史となった"},
   {s:"chicago_house",t:"ambient_house",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"シカゴハウスの四つ打ちビートが、アンビエントハウスの持続音による空間的な音響表現と組み合わされている"},
   {s:"ambient",t:"ambient_house",w:50,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"アンビエントの持続音による空間的な音響表現が、アンビエントハウスの四つ打ちビートの中に取り入れられている"},
-  {s:"experimental_elec",t:"glitch_music",w:55,desc:"実験電子音楽のシンセサイザーによる音響実験の精神が、グリッチのデジタル機器のエラー音を音楽的に活用する手法に取り入れられた"},
+  {s:"experimental_elec",t:"glitch_music",w:55,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"実験電子音楽のシンセサイザーによる音響実験の精神が、グリッチのデジタル機器のエラー音を音楽的に活用する手法に取り入れられた"},
   {s:"ambient",t:"glitch_music",w:30,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"アンビエントの持続音による空間的な音響処理が、グリッチのデジタルなノイズを使った音響表現の中に取り入れられている"},
   {s:"honky_tonk",t:"bakersfield_sound",w:55,score:{"r":0,"h":0,"i":1,"v":0,"c":1},desc:"ホンキートンクの酒場での荒々しい演奏スタイルが、ベイカーズフィールドサウンドのより電化されたギターサウンドの中に取り入れられている"},
   {s:"country",t:"bakersfield_sound",w:50,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"カントリーの伝統的な楽器編成が、ベイカーズフィールドサウンドのロック的なエネルギーを持つサウンドの基盤となっている"},
@@ -6957,7 +6957,7 @@ const LINKS = [
 
   {s:"techno",t:"idm",w:80,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"四つ打ちキックやシンセベースのリズム構造、TR-808/909系ドラムマシンの音色をIDMが取り込み、解体・再構築した"},
   {s:"ambient",t:"idm",w:70,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"ブライアン・イーノ的な持続音・音響空間の設計手法をIDMが継承し、複雑なリズム構造と融合させた"},
-  {s:"idm",t:"glitch_music",w:90,desc:"IDMが実験的に用いたデジタルノイズ・バッファエラー・スキップ音などの手法が、グリッチの核心的な音響語彙として発展した"},
+  {s:"idm",t:"glitch_music",w:90,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"IDMが実験的に用いたデジタルノイズ・バッファエラー・スキップ音などの手法が、グリッチの核心的な音響語彙として発展した"},
 
   {s:"mariachi",t:"ranchera",w:80,desc:"ランチェラのトランペットによる劇的なブラスフレーズとバイオリンの哀愁あるユニゾン奏法はマリアッチ編成と共有され、ランチェラ歌手がマリアッチ楽団を従えて演奏する形式が定着したことで、ビブラートを多用する情熱的な歌唱法と大編成の器楽伴奏スタイルが双方向に発展した。"},
   {s:"ranchera",t:"mariachi",w:80,desc:"ランチェラのトランペットによる劇的なブラスフレーズとバイオリンの哀愁あるユニゾン奏法はマリアッチ編成と共有され、ランチェラ歌手がマリアッチ楽団を従えて演奏する形式が定着したことで、ビブラートを多用する情熱的な歌唱法と大編成の器楽伴奏スタイルが双方向に発展した。"},
@@ -7152,7 +7152,7 @@ const LINKS = [
   {s:"experimental_elec",t:"deconstructed_club",w:65,desc:"実験電子音楽が蓄積したシンセサイザーの音響探求・テープループ操作・非音楽的素材の電子的加工という手法群が、デコンストラクテッド・クラブの音響語法の直接的な母体となった。ArcaやM.E.S.H.がMax/MSPやSuperColliderで行うリアルタイム音響操作は、experimental_elecが確立したパラダイムの延長線上にある。"},
   {s:"industrial",t:"deconstructed_club",w:72,score:{"r":1,"h":0,"i":1,"v":0,"c":1},desc:"インダストリアルの金属的打撃音、機械的ノイズ、非音楽的素材の音響化という手法がデコンストラクテッド・クラブに直接受け継がれた。Throbbing GristleやEinstürzende Neubautenが確立した「音楽の機能性を破壊する」という姿勢は、クラブミュージックの形式解体という目的と深く共鳴し、ハードクリッピングや金属的テクスチャーの使用に具体的に反映されている。"},
   {s:"techno",t:"deconstructed_club",w:80,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"デトロイト・テクノおよびベルリン・テクノの4つ打ちキックドラムとミニマルな反復構造が、デコンストラクテッド・クラブにとって解体の対象となる「原型」として機能した。テクノのグリッドベースのリズム構造を意図的に崩壊・断片化させることで、デコンストラクテッド・クラブはその音楽的アイデンティティを確立しており、テクノへの批判的応答という側面を持つ。"},
-  {s:"glitch_music",t:"deconstructed_club",w:85,desc:"Oval、Alva Noto、Fennesz らが1990年代後半に確立したグリッチ美学——デジタルエラー音、ビットクラッシュ、バッファオーバーフロー由来の音響——がデコンストラクテッド・クラブの核心的な音響語法として継承された。特にリズムの非線形的な崩壊とデジタルノイズのテクスチャー化という手法は、グリッチミュージックから直接引き継がれたものだ。"},
+  {s:"glitch_music",t:"deconstructed_club",w:85,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"Oval、Alva Noto、Fennesz らが1990年代後半に確立したグリッチ美学——デジタルエラー音、ビットクラッシュ、バッファオーバーフロー由来の音響——がデコンストラクテッド・クラブの核心的な音響語法として継承された。特にリズムの非線形的な崩壊とデジタルノイズのテクスチャー化という手法は、グリッチミュージックから直接引き継がれたものだ。"},
   {s:"idm",t:"deconstructed_club",w:78,desc:"AphexTwinやAutechreが確立したIDMの複雑なポリリズム、非規則的なビートプログラミング、シンセサイザーの音響的探求がデコンストラクテッド・クラブの方法論に深く影響した。特にAutechreのアルゴリズム的リズム生成とAphex Twinの音響的暴力性は、デコンストラクテッド・クラブにおけるビート崩壊の直接的な先例として機能している。"},
   {s:"noise_pop",t:"deconstructed_club",w:55,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"ノイズポップおよびノイズロックが確立した「美と暴力の共存」という美学——心地よいメロディーと破壊的なノイズを同一作品内に並置する手法——がデコンストラクテッド・クラブの音響的緊張感の構築に影響を与えた。特にMy Bloody Valentineのウォールオブサウンドとノイズの官能的な使用は、このジャンルのテクスチャー設計に参照されている。"},
   {s:"footwork",t:"deconstructed_club",w:60,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"シカゴ・フットワークの160BPM超の超高速ビート、細断されたサンプル、非線形的なリズム構造がデコンストラクテッド・クラブのリズム解体手法に影響を与えた。特にDJ Rashad、DJ Spinnによるビートの断片化と再配置の技法は、デコンストラクテッド・クラブにおけるリズムの「崩壊と再生」という概念に直接的な示唆を与えている。"},
