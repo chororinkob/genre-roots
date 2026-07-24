@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.213<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.214<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -6077,8 +6077,8 @@ const LINKS = [
   {s:"prog_rock",t:"krautrock",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":1},desc:"プログレッシブロックの長尺な楽曲構成が、クラウトロックの反復するモータリック・ビートの中に取り入れられている"},
   {s:"ambient",t:"newage",w:40,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"アンビエントの環境音楽的な持続音の美学が、ニューエイジの瞑想・ヒーリングを目的としたシンセサウンドと互いに影響し合っている"},
   {s:"drone_music",t:"ambient",w:40,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"ドローンの単一の音の持続に集中する美学が、アンビエントの空間的な音響処理の中に取り入れられている"},
-  {s:"drone_music",t:"minimalism_classical",w:40,desc:"ドローンの持続音への集中が、ミニマル・ミュージックの短いフレーズを反復させる作曲手法と互いに影響し合っている"},
-  {s:"minimalism_classical",t:"drone_music",w:40,desc:"ミニマル・ミュージックの反復する構造が、ドローンの持続音への音響的な集中の中に取り入れられている"},
+  {s:"drone_music",t:"minimalism_classical",w:40,score:{"r":0,"h":1,"i":0,"v":0,"c":0},desc:"ドローンの持続音への集中が、ミニマル・ミュージックの短いフレーズを反復させる作曲手法と互いに影響し合っている"},
+  {s:"minimalism_classical",t:"drone_music",w:40,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"ミニマル・ミュージックの反復する構造が、ドローンの持続音への音響的な集中の中に取り入れられている"},
   {s:"ambient",t:"minimalism_classical",w:40,score:{"r":1,"h":1,"i":0,"v":0,"c":0},desc:"アンビエントの空間的な音響表現が、ミニマル・ミュージックの短いフレーズを反復させる作曲手法と互いに影響し合っている"},
   {s:"harsh_noise",t:"industrial",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"ハーシュノイズの過激に歪ませたノイズサウンドが、インダストリアルの工業的な機械音の中に取り入れられている"},
   {s:"industrial",t:"harsh_noise",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"インダストリアルの工業的なノイズと機械的な音響処理が、ハーシュノイズの過激なノイズサウンドの制作手法に取り入れられた"},
@@ -7003,7 +7003,7 @@ const LINKS = [
   {s:"tejano",t:"norteno",w:80,desc:"両ジャンルはアコーディオンによるメロディーラインとバホ・セクストの低音弦伴奏を共有し、ポルカ由来の2拍子リズムパターンや3拍子ワルツのグルーヴを相互に取り入れながら、テキサス・メキシコ国境地帯の演奏スタイルとして並行して発展した。"},
   {s:"tejano",t:"cumbia",w:70,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"Tejanoはクンビア固有の2拍子シンコペーションリズムとギロやコンガによるパーカッションの絡みを吸収し、アコーディオンのリフと組み合わせることで、ダンスホール向けの反復グルーヴを持つ独自のTejano-cumbiaスタイルを確立した。"},
 
-  {s:"gamelan",t:"minimalism_classical",w:70,desc:"ガムランのコルトモ構造（colotomic structure）による周期的な拍節管理と、ボナンやゴングが生み出す倍音豊かな持続音の層状テクスチャーが、スティーブ・ライヒの「フェイジング」技法やフィリップ・グラスの反復的アルペジオ構造に直接・間接的に吸収され、ミニマリズムの語法を形成した。"},
+  {s:"gamelan",t:"minimalism_classical",w:70,score:{"r":1,"h":1,"i":1,"v":0,"c":1},desc:"ガムランのコルトモ構造（colotomic structure）による周期的な拍節管理と、ボナンやゴングが生み出す倍音豊かな持続音の層状テクスチャーが、スティーブ・ライヒの「フェイジング」技法やフィリップ・グラスの反復的アルペジオ構造に直接・間接的に吸収され、ミニマリズムの語法を形成した。"},
 
   {s:"blues",t:"rebetiko",w:70,score:{"r":0,"h":1,"i":1,"v":0,"c":1},desc:"Rebetikoとブルースはともにペンタトニック的な旋律構造と即興演奏を重視し、社会的疎外層の苦悩を歌詞に乗せる点で並行的に発展した。ブズーキのベンド奏法とブルースギターのスライド・チョーキングは、異なる文化圏で生まれながら類似した表現技法として機能している。"},
   {s:"rebetiko",t:"blues",w:70,score:{"r":0,"h":1,"i":1,"v":0,"c":1},desc:"Rebetikoとブルースはともにペンタトニック的な旋律構造と即興演奏を重視し、社会的疎外層の苦悩を歌詞に乗せる点で並行的に発展した。ブズーキのベンド奏法とブルースギターのスライド・チョーキングは、異なる文化圏で生まれながら類似した表現技法として機能している。"},
