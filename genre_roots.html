@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.235<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.236<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -6259,8 +6259,8 @@ const LINKS = [
   {s:"electro",t:"old_school_hiphop",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":1},desc:"エレクトロの機械的なドラムマシンのビートが、オールドスクール・ヒップホップのブレイクダンス文化の中に取り入れられている"},
   {s:"jazz",t:"boom_bap",w:40,score:{"r":0,"h":1,"i":1,"v":0,"c":1},desc:"ジャズのセブンスコードとホーンのフレーズが、ブンバップのパンチの効いたドラムパターンのサンプリング素材として使われた"},
   {s:"soul",t:"boom_bap",w:40,score:{"r":0,"h":0,"i":0,"v":1,"c":1},desc:"ソウルの温かみのあるコーラスとメロディーが、ブンバップのビートに温かい質感を与えるサンプリング素材として使われた"},
-  {s:"boom_bap",t:"golden_age_hiphop",w:40,desc:"ブンバップのパンチの効いたキックとスネアのドラムパターンが、ゴールデンエイジ・ヒップホップを象徴する代表的なビート語法となった"},
-  {s:"golden_age_hiphop",t:"boom_bap",w:40,desc:"ゴールデンエイジ・ヒップホップのサンプリング技術の洗練が、ブンバップの代表的なビート語法の確立に取り入れられている"},
+  {s:"boom_bap",t:"golden_age_hiphop",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ブンバップのパンチの効いたキックとスネアのドラムパターンが、ゴールデンエイジ・ヒップホップを象徴する代表的なビート語法となった"},
+  {s:"golden_age_hiphop",t:"boom_bap",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"ゴールデンエイジ・ヒップホップのサンプリング技術の洗練が、ブンバップの代表的なビート語法の確立に取り入れられている"},
   {s:"golden_age_hiphop",t:"jazz",w:40,score:{"r":0,"h":0,"i":0,"v":0,"c":1},desc:"ゴールデンエイジ・ヒップホップのサンプリング技術が、ジャズのコード進行やホーンのフレーズを素材として使う中で互いに影響し合っている"},
   {s:"jazz",t:"golden_age_hiphop",w:40,score:{"r":0,"h":1,"i":0,"v":0,"c":1},desc:"ジャズの生演奏によるコード進行が、ゴールデンエイジ・ヒップホップのサンプリング素材として使われている"},
   {s:"golden_age_hiphop",t:"funk",w:40,score:{"r":0,"h":0,"i":0,"v":0,"c":1},desc:"ゴールデンエイジ・ヒップホップのサンプリング技術の洗練が、ファンクのブレイクを新たな文脈で再評価する形で取り入れている"},
@@ -6572,12 +6572,12 @@ const LINKS = [
   {s:"gangsta_rap",t:"g_funk",w:60,desc:"ギャングスタラップのストリート由来の世界観が、Gファンクのシンセを多用したゆったりとしたグルーヴのビートと組み合わされている"},
   {s:"funk",t:"g_funk",w:55,score:{"r":1,"h":0,"i":1,"v":0,"c":1},desc:"ファンクのシンセベースとゆったりとしたグルーヴが、Gファンクの西海岸的なビートメイキングの中に取り入れられている"},
   {s:"hiphop",t:"conscious_rap",w:65,score:{"r":0,"h":0,"i":0,"v":1,"c":1},desc:"ヒップホップのラップの手法が、コンシャスラップの社会問題を扱った知的なリリックの中に取り入れられている"},
-  {s:"boom_bap",t:"conscious_rap",w:50,desc:"ブンバップのパンチの効いたドラムパターンが、コンシャスラップの言葉選びを重視したリリシズムの中に取り入れられている"},
+  {s:"boom_bap",t:"conscious_rap",w:50,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ブンバップのパンチの効いたドラムパターンが、コンシャスラップの言葉選びを重視したリリシズムの中に取り入れられている"},
   {s:"hiphop",t:"jazz_rap",w:55,score:{"r":0,"h":1,"i":1,"v":0,"c":1},desc:"ヒップホップのサンプリングによるビート制作手法が、ジャズラップのジャズ的なコード進行のサンプリングの基盤となっている"},
   {s:"jazz",t:"jazz_rap",w:50,score:{"r":0,"h":1,"i":1,"v":0,"c":1},desc:"ジャズのセブンスコードによるヴォイシングとホーンのフレーズが、ジャズラップのサンプリング素材として使われている"},
   {s:"jazz_rap",t:"lofi_hiphop",w:45,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"ジャズラップのジャズ的なサンプリングの手法が、Lo-fi Hip Hopのジャジーなコードのサンプリングの中に取り入れられている"},
   {s:"hiphop",t:"abstract_hip_hop",w:55,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"ヒップホップのビートメイキングの手法が、アブストラクト・ヒップホップの実験的で非線形なトラック構成の中に取り入れられている"},
-  {s:"boom_bap",t:"abstract_hip_hop",w:40,desc:"ブンバップのパンチの効いたドラムパターンが、アブストラクト・ヒップホップのより実験的なビート変奏の中に取り入れられている"},
+  {s:"boom_bap",t:"abstract_hip_hop",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ブンバップのパンチの効いたドラムパターンが、アブストラクト・ヒップホップのより実験的なビート変奏の中に取り入れられている"},
   {s:"hiphop",t:"horrorcore",w:55,score:{"r":0,"h":0,"i":0,"v":1,"c":1},desc:"ヒップホップのラップの手法が、ホラーコアのホラー映画的な不穏な歌詞世界の中に取り入れられている"},
   {s:"trap",t:"soundcloud_rap",w:55,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"トラップの808ベースとハイハットロールのビートパターンが、サウンドクラウドラップのローファイな宅録的なプロダクションの中に取り入れられている"},
   {s:"cloud_rap",t:"soundcloud_rap",w:45,desc:"クラウドラップの浮遊感のあるシンセサウンドが、サウンドクラウドラップのインターネット文化発のプロダクションの中に取り入れられている"},
