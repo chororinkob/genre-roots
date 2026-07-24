@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.189<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.190<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -5743,7 +5743,7 @@ const LINKS = [
   {s:"trap",t:"plugg",w:50,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"トラップのハイハットロールと808ベースのビートパターンを土台に、より柔らかく浮遊感のあるシンセメロディーを加えることでプラグが形成された"},
   {s:"chiptune",t:"plugg",w:30,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"チップチューンの8ビットゲーム機由来のシンプルなシンセ音色が、プラグの浮遊感のあるメロディーラインの音作りに取り入れられた"},
   {s:"country",t:"bro_country",w:60,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"カントリーのアコースティックな楽器編成を土台に、よりポップでロック的なプロダクションとキャッチーなフックを加えることでブロカントリーが形成された"},
-  {s:"tango",t:"neotango",w:60,desc:"タンゴのバンドネオンとストリングスによる情熱的なアンサンブルが、ネオタンゴにおいてエレクトロニカ的なビートと電子音響処理に組み合わされた"},
+  {s:"tango",t:"neotango",w:60,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"タンゴのバンドネオンとストリングスによる情熱的なアンサンブルが、ネオタンゴにおいてエレクトロニカ的なビートと電子音響処理に組み合わされた"},
   {s:"renaissance",t:"baroque",w:70,desc:"ルネサンス音楽の多声音楽の対位法を土台に、より劇的な強弱の対比と装飾的な旋律を加えることでバロック音楽が形成された"},
   {s:"classical",t:"neoclassicism_music",w:65,score:{"r":0,"h":1,"i":0,"v":0,"c":0},desc:"クラシック音楽のロマン派的な過剰な感情表現への反動として、より簡潔で古典的な形式美への回帰を志向することで新古典主義音楽が形成された"},
 
@@ -6332,7 +6332,7 @@ const LINKS = [
   {s:"reggaeton",t:"cumbia",w:40,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"レゲトンのデンボウのリズムパターンが、クンビアの揺れるようなリズムの中に取り入れられている"},
   {s:"cumbia",t:"banda",w:40,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"クンビアの踊りやすいダンスビートが、バンダの金管楽器を中心としたブラス編成の中に取り入れられている"},
   {s:"banda",t:"cumbia",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"バンダの金管楽器によるブラス編成が、クンビアのダンスビートの中に取り入れられている"},
-  {s:"neotango",t:"tango",w:40,desc:"ネオタンゴのエレクトロニカ的な電子音響処理が、タンゴのバンドネオンとストリングスによる情熱的なアンサンブルの中に取り入れられている"},
+  {s:"neotango",t:"tango",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"ネオタンゴのエレクトロニカ的な電子音響処理が、タンゴのバンドネオンとストリングスによる情熱的なアンサンブルの中に取り入れられている"},
   {s:"tango",t:"classical",w:40,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"タンゴのバンドネオンによる旋律とリズムが、クラシック音楽の室内楽的な和声表現と互いに影響し合っている"},
   {s:"qawwali",t:"bollywood",w:40,desc:"カッワーリーのスーフィー由来の情熱的な歌唱と旋律が、ボリウッド映画音楽のポップなオーケストラ編曲の中に取り入れられている"},
   {s:"bollywood",t:"qawwali",w:40,desc:"ボリウッド映画音楽のオーケストラアレンジが、カッワーリーの情熱的な歌唱スタイルの中に取り入れられている"},
