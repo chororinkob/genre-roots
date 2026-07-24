@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.249<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.250<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -6277,8 +6277,8 @@ const LINKS = [
   {s:"emo_rap",t:"cloud_rap",w:40,score:{"r":0,"h":0,"i":0,"v":1,"c":0},desc:"エモラップの内省的な歌詞表現が、クラウドラップの浮遊感のあるシンセサウンドの中に取り入れられている"},
   {s:"uk_trap",t:"grime",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"UKトラップの808ベースとゆったりとしたビートが、グライムのMCによる攻撃的なラップ文化と互いに影響し合っている"},
   {s:"latin_trap",t:"reggaeton",w:40,score:{"r":0,"h":0,"i":1,"v":1,"c":0},desc:"ラテントラップの808ベースと暗いトーンの歌唱スタイルが、レゲトンのデンボウのリズム感覚と互いに影響し合っている"},
-  {s:"latin_trap",t:"latin_rnb",w:40,desc:"ラテントラップの808ベースのビートパターンが、ラテンR&Bのスムースなボーカル表現とコード感の中に取り入れられている"},
-  {s:"latin_rnb",t:"latin_trap",w:40,desc:"ラテンR&Bのスムースなボーカル表現と、ラテントラップの808ベースのビートパターンが、互いに影響し合いながら発展している"},
+  {s:"latin_trap",t:"latin_rnb",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"ラテントラップの808ベースのビートパターンが、ラテンR&Bのスムースなボーカル表現とコード感の中に取り入れられている"},
+  {s:"latin_rnb",t:"latin_trap",w:40,score:{"r":0,"h":0,"i":1,"v":1,"c":0},desc:"ラテンR&Bのスムースなボーカル表現と、ラテントラップの808ベースのビートパターンが、互いに影響し合いながら発展している"},
   {s:"latin_rnb",t:"reggaeton",w:40,score:{"r":0,"h":0,"i":0,"v":1,"c":0},desc:"ラテンR&Bのスムースなボーカル表現が、レゲトンのデンボウのリズムパターンの中に取り入れられている"},
   {s:"reggaeton",t:"dancehall",w:40,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"レゲトンのデンボウのリズムパターンが、ダンスホールのデジタルなリディムのより ラテン的なポップス構成に取り入れられている"},
   {s:"reggaeton",t:"hiphop",w:40,score:{"r":1,"h":0,"i":0,"v":1,"c":1},desc:"レゲトンのデンボウのリズムが、ヒップホップのラップのフロウとビートメイキングの中に取り入れられている"},
@@ -6485,7 +6485,7 @@ const LINKS = [
   {s:"rnb",t:"soul",w:70,score:{"r":1,"h":0,"i":1,"v":0,"c":1},desc:"R&Bのブルース由来のバックビートとホーンセクションのアレンジが、ソウルのゴスペル由来の熱量の高い歌唱表現の前提となった"},
   {s:"hiphop",t:"rnb",w:50,score:{"r":1,"h":0,"i":1,"v":1,"c":1},desc:"ヒップホップのサンプリングによるビート制作手法が、R&Bのメロディックなボーカル表現と融合している"},
   {s:"rnb",t:"alternative_rnb",w:60,score:{"r":0,"h":0,"i":1,"v":1,"c":0},desc:"R&Bのメロディックなボーカル表現を土台に、より実験的な電子音響処理とジャンル横断的なプロダクションを加えることでオルタナティヴR&Bが形成された"},
-  {s:"rnb",t:"latin_rnb",w:50,desc:"R&Bのスムースなボーカル表現を土台に、ラテンパーカッションのリズムパターンを加えることでラテンR&Bが形成された"},
+  {s:"rnb",t:"latin_rnb",w:50,score:{"r":1,"h":0,"i":0,"v":1,"c":0},desc:"R&Bのスムースなボーカル表現を土台に、ラテンパーカッションのリズムパターンを加えることでラテンR&Bが形成された"},
 
   // 孤立ノード解消
   {s:"raga",t:"chinese_traditional",w:30,score:{"r":0,"h":1,"i":0,"v":0,"c":1},desc:"ラーガの旋法に基づく即興的な音楽性が、中国伝統音楽の五声音階に基づく旋律の伝統と東洋音楽としての美学を共有している"},
@@ -6627,7 +6627,7 @@ const LINKS = [
   {s:"son_cubano",t:"salsa",w:60,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ソン・クバーノのクラーベのリズム構造とアンサンブル編成が、サルサの音楽性の重要な源流となっている"},
   {s:"bolero_latin",t:"bachata",w:55,desc:"ボレロのロマンチックなバラードとしての歌詞世界が、バチャータの切ないギターのアルペジオと歌唱表現の中に取り入れられている"},
   {s:"merengue",t:"bachata",w:35,desc:"メレンゲの高速なリズム感覚が、バチャータのドミニカ共和国の音楽文化としての伝統の中に取り入れられている"},
-  {s:"bachata",t:"latin_rnb",w:40,desc:"バチャータの切ないギターのアルペジオとロマンチックな歌詞が、ラテンR&Bのスムースなボーカル表現の中に取り入れられている"},
+  {s:"bachata",t:"latin_rnb",w:40,score:{"r":0,"h":0,"i":1,"v":1,"c":0},desc:"バチャータの切ないギターのアルペジオとロマンチックな歌詞が、ラテンR&Bのスムースなボーカル表現の中に取り入れられている"},
   {s:"salsa",t:"timba",w:55,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"サルサのクラーベのリズム構造とホーンセクションによるモントゥーノの掛け合いを土台に、ファンクやジャズの複雑なハーモニーとより攻撃的なパーカッションアレンジを加えることでティンバが形成された。"},
   {s:"funk",t:"timba",w:35,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"ファンクのシンコペーションの効いたベースラインが、ティンバのファンクやジャズの複雑なハーモニーの中に取り入れられている"},
   {s:"reggaeton",t:"dembow",w:55,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"レゲトンのデンボウのリズムパターンが、デンボウというジャンル名そのものの由来であり、そのリズム構造の核となっている"},
