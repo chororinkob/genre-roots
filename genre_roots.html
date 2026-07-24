@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.288<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.289<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -6702,9 +6702,9 @@ const LINKS = [
   {s:"folk_rock",t:"country_rock",w:50,desc:"フォークロックのアコースティックとエレクトリックの融合手法を土台に、ペダルスティールギターやカントリー特有のコード進行を加えることでカントリーロックが形成された。"},
   {s:"folk_rock",t:"singer_songwriter",w:45,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"フォークロックのバンド編成でのアレンジ手法が、シンガーソングライターの個人的な内面を描く弾き語りの中に取り入れられている"},
   {s:"synth_pop",t:"new_romantic",w:55,score:{"r":0,"h":1,"i":0,"v":0,"c":1},desc:"シンセポップのメロディックなシンセサイザーの音作りが、ニューロマンティックの華やかなファッションと結びついた音楽性の中に取り入れられている"},
-  {s:"glam_rock",t:"new_romantic",w:40,desc:"グラムロックの派手な視覚的演出が、ニューロマンティックの華やかなファッションと美学の中に取り入れられている"},
+  {s:"glam_rock",t:"new_romantic",w:40,score:{"r":0,"h":0,"i":0,"v":0,"c":1},desc:"グラムロックの派手な視覚的演出が、ニューロマンティックの華やかなファッションと美学の中に取り入れられている"},
   {s:"hard_rock",t:"glam_metal",w:60,score:{"r":0,"h":1,"i":1,"v":0,"c":1},desc:"ハードロックの音圧の高いギターリフが、グラムメタルの派手なビジュアルとキャッチーなメロディーラインの中に取り入れられている"},
-  {s:"glam_rock",t:"glam_metal",w:45,desc:"グラムロックの派手なメイクアップとファッションによる視覚的な演出が、グラムメタルのビジュアル面に直接受け継がれている"},
+  {s:"glam_rock",t:"glam_metal",w:45,score:{"r":0,"h":0,"i":0,"v":0,"c":1},desc:"グラムロックの派手なメイクアップとファッションによる視覚的な演出が、グラムメタルのビジュアル面に直接受け継がれている"},
   {s:"doom_metal",t:"drone_metal",w:55,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ドゥームメタルの極端に遅く重厚なリフが、ドローンメタルにおいてさらにテンポを落とし単一の持続音に近づく形へと先鋭化した"},
   {s:"drone_music",t:"drone_metal",w:50,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"ドローンの単一の音の持続に集中する美学が、ドローンメタルの極端に遅い重厚なギターサウンドの中に取り入れられている"},
   {s:"doom_metal",t:"funeral_doom",w:70,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ドゥームメタルの極端に遅く重厚なリフが、フューネラルドゥームにおいて葬送曲のようなさらに陰鬱で荘厳なテンポへと極端化した"},
@@ -6917,7 +6917,7 @@ const LINKS = [
 
 
   {s:"pop_rock",t:"arena_rock",w:80,desc:"ポップロックのキャッチーで親しみやすいメロディーラインが、アリーナロックの大規模な会場で映える壮大なコーラスの中に取り入れられている"},
-  {s:"art_rock",t:"pop_rock",w:60,desc:"アートロックの実験的なアレンジと芸術性の高いコンセプトが、ポップロックのキャッチーなメロディーラインの中に取り入れられている"},
+  {s:"art_rock",t:"pop_rock",w:60,score:{"r":0,"h":1,"i":1,"v":0,"c":1},desc:"アートロックの実験的なアレンジと芸術性の高いコンセプトが、ポップロックのキャッチーなメロディーラインの中に取り入れられている"},
   {s:"alt_rock",t:"pop_rock",w:70,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"オルタナティヴロックの歪んだギターサウンドと、ポップロックのキャッチーなメロディーラインが、互いに影響し合いながら発展している"},
   {s:"pop_rock",t:"alt_rock",w:70,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"ポップロックのキャッチーなメロディーラインと、オルタナティヴロックの歪んだギターサウンドが、互いに影響し合いながら発展している"},
 
