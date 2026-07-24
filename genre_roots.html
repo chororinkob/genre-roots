@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.127<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.128<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -5561,7 +5561,7 @@ const LINKS = [
 
   // トランス系
   {s:"trance",t:"goa_trance",w:70,score:{"r":0,"h":1,"i":1,"v":0,"c":1},desc:"トランスの反復する高揚感のあるビート構造に、インドのゴアで発展したサイケデリックなアルペジオと東洋的な音階を重ねることでゴアトランスが形成された"},
-  {s:"goa_trance",t:"psytrance",w:85,desc:"ゴアトランスのサイケデリックで精神性を重視した音楽性を土台に、より硬質でテンポの速いビートを加えることでサイケデリックトランスが形成された"},
+  {s:"goa_trance",t:"psytrance",w:85,score:{"r":0,"h":1,"i":0,"v":0,"c":1},desc:"ゴアトランスのサイケデリックで精神性を重視した音楽性を土台に、より硬質でテンポの速いビートを加えることでサイケデリックトランスが形成された"},
   {s:"trance",t:"acid_trance",w:65,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"トランスの高揚感のあるビート構造に、Roland TB-303による酸っぱいベースラインを重ねることでアシッドトランスが形成された"},
   {s:"trance",t:"euro_trance",w:70,score:{"r":0,"h":1,"i":0,"v":0,"c":0},desc:"トランスの長尺で高揚感のあるビート構造を土台に、よりキャッチーでポップなメロディーラインを前面に出すことでユーロトランスが形成された"},
   {s:"trance",t:"euphoric_trance",w:65,score:{"r":0,"h":1,"i":0,"v":0,"c":0},desc:"トランスの高揚感のあるビルドアップ構造を土台に、感動的なメロディーラインとコード進行をより強調することでユーフォリックトランスが形成された"},
@@ -6163,11 +6163,11 @@ const LINKS = [
   {s:"trip_hop",t:"illbient",w:40,desc:"トリップホップの暗く映画的なビートメイキングが、イルビエントの都市的で実験的な音響コラージュに取り入れられた"},
   {s:"illbient",t:"ambient",w:40,score:{"r":1,"h":0,"i":0,"v":0,"c":1},desc:"イルビエントのヒップホップ的な暗いビート処理が、アンビエントの持続音による空間的な音響表現の中に取り入れられている"},
   {s:"dub",t:"illbient",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"ダブのディレイとエコーによる深いサブベースの処理が、イルビエントの実験的なサウンドコラージュに取り入れられた"},
-  {s:"psytrance",t:"goa_trance",w:40,desc:"サイケデリックトランスの硬質で高速なビートが、ゴアトランスのサイケデリックで精神性を重視した音楽性と互いに影響し合っている"},
+  {s:"psytrance",t:"goa_trance",w:40,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"サイケデリックトランスの硬質で高速なビートが、ゴアトランスのサイケデリックで精神性を重視した音楽性と互いに影響し合っている"},
   {s:"psytrance",t:"nitzhonot",w:40,desc:"サイケデリックトランスの硬質なシンセ音色が、ニッツォノットの明るく高速な旋律の中に取り入れられている"},
   {s:"nitzhonot",t:"psytrance",w:40,desc:"ニッツォノットの高速で硬質なベースラインが、サイケデリックトランスの音色の作り方の中に取り入れられている"},
-  {s:"goa_trance",t:"nitzhonot",w:40,desc:"ゴアトランスのサイケデリックな旋律性が、ニッツォノットの祝祭的な高揚感のあるビートの中に取り入れられている"},
-  {s:"nitzhonot",t:"goa_trance",w:40,desc:"ニッツォノットの祝祭的な高揚感が、ゴアトランスのサイケデリックな旋律性の中に取り入れられている"},
+  {s:"goa_trance",t:"nitzhonot",w:40,score:{"r":0,"h":1,"i":0,"v":0,"c":0},desc:"ゴアトランスのサイケデリックな旋律性が、ニッツォノットの祝祭的な高揚感のあるビートの中に取り入れられている"},
+  {s:"nitzhonot",t:"goa_trance",w:40,score:{"r":0,"h":0,"i":0,"v":0,"c":1},desc:"ニッツォノットの祝祭的な高揚感が、ゴアトランスのサイケデリックな旋律性の中に取り入れられている"},
   {s:"euro_trance",t:"trance",w:40,score:{"r":0,"h":1,"i":0,"v":0,"c":0},desc:"ユーロトランスのキャッチーでポップなメロディーラインが、トランスの長尺で高揚感のあるビート構造の中に取り入れられている"},
   {s:"euro_trance",t:"hands_up",w:40,desc:"ユーロトランスの明るいメロディーラインが、ハンズアップの高速でポップなダンスフロア向けのアレンジと互いに影響し合っている"},
   {s:"hands_up",t:"euro_trance",w:40,desc:"ハンズアップの高速なテンポが、ユーロトランスの明るいメロディーラインの中に取り入れられている"},
@@ -6766,7 +6766,7 @@ const LINKS = [
   {s:"ebm",t:"new_beat",w:50,score:{"r":1,"h":0,"i":1,"v":0,"c":1},desc:"EBMの硬質なシーケンサーベースによる機械的なサウンドが、ニュービートのベルギー発のスローなテンポのダンスサウンドの中に取り入れられている"},
   {s:"acid_house",t:"new_beat",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"アシッドハウスのTB-303による酸っぱいベースサウンドが、ニュービートのサウンドの中に取り入れられている"},
   {s:"new_beat",t:"trance",w:35,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"ニュービートのスローなテンポの反復するダンスサウンドが、トランスの反復するビート構造の前史となった"},
-  {s:"new_beat",t:"goa_trance",w:35,desc:"ニュービートの反復するダンスサウンドが、ゴアトランスのサイケデリックなビート構造の前史となった"},
+  {s:"new_beat",t:"goa_trance",w:35,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"ニュービートの反復するダンスサウンドが、ゴアトランスのサイケデリックなビート構造の前史となった"},
   {s:"chicago_house",t:"ambient_house",w:40,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"シカゴハウスの四つ打ちビートが、アンビエントハウスの持続音による空間的な音響表現と組み合わされている"},
   {s:"ambient",t:"ambient_house",w:50,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"アンビエントの持続音による空間的な音響表現が、アンビエントハウスの四つ打ちビートの中に取り入れられている"},
   {s:"experimental_elec",t:"glitch_music",w:55,desc:"実験電子音楽のシンセサイザーによる音響実験の精神が、グリッチのデジタル機器のエラー音を音楽的に活用する手法に取り入れられた"},
