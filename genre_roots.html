@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.244<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.245<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -6284,8 +6284,8 @@ const LINKS = [
   {s:"reggaeton",t:"hiphop",w:40,score:{"r":1,"h":0,"i":0,"v":1,"c":1},desc:"レゲトンのデンボウのリズムが、ヒップホップのラップのフロウとビートメイキングの中に取り入れられている"},
   {s:"pop_rap",t:"pop_music",w:40,score:{"r":1,"h":1,"i":0,"v":0,"c":0},desc:"ポップラップのキャッチーなフックの作り方が、ポップスのメロディーラインのリズム感の中に取り入れられている"},
   {s:"pop_rap",t:"hiphop",w:40,score:{"r":0,"h":1,"i":0,"v":1,"c":0},desc:"ポップラップのメロディー重視のフック構成が、ヒップホップのラップのフロウの中に取り入れられている"},
-  {s:"psychedelic_rap",t:"trip_hop",w:40,desc:"サイケデリックラップの幻覚的な音響エフェクトが、トリップホップの暗いサンプリング素材による映画的な音像と互いに影響し合っている"},
-  {s:"trip_hop",t:"psychedelic_rap",w:40,desc:"トリップホップの暗く映画的なサンプリング素材が、サイケデリックラップの幻覚的な音響エフェクトの中に取り入れられている"},
+  {s:"psychedelic_rap",t:"trip_hop",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"サイケデリックラップの幻覚的な音響エフェクトが、トリップホップの暗いサンプリング素材による映画的な音像と互いに影響し合っている"},
+  {s:"trip_hop",t:"psychedelic_rap",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"トリップホップの暗く映画的なサンプリング素材が、サイケデリックラップの幻覚的な音響エフェクトの中に取り入れられている"},
   {s:"plugg",t:"cloud_rap",w:40,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"プラグの柔らかく浮遊感のあるシンセメロディーが、クラウドラップの浮遊感のあるシンセパッドと互いに影響し合っている"},
   {s:"cloud_rap",t:"plugg",w:40,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"クラウドラップの浮遊感のあるシンセサウンドが、プラグの軽やかなシンセメロディーの中に取り入れられている"},
   {s:"phonk",t:"trap",w:40,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"フォンクのメンフィスラップ由来のローファイなサンプルが、トラップの808ベースと現代的なミックス技術の中に取り入れられている"},
