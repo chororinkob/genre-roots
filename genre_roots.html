@@ -559,7 +559,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.365<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.366<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -1912,24 +1912,24 @@ const NODES = [
 
   // カントリー/フォーク系
   {id:"country", label:"Country", cat:"country_folk", era:"1920s", suno:true,
-    desc:"アコースティックギター、フィドル（バイオリン）、バンジョー、スチールギターが奏でる、アメリカの大地と人々の暮らしを歌った音楽。シンプルなコード進行、物語性のある歌詞、素朴で温かいボーカルが特徴。テンポは中速〜軽快。歌詞は恋愛、家族、故郷、トラックでの旅、酒場の夜といったアメリカ南部・西部の生活に密着したテーマ。都会的な洗練さとは無縁の、土の匂いがする誠実な音楽。",
-    roots_story:"1920年代、アメリカ南部のアパラチア山脈周辺の民謡（フォークソング）が商業音楽として録音され始めた。Jimmie Rodgers「Blue Yodel」(1927)が「カントリーミュージックの父」とされる。Hank Williams「Your Cheatin' Heart」(1952)はカントリーの永遠の名曲。Johnny Cash「I Walk the Line」(1956)はロックとの橋渡し的存在。1960年代にナッシュビルが「カントリーミュージックの首都」として確立。Garth Brooksが1990年代にスタジアム級の人気を獲得。Taylor Swiftはカントリーからポップスに転向し、世界最大のアーティストに成長した。",
+    desc:"アコースティックギター、フィドル（バイオリン）、バンジョー、スチールギター（金属バーをスライドさせて演奏する独特の泣きの音色を持つギター）が奏でる、アメリカの大地と人々の暮らしを歌った音楽。シンプルなコード進行、物語性のある歌詞、素朴で温かいボーカルが特徴。テンポは中速〜軽快。歌詞は恋愛、家族、故郷、トラックでの旅、酒場の夜といった、アメリカ南部・西部の生活に密着したテーマが多い。都会的な洗練さとは無縁の、土の匂いがする誠実な音楽。",
+    roots_story:"1920年代、アメリカ南部のアパラチア山脈周辺に伝わる民謡（フォークソング）が、商業音楽として録音され始めたことに端を発する。Jimmie Rodgersの「Blue Yodel」(1927)を手がけた彼は「カントリーミュージックの父」と呼ばれる。Hank Williamsの「Your Cheatin' Heart」(1952)はカントリーの永遠の名曲とされる（Williams自身は1953年に29歳で死去している）。Johnny Cashの「I Walk the Line」(1956)は、カントリーとロックンロールを橋渡しする存在として知られる。1960年代にはテネシー州のナッシュビルが「カントリーミュージックの首都」としての地位を確立した。Garth Brooksは1990年代にスタジアム級の人気を獲得した。Taylor Swiftはカントリー歌手としてキャリアをスタートし、後にポップスへと転向して世界最大級のアーティストへと成長を遂げた。",
     rep_tracks:["Jolene (Dolly Parton)", "Friends in Low Places (Garth Brooks)", "Take Me Home, Country Roads (John Denver)", "Ring of Fire (Johnny Cash)", "The Gambler (Kenny Rogers)"],
     yt_mix:["HuvGir8xjJU", "W9bcgXfxFyE"],
     yt_tracks:[["Ixrje2rXLMA", "L0eeSoU35wM"], ["b7P97b64Q5E", "ZcQeocF56Ck"], ["IUmnTfsY3hI", "1vrEljMfXYo"], ["1WaV2x8GXj0", "1Osyw6Svv8U"], ["7hx4gdlfamo", "ImAO-I1cJnE"]],
     aliases:["カントリー", "カントリーミュージック"],},
 
   {id:"bluegrass", label:"Bluegrass", cat:"country_folk", era:"1940s", suno:true,
-    desc:"アコースティック楽器だけで驚異的な速弾きを繰り広げる、超絶技巧のアメリカン・ルーツ音楽。バンジョー、マンドリン、フィドル、アコースティックギター、ウッドベースの5つの楽器が主役で、電気楽器は使わない。テンポは速く（BPM 140〜180）、各楽器のソロが次々に回ってくる即興的なやり取りが聴きどころ。高音域のハーモニー（ハイロンサム唱法）も特徴的。アコースティックなのに異常にスリリング。",
-    roots_story:"1940年代、Bill Monroe and the Blue Grass Boysがジャンルを創始。バンド名に含まれる「Blue Grass」（ケンタッキー州の愛称）がジャンル名に。Earl Scruggs「Foggy Mountain Breakdown」(1949)の超絶バンジョーピッキングはブルーグラスの象徴。Flatt & Scruggsがスタイルを普及。2000年にはO Brother, Where Art Thou?サウンドトラック（T Bone Burnett制作）が大ヒットし、ブルーグラスリバイバルを起こした。Punch Brothers、Billy Stringsが現代の革新者。",
+    desc:"アコースティック楽器だけで驚異的な速弾きを繰り広げる、超絶技巧のアメリカン・ルーツ音楽。バンジョー、マンドリン、フィドル、アコースティックギター、ウッドベースの5つの楽器が主役で、電気楽器は一切使わない。テンポは速く（BPM 140〜180）、各楽器に次々とソロが回ってくる即興的なやり取りが最大の聴きどころ。高音域で歌う「ハイロンサム」と呼ばれる独特のハーモニー唱法も特徴的。アコースティックな編成でありながら、異常なまでにスリリングな音楽体験を生む。",
+    roots_story:"1940年代、Bill Monroe and the Blue Grass Boysというバンドがこのジャンルを創始した。バンド名に含まれる「Blue Grass」（ケンタッキー州の愛称）が、そのままジャンル名として定着した。Earl Scruggsが「Foggy Mountain Breakdown」(1949)で披露した超絶的なバンジョーピッキングは、ブルーグラスを象徴する演奏として知られる。Flatt & Scruggsはこのスタイルを広く普及させた。2000年、映画『O Brother, Where Art Thou?』のサウンドトラック（音楽プロデューサーT Bone Burnettが手がけた）が大ヒットし、ブルーグラスの一大リバイバルを引き起こした。Punch Brothers、Billy Stringsが現代における革新者として知られている。",
     rep_tracks:["Foggy Mountain Breakdown (Flatt & Scruggs)", "Man of Constant Sorrow (The Soggy Bottom Boys)", "Blue Moon of Kentucky (Bill Monroe)", "The Fox (Nickel Creek)", "Dust in a Baggie (Billy Strings)"],
     yt_mix:["bTpTgBudECU", "iy_CZDtIuz0"],
     yt_tracks:[["z_Y3mnj-8lA", "i8wZ8U5wQi0"], ["zHamgwlQ1yo", "YDDEqgmGIVg"], ["4syA9aNnNa0", "xtpiqdN2lJk"], ["Ou-j46Nk7kg", "1i4dvmKhuP8"], ["Y6CyQftidOw", "VFEZOjtrwls"]],
     aliases:["ブルーグラス"],},
 
   {id:"folk", label:"Folk", cat:"country_folk", era:"1940s", suno:true,
-    desc:"アコースティックギターの弾き語りを中心とした、社会的メッセージや人間の物語を歌う音楽。飾らないシンプルなサウンド、語りかけるようなボーカル、詩的な歌詞が特徴。テンポはゆったり〜中速。電気楽器に頼らず、声とギターだけで人の心を動かす力がある。プロテストソング（反戦歌・社会風刺歌）としての側面も強く、「歌で世界を変えようとした」音楽。焚き火を囲んで聴きたい素朴さと深さがある。",
-    roots_story:"1940〜60年代、アメリカのフォークリバイバル運動で確立。Woody Guthrie「This Land Is Your Land」(1940)が精神的原点。Pete Seegerは「Where Have All the Flowers Gone」で反戦運動と結びつけた。Bob Dylan「The Times They Are a-Changin'」(1964)はフォークのプロテスト精神の頂点だが、1965年にエレキギターを持ち込み「裏切り者」と罵声を浴びた（フォーク→ロックへの転換点）。Joan Baezは公民権運動と連帯。Simon & Garfunkelは美しいハーモニーで大衆に浸透させた。",
+    desc:"アコースティックギターの弾き語りを中心とした、社会的メッセージや人間の物語を歌う音楽。飾らないシンプルなサウンド、語りかけるようなボーカル、詩的な歌詞が特徴。テンポはゆったり〜中速。電気楽器に頼らず、声とギターだけで人の心を動かす力を信じた音楽である。プロテストソング（反戦歌・社会風刺歌）としての側面も強く、「歌によって世界を変えようとした」音楽とも言える。焚き火を囲んで聴きたくなるような素朴さと、その奥にある深さを併せ持つ。",
+    roots_story:"1940〜60年代、アメリカのフォークリバイバル運動の中で確立された。Woody Guthrieの「This Land Is Your Land」(1940)は、このジャンルの精神的な原点とされる。Pete Seegerは「Where Have All the Flowers Gone」などの楽曲を通じて、フォークと反戦運動を結びつけた。Bob Dylanの「The Times They Are a-Changin'」(1964)は、フォークのプロテスト精神の頂点を示す楽曲だが、1965年のニューポート・フォーク・フェスティバルでエレキギターを持ち込んだ際には、伝統的なフォークファンから「裏切り者」という罵声を浴びた（この出来事はフォークからロックへの転換点として音楽史上有名な事件となっている）。Joan Baezは公民権運動と連帯する形で活動した。Simon & Garfunkelは、美しいハーモニーを通じてフォークを一般大衆へと広く浸透させた。",
     rep_tracks:["Blowin' in the Wind (Bob Dylan)", "The Sound of Silence (Simon & Garfunkel)", "Both Sides Now (Joni Mitchell)", "If I Had a Hammer (Pete Seeger)", "Diamonds & Rust (Joan Baez)"],
     yt_mix:["E1-KDdTdaQY", "6Fv-wbsIA2s"],
     yt_tracks:[["MMFj8uDubsE", "vWwgrjjIMXA"], ["NAEppFUWLfc", "6ukmjBSQY-c"], ["yXr2EFomFkU", "7cBf0olE9Yc"], ["VO39e5Uznu4", "TWUSM_KJF_E"], ["1ST9TZBb9v8", "IrVD0bP_ybg"]],
