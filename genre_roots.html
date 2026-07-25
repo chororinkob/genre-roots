@@ -559,7 +559,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.374<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.375<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -2137,24 +2137,24 @@ const NODES = [
 
   // ジャズ系サブジャンル
   {id:"bebop", label:"Bebop", cat:"jazz_sub", era:"1940s", suno:true,
-    desc:"ジャズを「聴く芸術」に押し上げた、超絶技巧の即興演奏が主役のスタイル。猛スピードのテンポ、複雑なコード進行、予測不能なフレージングがミュージシャンの技量の限界に挑む。テンポはBPM 200以上に達することも。ダンス音楽としてのジャズから脱却し、「座って集中して聴く」音楽に変えた革命。小編成（カルテットやクインテット）でサックスやトランペットのソロが延々と続く。知的で攻撃的、アスリート的な音楽。",
-    roots_story:"1940年代、ニューヨークのジャズクラブ（特にミントンズ・プレイハウス）でCharlie Parker（アルトサックス）とDizzy Gillespie（トランペット）が高速で複雑な即興演奏を繰り広げ、ビバップを誕生させた。Parker「Ko-Ko」(1945)が代表曲。Thelonious Monkは独特のハーモニーとリズムで唯一無二のスタイルを確立。Bud Powell（ピアノ）、Max Roach（ドラム）も重要。スウィングジャズの「みんなで踊る」世界から「聴く芸術」への転換点であり、ジャズの「モダン化」の始まり。",
+    desc:"ジャズを「聴く芸術」へと押し上げた、超絶技巧の即興演奏が主役のスタイル。猛スピードのテンポ、複雑なコード進行、予測不能なフレージングが、ミュージシャンの技量の限界に挑むような音楽を作り上げる。テンポはBPM 200以上に達することもある。ダンス音楽としてのジャズから脱却し、「座って集中して聴く」音楽へと変えた革命的なスタイル。小編成（カルテットやクインテット）で、サックスやトランペットのソロが延々と続いていく。知的で攻撃的な、アスリート的とも言える音楽。",
+    roots_story:"1940年代、ニューヨークのジャズクラブ（特にミントンズ・プレイハウス）で、Charlie Parker（アルトサックス）とDizzy Gillespie（トランペット）が高速で複雑な即興演奏を繰り広げ、ビバップというスタイルを誕生させた。Parkerの「Ko-Ko」(1945)が代表曲として知られる。Thelonious Monkは独特のハーモニーとリズム感覚で、他の誰とも似ていない唯一無二のスタイルを確立した。Bud Powell（ピアノ）、Max Roach（ドラム）も重要な存在。それまでのスウィングジャズにおける「みんなで踊る」音楽から「聴く芸術」への転換点であり、ジャズの「モダン化」の始まりを告げるムーブメントだった。",
     rep_tracks:["Ko-Ko (Charlie Parker)", "A Night in Tunisia (Dizzy Gillespie)", "Round Midnight (Thelonious Monk)", "Tempus Fugit (Bud Powell)", "Cherokee (Charlie Parker)"],
     yt_mix:["okrNwE6GI70", "mkLbR7VQ6Xc"],
     yt_tracks:[["okrNwE6GI70", "0ajJBNodEYs"], ["gfLVVHxk4IM", "eQHpwnXf0mI"], ["IrAfjW5qiyo", "IKayR1oqC7w"], ["yrO45Tzvhxg", "N0ZG81_Bor8"], ["Z3vACbUETa0", "1gdI9OKIXiM"]],
     aliases:["ビバップ"],},
 
   {id:"cool_jazz", label:"Cool Jazz", cat:"jazz_sub", era:"1949", suno:true,
-    desc:"ビバップの知的さを残しつつ、温度を下げてクールに仕上げたジャズ。ビバップの攻撃的な熱さとは対照的に、穏やかで抑制的な演奏が特徴。ソフトなトーン、ゆったりしたテンポ、西洋クラシックの対位法を取り入れた編曲が知的な空気を醸す。喫茶店の午後、書斎での読書タイム、深夜のバーに似合う。感情を爆発させるのではなく、静かに内側に沈めていくような、大人のための落ち着いたジャズ。",
-    roots_story:"1949年、Miles Davis「Birth of the Cool」セッションがジャンル名の由来。編曲家Gil Evansとの共同作業で、ビバップの小編成・高速即興から離れ、中編成のアンサンブルと穏やかなサウンドを追求した。西海岸（ロサンゼルス）でDave Brubeck、Chet Baker、Gerry Mulliganらが「ウエスト・コースト・ジャズ」として発展させた。Brubeck「Take Five」(1959)は5/4拍子というジャズでは珍しい変拍子で大ヒットし、ジャズのポップ化にも貢献。Stan Getzのボサノバとの融合もクールジャズの延長線上にある。",
+    desc:"ビバップの知的さを残しつつ、温度を下げてクールに仕上げたジャズ。ビバップが持つ攻撃的な熱さとは対照的に、穏やかで抑制的な演奏が特徴。ソフトなトーン、ゆったりしたテンポ、西洋クラシックの対位法（複数の旋律を独立させながら組み合わせる作曲技法）を取り入れた編曲が知的な空気を醸し出す。喫茶店の午後、書斎での読書タイム、深夜のバーに似合う音楽。感情を爆発させるのではなく、静かに内側に沈めていくような、大人のための落ち着いたジャズ。",
+    roots_story:"1949年、Miles Davisによる『Birth of the Cool』セッションが、このジャンル名の由来となった。編曲家Gil Evansとの共同作業を通じて、ビバップの小編成・高速即興から離れ、中編成のアンサンブルと穏やかなサウンドを追求した。西海岸のロサンゼルスでは、Dave Brubeck、Chet Baker、Gerry Mulliganらが「ウエスト・コースト・ジャズ」としてこの方向性をさらに発展させた。Brubeckの「Take Five」(1959)は、5/4拍子というジャズでは珍しい変拍子を用いながら大ヒットし、ジャズのポップ化にも貢献した楽曲である。Stan Getzによるボサノバとの融合も、クールジャズの延長線上にある試みとされる。",
     rep_tracks:["Take Five (Dave Brubeck)", "My Funny Valentine (Chet Baker)", "Moon Dreams (Miles Davis)", "The Girl from Ipanema (Stan Getz)", "Bernie's Tune (Gerry Mulligan)"],
     yt_mix:["U3n31M81RpE", "p9dRg8yQ2DY"],
     yt_tracks:[["vmDDOFXSgAs", "-DHuW1h1wHw"], ["QuMzUXPEPRM", "UOEIQKczRPY"], ["Tcg2Do13RJc", "xLWTnzYjOwY"], ["sVdaFQhS86E", "4AX1c2YsBNs"], ["bheZvff6qOc", "8hi6n03cjNk"]],
     aliases:["クールジャズ"],},
 
   {id:"fusion", label:"Jazz Fusion", cat:"jazz_sub", era:"1969", suno:true,
-    desc:"ジャズの即興性とロックのエレキサウンド、ファンクのグルーヴを高圧で融合させた、超高エネルギーの音楽。エレキギター、エレキベース、シンセサイザー、エレクトリックピアノがフルボリュームで鳴り、ドラムは手数の多い複雑なパターンを叩く。テンポは中速〜速い。ジャズの知性とロックの衝動が同居し、聴いていると脳と体の両方が興奮する。技術的に超絶技巧であり、演奏者の腕前に圧倒されるジャンル。",
-    roots_story:"1969年、Miles Davis「Bitches Brew」がジャズとロックの壁を破壊した歴史的アルバム。エレクトリック楽器を大胆に導入し、ジャズの純粋主義者からは「裏切り」と非難されたが、新しいリスナーを大量に獲得した。Weather Report（Joe Zawinul、Wayne Shorter）、Return to Forever（Chick Corea）、Mahavishnu Orchestra（John McLaughlin）が「三大フュージョンバンド」。Herbie Hancock「Head Hunters」(1973)はファンクとの融合で商業的大成功。日本ではカシオペア、T-SQUAREがフュージョンの人気を定着させた。",
+    desc:"ジャズの即興性と、ロックのエレキサウンド、ファンクのグルーヴを高圧で融合させた、超高エネルギーの音楽。エレキギター、エレキベース、シンセサイザー、エレクトリックピアノがフルボリュームで鳴り響き、ドラムは手数の多い複雑なパターンを叩き出す。テンポは中速〜速い。ジャズの知性とロックの衝動が同居し、聴いていると脳と体の両方が興奮するような感覚を覚える。技術的に超絶技巧が要求され、演奏者の腕前そのものに圧倒されるジャンルである。",
+    roots_story:"1969年、Miles Davisの『Bitches Brew』は、ジャズとロックの間にあった壁を破壊した歴史的なアルバムとされる。エレクトリック楽器を大胆に導入したこの作品は、ジャズの純粋主義者からは「裏切り」と非難された一方で、新しいリスナー層を大量に獲得した。Weather Report（Joe Zawinul、Wayne Shorter）、Return to Forever（Chick Corea）、Mahavishnu Orchestra（John McLaughlin）は「三大フュージョンバンド」と称される。Herbie Hancockの『Head Hunters』(1973)は、ファンクとの融合によって商業的な大成功を収めた。日本ではカシオペア、T-SQUAREがフュージョンの人気を定着させたバンドとして知られている。",
     rep_tracks:["Bitches Brew (Miles Davis)", "Birdland (Weather Report)", "Spain (Chick Corea)", "Meeting of the Spirits (Mahavishnu Orchestra)", "Chameleon (Herbie Hancock)"],
     yt_mix:["gLNzHo5EzcI", "Qw7vOfDLBiQ"],
     yt_tracks:[["cwcmT_85Gbs", "eE_D6Kve1SM"], ["pqashW66D7o", "_Fm10whccto"], ["sEhQTjgoTdU", "IWBkVucVMCY"], ["WhzDBGiOTvg", "LcQKjffxIOY"], ["iqomTAiRnVM", "oweK8H40kZk"]],
