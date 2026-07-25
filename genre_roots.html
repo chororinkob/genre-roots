@@ -559,7 +559,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.377<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.378<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -2211,24 +2211,24 @@ const NODES = [
     aliases:["ブルースロック"],},
 
   {id:"surf_rock", label:"Surf Rock", cat:"rock", era:"1961", suno:true,
-    desc:"カリフォルニアの太陽と波をそのまま音にした、爽快でリバーブたっぷりのギターロック。スプリングリバーブの効いたクリーンなギタートーン、速いトレモロピッキング、ダンパーの効いたパーカッシブなリズムが「波の上をサーフィンしている」ような疾走感を生む。テンポは速め。インストゥルメンタル（歌なし）の曲も多い。夏、海、車、青春——カリフォルニア文化の音。",
-    roots_story:"1961年、Dick Dale「Let's Go Trippin'」がサーフロックの誕生を告げた。Dick Daleは「サーフギターの王」と呼ばれ、Fenderのリバーブアンプを全開にした轟音ギターで有名。The Beach Boys「Surfin' U.S.A.」(1963)はボーカル付きサーフロックで世界的ヒット。The Ventures「Walk Don't Run」(1960)は日本でも大人気となり、日本のエレキブームを牽引。Quentin Tarantinoが映画「パルプ・フィクション」(1994)でDick Daleの「Misirlou」を使い、サーフロックを再評価させた。",
+    desc:"カリフォルニアの太陽と波をそのまま音にした、爽快でリバーブたっぷりのギターロック。スプリングリバーブ（バネを使った残響エフェクト）の効いたクリーンなギタートーン、速いトレモロピッキング、パーカッシブなリズムが「波の上をサーフィンしている」ような疾走感を生む。テンポは速め。インストゥルメンタル（歌のない演奏曲）が多いのも特徴。夏、海、車、青春——そうしたカリフォルニア文化を象徴する音楽である。",
+    roots_story:"1961年、Dick Daleの「Let's Go Trippin'」がサーフロックというジャンルの誕生を告げた。Dick Daleは「サーフギターの王」と呼ばれ、Fender製のリバーブアンプを全開にした轟音ギターで知られる（左利きの彼はギターを右利き用のまま逆さに構えて弾いていたことでも有名）。The Beach Boysの「Surfin' U.S.A.」(1963)は、ボーカル付きサーフロックとして世界的なヒットとなった。The Venturesの「Walk Don't Run」(1960)は日本でも大人気となり、日本のエレキギターブームを牽引した。Quentin Tarantino監督の映画『パルプ・フィクション』(1994)でDick Daleの「Misirlou」が使用されたことは、サーフロックを再評価させるきっかけとなった。",
     rep_tracks:["Misirlou (Dick Dale)", "Surfin' U.S.A. (The Beach Boys)", "Walk Don't Run (The Ventures)", "Pipeline (The Chantays)", "Wipe Out (The Surfaris)"],
     yt_mix:["xOfl3VQVegM", "b28q8R8eAJw"],
     yt_tracks:[["MXB6T55oytE", "ZIU0RMV_II8"], ["enlOHxQ0tb4", "H0bhSGfKTs4"], ["hIuIIqbyEIU", "WW21rcHiVU0"], ["ZFucCXherLg", "w7c2ZKamzS4"], ["m4IfxAQ4TqQ", "dBURLdhmmZ8"]],
     aliases:["サーフロック", "サーフミュージック"],},
 
   {id:"stoner_rock", label:"Stoner Rock", cat:"rock", era:"1990s", suno:true,
-    desc:"重くファジーなギターリフがゆったりと反復する、ヘヴィでトリッピーなロック。ダウンチューニングしたギターの分厚い壁、グルーヴィーなドラム、催眠的なリフの反復が特徴。テンポはゆったり〜中速で、砂漠の灼熱と蜃気楼のイメージが似合う。ドゥームメタルの重さとサイケデリックロックの浮遊感を併せ持つ。砂漠のハイウェイを窓全開で走る音楽。",
-    roots_story:"1990年代、Kyuss「Blues for the Red Sun」(1992)がカリフォルニアの砂漠（パームデザート）から登場し、「デザートロック」としてジャンルを確立。Fu Manchu、Monster Magnetも初期の重要バンド。Queens of the Stone Age（元Kyussのメンバー）はより洗練された方向でメインストリームの成功を収めた。Sleep「Dopesmoker」(2003)は1曲63分という極端な作品でカルト的人気。",
+    desc:"重くファジーなギターリフがゆったりと反復する、ヘヴィでトリッピーなロック。ダウンチューニングしたギターの分厚い壁、グルーヴィーなドラム、催眠的なリフの反復が特徴。テンポはゆったり〜中速で、砂漠の灼熱と蜃気楼のイメージが似合う。ドゥームメタルの重さと、サイケデリックロックの浮遊感を併せ持つ。窓を全開にして砂漠のハイウェイを走り抜けるような音楽。",
+    roots_story:"1990年代、Kyussが発表した『Blues for the Red Sun』(1992)は、カリフォルニアの砂漠地帯（パームデザート）から登場した作品で、「デザートロック」としてこのジャンルを確立した。Fu Manchu、Monster Magnetも初期の重要バンドとして知られる。Queens of the Stone Age（元Kyussのメンバーが結成）は、より洗練された方向性でメインストリームでの成功を収めた。Sleepの『Dopesmoker』(2003)は、たった1曲が63分に及ぶという極端な作品でカルト的な人気を獲得している。",
     rep_tracks:["Green Machine (Kyuss)", "Dopesmoker (Sleep)", "Space Lord (Monster Magnet)", "Godzilla (Fu Manchu)", "No One Knows (Queens of the Stone Age)"],
     yt_mix:["5FXQ60IdkWI", "oFfN7dJrOmI"],
     yt_tracks:[["Fc-7FXzbeA0", "RhaiAEvEiFI"], ["hIw7oeZKpZc", "Kk67LzdK8QI"], ["dscfeQOMuGw", "SCAIBmf_9kY"], ["xZBI6zd7fOs", "cB62mckMDmk"], ["s88r_q7oufE", "OM0z2C0sMxI"]],
     aliases:["ストーナーロック"],},
 
   {id:"space_rock", label:"Space Rock", cat:"rock", era:"1960s", suno:true,
-    desc:"宇宙の無限の広がりを音で表現する、壮大でサイケデリックなロック。エコーとリバーブの海の中をギターとシンセが漂い、反復的なリズムが宇宙の旅を演出する。テンポは様々だが、長尺の楽曲で「宇宙遊泳」のような浮遊感を提供する。プログレッシブロックの構築性よりも、音響的な広がりと瞑想的な体験を重視する。星間旅行のBGM。",
-    roots_story:"1960年代末、Pink Floyd「Set the Controls for the Heart of the Sun」(1968)、Hawkwind「Silver Machine」(1972)がスペースロックの原型。Hawkwindはモーターヘッドのレミーが在籍していたことでも知られる。1990年代にはSpiritualizedの「Ladies and Gentlemen We Are Floating in Space」(1997)が傑作と評された。Mogwai、Godspeed You! Black Emperorのポストロック勢も宇宙的な音響を追求した。",
+    desc:"宇宙の無限の広がりを音で表現する、壮大でサイケデリックなロック。エコーとリバーブの海の中をギターとシンセが漂い、反復的なリズムが宇宙の旅を演出する。テンポは様々だが、長尺の楽曲によって「宇宙遊泳」のような浮遊感を提供する。プログレッシブロックの持つ構築性よりも、音響的な広がりと瞑想的な体験そのものを重視する。星間旅行のBGMとでも呼ぶべきジャンルである。",
+    roots_story:"1960年代末、Pink Floydの「Set the Controls for the Heart of the Sun」(1968)、Hawkwindの「Silver Machine」(1972)がスペースロックの原型となった。Hawkwindは、後にMotörheadを結成するレミー（Lemmy Kilmister）が一時在籍していたバンドとしても知られる。1990年代にはSpiritualizedの『Ladies and Gentlemen We Are Floating in Space』(1997)が傑作と評された。Mogwai、Godspeed You! Black Emperorといったポストロック勢も、宇宙的な音響世界を追求したバンドとして知られている。",
     rep_tracks:["Echoes (Pink Floyd)", "Silver Machine (Hawkwind)", "Ladies and Gentlemen We Are Floating in Space (Spiritualized)", "Like Herod (Mogwai)", "Storm (Godspeed You! Black Emperor)"],
     yt_mix:["o2P601YpyAs", "86fBoHdS7rs"],
     yt_tracks:[["OcDiOUQBFd4", "JQ2pTamaqQ4"], ["HdTFeW8FCto", "IfniG-AdSC4"], ["iB7E1D_3Na4", "-UGbOqadHb0"], ["dn4sCGi0E6Q", "CPTw44AWNWA"], ["5eZ_TgE3x_A", "AnFFEF2gOYU"]],
