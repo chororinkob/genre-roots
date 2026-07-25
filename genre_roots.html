@@ -559,7 +559,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.371<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.372<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -2062,24 +2062,24 @@ const NODES = [
     aliases:["演歌"],},
 
   {id:"jpop", label:"J-POP", cat:"east_asian", era:"1990s", suno:true,
-    desc:"日本独自に発展したポップミュージックの総称。西洋のロック、R&B、ダンスミュージック、エレクトロニカなどあらゆるジャンルを取り込みながら、日本語の歌詞に合わせた独自のメロディセンスで再構築する。サビの爆発力、Aメロ→Bメロ→サビという「J-POP構文」の構成美、コード進行の複雑さが特徴。テンポは幅広い。アニメ主題歌、ドラマ主題歌、CMソングなどメディアとの結びつきが極めて強く、日本の日常に溶け込んだ音楽。",
-    roots_story:"1990年代に「J-POP」という用語が定着。小室哲哉がTRF、globe、安室奈美恵をプロデュースし、ダンスミュージック寄りのJ-POPで空前のブームを作った。Mr.Children、B'z、サザンオールスターズがロック寄りの王道J-POPを確立。宇多田ヒカル「First Love」(1999)は日本の歴代最多売上アルバム（800万枚以上）。2010年代にはAKB48グループがアイドルポップの市場を拡大。米津玄師、YOASOBI、Ado、藤井風が現在の中心。Spotifyの普及で海外リスナーも急増中。",
+    desc:"日本独自に発展したポップミュージックの総称。西洋のロック、R&B、ダンスミュージック、エレクトロニカなどあらゆるジャンルを取り込みながら、日本語の歌詞に合わせた独自のメロディセンスで再構築する。サビの爆発力、Aメロ→Bメロ→サビという、いわゆる「J-POP構文」の構成美、コード進行の複雑さが特徴。テンポは幅広い。アニメ主題歌、ドラマ主題歌、CMソングなどメディアとの結びつきが極めて強く、日本人の日常生活に深く溶け込んだ音楽である。",
+    roots_story:"1990年代に「J-POP」という用語が定着した。小室哲哉はTRF、globe、安室奈美恵をプロデュースし、ダンスミュージック寄りのJ-POPで空前のブームを作り出した（いわゆる「小室ファミリー」ブーム）。Mr.Children、B'z、サザンオールスターズがロック寄りの王道J-POPを確立した。宇多田ヒカルの『First Love』(1999)は、日本の歴代最多売上アルバム（800万枚以上）として今も記録が破られていない。2010年代にはAKB48グループがアイドルポップの市場を大きく拡大した。米津玄師、YOASOBI、Ado、藤井風が現在のシーンの中心を担っている。Spotifyなどストリーミングサービスの普及によって、海外のリスナー層も急速に拡大している。",
     rep_tracks:["First Love (宇多田ヒカル)", "恋 (星野源)", "Lemon (米津玄師)", "夜に駆ける (YOASOBI)", "U.S.A. (DA PUMP)"],
     yt_mix:["K-TaFj0pEq8", "_IXVNO5t2zQ"],
     yt_tracks:[["o1sUaVJUeB0", "iBUV7dxGhno"], ["jhOVibLEDhA", "ucR8y5BaLLE"], ["SX_ViT4Ra7k", "Kl5G4bAwpOg"], ["by4SYYWlhEs", "x8VYWazR5mE"], ["fhFwN1sFrBw", "sr--GVIoluU"]],
     aliases:["Jポップ", "ジェイポップ", "J-POP", "日本のポップ"],},
 
   {id:"kpop", label:"K-POP", cat:"east_asian", era:"1990s", suno:true,
-    desc:"完璧に振り付けられたダンス、高品質なプロダクション、ビジュアルの洗練さ、SNS戦略が一体化した韓国発の総合エンタメ産業としての音楽。サウンドはEDM、ヒップホップ、R&B、ポップの最先端を貪欲に取り入れ、1曲の中で複数のジャンルが切り替わる「構成の多彩さ」が特徴。テンポは楽曲により様々。グループ内の各メンバーにファンがつく「推し文化」を世界規模で展開。音楽単体ではなく、コンテンツ全体として設計された21世紀型エンタメ。",
-    roots_story:"1992年、Seo Taiji and Boysがヒップホップとニュージャックスウィングを韓国に持ち込み、K-POPの起源を作った。SMエンタテインメント（イ・スマン設立、1995年）がアイドル育成システムを確立し、H.O.T.、東方神起を輩出。2012年、PSY「江南スタイル」がYouTubeで世界初の10億回再生を達成。BTS（防弾少年団）はBillboard Hot 100で1位を獲得し（2020年「Dynamite」）、K-POPを世界のメインストリームに定着させた。BLACKPINK、Stray Kids、aespaが現在のトップグループ。",
+    desc:"完璧に振り付けられたダンス、高品質なプロダクション、洗練されたビジュアル、SNS戦略が一体化した、韓国発の総合エンターテインメント産業としての音楽。サウンドはEDM、ヒップホップ、R&B、ポップの最先端を貪欲に取り入れ、1曲の中で複数のジャンルが切り替わる「構成の多彩さ」が特徴。テンポは楽曲により様々。グループ内の各メンバーに個別のファンがつく「推し文化」を世界規模で展開している。音楽単体ではなく、コンテンツ全体として緻密に設計された、21世紀型エンターテインメントの一つの完成形と言える。",
+    roots_story:"1992年、Seo Taiji and Boysがヒップホップとニュージャックスウィングを韓国に持ち込んだことが、K-POPの起源とされる。イ・スマンが1995年に設立したSMエンタテインメントは、アイドル育成システム（練習生制度）を確立し、H.O.T.、東方神起を輩出した。2012年、PSYの「江南スタイル」はYouTubeで世界初となる10億回再生を達成した。BTS（防弾少年団）は2020年の「Dynamite」でBillboard Hot 100の1位を獲得し、K-POPを世界のメインストリームへと完全に定着させた。BLACKPINK、Stray Kids、aespaが現在のトップグループとして活躍している。",
     rep_tracks:["Dynamite (BTS)", "Gangnam Style (PSY)", "DDU-DU DDU-DU (BLACKPINK)", "God's Menu (Stray Kids)", "Next Level (aespa)"],
     yt_mix:["ylryDyExfx8", "4XCm5mBe_Ao"],
     yt_tracks:[["gdZLi9oWNZg", "kK29Q_LpVUw"], ["9bZkp7q19f0", "CVxMTl6cUSE"], ["IHNzOHi8sJs", "jOJbXvjZ-cQ"], ["TQTlCHxyuu8", "dx9gQRCT_kM"], ["4TWR90KJl84", "dly3BvtmXbA"]],
     aliases:["Kポップ", "ケーポップ", "K-POP", "韓国ポップ"],},
 
   {id:"anime_music", label:"Anison", cat:"east_asian", era:"1970s", suno:true,
-    desc:"日本のアニメーション作品のOP/ED（オープニング/エンディング）テーマとして作られた音楽。ジャンルの幅は極めて広く、ロック、ポップ、ジャズ、クラシカル、EDM、メタルなどあらゆるスタイルが含まれる。共通するのはアニメの世界観を音で表現する「物語性」と、聴いた瞬間に作品が脳裏に浮かぶ「キャッチーさ」。90秒のOP/EDに起承転結を詰め込む構成力が日本独自の職人技。アニメの世界的普及とともに国際的な人気を獲得。",
-    roots_story:"1970年代の「宇宙戦艦ヤマト」「銀河鉄道999」でアニソンが独自のジャンルとして認識され始めた。影山ヒロノブ、水木一郎（「アニキ」）がスーパーロボット系の熱い主題歌で黄金期を築いた。1990年代に声優が歌手活動を兼ねる文化が定着。2000年代にはLiSA「紅蓮華」（鬼滅の刃、2019年）が社会現象的ヒットに。YOASOBI「アイドル」（推しの子、2023年）はSpotifyバイラルチャートで世界1位を獲得。Linked Horizon、澤野弘之が進撃の巨人等で映画音楽レベルのスケールをアニソンに持ち込んだ。",
+    desc:"日本のアニメーション作品のOP／ED（オープニング／エンディング）テーマとして作られた音楽。ジャンルの幅は極めて広く、ロック、ポップ、ジャズ、クラシカル、EDM、メタルなどあらゆるスタイルが含まれる。共通するのは、アニメの世界観を音で表現する「物語性」と、聴いた瞬間に作品の映像が脳裏に浮かぶような「キャッチーさ」である。わずか90秒程度のOP／EDの尺の中に起承転結を詰め込む構成力は、日本独自の職人技と言える。アニメの世界的な普及とともに、国際的な人気を獲得しているジャンルでもある。",
+    roots_story:"1970年代の『宇宙戦艦ヤマト』『銀河鉄道999』の頃から、アニソンが独自のジャンルとして認識され始めた。影山ヒロノブ、水木一郎（ファンから「アニキ」と呼ばれた）が、スーパーロボット系アニメの熱い主題歌で黄金期を築いた。1990年代には、声優が歌手活動を兼任する文化が定着していった。2000年代にはLiSAの「紅蓮華」（『鬼滅の刃』主題歌、2019年）が社会現象的なヒットとなった。YOASOBIの「アイドル」（『推しの子』主題歌、2023年）はSpotifyのバイラルチャートで世界1位を獲得している。Linked Horizon、澤野弘之は『進撃の巨人』などの作品で、映画音楽レベルのスケール感をアニソンに持ち込んだ作曲家として知られる。",
     rep_tracks:["紅蓮華（LiSA）", "アイドル（YOASOBI）", "残酷な天使のテーゼ（高橋洋子）", "君の知らない物語（supercell）", "only my railgun（fripSide）"],
     yt_mix:["Djp-7JDPjYk", "R1h-lOzzrPI"],
     yt_tracks:[["x1FV6IrjZCY", "MpYy6wwqxoo"], ["ZRtdQ81jPUQ", "RzXTe-QfWTw"], ["o6wtDPVkKqI", "3S5Yu9HpE3I"], ["jpV5jeFlt_E", "caF6nJxTejc"], ["ZhIxg6_Femo", "cFqaN3vgxLc"]],
