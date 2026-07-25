@@ -559,7 +559,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.363<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.364<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -1863,24 +1863,24 @@ const NODES = [
 
   // メタル系
   {id:"heavy_metal", label:"Heavy Metal", cat:"metal", era:"1970s", suno:true,
-    desc:"歪んだエレキギターの轟音リフ、ドラムの激しいビート、力強いボーカルが生み出す圧倒的なパワーと重量感のロック。パワーコードによる分厚いギターサウンド、ツインギターのハーモニー、長めのギターソロが基本構成。テンポは中速〜速め。大音量こそが正義であり、ライブでは爆音が体を叩く物理的体験になる。暗いテーマを扱いつつも、カタルシスと解放感がある。拳を突き上げてヘッドバンギングするための音楽。",
-    roots_story:"1970年前後、ブルースロックをさらに重く歪ませた方向で誕生。Black Sabbath「Black Sabbath」(1970)のトニー・アイオミが不吉なリフでヘヴィメタルの原型を作った。Led Zeppelinはブルースの重さとハードロックを融合。Deep Purpleはクラシックの要素を導入。Judas Priestはツインギターとレザーファッションでメタルの様式美を確立し、「メタル・ゴッド」と呼ばれた。Iron Maiden、Motörheadが1980年代のNWOBHM（New Wave of British Heavy Metal）を牽引し、メタルは世界的ムーブメントに成長した。",
+    desc:"歪んだエレキギターの轟音リフ、ドラムの激しいビート、力強いボーカルが生み出す、圧倒的なパワーと重量感を持つロック。パワーコード（ルート音と5度音のみで構成される、歪ませても濁りにくい和音）による分厚いギターサウンド、ツインギターによるハーモニー、長めのギターソロが基本構成となる。テンポは中速〜速め。「大音量こそが正義」という価値観があり、ライブ会場では爆音が身体を物理的に叩く体験になる。暗いテーマを扱いながらも、そこにはカタルシスと解放感がある。拳を突き上げてヘッドバンギング（首を激しく振る動作）をするための音楽。",
+    roots_story:"1970年前後、ブルースロックをさらに重く歪ませる方向性の中で誕生した。Black Sabbathのデビューアルバム『Black Sabbath』(1970)で、ギタリストのトニー・アイオミが生み出した不吉なリフは、ヘヴィメタルの原型を作ったとされる（アイオミは工場勤務時代に指先を負傷したため、独自のチューニングでギターを弾くようになったという逸話がある）。Led Zeppelinはブルースの重厚さとハードロックを融合させた。Deep Purpleはクラシック音楽の要素を導入した。Judas Priestはツインギターと革ジャン姿の「レザーファッション」でメタルの様式美を確立し、「メタル・ゴッド」と呼ばれるようになった。Iron Maiden、Motörheadは1980年代のNWOBHM（New Wave of British Heavy Metal、イギリスの新世代ヘヴィメタル運動）を牽引し、メタルは世界的なムーブメントへと成長した。",
     rep_tracks:["Paranoid（Black Sabbath）", "Stairway to Heaven（Led Zeppelin）", "Smoke on the Water（Deep Purple）", "Breaking the Law（Judas Priest）", "The Trooper（Iron Maiden）"],
     yt_mix:["d1cmyOaoZfc", "eh87FoETejw"],
     yt_tracks:[["0qanF-91aJo", "BOTIIw76qiE"], ["QkF3oxziUI4", "Ly6ZhQVnVow"], ["Q2FzZSBD5LE", "3pVQj2v7tBI"], ["L397TWLwrUU", "Vr3hflUHuog"], ["X4bgXH3sJ2Q", "t24ij5kI2cg"]],
     aliases:["ヘビーメタル", "メタル", "Metal"],},
 
   {id:"thrash_metal", label:"Thrash Metal", cat:"metal", era:"1983", suno:true,
-    desc:"ヘヴィメタルの重さにパンクのスピードと攻撃性を注入した、極めて速く激しいメタル。高速で刻まれるギターリフ（スラッシングリフ）、ツーバスの連打、叫ぶようなボーカルが怒涛の勢いで押し寄せる。テンポはBPM 180〜220以上と非常に速い。技術的に高度でありながら、衝動的なエネルギーを失っていない。モッシュピットで暴れるための音楽であり、聴くだけで汗が噴き出すような激しさ。",
-    roots_story:"1983年頃、アメリカ西海岸のMetallica、Megadeth、Slayer、Anthrax（通称「ビッグ4」）がジャンルを確立。Metallica「Master of Puppets」(1986)はスラッシュメタルの最高傑作とされる。Slayer「Reign in Blood」(1986)は28分間の音速メタルで衝撃を与えた。ドイツではKreator、Sodom、Destructionがチュートニック・スラッシュを形成。Megadethのデイヴ・ムステインは元Metallicaメンバーで、2バンドの確執はメタル史上最も有名なライバル関係。",
+    desc:"ヘヴィメタルの重さに、パンクのスピードと攻撃性を注入した、極めて速く激しいメタル。高速で刻まれるギターリフ（「スラッシングリフ」と呼ばれる）、2台のバスドラムを連打するツーバス奏法、叫ぶようなボーカルが怒涛の勢いで押し寄せる。テンポはBPM 180〜220以上と非常に速い。技術的に高度でありながら、パンク由来の衝動的なエネルギーを一切失っていない点が特徴。モッシュピット（観客が激しく体をぶつけ合うエリア）で暴れるための音楽であり、聴くだけで汗が噴き出すような激しさを持つ。",
+    roots_story:"1983年頃、アメリカ西海岸で活動したMetallica、Megadeth、Slayer、Anthrax（通称「ビッグ4」）がこのジャンルを確立した。Metallicaの『Master of Puppets』(1986)はスラッシュメタルの最高傑作の一つとされる。Slayerの『Reign in Blood』(1986)は、わずか28分間に凝縮された音速メタルとしてシーンに衝撃を与えた。ドイツではKreator、Sodom、Destructionが「チュートニック・スラッシュ」と呼ばれる独自の潮流を形成した。Megadethを率いたデイヴ・ムステインはもともとMetallicaのメンバーだった人物で、脱退の経緯をめぐる両バンドの確執は、メタル史上最も有名なライバル関係として今も語り継がれている。",
     rep_tracks:["Master of Puppets (Metallica)", "Reign in Blood (Slayer)", "Peace Sells (Megadeth)", "Caught in a Mosh (Anthrax)", "Pleasure to Kill (Kreator)"],
     yt_mix:["4NZVAI6RUXo", "mksCU7PRzTU"],
     yt_tracks:[["E0ozmU9cJDg", "2f1Ny74_ou0"], ["CkaE237oiwE", "-q66zKQ3-XM"], ["rdEupVsL07E", "LVhJy-CR64Q"], ["XphUURIAx5g", "zlLn0UicWrM"], ["Y90LJipRCFk", "7PyvU9iSq50"]],
     aliases:["スラッシュメタル"],},
 
   {id:"death_metal", label:"Death Metal", cat:"metal", era:"1985", suno:true,
-    desc:"スラッシュメタルをさらに極端に推し進めた、音楽表現の限界に挑むメタル。ダウンチューニングしたギターのドロドロに重いリフ、ブラストビート（超高速の連打ドラム）、デスボイス（喉の奥から絞り出すグロウル唱法）が特徴。テンポは遅い〜超高速まで極端に振れ、曲の展開も予測不能。歌詞は死、暴力、ホラーをテーマにすることが多い。好きな人にとっては究極のカタルシス、知らない人にとっては「ノイズ」にしか聞こえない極端な音楽。",
-    roots_story:"1985年前後、フロリダとスウェーデンが二大発祥地。Death（チャック・シュルディナー）がジャンル名の由来となったバンドで「Scream Bloody Gore」(1987)が最初のデスメタルアルバムとされる。Morbid Angel、Obituary、Cannibal Corpseがフロリダ勢。スウェーデンではEntombed、Dismember、At the GatesがSunlight Studio特有のバズソウギターサウンドで「スウェディッシュ・デスメタル」を確立。Earache Records、Roadrunner Recordsが主要レーベル。",
+    desc:"スラッシュメタルをさらに極端に推し進めた、音楽表現の限界に挑むようなメタル。ダウンチューニング（弦を通常より緩めて低く調律すること）したギターのドロドロに重いリフ、ブラストビート（キックとスネアを超高速で連打するドラムパターン）、デスボイス（喉の奥から絞り出すように唸る「グロウル」唱法）が特徴。テンポは遅い〜超高速まで極端に振れ、曲の展開も予測がつかない。歌詞は死、暴力、ホラーをテーマにすることが多い。好きな人にとっては究極のカタルシス、知らない人にとっては「ノイズ」にしか聞こえない、極端に振り切ったジャンル。",
+    roots_story:"1985年前後、アメリカのフロリダ州とスウェーデンが二大発祥地とされる。バンド名がそのままジャンル名の由来となったDeath（中心人物チャック・シュルディナー）は、『Scream Bloody Gore』(1987)を最初のデスメタルアルバムとされる作品としてリリースした（シュルディナーは2001年、脳腫瘍により34歳で死去している）。Morbid Angel、Obituary、Cannibal Corpseがフロリダ勢の代表格。スウェーデンではEntombed、Dismember、At the Gatesが、Sunlight Studio特有の「バズソウ（電動ノコギリ）」的なギターサウンドを用いて「スウェディッシュ・デスメタル」を確立した。Earache Records、Roadrunner Recordsが主要レーベルとして機能している。",
     rep_tracks:["Scream Bloody Gore (Death)", "Hammer Smashed Face (Cannibal Corpse)", "Chapel of Ghouls (Morbid Angel)", "Left Hand Path (Entombed)", "Slaughter of the Soul (At the Gates)"],
     yt_mix:["WiHeJq3oq3E", "GGVFF13S0u0"],
     yt_tracks:[["GvGnCyXf47I", "OPZhmpCfP_8"], ["vlgiWBCbCJk", "GGe6-xzbISw"], ["HsKP30C4D7s", "WUFREEJiGeQ"], ["weyYzWU-FNI", "oX4KTg3W3Bc"], ["eIqTfc0XIfg", "TSTushCd_qw"]],
