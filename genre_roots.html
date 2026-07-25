@@ -559,7 +559,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.343<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.344<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -1333,24 +1333,24 @@ const NODES = [
 
   // トランス系
   {id:"trance", label:"Trance", cat:"trance", era:"1990", suno:false,
-    desc:"名前の通り、聴く者を恍惚（トランス）状態に導く音楽。長いビルドアップで徐々にテンションを上げ、ブレイクダウンで一瞬の静寂を作り、そこからメインメロディが戻る瞬間の爆発的な高揚感がこのジャンルの真骨頂。キラキラしたシンセのアルペジオ、壮大なパッド、感動的なメロディラインが4つ打ちビートに乗る。テンポはBPM 130〜150。鳥肌が立つような感動と、ひたすら踊り続ける陶酔感を同時に与えてくれる、感情を揺さぶるダンスミュージック。",
-    roots_story:"1990年頃、テクノとアシッドハウスの影響下でドイツ・ベルギー・オランダで発生。Sven Väthがフランクフルトのシーンを牽引し、Paul van Dyk、DJ Tiësto、Armin van Buurenがジャンルを世界レベルに押し上げた。Robert Miles「Children」(1996)は世界的大ヒット。A State of Trance（Armin van Buurenのラジオ番組、2001年〜）は1000回以上放送が続く長寿番組に。2000年代にはトランスの細分化が進み、プログレッシブ、アップリフティング、サイケデリックなど無数のサブジャンルが生まれた。",
+    desc:"名前の通り、聴く者を恍惚（トランス）状態に導く音楽。長いビルドアップで徐々にテンションを上げ、ブレイクダウンで一瞬の静寂を作り、そこからメインメロディが戻る瞬間の爆発的な高揚感がこのジャンルの真骨頂。しばしば平行調（同じ調号を持つ長調と短調のペア）を行き来する劇的なコード進行が使われ、切なさと高揚感を同時に生み出す。キラキラしたシンセのアルペジオ、壮大なパッド、感動的なメロディラインが4つ打ちビートに乗る。テンポはBPM130〜150。鳥肌が立つような感動と、ひたすら踊り続ける陶酔感を同時に与えてくれる、感情を揺さぶるダンスミュージック。",
+    roots_story:"1990年頃、テクノとアシッドハウスの影響下でドイツ・ベルギー・オランダで発生した。ドイツのSven Väthがフランクフルトのシーンを牽引し、ドイツのPaul van Dyk、オランダのDJ Tiësto、Armin van Buurenがジャンルを世界レベルに押し上げた。イタリアのRobert Milesによる『Children』(1996)はピアノの旋律を前面に出した「ドリームトランス」として世界的大ヒットとなった。Armin van Buurenのラジオ番組『A State of Trance』(2001年〜)は1000回以上放送が続く長寿番組となり、世界中のトランスファンの拠り所になっている。2000年代にはトランスの細分化が進み、プログレッシブ、アップリフティング、サイケデリックなど無数のサブジャンルが生まれた。",
     rep_tracks:["Children (Robert Miles)", "For an Angel (Paul van Dyk)", "Adagio for Strings (Tiesto)", "Shivers (Armin van Buuren)", "Insomnia (Faithless)"],
     yt_mix:["iXAbte4QXKs", "rmkhm2u0mLc"],
     yt_tracks:[["CC5ca6Hsb2Q", "DvyCbevQbtI"], ["--3eIRSg2RY", "sRvEwXDxz_I"], ["2EaE0_gQLw0", "PyD4QQgJ6O4"], ["5GowkwJN-qU", "NHUn3AWOw8k"], ["P8JEm4d6Wu4", "6QZhC8DUD_o"]],
     aliases:["トランス", "トランスミュージック"],},
 
   {id:"goa_trance", label:"Goa Trance", cat:"trance", era:"1989", suno:true,
-    desc:"インドの香辛料のようにスパイシーで、サイケデリックな渦に引き込まれる電子音楽。うねるシンセラインが蛇のように絡み合い、インド風のスケール（音階）やサンプルが神秘的な空気を加える。テンポはBPM 140〜150と速めで、ビートが止まることなく延々と続く。聴いていると意識が拡張していくような、万華鏡を覗いているような体験。ネオンカラーのビジュアルアートと一体化した、精神を解放するためのトランス音楽。",
-    roots_story:"1960年代からヒッピーの聖地だったインド・ゴア州のビーチで、1980年代後半にDJ Laurent、Goa Gil（アメリカ人）らがアシッドハウスやEBMをビーチパーティーでプレイし始めた。インドの文化的環境とサイケデリック体験が融合し、独自のサウンドが形成された。Astral Projection（イスラエル）、Hallucinogen（Simon Posford, イギリス）、Juno Reactor（イギリス）が代表的アーティスト。イスラエルからの旅行者が多くゴアを訪れたことから、イスラエルは今もサイトランスの最大の市場の一つ。",
+    desc:"インドの香辛料のようにスパイシーで、サイケデリックな渦に引き込まれる電子音楽。うねるシンセラインが蛇のように絡み合い、ハーモニックマイナースケール（西洋音楽で「エキゾチック」「中東的」に聞こえる音階）に基づくインド風のメロディやサンプルが神秘的な空気を加える。テンポはBPM140〜150と速めで、ビートが止まることなく延々と続く。聴いていると意識が拡張していくような、万華鏡を覗いているような体験になる。ネオンカラーのビジュアルアートと一体化した、精神を解放するためのトランス音楽。",
+    roots_story:"1960年代からヒッピーの聖地だったインド・ゴア州のビーチで、1980年代後半にDJ LaurentやGoa Gil（アメリカ出身）らがアシッドハウスやEBMをビーチパーティーでプレイし始めたのがゴアトランスの出発点。ヒンドゥー教やヒッピー文化の神秘主義的な世界観と、サイケデリックドラッグ体験の中で聴かれる電子音楽が融合し、独自のサウンドが形成された。イスラエルのAstral Projection、イギリスのSimon Posford率いるHallucinogen、同じくイギリスのJuno Reactorが代表的アーティストとして知られる。イスラエルからの旅行者が多くゴアを訪れたことから、イスラエルは今もサイケデリック・トランスの最大の市場の1つとなっている。",
     rep_tracks:["Mahadeva (Astral Projection)", "LSD (Hallucinogen)", "God Is God (Juno Reactor)"],
     yt_mix:["rrdQIQXQF8I", "IQx6AZYYyPw"],
     yt_tracks:[["onquKz5SYRs", "Ix0lduF1Co4"], ["iIsVzSMRw8E", "wG5JyorwYPo"], ["KU-AzCXbLG8", "j1XD5sc5NI0"]],
     aliases:["ゴアトランス"],},
 
   {id:"psytrance", label:"Psychedelic\nTrance", cat:"trance", era:"1990s", suno:true,
-    desc:"ゴアトランスの精神性を受け継ぎつつ、より洗練されたプロダクションとバリエーションを持つサイケデリックな電子音楽。高速で駆け抜けるベースライン、次々と変化するシンセのテクスチャー、宇宙的なSE（効果音）がBPM 140〜155の疾走感の上で万華鏡のように展開する。聴覚の端から端まで音で埋め尽くされる情報量の多さが、脳を心地よく圧倒する。野外フェスの星空の下で体験するのが理想的な、精神旅行のための音楽。",
-    roots_story:"1990年代半ば、ゴアトランスがインドのゴアビーチから世界に広がり、より多様なスタイルに発展した。Infected Mushroom（イスラエル）はサイトランスを最もポピュラーにしたアーティストで、ロックやメタルの要素も取り入れた。Shpongle（Simon Posford & Raja Ram）はワールドミュージックとの融合で唯一無二の世界を構築。Boom Festival（ポルトガル）、Ozora Festival（ハンガリー）が世界的なサイトランスフェスとして知られる。フルオン、ダークサイ、プログレッシブサイ、フォレストなど無数のサブジャンルに細分化された。",
+    desc:"ゴアトランスの精神性を受け継ぎつつ、より洗練されたプロダクションとバリエーションを持つサイケデリックな電子音楽。高速で駆け抜けるベースライン、次々と変化するシンセのテクスチャーを何層にも重ねるレイヤリング、宇宙的なSE（効果音）がBPM140〜155の疾走感の上で万華鏡のように展開する。聴覚の端から端まで音で埋め尽くされる情報量の多さが、脳を心地よく圧倒する。野外フェスの星空の下で体験するのが理想的な、精神旅行のための音楽。",
+    roots_story:"1990年代半ば、ゴアトランスがインドのゴアビーチから世界に広がり、より多様なスタイルに発展したのがサイトランスの出発点。イスラエルのInfected Mushroomはサイトランスを最もポピュラーにしたアーティストで、ロックやメタルの要素も大胆に取り入れた。イギリスのSimon PosfordとオーストラリアのRaja Ramによるユニット、Shpongleはワールドミュージックとの融合で唯一無二の世界を構築した。ポルトガルのBoom Festival、ハンガリーのOzora Festivalが世界的なサイトランスフェスとして知られる。フルオン、ダークサイ、プログレッシブサイ、フォレストなど無数のサブジャンルに細分化されながら、現在も世界各地のフェスシーンで支持され続けている。",
     rep_tracks:["Becoming Insane (Infected Mushroom)", "Divine Moments of Truth (Shpongle)", "Psychedelic Experience (GMS)"],
     yt_mix:["rrdQIQXQF8I", "gyIpuVYXO9Y"],
     yt_tracks:[["wVwQYSVNJVM", "Z6hL6fkJ1_k"], ["8qt2WbfotkU", "igy8q2nWg-o"], []],
