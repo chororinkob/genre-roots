@@ -559,7 +559,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.353<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.354<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -1658,16 +1658,16 @@ const NODES = [
 
   // EDM系
   {id:"edm", label:"EDM", cat:"edm", era:"2010s", suno:false,
-    desc:"Electronic Dance Musicの略称で、2010年代に世界的なブームとなった商業的電子ダンスミュージックの総称。「ビルドアップ→ドロップ」という構成が基本で、DJが両手を上げて煽り、ドロップの瞬間にフロアが爆発する体験を最大化するよう設計されている。テンポはサブジャンルにより様々（BPM 100〜150）。とにかく分かりやすく、派手で、一発でテンションが上がる即効性が命。音楽というよりも体験やイベントの総称に近い面もある。",
-    roots_story:"EDMという用語自体は1990年代から存在したが、2010年代にアメリカでメインストリーム化した。David Guetta「When Love Takes Over」(2009)、Skrillex、Deadmau5、Swedish House Mafia「Don't You Worry Child」(2012)がブームの牽引役。Ultra Music Festival（マイアミ）、Electric Daisy Carnival（ラスベガス）、Tomorrowland（ベルギー）が数十万人を動員する巨大フェスに成長。Calvin Harris、The Chainsmokers、Marshmelloがポップチャートを席巻。2015年頃をピークにバブルは沈静化したが、電子音楽がメインストリームに定着するきっかけとなった。",
+    desc:"Electronic Dance Musicの略称で、2010年代にアメリカを中心として世界的な一大ブームとなった、商業的な電子ダンスミュージック全般を指す総称。学術的・シーン内的にはハウスやテクノなど個々のジャンルを指す言葉として使われることもあるが、一般的には「ビルドアップ→ドロップ」という構成を基本に、DJが観客に向かって両手を上げて煽り、ドロップの瞬間にフロア全体が一斉に爆発するような体験を最大化するよう設計された、フェスティバル向けの音楽群を指すことが多い。テンポはサブジャンルにより様々（BPM 100〜150）。とにかく分かりやすく、派手で、一発でテンションが上がる即効性が最重要視されており、音楽そのものというより「イベント体験」の総称に近い性格も併せ持つ。",
+    roots_story:"「EDM」という用語自体は1990年代から電子音楽全般を指す言葉として存在していたが、2010年代にアメリカで爆発的にメインストリーム化し、特定の音楽性を指すブランド的な言葉として定着した。David Guettaの「When Love Takes Over」(2009)、Skrillex、Deadmau5、Swedish House Mafiaの「Don't You Worry Child」(2012)がこのブームの牽引役となった。マイアミのUltra Music Festival、ラスベガスのElectric Daisy Carnival、ベルギーのTomorrowlandは、いずれも数十万人規模を動員する巨大フェスティバルへと成長した。Calvin Harris、The Chainsmokers、Marshmelloはポップチャートをも席巻し、EDM的なサウンドプロダクションを一般のポップミュージックにまで浸透させた。2015年頃をピークに商業的な熱狂は沈静化していったが、電子音楽の語彙とプロダクション技術が世界のメインストリーム音楽に定着する決定的なきっかけとなった。",
     rep_tracks:["When Love Takes Over (David Guetta)", "Scary Monsters and Nice Sprites (Skrillex)", "Don't You Worry Child (Swedish House Mafia)", "Closer (The Chainsmokers)", "Summer (Calvin Harris)"],
     yt_mix:["gnV-8pkILF0", "OPQmOutTmyo"],
     yt_tracks:[["zudbz4hOcbc", "uTDafjfxu5c"], ["WSeNSzJ2-Jw", "ZBJjOvQqW70"], ["1y6smkh6c-0", "jLQN0asg0u0"], ["PT2_F-1esPk", "OGP499ko5EQ"], ["ebXbLfLACGM", "ZaAyTrhjK28"]],
     aliases:["エレクトロニックダンスミュージック", "Electronic Dance Music", "エレクトロニック・ダンス・ミュージック"],},
 
   {id:"festival_edm", label:"Festival EDM", cat:"edm", era:"2010s", suno:true,
-    desc:"巨大フェスティバルのメインステージで最大の効果を発揮するよう設計された、極限まで「盛り上がり」に特化したEDM。壮大なシンセのビルドアップ、MCの煽り、そして爆発的なドロップ——この一連の流れを繰り返し、数万人の群衆を同時にジャンプさせる。テンポはBPM 126〜130が主流。花火、CO2噴射、レーザー照明とセットで体験するもの。音楽の良し悪しよりも「その場にいる体験」が最大の価値。集団的な多幸感を生み出す装置としての音楽。",
-    roots_story:"2010年代前半、EDMフェスティバルの巨大化とともに確立。Swedish House Mafia「Save The World」(2011)がフェスティバルEDMの完成形とも言える曲。Hardwell、Martin Garrix、Dimitri Vegas & Like Mike、Steve Aokiがジャンルの中心人物。DJ Magのトップ100 DJランキングがDJ間の競争を煽り、「フェスで最も盛り上がるDJ」が最高の評価を受ける文化が形成された。Spinnin' Records、Revealed Recordings、STMPD RCRDSが主要レーベル。",
+    desc:"巨大フェスティバルのメインステージで最大の効果を発揮するよう緻密に設計された、極限まで「盛り上がり」に特化したEDM。壮大なシンセのビルドアップ、DJやMCによる煽り、そして爆発的なドロップ——この一連の流れを楽曲の中で何度も繰り返し、数万人規模の群衆を同じタイミングで一斉にジャンプさせることを目的として作られている。テンポはBPM 126〜130が主流。花火、CO2噴射（会場に霧状のガスを噴出させる演出）、レーザー照明といった視覚効果とセットで初めて完成する音楽であり、単体で聴いた時の音楽的な良し悪しよりも「その場に立ち会っている体験」そのものに最大の価値が置かれる。数万人が同時に同じ感情を共有する、集団的な多幸感を生み出すための装置としての音楽と言える。",
+    roots_story:"2010年代前半、EDMフェスティバル自体が急速に巨大化していく過程で確立されたスタイル。Swedish House Mafiaの「Save The World」(2011)は、フェスティバルEDMという様式の完成形とも言える楽曲としてしばしば挙げられる。Hardwell、Martin Garrix、Dimitri Vegas & Like Mike、Steve Aokiがジャンルの中心人物として活躍した。イギリスの音楽誌DJ Magが毎年発表する「トップ100 DJ」ランキングは、DJ間の人気競争を煽る仕組みとして機能し、「フェスティバルで最も盛り上がりを作れるDJ」が最高の評価を受けるという独特の文化を形成した。Spinnin' Records、Revealed Recordings、Martin Garrixが自ら主宰するSTMPD RCRDSが主要レーベルとして機能している。",
     rep_tracks:["Save The World (Swedish House Mafia)", "Animals (Martin Garrix)", "Tremor (Dimitri Vegas & Like Mike vs. Martin Garrix)", "Spaceman (Hardwell)", "Boneless (Steve Aoki, Chris Lake & Tujamo)"],
     yt_mix:["9HGXn4gY2KU", "OPQmOutTmyo"],
     yt_tracks:[["dhs3u6Fny8o", "x25JkDZQWOQ"], ["IPYTxAHeR_o", "2kpAzC2Mja8"], ["9vMh9f41pqE", "CafgZUJp2Vw"], ["ppy-fgbPn2s", "lETmskoqh30"], ["gl2p4G3CUrI", "Z6z9A9nyDpg"]],
