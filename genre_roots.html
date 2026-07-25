@@ -559,7 +559,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.330<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.331<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -1017,24 +1017,24 @@ const NODES = [
     aliases:["ニューウェーブ", "ニューウェイヴ"],},
 
   {id:"electro", label:"Electro", cat:"synthpop", era:"1982", suno:false,
-    desc:"Roland TR-808ドラムマシンの乾いたキックとカチッとしたスネア、機械的に正確なビートが生み出すファンキーなグルーヴ。人間の演奏では出せない精密さとファンクの黒いノリが同居する独特のサウンド。シンセベースが太く弾み、ボコーダー（ロボット声）で処理されたボーカルが近未来的な空気を演出する。テンポは中程度でヘッドノッキングに最適。冷たくて硬質なのにどこか踊りたくなる、人間と機械の間にある音楽。",
-    roots_story:"1982年、Afrika Bambaataaが「Planet Rock」をリリース。Kraftwerkの「Trans-Europe Express」をサンプリングし、TR-808のビートに乗せたこの曲がエレクトロの誕生を告げた。ヒップホップのDJ文化とヨーロッパの電子音楽が初めて直接融合した瞬間でもあった。Hashim「Al-Naafiysh」、Mantronix、Egyptian Loverらがスタイルを発展。フロリダではMiami BassとしてTR-808の重低音を極端に強調した変種が生まれ、2 Live Crewらが人気を博した。ヨーロッパではエレクトロクラッシュ（2000年代）として再解釈された。",
+    desc:"Roland TR-808ドラムマシンが打ち出す乾いたキックとパツンと弾けるスネア、金属的なハイハットが骨格を作るエレクトロファンク。人間の演奏では出せない冷徹な正確さのグルーヴに、ファンク由来の16分音符のシンコペーションとコール&レスポンスの熱量を接木したところにこのジャンルの発明がある。ベースラインはTR-808内蔵のシンセベースやシーケンサーで組まれた、ポルタメント（音の高さを階段状ではなく滑らかに繋ぐ奏法）のかかった太い電子音が多く、上物にはボコーダー（声を電子的に加工しロボットのような音色にする機材）で処理されたラップやチャントが乗る。テンポはヒップホップよりやや速い110〜125BPM程度で、ブレイクダンスのバトルにふさわしい硬質な躍動感がある。SF映画的な未来感とストリートのファンクネスが同居する、無機質なのに妙に体が動いてしまう音楽。",
+    roots_story:"1982年、ブロンクスのDJ Afrika Bambaataaがプロデューサーのアーサー・ベイカーと組んで発表した「Planet Rock」が、エレクトロという名の起点になった。Kraftwerkのアルバム『Trans-Europe Express』収録の同名曲と「Numbers」のメロディをサンプリングし、発売されたばかりのRoland TR-808のビートに乗せたこの1曲は、ヒップホップのブロックパーティ文化とドイツの電子音楽を初めて正面から接続した。Hashimの「Al-Naafiysh (The Soul)」(1983)、Mantronix、Egyptian Loverらが続き、ニューヨークのエレクトロシーンを形成した。同時期フロリダでは、この重低音とドラムマシンの語法がMiami Bassとして独自進化し、2 Live Crewらが過激な低音とパーティ賛歌でクラブを揺らした。2000年代にはニューヨークやベルリンで、パンクの攻撃性と80年代エレクトロを再解釈したElectroclashがFischerspoonerらによって巻き起こり、エレクトロという語法は世代を超えて反復再生されている。",
     rep_tracks:["Planet Rock (Afrika Bambaataa)", "Al-Naafiysh (Hashim)", "Egypt, Egypt (Egyptian Lover)"],
     yt_mix:["_rGmvOlzHdo", "4XpDdIISlYo"],
     yt_tracks:[["9J3lwZjHenA", "_rlUQsC8ECk"], ["i46sF1PcqL8", "ykK0uEjSsqY"], ["qjFs9CPGhts", "IO5mdcput50"]],
     aliases:["エレクトロ"],},
 
   {id:"synth_pop", label:"Synth Pop", cat:"synthpop", era:"1978", suno:true,
-    desc:"シンセサイザーがメインの楽器となったポップミュージック。キラキラした電子音のメロディ、打ち込みのリズム、甘くメランコリックな歌声が三位一体になった80年代を象徴するサウンド。生楽器をほとんど使わず、すべてをシンセとドラムマシンで構築する潔さがある。テンポはダンサブルな中速が多い。切なさと高揚感が同居する独特のエモーションがあり、夜のドライブや都会の夜景が似合う。ポップスなのにどこか孤独な匂いがする。",
-    roots_story:"Kraftwerkの電子的サウンドとパンク/ニューウェーブのポップセンスが出会って生まれた。Gary Numan「Cars」(1979)、Orchestral Manoeuvres in the Dark、Ultravoxが初期のパイオニア。Depeche Modeはダークなシンセポップを極め、「Enjoy the Silence」(1990)は名曲中の名曲。Pet Shop Boysはインテリジェントなダンスポップを確立。日本ではYMO（Yellow Magic Orchestra）が1978年に独自のテクノポップを世界に発信し、後の日本の電子音楽シーン全体に影響を与えた。Erasure、A-ha、Howard Jonesらが80年代チャートを席巻した。",
+    desc:"シンセサイザーだけで曲の骨格を組み上げ、生ドラムやギターを大胆に排したポップミュージック。ノコギリ波や矩形波を使ったアナログシンセ（Moog、Prophet-5、Roland Jupiterなど）による分厚いパッド（持続音）やアルペジオ（和音を分散して連続的に鳴らす奏法）が曲を彩り、ドラムはLinnDrumやTR-808といったドラムマシンによる均一なビートが土台を作る。テンポは踊れる中速が多く、コード進行はマイナーキーの切なさとメジャーの高揚感を行き来しがち。声はしばしばコーラスエフェクトやリバーブで加工され、機械の中にいる孤独な人間、というムードを醸し出す。すべてを電子音で構築する潔さと、その奥にある繊細な感傷性が同居するのが持ち味。",
+    roots_story:"1970年代末、Kraftwerkが確立した電子音楽の方法論と、パンク以降のDIY精神・ポップスのメロディセンスが交差して生まれた。Gary Numanは自身のバンドTubeway Armyで発表した「Are 'Friends' Electric?」(1979)で全英1位を獲得し、シンセを主役に据えたポップスの可能性を示した。同年結成のOrchestral Manoeuvres in the Dark（OMD）や、新ボーカリストMidge Ureを迎えたUltravoxらが叙情的なシンセポップの型を作り、Depeche Modeは初期の軽やかなポップから徐々に陰影を深め、「Enjoy the Silence」(1990)でダークで壮大なシンセポップの頂点を築いた。Pet Shop Boysはニール・テナントの語りに近い歌唱とダンスミュージックの知性を融合させ、日本では1978年に細野晴臣・坂本龍一・高橋幸宏によるYellow Magic Orchestra（YMO）が結成され、TR-808を早期から使いこなしたテクノポップを世界に発信、後の日本の電子音楽シーン全体の原点となった。80年代半ばにはErasure、A-ha、Howard Jonesらがチャートを席巻し、シンセポップはMTV時代のポップスの標準語法の一つとなった。",
     rep_tracks:["Cars (Gary Numan)", "Enjoy the Silence (Depeche Mode)", "West End Girls (Pet Shop Boys)", "Take On Me (A-ha)"],
     yt_mix:["IoTdm31BIrk", "TjsQQKxaf-k"],
     yt_tracks:[["Im3JzxlatUs", "LrjM8Fi7J58"], ["aGSKrC7dGcY", "-_3dc6X-Iwo"], ["p3j2NYZ8FKs", "Y0KQNn3aL4Q"], ["djV11Xbc914", "kmDBDn8Ju6w"]],
     aliases:["シンセポップ", "Synth-Pop", "電子ポップ"],},
 
   {id:"electropop", label:"Electropop", cat:"synthpop", era:"2000s", suno:true,
-    desc:"シンセポップを現代的なプロダクション技術で蘇らせた、きらびやかで弾むようなポップス。80年代のノスタルジーと最新のデジタル音響が融合し、分厚いシンセの壁、自動補正されたキラキラのボーカル、パンチの効いたビートが特徴。テンポはアップテンポでフロア向けのものが多い。とにかくキャッチーで耳に残り、一度聴いたらサビが離れない中毒性がある。明るくてカラフル、深刻さとは無縁の快楽主義的なポップミュージック。",
-    roots_story:"2000年代後半、80年代シンセポップへのリバイバルとデジタルプロダクションの進化が合流。La Rouxの「Bulletproof」(2009)、Robynの「Dancing On My Own」(2010)がジャンルの代表曲。Lady Gagaは「Just Dance」(2008)でエレクトロポップをメインストリームの中心に据えた。Charli XCX、Carly Rae Jepsenらがさらにポップに振り切り、Grimes、CHVRCHESはインディー寄りのアプローチで批評家からも支持された。現在もポップスの主流サウンドの一つとして定着している。",
+    desc:"80年代シンセポップの音色感を下敷きに、2000年代以降のデジタル・プロダクション技術で全身を磨き上げた、色鮮やかで弾力のあるポップス。分厚く積層されたシンセのレイヤー、サイドチェイン（キックに合わせて他の音を規則的に凹ませ、ポンピング感を生む処理）で脈打つシンセパッド、オートチューンで完璧に整えられたボーカルが基本語法になる。曲構成はヴァースからビルドアップを経て一気に開けるサビへなだれ込む、EDM以降のダイナミクス設計を強く意識しており、テンポは120BPM前後のダンスフロア向けが主流。とにかく耳に残るフックを詰め込む快楽主義的なつくりで、深刻さよりもキラキラした高揚感を最優先する。",
+    roots_story:"2000年代後半、80年代シンセポップへのノスタルジックな再評価と、ラップトップによる高精細なデジタルプロダクションの普及が重なって生まれた。イギリスのLa Rouxは「Bulletproof」(2009)で尖った電子音とファルセットを組み合わせ全英1位を獲得し、スウェーデンのRobynは「Dancing On My Own」(2010)で切ないダンスポップの新基準を打ち立てた。Lady Gagaは「Just Dance」(2008)や「Poker Face」でエレクトロポップをメインストリームの中心に押し上げ、後にCharli XCXやCarly Rae Jepsen（「Call Me Maybe」2012）がさらにキャッチー志向を先鋭化させた。一方でGrimesやCHVRCHESはインディーロック出身の作家性を持ち込み、批評的にも高く評価されるオルタナ寄りの潮流を作った。現在では主流ポップスの標準的なプロダクション語法として定着している。",
     rep_tracks:["Bulletproof (La Roux)", "Dancing On My Own (Robyn)", "Just Dance (Lady Gaga)", "Call Me Maybe (Carly Rae Jepsen)"],
     yt_mix:["CcNo07Xp8aQ", "Kk8eJh4i8Lo"],
     yt_tracks:[["Kk8eJh4i8Lo", "MSkOmSK-PNs"], ["CcNo07Xp8aQ", "rPdg4MuPNNg"], ["2Abk1jAONjw", "VgdGDR15qgs"], ["fWNaR-rxAic", "vRiYhx5T3WE"]],
@@ -7938,6 +7938,13 @@ const GLOSSARY = {
   "David Byrne": "アメリカのミュージシャン（1952-）。バンドTalking Headsのボーカルで、神経質で知的な作風とアフリカ音楽への傾倒で知られる。",
   "Debbie Harry": "アメリカのボーカリスト（1945-）。バンドBlondieのフロントウーマンで、ディスコやラップなど幅広いスタイルを貪欲に取り込んだ。",
   "Gary Numan": "イギリスのミュージシャン（1958-）。シンセサイザーの冷たい電子音を主役に据えた「Are 'Friends' Electric?」(1979)でシンセポップの道を開いた。",
+  "ボコーダー": "声を電子的に加工し、ロボットのような無機質な音色に変換する機材・エフェクト。声の音程情報とシンセサイザーの音色を組み合わせて合成する。ヒップホップやエレクトロ、ファンクなどで多用される。",
+  "ポルタメント": "ある音の高さから次の音の高さへ、階段状に飛ぶのではなく滑らかに連続的にスライドさせる奏法。シンセベースに使うと「ぬるっ」とした質感が生まれる。",
+  "Afrika Bambaataa": "アメリカ・ニューヨークのDJ/プロデューサー（1957-）。ヒップホップ黎明期の重要人物の1人で、1982年の「Planet Rock」でKraftwerkのサウンドとドラムマシンのビートを融合させ、エレクトロというジャンルを切り開いた。",
+  "アーサー・ベイカー": "「Planet Rock」などを手がけたアメリカのプロデューサー・リミキサー（1955-）。ヒップホップと電子音楽を橋渡しした80年代ニューヨークのクラブサウンドの立役者の1人。",
+  "Miami Bass": "1980年代後半にフロリダ・マイアミで発展した、TR-808の重低音を極端に強調したエレクトロの一派。カーオーディオで低音を響かせることを前提にした音作りが特徴。",
+  "Electroclash": "2000年前後にニューヨークやベルリンで起きた、80年代のエレクトロ/シンセポップとパンクの攻撃性を組み合わせたムーブメント。Fischerspoonerらが代表格。",
+  "Fischerspooner": "2000年代初頭のElectroclashを代表するニューヨークのアート・パフォーマンス・ユニット。過剰に演劇的なライブと80年代風の電子音を組み合わせた。",
 };
 // 用語集のキーを、長い語から先に一致するよう並べ替えて正規表現を作る
 // （例:「オープンハイハット」を先に判定しないと「ハイハット」にだけ
