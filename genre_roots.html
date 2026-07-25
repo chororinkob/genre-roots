@@ -559,7 +559,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.386<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.387<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -2433,24 +2433,24 @@ const NODES = [
     aliases:["オールドスクールヒップホップ", "Old School Hip Hop"],},
 
   {id:"boom_bap", label:"Boom Bap", cat:"hiphop", era:"1990s", suno:true,
-    desc:"「ブーン・バップ」というキック（ブーン）とスネア（バップ）のシンプルなビートパターンが名前の由来。ジャズやソウルのレコードからサンプリングしたループ、太いキック、鋭いスネア、MCの技巧的なリリシズムが核心。テンポはBPM 85〜100。トラップの808ベースとは対照的な、サンプリングアートとしてのヒップホップ。90年代NYヒップホップの「黄金期」のサウンド。",
-    roots_story:"1990年代、ニューヨークのプロデューサーが確立。DJ Premier（Gang Starr）のジャズサンプリング、Pete Rock & CL Smooth、Nas「Illmatic」(1994)がブームバップの金字塔。Wu-Tang Clan「Enter the Wu-Tang (36 Chambers)」(1993)はローファイなビートと複数MCのスキルで伝説化。A Tribe Called Quest「The Low End Theory」(1991)はジャズとの融合の最高峰。J Dilla、Madlib、9th Wonderが後のビートメイカーに多大な影響。",
+    desc:"「ブーン・バップ」という、キック（ブーン）とスネア（バップ）のシンプルなビートパターンが名前の由来。ジャズやソウルのレコードからサンプリングしたループ、太いキック、鋭いスネア、MCの技巧的なリリシズム（韻の踏み方や言葉選びの妙）が核心となる。テンポはBPM 85〜100。トラップの808ベースとは対照的な、サンプリングアートとしてのヒップホップであり、90年代ニューヨーク・ヒップホップの「黄金期」を象徴するサウンドである。",
+    roots_story:"1990年代、ニューヨークのプロデューサーたちがこのスタイルを確立した。DJ Premier（Gang Starrのメンバー）によるジャズサンプリング、Pete Rock & CL Smooth、Nasの『Illmatic』(1994)がブームバップの金字塔とされる。Wu-Tang Clanの『Enter the Wu-Tang (36 Chambers)』(1993)は、ローファイなビートと複数MCのスキルによって伝説的な存在となった。A Tribe Called Questの『The Low End Theory』(1991)は、ジャズとの融合の最高峰とされる作品。J Dilla、Madlib、9th Wonderは、後のビートメイカーたちに多大な影響を与えている。",
     rep_tracks:["N.Y. State of Mind (Nas)", "C.R.E.A.M. (Wu-Tang Clan)", "They Reminisce Over You (Pete Rock & CL Smooth)", "Mass Appeal (Gang Starr)", "Check the Rhime (A Tribe Called Quest)"],
     yt_mix:["E6A45AA_YTQ", "OTO5C1tx9A0"],
     yt_tracks:[["hI8A14Qcv68", "Rp4qXCneXRU"], ["PBwAxmrE194", "4yNQ7_7I5aE"], ["k6mdRv0ZdR8", "qs0ou8b9GS8"], ["y9lNbNGbo24", "YsStfg6Zv5A"], ["1QWEPdgS3As", "BQT2DfzpCLA"]],
     aliases:["ブームバップ"],},
 
   {id:"crunk", label:"Crunk", cat:"hiphop", era:"1990s", suno:true,
-    desc:"南部のクラブで群衆を爆発させるための、極めてシンプルで攻撃的なヒップホップ。Roland TR-808の重低音キック、繰り返されるシンセリフ、叫ぶようなボーカル（シャウト）、コール&レスポンスが特徴。テンポはBPM 70〜85（ハーフタイム感覚で140〜170）。知性より衝動、歌詞より雰囲気。クラブで全員がジャンプして床が揺れるための音楽。",
-    roots_story:"1990年代後半、アトランタ・メンフィスの南部ヒップホップシーンから発展。Lil Jon & the East Side Boyz「Get Low」(2003)がクランクの最大のヒット。Lil Jonの「YEAH!」「OKAY!」という叫び声がジャンルの象徴に。Ying Yang Twins「Whisper Song」も代表曲。Usher ft. Lil Jon「Yeah!」(2004)はBillboard年間1位。Three 6 Mafia「It's Hard out Here for a Pimp」(2006)はアカデミー賞歌曲賞を受賞（ヒップホップ初）。",
+    desc:"南部のクラブで群衆を爆発させるための、極めてシンプルで攻撃的なヒップホップ。Roland TR-808の重低音キック、繰り返されるシンセリフ、叫ぶようなボーカル（シャウト）、コール＆レスポンスが特徴。テンポはBPM 70〜85（ハーフタイム感覚で140〜170）。知性より衝動、歌詞より雰囲気を重視する。クラブで全員がジャンプして床が揺れるための音楽である。",
+    roots_story:"1990年代後半、アトランタやメンフィスの南部ヒップホップシーンから発展した。Lil Jon & the East Side Boyzの「Get Low」(2003)は、クランク最大のヒット曲。Lil Jonが発する「YEAH!」「OKAY!」という叫び声は、このジャンルの象徴となった。Ying Yang Twinsの「Whisper Song」も代表曲。Usherがフィーチャリングに Lil Jonを迎えた「Yeah!」(2004)はBillboard年間チャートで1位を記録した。Three 6 Mafiaの「It's Hard out Here for a Pimp」(2006)は、ヒップホップの楽曲として初めてアカデミー歌曲賞を受賞している。",
     rep_tracks:["Get Low (Lil Jon & the East Side Boyz)", "Yeah! (Usher ft. Lil Jon)", "Whisper Song (Ying Yang Twins)", "Salt Shaker (Ying Yang Twins)", "It's Hard out Here for a Pimp (Three 6 Mafia)"],
     yt_mix:["fvlZWI6tgqg", "U5jGusNO-tg"],
     yt_tracks:[["IYH7_GzP4Tg", "ZN43UoyAbwg"], ["GxBSyx85Kp8", "iCL04cxeMOE"], ["HAnXIIv5He8", "nYaT8w0Nt-w"], ["aJEzl31zL-I", "mTaRSmDIrIQ"], ["FCDXwGwgXso", "OB1tqACl9Rg"]],
     aliases:["クランク"],},
 
   {id:"phonk", label:"Phonk", cat:"hiphop", era:"2010s", suno:true,
-    desc:"1990年代メンフィスラップのダークでローファイなビートを現代的に再構築した、ドリフト動画のBGMとして爆発的に広まったスタイル。スクリューされた（ピッチを下げた）ボーカルサンプル、カウベルの連打、808の重低音ベース、ホラー映画的なサンプルが特徴。テンポはBPM 130〜160で、暗くて重いのにどこかキャッチーな雰囲気を持つ。TikTokやYouTubeのドリフト・車載動画で爆発的に普及し、独特の中毒性がある。",
-    roots_story:"2010年代半ば、SoundCloudのプロデューサーが1990年代のメンフィスラップ（Three 6 Mafia、DJ Paul、Tommy Wright III）のダークなサウンドをサンプリングして現代化した。DJ Smokey、Soudiere、DJ Yung Vamp が初期の重要人物である。Kordhell「Murder in My Mind」がTikTokで数億回再生され、フォンクをメインストリームに押し上げた。ロシアやCIS諸国でのドリフト動画文化と結びつき、意外にも東欧で大きな人気を博している。",
+    desc:"1990年代メンフィスラップのダークでローファイなビートを現代的に再構築した、ドリフト動画のBGMとして爆発的に広まったスタイル。スクリューされた（ピッチを下げた）ボーカルサンプル、カウベルの連打、808の重低音ベース、ホラー映画的なサンプルが特徴。テンポはBPM 130〜160で、暗くて重いのに、どこかキャッチーな雰囲気を持つ。TikTokやYouTubeのドリフト・車載動画を通じて爆発的に普及し、独特の中毒性を持つ音楽である。",
+    roots_story:"2010年代半ば、SoundCloud上のプロデューサーたちが、1990年代のメンフィスラップ（Three 6 Mafia、DJ Paul、Tommy Wright III）のダークなサウンドをサンプリングし、現代的に再構築した。DJ Smokey、Soudiere、DJ Yung Vampが初期の重要人物とされる。Kordhellの「Murder in My Mind」はTikTokで数億回再生され、フォンクをメインストリームへと押し上げた楽曲。ロシアやCIS諸国のドリフト動画文化と強く結びつき、意外にも東欧で大きな人気を博している。",
     rep_tracks:["Murder in My Mind (Kordhell)", "Phonky Town (PlayaPhonk)", "Midnight (Soudiere)"],
     yt_mix:["SyBlr_WdGWs", "Ct6bZfjwGaA"],
     yt_tracks:[["w-sQRS-Lc9k", "Rj4RfirEoQQ"], ["yJHi_Mii4lY", "cZOYAeFwXBs"], ["cwpYGG6wx7U", "pYSOHYDg3W0"]],
