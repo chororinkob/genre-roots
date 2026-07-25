@@ -364,6 +364,25 @@ svg { width: 100vw; height: 100vh; }
 .link-flow-note-glow-far { fill: #cfe0ff; text-anchor: middle; dominant-baseline: central; pointer-events: none; }
 .link-flow-note-glow-near { fill: #ffffff; text-anchor: middle; dominant-baseline: central; pointer-events: none; }
 .link-flow-note { fill: #ffffff; text-anchor: middle; dominant-baseline: central; pointer-events: none; filter: drop-shadow(0 0 5px rgba(230,238,255,0.95)); }
+/* 「ジャンルを切り替えて戻ると明滅が復活しない」不具合の修正。以前は
+   opacity/scaleの脈打ちをSVGのSMIL(<animate>/<animateTransform>)で
+   実装していたが、ページを開いてしばらく経ってから動的に追加した
+   SMILアニメーション要素をブラウザのタイミングエンジンが認識しない
+   ことがあり(Chromiumの既知の癖)、setCurrentTime()等で明示的に
+   起こす対処を試したが再現性のあるタイミングでは直せなかった。
+   CSSアニメーションは要素がDOMに追加されて最初のスタイル計算が
+   走った時点で確実に開始するため、この種の「起動漏れ」自体が
+   起こらない。個体ごとの周期(pulseDur)・開始タイミング(pulseBegin)
+   はJS側でstyle="animation-duration/-delay"として要素ごとに設定する
+   （2026-07-25、「ブルースに戻ると光が消えたまま直らない」の根本修正）。
+   経路に沿った移動(animateMotion)はSMILのままでも再現性よく動いていた
+   ため変更していない。 */
+@keyframes fn-pulse-far  { 0%, 100% { opacity: 0.0;  transform: scale(0.65); } 50% { opacity: 0.55; transform: scale(1.45); } }
+@keyframes fn-pulse-near { 0%, 100% { opacity: 0.0;  transform: scale(0.7);  } 50% { opacity: 0.85; transform: scale(1.35); } }
+@keyframes fn-pulse-core { 0%, 100% { opacity: 0.3;  transform: scale(0.75); } 50% { opacity: 1;    transform: scale(1.3);  } }
+.fn-pulse-far  { animation-name: fn-pulse-far;  animation-timing-function: ease-in-out; animation-iteration-count: infinite; animation-fill-mode: backwards; }
+.fn-pulse-near { animation-name: fn-pulse-near; animation-timing-function: ease-in-out; animation-iteration-count: infinite; animation-fill-mode: backwards; }
+.fn-pulse-core { animation-name: fn-pulse-core; animation-timing-function: ease-in-out; animation-iteration-count: infinite; animation-fill-mode: backwards; }
 /* ガラスのパイプ表現：奥にぼかした太い層(輪郭を背景へ柔らかくなじませる)、
    手前に片側へ寄せた明るい筋(丸みのある表面が光を反射しているように
    見せる反射光)を重ねる（2026-07-24、「ガラスのパイプのように」との指示） */
@@ -540,7 +559,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.326<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.327<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -8287,38 +8306,33 @@ function _addFlowNotes(grp, count, x1, y1, x2, y2, motionClass, dur, strokeWidth
       .attr("data-freq", freq)
       .attr("data-phase", phase);
 
-    // 「Blues(23本同時ハイライト)のようなハブ的なジャンルだとカクつく」との
-    // 指摘を受けた軽量化。以前はfont-size属性そのものをアニメーションさせて
-    // 大きさの脈打ちを表現していたが、font-sizeを変えるたびにブラウザは
-    // 文字の形を毎フレーム再計算する必要があり(レイアウトの再計算)、これが
-    // 数百個同時に走ると重くなる。見た目は変えずに、文字を包む<g>を
-    // transform:scale()でアニメーションさせる方式に変更した。scaleは
-    // レイアウトを再計算せず合成(コンポジット)だけで済むため、同じ視覚効果を
-    // はるかに軽く実現できる（2026-07-24、「カクカクする」との指摘）。
-    // [class, 基準フォントサイズ倍率, ぼかしpx, opacityの最小/最大, サイズ振れ幅の最小/最大倍率]
+    // 大きさ・明るさの脈打ちはCSSアニメーション(fn-pulse-far/near/core、
+    // <style>側で定義)で行う。以前はSVGのSMIL(<animate>/<animateTransform>)
+    // で実装していたが、ページ表示からしばらく経ってジャンルを切り替えて
+    // 戻ってくると、新しく追加したSMIL要素をブラウザのタイミングエンジンが
+    // 認識せず、脈打ちが止まったまま復活しない不具合があった(Chromiumの
+    // SMIL関連の既知の癖で、setCurrentTime()等で明示的に起こす対処も試したが
+    // 再現性のあるタイミングでは直せなかった)。CSSアニメーションは要素が
+    // DOMに追加された時点で確実に始まるため、この種の「起動漏れ」が起きない
+    // （2026-07-25、「ブルースに戻ると光が消えたまま直らない」の根本修正）。
+    // 個体ごとの周期(pulseDur)と開始位相(pulseBegin)はstyleで要素ごとに
+    // 指定する。開始を負のanimation-delayにすることで、挿入した瞬間から
+    // 既にサイクルの途中にいる状態になり、「全員が一斉にフルの明るさで
+    // 現れてから遅れて脈打ち始める」という不自然さも避けられる。
+    // [class, 基準フォントサイズ倍率, ぼかしpx, 対応するCSSアニメーションのクラス名]
     const layers = [
-      ["link-flow-note-glow-far",  2.6, Math.max(14, fontSize * 1.4), 0.0, 0.55, 0.65, 1.45],
-      ["link-flow-note-glow-near", 1.8, Math.max(7,  fontSize * 0.75), 0.0, 0.85, 0.7,  1.35],
-      ["link-flow-note",           1.0, 0,                             0.3, 1,    0.75, 1.3],
+      ["link-flow-note-glow-far",  2.6, Math.max(14, fontSize * 1.4), "fn-pulse-far"],
+      ["link-flow-note-glow-near", 1.8, Math.max(7,  fontSize * 0.75), "fn-pulse-near"],
+      ["link-flow-note",           1.0, 0,                             "fn-pulse-core"],
     ];
-    layers.forEach(([cls, sizeMul, blurPx, opMin, opMax, sizeMin, sizeMax]) => {
+    layers.forEach(([cls, sizeMul, blurPx, pulseClass]) => {
       const baseSize = fontSize * sizeMul;
-      const wrap = unit.append("g");
+      const wrap = unit.append("g")
+        .attr("class", pulseClass)
+        .style("animation-duration", pulseDur + "s")
+        .style("animation-delay", (-pulseBegin) + "s");
       const el = wrap.append("text").attr("class", cls).attr("font-size", baseSize).text(glyph);
       if (blurPx > 0) el.style("filter", `blur(${blurPx}px)`);
-      el.append("animate")
-        .attr("attributeName", "opacity")
-        .attr("values", `${opMin};${opMax};${opMin}`)
-        .attr("dur", pulseDur + "s")
-        .attr("begin", pulseBegin + "s")
-        .attr("repeatCount", "indefinite");
-      wrap.append("animateTransform")
-        .attr("attributeName", "transform")
-        .attr("type", "scale")
-        .attr("values", `${sizeMin};${sizeMax};${sizeMin}`)
-        .attr("dur", pulseDur + "s")
-        .attr("begin", pulseBegin + "s")
-        .attr("repeatCount", "indefinite");
     });
     unit.append("animateMotion")
       .attr("class", motionClass)
