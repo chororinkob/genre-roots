@@ -559,7 +559,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.350<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.351<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -1568,24 +1568,24 @@ const NODES = [
 
   // ダブステップ系
   {id:"dubstep", label:"Dubstep", cat:"dubstep", era:"2001", suno:true,
-    desc:"ハーフテンポのリズム（BPM 140だが体感は70BPMのように遅く感じる）に、地震のような重低音ベースが乗る。「ウォブルベース」と呼ばれるLFOで変調されたベースがブルブルブルと振動し、スピーカーが壊れそうなほどの低音圧が全身を揺さぶる。スネアが裏拍（3拍目）に来る独特のリズムパターンで、ゆったりと首を振りながら聴くスタイル。ダブの空間的な残響感と、ガレージの跳ねるリズムが出会った、重くて深い音楽。",
-    roots_story:"2001年頃、ロンドン南部のクロイドン周辺でUK Garageの重低音を追求する方向が独自のジャンルに発展。Skream「Midnight Request Line」(2005)、Benga、Digital Mystikzが初期の三大アーティスト。FWD>>（Forward）クラブナイトとRinse FMが初期シーンの拠点。2010年にSkrillexがアメリカで「ブロステップ」と呼ばれるより攻撃的なスタイルを爆発的にヒットさせ、ダブステップは世界的ムーブメントに。ただし元祖UKダブステップのファンからは「あれはダブステップではない」との論争も起きた。",
+    desc:"ハーフテンポのリズム（表記上はBPM 140だが、拍の取り方によって体感的には半分のBPM70ほどに遅く感じる）に、地震のような重低音ベースが乗る音楽。「ウォブルベース」と呼ばれる、LFO（低周波発振器、音のパラメータを周期的に揺らす仕組み）でベースの音色を変調させる技法が生む「ブルブルブル」という振動が特徴で、スピーカーが壊れそうなほどの低音圧が全身を揺さぶる。スネアが3拍目（裏拍）に来る独特のリズムパターンを持ち、細かく刻んで踊るというより、ゆったりと首を振りながら重低音を浴びる聴き方が基本になる。ジャマイカのダブが持つ空間的な残響感と、UKガレージの跳ねるリズムが出会って生まれた、重くて深い音楽。",
+    roots_story:"2001年頃、ロンドン南部のクロイドン周辺で、UKガレージの重低音要素を突き詰める方向性が独自のジャンルへと発展していった。Skreamの「Midnight Request Line」(2005)、Benga、Digital Mystikzが初期シーンを代表する三大アーティストとされる。クラブナイトのFWD>>（Forward）と、当時海賊ラジオ局から出発したRinse FMが初期シーンの中心的な発信拠点となった。2010年、アメリカのSkrillexが「ブロステップ」と呼ばれる、より歪みが強く攻撃的なスタイルを世界的に大ヒットさせたことで、ダブステップは一気に世界的なムーブメントへと拡大した。ただしこの過程では、UKダブステップの発祥当時からのファンの間で「あれは本来のダブステップとは別物だ」という論争も巻き起こった。",
     rep_tracks:["Midnight Request Line (Skream)", "Night (Benga & Coki)", "Scary Monsters and Nice Sprites (Skrillex)", "Anti War Dub (Digital Mystikz)"],
     yt_mix:["KcoH8aFaG9o", "Al0l86F6bXg"],
     yt_tracks:[["lcMAbnZy8l8", "vJGXRQ9vBoU"], ["rNStVlJWy88", "FHDvybumHAk"], ["WSeNSzJ2-Jw", "ZBJjOvQqW70"], ["G9H3i0T1iN4", "1ayLPizftbU"]],
     aliases:["ダブステップ"],},
 
   {id:"deep_dubstep", label:"Deep Dubstep", cat:"dubstep", era:"2000s", suno:true,
-    desc:"ダブステップの中でも静かで深い、瞑想的なスタイル。派手なウォブルベースではなく、サブベース（超低周波のベース）がじわーっと空間を満たし、スパースなリズムとダブ的な残響が幽玄な空気を作る。テンポはBPM 140だが、音数が少ないため体感的にはもっと遅い。暗い部屋で大音量のサブウーファーから流れると、体の内側からマッサージされるような感覚。ハードロックほどの攻撃性はなく、深さ最大。ダブステップの本来のルーツに最も近いスタイル。",
-    roots_story:"ダブステップの初期スタイルをそのまま発展させた方向。Mala（Digital Mystikz）が最重要人物で、ジャマイカのダブとの直接的な繋がりを保ち続けた。DMZ（Deep Medi Musik）レーベルがディープダブステップの総本山。Kode9 & The Spaceape（Hyperdub Records）は知的でSF的なアプローチで批評家の絶賛を受けた。Truth（ニュージーランド）、Commodo、Egoless、J:Kenzoも重要アーティスト。ブロステップの商業的成功の裏で、ディープダブステップは一貫してアンダーグラウンドで独自の美学を守り続けている。",
+    desc:"ダブステップの中でも静かで深い、瞑想的なスタイル。派手に暴れるウォブルベースではなく、サブベース（人の耳にはほとんど音程として感じられない超低周波の低音）がじわーっと空間を満たし、音数の少ないスパースなリズムとダブ的な残響が幽玄な空気を作り出す。表記上のテンポはBPM 140だが、音数が極端に少ないため体感的にはもっと遅く感じられる。暗い部屋で大音量のサブウーファーから流れると、体の内側からマッサージされるような独特の感覚が生まれる。ブロステップのような攻撃性はなく、代わりに「深さ」だけを追求したような音楽で、ダブステップ本来のルーツに最も近いスタイルとされる。",
+    roots_story:"ダブステップの初期スタイルを、そのままの美学で深化させていった方向性。Mala（Digital Mystikzのメンバー）が最重要人物とされ、ジャマイカのダブとの直接的な繋がりを一貫して保ち続けたことで知られる。彼が関わるレーベルDMZ（Deep Medi Musik）は、ディープダブステップの総本山として位置づけられる。Kode9とラッパー／詩人のThe Spaceapeによるユニット（レーベルHyperdub所属）は、知的でSF的なアプローチによって批評家からの高い評価を受けた。ニュージーランドのTruth、Commodo、Egoless、J:Kenzoも重要なアーティストとして知られる。ブロステップが商業的な成功を収める一方で、ディープダブステップは一貫してアンダーグラウンドに留まり、独自の美学を守り続けているジャンルである。",
     rep_tracks:["Anti War Dub (Digital Mystikz)", "Miracles (Mala)", "Midnight (Kode9 & The Spaceape)", "Devil's Hands (Truth)"],
     yt_mix:["ZLB3-GBNtTY", "eVJRrY6NZGw"],
     yt_tracks:[["G9H3i0T1iN4", "1ayLPizftbU"], ["0qjmxH92hjQ", "2cQMc_CGa-8"], ["WaU-pnassYM", "5YVbJPmKlbM"], ["-Po2746MdDY", "Uc9OAYco2Wk"]],
     aliases:["ディープダブステップ"],},
 
   {id:"wobble_bass", label:"Wobble Bass", cat:"dubstep", era:"2000s", suno:true,
-    desc:"「ワブワブワブ」と揺れるベース音が主役の、ダブステップを象徴するサウンド。LFO（低周波発振器）でベースの音色を高速で変調させることで生まれるこの独特の「うねり」は、聴いたら一発でダブステップとわかるアイコニックな音。テンポはBPM 140。ベースが生き物のようにうねり、形を変え、時にグロテスクなほど歪む。サブウーファーが物理的に空気を動かし、体中の内臓が振動する感覚は大音量でしか味わえない。低音の暴力。",
-    roots_story:"ウォブルベースのサウンドが広く認知されたのは、Caspa & Rusko「Cockney Thug」(2006)やRusko「Woo Boost」(2008)の頃。Caspa、Rusko、Doctor Pがウォブルベースを前面に押し出したスタイルの先駆者。2010年以降、Skrillexが「Scary Monsters and Nice Sprites」(2010)で極端に攻撃的なウォブルベースを世界的に普及させた。「ブロステップ」と呼ばれるこのスタイルはダブステップの大衆化に貢献した一方、元祖UKダブステップの重さ・深さとは別物として議論も呼んだ。",
+    desc:"「ワブワブワブ」と揺れるベース音が主役の、ダブステップを象徴するサウンド、あるいはその音色を前面に押し出したスタイルの呼び名。LFO（低周波発振器）でベースの音色（フィルターのカットオフなど）を高速で周期的に変調させることで生まれるこの独特の「うねり」は、聴いた瞬間にダブステップだと分かるほどアイコニックな音になっている。テンポはBPM 140。ベースが生き物のようにうねり、形を変え、時にグロテスクなほど歪む様は、もはや旋律楽器というより一種の効果音・パーカッションのようにも聴こえる。サブウーファー（超低音再生用スピーカー）が物理的に空気を動かし、体中の内臓まで振動する感覚は大音量の環境でしか味わえない、いわば低音の暴力。",
+    roots_story:"ウォブルベースのサウンドが広く認知されるようになったのは、Caspa & Ruskoの「Cockney Thug」(2006)や、Ruskoの「Woo Boost」(2008)が話題を呼んだ頃からとされる。Caspa、Rusko、Doctor Pは、ウォブルベースを前面に押し出したスタイルの先駆者として知られる。2010年以降、アメリカのSkrillexが「Scary Monsters and Nice Sprites」(2010)で、より極端に歪ませ攻撃的にしたウォブルベースを世界的にヒットさせた。この「ブロステップ」と呼ばれるスタイルは、ダブステップというジャンル名を世界の大衆に知らしめることに大きく貢献した一方で、UKダブステップ発祥当時の重さ・深さの美学を知るファンからは「別物のジャンルではないか」という議論を呼ぶことにもなった。",
     rep_tracks:["Cockney Thug (Caspa & Rusko)", "Woo Boost (Rusko)", "Scary Monsters and Nice Sprites (Skrillex)", "Bass Cannon (Flux Pavilion)", "Sweet Shop (Doctor P)"],
     yt_mix:["Ae5W79Vix-k", "qJnGodj1w4I"],
     yt_tracks:[["M2WuAPfaapY", "iNmGzWe5jC8"], ["WtMlB-BEMso", "Sk3A7mKO83U"], ["WSeNSzJ2-Jw", "ZBJjOvQqW70"], ["h3cE9iXIx9c", "wYNUsvuCbiI"], ["FecZ_nodIPc", "oZkzcm7ubQg"]],
