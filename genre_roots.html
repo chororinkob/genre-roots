@@ -559,7 +559,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.358<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.359<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -1757,16 +1757,16 @@ const NODES = [
 
   // ヒップホップ系
   {id:"lofi_hiphop", label:"Lo-fi Hip Hop", cat:"hiphop", era:"1990s", suno:true,
-    desc:"意図的に音質を落とした（ローファイ=低忠実度）、チルで温かみのあるヒップホップビート。レコードのプチプチノイズ、ジャズピアノのサンプル、ゆるいドラムパターンが、カフェや自室でまったりする時間を演出する。テンポはBPM 70〜90とゆったり。ボーカルはないか控えめで、勉強や作業のBGMとして完璧にフィットする。不完全さが心地よく、磨きすぎない手触りが安心感を与える。YouTubeの「lofi hip hop radio - beats to relax/study to」で世界的に定着した、現代のBGM文化の代表。",
-    roots_story:"1990年代、J Dilla（デトロイト）が独特のヨレたビート（「ドランクビート」と呼ばれる意図的にずらしたリズム）とソウル/ジャズのサンプリングで、ローファイヒップホップの原型を作った。Nujabes（瀬葉淳、日本）は「Metaphorical Music」(2003)等でジャズとヒップホップを優雅に融合させ、アニメ「サムライチャンプルー」(2004)の音楽で国際的に知られた。2017年、ChilledCow（現Lofi Girl）のYouTubeチャンネルが「勉強用BGM」として24時間ライブ配信を開始し、数千万再生を記録。ローファイヒップホップはインターネット時代の「環境音楽」として定着した。",
+    desc:"意図的に音質を落とした（ローファイ＝低忠実度、Low Fidelityの略）、チルで温かみのあるヒップホップビート。レコード特有のプチプチというノイズ、ジャズピアノのサンプル、力の抜けたゆるいドラムパターンが、カフェや自室でまったり過ごす時間を演出する。テンポはBPM 70〜90とゆったり。ボーカルはないか、あっても控えめで、勉強や作業のBGMとして完璧にフィットするよう作られている。デジタル制作なのに音質を意図的に劣化させるという不完全さが心地よく、磨き上げすぎない手触りが安心感を与える。YouTubeの「lofi hip hop radio - beats to relax/study to」的なライブ配信を通じて世界的に定着した、現代のBGM文化を代表する音楽。",
+    roots_story:"1990年代、デトロイトのプロデューサーJ Dillaが、独特のヨレたビート（意図的に拍のタイミングをずらす、いわゆる「ドランクビート」と呼ばれる手法）とソウル／ジャズのサンプリングを組み合わせ、ローファイヒップホップの原型を作り上げた。日本のNujabes（瀬葉淳）は『Metaphorical Music』(2003)などの作品でジャズとヒップホップを優雅に融合させ、アニメ『サムライチャンプルー』(2004)の音楽を手がけたことで国際的に知られるようになった（Nujabesは2010年に交通事故で急逝している）。2017年、ChilledCow（現Lofi Girl）というYouTubeチャンネルが「勉強用BGM」として24時間ライブ配信を開始し、アニメーションキャラクターが机に向かって勉強するループ映像と共に数千万回の視聴を記録した。こうしてローファイヒップホップは、インターネット時代における「環境音楽」の代表格として定着していった。",
     rep_tracks:["Feather (Nujabes)", "Get Dis Money (Slum Village)", "Luv(sic) Pt3 (Nujabes & Shing02)"],
     yt_mix:["CFGLoQIhmow", "n61ULEU7CO0"],
     yt_tracks:[["hQ5x8pHoIPA", "NASw3fidMxE"], ["tah5UC2hdrk", "F-oLqMwzvBY"], ["Fwv2gnCFDOc", "N1waO4MZwd4"]],
     aliases:["ローファイヒップホップ", "Lo-Fi Hip Hop", "チルホップ", "Chillhop", "ローファイ"],},
 
   {id:"miami_bass", label:"Miami Bass", cat:"hiphop", era:"1985", suno:true,
-    desc:"Roland TR-808ドラムマシンの超低音キックとベースが文字通り車を揺らすほどの重低音で鳴り響く、フロリダ発のヒップホップ。カーオーディオの巨大なサブウーファーで鳴らすことを前提に設計されており、低音が腹に響くというよりも体が浮くような感覚。テンポはBPM 120〜140と速め。歌詞はパーティー、セクシュアリティ、車をテーマにしたものが多い。フロリダの太陽と夜のクラブが交差する、低音で支配するバウンスミュージック。",
-    roots_story:"1985年頃、マイアミの2 Live Crew「2 Live Crew Is What We Are」(1986)がジャンルを確立。Afrika Bambaataa「Planet Rock」のエレクトロサウンドとサザンヒップホップが融合した形。Uncle Al、DJ Magic Mikeが初期の重要アーティスト。2 Live Crewの露骨な歌詞は検閲裁判に発展し（1990年、フロリダ州で「わいせつ」と判定されたが後に覆された）、言論の自由の議論に。808ベースを極端に強調するスタイルはクランク、トラップの直接の先祖であり、現代のベースミュージック全体に影響を与えた。",
+    desc:"Roland TR-808ドラムマシンの超低音キックとベースが、文字通り車を物理的に揺らすほどの重低音で鳴り響く、フロリダ発のヒップホップ。カーオーディオの巨大なサブウーファーで鳴らすことを前提に設計されており、低音が腹に響くというより、体そのものが浮き上がるような感覚を生む。テンポはBPM 120〜140と速め。歌詞はパーティー、性的な内容、車をテーマにしたものが多い。フロリダの強い日差しと夜のクラブの熱気が交差する、低音がすべてを支配するバウンスミュージック。",
+    roots_story:"1985年頃、マイアミの2 Live Crewが発表した『2 Live Crew Is What We Are』(1986)がこのジャンルを確立した。Afrika Bambaataaの「Planet Rock」が示したエレクトロサウンドと、サザンヒップホップの美学が融合した形とされる。Uncle Al、DJ Magic Mikeが初期の重要アーティスト。2 Live Crewの露骨な歌詞は検閲裁判にまで発展し、1990年にはフロリダ州の連邦地裁でアルバムが「わいせつ」と判定される事件が起きたが、後にこの判決は上訴審で覆された。この裁判はアメリカにおける表現の自由をめぐる象徴的な事例として今も語り継がれている。808ベースを極端に強調するこのスタイルは、後のクランクやトラップの直接の先祖にあたり、現代のベースミュージック全体に大きな影響を与えている。",
     rep_tracks:["Me So Horny (2 Live Crew)", "Planet Rock (Afrika Bambaataa)", "Drop That Bass (DJ Magic Mike)"],
     yt_mix:["uWwn5rnWGo0", "LBhx5Zn4fvc"],
     yt_tracks:[["T70xQpNpiQc", "yy6K3mNi4i4"], ["9J3lwZjHenA", "_rlUQsC8ECk"], ["1yt69f5CkTs", "CrGZzYZNLPQ"]],
