@@ -559,7 +559,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.360<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.361<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -1790,24 +1790,24 @@ const NODES = [
 
   // チップチューン
   {id:"chiptune", label:"Chiptune", cat:"chiptune", era:"1980s", suno:true,
-    desc:"ファミコンやゲームボーイのサウンドチップが奏でる「ピコピコ」した電子音で作られた音楽。矩形波・三角波・ノイズという極めて限られた音色だけで驚くほど豊かなメロディとリズムを生み出す。レトロゲームを遊んだ世代にはノスタルジー、知らない世代には新鮮な「デジタルの温かみ」がある。テンポは楽曲による。制約の中の創造性が最大の魅力で、少ない音数だからこそメロディの良し悪しがごまかせない。8ビットの世界に宿る無限の表現力。",
-    roots_story:"1980年代、ファミコン（NES）、ゲームボーイ、Commodore 64などのゲーム機やホームコンピュータに搭載された音源チップ（PSG、SID等）で音楽を作る文化が発生。初期は「デモシーン」と呼ばれるプログラマーのサブカルチャーで、コンピュータの限界に挑戦するデモ作品の音楽として発展。Commodore 64のSIDチップは特に音楽的な表現力が高く、Rob Hubbard、Martin Galway、Ben Daglishらのゲーム音楽が伝説に。2000年代にはゲームボーイにLSDjソフトを入れて作曲するスタイルが流行し、Anamanaguchi、Sabrepulse、Bit Shifterらがライブパフォーマンスで人気を得た。日本のゲーム音楽作曲家（近藤浩治、植松伸夫ら）もチップチューンの重要な源流。",
+    desc:"ファミコンやゲームボーイのサウンドチップが奏でる「ピコピコ」した電子音で作られた音楽。矩形波・三角波・ノイズという極めて限られた種類の音色だけで、驚くほど豊かなメロディとリズムを生み出す。レトロゲームを遊んだ世代にはノスタルジー、知らない世代には新鮮な「デジタルの温かみ」を感じさせる。テンポは楽曲による。ハードウェアの厳しい制約の中でどれだけ表現の幅を広げられるかという創造性が最大の魅力で、音数が極端に少ないからこそメロディそのものの良し悪しをごまかせない、8ビットの世界に宿る無限の表現力を持つジャンル。",
+    roots_story:"1980年代、ファミコン（NES）、ゲームボーイ、Commodore 64などのゲーム機やホームコンピュータに搭載された音源チップ（PSG、SID等）を使って音楽を作る文化が発生した。初期は「デモシーン」と呼ばれるプログラマーのサブカルチャーの一部で、コンピュータの性能の限界に挑戦する「デモ」と呼ばれる作品群のBGMとして発展していった。Commodore 64に搭載されたSIDチップは特に音楽的な表現力が高いことで知られ、Rob Hubbard、Martin Galway、Ben Daglishらが手がけたゲーム音楽は伝説的な存在となっている。2000年代には、ゲームボーイに「LSDj」という作曲用ソフトを書き込んで楽曲制作するスタイルが流行し、Anamanaguchi、Sabrepulse、Bit Shifterらがライブパフォーマンスを通じて人気を獲得した。日本のゲーム音楽作曲家（『スーパーマリオブラザーズ』『ゼルダの伝説』シリーズの近藤浩治、『ファイナルファンタジー』シリーズの植松伸夫ら）も、チップチューンの重要な源流として位置づけられている。",
     rep_tracks:["Blackout City (Anamanaguchi)", "Dot Matrix Hero (Bit Shifter)", "The Moon (近藤浩治)"],
     yt_mix:["zjyQWpJc6qk", "E5lgROKhWKE"],
     yt_tracks:[["ttJdr01bHr0", "87l9IhZkUuw"], ["CYB6k7renYE", "SIlLj4thyso"], ["Sxmyqo75GUs", "dGYe355u5Ds"]],
     aliases:["チップチューン", "8ビット音楽"],},
   // ロック系
   {id:"rock", label:"Rock", cat:"rock", era:"1960s", suno:true,
-    desc:"エレキギター、ベース、ドラムを中心としたバンド編成で演奏される、20世紀後半で最も影響力のあった音楽カテゴリ。ロックンロールから発展し、ハードロック、プログレ、パンク、メタル、オルタナティブなど無数のサブジャンルに分岐した巨大な音楽の樹。テンポ、サウンド、態度は多種多様だが、共通するのはバンドとしての一体感と自己表現の追求。ソフトロックからヘヴィメタルまでサウンドは極めて多様。文化的にも反抗、自由、若さの象徴として世界中の若者を動かしてきた。",
-    roots_story:"1960年代、ロックンロールがThe Beatlesの登場で「ロック」に進化。「ブリティッシュ・インヴェイジョン」（1964年〜）でThe Beatles、Rolling Stones、The WhoがアメリカにUKロックを持ち込んだ。Jimi Hendrix「Are You Experienced」(1967)がギターの可能性を爆発させた。1970年代にはLed Zeppelin、Deep Purple、Black Sabbathがハードロック/ヘヴィメタルを確立。同時にPink Floyd、Yesがプログレへ、Ramones、Sex Pistolsがパンクへ。ロックは常に分裂と進化を繰り返しながら、ポピュラー音楽の中心に居続けた。",
+    desc:"エレキギター、ベース、ドラムを中心としたバンド編成で演奏される、20世紀後半において最も影響力のあった音楽カテゴリ。ロックンロールから発展し、ハードロック、プログレッシブロック、パンク、ヘヴィメタル、オルタナティブロックなど無数のサブジャンルに枝分かれした、巨大な音楽の樹のような存在。テンポ、サウンド、演奏スタイルは多種多様だが、共通しているのはバンドとしての一体感、そして自己表現の追求という姿勢である。ソフトロックからヘヴィメタルまでサウンドの幅は極めて広い。音楽ジャンルであると同時に、反抗、自由、若さといった価値観の象徴として、世界中の若者文化を長年にわたり動かし続けてきた。",
+    roots_story:"1960年代、ロックンロールがThe Beatlesの登場によって「ロック」という、より広がりのある概念へと進化していった。「ブリティッシュ・インヴェイジョン」（1964年〜、イギリスのバンドがアメリカ市場に押し寄せた現象）では、The Beatles、The Rolling Stones、The Whoがイギリスのロックサウンドをアメリカにもたらした。Jimi Hendrixのアルバム『Are You Experienced』(1967)は、エレキギターの表現の可能性を一気に押し広げた。1970年代にはLed Zeppelin、Deep Purple、Black Sabbathがハードロック／ヘヴィメタルというジャンルを確立し、同時期にPink Floyd、Yesがプログレッシブロックへ、Ramones、Sex Pistolsがパンクロックへとそれぞれ別方向に枝分かれしていった。ロックは常に分裂と再統合、進化を繰り返しながら、20世紀後半のポピュラー音楽の中心であり続けた。",
     rep_tracks:["Stairway to Heaven (Led Zeppelin)", "Bohemian Rhapsody (Queen)", "Smoke on the Water (Deep Purple)"],
     yt_mix:["Q9yh7Vw435Q", "O5290Sf8zhA"],
     yt_tracks:[["QkF3oxziUI4", "Ly6ZhQVnVow"], ["fJ9rUzIMcZQ", "5zLnaNY58j8"], ["Q2FzZSBD5LE", "3pVQj2v7tBI"]],
     aliases:["ロック", "ロック音楽"],},
 
   {id:"rock_n_roll", label:"Rock 'n' Roll", cat:"rock", era:"1950s", suno:true,
-    desc:"エレキギター、ピアノ、サックス、ホーンの力強い演奏と跳ねるリズム、反抗的な態度が融合した、20世紀で最も影響力のある音楽。ブルースの感情表現とカントリーの軽快さをアンプで増幅し、若者の叫びを乗せた。テンポは中速〜速め（BPM 120〜160）で、シンプルなコード進行の上でギターが唸り、ドラムが力強くビートを刻む。聴いた瞬間にアドレナリンが出る原始的な興奮がある。自由、反骨、若さの象徴。",
-    roots_story:"1950年代、アメリカ南部でブルースとカントリーが融合。Chuck Berry「Johnny B. Goode」(1958)はロックギターの原型を作り、Little Richardは狂気的なパフォーマンスで観客を熱狂させた。Elvis Presleyは白人としてブルースを歌い、ロックンロールを大衆文化の中心に据えた。Buddy Hollyはソングライティングの型を確立。1960年代にはThe Beatlesがイギリスから世界を制覇し、The Rolling Stonesはブルース回帰のハードなロックを追求。ここからあらゆるロックのサブジャンルが枝分かれしていった。",
+    desc:"エレキギター、ピアノ、サックスやホーン隊の力強い演奏、跳ねるリズム、そして反抗的な態度が融合した、20世紀で最も影響力のある音楽の一つ。ブルースの持つ感情表現の豊かさと、カントリーの軽快なリズム感をアンプで増幅し、そこに若者たちの叫びを乗せて生まれた。テンポは中速〜速め（BPM 120〜160）で、シンプルなコード進行の上でギターが唸り、ドラムが力強くビートを刻む。聴いた瞬間にアドレナリンが出るような、原始的な興奮を伴う音楽で、自由、反骨精神、若さの象徴として当時の保守的な大人世代に強い衝撃を与えた。",
+    roots_story:"1950年代、アメリカ南部でブルースとカントリーの音楽性が融合して形成された。Chuck Berryの「Johnny B. Goode」(1958)は、後のあらゆるロックギターの原型を作った曲とされる。Little Richardは狂気的とも言えるパフォーマンスで観客を熱狂させた。白人であるElvis Presleyが黒人音楽であったブルース由来のスタイルを歌ったことは、当時の人種的な文脈において大きな意味を持ち、ロックンロールをアメリカの大衆文化の中心に押し上げる原動力となった。Buddy Hollyは、後のポップソングライティングの型を確立した人物として知られる（1959年、22歳で飛行機事故により死去）。1960年代にはThe Beatlesがイギリスから世界を制覇し、The Rolling Stonesはブルースへの回帰を志向したハードなロックを追求した。この地点から、後のあらゆるロックのサブジャンルが枝分かれしていくことになる。",
     rep_tracks:["Johnny B. Goode (Chuck Berry)", "Jailhouse Rock (Elvis Presley)", "Tutti Frutti (Little Richard)"],
     yt_mix:["0jj4gx1P8x4", "pf7VD9fYmGc"],
     yt_tracks:[["Y-9Y4CCIWnM", "aKCt8ssC7cs"], ["gj0Rz-uP4Mk", "PpsUOOfb-vE"], ["eQ-U2kGDHSI", "F13JNjpNW6c"]],
