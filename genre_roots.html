@@ -559,7 +559,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.352<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.353<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -1609,48 +1609,48 @@ const NODES = [
 
   // ユーロダンス系
   {id:"hi_nrg", label:"Hi-NRG", cat:"disco_cat", era:"1977", suno:true,
-    desc:"ディスコの4つ打ちビートをさらに速く、さらにエネルギッシュにしたダンスミュージック。テンポはBPM 130〜140とディスコより速く、シンセサイザーのシーケンスが機関銃のように駆け抜ける。ディスコのゴージャスなオーケストレーションを電子音に置き換え、より直線的でアグレッシブなグルーヴを追求。ゲイクラブカルチャーと強く結びつき、派手で開放的なエネルギーに満ちている。全力で踊りたい夜のためのハイオクタン燃料。",
-    roots_story:"1977年頃、ディスコの一部がより速くエネルギッシュな方向へ進化。Patrick Cowley（サンフランシスコ）がシンセサイザーを駆使したハイエナジーなディスコでジャンルを確立。Sylvester「You Make Me Feel (Mighty Real)」(1978)が大ヒット。CowleyはSylvesterの後の楽曲「Do You Wanna Funk」(1982)等をプロデュースした。Bobby Orlando（Bobby O）はニューヨークからシンセ主体のHi-NRGを量産し、Pet Shop BoysやDivine（映画監督ジョン・ウォーターズのミューズ）を手がけた。ゲイクラブの定番としてサンフランシスコ、ニューヨーク、ロンドンで栄え、ユーロビート・ユーロダンスの直接の先祖となった。",
+    desc:"ディスコの4つ打ちビートをさらに速く、さらにエネルギッシュにしたダンスミュージック。テンポはBPM 130〜140とディスコより速く、シンセサイザーの機械的に正確なシーケンスフレーズが機関銃のように駆け抜ける。生のオーケストラを使ったディスコのゴージャスなアレンジを電子音に置き換え、より直線的でアグレッシブなグルーヴを追求した点が音楽的な革新だった。1970年代末〜80年代のゲイクラブカルチャーと極めて強く結びついたジャンルで、派手で開放的なエネルギーと、抑圧からの解放を祝うような高揚感に満ちている。全力で踊り明かしたい夜のための、ハイオクタン燃料のようなサウンド。",
+    roots_story:"1977年頃、ディスコの一部がより速くエネルギッシュな方向へ進化した。サンフランシスコで活動したPatrick Cowleyは、当時最先端だったシンセサイザーを駆使したハイエナジーなディスコサウンドを確立した中心人物。彼がプロデュースしたSylvesterの「You Make Me Feel (Mighty Real)」(1978)は大ヒットとなり、ジャンルの方向性を決定づけた。Cowleyはその後もSylvesterの楽曲「Do You Wanna Funk」(1982、Cowleyの死の直前にリリース）などを手がけている。ニューヨークを拠点としたBobby Orlando（通称Bobby O）は、シンセサイザー主体のHi-NRGを大量にプロデュースし、後に世界的ヒットを飛ばすPet Shop Boysや、映画監督ジョン・ウォーターズのミューズとして知られるドラァグクイーンのDivineを手がけたことでも知られる。サンフランシスコ、ニューヨーク、ロンドンのゲイクラブの定番として栄え、後のユーロビート、ユーロダンスといったジャンルの直接の先祖となった。",
     rep_tracks:["You Make Me Feel (Mighty Real) (Sylvester)", "Do You Wanna Funk (Sylvester & Patrick Cowley)", "West End Girls (Pet Shop Boys)", "Love Reaction (Divine)", "I'm So Hot for You (Bobby O)"],
     yt_mix:["KzvT2pOGNBM", "l7H1D9b9Mhw"],
     yt_tracks:[["gD6cPE2BHic", "c3vtOEiO6TY"], ["PeYUTbU_iTw", "IMye20N4yuI"], ["p3j2NYZ8FKs", "Y0KQNn3aL4Q"], ["Cwi1gnx-Ag4", "NfkN1j1DsM8"], ["w-qOWGTvJ58", "L5zZWJSzfkw"]],
     aliases:["ハイエナジー", "Hi-Energy", "High NRG", "ハイNRG"],},
 
   {id:"italo_disco", label:"Italo Disco", cat:"eurodance", era:"1977", suno:true,
-    desc:"シンセサイザーとドラムマシンで作られた、きらびやかでロマンチックなイタリア発のディスコ。安っぽいけれど魅力的なシンセの音色、甘いメロディ、英語（イタリア人が歌う独特のアクセント付き）のボーカルが特徴。テンポはBPM 115〜130。アメリカのディスコより軽やかで、どこかチープだけど愛おしい手作り感がある。夏の地中海の空気、80年代のネオンライト、恋の予感——そんなイメージがそのまま音になった、甘酸っぱいダンスミュージック。",
-    roots_story:"1977年頃、イタリアのプロデューサーたちがアメリカのディスコを独自に解釈し、シンセサイザーとドラムマシンを全面的に使用したスタイルを生み出した。Giorgio Moroderはミュンヘンで活動したイタリア人だが、Donna Summer「I Feel Love」(1977)でシンセディスコの礎を築いた。ZYX Records（ドイツ）が「Italo Disco」という名前でコンピレーションを出し、ジャンル名が定着。Gazebo「I Like Chopin」(1983)、Den Harrow、Sabrinaが代表格。日本ではスーパーユーロビートシリーズの源流となり、パラパラ文化に直結した。",
+    desc:"シンセサイザーとドラムマシンで作られた、きらびやかでロマンチックなイタリア発のディスコ。予算をかけた重厚なオーケストレーションではなく、安っぽくも魅力的なシンセの音色、甘いメロディ、英語（イタリア人が歌うことで生まれる独特のアクセントがついた）のボーカルが特徴。テンポはBPM 115〜130。本場アメリカのディスコより軽やかで、どこかチープだけれど愛おしい手作り感が漂う。夏の地中海の空気、80年代のネオンライト、まだ実らぬ恋の予感——そうしたイメージがそのまま音になったような、甘酸っぱいダンスミュージック。",
+    roots_story:"1977年頃、イタリアのプロデューサーたちがアメリカのディスコを独自に解釈し、シンセサイザーとドラムマシンを全面的に使用したスタイルを生み出した。Giorgio Moroderはイタリア出身ながらドイツのミュンヘンを拠点に活動した人物で、Donna Summerの「I Feel Love」(1977、リアルタイムのシンセシーケンスだけで構成された革新的なプロダクションで知られる）で、後のシンセディスコ全体の礎を築いた。ドイツのレーベルZYX Recordsが、こうしたイタリア発のシンセディスコを集めたコンピレーションシリーズに「Italo Disco」という名前を冠したことで、このジャンル名が定着した。Gazeboの「I Like Chopin」(1983、ショパンの旋律を引用したことでも知られる）、Den Harrow、Sabrinaが代表格として挙げられる。日本では、後のスーパーユーロビートシリーズの直接の源流となり、パラパラ文化にも直結していく。",
     rep_tracks:["I Like Chopin (Gazebo)", "Tarzan Boy (Baltimora)", "Self Control (Raf)", "Boys (Summertime Love) (Sabrina)", "Future Brain (Den Harrow)"],
     yt_mix:["3Y8Zs7wUZtM", "tgXN2pBi6Pg"],
     yt_tracks:[["Dtrgwqei7ww", "S485kTzaV-c"], ["--6CdAypJsQ", "_r0n9Dv6XnY"], ["1_TQjEn6cpQ", "4UZ7E0cn50w"], ["_OIPDU8kCNo", "XgH-hjBrUW0"], ["lDrLsNFzBtQ", "w3oVCnL2sfw"]],
     aliases:["イタロディスコ"],},
 
   {id:"eurodance", label:"Eurodance", cat:"eurodance", era:"1989", suno:true,
-    desc:"女性ボーカルの歌パートと男性のラップパートが交互に来るという独特の構成が最大の個性。シンセのキャッチーなリフ、4つ打ちのビート、派手なプロダクションがBPM 130〜150で疾走する。テンポが速く、メロディが覚えやすく、一緒に歌える。90年代のクラブを席巻した「みんなが踊れるポップ」で、考える前に体が動く分かりやすさがある。バブル時代のジュリアナ東京的な華やかさと高揚感に満ちた、90年代欧州の象徴的サウンド。",
-    roots_story:"1989年頃、Hi-NRG、イタロディスコ、シンセポップの流れが合流してヨーロッパ全土で爆発的ブームに。2 Unlimited「No Limit」(1993)、Snap!「Rhythm Is a Dancer」(1992)、Haddaway「What Is Love」(1993)が世界的大ヒット。La Bouche、Corona、Ace of Baseはこの後も続々とヒットを放った。Maxx、Captain Jack、DJ BoBo（スイス）も人気。日本ではジュリアナ東京（1991〜94年）でユーロダンスが大流行し、ボディコン＋扇子というスタイルが社会現象に。90年代半ばにブームは去ったが、2020年代のTikTokで「What Is Love」等が再評価されている。",
+    desc:"女性ボーカルの歌パートと、男性による語りかけるようなラップパートが交互に来るという構成が最大の個性。シンセのキャッチーなリフ、4つ打ちのビート、派手で分かりやすいプロダクションがBPM 130〜150という速いテンポで疾走する。メロディが単純で覚えやすく、一緒に口ずさめる親しみやすさがあり、1990年代のヨーロッパのクラブを席巻した「みんなが踊れるポップ」として大衆に浸透した。考えるより先に体が動くような分かりやすさが持ち味で、バブル期の日本のディスコ文化を象徴するジュリアナ東京的な華やかさと高揚感を思わせる、90年代ヨーロッパの象徴的なサウンド。",
+    roots_story:"1989年頃、Hi-NRG、イタロディスコ、シンセポップという複数の流れが合流し、ヨーロッパ全土で爆発的なブームを巻き起こした。2 Unlimitedの「No Limit」(1993)、Snap!の「Rhythm Is a Dancer」(1992)、Haddawayの「What Is Love」(1993)は、いずれも世界的な大ヒットを記録した楽曲。La Bouche、Corona、Ace of Baseは、その後も続々とヒット曲を放ち続けた。Maxx、Captain Jack、スイスのDJ BoBoも人気を博した。日本では、東京・芝浦にあったディスコ「ジュリアナ東京」（1991〜94年営業）でユーロダンスが大流行し、体の線を強調した「ボディコン」ファッションに身を包み扇子を振りかざして踊るスタイルが一大社会現象となった。90年代半ばに本国でのブームは沈静化したが、2020年代にはTikTokをきっかけに「What Is Love」などの楽曲が新たな世代の間で再評価されている。",
     rep_tracks:["No Limit (2 Unlimited)", "Rhythm Is a Dancer (Snap!)", "What Is Love (Haddaway)", "Be My Lover (La Bouche)", "The Rhythm of the Night (Corona)"],
     yt_mix:["u7k_dIVP4jQ", "3eERcAzd2gw"],
     yt_tracks:[["7kmEEkECFQw", "HMTCw8CtX0E"], ["JYIaWeVL1JM", "VB6HB-krsUE"], ["HEXWRTEbj1I", "G8RY_XOqJf4"], ["ViP87WipSm0", "P3MtiifXp9k"], ["OnT58cIJSpw", "SATyGIYqExk"]],
     aliases:["ユーロダンス"],},
 
   {id:"eurobeat", label:"Eurobeat", cat:"eurodance", era:"1990s", suno:true,
-    desc:"イタロディスコをさらに速く、さらにシンセを派手にした超高速ダンスミュージック。テンポはBPM 150〜165と非常に速く、キラキラしたシンセのリフが猛スピードで駆け抜ける。ハイトーンのボーカル、ド派手なシンセソロ、シンプルだが中毒性のあるメロディが特徴。聴いていると自然とアクセルを踏み込みたくなる「ドライブミュージック」の王。アニメ「頭文字D」との結びつきで世界的に知られ、峠を攻めるイメージと不可分のジャンル。",
-    roots_story:"イタロディスコが1990年代に日本市場向けに高速化・派手化して「ユーロビート」となった。avex trax「Super Eurobeat」シリーズ（1990年〜）は200巻以上リリースされた世界最長寿のコンピレーション。Dave Rodgers「Deja Vu」、Mega NRG Man「Running in the 90's」はアニメ「頭文字D」（1998年〜）に使用され、世界的な知名度を得た。A-Beat C Records、Delta、SCP（イタリア）が制作の中心で、イタリア人プロデューサーが日本市場向けに曲を量産するという独特の構造。日本のパラパラダンスとも密接。",
+    desc:"イタロディスコをさらに速く、さらにシンセを派手にした超高速ダンスミュージック。テンポはBPM 150〜165と非常に速く、キラキラしたシンセのリフが猛スピードで駆け抜けていく。ハイトーンのボーカル、ド派手なシンセソロ、シンプルながら一度聴くと耳から離れない中毒性のあるメロディが特徴。聴いていると自然とアクセルを踏み込みたくなる、いわば「ドライブミュージックの王」のような存在。日本のアニメ『頭文字D』との結びつきで世界的に知られるようになり、峠のヘアピンカーブを攻めるカーアクションのイメージと不可分に結びついたジャンルである。",
+    roots_story:"イタロディスコが1990年代、日本市場向けにさらに高速化・派手化する形で「ユーロビート」というジャンルへと発展した。avex traxが1990年から展開した「Super Eurobeat」シリーズは、最終的に200巻以上リリースされる世界最長寿級のコンピレーションシリーズとなった。Dave Rodgersの「Deja Vu」、Mega NRG Manの「Running in the 90's」は、アニメ『頭文字D』(1998年〜)の劇中で使用されたことで世界的な知名度を獲得した楽曲。制作の中心となったのはイタリアのA-Beat C Records、Delta、SCPといったレーベルで、イタリア人プロデューサーたちが日本市場向けに楽曲を大量生産するという、他に類を見ない独特の産業構造を築き上げた。日本国内ではパラパラダンス文化とも密接に結びついている。",
     rep_tracks:["Deja Vu (Dave Rodgers)", "Running in the 90's (Mega NRG Man)", "Night of Fire (Niko)", "Gas Gas Gas (Manuel)", "Space Boy (Dave Rodgers)"],
     yt_mix:["J9UKFBvC_wA", "GMJ_E1nnIoo"],
     yt_tracks:[["tdeJiw6qMkA", "UT7O7FyUbxA"], ["NNaJxMutEIE", "MmrA_uFh0ek"], ["YdHO0R4FeyQ", "7BTWpImCDq4"], ["ljwUlY9WW1I", "atuFSv2bLa8"], ["nvUTNX0FDPA", "h5W0Tn-X73I"]],
     aliases:["ユーロビート"],},
 
   {id:"j_eurobeat", label:"J-Eurobeat", cat:"eurodance", era:"1990s", suno:true,
-    desc:"日本人アーティストが歌う日本語のユーロビート。イタリア製ユーロビートのサウンドフォーマットを踏襲しつつ、J-POP的なメロディセンスと日本語の歌詞が乗る。テンポはBPM 150〜160。哀愁のある日本語の歌詞とキラキラしたシンセの組み合わせは独特の切なさがあり、本家とはまた違った味わい。パラパラダンスのイベントやカラオケで特に人気があり、日本独自のダンスミュージック文化を体現するスタイル。",
-    roots_story:"1990年代後半、日本でユーロビートブームが最高潮に達する中、日本人アーティストによるユーロビート制作が本格化。芸能人やアイドルがユーロビートをリリースすることもあった。avex traxは「Super Eurobeat」の日本人アーティスト版も展開。安室奈美恵「TRY ME 〜私を信じて〜」(1995)のカバーなど、J-POPとユーロビートの境界は曖昧だった。小室哲哉プロデュース楽曲（TRF、globeなど）もユーロビートの影響を強く受けており、90年代J-POPのダンス路線はJ-ユーロビートの延長線上にあると言える。",
+    desc:"日本人アーティストが歌う日本語のユーロビート。イタリア製ユーロビートのサウンドフォーマットを踏襲しつつ、J-POP的なメロディセンスと日本語の歌詞が乗るという、輸入と国産のハイブリッド的なジャンル。テンポはBPM 150〜160。哀愁のある日本語の歌詞と、キラキラした派手なシンセの組み合わせには本家イタリア製とはまた違った独特の切なさがある。パラパラダンスのイベントやカラオケで特に人気があり、日本ならではのダンスミュージック受容のあり方を体現するスタイルとして定着した。",
+    roots_story:"1990年代後半、日本国内のユーロビートブームが最高潮に達する中で、日本人アーティスト自身によるユーロビート制作が本格化した。芸能人やアイドルが、通常の楽曲とは別にユーロビート仕立ての楽曲をリリースすることも珍しくなかった。avex traxは「Super Eurobeat」シリーズの日本人アーティスト版も展開した。安室奈美恵の「TRY ME 〜私を信じて〜」(1995)がユーロビート調にカバーされるなど、当時のJ-POPとユーロビートの境界線は曖昧なものだった。小室哲哉がプロデュースした楽曲群（TRF、globeなど）もユーロビートの強い影響を受けており、1990年代のJ-POPにおけるダンス路線は、広い意味でJ-ユーロビートの延長線上にあると言える。",
     rep_tracks:["TRY ME 〜私を信じて〜 (安室奈美恵)", "EZ DO DANCE (TRF)", "Feel Like Dance (globe)", "Survival dAnce 〜no no cry more〜 (TRF)", "Body Feels EXIT (安室奈美恵)"],
     yt_mix:["6PdDig-_kUE", "XZuKtKie8PQ"],
     yt_tracks:[["J8GDzEgGphU", "9Mqc8MwVLxE"], ["LKEWlU4rkxc", "mAF2F2vRf_Q"], ["VHKMwue-jUE", "76yYKeaNURk"], ["gfuykoLwzII", "4L8b3UcNl8I"], ["8tqwpk3oMqI", "W0CDnXEjWU0"]],
     aliases:["Jユーロビート"],},
 
   {id:"parapara_eurobeat", label:"Parapara\nEurobeat", cat:"eurodance", era:"1999", suno:true,
-    desc:"ユーロビートに合わせて踊る「パラパラ」ダンス専用のスタイル。音楽的にはユーロビートそのものだが、振り付けとセットで完成する「踊るための音楽」としての性格が極めて強い。BPM 150前後。決まった手の動き（ハンドモーション）を曲に合わせて全員が同じ振り付けで踊る一体感が最大の魅力。覚えて踊れるようになった時の達成感、フロアで全員の動きが揃った時の高揚感は独特。見ても踊っても楽しい、日本発の参加型ダンスミュージック文化。",
-    roots_story:"1999年前後、日本のディスコ/クラブシーンでパラパラダンスのブームが社会現象化。Eurogroove「Night Fever」のパラパラバージョンがヒットし、ヴェルファーレ（東京・六本木のメガクラブ）がパラパラの聖地に。「パラパラ・パラダイス」などのインストラクションビデオがヒット商品となった。Morning娘。「LOVEマシーン」(1999)のダンスもパラパラの影響を受けている。2000年代初頭にはSEB（Super Eurobeat）パラパラがアーケードゲーム化。海外でもanime convention（アニメコンベンション）でパラパラが踊られ、日本のダンス文化として国際的に認知されている。",
+    desc:"ユーロビートに合わせて踊る「パラパラ」というダンススタイル専用の音楽。音楽そのものはユーロビートと変わらないが、振り付けとセットで初めて完成する「踊るための音楽」としての性格が極めて強い点に特徴がある。テンポはBPM 150前後。決まった手の動き（ハンドモーション）を曲に合わせて参加者全員が同じ振り付けで踊る、その一体感こそが最大の魅力。振り付けを覚えて踊れるようになった時の達成感や、フロア全体の動きが一斉に揃った瞬間の高揚感は他のダンスミュージックにはない独特のものであり、見ても踊っても楽しめる、日本発の参加型ダンスミュージック文化である。",
+    roots_story:"1999年前後、日本のディスコ／クラブシーンでパラパラダンスのブームが一大社会現象となった。Eurogrooveの「Night Fever」のパラパラバージョンがヒットし、当時東京・六本木にあったメガクラブ「ヴェルファーレ」がパラパラの聖地として知られるようになった。「パラパラ・パラダイス」などの振り付け指南ビデオ（インストラクションビデオ）がヒット商品として売れ、モーニング娘。の「LOVEマシーン」(1999)の振り付けもパラパラの影響を色濃く受けている。2000年代初頭には「SEB（Super Eurobeat）パラパラ」としてアーケードゲーム化もされた。海外でもアニメ関連のイベント（アニメコンベンション）でパラパラが踊られる光景が見られ、日本発のダンス文化として国際的にも認知が広がっている。",
     rep_tracks:["Night Fever (Eurogroove)", "Boom Boom Fire (D. Essex)", "Velfarre 2000 (Dave Rodgers)", "Love & Money (Lou Grant)", "Mickey Mouse March (Domino)"],
     yt_mix:["2KgFJBoJ71g", "XgYZtlv0ub0"],
     yt_tracks:[["RS5TSacSb2g", "ZOf2NKzUDB8"], ["9-Ob8Sih1Kc", "FLP0OTQ7iJA"], ["LkFNn9aRoA8", "T9Txi1EXXY4"], ["7lSX-jeid3k", "S-xiFOaAK0g"], ["M0cBd3II9wo", "iSrQNTEysKE"]],
