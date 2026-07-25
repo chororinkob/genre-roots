@@ -559,7 +559,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.375<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.376<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -2161,8 +2161,8 @@ const NODES = [
     aliases:["ジャズフュージョン", "Jazz Fusion", "フュージョン"],},
 
   {id:"smooth_jazz", label:"Smooth Jazz", cat:"jazz_sub", era:"1980s", suno:true,
-    desc:"ジャズをとことん聴きやすく、リラックスできる方向に振り切った「BGM的ジャズ」。サックスやギターの滑らかな音色、穏やかなリズム、シンプルなメロディが心地よい空間を作る。テンポはゆったり〜中速。即興はあるが控えめで、激しい展開はない。カフェ、レストラン、ドライブ中のBGMとして完璧にフィット。ジャズ愛好家からは「これはジャズではない」と言われることも多いが、一般リスナーには最もアクセスしやすいジャズの入口。",
-    roots_story:"1980年代、ラジオ局（特にアメリカのFM局）がジャズの聴きやすい側面を強調した「スムースジャズ」フォーマットを確立。Grover Washington Jr.「Just the Two of Us」(1981)がスムースジャズ的ヒットの先駆け。Kenny G「Songbird」(1986)は世界中で大ヒットし、スムースジャズの代名詞に。Kenny Gのアルバム「Breathless」(1992)は1200万枚以上売れ、ジャズアルバムとしては異例のセールス。George Benson、David Sanborn、Bob Jamesも主要アーティスト。",
+    desc:"ジャズをとことん聴きやすく、リラックスできる方向に振り切った「BGM的ジャズ」。サックスやギターの滑らかな音色、穏やかなリズム、シンプルなメロディが心地よい空間を作り出す。テンポはゆったり〜中速。即興演奏はあるが控えめで、激しい展開はほとんどない。カフェ、レストラン、ドライブ中のBGMとして完璧にフィットする。ジャズ愛好家からは「これはジャズではない」と言われることも多いが、一般のリスナーにとっては最もアクセスしやすいジャズへの入口となっている。",
+    roots_story:"1980年代、アメリカのFM局を中心とするラジオ局が、ジャズの聴きやすい側面を強調した「スムースジャズ」というフォーマットを確立した。Grover Washington Jr.の「Just the Two of Us」(1981)は、スムースジャズ的なヒット曲の先駆けとされる。Kenny Gの「Songbird」(1986)は世界中で大ヒットし、スムースジャズの代名詞的存在となった。Kenny Gのアルバム『Breathless』(1992)は1200万枚以上を売り上げ、ジャズアルバムとしては異例のセールスを記録している。George Benson、David Sanborn、Bob Jamesも主要アーティストとして知られる。",
     rep_tracks:["Just the Two of Us (Grover Washington Jr.)", "Songbird (Kenny G)", "Breezin' (George Benson)", "Maputo (David Sanborn)", "Angela (Bob James)"],
     yt_mix:["U3n31M81RpE", "p9dRg8yQ2DY"],
     yt_tracks:[["v8oqbWrP1QY", "6IO74QV6wHY"], ["QN2RnjFHmNY", "oFNvrZSd4kQ"], ["G1QjyskJ9jw", "kVc5rCl0BIs"], ["j6T8r4U4pJk", "5vLsyBN5ri0"], ["7lDuFxKWdGw", "kqw3UNXUdbU"]],
@@ -2170,16 +2170,16 @@ const NODES = [
 
   // クラシック系サブジャンル
   {id:"baroque", label:"Baroque", cat:"classical_sub", era:"1600s", suno:true,
-    desc:"華やかな装飾、複雑な対位法（複数のメロディラインが同時に進行する技法）、通奏低音（チェンバロやオルガンが和音を支える）が特徴の、17〜18世紀前半の西洋芸術音楽。ヴァイオリン、チェンバロ、オルガン、フルートが主な楽器。テンポは楽章により緩急が明確に分かれる。数学的な精密さと感情的な華やかさが同居する。教会の高い天井に響くオルガンの和音や、宮廷舞踏会の優雅な旋律が思い浮かぶ、格式高い音楽。",
-    roots_story:"1600年頃〜1750年のヨーロッパ音楽。J.S. Bachがバロック音楽の最高峰で、「マタイ受難曲」「ブランデンブルク協奏曲」「平均律クラヴィーア曲集」が人類の音楽遺産。Antonio Vivaldiは「四季」(1723)でバロック協奏曲を大衆化。G.F. Handelは「メサイア」(1741)のハレルヤコーラスで永遠の名曲を残した。バロック時代にはオペラ、協奏曲、ソナタといった音楽形式が確立され、後のすべてのクラシック音楽の土台となった。",
+    desc:"華やかな装飾、複雑な対位法（複数の独立したメロディラインが同時に進行する作曲技法）、通奏低音（チェンバロやオルガンが和音を支え続ける演奏様式）が特徴の、17〜18世紀前半の西洋芸術音楽。ヴァイオリン、チェンバロ、オルガン、フルートが主な楽器。テンポは楽章ごとに緩急がはっきりと分かれる。数学的な精密さと感情的な華やかさが同居する。教会の高い天井に響き渡るオルガンの和音や、宮廷舞踏会の優雅な旋律が思い浮かぶ、格式高い音楽である。",
+    roots_story:"1600年頃〜1750年頃にかけてのヨーロッパ音楽を指す。J.S. Bachはバロック音楽の最高峰とされ、「マタイ受難曲」「ブランデンブルク協奏曲」「平均律クラヴィーア曲集」は人類の音楽遺産と呼べる作品群である。Antonio Vivaldiは「四季」(1723)によって、バロック協奏曲というジャンルを大衆的な人気の高いものにした。G.F. Handelは「メサイア」(1741)の「ハレルヤ・コーラス」で、永遠に歌い継がれる名曲を残した。バロック時代には、オペラ、協奏曲、ソナタといった音楽形式が確立され、これらは後のあらゆるクラシック音楽の土台となっている。",
     rep_tracks:["Brandenburg Concerto No. 3 (J.S. Bach)", "The Four Seasons (Antonio Vivaldi)", "Messiah: Hallelujah Chorus (G.F. Handel)", "Canon in D (Johann Pachelbel)", "Toccata and Fugue in D minor (J.S. Bach)"],
     yt_mix:["Dqey_oJsdLU", "A1rQwFQ7yZw"],
     yt_tracks:[["Czsd13Mmcg0", "pdsyNwUoON0"], ["4rgSzQwe5DQ", "GRxofEmo3HA"], ["IUZEtVbJT5c", "weFJHtcxJt0"], ["NlprozGcs80", "Ptk_1Dc2iPY"], ["erXG9vnN-GI", "ho9rZjlsyYY"]],
     aliases:["バロック", "バロック音楽"],},
 
   {id:"romantic", label:"Romantic", cat:"classical_sub", era:"1800s", suno:true,
-    desc:"感情の解放と個人の表現を最優先にした、ドラマチックで壮大な音楽。オーケストラの規模が飛躍的に拡大し、ピアニッシモからフォルティッシモまでのダイナミクスの幅が極端に広がった。ピアノ独奏曲では演奏者の超絶技巧が花開き、交響曲ではオーケストラの全楽器が感情のうねりを表現する。恋愛、自然の壮大さ、英雄的な物語、死への憧憬がテーマ。聴く者の感情を直接揺さぶる力において、クラシック音楽史の中で感情表現と巨大な表現形式が大きく拡張された時代。",
-    roots_story:"1800年代〜1900年代初頭のヨーロッパ音楽。Beethoven「運命」交響曲第5番(1808)が古典派からロマン派への橋渡し。Chopin（ショパン）はピアノの詩人として珠玉の小品を量産。Liszt（リスト）は超絶技巧のピアノ演奏でロックスター的人気を博した。Wagner（ワーグナー）はオペラを「総合芸術」に変革し、映画音楽のルーツに。Tchaikovsky（チャイコフスキー）「白鳥の湖」「くるみ割り人形」はバレエ音楽の永遠の定番。Mahler、R. Straussが後期ロマン派を極めた。",
+    desc:"感情の解放と個人の表現を最優先にした、ドラマチックで壮大な音楽。オーケストラの規模が飛躍的に拡大し、ごく弱い音（ピアニッシモ）から極めて強い音（フォルティッシモ）までのダイナミクスの幅が極端に広がった。ピアノ独奏曲では演奏者の超絶技巧が花開き、交響曲ではオーケストラの全楽器が感情のうねりを表現する。恋愛、自然の壮大さ、英雄的な物語、死への憧憬がテーマとなった。聴く者の感情を直接揺さぶる力において、クラシック音楽史の中でも感情表現と表現形式の規模が大きく拡張された時代である。",
+    roots_story:"1800年代〜1900年代初頭にかけてのヨーロッパ音楽を指す。Beethovenの交響曲第5番「運命」(1808)は、古典派からロマン派への橋渡し的な作品とされる。Chopin（ショパン）はピアノの詩人と称され、珠玉のピアノ小品を数多く残した。Liszt（リスト）は超絶技巧のピアノ演奏によって、当時のロックスターにも匹敵する人気を博した。Wagner（ワーグナー）はオペラを音楽・演劇・美術が一体化した「総合芸術」へと変革し、後の映画音楽のルーツともなった。Tchaikovsky（チャイコフスキー）の「白鳥の湖」「くるみ割り人形」はバレエ音楽の永遠の定番とされる。Mahler、R. Straussは後期ロマン派の音楽を極限まで推し進めた作曲家として知られる。",
     rep_tracks:["Symphony No. 5 (Ludwig van Beethoven)", "Nocturne in E-flat major, Op. 9, No. 2 (Frédéric Chopin)", "Liebestraum No. 3 (Franz Liszt)", "Ride of the Valkyries (Richard Wagner)", "Swan Lake (Pyotr Ilyich Tchaikovsky)"],
     yt_mix:["nftGJDj8ho0", "WPrIhuKB87U"],
     yt_tracks:[["q_kw904K2bw", "IvrzJ8uH1PI"], ["p29JUpsOSTE", "9E6b3swbnWg"], ["MBOa-2b4uQQ", "FZ651tNXp0Y"], ["hQM97_iNXhk", "GGU1P6lBW6Q"], ["F2d_vv2w--8", "9cNQFB0TDfY"]],
