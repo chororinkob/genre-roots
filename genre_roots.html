@@ -559,7 +559,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.356<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.357<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -1716,24 +1716,24 @@ const NODES = [
 
   // シンセウェーブ系
   {id:"synthwave", label:"Synthwave", cat:"synthwave", era:"2000s", suno:false,
-    desc:"1980年代への郷愁を現代の技術で再現した、ノスタルジックな電子音楽。80年代のSF映画やカーチェイスシーンを連想させるシンセサイザーの音色、ゲートリバーブのかかったドラム、ネオンに照らされた夜の高速道路のイメージ。テンポはBPM 80〜120の中速。存在しなかった80年代の記憶——レトロフューチャーの世界——を音で構築する。サイバーパンクのビジュアルと相性が抜群で、紫とピンクの色彩が脳内に浮かぶ。実際の80年代より80年代っぽい音楽。",
-    roots_story:"2000年代半ば、フランスのCollege「A Real Hero」やKavinsky「Nightcall」がスタイルの先駆けに。映画「Drive」(2011)のサウンドトラックにKavinskyが起用されたことでジャンルが一気に知名度を得た。Perturbator、Carpenter Brut（フランス）はよりダークで攻撃的なスタイルを開拓。Com Truise（アメリカ）はチルでメランコリックな方向。YouTube/Bandcampがジャンルの普及に決定的な役割を果たし、NewRetroWaveチャンネルが数百万登録者を獲得。Blood Musicレーベル（フィンランド）が主要拠点。",
+    desc:"1980年代への郷愁を現代の技術で再現した、ノスタルジックな電子音楽。80年代のSF映画やカーチェイスシーンを連想させるアナログシンセサイザーの音色、ゲートリバーブ（残響音を急に切ってドラムをタイトに聴かせる80年代特有のエフェクト処理）のかかったドラム、ネオンに照らされた夜の高速道路のイメージが基本のパレット。テンポはBPM 80〜120の中速。実際には存在しなかった「80年代の記憶」——いわゆるレトロフューチャーの世界——を音だけで構築するのがこのジャンルの本質で、サイバーパンクのビジュアルと相性が抜群であり、紫とピンクのグラデーションが脳内に浮かぶ。実際の80年代の音楽よりも「80年代っぽい」音楽、という逆説を体現している。",
+    roots_story:"2000年代半ば、フランスのCollegeによる「A Real Hero」や、Kavinskyの「Nightcall」がこのスタイルの先駆けとなった。映画『Drive』(2011)のサウンドトラックにKavinskyの楽曲が起用されたことで、ジャンルは一気に世間の知名度を得た。Perturbator、Carpenter Brut（フランス）はよりダークで攻撃的なスタイルを開拓した。アメリカのCom Truiseはチルでメランコリックな方向性を志向した。YouTubeやBandcampといったプラットフォームがジャンルの普及に決定的な役割を果たし、「NewRetroWave」というYouTubeチャンネルは数百万人の登録者を獲得するまでに成長した。フィンランドのレーベルBlood Musicが主要な発信拠点の一つとなっている。",
     rep_tracks:["A Real Hero (College & Electric Youth)", "Nightcall (Kavinsky)", "Turbo Killer (Carpenter Brut)", "Future Club (Perturbator)", "Brokendate (Com Truise)"],
     yt_mix:["0QKQlf8r7ls", "NP1u3Q5zswg"],
     yt_tracks:[["-DSVDcw6iW8", "BHgYtKkSEDA"], ["MV_3Dpw-BRY", "30jrmzzgHLc"], ["wy9r2qeouiQ", "er416Ad3R1g"], ["RY66fdMt4vc", "Tn2Wlh4dSw0"], ["8qFl3agiBMI", "MQDKywDP5G8"]],
     aliases:["シンセウェーブ", "80年代シンセ"],},
 
   {id:"retrowave", label:"Retrowave", cat:"synthwave", era:"2000s", suno:false,
-    desc:"シンセウェーブとほぼ同義で、80年代のポップカルチャー（映画、テレビ、ゲーム）の美学を現代に蘇らせたスタイル。よりポップでアクセスしやすい傾向があり、80年代風のボーカル曲も多い。テンポはBPM 100〜120。シンセウェーブが映画「ブレードランナー」的なSF感を重視するのに対し、レトロウェーブは映画「バック・トゥ・ザ・フューチャー」的な明るい80年代ノスタルジーに寄っている。聴いていると80年代のアメリカの郊外をスケボーで走っている気分になる。",
-    roots_story:"シンセウェーブという名前とレトロウェーブという名前はほぼ同時期に並行して使われ始めた。レトロウェーブはよりポップ・アクセシブルなスタイルを指す傾向がある。The Midnight「Days of Thunder」(2014)、FM-84「Running in the Night」(2016)はレトロウェーブの代表曲で、80年代風のボーカルポップとシンセが融合。Timecop1983、Gunship、The Bad Dreamsも主要アーティスト。NewRetroWaveとSynthetix（SoundCloudコミュニティ）がジャンルの発信拠点。Spotifyの「Synthwave/Retrowave」プレイリストが数百万フォロワーを獲得し、リスナー層を拡大させた。",
+    desc:"シンセウェーブとほぼ同義で使われる呼び名で、80年代のポップカルチャー（映画、テレビ、ゲーム）の美学を現代に蘇らせたスタイル。よりポップでアクセスしやすい傾向があり、80年代風の歌ものボーカル曲が多いのも特徴。テンポはBPM 100〜120。シンセウェーブが映画『ブレードランナー』的なSF感・退廃感を重視するのに対し、レトロウェーブは映画『バック・トゥ・ザ・フューチャー』的な、明るく楽観的な80年代ノスタルジーに寄っているとされる。聴いていると、80年代アメリカの郊外をスケートボードで走り抜けているような気分にさせられる。",
+    roots_story:"「シンセウェーブ」という呼び名と「レトロウェーブ」という呼び名は、ほぼ同時期に並行して使われ始めた経緯があり、後者はより大衆的でポップな作風を指す言葉として定着していった。The Midnightの「Days of Thunder」(2014)、FM-84の「Running in the Night」(2016)はレトロウェーブの代表曲とされ、80年代風のボーカルポップとシンセサイザーが融合したスタイルを示している。Timecop1983、Gunship、The Bad Dreamsも主要アーティストとして知られる。「NewRetroWave」や、SoundCloud上のコミュニティ「Synthetix」がジャンルの発信拠点として機能した。Spotifyの「Synthwave/Retrowave」系プレイリストは数百万人のフォロワーを獲得し、リスナー層をさらに拡大させる役割を果たした。",
     rep_tracks:["Days of Thunder (The Midnight)", "Running in the Night (FM-84)", "On the Run (Timecop1983)", "Tech Noir (Gunship)", "Dreams (The Bad Dreams)"],
     yt_mix:["wgw7uImdPjw", "0QKQlf8r7ls"],
     yt_tracks:[["UiSB2Fbw9gs", "0o2OkD_cWkU"], ["TvZskcqdYcE", "Bv4jOz-mySA"], ["_Ci0Kgdpgsw", "gDpfybAvEag"], ["-nC5TBv3sfU", "KlUJTtBphb0"], ["Qh8QwVYOSVU", "MTCRNCD2s5I"]],
     aliases:["レトロウェーブ"],},
 
   {id:"vaporwave", label:"Vaporwave", cat:"synthwave", era:"2010", suno:false,
-    desc:"80〜90年代のエレベーターミュージック、ショッピングモールのBGM、企業CM曲などを極端にスローダウンし、リバーブをかけ、切り刻んで再構築したインターネット発の音楽。聴いていると、誰もいないショッピングモールを深夜に歩いているような不思議な郷愁と不気味さを感じる。テンポは極端に遅く（BPM 60〜90）、時間が歪んだような浮遊感がある。消費社会への皮肉なのか、純粋なノスタルジーなのか——そのあいまいさ自体がこのジャンルの魅力。ギリシャ彫刻とウィンドウズ95の美学。",
-    roots_story:"2010年、Macintosh Plus（Vektroid）の「フローラルの専門店」がTumblrで拡散し、ヴェイパーウェーブを一気に認知させた。日本語のカタカナ表記、90年代のWindowsの画面、ギリシャ彫刻、ヤシの木——これらのビジュアルがアイコニックなジャンルの美学として定着。SAINT PEPSI「Hit Vibes」(2013)はヴェイパーウェーブの代表作で、80年代ファンクをサンプリングで再構築した「フューチャーファンク」というサブジャンルも生んだ。blank banshee「0」はトラップとヴェイパーウェーブを融合。音楽ジャンルであると同時にインターネット・アートムーブメントとしての側面が強い。",
+    desc:"80〜90年代のエレベーターミュージック、ショッピングモールのBGM、企業のCMソングなどを素材に、極端にスローダウンし、リバーブをかけ、細かく切り刻んで再構築したインターネット発の音楽。聴いていると、誰もいない深夜のショッピングモールを歩いているかのような、不思議な郷愁と不気味さが同時に押し寄せてくる。テンポは極端に遅く（BPM 60〜90）、時間が歪んだような浮遊感がある。消費社会そのものへの皮肉なのか、それとも純粋なノスタルジーなのか——その意図のあいまいさ自体がこのジャンルの魅力になっている。ギリシャ彫刻とWindows95的なコンピューターグラフィックスが同居する、独特のビジュアル美学とも不可分の音楽。",
+    roots_story:"2010年、Vektroidが手がけたMacintosh Plus名義の楽曲『フローラルの専門店』がTumblr上で拡散し、ヴェイパーウェーブという言葉を一気に世に知らしめた。日本語のカタカナ表記、90年代のWindowsの画面、ギリシャ彫刻、ヤシの木——こうした一見脈絡のないビジュアル要素の組み合わせが、アイコニックなジャンルの美学として定着していった。SAINT PEPSIの「Hit Vibes」(2013)はヴェイパーウェーブの代表作の一つで、80年代のファンクをサンプリングで再構築するアプローチは、後に「フューチャーファンク」という独立したサブジャンルを生む土壌にもなった。Blank Bansheeの『0』はトラップとヴェイパーウェーブを融合させた作品。単なる音楽ジャンルであるだけでなく、インターネット上の視覚表現と一体化したアートムーブメントとしての側面が強いのが特徴である。",
     rep_tracks:["リサフランク420 / 現代のコンピュー (Macintosh Plus)", "Hit Vibes (SAINT PEPSI)", "Teen Pregnancy (Blank Banshee)", "Nobody Here (Oneohtrix Point Never)", "リサフランク420 / 現代のコンピュー (Macintosh Plus)"],
     yt_mix:["B1BVfNK1yzQ", "mClQ9nR82GI"],
     yt_tracks:[["_4gl-FX2RvI", "aQkPcPqTq4M"], ["3r2zleGxv7w", "kGw6cnnlcvA"], ["RQxDM2K-hd0", "N7eKJ_rlzuk"], ["-RFunvF0mDw", "_YX2gOXjnlE"], ["_4gl-FX2RvI", "aQkPcPqTq4M"]],
