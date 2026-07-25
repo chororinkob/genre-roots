@@ -559,7 +559,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.331<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.332<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -1042,24 +1042,24 @@ const NODES = [
 
   // インダストリアル系
   {id:"industrial", label:"Industrial", cat:"industrial", era:"1977", suno:false,
-    desc:"金属を叩く音、機械の軋み、工場の騒音をそのまま音楽にしたような攻撃的なサウンド。ドラムは硬質で打撃的、ベースは歪んで唸り、ボーカルは叫ぶか機械的に加工される。不快感や緊張感を意図的に生み出す音楽で、聴いていると心拍数が上がる。美しさよりも衝撃と挑発を追求しており、反社会的・反権威的なメッセージを込めることが多い。工業地帯の灰色の風景がそのまま音になったような、重く冷たいサウンドスケープ。",
-    roots_story:"1976年、Throbbing Gristleがロンドンを拠点にIndustrial Recordsを設立。バンド名通り「脈打つ軟骨」のような不気味なパフォーマンスで、テープコラージュ、自作電子機器、歪んだボーカルを駆使した。「Industrial Music for Industrial People」という標語がジャンル名の由来。ドイツのEinstürzende Neubauten（崩壊する新建築）は文字通り建設現場の廃材を楽器にした。Cabaret Voltaireはシンセサイザーとテープ操作で独自路線を、SPKはオーストラリアからより過激なノイズを発信。アメリカではMinistryやNine Inch Nailsがロック寄りのインダストリアルを大衆化させた。",
+    desc:"金属を叩く打撃音、機械の軋み、工場のノイズをそのまま音楽の素材として使う、攻撃的で非楽音的なサウンド。ミュジック・コンクレート由来のテープコラージュの手法を導入し、「メロディ・ハーモニー・リズム」という音楽の三要素そのものを解体しにかかる。ドラムは硬質で打撃的、ベースは大きく歪ませたディストーション（音を潰して歪ませる効果）、ボーカルは絶叫するか、機械的に加工されて人間性を剥ぎ取られる。テンポは一定でないことも多く、不規則なノイズの塊が唐突に襲いかかる展開も珍しくない。美しさよりも不快感・緊張感・衝撃を意図的に追求しており、反権威主義的・反消費社会的なメッセージを音そのものに込める。工業地帯の灰色の風景がそのまま音になったような、重く冷たいサウンドスケープ。",
+    roots_story:"1976年、ロンドンでGenesis P-OrridgeとCosey Fanni Tuttiらによるパフォーマンス集団COUM Transmissionsを母体に、Throbbing Gristleが結成された。彼らは自らのレーベルIndustrial Recordsを設立し、そのスローガン「Industrial Music for Industrial People」がジャンル名の由来となった。テープコラージュ、自作の電子機器、産業機械のような音響で、それまでのロックの語彙を外側から破壊した。西ドイツのEinstürzende Neubauten（「崩壊する新建築」の意）は、文字通りドリルやハンマー、金属くずといった建設現場の廃材を楽器として演奏し、シェフィールドのCabaret Voltaireはシンセサイザーと映像的なテープ操作で独自路線を追求、オーストラリアのSPKはさらに過激なノイズを発信した。1980年代末にはアメリカのMinistryやNine Inch Nailsがギターとドラムの重さを加えることでロック寄りの「インダストリアル・メタル」を大衆化させ、Trent Reznor率いるNine Inch Nailsの「Head Like a Hole」(1989)は全米チャートにも食い込んだ。",
     rep_tracks:["Discipline (Throbbing Gristle)", "Head Like a Hole (Nine Inch Nails)", "Stigmata (Ministry)"],
     yt_mix:["kTpHw81uZR0", "yqq_h6TpUNk"],
     yt_tracks:[["HRcgQ_e3w4g", "Y8klW9trVTQ"], ["ao-Sahfy7Hg", "ZdFaadxJl4g"], ["qxaPj19VnRA", "m4HO8cdJBko"]],
     aliases:["インダストリアル", "インダストリアル音楽"],},
 
   {id:"ebm", label:"EBM", cat:"industrial", era:"1981", suno:false,
-    desc:"インダストリアルの攻撃性にダンスフロアのビートを注入した音楽。硬質な4つ打ちキック、反復するシンセベースのシーケンス、咆哮するようなボーカルが基本構成。テンポは中速〜やや速め（BPM 110〜140）で、体を前後に揺らしたくなるような無骨なグルーヴがある。冷たく暗いが、踊れる。ゴスクラブやインダストリアル系クラブの定番で、黒い服に身を包んだ集団が無表情で踊っている光景が似合う。",
-    roots_story:"1981年、ベルギーのFront 242が「Body to Body」を発表し、Electronic Body Music（EBM）を提唱。インダストリアルの実験性をダンスフロア向けに再構築したスタイルだった。ドイツのDAF（Deutsch Amerikanische Freundschaft）は最小限のシンセとドラムマシンで粗野なダンスビートを生み出し、EBMの原型を作った。Nitzer Ebbはよりハードでアグレッシブなスタイルを確立。これらのバンドの「シーケンサーで駆動する反復ビート」はデトロイト・テクノに大きな影響を与え、電子ダンス音楽全体の重要な礎となった。",
+    desc:"インダストリアルの攻撃性と実験精神に、ダンスフロアで踊れる強靭な反復ビートを注入した音楽。シーケンサー（音の並びを自動的に演奏させる装置）で組まれた硬質な8分・16分のシンセベースのパターンが曲全体を貫き、そこに硬いキックとゲートのかかったスネアが規則的に打ち込まれる。ボーカルは咆哮するように吐き捨てられ、メロディよりもリズムの反復と圧力を重視する構造を持つ。テンポは中速からやや速め（BPM110〜140程度）で、体を前後に揺らす無骨な「ボディ」の動きを喚起することからElectronic Body Musicという名がついた。冷たく暗いが、踊れる。ゴスクラブやインダストリアル系クラブの定番で、黒服の集団が無表情で踊る光景がよく似合う。",
+    roots_story:"1981年、ベルギーのFront 242が「Body to Body」などの楽曲でElectronic Body Music（EBM）というスタイルを提唱した。インダストリアルの実験性と反復するシーケンサーのグルーヴを組み合わせ、ダンスフロア向けに再構築したのが出発点だった。同時期、西ドイツのDAF（Deutsch Amerikanische Freundschaft）はミニマルなシンセとドラムマシンだけで粗野で挑発的なダンスビートを鳴らし、Gabi DelgadoとRobert Görlのデュオ編成でEBMの原型を作った。イギリスのNitzer Ebbはより攻撃的でハードなスタイルを確立し、拳を突き上げるようなライブパフォーマンスで知られた。これらのバンドが確立した「シーケンサーで駆動する反復ビート」という発想は、後にデトロイト・テクノのプロデューサーたちにも直接的な影響を与え、電子ダンス音楽全体の重要な礎の1つとなった。",
     rep_tracks:["Headhunter (Front 242)", "Der Mussolini (DAF)", "Join in the Chant (Nitzer Ebb)"],
     yt_mix:["9t-VsxoID7E", "S1SEWdbx_w0"],
     yt_tracks:[["wXLyAzgX-ho", "m1cRGVaJF7Y"], ["6etM3FWwEZo", "iFyRsLbrFfA"], ["AGHMS_zh0zM", "x0HsjYtdAKM"]],
     aliases:["Electronic Body Music", "エレクトロニック・ボディ・ミュージック"],},
 
   {id:"post_punk", label:"Post-Punk", cat:"industrial", era:"1978", suno:false,
-    desc:"パンクの「何でもあり」精神を引き継ぎつつ、より暗く、実験的で、知的な方向へ進んだ音楽。ギターはコードを掻き鳴らすのではなくリバーブやディレイで空間的な音を作り、ベースラインが楽曲を引っ張ることが多い。ボーカルは低く抑制的で、歌詞は内省的・文学的。テンポは様々だが中速が多く、どこか不安定で落ち着かない空気が漂う。暗いけれど美しく、冷たいけれど感情的。曇り空の都市の風景が似合う音楽。",
-    roots_story:"1978年頃、パンクの短命な爆発の後に、より持続可能な音楽表現を求めたアーティストたちが現れた。Joy Divisionは重く暗いサウンドとIan Curtisの切迫した歌唱で「ポストパンクの象徴」となり、彼の死後New Orderとしてエレクトロニックダンスへ転身。Siouxsie and the Bansheesはゴシックな美学を導入。Wire、Gang of Four、Bauhaus、The Cureがそれぞれ独自の方向を開拓。このジャンルは直接コールドウェーブ、ダークウェーブ、ゴシックロックに分岐し、電子音楽との架け橋となった。",
+    desc:"パンクの「素人でもいい、何をやってもいい」という精神を継承しながら、より暗く実験的で文学的な方向へ舵を切ったロック。ギターはパワーコードを掻き鳴らすのではなく、コーラスやディレイでシャリシャリと空間的に響かせる奏法が主流になり、しばしばベースラインがメロディの主役を担う（従来のギター中心主義からの脱却）。ボーカルは低く抑制的、あるいは切迫した緊張を孕んだ語りに近い歌唱で、歌詞は実存的な不安・疎外感・都市生活の閉塞感といった内省的・文学的なテーマを扱う。ドラムは無骨でタイトなパターンが多く、テンポは中速中心。暗いが美しく、冷たいが感情の起伏がある。曇り空のイギリスの工業都市の風景がそのまま音になったような音楽。",
+    roots_story:"1978年頃、パンクの短命な爆発が去った後、より持続可能で知的な音楽表現を模索したアーティストたちが登場した。マンチェスターのJoy Divisionは、ベーシストPeter Hookの前面に出たメロディックなベースラインと、ボーカルIan Curtisの切迫した歌唱・内面を吐露する歌詞で「ポストパンクの象徴」と呼ばれる存在になった。1980年、Curtisが自死した直後にリリースされた「Love Will Tear Us Apart」は、ジャンルを代表する1曲として今も歌い継がれている。残されたメンバーはNew Orderと改名し、シーケンサーとドラムマシンを大胆に導入したエレクトロニック・ダンスへと転身、「Blue Monday」(1983)は最も売れた12インチ・シングルとして知られる。ロンドンのSiouxsie and the Bansheesはボーカルのシウジー・スーがゴシックな美学と演劇性を導入し、Wire、Gang of Four、Bauhaus、The Cureがそれぞれ独自の実験を展開した。ポストパンクは直接的にコールドウェーブ、ダークウェーブ、ゴシックロックへと枝分かれし、シンセサイザーを介して電子音楽との架け橋にもなった。",
     rep_tracks:["Love Will Tear Us Apart (Joy Division)", "A Forest (The Cure)", "I Am the Fly (Wire)", "Damaged Goods (Gang of Four)", "Hong Kong Garden (Siouxsie and the Banshees)"],
     yt_mix:["9SNG9ferjiQ", "LNRGGl2Tkhg"],
     yt_tracks:[["zuuObGsB0No", "674KGKRQBPE"], ["xik-y0xlpZ0", "qh-jVXyn5CM"], ["svcAqVL2l28", "etnM2zkjyh0"], ["F_7BVaDIAbA", "fRjsBh_R3TQ"], ["Y-l9GQJRl9Y", "NP_cLylU270"]],
@@ -7945,6 +7945,11 @@ const GLOSSARY = {
   "Miami Bass": "1980年代後半にフロリダ・マイアミで発展した、TR-808の重低音を極端に強調したエレクトロの一派。カーオーディオで低音を響かせることを前提にした音作りが特徴。",
   "Electroclash": "2000年前後にニューヨークやベルリンで起きた、80年代のエレクトロ/シンセポップとパンクの攻撃性を組み合わせたムーブメント。Fischerspoonerらが代表格。",
   "Fischerspooner": "2000年代初頭のElectroclashを代表するニューヨークのアート・パフォーマンス・ユニット。過剰に演劇的なライブと80年代風の電子音を組み合わせた。",
+  "ディストーション": "音を意図的に潰し、歪ませるエフェクト。元は歪みすぎを避けたい現象だったが、ロックやインダストリアルでは太く攻撃的な音色を作るための積極的な武器として使われる。",
+  "Genesis P-Orridge": "イギリスのミュージシャン・アーティスト（1950-2020）。パフォーマンス集団COUM Transmissionsを経てThrobbing Gristleを結成し、インダストリアル・ミュージックというジャンルとその名称を生み出した中心人物。",
+  "Einstürzende Neubauten": "「崩壊する新建築」を意味する西ドイツのバンド（1980年結成）。ドリルや金属くずなど建設現場の廃材を楽器として演奏し、インダストリアル・ミュージックの実験性を極端まで推し進めた。",
+  "シーケンサー": "あらかじめプログラムした音の並び（音程・長さ・タイミング）を自動的に繰り返し演奏させる装置・機能。人間の演奏では難しい正確で高速な反復フレーズを可能にした。",
+  "Ian Curtis": "イギリスのバンドJoy Divisionのボーカル（1956-1980）。内面を吐露する切迫した歌唱と歌詞でポストパンクを象徴する存在となったが、23歳で自死した。",
 };
 // 用語集のキーを、長い語から先に一致するよう並べ替えて正規表現を作る
 // （例:「オープンハイハット」を先に判定しないと「ハイハット」にだけ
