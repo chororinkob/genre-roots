@@ -559,7 +559,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.336<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.337<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -1164,24 +1164,24 @@ const NODES = [
 
   // ハウス系
   {id:"chicago_house", label:"Chicago House", cat:"house", era:"1983", suno:false,
-    desc:"ディスコの4つ打ちビートをシンセサイザーとドラムマシンで再構築した、ダンスミュージックの新しい形。ドンドンドンドンと刻む規則正しいキックの上に、温かみのあるシンセパッド、ソウルフルなボーカルサンプル、シンプルなベースラインが乗る。テンポはBPM 118〜128でまさに踊るために最適化されている。ディスコの華やかさを最小限の機材で再現した、手作り感と高揚感が共存するサウンド。フロアが一体になる多幸感がこの音楽の本質。",
-    roots_story:"1983〜84年、シカゴのゲイクラブ「The Warehouse」のDJ Frankie Knucklesがディスコレコードにドラムマシンのビートを重ね、テンポを上げて再構築するプレイを始めた。クラブの名前から「House Music」と呼ばれるようになった。Jesse Saunders「On and On」(1984)が最初のハウスレコードとされる。Marshall Jeffersonは「Move Your Body」(1986)でピアノハウスを確立。Larry Heardは「Can You Feel It」(1986)でディープハウスの原型を作った。Trax RecordsとDJ International Recordsがシカゴハウスの2大レーベルとなった。",
+    desc:"ディスコの4つ打ちビートをシンセサイザーとドラムマシン（主にRoland TR-909やTR-808）で再構築した、ダンスミュージックの新しい形。ドンドンドンドンと均等に刻む4つ打ちキックの上に、温かみのあるシンセパッド、ソウルフルなボーカルサンプル、シンプルなベースラインが乗り、オフビート（拍と拍の間）に鳴るオープンハイハットがスウィング感を生む。テンポはBPM118〜128でまさに踊るために最適化されている。ディスコの華やかさを最小限の機材で再現した、手作り感と高揚感が共存するサウンド。フロアが一体になる多幸感がこの音楽の本質。",
+    roots_story:"1983〜84年、シカゴのゲイクラブ「The Warehouse」の専属DJだったFrankie Knucklesが、ディスコレコードの上にドラムマシンのビートを重ね、テンポを上げて再構築するプレイを始めた。このクラブの名前が略されて「House Music」という呼び名が生まれたとされる。Jesse Saundersの『On and On』(1984)は、シンセサイザーとドラムマシンだけで一から作られた最初のハウスレコードとされる。Marshall Jeffersonは『Move Your Body』(1986)でピアノを大々的に取り入れた「ピアノハウス」の型を確立し、Larry Heardは『Can You Feel It』(1986)で後のディープハウスに直結する内省的な作風を切り開いた。Trax RecordsとDJ International Recordsという2つのレーベルが、シカゴハウスを世界へ送り出す拠点となった。",
     rep_tracks:["On and On (Jesse Saunders)", "Move Your Body (Marshall Jefferson)", "Can You Feel It (Larry Heard)"],
     yt_mix:["qcf1dGLpe6I", "0EibD79mvKQ"],
     yt_tracks:[["qUeMFG4wjJw", "Z-sspvjxMo0"], ["yFdbueklpwY", "QAR8cq5Bl94"], ["ts8iBs3tpmw", "8lTvH6guypk"]],
     aliases:["シカゴハウス", "ハウス音楽"],},
 
   {id:"deep_house", label:"Deep House", cat:"house", era:"1986", suno:false,
-    desc:"ハウスミュージックの中でも最も「聴かせる」スタイル。ジャジーなコード進行、柔らかく温かいシンセパッド、深みのあるベースライン、ソウルフルなボーカルが、洗練された大人の空間を演出する。テンポはBPM 118〜125とハウスの中ではやや遅めで、激しく踊るよりも体を揺らして心地よくなる音楽。夜のラウンジやビーチサイドのバーが似合う。派手さはないが、何時間聴いても疲れない上質なグルーヴが魅力。",
-    roots_story:"1986年、シカゴのLarry Heard（Mr. Fingers）が「Can You Feel It」「Mystery of Love」をリリースし、ハウスに深みと感情を持ち込んだ。従来のシカゴハウスよりもテンポを落とし、ジャズやソウルの要素を取り入れたこのスタイルが「ディープハウス」と呼ばれるようになった。Ron Trentはよりスピリチュアルな方向を追求。Kerri Chandlerはニューヨークから独自のディープサウンドを発信。2010年代にはDisclosureの「Latch」がメインストリームでヒットし、ディープハウスが広く認知された。",
+    desc:"ハウスミュージックの中でも最も「聴かせる」スタイル。セブンスコードやナインスコードといったジャズ由来の色彩豊かなコード進行、柔らかく温かいシンセパッド、深みのあるベースライン、ソウルフルなボーカルが、洗練された大人の空間を演出する。テンポはBPM118〜125とハウスの中ではやや遅めで、激しく踊るよりも体を揺らして心地よくなる音楽。夜のラウンジやビーチサイドのバーが似合う。派手さはないが、何時間聴いても疲れない上質なグルーヴが魅力。",
+    roots_story:"1986年、シカゴのLarry Heardが自身の別名義Mr. Fingersとして『Can You Feel It』『Mystery of Love』をリリースし、ハウスに深みと感情を持ち込んだ。従来のシカゴハウスよりもテンポを落とし、ジャズやソウルのコードワークを取り入れたこのスタイルが「ディープハウス」と呼ばれるようになった。ニューヨークのRon Trentはよりスピリチュアルで瞑想的な方向を追求し、同じくニューヨークのKerri Chandlerは重厚なオルガンサウンドを軸にした独自のディープサウンドを発信した。2010年代にはイギリスのDisclosureによる『Latch』がメインストリームのチャートでヒットし、ディープハウスという名称そのものが広く一般に知られるきっかけとなった。",
     rep_tracks:["Can You Feel It (Larry Heard)", "Mystery of Love (Mr. Fingers)", "Latch (Disclosure)"],
     yt_mix:["KTRzFmxCLGg", "Z1k-lKa8Z9E"],
     yt_tracks:[["ts8iBs3tpmw", "8lTvH6guypk"], ["5tqErnknRsE", "Z9o2v3SA1Co"], ["93ASUImTedo", "YT5Kk9YX7ks"]],
     aliases:["ディープハウス"],},
 
   {id:"acid_house", label:"Acid House", cat:"house", era:"1987", suno:false,
-    desc:"Roland TB-303ベースラインシンセサイザーの「ビヨヨヨーン」とうねる独特の音色が主役。フィルターを開閉することで生まれるヌルヌルと粘りつくような電子音が、4つ打ちビートの上で催眠的にうねり続ける。テンポはBPM 120〜130。聴いていると脳が溶けるようなトリッピーな感覚があり、意識が変容するようなサイケデリックな体験を生む。スマイリーフェイスのロゴに象徴される享楽的なエネルギーに満ちた音楽。",
-    roots_story:"1987年、シカゴのDJ Pierre、Spanky、Herbが偶然TB-303（本来はベース伴奏用の不人気機材）のツマミをいじっていた時に、あの独特の「アシッド」サウンドを発見。「Acid Tracks」としてTrax Recordsからリリースされ、新しいサウンドの幕が開けた。この音がイギリスに渡り、1988年の「セカンド・サマー・オブ・ラブ」と呼ばれるレイブムーブメントを引き起こした。数万人規模の違法レイブパーティーがイギリス各地で開催され、社会現象に。スマイリーフェイスがシンボルとなり、アシッドハウスは音楽だけでなく文化革命となった。",
+    desc:"Roland TB-303ベースラインシンセサイザーが生む、「ビヨヨヨーン」とうねる独特の音色が主役。カットオフ（音のこもり具合を決める周波数）とレゾナンス（その周波数を強調して癖のある響きにするつまみ）のノブをリアルタイムで回すことで、ヌルヌルと粘りつくような電子音が4つ打ちビートの上で催眠的にうねり続ける。テンポはBPM120〜130。聴いていると脳が溶けるようなトリッピーな感覚があり、意識が変容するようなサイケデリックな体験を生む。スマイリーフェイスのロゴに象徴される享楽的なエネルギーに満ちた音楽。",
+    roots_story:"1987年、シカゴのDJ Pierre、Spanky、Herb（3人組ユニットPhutureとして活動）が、本来はギター伴奏の練習用でほとんど人気のなかったRoland TB-303のツマミを偶然いじっていたところ、あの独特の「アシッド」サウンドを発見した。この音は『Acid Tracks』としてTrax Recordsからリリースされ、新しいサウンドの幕を開けた。この音がイギリスに渡り、1988年の「セカンド・サマー・オブ・ラブ」と呼ばれるレイブムーブメントを引き起こす起爆剤となった。数万人規模の違法レイブパーティーがイギリス各地の野外や倉庫で開催され、一大社会現象となった。スマイリーフェイスがこのムーブメントのシンボルとなり、アシッドハウスは単なる音楽ジャンルを超えた文化革命となった。",
     rep_tracks:["Acid Tracks (Phuture)", "Voodoo Ray (A Guy Called Gerald)", "Can You Feel It (Mr. Fingers)"],
     yt_mix:["q5mHDqP4B4o", "3urnhWQVJ1w"],
     yt_tracks:[["igNBeo3QSqc", "yKHGv6Es610"], ["j7vxHOCeiQ4", "NgRRxUlt3zc"], ["1N9Wnqz8Rh8", "DrxPFBEr5Bo"]],
@@ -7965,6 +7965,10 @@ const GLOSSARY = {
   "スティンガー": "ホラー映画や不穏な音楽で、観客・聴き手を驚かせるために不意打ちのように鳴らされる、短く鋭い音の強打。",
   "トライトーン": "全音3つ分（増四度・減五度）離れた2つの音の組み合わせ。中世ヨーロッパで不安定で不吉な響きとされ「悪魔の音程」と呼ばれた、緊張感の強い音程。",
   "ハイドロフォン": "水中で音を録音・収音するための専用マイク。クジラの鳴き声や水流の音など、水中の音をそのまま記録するのに使われる。",
+  "カットオフ": "シンセサイザーのフィルターで、「ここから上（あるいは下）の周波数を削る」という境界を決めるつまみ。音のこもり具合・明るさを調整する。",
+  "レゾナンス": "シンセサイザーのフィルターで、カットオフ周波数付近の音を強調して、癖のある鼻にかかったような響きを作るつまみ。上げすぎると発振して独自の音程を持つ。",
+  "Frankie Knuckles": "アメリカのDJ・プロデューサー（1955-2014）。シカゴのクラブ「The Warehouse」の専属DJとして、ディスコにドラムマシンのビートを重ねるプレイを確立し、「ハウス・ミュージックの父」と呼ばれる。",
+  "Larry Heard": "アメリカのミュージシャン（1960-）。別名義Mr. Fingersとしても活動し、「Can You Feel It」「Mystery of Love」などでディープハウスの原型を作った。",
 };
 // 用語集のキーを、長い語から先に一致するよう並べ替えて正規表現を作る
 // （例:「オープンハイハット」を先に判定しないと「ハイハット」にだけ
