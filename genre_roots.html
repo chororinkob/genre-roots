@@ -540,7 +540,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.325<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.326<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -7995,6 +7995,7 @@ const CAT_COLOR = {
 
 // ===== GRAPH SETUP =====
 const svg = d3.select("#graph");
+const svgEl = svg.node(); // SMILアニメーションの再始動(setCurrentTime)に使う生DOM要素
 const w = window.innerWidth, h = window.innerHeight;
 const g = svg.append("g");
 
@@ -8193,6 +8194,12 @@ const flowMarksG = g.append("g").attr("id", "link-flow-marks").style("pointer-ev
 // 報告されたため、間隔を3倍(23→69)にして本数をおおよそ3分の1に減らした。
 const FLOW_MARK_SPACING = 69;  // 矢印同士の間隔（線の長さによらず一定）
 const FLOW_MARK_SPEED   = 88;  // 矢印が動く速さ：1秒あたりに進む距離（線の長さによらず一定）
+// 動く音符エフェクト全体のON/OFFスイッチ。環境によっては（検証端末の性能・
+// 同時ハイライト数などにより）カクつきが目立つことがあるため、trueをfalseに
+// 書き換えるだけで音符アニメーションだけを丸ごと止められるようにしておく
+// （ガラスのパイプ表現・矢印グラデーション等、音符以外の演出は影響を受けない）
+// （2026-07-25、「重くなったら簡単にオフにできるように」との指示）。
+const FLOW_NOTES_ENABLED = true;
 // 矢印バージョン(_flowMarkGlyph/_addFlowMarks)は
 // checkpoints/genre_roots_CHECKPOINT_arrow_version.html に保存済み。
 // 光る点バージョン(_flowGlowRadius)は
@@ -8324,6 +8331,7 @@ function _addFlowNotes(grp, count, x1, y1, x2, y2, motionClass, dur, strokeWidth
 
 function _syncLinkFlowMarks() {
   const activeIdx = new Set();
+  let anyNewFlowNoteGroup = false;
   // 音符の密度を、同時にハイライトされているリンクの本数に応じて調整する。
   // Blues(23本)のような接続の多いハブジャンルだと、音符の総数が数百個にまで
   // 増えてしまい動作が重くなるとの指摘を受けた。本数が多いときは間隔を
@@ -8509,17 +8517,20 @@ function _syncLinkFlowMarks() {
       // 速さ・タイミング・揺れ方はここからランダム化する）
       const strokeWidth = _linkStrokeWidth(d);
       grp = flowMarksG.append("g").attr("data-idx", i).attr("data-path", pathD);
-      if (d.mutual) {
-        // 相互影響の線は、片方向だけでなく両方向から音符がすれ違うように
-        // 流す。間隔は単方向の2倍にして、密度が単方向の線と揃うようにする
-        // （以前「本数15」に対して「片方向あたり半分の約7〜8個」にしていた
-        // のと同じ比率）。
-        const halfCount = Math.max(2, Math.min(60, Math.round(lineLen / (effectiveSpacing * 2))));
-        _addFlowNotes(grp, halfCount, x1, y1, x2, y2, "fwd-motion", dur, strokeWidth);
-        _addFlowNotes(grp, halfCount, x2, y2, x1, y1, "rev-motion", dur, strokeWidth);
-      } else {
-        const count = Math.max(2, Math.min(60, Math.round(lineLen / effectiveSpacing)));
-        _addFlowNotes(grp, count, x1, y1, x2, y2, "fwd-motion", dur, strokeWidth);
+      if (FLOW_NOTES_ENABLED) {
+        anyNewFlowNoteGroup = true;
+        if (d.mutual) {
+          // 相互影響の線は、片方向だけでなく両方向から音符がすれ違うように
+          // 流す。間隔は単方向の2倍にして、密度が単方向の線と揃うようにする
+          // （以前「本数15」に対して「片方向あたり半分の約7〜8個」にしていた
+          // のと同じ比率）。
+          const halfCount = Math.max(2, Math.min(60, Math.round(lineLen / (effectiveSpacing * 2))));
+          _addFlowNotes(grp, halfCount, x1, y1, x2, y2, "fwd-motion", dur, strokeWidth);
+          _addFlowNotes(grp, halfCount, x2, y2, x1, y1, "rev-motion", dur, strokeWidth);
+        } else {
+          const count = Math.max(2, Math.min(60, Math.round(lineLen / effectiveSpacing)));
+          _addFlowNotes(grp, count, x1, y1, x2, y2, "fwd-motion", dur, strokeWidth);
+        }
       }
     } else if (grp.attr("data-path") !== pathD) {
       // ノードが動いて線の位置が変わった場合だけ経路を作り直す。個体ごとの
@@ -8551,6 +8562,17 @@ function _syncLinkFlowMarks() {
     const idx = +d3.select(this).attr("data-idx");
     if (!activeIdx.has(idx)) d3.select(this).remove();
   });
+  // 「ジャンルを切り替えて戻ってくると音符の明滅が復活しない」不具合の
+  // 修正。原因はSMIL(<animate>/<animateTransform>)の既知の癖で、ページを
+  // 開いた直後に追加したアニメーション要素は動くが、しばらく経ってから
+  // 新規に追加した要素はブラウザ側のタイミング管理に気づかれず「動いて
+  // いないのと同じ状態」で止まってしまうことがある。SVG要素の現在時刻を
+  // 一度自分自身に設定し直す(setCurrentTime)ことで、ブラウザに新しく
+  // 増えたアニメーション要素の存在を再認識させ、動き出させる
+  // （2026-07-25、「ブルースに戻ると光が消えたまま直らない」との報告への対応）。
+  if (anyNewFlowNoteGroup && typeof svgEl !== "undefined" && svgEl && svgEl.setCurrentTime) {
+    try { svgEl.setCurrentTime(svgEl.getCurrentTime()); } catch (e) { /* 対応環境差は無視 */ }
+  }
 }
 setInterval(_syncLinkFlowMarks, 200);
 
