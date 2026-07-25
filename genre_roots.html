@@ -559,7 +559,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.334<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.335<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -1115,24 +1115,24 @@ const NODES = [
 
   // アンビエント系
   {id:"ambient", label:"Ambient", cat:"ambient", era:"1978", suno:false,
-    desc:"空間そのものが音楽になったような、極めて静かで穏やかな音響芸術。シンセサイザーの長いドローン（持続音）、かすかな電子音の揺らぎ、時折聞こえる環境音が、広大で透明な音の風景を描く。ビートはなく、メロディもあるかないかの境界を漂う。集中して聴いても、BGMとして流しても成立する不思議な二面性がある。時間の流れが遅くなるような、部屋の空気が変わるような、音楽というより「場」を作る音。",
-    roots_story:"1978年、Brian Enoが「Music for Airports」を発表し「アンビエント」を音楽用語として定義した。空港の待合ロビーで流れることを想定し、「注意を引くことなく空間に溶け込む音楽」というコンセプトだった。Enoは先立つ「Discreet Music」(1975)で既にこの方向性を示していた。Kraftwerkやクラウトロックの反復性、Erik Satieの「家具の音楽」(1917)というコンセプトも源流にある。Harold Budd、Laraaji、Roger Enoらが初期のコラボレーターとなり、後にThe Orbがダンスフロア向けのアンビエントハウスを、Aphex Twinが実験的なアンビエントを追求した。",
+    desc:"空間そのものが音楽になったような、極めて静かで穏やかな音響芸術。シンセサイザーの長いドローン（持続する音）、かすかな電子音の揺らぎ、時折聞こえる環境音が、広大で透明な音の風景を描く。和声はテンションの少ない持続和音が中心で、明確な始まりと終わりを持つ「曲」というより、いつ聴き始めていつやめても成立する「状態」に近い。ビートはなく、メロディもあるかないかの境界を漂う。集中して聴いても、BGMとして流しても成立する不思議な二面性がある。時間の流れが遅くなるような、部屋の空気が変わるような、音楽というより「場」を作る音。",
+    roots_story:"1978年、イギリスの音楽家Brian Enoがアルバム『Music for Airports』を発表し、「アンビエント」を音楽の一ジャンルとして定義した。「注意を引くことなく、かつ無視することもできる、興味の度合いに応じてあらゆる聴き方に対応できる音楽」というコンセプトを掲げ、空港の待合ロビーで流れることを想定して制作された。Enoは先立つ『Discreet Music』(1975)ですでにこの方向性を示しており、Kraftwerkやクラウトロックの反復性、Erik Satieが1917年に提唱した「家具の音楽」（家具のように意識されずそこにある音楽、という思想）も源流にある。Harold Budd、Laraaji、実弟のRoger Enoらが初期の重要なコラボレーターとなり、後にThe Orbがダンスフロア向けのアンビエントハウスを、Aphex Twinがより実験的で不穏なアンビエントを追求するなど、ジャンルは多方向に枝分かれしていった。",
     rep_tracks:["Music for Airports (Brian Eno)", "Discreet Music (Brian Eno)", "The Pearl (Harold Budd & Brian Eno)", "Chill Out (The KLF)", "Selected Ambient Works 85-92 (Aphex Twin)"],
     yt_mix:["hzLdZWIeq3c", "NaZeslUINF4"],
     yt_tracks:[["vNwYtllyt3Q", "ZWUlLHv7-64"], ["jl_z5JvrKlc", "tLZtnadL1s0"], ["qySCf2ovWJc", "fEbJlVfiNlE"], ["5NoJMeEm_8Y", "Cx4N4S-wEcs"], ["Xw5AiRVqfqk", "MW3tcBRe41w"]],
     aliases:["アンビエント", "環境音楽", "Ambient Music"],},
 
   {id:"dark_ambient", label:"Dark Ambient", cat:"ambient", era:"1980s", suno:true,
-    desc:"闇の底から響いてくるような、不穏で重苦しい音響世界。低周波のドローンが地鳴りのように空間を満たし、金属的な軋み、遠くの叫び声のようなサンプル、不気味な残響音が断片的に現れては消える。ビートはなく、聴いていると暗闇に目が慣れるように恐怖が日常化していく感覚がある。廃墟、地下洞窟、深夜の工場跡地といった場所の空気をそのまま真空パックしたような音楽。心地よくはないが、奇妙な中毒性がある。",
-    roots_story:"1980年代、インダストリアル音楽の攻撃性を取り除き、暗く静的な音響空間だけを残す方向に進んだアーティストたちが登場。Lustmordがジャンルの創始者として広く認められており、「Heresy」(1990)は代表作。洞窟や屠殺場で録音したフィールドレコーディングと低周波ドローンを融合させた。Raison d'être（スウェーデン）はCold Meat Industryレーベルを拠点に教会の残響を取り入れた荘厳なダークアンビエントを展開。Atrium Carceri、Desiderii Marginis、Kammarheitらスウェーデン勢が特に強く、同国のCMI、Cyclic Lawが主要レーベルとなった。",
+    desc:"闇の底から響いてくるような、不穏で重苦しい音響世界。低周波のドローンが地鳴りのように空間を満たし、金属的な軋み、遠くの叫び声のようなサンプル、不気味な残響音が断片的に現れては消える。フィールドレコーディング（屋外や特定の場所の環境音をそのまま録音する手法）を素材として多用し、洞窟や工場、屠殺場といった実在の場所の空気感を音響に取り込むのが特徴。ビートはなく、聴いていると暗闇に目が慣れるように恐怖が日常化していく感覚がある。廃墟、地下洞窟、深夜の工場跡地といった場所の空気をそのまま真空パックしたような音楽。心地よくはないが、奇妙な中毒性がある。",
+    roots_story:"1980年代、インダストリアル音楽の攻撃性を取り除き、暗く静的な音響空間だけを残す方向に進んだアーティストたちが登場した。イギリスのBrian Williamsが名乗ったLustmordはジャンルの創始者として広く認められており、アルバム『Heresy』(1990)は代表作とされる。洞窟や屠殺場で録音したフィールドレコーディングと低周波ドローンを融合させ、聴覚だけでなく身体の芯に響くような重低音を追求した。スウェーデンのRaison d'êtreはCold Meat Industryレーベルを拠点に、教会の残響を取り入れた荘厳なダークアンビエントを展開。Atrium Carceri、Desiderii Marginis、Kammarheitらスウェーデン勢が特に層が厚く、同国のCMIやCyclic Lawが主要レーベルとしてシーンを支えている。",
     rep_tracks:["Heresy (Lustmord)", "Within the Depths of Silence and Phormations (Raison d'être)", "Cellblock (Atrium Carceri)", "Songs from the Empty Room (Desiderii Marginis)"],
     yt_mix:["9MAp2UfCxAc", "hzLdZWIeq3c"],
     yt_tracks:[["mW-ZbEHeICw", "BCSg_P6uZwI"], ["JBcqIinFWz4", "nkYxzqLA8V8"], ["0Y7fWSnu1LY", "7j76GoP88fE"], ["iNC60X2O58Q", "wE6Sfi0jrBY"]],
     aliases:["ダークアンビエント"],},
 
   {id:"space_ambient", label:"Space Ambient", cat:"ambient", era:"1970s", suno:true,
-    desc:"無限の宇宙空間を音で描いた、壮大で広がりのあるアンビエント。煌めくシンセのパッドが星雲のように広がり、深い残響が無重力空間を表現する。時折キラキラした高音が流れ星のように通り過ぎ、低いドローンが宇宙の深淵を感じさせる。ゆったりとしたテンポ（あるいはテンポなし）で、聴いていると地球から離れていくような浮遊感に包まれる。プラネタリウムのBGMとして最適な、壮大で静謐な音楽。",
-    roots_story:"1970年代、Tangerine Dreamが「Phaedra」(1974)でシンセサイザーによる宇宙的音響を確立した最初のバンドの一つ。Klaus Schulzeも壮大な電子音空間を構築した。Brian Enoの「Apollo: Atmospheres and Soundtracks」(1983)はNASAのアポロ計画を題材にした傑作で、ジャンルの金字塔。Steve Roach「Structures from Silence」(1984)は静寂からの音の構築を極めた。Aglaia、Oöphoi、Jonn Serrie、Robert Richらが宇宙的テーマを追求し続けている。NASAが公開した惑星の電磁波データを音に変換する「ソニフィケーション」もこのジャンルと共鳴している。",
+    desc:"無限の宇宙空間を音で描いた、壮大で広がりのあるアンビエント。煌めくシンセのパッドが星雲のように広がり、深い残響が無重力空間を表現する。シーケンサーやアルペジエイター（設定した和音を自動的に分散させて連続演奏する機能）で組まれた規則的な音形が、惑星の公転のように静かに反復されることも多い。時折キラキラした高音が流れ星のように通り過ぎ、低いドローンが宇宙の深淵を感じさせる。ゆったりとしたテンポ（あるいはテンポなし）で、聴いていると地球から離れていくような浮遊感に包まれる。プラネタリウムのBGMとして最適な、壮大で静謐な音楽。",
+    roots_story:"1970年代、西ドイツのTangerine Dreamがアルバム『Phaedra』(1974)でシーケンサーを駆使した宇宙的音響を確立した最初期のバンドの1つとなった。同じく西ドイツのKlaus Schulzeも、長時間にわたるアナログシンセのドローンで壮大な電子音空間を構築した。Brian Enoの『Apollo: Atmospheres and Soundtracks』(1983)はNASAのアポロ計画のドキュメンタリー映画のために制作された傑作で、ジャンルの金字塔として今も参照され続けている。アメリカのSteve Roachによる『Structures from Silence』(1984)は、静寂から音がゆっくりと立ち上がっていく構築美を極めた作品。Aglaia、Oöphoi、Jonn Serrie、Robert Richらが宇宙的テーマを追求し続けており、NASAが公開した惑星の電磁波データを音に変換する「ソニフィケーション」という手法もこのジャンルと強く共鳴している。",
     rep_tracks:["Phaedra (Tangerine Dream)", "Timewind (Klaus Schulze)", "Apollo: Atmospheres and Soundtracks (Brian Eno)", "Structures from Silence (Steve Roach)", "Planetary Unfolding (Michael Stearns)"],
     yt_mix:["2bburzrOK2k", "gmq0Vgq0_RY"],
     yt_tracks:[["HIQ0dd7B_FU", "q0RevuyTY5M"], ["8tV5Q9WlIZ8", "qBn0Jnf7_3M"], ["ukw1P4aZegU", "GiR3xsTGzGo"], ["rt97c92WjRw", "MzUf5mXP4ZQ"], ["SZxrMwtBZaY", "KRgg0Q7ZUxc"]],
@@ -7955,6 +7955,11 @@ const GLOSSARY = {
   "ドローン": "音程やリズムがほとんど変化せず、長く持続する音・和音。ベースとなる音の土台として使われ、瞑想的・催眠的な効果を生む。",
   "グロソラリア": "意味の通る言葉ではなく、音そのものの響きとして発される歌唱・発声のこと。「異言」とも訳され、歌詞の内容よりも声の音色や質感を前面に出す手法。",
   "フィードバック": "マイクとスピーカー、あるいは楽器とアンプの音が回路の中で無限にループして増幅され続けることで生まれる、甲高い唸りのような音。ノイズミュージックやロックでは意図的に生成される。",
+  "Brian Eno": "イギリスの音楽家・プロデューサー（1948-）。1978年のアルバム『Music for Airports』で「アンビエント」を音楽の一ジャンルとして定義し、以後のプロデュース業でもU2やDavid Bowieなど多くのアーティストに影響を与えた。",
+  "Erik Satie": "フランスの作曲家（1866-1925）。1917年、あえて意識されず空間に溶け込む音楽という「家具の音楽」という思想を提唱し、後のアンビエント・ミュージックの重要な先駆けとなった。",
+  "家具の音楽": "フランスの作曲家Erik Satieが1917年に提唱した概念。聴衆がじっと座って鑑賞する対象ではなく、家具のように空間にただ存在し、意識されないままそこにある音楽という思想。",
+  "フィールドレコーディング": "楽器を使わず、屋外や特定の場所で環境音・自然音をそのまま録音する手法。ダークアンビエントや実験音楽で、実在の場所の空気感を作品に取り込むために使われる。",
+  "アルペジエイター": "設定した和音を、あらかじめ決めたパターンやスピードで自動的に分散させて連続演奏してくれる、シンセサイザーの機能・装置。",
 };
 // 用語集のキーを、長い語から先に一致するよう並べ替えて正規表現を作る
 // （例:「オープンハイハット」を先に判定しないと「ハイハット」にだけ
