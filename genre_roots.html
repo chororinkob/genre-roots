@@ -559,7 +559,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.397<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.398<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -2719,8 +2719,8 @@ const NODES = [
     aliases:["ファンクメタル"],},
 
   {id:"mathcore", label:"Mathcore", cat:"metal", era:"1990s", suno:true,
-    desc:"数学的に複雑な変拍子、予測不能な展開、超高速のテクニカルな演奏がハードコアパンクの攻撃性と融合した、知的で暴力的な音楽。3/4→7/8→5/4と拍子が次々に変わり、頭がついていけないほど複雑なのに体は衝動的に動く。テンポは超高速〜突然の停止。数学とパンクの矛盾した結婚。",
-    roots_story:"1990年代、The Dillinger Escape Plan「Calculating Infinity」(1999)がマスコアの金字塔。43分間の音楽的暴力が批評家を驚愕させた。Converge「Jane Doe」(2001)もジャンルの代表作。Botch「We Are the Romans」(1999)も重要。Meshuggahの複雑なリズムが影響源。Car Bomb、The Chariot、Frontierer（スコットランド）が後継者。米ニュージャージーのThe Number Twelve Looks Like Youの名は数学的カオスを体現。",
+    desc:"ハードコアパンクの衝動的な暴力性を、まるで方程式を解くような緻密な計算によって解体・再構築した、知性と暴力が矛盾なく同居する音楽。1小節の中で3/4拍子から7/8拍子、5/4拍子へと目まぐるしく拍子が切り替わり、演奏そのものはテクニカルで正確無比なのに、聴いた瞬間の印象は制御を失った混沌そのものという逆説を抱えている。曲は予告なく急停止したり、無音のまま数秒静止した後に再び轟音で殴りかかってきたりと、リスナーの予測を意図的に裏切り続ける展開を持つ。「数学的（math）」という形容が示す通り、変拍子や不協和音の使い方はプログレッシブロックにも通じる知的な設計に基づいているが、そこにまとうのはハードコアやグラインドコア由来の生々しい衝動性であり、頭で追いつけないほど複雑な構造の上を、体だけが本能的に暴れ出すような独特の体験を生む。",
+    roots_story:"直接の源流の一つは、スウェーデンのMeshuggahが1990年代に確立した、8弦ギターを用いたポリリズミック（複数の異なる拍子感が同時に進行する）な作曲手法にあるとされる。1990年代後半、ニュージャージー州のThe Dillinger Escape Planは、アルバム『Calculating Infinity』(1999)で、こうした複雑なリズム構造をハードコアの暴力性と融合させ、このジャンルの金字塔的な作品を残した。同時期、マサチューセッツ州のConvergeも、アルバム『Jane Doe』(2001)でスクリーモ的な感情の激しさと変則的な構成を組み合わせ、ジャンルの発展に大きく貢献した。ワシントン州のBotchは、アルバム『We Are the Romans』(1999)で不協和音を大胆に用いたスタイルを確立し、マスコアの重要な源流の一つとなっている。ニュージャージーのThe Number Twelve Looks Like Youは、その長大で難解なバンド名自体が、このジャンルの持つ過剰なまでの複雑さを体現する存在として知られる。",
     rep_tracks:["43% Burnt（The Dillinger Escape Plan）", "Concubine（Converge）", "To Our Friends in the Great White North（Botch）", "Black Bubblegum（The Dillinger Escape Plan）", "Giraffes? Giraffes!（I Am S/H(im)e[r] as You Am S/H(im)e[r] as You Are Me and We Am I and I Are All Our Together）"],
     yt_mix:["4fGRurYNdwA", "f4GURM1wfQs"],
     yt_tracks:[["jiKjcrniJKY", "TbfZOfLaO3Q"], ["JrAxmXDSiuA", "38m1NXeQP4E"], ["MU-zHkbZIU8", "sPV1mak6W2Q"], ["MqXVBeEuwLU", "cQ-ZqiOBQI8"], ["DeXlwuJgXm4", "KQdaEULvQhs"]],
@@ -2728,16 +2728,16 @@ const NODES = [
 
   // 最終追加バッチ
   {id:"uk_bass", label:"UK Bass", cat:"dubstep", era:"2010s", suno:true,
-    desc:"ダブステップ、UKガレージ、グライムなどUKのベースミュージック全般を包括する現代的なスタイル。重い低音、シャッフルするリズム、実験的なサウンドデザインが特徴。テンポはBPM 130〜140。UKの電子音楽の伝統を受け継ぎつつ常に進化し続ける、ロンドンのサウンドシステム文化の最先端。",
-    roots_story:"2010年代、ダブステップ以降のUKベースミュージックの多様な発展形を包括する用語として定着。Skream、Benga、Kode9の流れを受けて、Joker、Rustie（スコットランド）、Flume的なサウンドも含む。Night Slugs、Hessle Audio、Rinse FMが重要拠点。Mumdance、Wen、Lewisjが現在のUKベースを代表。",
+    desc:"ダブステップという一つのジャンル名では括りきれなくなった、イギリス発の重低音志向のベースミュージック群を包括的に指す呼び名。UKガレージのシャッフルするリズム、ダブステップの重いサブベース、グライムの攻撃的なシンセ、時にジューク／フットワーク的な高速の断片的リズムまでもが自由に交配し、1曲の中で複数の起源を持つ要素が同居することも珍しくない。特定の音色や決まったテンポパターンよりも、「低音（bass）を中心に据えて実験する」という制作の態度そのものがこの括りを定義しており、テンポもBPM 130前後のものから、より速いものまで幅がある。ジャンルの境界線をあえて曖昧にしたまま、次々と新しい音響的アイデアを飲み込んで変化し続けるという、常に流動的な状態そのものがこの呼び名の本質である。",
+    roots_story:"2000年代末〜2010年代前半、ダブステップがアメリカで「ブロステップ」として大衆化・単純化していく一方、ロンドンを中心とするイギリス国内のシーンでは、ダブステップの重低音の美学を保ちながらもUKガレージやハウス、グライムの要素を再び取り込み、より実験的で予測不可能な方向へ枝分かれしていった。この動きを総称する言葉として「UKベース」あるいは「ポスト・ダブステップ」という呼び名が使われるようになった。Joy Orbisonの「Hyph Mngo」(2009)は、こうした2-stepの跳ねるリズムとダブステップの重低音を融合させた楽曲として、この潮流を象徴する一曲とされる。ロンドンのクラブナイトFWD>>や、海賊ラジオ局を出自とするRinse FM、レーベルのHessle Audio、Night Slugsといった拠点がシーンを支え、Julio Bashmore、Girl Unit、Mumdanceらが、それぞれ異なる角度からこの実験精神を体現するアーティストとして活動している。",
     rep_tracks:["Midnight Request Line（Skream）", "Katy On a Mission（Katy B）", "Purple City（Joker）", "Hyph Mngo（Joy Orbison）", "Footcrab（Addison Groove）"],
     yt_mix:["Ez6CIhO4pcQ", "fYnq24xTm8s"],
     yt_tracks:[["lcMAbnZy8l8", "vJGXRQ9vBoU"], ["-6tHw4yIDok", "425bS4ByBik"], ["iYUxOXLCK3c", "0bIR_YmiuVw"], ["2QZxRkPN14w", "Aa_PDKKc2_A"], ["gWfiog1Ure4", "GV961MW5G5s"]],
     aliases:["UKベース"],},
 
   {id:"illbient", label:"Illbient", cat:"ambient", era:"1994", suno:true,
-    desc:"アンビエントの浮遊感にヒップホップのビート、インダストリアルのノイズ、ダブの空間処理を混ぜた、ニューヨークのダウンタウンから生まれたダークなスタイル。不穏で都市的な音響空間を作り出し、美しさよりも不気味さと知性を追求する。テンポはスローで、深夜のNYの路地裏のような空気感を持つ。音のレイヤーが重なり合い、複雑な音響風景を形成している。",
-    roots_story:"1994年頃、ブルックリンのDJたちが命名。DJ Spooky「Songs of a Dead Dreamer」(1996)が代表作。DJ Olive、We™、Spectre（Sub Dub）も重要なアーティストとして知られる。Asphodel Recordsが拠点レーベルであり、ニューヨークのアートシーンとクラブカルチャーの交差点で生まれた短命だが影響力のあるムーブメントである。実験的な音楽と視覚芸術の融合が特徴で、アンダーグラウンドな文化の中で発展した。",
+    desc:"「ill（病んだ、ヤバい、というヒップホップのスラング）」と「アンビエント」を組み合わせた造語が示す通り、アンビエントの浮遊感を、癒やしではなく都市の不穏さと不気味さの表現へと転倒させたスタイル。ヒップホップのブレイクビーツをスクラッチしながら断片的に鳴らし、そこにインダストリアルなノイズ、ダブ由来の深いエコーとリバーブ処理、街の環境音のフィールドレコーディングを幾重にも重ねていく、コラージュ的な作り方が特徴である。テンポはスローで、明確なビートの快楽よりも、複数の音の層が絡み合ってできる濁った音響空間そのものに耳を澄ませることを求めてくる。深夜のニューヨークの地下鉄構内や倉庫街を歩いているかのような、都会的でありながらどこか廃墟めいた質感を持つ音楽である。",
+    roots_story:"1990年代前半、ニューヨークのダウンタウンおよびブルックリンで活動していたDJやアーティストたちの間から、この呼び名が生まれた。ポール・D・ミラー（DJ Spooky That Subliminal Kid名義で知られる）は、このシーンを代表する人物であり、批評家・理論家としての活動も行いながら、アルバム『Songs of a Dead Dreamer』(1996)でイルビエントの美学を提示した。DJ Olive、Once11、Sub Dubの3人によるユニットWe（ロゴ表記ではWe™）も、このシーンの中心的な存在として知られる。当時ニューヨークで隆盛していたダウンタウンの実験的なアート・パフォーマンスシーンと、ヒップホップ由来のDJカルチャーが交差する場所から生まれたムーブメントであり、レーベルのAsphodel RecordsやWordsoundが作品の発表の場となった。厳密なジャンルの規則を持たない、あくまで緩やかな美学的態度の共有として1990年代半ばに一時的な注目を集めたシーンである。",
     rep_tracks:["Songs of a Dead Dreamer (DJ Spooky)", "Heavenly Music Corporation (We™)", "The Illness (Spectre)"],
     yt_mix:["Hoff3OspLds", "s4Mbo7UEnok"],
     yt_tracks:[["53GGDqPGi8E", "lfpd5_73HAU"], ["DahoSNG12Wo"], ["dEgvZXQ0vqs", "qxUlZGKDoCA"]],
@@ -7984,6 +7984,7 @@ const GLOSSARY = {
   "A&R": "Artists and Repertoireの略。レコード会社で、新人アーティストの発掘や、楽曲・プロデューサーの選定など、作品制作全体を統括する担当者・部署のこと。",
   "インタールード": "アルバムやライブの曲順の合間に挟まれる、短い間奏・つなぎのパート。歌のない語りや効果音だけで構成されることが多く、作品全体の世界観をつなぐ役割を持つ。",
   "グロッケンシュピール": "鉄琴の一種で、金属製の音板をマレット（ばち）で叩いて演奏する鍵盤打楽器。きらきらとした可愛らしい高音の音色が特徴で、オーケストラやポップスの装飾的なパートで使われる。",
+  "スクラッチ": "レコードをターンテーブルの上で手で前後に動かし、「キュッキュッ」という擦れるような音を出すDJの演奏技法。ヒップホップDJの代表的なテクニックの一つ。",
   "ユニゾン": "複数の楽器・音色が、同じ音程（メロディ）を同時に演奏すること。音に厚みと重さを加える効果がある。",
   "デンボウ": "レゲトンやダンスホールの土台となる、「ドッ・カッ・ドド・カッ」という特徴的なシンコペーションのリズムパターン。",
   "アルヴィン・トフラー": "アメリカの評論家（1928-2016）。著書『第三の波』(1980)で工業化社会から情報化社会への移行を予見し、デトロイト・テクノの創始者たちの思想に大きな影響を与えた。",
