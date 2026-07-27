@@ -559,7 +559,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.399<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.400<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -7815,6 +7815,13 @@ const GLOSSARY = {
   "オープンハイハット": "ドラムセットの、2枚の金属シンバルを重ねた打楽器（ハイハット）を、少しだけ開けた状態で叩く奏法。「シャーン」と伸びるような音になる。",
   "クローズドハイハット": "ドラムセットの、2枚の金属シンバルを重ねた打楽器（ハイハット）を、ペダルで閉じたまま叩く奏法。歯切れの良い短い音になる。",
   "ハイハット": "ドラムセットの一部で、2枚の金属シンバルを重ねた打楽器。ペダルで開閉でき、閉じて叩く「クローズド」は短く歯切れの良い音、少し開けて叩く「オープン」は「シャーン」と伸びる音になる。",
+  "小節": "楽譜を一定のまとまりごとに区切る単位。多くのポップスでは4拍(4分の4拍子の場合)をひとまとまりとして1小節とし、小節の頭(1拍目)に最も強いアクセントを感じるように作られている。",
+  "拍子": "1つの小節の中に、どの長さの拍が何個入っているかを表す数字の組み合わせ。例えば「4分の4拍子」は「4分音符を1拍として、1小節に4拍ぶん入っている」という意味。分母がリズムの基準となる音符の長さ、分子が1小節あたりの拍の数を表す。「4分の3拍子」なら1小節に3拍(ワルツのリズム)、「8分の7拍子」や「4分の5拍子」のように分子が5・7など割り切れない数になる変則的な拍子は「変拍子」と呼ばれる。",
+  "サブベース": "目安として20〜60Hz程度のごく低い周波数帯だけを鳴らす、超低音域のベース音。人間の耳では明確な「音程」として聞き取りにくく、体で振動として感じるような重さが特徴で、トラップやEDM、ダブステップなど低音を重視するジャンルで多用される。",
+  "ロール": "同じ打楽器(スネアやハイハットなど)を、細かい音符で連続して素早く連打する演奏技法。ハイハットのロールは「チキチキチキ」と細かく刻むように連打され、緊張感や次の展開への「ビルドアップ」感を生み出す効果がある。",
+  "マイナーキー": "「短調」のこと。西洋音楽における調(キー)の種類の1つで、暗く物悲しい響きを持つとされる。反対に、明るく感じられる響きを持つ調は「メジャーキー(長調)」と呼ばれる。",
+  "メジャーキー": "「長調」のこと。西洋音楽における調(キー)の種類の1つで、明るく開放的な響きを持つとされる。反対に、暗く物悲しい響きを持つ調は「マイナーキー(短調)」と呼ばれる。",
+  "トラップ": "2000年代、アメリカ南部(特にアトランタ)発祥のヒップホップのサブジャンル。「トラップハウス」と呼ばれる麻薬密売の拠点を指すスラングが名前の由来。808由来の伸縮するサブベース、細かく連打されるハイハットのロール、疎らに置かれたスネアが基本的な音の骨格で、この骨格自体が後にR&B、ポップス、EDMなど他ジャンルにも広く取り入れられ、現代のポピュラー音楽全体の土台的なビート様式となった。",
   "四つ打ち": "1小節の4拍すべてでバスドラム（キック）を均等に鳴らすリズムパターン。「4拍子」という拍の数え方の枠組みとは別の話で、四つ打ちは「キックの鳴らし方」を指す言葉。4拍子の曲でもキックが1拍目・3拍目だけの曲は四つ打ちではない。",
   "オクターブ": "音の高さの単位の1つ。ある音から、周波数がちょうど2倍（または半分）になる音までの幅のことで、ドレミファソラシドの「次のド」までの距離にあたる。",
   "ストリングス": "バイオリンやチェロなど、弦をこすって音を出す楽器（弦楽器）群のこと。ポピュラー音楽では、そういった楽器によるオーケストラ的な演奏・音色を指すことが多い。",
@@ -8266,7 +8273,14 @@ const svgEl = svg.node(); // SMILアニメーションの再始動(setCurrentTim
 const w = window.innerWidth, h = window.innerHeight;
 const g = svg.append("g");
 
-const zoom = d3.zoom().scaleExtent([0.005, 6]).on("zoom", e => g.attr("transform", e.transform));
+const zoom = d3.zoom().scaleExtent([0.005, 6]).on("zoom", e => {
+  g.attr("transform", e.transform);
+  // ノードのドラッグ判定しきい値(clickDistance)は、ズームで縮小されたローカル座標系で
+  // 判定されるため、画面上では常に約5pxのブレを許容するようズーム倍率に応じて動的に補正する。
+  // (これをしないと、縮小表示時にごく僅かな手ブレでもドラッグ扱いになり、
+  //  ワンクリックで説明パネルが開かないことがあった。2026-07-27)
+  if (typeof nodeDrag !== "undefined") nodeDrag.clickDistance(5 / Math.max(e.transform.k, 0.0001));
+});
 svg.call(zoom);
 
 function fitToView() {
@@ -9206,11 +9220,31 @@ const spOut     = document.getElementById("sp-out");
 const spYtPlayer = document.getElementById("sp-yt-player");
 
 let dragMoved = false;
+let dragStartClientX = 0, dragStartClientY = 0;
 node.on("mousedown.drag", null);  // 既存drag再バインド前にリセット
-node.call(d3.drag()
-  .on("start", (e,d) => { dragMoved=false; if(!e.active) simulation.alphaTarget(0.3).restart(); d.fx=d.x; d.fy=d.y; })
-  .on("drag",  (e,d) => { dragMoved=true; d.fx=e.x; d.fy=e.y; })
-  .on("end",   (e,d) => { if(!e.active) simulation.alphaTarget(0); }));
+// 手ブレ判定は「ズーム後のローカル座標」ではなく「実際の画面ピクセル距離」で行う。
+// ズームで縮小表示されている時（ノード数が多い初期表示など）は、ローカル座標基準だと
+// わずかな手ブレでもドラッグ扱いになりクリックが効かないことがあったための対応(2026-07-27)。
+const nodeDrag = d3.drag()
+  .clickDistance(5 / Math.max(d3.zoomTransform(svgEl).k, 0.0001))  // 初期ズーム倍率に合わせた初期値。以後はzoomイベント側で追従更新
+  .on("start", (e,d) => {
+    dragMoved = false;
+    dragStartClientX = e.sourceEvent ? e.sourceEvent.clientX : 0;
+    dragStartClientY = e.sourceEvent ? e.sourceEvent.clientY : 0;
+    if(!e.active) simulation.alphaTarget(0.3).restart(); d.fx=d.x; d.fy=d.y;
+  })
+  .on("drag",  (e,d) => {
+    if (e.sourceEvent) {
+      const dx = e.sourceEvent.clientX - dragStartClientX;
+      const dy = e.sourceEvent.clientY - dragStartClientY;
+      if (Math.hypot(dx, dy) > 4) dragMoved = true;  // 実画面で4px以上動いた時だけドラッグ扱い
+    } else {
+      dragMoved = true;  // タッチ等でsourceEventが取れない場合は従来通り安全側に倒す
+    }
+    d.fx=e.x; d.fy=e.y;
+  })
+  .on("end",   (e,d) => { if(!e.active) simulation.alphaTarget(0); });
+node.call(nodeDrag);
 
 node.on("click", (e, d) => {
   if(dragMoved) return;
