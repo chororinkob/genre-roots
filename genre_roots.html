@@ -559,7 +559,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.408<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.409<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -3189,24 +3189,24 @@ const NODES = [
 
   // 候補タグ承認ジャンル
   {id:"kwaito", label:"Kwaito", cat:"african", era:"1990s", suno:true,
-    desc:"南アフリカのタウンシップから生まれた、ハウスのビートをゆったり落としたダンスミュージック。重い低音、スローなテンポ（BPM 100〜115）、ズールー語やソト語のラップ/チャントが特徴。アマピアノの直接の祖先であり、南アの若者文化そのもの。楽器としてはシンセサイザーやドラムマシンが多用され、リズムはシンプルで繰り返しが多い。ノリやすく、クラブやパーティーでのダンスに最適。",
-    roots_story:"1990年代、ヨハネスブルクのタウンシップでハウスミュージックのテンポを落とし、地元のヒップホップやレゲエの要素を混ぜたスタイルとして誕生。Arthur Mafokate、Mandoza「Nkalakatha」(2000)、TKZeeが代表。アパルトヘイト後の自由を祝う音楽として爆発的に広まった。2010年代にはアマピアノに進化的に受け継がれた。",
+    desc:"国際的に流行していたハウスミュージックのテンポをあえてゆったり落とし込み、南アフリカのタウンシップの言葉と感覚で歌い直した、ダンスミュージック。重く沈む低音、BPM 100〜115程度のスローなテンポの上に、ズールー語やソト語によるラップやチャント(呪文のような詠唱)が乗る。輸入された音楽をそのまま消費するのではなく、自分たちの言語と生活感覚で作り替えるという姿勢そのものが、アパルトヘイト撤廃後の南アフリカの若者文化を象徴する音楽となった。後のアマピアノの直接の祖先にあたる。",
+    roots_story:"1990年代、ヨハネスブルクのタウンシップで、国際的なハウスミュージックのテンポを落とし、そこに地元のヒップホップやレゲエの要素を混ぜ込んだスタイルとして誕生した。Arthur Mafokate、Mandozaが発表した「Nkalakatha」(2000)、そしてグループTKZeeが、このジャンルを代表する存在として知られている。1994年のアパルトヘイト撤廃直後という時代背景の中、抑圧からの解放を祝う若者たちの音楽として爆発的に広まった。2010年代には、このカワイトのグルーヴ感が、よりジャジーなピアノを主体とするアマピアノへと進化的に受け継がれていくことになった。",
     rep_tracks:["Nkalakatha (Mandoza)", "Kaffir (Arthur Mafokate)", "Shibobo (TKZee featuring Benni McCarthy)", "Dlala Mapantsula (Trompies)", "Umlilo (Big Nuz)"],
     yt_mix:["buAgRdwZqHY", "cC5P6EOo5VI"],
     yt_tracks:[["b28vJvntyUM", "H1kH_loHm3s"], ["eucgo57ocEE", "wF460058UkA"], ["BhdxwySgEPQ", "9ZpiHSwC_pM"], ["-X0Z1nWwM7s", "EPrVhVw-LXc"], ["JmQMjNbPhMg", "9RNOjMNvF9c"]],
     aliases:["クワイト"],},
 
   {id:"isicathamiya", label:"Isicathamiya", cat:"african", era:"1920s", suno:true,
-    desc:"南アフリカのズールー族に伝わる男性アカペラコーラス。mbubeよりも静かで繊細なハーモニーが特徴で、「忍び足」を意味する名前の通り、柔らかく歩くようなリズムで歌われる。Ladysmith Black Mambazoが世界的に知らしめた。歌声は穏やかで、心に染み入るような美しさがある。歌詞はしばしば社会的なメッセージを含む。",
-    roots_story:"1920年代から南アフリカの鉱山労働者の間で発展。日曜の夜にコンテスト形式で歌い合う文化から生まれた。Joseph Shabalala率いるLadysmith Black MambazoがPaul Simon「Graceland」(1986)で世界的に知られた。mbubeのより力強いスタイルに対して、isicathamiyaは繊細で静謐なハーモニーを追求する。",
+    desc:"南アフリカのズールー族に伝わる、男性によるアカペラ(楽器を伴わない声だけの)コーラス。同じズールー族由来のムブベ(Mbube)が力強く叫ぶような響きを持つのに対し、イシカタミヤは名前が「忍び足で歩く」ことを意味する通り、抑制された柔らかい足取りのリズムで、静かで繊細なハーモニーを紡ぐ。これは、かつて労働者たちが宿舎で夜遅くに歌う際、周囲の目や耳を気にして音量を抑えていたことに由来するとされる。穏やかでありながら深く心に染み入る美しさを持ち、歌詞にはしばしば社会的なメッセージが込められている。",
+    roots_story:"1920年代、南アフリカの鉱山で働く出稼ぎ労働者たちの間で発展した。労働者たちが日曜の夜、宿舎でコンテスト形式で歌い合う文化の中からこのスタイルが育まれていったとされる。Joseph Shabalalaが率いたグループLadysmith Black Mambazoは、アメリカの音楽家Paul Simonのアルバム『Graceland』(1986)への参加を通じて、このイシカタミヤという歌唱様式を世界に知らしめた最大の功労者である。",
     rep_tracks:["Homeless (Ladysmith Black Mambazo)", "Hello My Baby (Ladysmith Black Mambazo)", "Rain Rain Beautiful Rain (Ladysmith Black Mambazo)", "Inkanyezi Nezazi (Ladysmith Black Mambazo)", "Nomathemba (Ladysmith Black Mambazo)"],
     yt_mix:["YJHKKQ6esJI", "FclwRECHoWc"],
     yt_tracks:[["JFQ1TSzdpRA", "gfZxnVQHdgI"], ["TpDRelBiLHc", "-kaV-y9xcLQ"], ["iUH7PM0-cpI", "TPm8RcHaxmo"], ["BCCGjs9zt4M", "6-bcvyruCZg"], ["1OJ9X2E_6JA", "eLT7t-YYTb4"]],
     aliases:["イシカタミヤ"],},
 
   {id:"marabi", label:"Marabi", cat:"african", era:"1920s", suno:true,
-    desc:"1920〜40年代の南アフリカのタウンシップで生まれた、ピアノを中心としたジャズ的な庶民音楽。シンプルな3コードの循環進行、ペダルオルガンやピアノの反復的なリフが特徴。酒場（シビーン）で演奏され、アパルトヘイト下の黒人コミュニティの音楽的抵抗でもあった。リズムは軽快で、ダンスに適している。",
-    roots_story:"1920年代、ヨハネスブルクのスラム地区で違法酒場（シビーン）の音楽として発展。アメリカのラグタイムやジャズの影響を受けつつ、南アフリカ独自のスタイルに変容した。後にmbaqanga（ンバカンガ）やクワイトに発展し、南アフリカのポピュラー音楽全体の源流となった。",
+    desc:"1920年代から40年代にかけて、南アフリカのタウンシップで生まれた、ピアノを中心に据えたジャズ的な庶民の音楽。単純な3つのコードをひたすら循環させる進行、ペダルオルガンやピアノが刻む反復的なリフが特徴で、公認されていない酒場「シビーン」で演奏された。単なる娯楽であると同時に、アパルトヘイト体制下で行動を厳しく制限されていた黒人コミュニティにとって、数少ない自由な自己表現の場でもあり、一種の静かな抵抗としての側面も持っていた。リズムは軽快で、ダンスに適した親しみやすさを持つ。",
+    roots_story:"1920年代、ヨハネスブルクのスラム地区に密集していた違法酒場「シビーン」の音楽として発展した。アメリカから伝わったラグタイムやジャズの影響を受けながら、南アフリカ独自の様式へと変容していった。後にこのマラビは、より洗練されたバンド編成を持つ「ンバカンガ(mbaqanga)」や、その先のカワイトへと発展していくことになり、南アフリカのポピュラー音楽全体の源流に位置づけられている。",
     rep_tracks:["Meadowlands (Nancy Jacobs and Her Sisters)", "Skokiaan (The African Dance Band of the Cold Storage Commission of Southern Rhodesia)", "Pata Pata (Miriam Makeba)", "Sophiatown (The Manhattan Brothers)", "Yini Madoda (The Skylarks)"],
     yt_mix:["NznMBXbDSkI", "kHt-wOVDd2U"],
     yt_tracks:[["VnUGk23ejr8", "nhLlJbq6k8o"], ["O9ytcHb2hKs", "WlrldtoWJos"], ["JBJVVhn7iuo", "lNeP3hrm__k"], ["wRyugx2bFe0", "npcH5wjPZjs"], ["LBKzEoNQa2I", "VgbXF44Lc9M"]],
@@ -3214,8 +3214,8 @@ const NODES = [
     aliases:["マラビ"],},
 
   {id:"rnb", label:"R&B", cat:"soul_cat", era:"1940s", suno:true,
-    desc:"リズム・アンド・ブルースの略称。ブルースにリズムセクション（ドラム、ベース）を加えてダンサブルにした、ソウルやファンクの直接の前身。現代では「R&B」はソウル、ファンク、ヒップホップの影響を受けた都市的な黒人ポピュラー音楽全般を指す幅広い用語として使われている。メロディアスで感情豊かなボーカルが特徴。",
-    roots_story:"1940年代、ブルースとジャズが融合したダンス音楽として誕生。当初は「レイス・ミュージック」と呼ばれていた黒人音楽を、Billboard誌が1949年に「Rhythm and Blues」と呼び始めた。Ray Charles、Sam Cookeがゴスペルと融合させてソウルへ発展。1990年代以降はヒップホップと融合した「コンテンポラリーR&B」が主流に。Beyoncé、The Weeknd、SZAが現代R&Bの代表。",
+    desc:"「リズム・アンド・ブルース」の略称。ブルースの持つ哀愁のあるコード進行やボーカル表現に、ドラムとベースによるはっきりしたリズムセクションを加え、踊れる音楽へと変貌させたスタイルで、後のソウルやファンクの直接の前身にあたる。ただし現代の文脈で「R&B」と言う場合、この歴史的な意味に限定されず、ソウル・ファンク・ヒップホップの影響を吸収し続けてきた、都市的で洗練された黒人ポピュラー音楽全般を指す、時代とともに意味の幅が広がり続けている呼び名として使われている。一貫しているのは、メロディアスで感情豊かなボーカル表現を核に置くという点である。",
+    roots_story:"1940年代、ブルースとジャズが融合したダンス音楽として誕生した。当時、黒人向けに販売される音楽は差別的な含みを持つ「レイス・ミュージック」という呼び名で一括りにされていたが、音楽業界誌Billboardが1949年、これに代えて「Rhythm and Blues」というチャート名を採用したことが、この呼称が定着するきっかけとなった。Ray CharlesやSam Cookeは、教会音楽であるゴスペルの要素をこのR&Bに融合させ、後のソウルへの発展を準備した。1990年代以降は、ヒップホップの制作技法と融合した「コンテンポラリーR&B」が主流となり、現在ではBeyoncé、The Weeknd、SZAといったアーティストが、その最新の姿を体現している。",
     rep_tracks:["I Got a Woman (Ray Charles)", "A Change Is Gonna Come (Sam Cooke)", "Crazy in Love (Beyoncé)", "Blinding Lights (The Weeknd)", "The Weekend (SZA)"],
     yt_mix:["wB6GniYDmDs", "ZzTG4Kj-6Kw"],
     yt_tracks:[["CnI_LuCJ4Ek", "lsC4cH-v3ns"], ["wEBlaMOmKV4", "fPr3yvkHYsE"], ["ViwtNLUqkMY", "Fza-mF31CuQ"], ["4NRXx6U8ABQ", "fHI8X4OXluQ"], ["PALMMqZLAQk", "cMD63TwzB1o"]],
@@ -3223,32 +3223,32 @@ const NODES = [
 
   // エレクトロニック系追加
   {id:"trip_hop", label:"Trip Hop", cat:"ambient", era:"1991", suno:true,
-    desc:"ヒップホップのスローなビートにダブの空間的エフェクト、アンビエントの浮遊感、ソウルの官能的なボーカルを融合させた、ダウンテンポの代表格。テンポはBPM 60〜90と非常に遅く、煙草の煙が漂うような気だるいグルーヴがある。サンプリングされたストリングス、くぐもったドラム、ベースの深い振動、囁くようなボーカルが都会の深夜の空気を作る。雨のブリストルの街角が似合う、憂鬱で美しい音楽。",
-    roots_story:"1991年頃、イギリスのブリストルから登場し「ブリストル・サウンド」とも呼ばれた。Massive Attack「Blue Lines」(1991)がジャンルの誕生を告げた金字塔。Portishead「Dummy」(1994)はフィルムノワール的な暗さで批評家を熱狂させた。Tricky「Maxinquaye」(1995)はよりダークで実験的。この3組が「ブリストル三大トリップホップ」。DJ Shadow「Endtroducing.....」(1996)は全編サンプリングで構成された傑作。Morcheeba、Sneaker Pimps、Hooverphonic等も重要。",
+    desc:"ヒップホップのゆったりしたビートを土台に、ダブが持つ空間的なエコー処理、アンビエントの浮遊感、ソウルの官能的なボーカルを何層にも重ねた、ダウンテンポ(ゆったりしたテンポの電子音楽全般)を代表するスタイル。テンポはBPM 60〜90ときわめて遅く、紫煙が立ち込める薄暗い部屋のような、気だるく濃密なグルーヴを持つ。ヴァイオリンなどのサンプリングされたストリングス、こもった音のドラム、深く体に響くベース、そして囁くようなボーカルが折り重なり、都会の深夜特有の孤独と美しさを同時に描き出す。霧雨に煙るイギリス・ブリストルの街角がそのまま音になったような、憂鬱で耽美的な音楽である。",
+    roots_story:"1991年頃、イギリス南西部の都市ブリストルから登場し、「ブリストル・サウンド」とも呼ばれる独自のシーンを形成した。Massive Attackが発表したアルバム『Blue Lines』(1991)は、このジャンルの誕生を告げる金字塔的作品とされる。Portisheadの『Dummy』(1994)は、フィルムノワール映画を思わせる陰鬱な美学で批評家たちを熱狂させた。Trickyの『Maxinquaye』(1995)は、この3組の中でも特にダークで実験的な方向性を示した作品である。これらMassive Attack、Portishead、Trickyの3組は、しばしば「ブリストル三大トリップホップ」と称される。アメリカのDJ Shadowが発表した『Endtroducing.....』(1996)は、既存のレコードのサンプリングのみで全編が構成された傑作として知られる。Morcheeba、Sneaker Pimps、Hooverphonicといったバンドも、このジャンルの発展に重要な役割を果たした。",
     rep_tracks:["Unfinished Sympathy (Massive Attack)", "Sour Times (Portishead)", "Hell Is Round the Corner (Tricky)", "Building Steam with a Grain of Salt (DJ Shadow)", "Trigger Hippie (Morcheeba)"],
     yt_mix:["HOju-ahKB2A", "B0rXs-H3uGk"],
     yt_tracks:[["ZWmrfgj0MZI", "JuA-YPatiHU"], ["un8EW82GwKc", "8B-i1vsA6jw"], ["E3R_3h6zQEs", "LTsQQW8ttzg"], ["HORLJvUMs08", "KFXtwNLR2xE"], ["lJvPMUQA8Bc", "E6_CZUbi-CM"]],
     aliases:["トリップホップ"],},
 
   {id:"drone_music", label:"Drone", cat:"ambient", era:"1960s", suno:true,
-    desc:"一つの音（または和音）を極端に長く持続させ、その微細な変化だけで音楽を構成する、究極のミニマリズム。メロディもリズムも存在せず、低周波の持続音が空間を満たし、倍音の揺らぎが聴く者の意識を変容させる。テンポの概念がなく、時間が止まったような体験。聴き始めは「何も起きない」と感じるが、深く聴き込むと音の内部に宇宙が広がっている。",
-    roots_story:"1960年代、La Monte Young「The Well-Tuned Piano」(1964〜)が数時間に及ぶ持続音の演奏でドローンの先駆者に。インドのタンプーラの持続低音からも影響を受けた。Tony Conrad「Four Violins」(1964)も重要な初期作品。Sunn O)))（2000年代〜）はアンプの轟音ドローンで「ドローンメタル」を確立。Stars of the Lid「The Tired Sounds of Stars of the Lid」(2001)は美しいドローンアンビエントの代表作。",
+    desc:"1つの音、あるいは1つの和音を極端に長く持続させ、その中で起きるごくわずかな音の変化だけで楽曲を成立させる、音楽におけるミニマリズム(最小限の要素で構成する美学)の極限形。明確なメロディもリズムも存在せず、代わりに低周波の持続音が空間全体を満たし、音に含まれる倍音(基音に重なって響く周波数成分)がゆっくり揺らぐことで、聴く者の時間感覚や意識そのものをじわじわと変容させていく。テンポという概念自体が意味を持たず、時間の流れが止まったかのような感覚に包まれる。聴き始めは「何も起きていない」ように感じられるが、意識を澄ませて深く聴き込んでいくと、静止した音の内側に、途方もなく豊かな響きの宇宙が広がっていることに気づかされる。",
+    roots_story:"1960年代、アメリカの作曲家La Monte Youngが、数時間にもおよぶ持続音による演奏『The Well-Tuned Piano』(1964年〜)を発表し、ドローン・ミュージックの先駆者となった。彼はインド古典音楽で使われる、常に一定の音を鳴らし続ける弦楽器タンプーラの持続低音からも強い影響を受けている。Tony Conradが発表した『Four Violins』(1964)も、この分野における重要な初期作品である。2000年代以降、バンドSunn O)))は、極端に音量を上げたギターアンプが生み出す轟音の持続音によって「ドローンメタル」という新たな様式を確立した。デュオStars of the Lidによる『The Tired Sounds of Stars of the Lid』(2001)は、美しく静謐なドローン・アンビエントの代表作として広く知られている。",
     rep_tracks:["The Well-Tuned Piano (La Monte Young)", "Four Violins (Tony Conrad)", "Monoliths & Dimensions (Sunn O)))", "The Tired Sounds of Stars of the Lid (Stars of the Lid)"],
     yt_mix:["QqOhoOKOOeg", "YlVaS-51pBs"],
     yt_tracks:[["up_RtM69unA", "luzZCWa-HIY"], ["td4N0DofOMI", "uwKRki7W5Mg"], ["5WpehZ3dSxM", "QGOcct8ko6c"], ["MaSi7Gut7xM", "WbVeb-sbSHY"]],
     aliases:["ドローン", "ドローン音楽"],},
 
   {id:"aggrotech", label:"Aggrotech", cat:"industrial", era:"2000s", suno:true,
-    desc:"EBMの硬質なビートをさらに攻撃的に、さらにテンポを上げたスタイル。歪んだシンセ、轟音のキック、叫ぶようなボーカル、ノイズ的な音響が容赦なく叩きつける。テンポはBPM 140〜170と速く、ゴスクラブやインダストリアルクラブで最もハードな時間帯に流れる。暗くて速くて攻撃的、それでいてダンサブル。",
-    roots_story:"2000年代前半、Hocico（メキシコ）、Suicide Commando（ベルギー）がジャンルを牽引。Combichrist「What the F**k Is Wrong with You People?」(2007)がメインストリーム（インダストリアル内での）ヒット。Grendel（オランダ）、Psyclon Nine（アメリカ）も重要。Metropolis Records、Dependent Recordsが主要レーベル。EBMとハードコアテクノの中間に位置するサウンド。",
+    desc:"EBM(エレクトロニック・ボディ・ミュージック)が持つ硬質で機械的なビートを、さらに攻撃的にテンポも速く尖らせたスタイル。激しく歪ませたシンセサイザー、轟音のキック、絶叫に近いボーカル、ノイズ的な音響が容赦なく叩きつけられる。テンポはBPM 140〜170と速く、ゴシック/インダストリアル系のクラブイベントの中でも、夜が更けて最もハードな空気になる時間帯にプレイされることが多い。暗く速く攻撃的でありながら、あくまでダンスフロアで機能する音楽であり続けている点が特徴である。",
+    roots_story:"2000年代前半、メキシコのHocico、ベルギーのSuicide Commandoが、このジャンルを牽引する存在として台頭した。Combichristが発表した「What the F**k Is Wrong with You People?」(2007)は、インダストリアル系シーンの中でのメインストリームヒットとなった。オランダのGrendel、アメリカのPsyclon Nineも重要なアーティストである。アメリカのMetropolis Records、ドイツのDependent Recordsが、このジャンルの主要なレーベルとして機能している。EBMとハードコアテクノの中間に位置するサウンドとして発展してきた。",
     rep_tracks:["Poltergeist (Suicide Commando)", "Blasphemies of the Flesh (Hocico)", "What the F**k Is Wrong with You People? (Combichrist)", "Soilbleed (Grendel)", "Parasitic (Psyclon Nine)"],
     yt_mix:["9t-VsxoID7E", "zqTPLGnZAlQ"],
     yt_tracks:[["Mik9YvRdgXo", "PfAEXN4IHwI"], ["Q70I0w9VQ5c", "TuUmSUsaPzo"], ["nuw-cxKhW5A", "msAV9ep2Jo8"], ["mph2mZReGHk", "2I1x2gF_jEo"], ["A7fvUQi9huE", "1EPP-Y3fPVs"]],
     aliases:["アグロテック"],},
 
   {id:"futurepop", label:"Futurepop", cat:"synthpop", era:"1999", suno:true,
-    desc:"シンセポップの美しいメロディとEBMの硬質なビートを融合させた、ゴシック/インダストリアルシーンのダンスミュージック。トランス的なシンセパッド、分厚いベース、クリーンで力強いボーカルが特徴。テンポはBPM 130〜145。暗いのにキャッチー、攻撃的なのにメロディアスという矛盾が魅力。ゴスクラブの「一番盛り上がる曲」として機能するスタイル。",
-    roots_story:"1999年、VNV Nation「Empires」とApoptygma Berzerk「Welcome to Earth」がフューチャーポップの誕生を告げた。Covenant（スウェーデン）「United States of Mind」(2000)も重要初期作品。Ronan Harris（VNV Nation）がジャンル名を命名したとされる。Assemblage 23、Icon of Coilも重要。ゴシック/インダストリアルフェスティバル（WGT、M'era Luna等）での人気が高い。",
+    desc:"シンセポップが持つ美しく覚えやすいメロディと、EBMの硬質で機械的なビートを融合させた、ゴシック/インダストリアル系のダンスミュージック。トランスを思わせる壮大なシンセパッド、分厚いベース、クリーンで力強く伸びやかなボーカルが特徴で、テンポはBPM 130〜145程度である。「暗いのにキャッチー」「攻撃的なのにメロディアス」という、本来相容れないはずの要素が同居する矛盾こそが最大の魅力であり、ゴシック系のクラブイベントで最も観客が盛り上がる、いわば「大合唱の瞬間」を作り出す機能を持つスタイルである。",
+    roots_story:"1999年、イギリスのバンドVNV Nationが発表した『Empires』と、ノルウェーのバンドApoptygma Berzerkが発表した『Welcome to Earth』が、フューチャーポップというジャンルの誕生を告げた作品とされる。スウェーデンのバンドCovenantによる『United States of Mind』(2000)も、この時期の重要な初期作品である。VNV Nationを率いるRonan Harrisが、このジャンル名を命名した人物とされている。Assemblage 23、Icon of Coilも、このジャンルを支えた重要なバンドである。ドイツのWGT(Wave-Gotik-Treffen)やM'era Lunaといった、ゴシック/インダストリアル系の大規模フェスティバルで特に高い人気を誇っている。",
     rep_tracks:["Standing (VNV Nation)", "Kathy's Song (Apoptygma Berzerk)", "Call the Ships to Port (Covenant)", "Let the Wind Erase Me (Assemblage 23)", "Dead Enough for Life (Icon of Coil)"],
     yt_mix:["59MA0vIOC44", "XJXc8EwyKbM"],
     yt_tracks:[["gO6l7QoSCEA", "Xk4gZEAmOLk"], ["hgX5JSFsRz4", "BEUmFHvxVCw"], ["7eDkFlVSwnk", "n75CSW8kylo"], ["W5FWjXzG61M", "ENkK1q2E-YE"], ["eJOfwSNOIwE", "djUGCKt94AQ"]],
@@ -7812,6 +7812,12 @@ function _linkTrimRadius(nodeR, strokeWidth) {
 // だけ表示するCSSだけの仕組みで、常時動き続けるアニメーションではない
 // ため負荷は小さい（2026-07-24、「わからない用語にツールチップを」との指示）。
 const GLOSSARY = {
+  "シビーン": "南アフリカで、公的な許可を得ずに酒類を提供していた違法な酒場。アパルトヘイト時代、黒人が公認のバーに入ることを制限されていたため生まれた、コミュニティの社交・音楽の場。",
+  "ンバカンガ": "南アフリカのポピュラー音楽の一つ。マラビの流れを汲み、より洗練されたバンド編成とキャッチーなメロディを持つ。",
+  "ダウンテンポ": "BPM(1分間の拍数)が遅く、リラックスした雰囲気を持つ電子音楽全般を指す言葉。トリップホップやチルアウトなどが含まれる。",
+  "倍音": "ある音(基音)を鳴らしたときに、その周波数の整数倍で同時に微かに鳴っている音の成分。楽器や声の「音色」の違いは、この倍音の含まれ方の違いによって生まれる。",
+  "ミニマリズム": "最小限の要素・材料だけを使い、それを反復・微細な変化させることで作品を構成する芸術上の考え方。音楽では、短いフレーズを繰り返しながら少しずつ変化させる作曲手法を指す。",
+  "EBM": "「Electronic Body Music(エレクトロニック・ボディ・ミュージック)」の略。1980年代に登場した、シンセサイザーとドラムマシンによる硬質で機械的な反復ビートを特徴とするダンスミュージック。",
   "フリーパーティー": "主催者が当局の許可を得ず、廃工場や野原などで無許可に開催する野外レイヴパーティー。商業的なクラブシーンとは一線を画す、DIY精神と反体制的な姿勢を特徴とする。",
   "テクニバル": "フランスで開催される、フリーパーティー文化に根ざした大規模な野外レイヴイベント。「テクノ」と「フェスティバル」を組み合わせた造語。",
   "ユーフォリック": "「高揚感のある、幸福感に満ちた」という意味の英語。ハードスタイルやフレンチコアなどで、暴力性よりも感動的なメロディを重視するスタイルを指す形容によく使われる。",
@@ -7837,6 +7843,22 @@ const GLOSSARY = {
   "No U-Turn Records": "イギリスのレーベル。Nicoを中心にTechstepの拠点として機能した。",
   "Spiral Tribe": "イギリスで結成され後にフランスへ活動拠点を移したフリーパーティー集団。テクニバル文化の先駆者。",
   "m1dy": "日本のプロデューサー。Extratoneを代表するアーティストの一人。",
+  "Arthur Mafokate": "南アフリカのミュージシャン。カワイトを代表するアーティストの一人。",
+  "Mandoza": "南アフリカのミュージシャン。「Nkalakatha」(2000)でカワイトを代表するヒット曲を残した。",
+  "Ray Charles": "アメリカのミュージシャン。ゴスペルの要素をR&Bに融合させ、後のソウルへの発展を準備した重要人物。",
+  "Sam Cooke": "アメリカのシンガー。ゴスペルの要素をR&Bに融合させ、後のソウルへの発展を準備した重要人物。「A Change Is Gonna Come」で公民権運動にも影響を与えた。",
+  "Massive Attack": "イギリス・ブリストルのグループ。『Blue Lines』(1991)でトリップホップというジャンルの誕生を告げた。",
+  "Portishead": "イギリス・ブリストルのバンド。『Dummy』(1994)でフィルムノワール的な暗さのトリップホップを確立した。",
+  "Tricky": "イギリス・ブリストルのミュージシャン。『Maxinquaye』(1995)でダークで実験的なトリップホップを示した。",
+  "DJ Shadow": "アメリカのプロデューサー。『Endtroducing.....』(1996)で全編サンプリングのみで構成された傑作を残した。",
+  "La Monte Young": "アメリカの作曲家。『The Well-Tuned Piano』(1964年〜)などの持続音による演奏でドローン・ミュージックの先駆者となった。",
+  "Sunn O)))": "アメリカのバンド。極端に音量を上げたギターアンプの轟音の持続音で「ドローンメタル」を確立した。",
+  "Hocico": "メキシコのバンド。Aggrotechを牽引する存在の一つ。",
+  "Suicide Commando": "ベルギーのミュージシャン。Aggrotechを牽引する存在の一つ。",
+  "Combichrist": "アメリカのバンド。「What the F**k Is Wrong with You People?」(2007)でAggrotechのメインストリームヒットを残した。",
+  "VNV Nation": "イギリスのバンド。『Empires』(1999)でフューチャーポップの誕生を告げた。Ronan Harrisがジャンル名を命名したとされる。",
+  "Apoptygma Berzerk": "ノルウェーのバンド。『Welcome to Earth』(1999)でフューチャーポップの誕生を告げた。",
+  "Covenant": "スウェーデンのバンド。『United States of Mind』(2000)でフューチャーポップの重要な初期作品を残した。",
   "タウンシップ": "南アフリカで、アパルトヘイト(人種隔離政策)時代に黒人などが強制的に居住させられた都市郊外の居住区。現在も多くの人々が暮らし、独自の音楽・文化を育んできた。",
   "ログドラム": "丸太を叩いたときのような、木琴的な低い音色を出す電子音源(シンセサイザー)の音色。アマピアノでメロディックなベースラインを作るのに多用される。",
   "初音ミク": "クリプトン・フューチャー・メディアが2007年に発売した、歌声合成ソフトウェア「ボーカロイド」を用いたキャラクター製品。緑色の髪を持つバーチャルなキャラクターとしても親しまれ、ボカロ文化の象徴的存在となった。",
