@@ -559,7 +559,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.409<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v25.410<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -3255,8 +3255,8 @@ const NODES = [
     aliases:["フューチャーポップ"],},
 
   {id:"ragtime", label:"Ragtime", cat:"jazz_sub", era:"1890s", suno:true,
-    desc:"シンコペーション（予想外の拍にアクセントを置く）が生み出す「ラグ（揺れ）」の効果が名前の由来。ピアノの左手が規則正しいベースを刻み、右手がシンコペーションの効いた装飾的なメロディを弾く。テンポは中速で、優雅で軽やかな跳ねるリズムがある。ジャズ以前のアメリカのポピュラー音楽で、19世紀末〜20世紀初頭のアメリカの空気を凝縮している。",
-    roots_story:"1890年代、Scott Joplin「Maple Leaf Rag」(1899)がラグタイムを大衆化し、初のミリオンセラー楽譜に。Joplinは「ラグタイムの王」と呼ばれた。映画「スティング」(1973)でJoplin「The Entertainer」が使用され、ラグタイムブームが再燃。黒人ピアニストの即興演奏文化から生まれ、ジャズの直接的な前身となった。ストライドピアノ（ニューヨーク・スタイル）に発展し、Fats Waller、James P. Johnsonらがジャズへ橋渡しした。",
+    desc:"本来なら拍の頭に来るはずのアクセントを、あえてその手前や合間の予想外の位置にずらして置く「シンコペーション」の技法が生み出す、リズムの「揺れ(ラグ)」がそのままジャンル名の由来になっている。演奏はピアノを中心とし、左手は行進曲のように規則正しく淡々とベース音を刻み続け、その安定した土台の上で、右手だけがシンコペーションの効いた装飾的なメロディを自由に跳ねさせる、という左右の役割分担が特徴である。テンポは中速で、優雅でありながらどこか浮き立つような軽やかさを持つ。ジャズが登場する以前、19世紀末から20世紀初頭にかけてアメリカで大流行したポピュラー音楽で、当時の楽譜出版産業(ティン・パン・アレー)の隆盛とも深く結びついている。",
+    roots_story:"1890年代、作曲家Scott Joplinが発表した「Maple Leaf Rag」(1899)は、ラグタイムを全米で大衆化させ、楽譜の売り上げが100万部を超えた史上初のヒット曲となった。Joplinはこの功績から「ラグタイムの王」と呼ばれるようになった。映画『スティング』(1973)の劇中でJoplinの「The Entertainer」が印象的に使用されたことをきっかけに、1970年代にラグタイムの再評価ブームが起きている。もともとは黒人ピアニストたちの即興演奏の文化から生まれ、ジャズの直接的な前身となった様式である。その後、ニューヨークを中心に、左手のベースがより躍動的に動く「ストライドピアノ」というスタイルへと発展し、Fats WallerやJames P. Johnsonといったピアニストたちが、ラグタイムからジャズへの橋渡しを担った。",
     rep_tracks:["Maple Leaf Rag (Scott Joplin)", "The Entertainer (Scott Joplin)", "Pineapple Rag (Scott Joplin)", "Charleston Rag (Eubie Blake)", "Carolina Shout (James P. Johnson)"],
     yt_mix:["I-Ok8ocjEE4", "1XQtMnPz1AQ"],
     yt_tracks:[["bCxLAr_bwpA", "s_nBSSXiG9w"], ["EQlPq4z2gBc", "TSoXBkF832I"], ["-RMNHqSt3pw", "C_KucOKMqEs"], ["mN89vHZ414s", "uKbo3VovRtw"], ["wwhy5zxrAKI", "nRKTpobVidw"]],
@@ -3264,32 +3264,32 @@ const NODES = [
 
   // ラテン系追加
   {id:"merengue", label:"Merengue", cat:"latin", era:"1850s", suno:true,
-    desc:"ドミニカ共和国の国民的ダンスミュージック。アコーディオン、タンボーラ（両面太鼓）、ギラ（金属製すりおろし器のような打楽器）が作る軽快な2拍子のリズムが全身を弾ませる。テンポはBPM 130〜160と速く、とにかく楽しくて陽気。サルサほど複雑なステップは不要で、誰でもすぐに踊れる親しみやすさがある。カリブの太陽と祝祭の音楽。",
-    roots_story:"1850年代、ドミニカ共和国の農村で誕生。Rafael Trujillo独裁政権（1930〜61年）がメレンゲを国民音楽として推進したことで全国に浸透。Johnny Ventura、Wilfrido Vargasが1970〜80年代にモダン化。Juan Luis Guerraは「Burbujas de Amor」(1990)等でメレンゲを世界的に知らしめた。Elvis Crespo「Suavemente」(1998)は世界的大ヒット。",
+    desc:"ドミニカ共和国の国民的アイデンティティそのものとも言える、圧倒的な陽気さを持つダンスミュージック。手で押し引きして音を出すアコーディオン、両面から叩く太鼓タンボーラ、金属のすりおろし器のような見た目のパーカッション「ギラ」が組み合わさり、軽快な2拍子のリズムを刻み続ける。テンポはBPM 130〜160と速く、サルサのように習得に時間のかかる複雑なステップを必要とせず、誰もがその場で自然に体を弾ませて踊れる親しみやすさが最大の魅力である。カリブ海の太陽と、祝祭そのものを音にしたような音楽である。",
+    roots_story:"1850年代、ドミニカ共和国の農村部で誕生したとされる。1930年から1961年まで続いたRafael Trujilloによる独裁政権は、このメレンゲを積極的に「国民の音楽」として奨励・推進し、これが国全体への浸透を決定的なものにした。Johnny VenturaやWilfrido Vargasは、1970〜80年代にかけて楽器編成やアレンジをよりモダンなものへと刷新した。Juan Luis Guerraは、「Burbujas de Amor」(1990)などの楽曲でメレンゲを世界的に知らしめた立役者である。Elvis Crespoが発表した「Suavemente」(1998)は、世界的な大ヒットとなり、メレンゲの国際的な代名詞となった楽曲の一つである。",
     rep_tracks:["Suavemente (Elvis Crespo)", "Burbujas de Amor (Juan Luis Guerra)", "El Africano (Wilfrido Vargas)", "Patacón Pisao (Johnny Ventura)", "La Bilirrubina (Juan Luis Guerra)"],
     yt_mix:["U0V7ATX_2CY", "8pWBmHM5ux4"],
     yt_tracks:[["WPiEbYSF9kE", "_T_SIDKGRjs"], ["v0ckuv1xBm0", "PWGwF_B0bxk"], ["fHrJzlrnbqY", "MvrNHquxgM4"], ["t9UO7jY0bcs", "zN138OU1qws"], ["K8PpV3yK5iA", "McV4pBRb-Sg"]],
     aliases:["メレンゲ"],},
 
   {id:"mambo", label:"Mambo", cat:"latin", era:"1938", suno:true,
-    desc:"ブラスセクションの爆発的なエネルギーとアフロキューバンのポリリズムが融合した、熱狂的なダンスミュージック。トランペット、トロンボーン、サックスのビッグバンド編成がジャズ的なアレンジで咆哮し、コンガ、ティンバレスが複雑なリズムを叩き出す。テンポは速く（BPM 160〜220）、全身で踊る情熱的なダンスと不可分。ニューヨークのラテンクラブの黄金期を象徴する音楽。",
-    roots_story:"1938年頃、キューバのOrestes López兄弟がダンソンにアフリカ的なリズム要素を加えて誕生。Pérez Prado「Mambo No. 5」(1949)が世界的大ヒットとなり「マンボの王」と呼ばれた。Tito Puente「Oye Como Va」(1963)はSantanaのカバー(1970)でさらに有名に。ニューヨークのPalladium Ballroom(1940〜50年代)がマンボの聖地。",
+    desc:"金管楽器隊(ブラスセクション)が叩きつける爆発的なエネルギーと、アフリカ系キューバ人の音楽に由来する複雑なポリリズム(複数の異なるリズムが同時進行すること)が融合した、熱狂的なダンスミュージック。トランペット、トロンボーン、サックスによるビッグバンド編成が、ジャズ的な洗練されたアレンジで咆哮し、その下でコンガやティンバレスといった打楽器群が複雑に絡み合うリズムを叩き出す。テンポは速く(BPM 160〜220)、音楽と、全身を大きく使う情熱的なダンスとが、切り離せない一体のものとして発展してきた。1940〜50年代、ニューヨークのラテンクラブが最も熱気を帯びていた黄金期を象徴する音楽である。",
+    roots_story:"1938年頃、キューバの音楽家Orestes López(兄弟のCachao Lópezとともに活動)が、当時人気だったダンソンという舞曲にアフリカ系の複雑なリズム要素を加えたことが起源とされる。メキシコで活動したPérez Pradoが発表した「Mambo No. 5」(1949)は世界的な大ヒットとなり、彼は「マンボの王」と呼ばれるようになった。ニューヨークのTito Puenteが発表した「Oye Como Va」(1963)は、1970年にギタリストのSantanaがロック的にカバーしたことで、さらに広く知られる楽曲となった。ニューヨークのダンスホール「Palladium Ballroom」は、1940〜50年代を通じてマンボの聖地として機能した。",
     rep_tracks:["Mambo No. 5 (Pérez Prado)", "Oye Como Va (Tito Puente)", "Que Rico el Mambo (Pérez Prado)", "Ran Kan Kan (Tito Puente)", "Mambo Italiano (Rosemary Clooney)"],
     yt_mix:["YuL5RMWJUX8", "M8-qqrEefB0"],
     yt_tracks:[["7E9O0udSdOw", "dKuvJ7zG9LI"], ["BpAXzTpANNw", "zZQh4IL7unM"], ["S9-WTUmdm18", "z2jrQdJx24o"], ["TvMNjdz9Gcw", "9LDea8s4yZE"], ["44CQbWDDd64", "9prJXEhNhPA"]],
     aliases:["マンボ"],},
 
   {id:"cha_cha_cha", label:"Cha-Cha-Cha", cat:"latin", era:"1951", suno:true,
-    desc:"ダンソン・マンボのシンコペーションを弱め、踊り手が取りやすい明確な拍感にした優雅なラテンダンスミュージック。「チャ・チャ・チャ」という3つのステップを踏む足の音が名前の由来。ギロ（すりおろし器的な打楽器）のシャカシャカしたリズム、フルートやヴァイオリンの軽やかなメロディ、穏やかなコンガが上品な空気を作る。テンポはBPM 110〜130で、社交ダンスとしても定番。",
-    roots_story:"1950年代初頭、キューバの作曲家Enrique JorrínがOrquesta Américaでダンソン・マンボを踊りやすく再構成。「La Engañadora」(1953)が最初のチャチャチャのヒット。社交ダンスの種目としても世界に広まり、ボールルームダンスの定番に。Tito Puente、Xavier Cugatもチャチャチャを多数録音。映画「Dirty Dancing」(1987)でもチャチャチャのシーンが印象的。",
+    desc:"ダンソン・マンボが持っていた複雑なシンコペーションをあえて弱め、踊り手が拍を取りやすいよう明確でわかりやすいリズム感に整えた、優雅なラテンダンスミュージック。踊る際に足が「チャ・チャ・チャ」という3歩の刻みを踏むことが、そのままジャンル名の由来になっている。金属のすりおろし器のような打楽器ギロが刻む「シャカシャカ」というリズム、フルートやヴァイオリンによる軽やかなメロディ、控えめなコンガの響きが、上品で落ち着いた雰囲気を作り出す。テンポはBPM 110〜130程度で、社交ダンスの正式な種目としても世界中に定着している。",
+    roots_story:"1950年代初頭、キューバの作曲家Enrique Jorrínが、自身の楽団Orquesta Américaの演奏で、複雑なダンソン・マンボをより踊りやすい形に再構成したことから生まれた。「La Engañadora」(1953)が、チャチャチャとして最初にヒットした楽曲とされる。社交ダンスの正式種目としても世界各国に広まり、ボールルームダンスの定番として定着した。Tito PuenteやXavier Cugatも、チャチャチャの楽曲を数多く録音している。映画『ダーティ・ダンシング』(1987)の劇中でも、チャチャチャのダンスシーンが印象的に描かれている。",
     rep_tracks:["La Engañadora (Enrique Jorrín)", "Cherry Pink and Apple Blossom White (Perez Prado)", "Oye Como Va (Tito Puente)", "Guantanamera (Celia Cruz)", "Tea for Two Cha Cha (Tommy Dorsey)"],
     yt_mix:["gOxB-cEQ3_w", "kNnGqf0Radk"],
     yt_tracks:[["OW_Fv3qfqsE", "-HyvA2N0M00"], ["ggSDeyPu_e4", "zj64NlRnpDY"], ["BpAXzTpANNw", "zZQh4IL7unM"], ["9jaoXKpi7N4", "-cdq46N2sqk"], ["p2Ub05MDci4", "aoVEcWOeMmc"]],
     aliases:["チャチャチャ", "Cha Cha Cha"],},
 
   {id:"bolero_latin", label:"Bolero", cat:"latin", era:"1880s", suno:true,
-    desc:"ゆったりとしたテンポで恋愛の情感を切々と歌い上げる、ラテン音楽の中で最もロマンチックなスタイル。アコースティックギターのアルペジオ、柔らかいストリングス、情感を込めたボーカルが、恋の喜びと苦しみを表現する。テンポはBPM 60〜80と非常にゆっくり。チークダンス（頬を寄せ合って踊る密着ダンス）と結びつき、「恋人たちの音楽」として定着。",
-    roots_story:"1880年代、キューバでスペインのボレロ（舞曲）がラテンリズムと融合して誕生。Agustín Lara「Solamente una vez」(1941)がメキシカン・ボレロの代表曲。Trío Los Panchos（メキシコ）は1940〜60年代にスペイン語圏全域で絶大な人気。Luis Miguel「Romance」(1991)はボレロの名曲集で世界的大ヒット（ラテンアルバムとして当時のギネス記録）。Andrea Bocelliもボレロをレパートリーに含む。",
+    desc:"急がず、ゆったりとしたテンポの中で、恋愛にまつわる喜びや苦しみの情感を切々と歌い上げる、ラテン音楽の中でも最もロマンチックなスタイル。アコースティックギターが奏でるアルペジオ(和音を1音ずつ順に鳴らす奏法)、柔らかく寄り添うストリングス、感情を込めて歌い上げるボーカルが、聴く者の心を揺さぶる。テンポはBPM 60〜80ときわめてゆっくりで、頬を寄せ合いながら密着して踊るチークダンスと結びついたことから、「恋人たちの音楽」として広く定着している。",
+    roots_story:"1880年代、キューバで、スペインの舞曲であるボレロが、ラテンアメリカ独自のリズム感覚と融合する形で誕生したとされる。メキシコの作曲家Agustín Laraが手がけた「Solamente una vez」(1941)は、メキシコ風ボレロを代表する楽曲として知られる。メキシコの男性コーラストリオ Trío Los Panchosは、1940年代から60年代にかけて、スペイン語圏全域で絶大な人気を誇った。歌手Luis Miguelが発表したボレロの名曲集『Romance』(1991)は世界的な大ヒットとなり、当時のラテンアルバムとしての売り上げ記録を樹立した。イタリアの歌手Andrea Bocelliも、自身のレパートリーにボレロの楽曲を数多く取り入れている。",
     rep_tracks:["Solamente una vez (Agustín Lara)", "Bésame Mucho (Consuelo Velázquez)", "Sabor a Mí (Trío Los Panchos)", "Contigo en la Distancia (Luis Miguel)", "Historia de un Amor (Luis Miguel)"],
     yt_mix:["rmQDcAQfjio", "FuVTGA0FOvk"],
     yt_tracks:[["bGKk15y7ZBQ", "96NzAzGIWoI"], ["MY0fuEfBmD4", "0u0bX5gBCRw"], ["Qg_L54DW69U", "krqY5QaQgq0"], ["lLiPh6kmFoU", "PHOwNNsqA0s"], ["kqObd2CcEKc", "zC0JJGgnf9g"]],
@@ -3297,24 +3297,24 @@ const NODES = [
 
   // ジャズ系追加
   {id:"dixieland", label:"Dixieland", cat:"jazz_sub", era:"1910s", suno:true,
-    desc:"ニューオーリンズ生まれのジャズの原型。トランペット、クラリネット、トロンボーンが同時に即興で絡み合う「集団即興」が最大の特徴。テンポは軽快でBPM 120〜200。行進曲的な陽気さとブルースの哀愁が混ざり、パレードやお祭りの空気感がある。現代のジャズに比べると素朴で牧歌的だが、その自由な掛け合いにジャズの原点がある。",
-    roots_story:"1910年代、ニューオーリンズのStoryville地区を中心に形成。King Oliver's Creole Jazz Band、Louis Armstrong「Hot Five」セッションが代表。Original Dixieland Jass Band「Livery Stable Blues」(1917)が最初のジャズ録音とされる。「ディキシーランド」はアメリカ南部の俗称に由来。1950年代にリバイバルブームがあり、現在もニューオーリンズの観光名所Preservation Hallで毎晩演奏されている。",
+    desc:"ニューオーリンズで生まれた、ジャズの最も原初的な形態。1人のソリストが目立つのではなく、トランペット・クラリネット・トロンボーンという複数の管楽器が、それぞれ同時に即興演奏を繰り広げながら絡み合う「集団即興」こそが、このスタイルの最大の特徴である。テンポは軽快でBPM 120〜200。マーチングバンド由来の陽気な行進曲的ノリと、ブルースの持つ哀愁が同居し、街を練り歩くパレードや祭りの高揚感を音そのものが持っている。後年の洗練されたジャズと比べると素朴で牧歌的な響きだが、その自由な掛け合いの中にこそ、ジャズという音楽が本来持っていた原点の姿がある。",
+    roots_story:"1910年代、ニューオーリンズの歓楽街Storyville地区を中心に形成された。King Oliver's Creole Jazz Band、そしてLouis Armstrongによる「Hot Five」のセッションが、この様式を代表する演奏として知られる。白人ミュージシャンによるバンドOriginal Dixieland Jass Bandが録音した「Livery Stable Blues」(1917)は、史上初のジャズのレコードとされる。「ディキシーランド」という呼び名自体は、アメリカ南部一帯を指す俗称に由来する。1950年代には一度大きなリバイバルブームが起き、現在もニューオーリンズの観光名所であるライブハウス「Preservation Hall」で、この様式の演奏が毎晩続けられている。",
     rep_tracks:["Livery Stable Blues (Original Dixieland Jass Band)", "Muskrat Ramble (Louis Armstrong)", "When the Saints Go Marching In (Louis Armstrong)", "Tiger Rag (Original Dixieland Jass Band)", "Basin Street Blues (Louis Armstrong)"],
     yt_mix:["WgcjKlQbwKA", "gIPIB60DtqM"],
     yt_tracks:[["5WojNaU4-kI", "vJpN8Bmctf8"], ["L9F0UP9Liy8", "eR6_9oPUoTs"], ["wyLjbMBpGDA", "2eUzdTF3P2M"], ["k7-sMpj3LWo", "K2V2AxF5urc"], ["qRjT4h7F_jw", "H8GjJD826vc"]],
     aliases:["ディキシーランド", "ディキシーランドジャズ"],},
 
   {id:"big_band", label:"Big Band", cat:"jazz_sub", era:"1930s", suno:true,
-    desc:"10〜20人の大編成バンドによる、華やかでスウィングするジャズ。サックスセクション、トランペットセクション、トロンボーンセクション、リズムセクションが層になったゴージャスなサウンド。テンポはBPM 120〜200で、スウィングのリズムに乗って踊れる。アレンジされた楽譜に基づく演奏が中心だが、ソロパートでは即興も。1930〜40年代の「スウィング時代」のメインストリーム音楽。",
-    roots_story:"1930年代、Duke Ellington、Count Basie、Benny Goodmanがビッグバンドジャズを確立。Benny Goodmanは「キング・オブ・スウィング」と呼ばれ、1938年のカーネギーホール公演は歴史的イベント。Glenn Miller「In the Mood」(1939)は最も有名なビッグバンド曲の一つ。第二次世界大戦中の慰問音楽としても重要な役割を果たした。現在もGordon Goodwin's Big Phat Bandなどが活動を続けている。",
+    desc:"10人から20人規模という大編成のバンドによる、華やかでスウィングするジャズ。複数のサックス奏者からなるサックスセクション、トランペットセクション、トロンボーンセクションがそれぞれ層を成して重なり、リズムセクションがそれを支える、まさにゴージャスという言葉がふさわしいサウンドを作り出す。テンポはBPM 120〜200で、跳ねるようなスウィングのリズムに乗って実際に踊ることを前提に作られている。基本的には事前にアレンジされた譜面に基づく演奏だが、要所要所のソロパートでは個々の奏者の即興も光る。1930〜40年代、「スウィング時代」と呼ばれる時代のメインストリームを担った音楽である。",
+    roots_story:"1930年代、Duke Ellington、Count Basie、Benny Goodmanといった音楽家たちが、ビッグバンドジャズという様式を確立していった。クラリネット奏者Benny Goodmanは「キング・オブ・スウィング」と称され、1938年に行われたクラシック音楽の殿堂カーネギーホールでの公演は、ジャズの社会的地位を大きく引き上げた歴史的なイベントとして語り継がれている。Glenn Millerが発表した「In the Mood」(1939)は、ビッグバンドジャズを代表する最も有名な楽曲の一つである。第二次世界大戦中には、前線の兵士たちを慰める慰問音楽としても重要な役割を果たした。現在も、Gordon Goodwin's Big Phat Bandのようなバンドが、この伝統を受け継いで活動を続けている。",
     rep_tracks:["In the Mood (Glenn Miller)", "Sing, Sing, Sing (Benny Goodman)", "Take the 'A' Train (Duke Ellington)", "One O'Clock Jump (Count Basie)", "Moonlight Serenade (Glenn Miller)"],
     yt_mix:["ZQK_E8f24IY", "btLNPD8uukA"],
     yt_tracks:[["_CI-0E_jses", "aME0qvhZ37o"], ["6VHt4hazMG0", "u_E0UVNtJ9Y"], ["r2G1fKYFgVU", "cb2w2m1JmCY"], ["aT5NKGgKjyo", "g3JyQnYPkZk"], ["9Ws6DdrDtyo", "bMdb2TB7-YI"]],
     aliases:["ビッグバンド"],},
 
   {id:"free_jazz", label:"Free Jazz", cat:"jazz_sub", era:"1960s", suno:true,
-    desc:"あらゆるルール——調性、テンポ、コード進行、構成——を解放した、完全に自由な即興音楽。複数の演奏者が各自の判断で自由に音を出し、その瞬間瞬間の音の衝突と共鳴がそのまま作品になる。テンポの概念すら存在しないことも。叫ぶサックス、暴れるドラム、うめくベースが混沌の中に独自の美を生む。理解を拒む激しさだが、既成概念の破壊に快感がある。",
-    roots_story:"1960年、Ornette Coleman「Free Jazz」がジャンル名の由来。37分間の完全即興を両チャンネルに別々の四重奏を配置して録音した革命的作品。John Coltrane「Ascension」(1966)はフリージャズの精神性の頂点。Cecil Taylor（ピアノ）、Albert Ayler、Sun Raも重要。ヨーロッパではPeter Brötzmann「Machine Gun」(1968)が過激なフリーインプロを展開。日本では阿部薫、高柳昌行が独自のフリージャズを追求した。",
+    desc:"調性(特定の音階・和音への従属関係)、決まったテンポ、あらかじめ用意されたコード進行、曲の構成——ジャズがそれまで前提としてきたあらゆるルールを解き放った、完全に自由な即興音楽。複数の演奏者がそれぞれ自分自身の判断だけで自由に音を出し合い、その瞬間瞬間に生まれる音同士の衝突や偶然の共鳴が、そのまま作品として成立する。演奏によってはテンポという概念そのものが存在しないことすらある。叫ぶように吹かれるサックス、暴れ回るドラム、うめくようなベースが、混沌の中から独自の美を生み出す。一聴して理解を拒むような激しさを持つ音楽だが、既成概念を根本から破壊していくその過程にこそ、独特の知的な快感がある。",
+    roots_story:"1960年、Ornette Colemanが発表したアルバム『Free Jazz』が、そのままこのジャンルの名前の由来となった。左右のスピーカーにそれぞれ別々の四重奏団を配置し、37分間にわたる完全な集団即興を記録したこの作品は、当時としては極めて革命的な試みであった。John Coltraneが発表した『Ascension』(1966)は、フリージャズが持つ精神性・宗教性の頂点を示す作品とされる。ピアニストのCecil Taylor、サックス奏者のAlbert Ayler、そして独自の宇宙的な哲学を掲げたSun Raも、このジャンルを代表する重要な音楽家である。ヨーロッパでは、ドイツのサックス奏者Peter Brötzmannが『Machine Gun』(1968)で、極めて過激なフリーインプロヴィゼーション(自由即興演奏)を展開した。日本でも、阿部薫や高柳昌行といった演奏家が、それぞれ独自の様式でフリージャズを追求した。",
     rep_tracks:["Free Jazz (Ornette Coleman)", "Ascension (John Coltrane)", "Machine Gun (Peter Brötzmann)", "Spiritual Unity (Albert Ayler)", "Unit Structures (Cecil Taylor)"],
     yt_mix:["p9dRg8yQ2DY", "FAdJjGl2xw0"],
     yt_tracks:[["iPDzlSda8P8", "8bRTFr0ytA8"], ["Gio8aXWUvIU", "-81AEUqHPzU"], ["iaifuU1JcEA", "kXLw8gZVIOM"], ["xWsIG5sNq1Q", "q_09kXcr7hw"], ["Y2Tdye6xuGI", "8zrYKFmvWc0"]],
@@ -7812,6 +7812,14 @@ function _linkTrimRadius(nodeR, strokeWidth) {
 // だけ表示するCSSだけの仕組みで、常時動き続けるアニメーションではない
 // ため負荷は小さい（2026-07-24、「わからない用語にツールチップを」との指示）。
 const GLOSSARY = {
+  "ティン・パン・アレー": "20世紀初頭、ニューヨークに集中していた楽譜出版社・音楽出版業界の通称。当時のポピュラー音楽の流行を生み出す中心地であった。",
+  "ストライドピアノ": "ラグタイムから発展したピアノ奏法。左手が低音とコードを大きく跳躍しながら刻み、右手が自由に旋律を弾く。ニューヨークで発展したためニューヨーク・スタイルとも呼ばれる。",
+  "ギラ": "ドミニカ共和国の伝統的な打楽器。金属製のすりおろし器のような形状で、金属の棒でこすって「シャリシャリ」という音を出す。メレンゲに欠かせないリズム楽器。",
+  "ダンソン": "19世紀キューバで生まれた、優雅でゆったりとした舞曲。マンボやチャチャチャなど、後の多くのキューバ音楽の直接の母体となった。",
+  "ギロ": "ラテン音楽で使われる打楽器。ひょうたんや金属に刻んだ溝を棒でこすって「シャカシャカ」という音を出す。",
+  "Louis Armstrong": "アメリカのトランペット奏者・シンガー。ニューオーリンズジャズの集団即興から、ソリストが主役になるという転換をもたらしたジャズ史上最重要の人物の一人。",
+  "Duke Ellington": "アメリカの作曲家・ピアニスト。ビッグバンドジャズを代表する存在で、「Take the 'A' Train」など数多くの名曲を残した。",
+  "Count Basie": "アメリカのピアニスト・バンドリーダー。ビッグバンドジャズを代表する存在の一人。",
   "シビーン": "南アフリカで、公的な許可を得ずに酒類を提供していた違法な酒場。アパルトヘイト時代、黒人が公認のバーに入ることを制限されていたため生まれた、コミュニティの社交・音楽の場。",
   "ンバカンガ": "南アフリカのポピュラー音楽の一つ。マラビの流れを汲み、より洗練されたバンド編成とキャッチーなメロディを持つ。",
   "ダウンテンポ": "BPM(1分間の拍数)が遅く、リラックスした雰囲気を持つ電子音楽全般を指す言葉。トリップホップやチルアウトなどが含まれる。",
@@ -7859,6 +7867,24 @@ const GLOSSARY = {
   "VNV Nation": "イギリスのバンド。『Empires』(1999)でフューチャーポップの誕生を告げた。Ronan Harrisがジャンル名を命名したとされる。",
   "Apoptygma Berzerk": "ノルウェーのバンド。『Welcome to Earth』(1999)でフューチャーポップの誕生を告げた。",
   "Covenant": "スウェーデンのバンド。『United States of Mind』(2000)でフューチャーポップの重要な初期作品を残した。",
+  "Scott Joplin": "アメリカの作曲家・ピアニスト。「Maple Leaf Rag」(1899)でラグタイムを全米で大衆化させ、「ラグタイムの王」と呼ばれた。",
+  "Fats Waller": "アメリカのピアニスト・作曲家。ストライドピアノの名手として、ラグタイムからジャズへの橋渡しを担った。",
+  "James P. Johnson": "アメリカのピアニスト。ストライドピアノの名手として、ラグタイムからジャズへの橋渡しを担った。",
+  "Rafael Trujillo": "ドミニカ共和国の独裁者(在任1930〜61年)。メレンゲを国民音楽として積極的に推進し、全国への浸透を決定づけた。",
+  "Juan Luis Guerra": "ドミニカ共和国のミュージシャン。「Burbujas de Amor」などの楽曲でメレンゲを世界的に知らしめた立役者。",
+  "Elvis Crespo": "プエルトリコのミュージシャン。「Suavemente」(1998)で世界的なメレンゲのヒット曲を残した。",
+  "Pérez Prado": "メキシコで活動したキューバ出身の音楽家。「Mambo No. 5」(1949)で世界的な大ヒットを記録し「マンボの王」と呼ばれた。",
+  "Tito Puente": "アメリカのミュージシャン。「Oye Como Va」(1963)などでマンボ/ラテンジャズを代表する存在となった。",
+  "Enrique Jorrín": "キューバの作曲家。ダンソン・マンボを踊りやすく再構成し、チャチャチャという様式を生み出した。",
+  "Xavier Cugat": "スペイン出身の音楽家。アメリカでラテン音楽を広めた重要なバンドリーダー。",
+  "Agustín Lara": "メキシコの作曲家。「Solamente una vez」(1941)などメキシコ風ボレロを代表する楽曲を残した。",
+  "Trío Los Panchos": "メキシコの男性コーラストリオ。1940〜60年代、スペイン語圏全域でボレロの絶大な人気を築いた。",
+  "Luis Miguel": "メキシコの歌手。ボレロの名曲集『Romance』(1991)で世界的な大ヒットを記録した。",
+  "Ornette Coleman": "アメリカのサックス奏者・作曲家。アルバム『Free Jazz』(1960)でこのジャンルの名前の由来となった革命的作品を残した。",
+  "Cecil Taylor": "アメリカのピアニスト。フリージャズを代表する重要な音楽家の一人。",
+  "Albert Ayler": "アメリカのサックス奏者。フリージャズを代表する重要な音楽家の一人。",
+  "Sun Ra": "アメリカのピアニスト・作曲家。独自の宇宙的な哲学を掲げ、フリージャズ/アヴァンギャルドジャズを代表する存在となった。",
+  "Peter Brötzmann": "ドイツのサックス奏者。『Machine Gun』(1968)で極めて過激なフリーインプロヴィゼーションを展開した。",
   "タウンシップ": "南アフリカで、アパルトヘイト(人種隔離政策)時代に黒人などが強制的に居住させられた都市郊外の居住区。現在も多くの人々が暮らし、独自の音楽・文化を育んできた。",
   "ログドラム": "丸太を叩いたときのような、木琴的な低い音色を出す電子音源(シンセサイザー)の音色。アマピアノでメロディックなベースラインを作るのに多用される。",
   "初音ミク": "クリプトン・フューチャー・メディアが2007年に発売した、歌声合成ソフトウェア「ボーカロイド」を用いたキャラクター製品。緑色の髪を持つバーチャルなキャラクターとしても親しまれ、ボカロ文化の象徴的存在となった。",
