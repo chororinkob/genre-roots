@@ -10,6 +10,13 @@
  *
  * 文字数に上限はない。多いほど良い、というのがチョロさんの明確な方針。
  *
+ * 【2026-07-30 基準引き上げ】当初は 300字/500字 を下限としていたが、
+ * 全563件を書き直した結果、実際の平均が desc 469字・roots_story 805字に達した。
+ * 一方で「下限は超えているが平均より明らかに薄い」ジャンルが116件残り、
+ * Hip Hop や Post-Punk のような中心的なジャンルが、その派生ジャンルより
+ * 説明が薄いという逆転が起きていた。そのため下限を 400字/700字 に引き上げ、
+ * 全体が平均前後で揃うようにした。
+ *
  * 【使い方】
  *   node tools/check_quality.js              全ジャンルをチェック
  *   node tools/check_quality.js <ID...>      指定ジャンルのみ
@@ -20,8 +27,8 @@
 const fs = require('fs');
 const path = require('path');
 
-const MIN_DESC = 300;   // desc(音楽性の特徴) の下限文字数
-const MIN_ROOTS = 500;  // roots_story(成り立ち) の下限文字数
+const MIN_DESC = 400;   // desc(音楽性の特徴) の下限文字数
+const MIN_ROOTS = 700;  // roots_story(成り立ち) の下限文字数
 
 const HTML = path.join(__dirname, '..', 'genre_roots.html');
 const html = fs.readFileSync(HTML, 'utf8');
