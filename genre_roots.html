@@ -559,7 +559,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v25.464<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v26.00<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -981,7 +981,7 @@ const NODES = [
     rep_tracks:["Étude aux chemins de fer (Pierre Schaeffer)", "Symphonie pour un homme seul (Pierre Schaeffer & Pierre Henry)", "Gesang der Jünglinge (Karlheinz Stockhausen)"],
     yt_mix:["CTf0yE15zzI", "-HBMvmJQzcY"],
     yt_tracks:[["N9pOq8u6-bA", "aL77mHnCrNs"], ["-HBMvmJQzcY", "MOYNFu45khQ"], ["nffOJXcJCDg", "UmGIiBfWI0E"]],
-    aliases:["ミュジック・コンクレート", "具体音楽"],},
+    aliases:["ミュジック・コンクレート", "具体音楽", "ミュジックコンクレート"],},
 
   {id:"experimental_elec",label:"Experimental\nElectronic", cat:"early_elec", era:"1950s", suno:false,
     desc:"既存の音楽形式に収まることを目的とせず、電気・電子の音そのものの可能性を試すことを目的にした音楽の総称。発振器が出す正弦波・矩形波・鋸歯状波、雑音発生器のホワイトノイズ、テープの回転速度の操作、フィードバックの暴走、自作の回路や壊れた機材の誤動作を利用するサーキットベンディングまで、音源も方法も限定されない。拍節を持たない曲が多く、代わりに音の密度、周波数の帯域、空間の広がり、持続時間の設計で構成が組み立てられる。調性の代わりに、近い二つの周波数が干渉して生じる周期的な揺れ（うなり）や倍音の重なりが和声の役割を果たす。作曲家が細部まで指定する場合もあれば、乱数や環境の変化に委ねる不確定性・自動生成に任せる場合もあり、コンピュータでは音を数値として合成するMax/MSP、SuperCollider、Pure Dataといった環境が使われる。再生装置も作品の一部で、多数のスピーカーへの音の配分や会場自体の反響を計算に入れることが多い。ポップスやテクノと違い、踊らせることも覚えやすさも目的にせず、聴くという行為そのものを問い直す姿勢が共通している。",
@@ -997,7 +997,7 @@ const NODES = [
     rep_tracks:["Autobahn (Kraftwerk)", "Halleluhwah (Can)", "Hallogallo (Neu!)"],
     yt_mix:["vLKlihJldxM", "vvnSb4Ug1vM"],
     yt_tracks:[["iukUMRlaBBE", "vkOZNJYAZ7c"], ["2dZbAFmnRVA", "Stl3djAAiMk"], ["zndpi8tNZyQ", "EAXYMOgHQI4"]],
-    aliases:["クラウトロック", "コスミック・ミュージック"],},
+    aliases:["クラウトロック", "コスミック・ミュージック", "コスミックミュージック"],},
 
   {id:"dub", label:"Dub", cat:"early_elec", era:"1970s", suno:true,
     desc:"レゲエの録音から歌や楽器を抜き差しし、残った音にエコーとリヴァーブを深くかけて作り直す、ミキシング卓を楽器として使う音楽。土台はドラムとベースだけのリディムで、重く長い音符を弾くベースが主役になり、ドラムは1拍目を空けて3拍目にバスドラムとスネアを置くワンドロップが基本型。歌は一瞬だけ現れてはエコーの尾を引きながら消え、ギターやホーンの断片も同様に霧の中を出入りする。使う機材はスプリング・リヴァーブ、テープ・ディレイ（Roland Space Echoが定番）、高音域と低音域を削るフィルター、そして各パートを消したり戻したりするフェーダーそのもの。エンジニアが本番一発でフェーダーとつまみを操作し、その手つきが演奏になるため、同じ原曲から無数の別バージョンが生まれる。テンポは60〜90BPMと遅く、音数が少ないぶん空間の広さと残響が消えていく過程そのものが聴かせどころになる。歌モノのレゲエと材料は同一だが、主役を歌からミックスの操作へ移した点が本質的な違いであり、のちのリミックス文化はここに起源を持つ。",
@@ -1014,7 +1014,7 @@ const NODES = [
     rep_tracks:["Once in a Lifetime (Talking Heads)", "Heart of Glass (Blondie)", "Cars (Gary Numan)", "Hungry Like the Wolf (Duran Duran)", "Whip It (Devo)"],
     yt_mix:["9mKxQ26gdHw", "94Cl9LycZrY"],
     yt_tracks:[["5IsSpAOD6K8", "fR0jgT9UX0Q"], ["WGU_4-5RaxU", "M6zdLTfH-As"], ["Im3JzxlatUs", "LrjM8Fi7J58"], ["oJL-lCzEXgI", "A-H-0p5RKc8"], ["j_QLzthSkfM", "3bXEHGUvVrA"]],
-    aliases:["ニューウェーブ", "ニューウェイヴ"],},
+    aliases:["ニューウェーブ", "ニューウェイヴ", "ニューウェーヴ", "ニューウェイブ"],},
 
   {id:"electro", label:"Electro", cat:"synthpop", era:"1982", suno:false,
     desc:"Roland TR-808が鳴らす硬い電子音のドラムと、ヴォコーダーで機械化された声を軸にした1980年代前半のダンス音楽。最大の特徴はリズムで、ディスコやハウスのような均等な四つ打ちではなく、バスドラムとスネアの間に16分音符のシンコペーションを大量に差し込んだ跳ねるブロークンビートを使う。TR-808の低く伸びるバスドラム、乾いたリムショット、シャラシャラ鳴るカウベルとハンドクラップが定番の音色で、そこにシンセサイザーの単音で打ち込んだベースラインが機械的に絡む。テンポは110〜130BPM。旋律はごく単純な短調の反復が多く、和声はほとんど変化しない。声は生身の歌よりも、ヴォコーダーやトークボックスで加工した平坦な合成音声が好まれ、歌詞はロボット、宇宙、未来都市、機械と人間の境界といったSF的な主題を扱う。ブレイクダンスの伴奏として鳴っていた音楽であり、身体の動きを区切るために音の一つ一つが短く切り立って配置される。ヒップホップと出自を共有するが、サンプリングとラップではなく電子音とヴォコーダーを主役にした点が決定的に違う。",
@@ -1055,7 +1055,7 @@ const NODES = [
     rep_tracks:["Headhunter (Front 242)", "Der Mussolini (DAF)", "Join in the Chant (Nitzer Ebb)"],
     yt_mix:["9t-VsxoID7E", "S1SEWdbx_w0"],
     yt_tracks:[["wXLyAzgX-ho", "m1cRGVaJF7Y"], ["6etM3FWwEZo", "iFyRsLbrFfA"], ["AGHMS_zh0zM", "x0HsjYtdAKM"]],
-    aliases:["Electronic Body Music", "エレクトロニック・ボディ・ミュージック"],},
+    aliases:["Electronic Body Music", "エレクトロニック・ボディ・ミュージック", "エレクトロニックボディミュージック"],},
 
   {id:"post_punk", label:"Post-Punk", cat:"industrial", era:"1978", suno:false,
     desc:"パンクの否定の身振りだけを引き継ぎ、音の材料をすべて組み替えたロック。ギターは歪んだ和音の壁をやめ、コーラスやディレイをかけた冷たく細い単音を弾き、輪郭のはっきりした反復音型を刻む。かわりに前へ出るのがベースで、旋律を持った動きの多いラインが曲の骨格を担い、レゲエやダブ、ファンクから借りた深い低音が空間を支える。ドラムは装飾を削ぎ、床タムやシンバルを抑えた乾いた打撃を等間隔に置く型が多い。シンセサイザーやテープ、サックス、ヴァイオリンなど、パンクが排除した音源も抵抗なく持ち込まれる。テンポは110〜160BPMだが、あえて重く引きずる遅い曲も特徴的である。和声は短調と旋法を行き来し、解決しない不協和音をそのまま置く。歌唱は絶叫でも朗々とした歌唱でもなく、平板な語りや神経質な震え、演劇的な発声が選ばれる。歌詞は都市の疎外、消費社会の批判、身体と性、精神の不調、政治といった主題を、断片的で抽象的な言葉で扱う。録音では残響と定位が主要な表現手段になり、スタジオ作業そのものが作曲に組み込まれた。",
@@ -1071,7 +1071,7 @@ const NODES = [
     rep_tracks:["Lost and Late (Martin Dupont)", "The Last Song (Trisomie 21)", "So Young But So Cold (KaS Product)", "Submarine Dance (Signal Aout 42)", "Cold Souls (Lebanon Hanover)"],
     yt_mix:["4uqIn4GslJI", "YwFlXL3tFTQ"],
     yt_tracks:[["hwkGeAAz78w", "sSR7GC4CBtk"], ["A3ZVZVMIG7g", "SLtx4_h6Wug"], ["TQ_MOB9PE94", "q9g-aJ0Cdr0"], ["PvIkjmXe984", "UEKouhaGkM4"], ["qdOYR-B_JdA", "63wtdGh_zgc"]],
-    aliases:["コールドウェーブ"],},
+    aliases:["コールドウェーブ", "コールドウェーヴ"],},
 
   {id:"darkwave", label:"Darkwave", cat:"industrial", era:"1980s", suno:false,
     desc:"ニューウェイヴの電子的な語彙を、憂鬱と死のイメージへ振り切った音楽。シンセサイザーのパッドを霧のように敷き詰め、その上に残響の深いギターと重いドラムマシンを重ねる。音色選びの原則は明るい倍音を避けることで、シンセはローパスフィルターを絞った鈍い音、ギターはコーラスとディレイで輪郭をぼかした音が使われる。テンポは90〜130BPM程度で、四つ打ちのものからゆったりしたバラード的なものまで幅がある。ベースは中低域を厚く占め、単純な反復で曲を支える。和声は自然短音階やハーモニックマイナーを軸にし、増二度を含む中東風の音程やグレゴリオ聖歌を思わせる旋法が使われることもある。ヴォーカルは二極に分かれ、男性は低く沈んだバリトンで語るように、女性はソプラノで教会音楽風に伸びやかに歌う。歌詞は死、喪失、宗教的な罪、夢と幻視、中世や神話の情景を扱い、文学的な引用も多い。しばしばチェンバロ、ヴァイオリン、チェロ、ティンパニといったクラシック楽器のサンプルが加わり、擬似的な室内楽の質感を作る。ゴシックロックと重なる領域が大きいが、ゴシックがギターバンドの編成を保つのに対し、ダークウェイヴはシンセとプログラミングが主導する点で区別される。またコールドウェイヴの乾いた簡素さとは対照的に、装飾的で情感過多な傾向がある。",
@@ -1079,7 +1079,7 @@ const NODES = [
     rep_tracks:["Louise (Clan of Xymox)", "The Host of Seraphim (Dead Can Dance)", "Pearly-Dewdrops' Drops (Cocteau Twins)", "Gottes Tod (Das Ich)", "Der Eissturm (Goethes Erben)"],
     yt_mix:["C5b07gcOFGk", "rrXB5Fwqsrc"],
     yt_tracks:[["Q6M8iFI8t4s", "cPSs_vnVpbQ"], ["hThAlY3Q2Kw", "lyVsRGyd2r8"], ["s-5Xgw6d3h0", "-JWUNzNEJiE"], ["ZC9VLn7380Q", "4pBLBEJugzU"], ["8f2LonTeMF8", "a2l6W650V6U"]],
-    aliases:["ダークウェーブ"],},
+    aliases:["ダークウェーブ", "ダークウェーヴ"],},
 
   {id:"gothic_rock", label:"Gothic Rock", cat:"industrial", era:"1979", suno:false,
     desc:"パンク以後のギターバンドの編成を保ちながら、音色と主題を暗黒方向へ徹底させたロック。最大の特徴はギターの音作りで、歪みよりもコーラス、フランジャー、ロングディレイ、深いリヴァーブを重ね、和音を弾いても輪郭が滲む冷たい響きを作る。低音弦のパワーコードより高音弦のアルペジオや、意図的に不協和を残す和音が好まれる。ベースは曲の旋律を担うほど前に出て、ピックで硬く弾いた音を中域まで持ち上げる。ドラムはフロアタムとスネアを強く打つ部族的なパターンや、ドラムマシンによる無機質な反復が使われ、ハイハットの刻みを排して空間を作ることが多い。テンポは100〜140BPM。ヴォーカルは男性なら墓場から響くような低いバリトンで芝居がかった発声、女性なら鋭く裏返る叫びを含む表現主義的な歌唱になる。和声は自然短音階とフリギア旋法が中心で、増音程や半音進行で不安を演出する。歌詞は死、吸血鬼、宗教的な堕落、性と暴力、ゴシック小説や象徴主義詩からの引用で構成され、直接的な社会批判より寓話的な暗喩を好む。ライヴでは黒衣、白塗り、逆立てた髪といった視覚様式が音と不可分に結びついている。ポストパンクの一分派だが、暗さを美学として自覚的に様式化した点で他と区別される。",
@@ -1095,7 +1095,7 @@ const NODES = [
     rep_tracks:["Cantar de Procella (Arcana)", "The Umbersun (Elend)", "Stoa (Stoa)", "Ophelia's Dream (Ophelia's Dream)", "In the Realm of the Midnight Sun (In Slaughter Natives)"],
     yt_mix:["Ah0r6_RbQ14", "7hePAuc2Zfo"],
     yt_tracks:[["OAGkDvjSW_Q", "BS5m3D8R1GY"], ["CqlHBppA3-Q", "FaMBH-ZlLs4"], ["5KnNx10epgc", "BY15f-CdQMM"], ["hqOI9EeT0p0", "puF-fICuG5M"], []],
-    aliases:["ネオクラシカルダークウェーブ"],},
+    aliases:["ネオクラシカルダークウェーブ", "ネオクラシカルダークウェーヴ"],},
 
   {id:"ethereal_wave", label:"Ethereal Wave", cat:"industrial", era:"1980s", suno:true,
     desc:"ダークウェイヴの一分派で、暗さよりも透明感と浮遊感を追求した音楽。核となるのは女性ヴォーカルで、歌詞の意味を伝えることを放棄し、声を純粋な音響素材として扱う点が最大の特徴になる。実在しない創作言語や、意味を解体した音節の連なりで歌われ、多重録音とリヴァーブによって人の声が霧のように広がる。ギターはコーラス、フランジャー、ロングディレイを何段も重ね、原音がほとんど判別できないほど加工された持続音として鳴る。歪みではなく空間系エフェクトによる厚みが基本原理で、和音をかき鳴らすというより残響の層を作る道具として使われる。ドラムは控えめで、ドラムマシンが遠くで鳴るか、あるいは完全に省かれる。ベースは低域を静かに支え、旋律を主張しない。テンポは遅く、拍節の輪郭も意図的に曖昧にされる。和声は長調と短調の境界を溶かすような、機能を持たない浮遊した響きを好み、開放弦や複数の弦の共鳴を利用したドローンが下敷きになることが多い。曲の構成は明確なサビを持たず、音の層が増減する波として進む。歌詞の主題は解釈に委ねられ、聴き手が意味を投影する余地が設計上の狙いになっている。ドリームポップやシューゲイザーと隣接するが、より非現実的で、地上の恋愛や日常の情景を歌わない点で区別される。",
@@ -1103,7 +1103,7 @@ const NODES = [
     rep_tracks:["Heaven or Las Vegas (Cocteau Twins)", "Song to the Siren (This Mortal Coil)", "De-Luxe (Lush)", "The Host of Seraphim (Dead Can Dance)"],
     yt_mix:["sMQxuHEtsBk", "Zbc42kfQf9Q"],
     yt_tracks:[["6KnYw4EwYGc", "JlwcQR5HHck"], ["HFWKJ2FUiAQ", "6GFteqnmoxg"], ["aKrw5wOlSng", "6hhIudIuKzA"], ["hThAlY3Q2Kw", "lyVsRGyd2r8"]],
-    aliases:["エセリアルウェーブ"],},
+    aliases:["エセリアルウェーブ", "エセリアルウェーヴ"],},
 
   {id:"harsh_noise", label:"Harsh\nNoise", cat:"industrial", era:"1980s", suno:true,
     desc:"音楽から旋律、和声、拍節をすべて取り除き、飽和した歪みそのものを内容とする音楽。信号としては広帯域のノイズが中心で、ホワイトノイズやピンクノイズに近い連続スペクトルに、突発的なピークが重なる。制作にはフィードバック(マイクやピックアップを増幅器に戻して発振させる)、自作の回路や壊れた電子機器、コンタクトマイクで拾った金属の擦過音、テープの過飽和、多段のディストーションとイコライザによる増幅の連鎖が使われる。ミキサー卓自体を楽器として扱い、入力を意図的に過大にして卓を歪ませる手法も基本技法になる。音量は極端に大きく、聴取における肉体的な圧力や痛みが表現の一部として組み込まれている。構造の面では起承転結を持たず、密度と周波数配置がゆっくり変化するか、あるいは何の前触れもなく途切れる。ハーシュ・ノイズ・ウォールと呼ばれる下位分類では、変化すらほぼ排して数十分間ひたすら同じ壁のような轟音を持続させる。ライヴでは演奏者が機材を叩いたり床を転げ回ったりする身体的な行為が伴うことも多い。作品はカセットテープやCD-Rの極小部数で流通し、手作りの過激な装丁が付されることが多い。歌詞やヴォーカルは通常ないが、あっても叫びが音の層に埋没する。実験音楽全般やインダストリアルと接するが、それらが持つ構成意識やリズムすら放棄している点で最も極端な位置にある。",
@@ -1225,7 +1225,7 @@ const NODES = [
     rep_tracks:["Xpander (Sasha)", "Strobe (Deadmau5)", "Call on Me (Eric Prydz)", "Born Slippy .NUXX (Underworld)", "Leftism (Leftfield)"],
     yt_mix:["u4Ufp_UW300", "qDAgkOuijUg"],
     yt_tracks:[["HRqPeKbYoGw", "z-87KHrwXQc"], ["tKi9Z-f6qX4", "Y4ab2-QhmI0"], ["qetW6R9Jxs4", "_N0gaZEbDtU"], ["XiMrrleH_hI", "CkHdBf-8PZE"], ["SILVQpqmH7U", "HGdBdMEXvJs"]],
-    aliases:["プログレッシブハウス"],},
+    aliases:["プログレッシブハウス", "プログレッシヴハウス"],},
 
   {id:"electro_house", label:"Electro House", cat:"house", era:"2000s", suno:false,
     desc:"ハウスの四つ打ちに、極端に歪ませたシンセのベース音を乗せた攻撃的な系統。中核はディストーションをかけた矩形波やノコギリ波のベースで、単に低音を鳴らすのではなく、中域まで倍音を撒き散らして耳を刺す音になる。この音はしばしば1オクターブ跳躍したり、ピッチベンドで滑ったりして、旋律とリズムの両方を兼ねる。テンポは125〜132BPM。キックは短く硬い音で、サイドチェイン・コンプレッションによって上物を強く押し下げ、ポンプのような脈動を作る。この脈動はジャンルの視覚的なまでの特徴になっている。上物は少なく、単純な単音のリードと、白色雑音を用いた上昇音(ライザー)が中心。ライザーは緊張を高める装置として構造上不可欠で、8小節あるいは16小節かけて音程と音量を上げ続け、その後に全ての音が一瞬止まる無音を挟んでから、最も激しい部分へ落ちる。この落差の設計がジャンルの快感の中心にある。和声はマイナー調の単純な循環で、複雑さは意図的に避けられる。ヴォーカルは断片的なフレーズか、あるいは加工した叫び声。構成は明快で、イントロ、積み上げ、無音、ドロップという型を繰り返す。ディープハウスやテックハウスと比べて微妙な質感の追求がなく、大音量の会場で肉体的な衝撃を与えることに全てが最適化されている。",
@@ -1394,7 +1394,7 @@ const NODES = [
     rep_tracks:["Xpander (Sasha)", "Seven Cities (Solarstone)", "For An Angel (Paul van Dyk)"],
     yt_mix:["1LrXsP4xSEc", "gKFD_e8Elks"],
     yt_tracks:[["HRqPeKbYoGw", "z-87KHrwXQc"], ["awxQuhay_mo", "rB9SaTnh41M"], ["--3eIRSg2RY", "sRvEwXDxz_I"]],
-    aliases:["プログレッシブトランス"],},
+    aliases:["プログレッシブトランス", "プログレッシヴトランス"],},
 
   // ハードコア系
   {id:"rave", label:"Rave", cat:"hardcore", era:"1988", suno:false,
@@ -1403,7 +1403,7 @@ const NODES = [
     rep_tracks:["Charly (The Prodigy)", "Belfast (Orbital)", "Move Any Mountain (The Shamen)"],
     yt_mix:["IoAFVE2EYR8", "IoAFVE2EYR8"],
     yt_tracks:[["cSTBFZ-To2E", "ucvXp4pUvb8"], ["AZzJxWlvlNg", "9eDUY-UeDis"], ["SpjnzxtZ6Qg", "PthnTuzKU3o"]],
-    aliases:["レイブ", "レイブミュージック"],},
+    aliases:["レイブ", "レイブミュージック", "レイヴ", "レイヴミュージック"],},
 
   {id:"hardcore_rave", label:"Hardcore Rave", cat:"hardcore", era:"1990", suno:false,
     desc:"1990年代前半のイギリスのレイヴから生まれた、高速で断片的なダンス音楽。テンポは140〜170BPMと当時としては極端に速く、四つ打ちのキックにブレイクビーツを重ねる二重構造が最大の特徴になる。ブレイクビーツにはファンクのドラム録音から切り出した数小節、とりわけ「Amen Break」と呼ばれる断片が多用され、これをサンプラーで刻み、原曲より速い速度で再生する。この結果、ドラマーが人力では不可能な速度で叩いているような効果が生まれる。ベースはレゲエのサウンドシステム文化から受け継いだ深く沈むサブベースで、しばしば低音だけで空間を満たす。上物はシンセの短い和音の突き刺し、ピアノの明るいリフ、そして加工した女性ヴォーカルの断片。ヴォーカルは意味を伝えるより、高い音程に上げられて楽器のように扱われる。この甲高い声はハッピーな高揚を作る装置として機能した。曲の構成は激しい落差を持ち、ブレイクで全てを抜いて叫び声とサイレンだけにし、そこから全要素を一気に戻す。制作にはAkai S950やAKAI S1000といった限られたメモリのサンプラーが使われ、その制約から生じる粗い音質そのものが時代の刻印になっている。後のジャングル、ドラムンベース、ハッピーハードコアの共通の祖先にあたる。",
@@ -1411,7 +1411,7 @@ const NODES = [
     rep_tracks:["No Good (Start the Dance) (The Prodigy)", "Dominator (Human Resource)", "We Have Arrived (Mescalinum United)"],
     yt_mix:["caeBgbTnwPQ", "dfWFAKR4IAc"],
     yt_tracks:[["svJvT6ruolA", "RnO1dZDBMco"], ["Q--79iGN_t8", "2DVmDFszz2U"], ["BL5xh-wt3Vc", "G3IixvevE98"]],
-    aliases:["ハードコアレイブ"],},
+    aliases:["ハードコアレイブ", "ハードコアレイヴ"],},
 
   {id:"happy_hardcore", label:"Happy Hardcore", cat:"hardcore", era:"1991", suno:false,
     desc:"高速のキックに、明るく多幸的な旋律を乗せた系統。テンポは160〜180BPM。土台はハードコアのゆがんだ四つ打ちだが、そのキックは歪ませつつも音程を感じさせる丸い音に整えられ、攻撃性より弾む感覚が優先される。この上に、ピアノの華やかなリフ、明るい長調の和声、そして甲高く加工した女性ヴォーカルが乗る。ヴォーカルの音程操作が特徴的で、原曲より数半音上げることで人間離れした無邪気な響きを作る。和声は圧倒的に長調で、これがハードコア系全般の中では極めて珍しい特徴になっている。曲の構成は明快で、導入、ブレイクダウン(打楽器を止めてピアノと歌だけにする)、そして復帰という型を守る。ブレイクダウンでは感傷的な旋律が提示され、そこから一気に高速のキックへ戻る落差が快感の中心になる。ベースは単純なオフビートのシンセ音で、低域を強調しすぎず、ピアノと歌の帯域を空ける。ブレイクビーツが残っている場合もあり、初期のものほどAmen Breakの断片が刻まれている。歌詞は愛、友情、パーティの喜びといった直接的で肯定的な主題を歌う。同じテンポ帯のガバやスピードコアと比べると、暗さや暴力性が徹底的に排除されている点で対極に位置する。この明るさは長らく批評家から嘲笑の対象となったが、共同体の結束はきわめて強い。",
@@ -1499,7 +1499,7 @@ const NODES = [
     rep_tracks:["Cold Blooded (KLOUD)", "Terra Nova (Extra Terra)", "Full Burst (Stoned Level)"],
     yt_mix:["7CyBoUoyvRg", "O1-u1IloUYE"],
     yt_tracks:[["1JHOl9CSmXk", "F3Vj0n3ow2A"], ["llyEEfbFKqA", "5scrSICznPM"], ["L0eRS3KKhpY", "_Qn0xz12xgE"]],
-    aliases:["ハードウェーブ"],},
+    aliases:["ハードウェーブ", "ハードウェーヴ"],},
 
   // DnB / ジャングル系
   {id:"breakbeat", label:"Breakbeat", cat:"dnb", era:"1988", suno:false,
@@ -1671,7 +1671,7 @@ const NODES = [
     rep_tracks:["Save The World (Swedish House Mafia)", "Animals (Martin Garrix)", "Tremor (Dimitri Vegas & Like Mike vs. Martin Garrix)", "Spaceman (Hardwell)", "Boneless (Steve Aoki, Chris Lake & Tujamo)"],
     yt_mix:["9HGXn4gY2KU", "OPQmOutTmyo"],
     yt_tracks:[["dhs3u6Fny8o", "x25JkDZQWOQ"], ["IPYTxAHeR_o", "2kpAzC2Mja8"], ["9vMh9f41pqE", "CafgZUJp2Vw"], ["ppy-fgbPn2s", "lETmskoqh30"], ["gl2p4G3CUrI", "Z6z9A9nyDpg"]],
-    aliases:["フェスティバルEDM"],},
+    aliases:["フェスティバルEDM", "フェスティヴァルEDM"],},
 
   {id:"melodic_edm", label:"Melodic EDM", cat:"edm", era:"2010s", suno:true,
     desc:"EDMの中でも、ドロップの破壊力より旋律と和声の起伏で感情を動かすことに重心を置いた様式。BPMは120〜128前後、四つ打ちのキックとサイドチェインによる呼吸感という土台は共通するが、ドロップの主役が歪んだ低音ではなく、歌えるほど明確な主旋律である点が決定的に違う。音色は鋸波を重ねた分厚いリードに加え、プラック（減衰の速い弾いたような音）、パッド（背後に敷く持続音）、ピアノ、弦楽のサンプルが多用され、全体に開けた明るさと湿り気を併せ持つ。和声は長調と短調を行き来する四和音の循環が中心で、とりわけ短調のvi–IV–I–V型のように切なさと解放感が同居する進行が好まれる。構成はブレイクダウンで一度音を薄くし、ピアノと歌だけにしてから、感情の頂点でドロップへ入るという流れが定型。歌はフックだけの断片ではなく、ヴァースとサビを備えた完全な歌ものであることが多く、歌詞は喪失、再生、旅立ちといった主題を扱う。トランスの上昇する多幸感、プログレッシヴ・ハウスの長い展開、そしてポップスの歌の力を一つに束ねた設計で、フェスで泣かせる区間を担う音楽として機能している。",
@@ -1695,7 +1695,7 @@ const NODES = [
     rep_tracks:["Bangarang (Skrillex ft. Sirah)", "Throwin' Elbows (Excision & Space Laces)", "Borg (Virtual Riot)", "Griztronics (Subtronics & GRiZ)", "Behemoth (Wooli)"],
     yt_mix:["OPQmOutTmyo", "sBJT1BpOcvg"],
     yt_tracks:[["YJVmu6yttiw", "cR2XilcGYOo"], ["BS87krWeYpA", "UNUkh58DzLY"], ["rizJQ8UrBWU", "5gFEhaRJKeQ"], ["K9crshqpPB0", "46wcq-aiyv0"], ["mJBhjNR7WBc", "4tHXCZOSY_w"]],
-    aliases:["ヘビーEDM"],},
+    aliases:["ヘビーEDM", "ヘヴィーEDM"],},
 
   {id:"pop_edm", label:"Pop EDM", cat:"edm", era:"2010s", suno:true,
     desc:"EDMの制作手法を、ラジオとストリーミングで機能するポップスの枠組みに落とし込んだ様式。BPMは100〜128と幅があり、四つ打ちを保つ曲もあれば、ドロップだけを電子的に処理して他はポップスの拍取りにする曲もある。最大の特徴は歌の扱いで、EDMが歌を装飾として使うのに対し、こちらは歌が主役であり、ヴァース・プリコーラス・サビという歌ものの構造が骨格として先にある。ドロップはサビの後、あるいはサビそのものの代わりに置かれ、歌のフレーズを切り刻んで楽器化した「ボーカル・チョップ」が用いられることが多い。音色は鋸波の分厚いリードに加え、木管や口笛を模した明るい音、指を鳴らす音、手拍子といった軽い打楽器が好まれ、全体に湿度が低く風通しがよい。和声は四和音の単純な循環で、転調はほとんど行われない。歌詞は恋愛、夜遊び、自己肯定といった普遍的な主題を平易な語彙で扱い、サビの一行が題名になる作りが定型。曲尺は三分前後に短縮され、イントロは十秒以内で歌に入る。ストリーミングの再生開始直後に聴き手を掴む必要があるという商業的要請が、構造そのものを規定している点が最も特徴的である。",
@@ -1721,7 +1721,7 @@ const NODES = [
     rep_tracks:["A Real Hero (College & Electric Youth)", "Nightcall (Kavinsky)", "Turbo Killer (Carpenter Brut)", "Future Club (Perturbator)", "Brokendate (Com Truise)"],
     yt_mix:["0QKQlf8r7ls", "NP1u3Q5zswg"],
     yt_tracks:[["-DSVDcw6iW8", "BHgYtKkSEDA"], ["MV_3Dpw-BRY", "30jrmzzgHLc"], ["wy9r2qeouiQ", "er416Ad3R1g"], ["RY66fdMt4vc", "Tn2Wlh4dSw0"], ["8qFl3agiBMI", "MQDKywDP5G8"]],
-    aliases:["シンセウェーブ", "80年代シンセ"],},
+    aliases:["シンセウェーブ", "80年代シンセ", "シンセウェーヴ"],},
 
   {id:"retrowave", label:"Retrowave", cat:"synthwave", era:"2000s", suno:false,
     desc:"シンセウェイヴとほぼ同義に使われる呼称だが、とりわけ1980年代の視覚文化と音の記号を意識的に再現する側面を強調する。BPMは90〜120前後、リズムはLinnDrumやRoland TR-707といった当時のドラムマシンの音色、あるいはそれを模したサンプルで組まれ、スネアには必ずと言っていいほどゲート・リバーブがかかる。ベースは単音のアナログ・シンセが八分音符を刻み、その上にFM音源特有の金属的なベルやエレクトリック・ピアノの音色が乗る。旋律は明快で口ずさめる範囲に収められ、鋸波を重ねたリード音が主題を高らかに歌う。和声は短調の四和音循環が中心だが、シンセウェイヴ全般より長調寄りの明るい響きを選ぶ傾向があり、切なさよりも爽快感が前に出る。構成は器楽曲として起承転結を持ち、中間部で一度音を薄くしてから最終部で全楽器が復帰する型が定番。歌ものの場合は男女どちらもリバーブを深くかけた優しい歌唱が選ばれる。ジャケットには夕陽、格子状の地平線、ヤシの木、スポーツカーといった図像が用いられ、音と絵が一体で一つの世界観を構成する点が、単なる音楽ジャンルを超えた特徴である。",
@@ -1729,7 +1729,7 @@ const NODES = [
     rep_tracks:["Days of Thunder (The Midnight)", "Running in the Night (FM-84)", "On the Run (Timecop1983)", "Tech Noir (Gunship)", "Dreams (The Bad Dreams)"],
     yt_mix:["wgw7uImdPjw", "0QKQlf8r7ls"],
     yt_tracks:[["UiSB2Fbw9gs", "0o2OkD_cWkU"], ["TvZskcqdYcE", "Bv4jOz-mySA"], ["_Ci0Kgdpgsw", "gDpfybAvEag"], ["-nC5TBv3sfU", "KlUJTtBphb0"], ["Qh8QwVYOSVU", "MTCRNCD2s5I"]],
-    aliases:["レトロウェーブ"],},
+    aliases:["レトロウェーブ", "レトロウェーヴ"],},
 
   {id:"vaporwave", label:"Vaporwave", cat:"synthwave", era:"2010", suno:false,
     desc:"1980年代から1990年代の商業音楽や企業向け映像音楽を素材とし、それを極端に遅く再生し、加工して提示する電子音楽。中核となる技法は明快で、原曲の再生速度を三割から五割ほど落とすことによりピッチが下がり、歌声は間延びして正体を失い、シンセの音は溶けたように鈍る。そこにリバーブとコーラス（音を微妙にずらして重ねる効果）を過剰にかけ、時に音を数拍ごとに繰り返して引き伸ばすループ処理を施す。素材として選ばれるのは、スムーズ・ジャズ、シティ・ポップ、1980年代のR&B、そしてショッピングモールや企業ビデオで流れていた無名の環境音楽で、いずれも当時は使い捨ての商品音楽だったものである。BPMは原曲依存で60〜90程度に落ち着き、明確なリズムより漂う質感が主体になる。曲名やアルバム名には日本語やギリシャ彫刻、初期のパソコン画面の図像が用いられ、視覚表現と不可分に結び付く。音楽的な作為を最小限にとどめ、選曲と加工だけで意味を生み出す点が独特で、消費社会への郷愁と批評、そして空虚さそのものを主題とする、極めて概念的な音楽である。",
@@ -1737,7 +1737,7 @@ const NODES = [
     rep_tracks:["リサフランク420 / 現代のコンピュー (Macintosh Plus)", "Hit Vibes (SAINT PEPSI)", "Teen Pregnancy (Blank Banshee)", "Nobody Here (Oneohtrix Point Never)", "リサフランク420 / 現代のコンピュー (Macintosh Plus)"],
     yt_mix:["B1BVfNK1yzQ", "mClQ9nR82GI"],
     yt_tracks:[["_4gl-FX2RvI", "aQkPcPqTq4M"], ["3r2zleGxv7w", "kGw6cnnlcvA"], ["RQxDM2K-hd0", "N7eKJ_rlzuk"], ["-RFunvF0mDw", "_YX2gOXjnlE"], ["_4gl-FX2RvI", "aQkPcPqTq4M"]],
-    aliases:["ヴェイパーウェーブ", "ベイパーウェーブ"],},
+    aliases:["ヴェイパーウェーブ", "ベイパーウェーブ", "ヴェイパーウェーヴ", "ベイパーウェーヴ"],},
 
   {id:"darksynth", label:"Darksynth", cat:"synthwave", era:"2010s", suno:false,
     desc:"シンセウェイヴの語彙を用いながら、明るい郷愁を排してホラーと暴力の情景を描く系統。BPMは100〜140、四つ打ちに近い硬い刻みか、機械的な八分音符の反復が基調で、リズムは明確に前へ押す。最大の識別点は音色の攻撃性で、鋸波のリードには歪みが深くかけられ、ベースは低く濁り、パッドは不協和な音程を含んで不穏に揺れる。金属を打つ打撃音、逆再生した悲鳴、心臓の鼓動を模した低周波が随所に配される。和声は短調、とりわけフリギア旋法やハーモニック・マイナーが選ばれ、半音の緊張を解決させないまま持続させる。旋律は反復的な短い動機を執拗に繰り返し、その上で音色だけが徐々に歪みを深めていくという展開が定型。曲構成には明確なドロップがあり、そこでは全ての音が最大の歪みで一斉に鳴る。歌はほとんど入らず、入る場合はメタルの怒号か、加工された囁きである。ジョン・カーペンターら1980年代のホラー映画の音楽、そしてヘヴィメタルのギターの攻撃性を、シンセだけで再現しようという試みであり、シンセウェイヴが夜のドライブなら、ダークシンセは深夜の逃走劇の音である。",
@@ -1753,7 +1753,7 @@ const NODES = [
     rep_tracks:["Звезды (Molchat Doma)", "Смерти больше нет (IC3PEAK)", "Лето (Utro)"],
     yt_mix:["A-nh3Tzzsps", "66u1lg-4QPE"],
     yt_tracks:[["uiYmb1xkND4", "dnjs569Ba20"], ["T-hswDp-e2I", "B0bdhgmHCEw"], []],
-    aliases:["ソビエトウェーブ"],},
+    aliases:["ソビエトウェーブ", "ソヴィエトウェーブ", "ソビエトウェーヴ"],},
 
   // ヒップホップ系
   {id:"lofi_hiphop", label:"Lo-fi Hip Hop", cat:"hiphop", era:"1990s", suno:true,
@@ -1762,7 +1762,7 @@ const NODES = [
     rep_tracks:["Feather (Nujabes)", "Get Dis Money (Slum Village)", "Luv(sic) Pt3 (Nujabes & Shing02)"],
     yt_mix:["CFGLoQIhmow", "n61ULEU7CO0"],
     yt_tracks:[["hQ5x8pHoIPA", "NASw3fidMxE"], ["tah5UC2hdrk", "F-oLqMwzvBY"], ["Fwv2gnCFDOc", "N1waO4MZwd4"]],
-    aliases:["ローファイヒップホップ", "Lo-Fi Hip Hop", "チルホップ", "Chillhop", "ローファイ"],},
+    aliases:["ローファイヒップホップ", "Lo-Fi Hip Hop", "チルホップ", "Chillhop"],},
 
   {id:"miami_bass", label:"Miami Bass", cat:"hiphop", era:"1985", suno:true,
     desc:"1980年代の米国フロリダ州マイアミで生まれた、超低音とテンポの速さを軸とするヒップホップの一派。BPMは120〜145とヒップホップとしては極端に速く、ダンスのための音楽として設計されている。中核はRoland TR-808のバスドラムで、その減衰を極限まで長く伸ばして30Hz前後まで下げた音が、曲の間じゅう地面を揺らし続ける。この低音は自動車の大型スピーカーで鳴らすことを前提としており、車内で低音を競う文化と不可分に結び付いている。リズムはハイハットの細かい刻みと、裏拍で入るクラップが組み合わされ、シンコペーションの効いた跳ねる感触を作る。上物は少なく、単純なシンセの音型、サイレン、そして加工した声のサンプルが繰り返される。ラップは早口で、掛け合いや観客への呼びかけが多用され、内容は性的な話題、パーティー、そして踊りの指示が中心。歌詞の露骨さはしばしば法的な争いを招いた。曲構成はDJがミックスしやすい長いイントロと反復するフックを持ち、クラブやカーステレオでの連続再生を想定している。北部のヒップホップの内省や社会批評とは対極にある、徹底して身体的で享楽的な音楽である。",
@@ -1827,7 +1827,7 @@ const NODES = [
     rep_tracks:["Roundabout (Yes)", "The Court of the Crimson King (King Crimson)", "Shine On You Crazy Diamond (Pink Floyd)"],
     yt_mix:["ukgraQ-xkp4", "LuGAWR2eRyQ"],
     yt_tracks:[["LuGAWR2eRyQ", "QOrrNM4md8c"], ["ukgraQ-xkp4", "0ju5LRTMFLw"], ["cWGE9Gi0bB0", "CiXNIjGX1hY"]],
-    aliases:["プログレッシブロック", "プログレ", "Progressive Rock"],},
+    aliases:["プログレッシブロック", "プログレ", "Progressive Rock", "プログレッシヴロック"],},
 
   {id:"alt_rock", label:"Alternative\nRock", cat:"rock", era:"1980s", suno:true,
     desc:"1980年代に商業的な主流のロックへの対抗として形成された、幅広い音楽の総称。単一の音の特徴で定義されるジャンルではなく、態度と流通経路によって括られる枠組みである点が最大の特徴。それでも共通する傾向はあり、ギターは技巧的なソロより音色と質感を重視し、コーラス、ディレイ、リヴァーブといった空間系のエフェクターを多用する。歪みは轟音から歪みのないクリーンまで曲中で大きく振れ、静かな部分と激しい部分を対比させる構成、いわゆる静と動の落差が定番の手法となった。和声は主流のロックが避ける不協和や、長調と短調が判然としない曖昧な和音を好み、歌の旋律も明快なフックを意図的に外すことがある。ドラムは重く直線的で、装飾を排する。歌唱は美声を目指さず、しゃがれた声、平坦な語り、あるいは叫びが表現として選ばれる。歌詞は疎外感、皮肉、自意識、消費社会への違和感といった主題を扱い、直接的な社会批判よりも個人の内面の屈折を描く。演奏の場は大会場ではなく小規模なクラブ、流通は独立系レーベルと大学ラジオが担い、この草の根の構造そのものがジャンルの定義に含まれていた。",
@@ -1868,7 +1868,7 @@ const NODES = [
     rep_tracks:["Paranoid（Black Sabbath）", "Stairway to Heaven（Led Zeppelin）", "Smoke on the Water（Deep Purple）", "Breaking the Law（Judas Priest）", "The Trooper（Iron Maiden）"],
     yt_mix:["d1cmyOaoZfc", "eh87FoETejw"],
     yt_tracks:[["0qanF-91aJo", "BOTIIw76qiE"], ["QkF3oxziUI4", "Ly6ZhQVnVow"], ["Q2FzZSBD5LE", "3pVQj2v7tBI"], ["L397TWLwrUU", "Vr3hflUHuog"], ["X4bgXH3sJ2Q", "t24ij5kI2cg"]],
-    aliases:["ヘビーメタル", "メタル", "Metal"],},
+    aliases:["ヘビーメタル", "メタル", "Metal", "ヘヴィーメタル"],},
 
   {id:"thrash_metal", label:"Thrash Metal", cat:"metal", era:"1983", suno:true,
     desc:"ヘヴィメタルにハードコア・パンクの速度と攻撃性を注入した様式。BPMは180〜250、時に300近くに達し、ドラムはスネアを八分音符で叩き続けるいわゆるスラッシュ・ビート、そして二拍目と四拍目を高速で往復させる型を軸とする。最大の特徴はギターの右手の技術で、低音弦をパーム・ミュートしながら十六分音符を刻み続けるダウンピッキング、すなわち全て下向きの一方向のみで弾く奏法が求められる。これは交互に弾くより格段に体力を消耗するが、音の粒が揃い、機関銃のような均質な刻みを生む。和音はパワー・コードに加え、半音や三全音を織り込んだ緊張の高いリフが用いられ、リフそのものが曲の主題として機能する。曲構成は複数の異なるリフを継ぎ足していく形式で、テンポの急激な変化、静かなクリーン・トーンの導入部、そして技巧的なギター・ソロを含む。歌唱は絶叫と怒鳴りの中間で、旋律よりリズムの刻みに合わせて言葉を吐き出す。歌詞は核戦争、社会の腐敗、宗教への懐疑、精神疾患といった現実的で暗い主題を扱い、ファンタジー色は薄い。ライブでは観客が輪になってぶつかり合うモッシュという行為が伴い、演奏と観客の身体が一体となる。",
@@ -1959,7 +1959,7 @@ const NODES = [
     rep_tracks:["Chega de Saudade（João Gilberto）", "The Girl from Ipanema（Antonio Carlos Jobim, João Gilberto, Astrud Gilberto）", "Desafinado（João Gilberto）", "Corcovado（Antonio Carlos Jobim）", "Águas de Março（Elis Regina & Tom Jobim）"],
     yt_mix:["opTGVhIyjYQ", "JP9EU2FuLFM"],
     yt_tracks:[["Y0a0QuLEC8A", "yUuJrpP0Mak"], ["c5QfXjsoNe4", "yMUphgTWjsE"], ["tCMhuN3053o", "g6w3a2v_50U"], ["9vRELD9ehtc", "6QnnJq4I6ek"], ["E1tOV7y94DY", "aKvwnHiJSdk"]],
-    aliases:["ボサノバ"],},
+    aliases:["ボサノバ", "ボサノヴァ"],},
 
   {id:"reggaeton", label:"Reggaeton", cat:"latin", era:"1990s", suno:true,
     desc:"カリブ海のスペイン語圏で確立した、単一のリズム型を核とするダンス音楽。骨格をなすのはデンボウと呼ばれる打楽器の型で、四分の四拍子の中でキックが一拍目と三拍目の直前に置かれ、スネアあるいはリムショットが三連的にずれた位置で連続して鳴る。楽譜で書けば付点八分と十六分の組み合わせが延々と反復する形で、この揺れが腰を回す踊りペレオを誘発する。BPMは88〜100前後と、ヒップホップとほぼ同じ帯域にある。低音は深いサブベースが担い、上物は最小限で、短いシンセの刺し、笛の音型、加工した声のサンプルが繰り返される。和声は短調の単純な循環が中心で、しばしば四小節で完結する。歌唱はラップと歌の中間で、韻を踏みながらも旋律を持ち、掛け合いと合唱が多用される。歌詞はスペイン語で、性的な誘惑、街の生活、成功の誇示、そして恋愛を扱い、俗語や地域固有の言い回しが多い。近年はより滑らかな歌唱と柔らかい音色を採る系統が主流化し、世界的なポップスの語彙となったが、デンボウの型そのものは三十年以上ほとんど変わっていない。",
@@ -2280,7 +2280,7 @@ const NODES = [
     rep_tracks:["Kurenai (X JAPAN)", "ROSIER (LUNA SEA)", "Gekka no Yasoukyoku (MALICE MIZER)", "Cage (Dir en grey)", "Filth in the Beauty (the GazettE)"],
     yt_mix:["K-qqRMPw--w", "BxU90T4JddY"],
     yt_tracks:[["8ArAnXLbFck", "xR4qXUwsp9Q"], ["DRLkiX-NZzE", "ThydCb0yBQE"], ["L0_fUEOz3dY", "D8I3quu24Zk"], ["Wch4WH_jzyI", "tk3z8e7PqLU"], ["gqZBA5IiTk0", "ZImSx-ipPU0"]],
-    aliases:["ビジュアル系", "V系"],},
+    aliases:["ビジュアル系", "V系", "ヴィジュアル系"],},
 
   // パンク系追加
   {id:"pop_punk", label:"Pop Punk", cat:"rock", era:"1990s", suno:true,
@@ -2380,7 +2380,7 @@ const NODES = [
     yt_mix:["Y18c93K-aNQ", "jTMs2mhc-xU"],
     yt_tracks:[["AWVUp12XPpU", "JTEFKFiXSx4"], ["9H9GCkgkdAo", "bFp-jgHlfcU"], ["aF0g-2SeoMM"], ["jlGnwOab_aE", "2aDq-MwUHWE"]],
   
-    aliases:["アヴァンギャルド", "前衛音楽"],},
+    aliases:["アヴァンギャルド", "前衛音楽", "アバンギャルド"],},
 
   // ソウル・ファンク・R&B系
   {id:"motown", label:"Motown", cat:"soul_cat", era:"1960s", suno:true,
@@ -2413,7 +2413,7 @@ const NODES = [
     rep_tracks:["House of Balloons (The Weeknd)", "Channel Orange (Frank Ocean)", "Two Weeks (FKA twigs)", "The Weekend (SZA)", "Cranes in the Sky (Solange)"],
     yt_mix:["1GTGxWXLGF0", "yUtrWvJPUTU"],
     yt_tracks:[["8ex38L8xtNI", "FRAg1HCj2vg"], ["l_8sYrH3lb0", "XnbsIl2BnWw"], ["3yDP9MKVhZc", "Ba0zFXPIaxw"], ["PALMMqZLAQk", "cMD63TwzB1o"], ["S0qrinhNnOM", "h_tqs3jc158"]],
-    aliases:["オルタナティブR&B", "Alternative R&B"],},
+    aliases:["オルタナティブR&B", "Alternative R&B", "オルタナティヴR&B"],},
 
   {id:"nu_funk", label:"Nu Funk", cat:"funk_cat", era:"2000s", suno:true,
     desc:"一九七〇年代のファンクの手触りを、サンプリングと現代の録音技術で作り直した音楽。骨格は往年のファンクそのままで、一拍目を強く踏むワン・オン・ザ・ワンのキック、十六分音符で細かく刻むカッティングギター、クラビネットとホーンセクション、跳ねるスラップベースが並ぶ。ただし出音は当時と違い、低音がはるかに深く沈み、キックとスネアは圧縮で押しつぶされて前に出る。制作の中心はサンプラーとデジタル音響編集で、古いレコードから抜き出した二小節の断片を延々と繰り返し、そこに自分たちで演奏したホーンや鍵盤を重ねる方式が多い。テンポは毎分百前後から百二十拍程度で、踊れる速度に保たれる。ヒップホップ以降の耳で作られているため、曲の展開は歌よりも反復と抜き差しに重心があり、歌が入らずインストで完結する曲も多い。アナログテープやテープシミュレータを通した歪み、レコードの針音、意図的に落としたビットの粗さが、狙って古びた質感として加えられる。原曲を知らない世代のクラブでかかるダンス音楽であると同時に、レコードを掘る文化と密接につながっており、七インチのアナログ盤で発売されることが多い点も特徴である。",
@@ -2651,7 +2651,7 @@ const NODES = [
     rep_tracks:["Sevillanas del Adiós（Amigos de Gines）", "El Adiós（Los Romeros de la Puebla）", "Macarena（Los del Río）"],
     yt_mix:["_M28s0g6AXU", "stnPGL4xoi0"],
     yt_tracks:[["cPjDlDvWYNQ", "rQMGvXtgZjs"], ["ooRao0PP_zc", "Roq6y94E43c"], ["zWaymcVmJ-A", "2zvd1JQ0EKY"]],
-    aliases:["セビジャーナス"],},
+    aliases:["セビジャーナス", "セヴィジャーナス"],},
 
   // 追加バッチ3
   {id:"cyberpunk_music", label:"Cyberpunk", cat:"synthwave", era:"2010s", suno:true,
@@ -2871,7 +2871,7 @@ const NODES = [
     rep_tracks:["Last Nite（The Strokes）", "Seven Nation Army（The White Stripes）", "Hate to Say I Told You So（The Hives）", "Are You Gonna Be My Girl（Jet）", "I Bet You Look Good on the Dancefloor（Arctic Monkeys）"],
     yt_mix:["jOHH8J_LFnw", "lH4DhyCaOCA"],
     yt_tracks:[["TOypSnKFHrE", "z1DL-G_XlG0"], ["0J2QdDbelmY", "KcZ73FRFLzY"], ["Uz1Jwyxd4tE", "FahA3C8Xpqo"], ["tuK6n2Lkza0", "aMJ_OxqDCR8"], ["pK7egZaT3hs", "c-wwK5QVv1Y"]],
-    aliases:["ガレージロックリバイバル"],},
+    aliases:["ガレージロックリバイバル", "ガレージロックリヴァイヴァル"],},
 
   {id:"gothic_metal", label:"Gothic Metal", cat:"metal", era:"1990s", suno:true,
     desc:"ドゥームやデスメタルの重さに、ゴシックロック由来の暗く耽美な雰囲気を融合させた音楽。ギターは低く調弦して分厚い和音を鳴らすが、同時に長い残響をかけた清らかな音色のアルペジオが多用され、重さと繊細さが交互に現れる。編成にはシンセサイザーやピアノ、時に本物の弦楽器や合唱が加わり、教会音楽を思わせる響きを作る。テンポは毎分六十から百拍程度と遅めで、荘重に進む。和声はほぼ短調で、旋律的短音階や半音階的な進行を用いて悲哀を強調し、これが同種のメタルの中でも特に旋律を重んじる性格を生んでいる。歌唱に最大の特徴があり、低く唸るデスヴォイスと、澄んだソプラノの女声が同じ曲の中で交互に、あるいは同時に歌われる。この対比は美女と野獣と呼ばれ、このジャンルの署名になっている。歌詞は死、喪失、禁じられた愛、宗教的な罪、吸血鬼や幽霊といった文学的な意匠を扱い、十九世紀の英国ゴシック小説やロマン派詩の引用も多い。視覚表現も不可分で、黒いレースや十九世紀風の衣装、廃墟や墓地での撮影が定型になっている。ライブは煙と蝋燭を模した照明で、劇場的に演出される。",
@@ -2895,7 +2895,7 @@ const NODES = [
     rep_tracks:["Blood Fire Death（Bathory）", "Twilight of the Thunder God（Amon Amarth）", "Lai Lai Hei（Ensiferum）", "Isa（Enslaved）", "Helvegen（Wardruna）"],
     yt_mix:["1WsQEsfZNco", "_8nPZhC1OiE"],
     yt_tracks:[["Ad1vITzPLJc", "DCXVpj7uRes"], ["JFYVcz7h3o0", "edBYB1VCV0k"], ["eMXGruO8zBU", "m1ZVepnelVE"], ["vE4bdpUe-yo", "WXBWFRY4LUc"], ["FnkTuHP9q3o", "n90SVmnomdM"]],
-    aliases:["ヴァイキングメタル"],},
+    aliases:["ヴァイキングメタル", "バイキングメタル"],},
 
   // ヒップホップ系追加2
   {id:"golden_age_hiphop", label:"Golden Age\nHip Hop", cat:"hiphop", era:"1986", suno:true,
@@ -3005,7 +3005,7 @@ const NODES = [
     rep_tracks:["メルト (supercell)", "ローリンガール (wowaka)", "千本桜 (黒うさP)", "ゴーストルール (DECO*27)", "夜に駆ける (YOASOBI)"],
     yt_mix:["YtYPrb867CE", "1wBbv4o72ms"],
     yt_tracks:[["4dkRoZ4lzKU", "o1jAMSQyVPc"], ["vnw8zURAxkU", "DuTdmMsPa1o"], ["shs0rAiwsGQ", "EqUNWSHAdQs"], ["KushW6zvazM", "95IfTfvuZ2s"], ["by4SYYWlhEs", "x8VYWazR5mE"]],
-    aliases:["ボカロ", "ボーカロイド", "ボーカロイド音楽"],},
+    aliases:["ボカロ", "ボーカロイド", "ボーカロイド音楽", "ヴォカロ", "ヴォーカロイド", "ヴォーカロイド音楽"],},
 
   {id:"dangdut", label:"Dangdut", cat:"south_asian", era:"1970s", suno:true,
     desc:"インドネシアで圧倒的な国民的人気を誇るポピュラー音楽。インドのボリウッド映画音楽の情熱的なメロディ、マレー半島の民俗音楽、そしてアラブ由来の旋律感覚が融合してできた独特のサウンドを持つ。タブラに似た太鼓が刻む「ダン」「グッ」という2つの音が、そのままジャンル名の由来になったとされる。うねるように装飾の多いメロディ、情感豊かに歌い上げるボーカル、そして腰を大きく揺らして踊る官能的なダンス(ゴヤン)が一体となって楽曲を作り上げる。テンポは中速が中心。屋台の並ぶ夜市や地方の祭りの喧騒とともにある、2億7千万人を超える人口を抱える国の生活に深く根ざした音楽である。「ダンドゥット」という名称自体、当初はこの太鼓の音を揶揄する形で他ジャンルの支持者から使われ始めた俗称だったが、後にそのままジャンル名として定着した経緯がある。伴奏には、インド映画音楽の影響を感じさせるシタール風のシンセ音や、マレー半島由来の合奏「オルケス・ムラユ」の楽器編成の名残も見られる。",
@@ -3560,7 +3560,7 @@ const NODES = [
     rep_tracks:["Gigi D'Agostino - Lento Violento", "Luca Noise - La Batteria Della Mente", "Gigi D'Agostino - Silence"],
     yt_mix:["_gwa8TwVSdA", "N4t_WW439KQ"],
     yt_tracks:[["QakuhzKooAk", "-My03apiIyc"], ["qNeqkeyLAUw", "-c9v4t4ZJVQ"], ["d4Uj96RBprE", "x_yIbGoRMUw"]],
-    aliases:["レントヴィオレント"],},
+    aliases:["レントヴィオレント", "レントビオレント"],},
   {id:"moombahcore", label:"Moombahcore", cat:"hardcore", era:"2011", suno:true,
     desc:"レゲトン由来のゆったり跳ねるリズムを持つモーンバートン(BPM 108前後)を土台に、そこへダブステップやハードコアの重く歪んだベースと攻撃的なドロップを注ぎ込んだスタイル。テンポ自体は遅いままなので、身体の動きはラテン音楽的にゆったりと腰を使うものになるが、そこに叩き込まれる低音は極めて暴力的という、上半身と下半身で別々の音楽が鳴っているような奇妙な感覚を生む。リズムは拍の裏を強調するシンコペーションを多用し、単純な四つ打ちにはならない。ドロップの瞬間に、それまでのラテン的な陽気さを裏切って全く別の質感の轟音が襲いかかる構成が定型で、この落差そのものが聴かせどころとなっている。使用される音色も、ダブステップ由来の唸るベースだけでなく、金属的な打撃音や引き伸ばされたシンセなど、ハードコア系の語彙から借りてきたものが多い。",
     roots_story:"2011年前後、モーンバートンというジャンル自体が誕生してから間もない時期に、その派生形として現れた。モーンバートンは2009年、アメリカのDJ Dave Nadaが、ハウスの楽曲をレゲトンのテンポまで落として再生したことから偶然生まれたジャンルとされ、そこからわずか2年ほどで、より重く攻撃的な方向へと分岐したのがこのモーンバーコアである。アメリカのDillon Francisは、この時期にこのスタイルを最も広く知らしめたプロデューサーであり、オランダを拠点とするドミニカ系のMunchiは、レゲトンやドミニカのデンボウといったカリブのリズムに深く根ざした視点からこのジャンルを発展させた。イギリスのKnife Partyのような、EDM/ダブステップ側のアーティストもこの様式を取り入れた楽曲を発表している。2010年代前半、SoundCloudを通じて無数のプロデューサーが試行錯誤を共有しながら急速に発展したという点で、インターネット時代のジャンル形成を象徴する事例でもある。ただし流行としては短命で、2013年頃をピークに急速に下火となった。その後、モーンバートン本来のゆったりしたテンポ感は、より穏やかな形でトロピカルハウスやレゲトンの世界的流行へと引き継がれていった。ラテン系のリズムが欧米のダンスミュージックの中心に食い込んでいく過程の、ごく初期の一歩として位置づけられる。",
@@ -3589,7 +3589,7 @@ const NODES = [
     rep_tracks:["wosX - End of World Rave", "HKE - Hardvapour.", "DJ Alina - The Collapse"],
     yt_mix:["A-CGoprolb8", "A1RgBS9Xe5o"],
     yt_tracks:[["0R9dFR5Me3w", "EKdrO-cmICY"], ["4CYOmLP3QZk", "v_ybowR25e8"], ["sj0W_iD9Ug8", "mEviLg29I1E"]],
-    aliases:["ハードヴェイパー"],},
+    aliases:["ハードヴェイパー", "ハードベイパー"],},
   {id:"bouncy_techno", label:"Bouncy\nTechno", cat:"hardcore", era:"2000s", suno:true,
     desc:"1990年代のスコットランドと北イングランドで発展した高速レイヴ音楽。BPM 160〜180程度の四つ打ちで、その名の通り、弾力のあるゴムまりが跳ねるような独特のキックの質感が最大の特徴である。オランダのガバのように歪みで押し切るのではなく、キックの音色そのものに丸みと弾力を持たせることで、攻撃性より躍動感を前面に出している。上に乗るシンセサイザーのリフは明るく単純で覚えやすく、時にピッチを上げた甲高いボーカルが加わる。ハッピーハードコアの多幸感と、ガバの推進力の中間に位置するスタイルで、地域に根ざした草の根のレイヴ文化の中で育まれた、素朴で親しみやすい高揚感を持つ音楽である。曲の展開も凝ったものではなく、印象的なリフの提示と、それが戻ってくる瞬間の高揚を素直に繰り返す構成が基本となっている。",
     roots_story:"1990年代前半、スコットランドのレイヴシーンから発展した。エディンバラのScott Brownは、このジャンルを代表する最重要人物であり、自身のレーベルEvolutionなどを通じて膨大な数の楽曲を発表し続けた。同じくスコットランドのUltra-Sonicも、シーンを支えた重要な存在である。当時のイギリスでは、ロンドンを中心とする南部のレイヴシーンが注目を集めていたが、スコットランドや北イングランドでは、それとは異なる独自の速く弾むスタイルが並行して育っていた。地方都市のクラブやコミュニティセンターで開かれるレイヴイベントが、この音楽の主な現場であった。バウンシーテクノは、後のUKハードコアの土台となったほか、その跳ねるベースの感覚は、北イングランドの「ドンク」を経て、ロシアのハードベースにまで間接的な影響を及ぼしている。オランダ発のハードスタイルとは音の質感が似て見えることもあるが、成り立ちとしては完全に別系統であり、イギリスのレイヴ文化から直接派生したものである点は押さえておきたい。1994年、イギリス政府が野外の無許可レイヴを取り締まる法律を施行したことで、この種の音楽が鳴る場は合法的なクラブへと移らざるを得なくなった。スコットランドでは、その後もアリーナ規模のレイヴイベントが継続的に開催され、バウンシーテクノは地域文化として根を下ろした。Scott Brownは現在も精力的に活動を続けており、初期の楽曲は近年、当時を知らない若い世代によってインターネット上で再発見されている。",
@@ -3840,7 +3840,7 @@ const NODES = [
     yt_mix:["WJv_87a6zo0", "mEcYjBwSA8Y"],
     yt_tracks:[["mipc-JxrhRk", "SGRgAULYgWE"], ["MM62wjLrgmA", "80RtBeB61LE"], ["j4xCb_OU_lM", "hSaNBSKOcag"], ["v-Su1YXQYek", "TsdIO8RHMTc"], ["ITc2qlJT5tE", "-2Y2A_Qlo8k"]],
     popularity:7,
-    aliases:["プログレッシブメタル", "プログメタル"],},
+    aliases:["プログレッシブメタル", "プログメタル", "プログレッシヴメタル"],},
   {id:"groove_metal", label:"Groove Metal", cat:"metal", era:"1990s", suno:true,
     desc:"スラッシュメタルの速さを意図的に捨て、中間の速度で身体が揺れることを最優先に設計されたヘヴィメタルである。核となるのはリフの組み立て方で、音を鳴らし続けるのではなく、短く切った和音と、あえて何も鳴らさない空白を交互に配置する。この空白があることで、リフは跳ねるような弾力を持ち、首を縦に振る動作と正確に噛み合う。拍の頭を外して食い込ませるシンコペーションが多用され、聴き手は次の打点を予測しようとして裏切られ続けることになる。テンポは概ね90から140 BPMで、スラッシュメタルの半分程度に抑えられる代わりに、一発ごとの重量が増している。ギターは半音から一音下げた調弦を用い、指と弦の摩擦で高い倍音だけを鳴らす、金切り声のような奏法が象徴的な装飾として使われる。ドラムはバスドラムを二つ打ちで細かく入れつつ、スネアは拍の要所に強く落として輪郭を作る。ヴォーカルは旋律を歌うのではなく、喉を潰した怒鳴り声で言葉を叩きつける形式が主流で、歌詞は怒り、裏切り、依存、自己嫌悪といった、内側から噴き出す感情を扱う。曲は4分から5分程度で、無駄な展開を持たない。速さで圧倒するスラッシュメタルとは対照的に、重さと間で殴るという発想の音楽である。",
     roots_story:"1980年代末、スラッシュメタルはテンポと複雑さの限界に達し、聴き手も演奏者も速さそのものに飽き始めていた。この行き詰まりを打開したのがテキサス州アーリントンのPanteraである。彼らは1980年代前半、化粧をした華美なバンドとして複数の自主制作盤を出していたが、1987年にPhil Anselmoを歌手に迎えて路線を一変させ、1990年の作品カウボーイズ・フロム・ヘルで完全に生まれ変わった。ギターのDarrell Abbottは、ダイムバッグ・ダレルの名で知られ、指の側面で弦に触れて甲高い倍音を鳴らす奏法を看板とし、兄のVinnie Paulが叩く隙間の多いドラムと組み合わせて独自の弾みを作った。1992年のヴァルガー・ディスプレイ・オブ・パワーはこの様式を完成させ、1994年のファー・ビヨンド・ドリヴンは極端に重い内容にもかかわらず全米初登場1位を記録し、過激な音楽が主流の市場を制圧しうることを証明した。なおニューオーリンズのExhorderが同種のリフをより早く実践していたという指摘は根強く、両者の先後をめぐる論争は今も続いている。並行してブラジルのSepulturaが、1993年の作品カオス・エー・ディーで速度を落とした重い刻みへ舵を切り、1996年のルーツでは先住民のシャヴァンテ族と現地で共演し、部族の打楽器とヘヴィメタルを直接結びつけるという試みを行った。カリフォルニア州オークランドのMachine Headは1994年の作品で、この様式にハードコア・パンクの怒りを注ぎ込んだ。しかし歴史は悲劇によって断ち切られる。Panteraは内部の対立と薬物問題によって2003年に解散し、2004年12月8日、Darrell Abbottはオハイオ州コロンバスのクラブで演奏中に観客の一人に銃撃されて死亡した。この事件はヘヴィメタルの歴史における最も暗い出来事のひとつとして記憶されている。兄のVinnie Paulも2018年に死去し、和解の可能性は永遠に失われた。それでもこの様式が残した、速さではなく間で殴るという発想は、後のメタルコア、デスコア、そして現在のヘヴィな音楽のほぼ全てに引き継がれ、事実上の共通語となっている。",
@@ -3848,7 +3848,7 @@ const NODES = [
     yt_mix:["I6OHdaRm1iY", "lcPJbXNT2XY"],
     yt_tracks:[["AkFqg5wAuFk", "XNjKN0_wx3s"], ["HL9kaJZw8iw", "-oVW8gcse4g"], ["Qf0yWQzz0gM", "rCJ2HXi8FMc"], ["F_6IjeprfEs", "nUCodt4zVw4"], ["E0E0ynyIUsg", "d85hvAKXy_o"]],
     popularity:7,
-    aliases:["グルーブメタル"],},
+    aliases:["グルーブメタル", "グルーヴメタル"],},
   {id:"metalcore", label:"Metalcore", cat:"metal", era:"1990s", suno:true,
     desc:"ハードコア・パンクの怒りと共同体的な熱狂に、スウェーデン由来の旋律的なデスメタルのギターを接続した音楽である。曲の構造には明確な定型があり、絶叫による激しい部分と、澄んだ声で歌い上げる合唱部分が交互に配置される。この叫びと歌の対比が、感情の振れ幅を分かりやすく提示する仕掛けとなっている。もう一つの必須要素が、突然テンポが半分に落ちて、低い弦を重く刻むだけの部分であり、これは聴き手が身体をぶつけ合って踊るために用意された空間である。ギターは半音から二音下げた調弦を用い、高音域では三度で重ねた哀愁のある旋律を、低音域では短く切った刻みを担当し、この二つの役割を目まぐるしく往復する。音階は自然短音階と和声的短音階が中心で、旋律ははっきりと歌える形を保つ。ドラムはブラストビートのような高速の連打から、四つ打ちに近い直線的な刻み、そして半分の速度の重い部分までを、曲の中で何度も切り替える。歌詞は裏切り、自己の弱さ、依存からの回復、信仰、社会への異議といった主題を扱い、聴き手に直接語りかける二人称が多い。デスメタルの持つ非人間的な冷たさとは異なり、あくまで人間の感情の告白として組み立てられている点が特徴である。",
     roots_story:"母体は1980年代のアメリカのハードコア・パンクにある。オハイオ州クリーヴランドのIntegrityは1988年から、宗教的で終末論的な世界観とメタルのギターをハードコアに持ち込み、ニューヨーク州シラキュースのEarth Crisisは菜食主義と薬物を拒む生き方を掲げて、思想的な厳格さをこの分野に刻んだ。1990年代にはマサチューセッツのConvergeが、混沌とした構成と生々しい絶叫によって、後にカオティック・ハードコアと呼ばれる方向を切り開き、2001年の作品ジェーン・ドウはこの領域の最高峰として評価されている。決定的な転換は2000年代初頭に起きた。スウェーデンのイェーテボリで発達した旋律的デスメタルの、哀愁を帯びた三度重ねのギターが、アメリカのハードコアの構造と結びついたのである。マサチューセッツのKillswitch Engageは、ギタリストのAdam Dutkiewiczが自ら録音と制作を手掛け、2002年のアライヴ・オア・ジャスト・ブリージングでこの融合を完成させた。歌手がJesse LeachからHoward Jonesへ交代した後の2004年の作品は商業的にも大きく成功し、この様式が全米の主流へ躍り出る。同時期にShadows Fall、Unearth、As I Lay Dying、All That Remainsが続き、毎夏アメリカ各地を巡回する野外興行のWarped Tourと、Roadrunner、Victory、Trustkillといったレーベルが流通と動員を支えた。イギリスからはBullet for My ValentineやBring Me the Horizonが現れ、様式は国際化する。しかし急速な普及は形骸化も招き、2000年代後半には、叫びと歌の交代と重い刻みという型をなぞるだけの作品が氾濫し、批評的な評価は急落した。加えて2013年、As I Lay Dyingの中心人物Tim Lambesisが妻の殺害を依頼した容疑で逮捕され有罪となった事件は、信仰や誠実さを掲げてきたこの分野に深刻な打撃を与えた。2010年代半ば以降は下火となったが、2020年代に入ると当時十代だった世代が制作者となり、電子音や現代的な音像を取り入れた新しい形で再び広く聴かれるようになっている。",
@@ -3888,7 +3888,7 @@ const NODES = [
     yt_mix:["yzj_OpgeEsg", "UluH0QmnwfM"],
     yt_tracks:[["LoF_a0-7xVQ", "AdUBTE9JpgI"], ["farFbNMNJm8", "5bSSz2ff03o"], ["Wo-z58xLoe8", "EEDeGraNlNM"], ["_iKnGIKOqJg", "_mP5yT2Bu9w"], ["FOWf8uqGf8A", "xdE4RO_P-qE"]],
     popularity:5,
-    aliases:["クロスオーバースラッシュ"],},
+    aliases:["クロスオーバースラッシュ", "クロスオーヴァースラッシュ"],},
   {id:"blackgaze", label:"Blackgaze", cat:"metal", era:"2010s", suno:true,
     desc:"ブラックメタルの演奏形式と、シューゲイザーの霞んだ音響を重ね合わせた音楽である。ギターは全ての弦を高速で往復して弾くトレモロ奏法を基本とするが、そこにディレイとリバーブを極端に深くかけることで、音符の輪郭が溶けて一枚の面のような響きになる。この面としての音の上に、毎分200打を超えるブラストビートが敷かれるため、激しく叩かれているのに全体としては静かで浮遊した知覚が生まれる。決定的に異なるのは和声で、伝統的なブラックメタルが不協和音と短調の絶望を選ぶのに対し、この分野は長調や、切なさを含む明るい響きを積極的に用いる。この、激烈な演奏で美しい和音を鳴らすという矛盾こそが本質である。ヴォーカルは遠くで叫んでいるように音量を絞って埋め込まれ、歌詞は聴き取れないことが前提とされている。低音域はベースがほとんど聞こえないほど霞ませる一方、中高域の倍音を厚く積み上げるという、通常のミックスとは逆の設計が採られる。曲は8分から12分と長く、静かなアルペジオから始まり、長い時間をかけて轟音へ至り、また引いていく波の構造を持つ。歌詞は幼年期の記憶、喪失、自然、死後の世界といった内省的な主題を扱い、憎悪や冒涜を掲げないことも、原理的なブラックメタルとの違いである。",
     roots_story:"背景には二つの流れがある。ひとつは1990年代前半のノルウェーで確立したブラックメタルで、粗い録音とトレモロによる密度の高い音の壁という手法がここで完成した。もうひとつは同時期のイギリスで生まれたシューゲイザーで、My Bloody Valentineが1991年に発表したラヴレスに代表される、旋律を歪みとリバーブの霞の中へ沈める音響の思想である。両者が交わる兆しは2000年前後にあり、アメリカ西海岸のWeaklingが2000年に発表した作品は、長大な構成と情感を伴うブラックメタルとして後に繰り返し参照された。決定的な役割を果たしたのはフランスのStéphane Pautで、Neigeという名で活動する彼は、当初は粗いブラックメタルを作っていたが、自身が幼少期に見たという幻視的な世界を描くため、2007年にAlcestとして発表した作品で咆哮をほとんど排し、澄んだ歌声と煌めくギターによる作品を作り上げた。これはブラックメタルの側から見れば裏切りであり、当時は激しい非難を浴びたが、同時に新しい聴き手を大量に呼び込んだ。2013年、サンフランシスコのDeafheavenが発表したサンベイザーが状況を一変させる。淡い桃色の抽象的なジャケットと、白いシャツを着て演じる歌手George Clarkeの姿は、ブラックメタルの黒い衣装と対極にあり、この作品が音楽メディアで年間最高の評価を集めたことにより、伝統的な愛好家からは流行に迎合した偽物だという猛烈な反発が起きた。この論争は数年にわたって続き、真正さとは何かという議論をこの分野全体に突きつけた。呼称としてのブラックゲイズも、当事者の多くが嫌う外部からのラベルである。以後、ドイツのLantlôs、デンマークのMøl、アゼルバイジャンのViolet Coldなど各国に作家が現れ、ポストロックやドリームポップとの境界はさらに曖昧になった。攻撃性を象徴とする音楽が、内省と美しさを扱えることを証明した点で、この分野はメタルの表現の幅を確実に広げている。",
@@ -4001,7 +4001,7 @@ const NODES = [
       {cat:"日本への影響", items:["山下達郎 / Ride On Time","杉山清貴 / さよならのオーシャン","角松敏生 / Take You To The Sky High","カルロス・トシキ / 君は1000%"]}
     ],
     popularity:7,
-    aliases:["アダルト・オリエンテッド・ロック", "Adult Oriented Rock"],},
+    aliases:["アダルト・オリエンテッド・ロック", "Adult Oriented Rock", "アダルトオリエンテッドロック"],},
   {id:"k_hiphop", label:"K-Hip Hop", cat:"east_asian", era:"1995", suno:true,
     desc:"韓国語を主体とするヒップホップである。音そのものはアメリカの各潮流を素早く吸収して作られるため、ブーンバップからトラップ、ドリルまで幅広い形態を取るが、この分野を独自のものにしているのは言語の構造にある。韓国語は音節の切れ目が明瞭で、文末に述語が来るため、韻を踏む位置が英語と根本的に異なる。この制約に対し、語尾を揃える手法、日常会話の助詞を切り詰めて拍に合わせる手法、そして英語の単語を混ぜて母音を確保する手法が発達した。結果として、一小節に詰め込まれる音節の密度が高く、機関銃のように畳みかける発声が生まれやすい。旋律をつけて歌う部分も重視され、ラップと歌唱の境界が緩やかである点は、隣接するアイドル音楽との相互影響の結果でもある。制作面では低音の設計に力が入れられ、大音量で鳴らすことを想定した分厚い低域と、明瞭な高域が両立するよう整えられる。歌詞は成功への渇望、競争、家族への感謝、地元への言及といった主題が中心で、アメリカのように直接的な暴力の描写は少ない。これは放送規制と社会的な受容の条件が異なるためでもある。",
     roots_story:"起点は1992年である。Seo Taiji and Boysが発表した楽曲は、韓国語のラップとダンス音楽を主流の歌謡番組へ持ち込み、当時の審査員が低い評点を付けたにもかかわらず爆発的に売れるという事件を起こした。これにより韓国の大衆音楽の構造そのものが書き換えられ、その後のアイドル産業とヒップホップの双方がここから枝分かれする。1990年代末には、アメリカで育った韓国系のTiger JKがDrunken Tigerとして帰国し、本場の発声と態度を直接持ち込んだ。1999年の作品は韓国語のラップの水準を大きく引き上げ、以後の世代が共通して参照する基準となる。2000年代前半にはEpik Highが、文学的な歌詞と旋律的な構成によってラップを広い層へ届け、Dynamic Duoが親しみやすい語り口で市場を広げた。2010年代に入ると流れが加速する。2011年に設立されたIllionaire Recordsは、大手事務所に属さずに富を築いた作り手の象徴となり、AOMGやH1GHR MUSICといった独立系の共同体が続いた。決定的だったのは2012年に始まったテレビの競技番組で、無名の参加者が勝ち抜いていく形式が国民的な人気を得たことにより、ヒップホップが一気に大衆化した。この番組は多くの才能を発掘した一方、演出された対立や、放送を前提とした表現の自主規制、そして落選者への苛烈な扱いをめぐって強い批判も浴びている。2015年にはKeith Apeの楽曲が国境を越えて拡散し、韓国のヒップホップが初めて世界的な注目を集めた。ただし、独自の困難も存在する。男性に課される兵役は活動の中断を強い、放送における言葉遣いの規制は表現の幅を狭め、また女性の演者に対する市場の冷淡さは長く問題視されてきた。加えて、黒人音楽の様式を借りることの意味をめぐる議論や、過去の発言をめぐる糾弾も繰り返されている。それでも現在では、アジアで最も層の厚いヒップホップの生産地のひとつとして確立している。",
@@ -4074,7 +4074,7 @@ const NODES = [
     yt_mix:["qnStVGoIgBA", "b6toYA0W4IA"],
     yt_tracks:[["3Pt0V6K7WpM", "eEfy3KkEkTE"], ["y_9geXMrvGk", "8vUY2n633cY"], ["XcpFhfN4-jM", "qlJ27Dcv4fc"], ["Bqx3RGHM3HM", "XPmVPIrVQkI"], ["XzcCCOC77Wc", "Qb8YDQZ-AU0"]],
     popularity:5,
-    aliases:["チルウェーブ"],},
+    aliases:["チルウェーブ", "チルウェーヴ"],},
   {id:"future_garage", label:"Future Garage", cat:"dubstep", era:"2010", suno:true,
     desc:"2000年代末のイギリスで現れた、跳ねたリズムと深い憂鬱を組み合わせたベースミュージックである。リズムの土台はUKガラージの二歩踏みと呼ばれる型で、四つ打ちを避け、スネアを二拍目と四拍目に置きながら、キックを不規則な位置に散らすことで独特のよろめきを作る。加えて、拍を均等に割らず前後に振り分けるスウィングが深くかけられ、機械で作られていながら人が手で叩いたようなずれが生じる。テンポは130 BPM前後だが、体感は半分の速さで受け取られることが多い。低音は正弦波に近い純粋なサブベースが担い、旋律を持たず、部屋の空気を揺らす役割に徹する。上物で決定的なのは人の声の扱いで、ソウルやR&Bの歌を細かく切り刻み、音程を上下にずらし、意味を成さない断片として並べ直す。誰かが歌っているのに何を言っているか分からないという状態が、この音楽の情緒の中核をなす。さらにレコードの針音、雨、電車、遠くの話し声といった環境の録音が薄く敷かれ、深夜の都市を歩いている感覚を作る。和音は短調の持続音が中心で、明確な展開や盛り上がりを避け、同じ情景が延々と続く。踊るためというより、独りで移動しながら聴くために作られた音楽である。",
     roots_story:"背景には、2000年代前半のイギリスのダンス音楽の分裂がある。1990年代末に華やかな流行を極めたUKガラージは、暴力事件や規制によってクラブから締め出され、その残骸から、暗く低音を強調したダブステップと、より歌ものに近い方向が分かれて生まれた。この状況で決定的な作品を残したのがBurialである。ロンドン南部で育ったWilliam Bevanは、素性を一切明かさないまま2006年と2007年に作品を発表した。とりわけ2007年のアントゥルーは、音楽制作ソフトの波形を目で見ながら手作業で配置するという、拍の升目に頼らない独特の方法で作られており、そのために生じる微妙なずれが、生々しい人間味を生んだ。彼は自分の作品を、夜中に一人で帰る道のための音楽だと語っており、雨音や街の雑音を用いる手法もそこから来ている。この作品が音楽誌で年間最高の評価を受けたことにより、匿名性そのものが話題となり、2008年に彼は自ら正体を明かして騒動を収めた。フューチャー・ガラージという呼称は、この方向を指して2009年前後にインターネットの掲示板から自然に広まったもので、明確な提唱者はいない。土台を支えたのはKode9が2004年に設立したHyperdubと、Paul RoseによるHotflushといったレーベル群である。同時期にMount Kimbieは、生楽器の断片と電子音を混ぜたより繊細な方向を示し、後にJames Blakeが歌を前面に出すことで、この音響を主流のポップスへ接続した。Zombyは匿名を保ちながら、より断片的で不穏な作品を残している。ただしこの分野は流行としては短命で、2012年前後には呼称そのものが使われなくなった。多くの模倣作が雨音と切り刻んだ歌声という表面的な記号だけをなぞったため、様式が急速に飽きられたのである。それでも、憂鬱を電子音楽で表現するという方向性は、その後のローファイな作品群や、現在のベースミュージック全般に確実に受け継がれている。",
@@ -4130,7 +4130,7 @@ const NODES = [
     yt_mix:["WB9Egi9leWA", "iRWNQc2tKgg"],
     yt_tracks:[["tGbRZ73NvlY", "o5cELP06Mik"], ["Qp6khgW2tn8", "1nUgHuwVjSk"], ["SA0Rkdfkh0Y", "ltGY9h6UycI"], ["CYxv6N_gUhE", "gaKKELQWhbs"], ["tGbRZ73NvlY", "c-L1Dj5a0n4"]],
     popularity:7,
-    aliases:["ソン・クバーノ", "キューバソン"],},
+    aliases:["ソン・クバーノ", "キューバソン", "ソンクバーノ"],},
   {id:"bachata", label:"Bachata", cat:"latin", era:"1960s", suno:true,
     desc:"ドミニカ共和国で生まれた、失恋と苦悩を歌うギター中心の音楽である。編成が明確に定まっており、旋律を担う一本目のギター、和音を刻む二本目のギター、低音のエレクトリックベース、金属製の擦弦楽器グイラ、そして両面太鼓のボンゴという五つの要素で構成される。主役は一本目のギターで、高い音域で細かく分散和音を弾き、音と音の間を滑らせる装飾を多用する。この、泣いているような細く震えるギターの音色が、この音楽を一瞬で識別させる。使われる機材にはナイロン弦ではなく金属弦のギターが選ばれ、さらに残響を深くかけることで、独特の艶やかさが加えられる。リズムは4/4拍子で、グイラが一定の細かい刻みを保ち、ボンゴが四拍目に強い一打を入れる。この四拍目の強調が踊りの区切りとなり、三歩進んで四歩目に腰を跳ね上げるという基本の型に対応している。テンポは概ね120から140 BPM程度である。和声は短調が圧倒的に多く、循環する進行の中で切なさが保たれる。歌詞は失恋、裏切り、酒に溺れる夜、報われない片思いといった主題に集中しており、感情を隠さず、時に自嘲を交えて歌われる点が特徴である。",
     roots_story:"1960年代初頭のドミニカ共和国が出発点である。1961年に30年以上続いた独裁者Rafael Trujilloの政権が彼の暗殺によって終わると、それまで国家が推奨していたメレンゲ以外の音楽が表に出る余地が生まれた。同年から、都市の貧困層や農村の出身者たちが、ギターを手に自分たちの生活と失恋を歌う録音を残し始める。当初この音楽に固有の名はなく、ギターの音楽、あるいは酒場の音楽と呼ばれていた。バチャータという語自体は元来、騒がしい集まりや馬鹿騒ぎを指す軽蔑的な言葉であり、この音楽を貧しく下品なものとして見下す文脈で用いられていた。実際、1960年代から1970年代を通じて、主要なラジオ局はこれを放送せず、テレビにも出演できず、演奏の場は売春宿や場末の酒場に限られていた。歌詞が性的な隠喩を多用したことも、この評価を固定させた。しかし人々は買い続けた。首都サントドミンゴの露天商が安価なレコードを売り、地方から都市へ流入した労働者がそれを支えたのである。転機は1980年代後半から1990年代である。Blas Duránがエレクトリックギターを導入して音を近代化し、続いてJuan Luis Guerraが1990年に発表した作品で、洗練された編曲と文学的な歌詞を持ち込んだ。彼は既に国際的な評価を得ていた音楽家であり、この作品によってバチャータは中産階級にも受け入れられる音楽へと地位を変えた。1990年代にはAntony Santosらが人気を確立し、2000年代にはニューヨークで育ったドミニカ系の若者たちによるAventuraが、リズム・アンド・ブルースの歌唱と英語を混ぜた新しい形を作り、世界的な成功を収める。中心人物のRomeo Santosは現在も第一線にある。今日ではラテン音楽の主要な様式のひとつとして世界中で踊られているが、その出自が長く蔑まれた貧困層の音楽であったという事実は、この音楽の情感を理解するうえで欠かせない。",
@@ -4349,7 +4349,7 @@ const NODES = [
     yt_mix:["k1730nvcyL4", "GmVL95BrLHI"],
     yt_tracks:[["OC5zHACynR4", "NwYKAsbx8SU"], ["NXisq5jOrPk", "ugWtuTmiGLM"], ["ixw_bLVUL34", "7HsaIZ-fF-M"]],
     popularity:6,
-    aliases:["ポストパンクリバイバル"],},
+    aliases:["ポストパンクリバイバル", "ポストパンクリヴァイヴァル"],},
   {id:"riot_grrrl", label:"Riot Grrrl", cat:"rock", era:"1991", suno:true,
     desc:"1990年代前半に、女性を中心とする担い手が、パンクの手法を用いて性差別と暴力に抗議した運動であり、その音楽である。音そのものは意図的に洗練を拒む。ギターは単純な和音を歪ませて掻き鳴らし、ベースは太く動き、ドラムは直線的に叩かれる。演奏技術の未熟さは隠されず、むしろ、上手くなければ演奏してはいけないという規範そのものが排除の装置だという認識のもとで、肯定される。テンポは速く、曲は1分から3分と短い。決定的に重要なのはヴォーカルで、旋律を歌う部分と、喉を裂くような絶叫、そして子どもじみた甲高い発声が、同一曲の中で唐突に切り替わる。この声の使い分けは、女性に期待される可愛らしさと、それを裏切る怒りとを同時に提示する意図的な戦略である。歌詞は極めて直截で、性暴力、近親姦、摂食障害、身体への視線、家父長制、そして女性同士の連帯を、比喩を用いずに述べる。演奏の場も設計の一部で、暴力的になりがちな客席の最前列を女性に明け渡すよう求める慣行が生まれた。音楽は目的ではなく、意識を変えるための手段として位置づけられている点が、この分野の本質である。",
     roots_story:"舞台はアメリカ北西部ワシントン州の小さな大学町オリンピアと、首都ワシントンD.C.である。1980年代のパンクの現場は、理念としては平等を掲げながら、実際には男性の身体的な暴力が支配しており、女性は壁際に追いやられるか、演者の恋人としてしか扱われないことが常態だった。1990年前後、この状況に耐えかねた女性たちが、自分たちで演奏し、自分たちで発信することを始める。中心となったのはBikini Killで、Kathleen Hannaを歌手とするこのバンドは、演奏中に客席へ向かって女性を前へと呼びかけ、実際に最前列の秩序を作り変えた。同じ町のBratmobileのAllison WolfeとMolly Neumanは、自作の小冊子の中でこの運動の名を作り出し、その手作りの印刷物が全米へ郵送されることで、共同体が形成された。この小冊子文化は極めて重要で、音楽よりも先に言葉が回路を作ったのである。1991年にオリンピアで開かれた催しでは、初日が女性の演者だけの日として設定され、この運動の可視化を決定づけた。Kill Rock StarsやK Recordsといった地元の小レーベルが作品を発表し、Heavens to BetsyのCorin Tuckerは後にSleater-Kinneyを結成して、より高い音楽的完成度でこの姿勢を継承した。イギリスではHuggy Bearが呼応している。しかし運動は早期に困難に直面した。1992年から1993年にかけて、大手の報道機関がこの運動を流行の一種として取り上げ、参加者の意図を歪めて描いたため、当事者たちは報道機関への一切の取材拒否を決定する。この沈黙は運動を守った一方で、外部への広がりを制限した。加えて、参加者が白人の中産階級の女性に偏っており、人種や階級の問題を十分に扱えなかったという批判は、内部からも提起され続けた。運動としては1990年代半ばに退潮するが、その影響は音楽に留まらない。第三波と呼ばれるフェミニズムの潮流を実践面で支え、2000年代以降の各地の女性主体の音楽祭や、ロシアの抗議集団に至るまで、直接の系譜が引かれている。",
@@ -4462,7 +4462,7 @@ const NODES = [
     yt_mix:["FLxdlBudMPw", "8o3mqr0vNi0"],
     yt_tracks:[["ZmrubBlFEGI", "zqpIDtI6YSw"], ["punb3i4bPWA", "8qSSkRhDG2U"], ["2AdGV0DAmqA", "Q4PhN--Ofak"], ["2oN0LZtfce4", "BNPalNFx1Io"], ["ObbLapUaZd4", "uOmtVFQ3WF8"]],
     popularity:4,
-    aliases:["パワーバイオレンス"],},
+    aliases:["パワーバイオレンス", "パワーヴァイオレンス"],},
   {id:"ndh", label:"Neue Deutsche\nHärte", cat:"metal", era:"1994", suno:true,
     desc:"ドイツ語圏で発達した、重厚なギターと機械的なリズム、そしてドイツ語の発音の硬さを武器とするヘヴィな音楽である。名称はドイツ語で新しいドイツの硬さを意味する。リズムは打ち込みによる正確な四つ打ちが中心で、テンポは概ね120から140 BPMと、メタルとしては遅く、ダンス音楽としては重い中間に置かれる。この四つ打ちの採用が決定的で、聴き手は頭を振るのではなく、行進するように身体を上下させることになる。ギターは歪ませた和音を短く切って刻み、旋律よりも打楽器的な役割を担う。そこへ低く唸るシンセサイザーの持続音、金属的な効果音、そして時に管弦楽や合唱を模した壮大な音が重ねられる。決定的に重要なのが歌唱で、ドイツ語の子音、とりわけ喉の奥で鳴らす摩擦音と、舌先を強く震わせる巻き舌が意図的に誇張され、言葉そのものが打楽器として機能する。低く重々しい声で、朗読するように、あるいは軍隊の号令のように発声される。歌詞は性愛、暴力、家族、宗教、ドイツの歴史を、両義的で挑発的な比喩によって扱う。舞台では炎を大量に用いる演出が定型となっている。",
     roots_story:"土壌は1980年代の東西ドイツにある。西側では、Einstürzende Neubautenが建設現場の資材を楽器として演奏し、金属を打つ音を表現へ高めていた。東側では、社会主義体制下で厳しく統制された文化環境の中、若者たちがパンクや電子音楽を非公式に受容していた。1989年のベルリンの壁崩壊と翌年の統一は、この二つの世界を突然に接続する。旧東ドイツ出身の音楽家たちにとって、自由と同時に訪れたのは、自分たちの過去と国家の歴史をどう扱うかという問いだった。1994年、旧東ドイツのシュヴェリーンとベルリン周辺の音楽家が集まってRammsteinが結成される。彼らは英語ではなく母語で歌うことを選び、ドイツ語の硬い響きを弱点ではなく武器として提示した。1997年の作品で国際的な成功を収め、以後、世界最大級の動員力を持つバンドとなる。彼らの表現は常に論争を伴ってきた。全体主義的な図像を引用する映像や、性暴力や近親相姦を扱う歌詞は、しばしば極右への接近と誤解され、実際にドイツ国内で有害図書の指定を受けた作品もある。バンド側はこれを一貫して、扇動ではなく歴史への直面と挑発だと説明してきたが、議論は決着していない。2019年には強制収容所の映像を用いた宣伝が激しい批判を浴び、2023年には歌手の性的な不品行をめぐる告発が国際的な報道となった。周辺にはOomph!やEisbrecherといったバンドが並び、この様式はドイツ語圏の外へも輸出された。母語で歌い、その言語の音の特性そのものを武器にするという発想は、英語以外の言語で活動する世界中の音楽家に、大きな示唆を与えている。",
@@ -4470,7 +4470,7 @@ const NODES = [
     yt_mix:["MbnZFKCv0Tk", "4rHnwd37J0s"],
     yt_tracks:[["W3q8Od5qJio", "U5HAEzEk8QM"], ["fuLPJg2gwjQ", "HP-5fvykK78"], ["RDPrg25b9Ow", "uGTXF7cyJ6w"], ["hhyQaN95_KI", "l8xSnpDGRxc"], ["yjO1bMHbDpY", "e-x3cQDIVR8"]],
     popularity:7,
-    aliases:["ノイエ・ドイチェ・ヘルテ"],},
+    aliases:["ノイエ・ドイチェ・ヘルテ", "ノイエドイチェヘルテ"],},
   {id:"southern_hiphop", label:"Southern\nHip Hop", cat:"hiphop", era:"1990s", suno:true,
     desc:"アメリカ南部の各都市で独自に発達したヒップホップの総称であり、東西の海岸部とは異なる時間感覚と低音の設計を持つ。最も明確な違いは低音で、車の音響装置で鳴らすことを前提に、極端に低い帯域が長く伸びるよう作られる。Roland TR-808由来の、音程を持ったまま数秒にわたって減衰していく低音が土台となり、それ自体が旋律的な役割を担う。リズムは拍を三つに分割する三連符の感覚が強く、細かく刻まれるハイハットが、二連、三連、四連と分割を変えながら疾走感を作る。テンポは表記上は70から80 BPMと遅いが、細分化によって体感の密度は高い。上物は簡素で、短調の不吉なシンセの旋律、鐘や弦楽を模した音が置かれる程度である。ラップは地域ごとに大きく異なり、極めて速い早口、拍にゆったり寄りかかる語り、歌に近い旋律的な発声などが併存する。歌詞は地元の地名、貧困からの脱出、街頭の現実、そして踊りへの誘いを扱い、南部の訛りが隠されずに強調される。踊りと直結した楽曲が多く、特定の動作を指示する歌詞も定型のひとつである。",
     roots_story:"1980年代、ヒップホップはニューヨークの音楽であり、南部は文化的な後進地として軽んじられていた。この構図を最初に揺るがしたのがフロリダ州マイアミである。1980年代半ば、Luther Campbell率いる2 Live Crewが、極端に速いテンポと重低音による猥雑な音楽を作り、1990年にはその歌詞が裁判で猥褻と判断されるという事態に至った。この判決は後に覆され、表現の自由をめぐる重要な判例となっている。テキサス州ヒューストンでは、Rap-A-Lot Recordsを拠点にGeto Boysが、暴力と精神の錯乱を扱う作品で全国的な評価を得た。同市ではDJ Screwが、テンポを極端に落として音程を下げる独自の加工を編み出し、これは咳止め薬の乱用と結びついた文化とともに広まる。彼は2000年に薬物により29歳で死去した。ルイジアナ州ニューオーリンズではCash Money RecordsとNo Limit Recordsが、独立系でありながら莫大な売り上げを記録し、南部の経済的な自立を証明した。決定的だったのはジョージア州アトランタである。1990年代半ば、OutKastとGoodie Mobを擁するDungeon Familyが、南部の音楽的な遺産を前面に出した作品を発表した。1995年、OutKastが東海岸中心の授賞式で新人賞を受けた際、会場から野次を浴びたAndré 3000が、南部にも言うべきことがあると叫んだ場面は、この地域の転換点として繰り返し語られる。以後、アトランタは世界のヒップホップの中心地となり、2000年代のクランク、2010年代のトラップを生み出して、現在の主流の音そのものを規定するに至った。かつて田舎者として嘲笑された地域が、四半世紀を経て産業の中心を占めたという逆転は、アメリカの大衆音楽史における最も大きな転換のひとつである。",
@@ -4559,7 +4559,7 @@ const NODES = [
     yt_mix:["zIjPoj8a4Ko", "K20PSCMfIoY"],
     yt_tracks:[["ll5ykbAumD4", "sAouQH-34hs"], ["TxvpctgU_s8", "krHqVGz_o18"], ["6Pazt9whz0A", "6PPC7s2_Qh8"], ["QFGMQZyvnmY", "ri6Efk1SPJc"], ["ypDtUUtuNzQ", "tItvTE-HjFI"]],
     popularity:7,
-    aliases:["ヴォーカルトランス"],},
+    aliases:["ヴォーカルトランス", "ボーカルトランス"],},
   {id:"hard_trance", label:"Hard Trance", cat:"trance", era:"1992", suno:true,
     desc:"トランスの構造を保ちながら、キックの重さと音色の攻撃性を大幅に引き上げた形式である。テンポは概ね140から150 BPMと速い。キックは短く硬く潰され、その直後の裏拍に、切り詰められたベース音が置かれる。この、拍の頭と裏を交互に埋める配置が絶え間ない前進の感覚を作り、身体を上下に動かすことを強いる。この分野を最も明確に特徴づけるのが、掃除機の唸りに例えられる特有の合成音である。これは1980年代のシンセサイザーに搭載されていた特定の音色に由来し、複数の波形が唸りを伴って干渉する分厚い音で、和音として鳴らされると轟音に近い迫力を持つ。加えて、共振の鋭いフィルターを備えた低音の合成音による、酸味を帯びた旋回する音型が多用される。構成はトランスの定型に従い、積み上げ、リズムを落とす区間、小太鼓の連打による緊張の高まり、そして解放という流れを取るが、その解放される音が旋律ではなく音圧である点が異なる。和声は短調が中心で、不吉さと高揚が同居する。歌はほとんど用いられず、用いられても短い叫びや効果音的な断片に留まる。",
     roots_story:"1990年代前半のドイツは、電子ダンス音楽の一大生産地だった。フランクフルトを中心に確立したトランスは当初、催眠的で反復的な音楽だったが、同じ国のガバやハードコアテクノとの近接によって、次第に硬く速い方向へ引っ張られていく。この過程で、より攻撃的な音を求める一群が独立した領域を形成した。1990年代後半がその頂点である。ドイツのKai Tracidは、自らTracid Traxxxというレーベルを構え、酸味のある旋回する低音と硬いキックを組み合わせた作品で、この分野の代表格となった。同じくドイツのDJ Scot Projectは、極めて速く容赦のない作風で知られ、その楽曲は数字と記号だけの題名を持つという独特の様式でも知られる。ベルギーのBonzaiというレーベルは、この地域の硬いトランスの中心的な流通経路となった。日本ではYoji Biomehanikaが、この様式を独自に消化して国際的に活動し、アジアにおけるハードトランスの存在感を示している。この分野の広がりには、ヨーロッパ各地の大規模な屋内催しが大きな役割を果たした。数千人から数万人を収容する会場で、複数の会場を使い分けて一晩中演奏を続けるという形式が確立し、そこでの最も激しい時間帯を担う音楽として、この様式は機能した。2000年代前半には流行が一巡し、より旋律的なトランスや、ハードスタイルへ主流が移っていく。とりわけオランダで発達したハードスタイルは、この分野のキックの設計をさらに推し進めたものであり、直接の後継といえる。批判としては、音が単調で耳への負担が大きいこと、そして薬物の使用と不可分に語られてきたことが挙げられる。それでも、この時期に磨かれたキックと低音の設計技術は、その後のハードダンス全般の基礎となっている。",
@@ -4703,7 +4703,7 @@ const NODES = [
     yt_mix:["uD9ukXeygk8", "mesG1sJ2rUg"],
     yt_tracks:[["suia_i5dEZc", "cMwmBfEtiq0"], ["kDe3qOhrJLo", "tBa2Z28oPRU"], ["E1tOV7y94DY", "aKvwnHiJSdk"]],
     popularity:7,
-    aliases:["ムジカ・ポプラール・ブラジレイラ", "Música Popular Brasileira", "ブラジリアンポップ"],},
+    aliases:["ムジカ・ポプラール・ブラジレイラ", "Música Popular Brasileira", "ブラジリアンポップ", "ムジカポプラールブラジレイラ"],},
   {id:"samba_genre", label:"Samba", cat:"latin", era:"1910s", suno:true,
     desc:"ブラジルを代表する打楽器主体の音楽および踊りである。拍子は2/4で、一見単純だが、その内部の分割が極めて複雑である。最も重要な楽器はスルドと呼ばれる大型の低音太鼓で、二拍目に強い一打を落とす。この、一拍目ではなく二拍目に重心が置かれる構造が、身体を後ろへ引いてから前へ送り出すような独特の推進力を生む。その上にタンボリンという小型の太鼓が細かく裏拍を刻み、パンデイロという鈴付きの片面太鼓が絶え間ない細分を担う。クイーカは太鼓の内側に取り付けた棒を濡らした布で擦る楽器で、動物の鳴き声のような音を出し、この音がサンバの音色を決定づけている。加えてアゴゴという二連の鉄鐘、金属の棒で擦るレコレコが加わる。旋律を担うのは小型の四弦楽器カヴァキーニョとギターで、和声はジャズに近い豊かな響きを持つ。歌は独唱と大人数の合唱の掛け合いが基本で、聴き手も一緒に歌うことが前提とされている。テンポは形態によって大きく異なり、行進のためのものは速く、酒場で演奏されるものは緩やかである。",
     roots_story:"起源は19世紀末から20世紀初頭のリオデジャネイロにある。1888年の奴隷制廃止後、北東部バイーア州から解放された黒人たちが首都へ移住し、港の周辺に集住した。この一帯は小さなアフリカと呼ばれ、そこではアフリカ由来の宗教儀礼と打楽器の音楽が守られていた。中心となったのは、共同体の母として慕われた女性たちの家であり、とりわけチア・シアタと呼ばれた人物の家では、音楽家が集まって夜通し演奏する集まりが開かれていた。1917年に登録された最初のサンバとされる楽曲は、この家で生まれたと伝えられる。ただしこの音楽は当初、当局から徹底的に弾圧された。打楽器を持ち歩くこと自体が浮浪罪の証拠とされ、演奏者は逮捕された。1920年代、エスタシオ地区の作り手たちが、行進しながら演奏できるようリズムを作り替え、現代的なサンバの型が完成する。1928年には最初のサンバ学校と呼ばれる組織が結成され、居住区ごとの集団が競い合う謝肉祭の行進が制度化されていった。1930年代、政治状況が音楽の運命を変える。権力を握ったGetúlio Vargasは、国民統合の象徴としてサンバを積極的に利用し、それまで犯罪視されていた音楽が一転して国家の文化となった。この過程で、内容は当局によって管理され、労働を賛美する歌詞が奨励されるという歪みも生じている。Noel Rosaは都市の日常を洗練された言葉で描き、Cartolaは丘の上の貧民街から詩的な楽曲を生み出したが、長く忘れられ、晩年になってようやく評価された。1984年には行進のための専用会場が建築家Oscar Niemeyerの設計で建てられ、謝肉祭は巨大な観光産業となる。この商業化に対しては、貧困層の文化が資本に取り込まれたという批判が根強い。一方で1980年代以降、酒場での小規模な演奏を重んじるパゴーヂが広まり、日常の音楽としてのサンバも生き続けている。",
@@ -4727,7 +4727,7 @@ const NODES = [
     yt_mix:["KxaBIlxNVYw", "GPLrT1UYs-o"],
     yt_tracks:[["Nmb80HXWsFQ", "6qFAi7GfdrY"], ["lkY6Lc_WiD0", "66z7ug3xGXU"], ["XQaD3eWIdhM", "4KyPmpfF4a8"], ["VgGve0uMeY4", "V9aFxOc2CyQ"], ["m_cpy7KLLPo", "i2c4CHqZmxU"]],
     popularity:6,
-    aliases:["バジェナート"],},
+    aliases:["バジェナート", "ヴァジェナート"],},
   {id:"norteno", label:"Norteño", cat:"latin", era:"1900s", suno:true,
     desc:"メキシコ北部とアメリカとの国境地帯で発達した、手風琴を中心とする音楽である。編成の核は二つの楽器の組み合わせにある。ひとつはボタン式の全音階手風琴で、旋律と装飾を担い、速い分散和音による華やかな走句が聴かせどころとなる。もうひとつはバホ・セスト、あるいはバホ・キントと呼ばれる大型の複弦ギターで、六組または五組の弦を二本ずつ張り、低音の刻みと和音の伴奏を同時に担当する。この二つが噛み合うことで、少人数でも厚い音が成立する。これに低音楽器とドラムが加わるのが現代の標準的な形である。リズムはヨーロッパ由来のものが多く、二拍子のポルカ、三拍子のワルツ、そしてレドバやショティスといった舞踏音楽の型が用いられる。テンポは中庸から速く、跳ねた躍動を持つ。和声は三和音を中心とした単純なもので、転調はほとんどない。歌唱は二声の和音が基本で、主旋律の上に三度で寄り添う声が張り付き、高い音域で力強く歌われる。歌詞は物語形式が多く、国境を越える者の苦難、移民の郷愁、労働、恋愛、そして犯罪組織をめぐる出来事が語られる。",
     roots_story:"この音楽の成立には、意外な移民の歴史が関わっている。19世紀後半、メキシコ北部とテキサス南部には、ドイツ、チェコ、ポーランドからの移民が入植し、彼らはビール醸造の技術とともに、ポルカやワルツといった舞踏音楽と、ボタン式の手風琴を持ち込んだ。これを現地のメキシコ系住民が採り入れ、自分たちの弦楽器と歌の伝統に接ぎ木したものが、この音楽の原型である。つまり中欧の農村の舞踏音楽が、国境地帯で生まれ変わったといえる。20世紀前半、テキサスのNarciso Martínezが手風琴の奏法を確立し、1930年代から録音を残して、この地域の音の基準を作った。彼はバホ・セストの奏者と組むことで、後の標準的な編成を定めている。1950年代にはLos Alegres de Teránが、二声の歌と手風琴による形を完成させた。この音楽の担い手と聴き手の中心は、常に国境を往復する労働者たちだった。彼らはアメリカの農場や工場で働き、故郷へ送金し、その両方の場所でこの音楽を聴いた。1968年、カリフォルニア州サンノゼで、メキシコから移住してきた少年たちがLos Tigres del Norteを結成する。彼らは1972年、麻薬の密輸をめぐる物語を歌った楽曲で大きな成功を収め、以後、移民の権利、不法労働、家族の離散といった社会的な主題を正面から扱い続けた。彼らの楽曲は、メキシコでもアメリカでも報道されない現実を伝える役割を果たしてきた。1990年代以降、Ramón AyalaやIntocableといった演者が、より洗練された演奏で人気を保っている。現在この音楽は、アメリカ国内で最も大きな市場を持つスペイン語の音楽のひとつであり、国境の両側で生きる数千万の人々の生活の音として鳴り続けている。",
@@ -4759,7 +4759,7 @@ const NODES = [
     yt_mix:["ChuvuWqL93s", "6k80BDr3x60"],
     yt_tracks:[["qCVR5XR04Mo", "GFHqabGMZOM"], ["O4MUTcGwIvg", "LOCelOMu3os"], ["S4ZWD_0VRK8", "p56-SlYP2Cc"]],
     popularity:5,
-    aliases:["ラバーズロック"],},
+    aliases:["ラバーズロック", "ラヴァーズロック"],},
   {id:"zouk", label:"Zouk", cat:"caribbean", era:"1984", suno:true,
     desc:"カリブ海のフランス領アンティル諸島、グアドループとマルティニークで生まれたダンス音楽である。土台には両島の伝統的な打楽器音楽と、19世紀からの舞踏音楽ビギンがあるが、それを1980年代の最新の電子機材で全面的に作り直した点が革新だった。テンポは概ね120から130 BPMと速く、リズムは謝肉祭の行進に由来する跳ねた二拍子を基調とする。打点は極めて細かく分割され、複数の打楽器の音型が互いにずれながら噛み合う。低音は太く短い音を裏拍に置き、そこへシンセサイザーによる金管を模した鋭い刺し込みが重なる。ギターは高音域で歯切れよく刻み、和音はメジャーセブンスなど明るく開かれた響きが好まれる。歌唱は複数の声を重ねた分厚い合唱が特徴で、男女の掛け合いも多用される。決定的に重要なのは言語で、フランス語ではなくアンティル諸島のクレオール語が用いられる。これは単なる選択ではなく、宗主国への同化圧力に対する明確な文化的主張である。歌詞は恋愛、祝祭、島の日常を扱うが、同時に自分たちの言葉で歌うこと自体が政治的な行為となっている。より遅く官能的な形態も派生している。",
     roots_story:"グアドループとマルティニークは、17世紀以来フランスの植民地であり、1946年には海外県としてフランスに統合された。この統合は市民権をもたらす一方、クレオール語を劣った方言として扱い、フランス本国の文化への同化を強いるものでもあった。1970年代、島の若者たちは、自分たちの音楽が本国の流行歌の劣化版として扱われることに強い不満を抱いていた。この状況を変えたのが、1979年に結成されたKassav'である。中心となったPierre-Édouard Décimusは、島の謝肉祭で用いられる打楽器のリズムを、当時最新のシンセサイザーとリズムマシンで再構築するという構想を持っていた。ギタリストのJacob Desvarieuxがパリの録音技術を持ち込み、Georges Décimusが低音を担い、後にJocelyne BéroardとJean-Philippe Marthélyが歌手として加わって、編成が完成する。彼らの方針は明確だった。すなわち、国際的な水準の録音と演奏によって、クレオール語の音楽が二流ではないことを証明することである。1984年に発表された楽曲は、この音楽こそが我々の唯一の薬だという意味の題名を持ち、島の外へ爆発的に広まった。パリに暮らす膨大な数のアンティル系移民が、この音楽を故郷との絆として受け入れたことも普及を後押しした。1980年代後半には、彼らはアフリカ大陸でも絶大な人気を得る。この波及は思わぬ結果を生んだ。ポルトガル語圏のカーボベルデやアンゴラでは、この音楽の遅く官能的な形態が独自に発展し、キゾンバと呼ばれる新しい様式が生まれる。ブラジルでは、それに合わせた密着型の踊りが独立した文化として定着した。2021年、Jacob Desvarieuxが新型の感染症により死去したことは、この音楽の歴史における大きな喪失となった。それでも、クレオール語で歌うことが誇りとなるという転換は不可逆であり、その意義は音楽の枠を超えている。",
@@ -4922,7 +4922,7 @@ const NODES = [
     yt_mix:["Egnc_VfJ3Lc", "NvGYOswS5s0"],
     yt_tracks:[["pCBP2rD1sPw", "1bgFkeDLpSI"], ["-DGY9HvChXk", "Web007rzSOI"], ["x8cFdZyWOOs", "Z3RIb9rbYZw"], ["qQzdAsjWGPg", "w019MzRosmk"], ["tO4dxvguQDk", "1LH4vnrM-Vs"]],
     popularity:7,
-    aliases:["ヴォーカルジャズ"],},
+    aliases:["ヴォーカルジャズ", "ボーカルジャズ"],},
   {id:"contemporary_classical", label:"Contemporary\nClassical", cat:"classical_sub", era:"1945", suno:true,
     desc:"第二次世界大戦後に書かれた、西洋の芸術音楽の総称である。単一の様式ではなく、むしろ共通の語法が存在しないことこそがこの時代の特徴といえる。それでもいくつかの主要な方向がある。第一は総音列主義で、音の高さだけでなく長さ、強さ、音色までを数列によって組織し、作曲者の主観的な好みを排除しようとする試みである。第二は偶然性の音楽で、演奏の一部を演奏者の判断や偶然に委ね、作品の同一性そのものを問い直す。第三は音響の塊を扱う手法で、個々の音符ではなく、数十の声部が極めて密集して動くことで生まれる雲のような響きや、楽器の非標準的な奏法による軋み、擦れ、叩きが素材となる。第四は倍音の分析に基づく手法で、一つの音に含まれる倍音の構造を、そのまま管弦楽の和音として書き出す。第五は反復を軸とする簡素な方向である。楽譜の記法も拡張され、五線譜ではなく図形や文章による指示が用いられることもある。聴き手に快さを与えることは目的とされず、音そのものの在り方を問うことが目的とされる。",
     roots_story:"1945年の敗戦と大量殺戮の記憶は、ヨーロッパの若い作曲家に、それまでの文化的な伝統への根本的な不信をもたらした。ロマン派以来の情感の表現は、まさにその文化が破局を防げなかった証拠と見なされたのである。ドイツの都市ダルムシュタットで1946年から開かれた夏期講習会が、この再出発の中心となった。ここに集まったPierre Boulez、Karlheinz Stockhausen、Luigi Nonoらは、Olivier Messiaenが示した、音の全ての要素を数列で組織するという発想を極限まで推し進めた。それは主観を排した、いわば白紙からの再構築の試みだった。同時期、アメリカでは全く逆の方向が現れる。John Cageは、東洋の思想と易の占いに影響を受け、作曲者の意図そのものを排除する方向へ進んだ。1952年に発表された、演奏者が一切音を出さない作品は、音楽とは何かという問いを最も先鋭な形で突きつけた。技術の面では、1948年にパリでPierre Schaefferが、録音した現実の音を素材として構成する手法を始め、ケルンの放送局では電子的に生成した音による作曲が試みられた。1960年、ポーランドのKrzysztof Pendereckiは、五十二の弦楽器による極端な奏法だけで構成された作品を発表し、後に広島の犠牲者への哀歌という題を与えた。ハンガリーのGyörgy Ligetiは、極めて密集した声部の重なりによる音の雲を作り出し、その作品は1968年のアメリカのSF映画に用いられて広く知られることになる。1970年代のパリではIRCAMという研究機関が設立され、倍音の分析に基づく作曲が発展した。この時代を通じて、聴衆との断絶は最大の問題であり続けている。多くの作品が大学や公的な助成に支えられ、一般の聴き手を持たないという批判は繰り返されてきた。一方で1970年代以降、Arvo Pärtのように、極度に単純な素材によって深い静けさを作る作曲家が現れ、意外な大衆的成功を収めた例もある。",
@@ -4947,7 +4947,7 @@ const NODES = [
     yt_mix:["Kuy17LO14OA", "ZXkT0SeGOyY"],
     yt_tracks:[["nsff88sufkI", "D33RPdn0zEA"], ["-N_zNB3jAbo", "t07bYFKgc0c"], ["nNms5rOaGlk", "9BzkrgVivk4"], ["wR91d9itVZ4", "-1LDIPBWjtU"], ["MATZR7LGECQ", "4LeVo2zP9mU"]],
     popularity:7,
-    aliases:["ゲーム音楽", "BGM", "ビデオゲームミュージック", "Video Game Music"],},
+    aliases:["ゲーム音楽", "BGM", "ビデオゲームミュージック", "Video Game Music", "ヴィデオゲームミュージック"],},
   {id:"texas_blues", label:"Texas Blues", cat:"blues_sub", era:"1920s", suno:true,
     desc:"アメリカ南部テキサス州とその周辺で発達したブルースである。同じブルースでも、ミシシッピ・デルタの重く土着的な質感や、シカゴの分厚く歪んだ音とは明確に異なる。最大の特徴は軽やかさと流動性にある。リズムは三連符を感じさせる跳ねた刻みを基調とし、しばしばジャズの揺れる感覚が入り込む。編成にはピアノや管楽器が加えられることが多く、ジャンプ・ブルースと呼ばれる、踊るための軽快な形態へも接続する。ギターの奏法が決定的で、和音を掻き鳴らすのではなく、単音の旋律線を長く連ねる。この、管楽器の独奏を模したような単音主体の弾き方は、この地域で確立され、以後のロックとブルースのギター全体の基礎となった。音色は歪ませすぎず、澄んだまま伸びのある響きが好まれ、チョーキングによって音程を滑らかに引き上げる技法が多用される。曲の構造は12小節のブルース形式が中心だが、小節数を厳密に守らず、歌の都合で伸縮させる演奏者もいる。歌唱は力任せに叫ばず、語りに近い自然な発声が選ばれる。歌詞は放浪、労働、女性、酒、そして貧困を扱い、しばしば辛辣な諧謔が混ざる。",
     roots_story:"テキサス州は綿花の大農園と石油、そして牧畜が交錯する土地であり、黒人労働者は農場から農場へ、都市から都市へと移動しながら生きていた。この流動性が音楽にも反映されている。最初期の重要な人物はBlind Lemon Jeffersonである。生まれつき目が見えなかった彼は、ダラスの街頭で演奏し、1920年代に録音を残して、男性のブルース歌手として初めて商業的な成功を収めた。彼のギターは伴奏に留まらず、歌と対等に応答する独立した声として機能しており、この発想が後続に受け継がれた。彼は1929年、シカゴの路上で凍死したと伝えられている。1930年代から1940年代にかけて、都市化とともに音楽は電気化する。ここで最も重要な人物がT-Bone Walkerである。ダラスで育ち、後にロサンゼルスへ移った彼は、エレクトリックギターを用いて単音の旋律線を弾くという奏法を確立した。1947年に発表した楽曲は、後のB.B. Kingをはじめ、ほぼ全てのブルースとロックのギタリストが直接影響を受けたと語る一曲となっている。彼は演奏中にギターを背後に回して弾くといった舞台上の演出も行い、後年のロックの身振りの原型を作った。ヒューストンではDuke/Peacock Recordsが、黒人が経営する数少ない大規模なレーベルとして機能し、この地域の音楽を全国へ送り出した。Lightnin' Hopkinsは、小節数を数えない自由な形式で歌い続け、極めて多数の録音を残している。Albert Collinsは指で弦を弾く鋭い奏法で氷のような音を作り、Freddie Kingは力強い演奏でイギリスの若者に多大な影響を与えた。1980年代にはオースティンのStevie Ray Vaughanが、この地域の伝統を圧倒的な技量で現代へ蘇らせ、衰退していたブルースの市場を再び活性化させたが、1990年にヘリコプターの事故により35歳で死去している。",
@@ -5061,7 +5061,7 @@ const NODES = [
     rep_tracks:["Xpander (Sasha)", "Heaven Scent (Bedrock)", "The Man with the Red Face (Laurent Garnier)", "RibCage (Dubfire)", "Lamur (Guy J)"],
     popularity:5,
   
-    aliases:["プログレッシブテクノ"],},
+    aliases:["プログレッシブテクノ", "プログレッシヴテクノ"],},
   {id:"arena_rock", label:"Arena Rock", cat:"rock", era:"1970s-1980s", suno:false,
     desc:"数万人を収容する大型の屋内競技場で演奏することを前提に設計されたロックである。したがって様式の定義は、音そのものより空間の条件から導かれる。第一に、広大な空間では細かい表現が届かないため、楽曲は単純化される。和声は基本的な三和音の循環、旋律は音域が狭く覚えやすいものが選ばれる。第二に、繰り返し部分は数万人が同時に唱和できるよう設計され、しばしば言葉が少なく、母音の伸びる語が選ばれる。演者だけでなく構成員全員が声を揃える合唱が加えられ、聴衆の参加を促す。第三に、音の設計が変わる。ギターは複数本を左右に振り分けて厚みを出し、ドラムには深い残響がかけられて、大空間で自然に響いているような効果が作られる。低音は明瞭さより重量が優先される。テンポは概ね110から140 BPMで、複雑な変拍子は避けられる。第四に、緩急の設計として、静かな導入から劇的に盛り上がる楽曲が必ず用意される。これは会場全体が照明を掲げる時間を作るための仕掛けである。演奏には火薬や照明を用いた大掛かりな演出が伴い、音楽と視覚は一体で構想される。",
     roots_story:"1960年代まで、ロックの演奏は小さな舞踏場や劇場で行われていた。1965年にThe Beatlesが野球場で演奏した際には、音響装置が観客の悲鳴に完全にかき消されるという事態が起きている。転機は1969年で、四十万人を集めた野外音楽祭が、ロックが大規模な動員力を持つことを実証した。同時に、音響技術の進歩によって、大空間でも音を届けることが可能になっていく。1970年代前半、興行主たちは各都市の屋内競技場を会場として組織し、全米を巡回する興行の体制を確立した。1971年、Grand Funk Railroadがニューヨークの球場の券をThe Beatlesより短時間で売り切ったことは、この時代の到来を象徴する出来事とされる。この経済的な条件が音楽を変えた。数万人を相手にする以上、繊細さより明快さが求められ、楽曲は必然的に単純化する。1976年にBostonが、1977年にForeignerが、1981年にJourneyが、いずれもこの条件に最適化された作品で巨大な成功を収めた。イギリスのQueenは、聴衆に手拍子と足踏みを要求する楽曲によって、参加型の演出を極限まで洗練させている。1980年代半ばにはBon Joviが、静かに始まり劇的に盛り上がる楽曲の定型を完成させ、この様式の商業的な頂点を作った。同時に、この分野は最も激しい批判の的でもあった。パンクの担い手たちは、これを企業に管理された空虚な見世物として名指しし、聴き手と演者の物理的な距離の遠さを、そのまま音楽の堕落の証拠と見なした。1991年前後のグランジの台頭は、この批判が広く共有された結果でもある。しかし皮肉なことに、当のグランジのバンドも数年後には同じ規模の会場で演奏することになり、大空間で機能する音という課題は、現在も全ての大規模な音楽が直面し続けている。",
@@ -5132,7 +5132,7 @@ const NODES = [
     rep_tracks:["Oh Happy Day (Edwin Hawkins Singers)", "Amazing Grace (Mahalia Jackson)", "Take My Hand, Precious Lord (Thomas A. Dorsey)"],
     yt_mix:["Mg8V7moWwKQ", "YQjPuIrR0Dk"],
     yt_tracks:[["KJohGa66FJM", "PevFV3qAvQw"], ["ZJg5Op5W7yw", "AfoFCf5QU78"], ["4HNZNvlhlN4", "6oVcgrbeByo"]],
-    aliases:["ゴスペル", "ゴスペルミュージック", "Gospel Music", "ブラック・ゴスペル", "Black Gospel"],},
+    aliases:["ゴスペル", "ゴスペルミュージック", "Gospel Music", "ブラック・ゴスペル", "Black Gospel", "ブラックゴスペル"],},
 
   {id:"klezmer", label:"Klezmer", cat:"middle_east", era:"17th–19th century", suno:false,
     desc:"東欧のアシュケナジム系ユダヤ人の間で受け継がれてきた器楽音楽である。本来の役割は結婚式の伴奏であり、儀式の各段階に対応した楽曲が体系として存在する。旋律の骨格をなすのは、ユダヤ教の祈祷で用いられる旋法であり、とりわけ第二音を半音下げ、そこから第三音へ増二度で跳躍する音階が特徴的である。この不安定で切迫した跳躍が、この音楽の哀切な響きを決定づけている。編成は歴史的に変化した。もともとは弦楽器が主役で、ヴァイオリンが旋律を担い、打弦楽器や低音楽器が支えていたが、19世紀以降に軍楽隊の影響でクラリネットと金管が加わり、20世紀にはクラリネットが主役の座を占めた。演奏技法が極めて独特で、人の声、とりわけ祈祷の歌唱と、泣き笑いの表現を楽器で模倣することが目指される。喉を詰まらせるような音の途切れ、しゃくり上げる装飾、揺らしながら滑る音程移動といった技法に、それぞれ固有の名が与えられている。舞曲には拍子と踊りの型によって複数の種類があり、二拍子の速い曲、三拍子の揺れる曲、そして拍節を持たず自由に嘆く即興の形式などが含まれる。テンポは踊りの進行に応じて次第に加速する。",
@@ -5148,7 +5148,7 @@ const NODES = [
     rep_tracks:["Swing Low, Sweet Chariot (Traditional)", "Go Down Moses (Traditional)", "Wade in the Water (Traditional)"],
     yt_mix:["2jxKy5LaiXU", "fxZ4H-gq_lc"],
     yt_tracks:[["YOe8BHDxv2g", "ljup8cIRzIk"], ["vf6jBP4YXwo", "bXFz-4w1YhA"], ["fxZ4H-gq_lc", "7_euSS86dvE"]],
-    aliases:["スピリチュアルズ", "黒人霊歌", "ネグロ・スピリチュアル", "アフリカン・アメリカン・スピリチュアルズ"],},
+    aliases:["スピリチュアルズ", "黒人霊歌", "ネグロ・スピリチュアル", "アフリカン・アメリカン・スピリチュアルズ", "ネグロスピリチュアル", "アフリカンアメリカンスピリチュアルズ"],},
 
   {id:"baltimore_club", label:"Baltimore Club", cat:"hiphop", era:"1980s–1990s", suno:false,
     desc:"アメリカ・メリーランド州ボルティモアで生まれた、極めて反復的で断片的なダンス音楽である。テンポはほぼ一定して130 BPM前後に固定されており、この速度が様式の定義に含まれるほど厳格に守られる。リズムの土台は四つ打ちのキックだが、その上に敷かれるのは既存の音源から取られた特定の打楽器の型である。とりわけ1970年代のファンクの録音から取られた二つの断片が、四半世紀にわたってほぼ全ての楽曲で使われ続けており、この共有された素材の上で差異を競うという構造は、ジャマイカの音楽文化と同じ発想である。上物は極端に簡素で、有名なポップスやリズム・アンド・ブルースの歌の一節が短く切り刻まれ、同じ音節が連続して繰り返される。この連打によって言葉は意味を失い、打楽器の役割を担うことになる。加えて、演者や聴衆が発する短い掛け声が呼びかけと応答の形で配置され、聴き手は声を返すことが期待される。和声はほとんど動かず、旋律も存在しない。曲は2分から3分と短く、構成は導入と反復のみである。踊るための実用に徹しており、録音単体で鑑賞することはほとんど想定されていない。",
@@ -5164,7 +5164,7 @@ const NODES = [
     rep_tracks:["El Rey (Vicente Fernández)", "Cielito Lindo (Mariachi Vargas de Tecalitlán)", "La Bikina (Rubén Fuentes)"],
     yt_mix:["rdUy6x38yYg", "RFskXBDVgUc"],
     yt_tracks:[["U6qMQnNst9U", "zhHrefOdlLs"], ["yjJDv1IeF8I", "OHeHOb3E-2g"], ["azBIZn948zc", "kPiT43Ns-yg"]],
-    aliases:["マリアッチ", "Mariachi Band", "マリアッチ・バンド"],},
+    aliases:["マリアッチ", "Mariachi Band", "マリアッチ・バンド", "マリアッチバンド"],},
 
   {id:"zydeco", label:"Zydeco", cat:"blues_sub", era:"1940s", suno:false,
     desc:"アメリカ南部ルイジアナ州西部の、フランス語を話す黒人クレオールの共同体で発達した舞踏音楽である。同じ地域の白人によるケイジャン音楽とは、担い手も音も明確に区別される。編成の中心は蛇腹式の手風琴で、こちらでは鍵盤式の大型のものが好まれる。これはケイジャン音楽が用いる小型のボタン式と異なり、より多くの調で演奏でき、ブルースの音階を扱える点が選択の理由である。もうひとつの象徴が、波型に加工された金属の板を胸に吊るし、栓抜きや匙で擦る打楽器である。これは洗濯板を改造したもので、1940年代にこの音楽のために専用の形が設計された。奏者は両手で複雑な刻みを刻み、全身を使って演奏する。加えてドラム、エレクトリックギター、低音楽器が入り、時に管楽器も加わる。リズムはブルースとリズム・アンド・ブルースの影響を強く受け、跳ねた刻みと、拍の裏を強調する配置が特徴である。テンポはケイジャン音楽より明らかに速い。歌唱はフランス語のクレオール、あるいは英語で、力強く叫ぶように歌われる。歌詞は恋愛、労働、食べ物、そして地域の出来事を扱う。",
@@ -5268,7 +5268,7 @@ const NODES = [
     rep_tracks:["Evidências (Chitãozinho & Xororó)", "Ai Se Eu Te Pego (Michel Teló)", "Apenas Mais Uma de Amor (Luan Santana)"],
     yt_mix:["BOn-sXalHxI", "t5E4b6LWh0g"],
     yt_tracks:[["bxo9mtJjvS0", "Y59pC4FcBxM"], ["hcm55lU9knw", "ALRxqOpMewE"], ["kV3n-lcOfRs", "_4wDhHDtrJY"]],
-    aliases:["セルタネージョ", "ブラジリアンカントリー", "セルタネージョ・ユニヴェルシタリオ", "セルタネージョ・ライス"],},
+    aliases:["セルタネージョ", "ブラジリアンカントリー", "セルタネージョ・ユニヴェルシタリオ", "セルタネージョ・ライス", "セルタネージョ・ユニベルシタリオ", "セルタネージョユニヴェルシタリオ", "セルタネージョライス"],},
 
   {id:"kizomba", label:"Kizomba", cat:"african", era:"1980s", suno:false,
     desc:"アンゴラで生まれた、極めて緩やかで官能的なダンス音楽である。テンポは概ね80から100 BPMと遅く、四拍子を基本とする。リズムの要は低音の配置にあり、拍の頭を避けて裏や食い込む位置に短く置かれることで、引っかかるような、そして常に次を予感させる躍動が生まれる。この配置はアンゴラの伝統的な舞踏音楽センバから受け継がれたものである。打楽器は打ち込みが中心で、細かい刻みを絶やさず保ちつつ、音量は控えめに保たれる。上物にはシンセサイザーによる柔らかい和音の敷物、電気ピアノ、そして時にギターの単音が置かれ、全体の音数は少なく、隙間が多い。この余白が、密着して踊る二人の身体の間の空気を作る。和声は短調と長調を行き来する感傷的な進行が用いられる。歌唱は張り上げず、囁くように、あるいは甘くかすれた声で歌われる。言語はポルトガル語と、アンゴラの現地語であるキンブンドゥ語が用いられる。歌詞は恋愛、別れ、望郷、そして日常の苦難を扱う。踊りと不可分に発達した音楽であり、二人が体を密着させて上体を保ったまま足を運ぶという形式が、リズムの設計そのものを規定している。",
@@ -5284,7 +5284,7 @@ const NODES = [
     rep_tracks:["Gracias a la Vida (Violeta Parra)", "Te Recuerdo Amanda (Victor Jara)", "La Maza (Silvio Rodriguez)"],
     yt_mix:["nJ7-vHekCqM", "34vE9S5BYOk"],
     yt_tracks:[["w67-hlaUSIs", "Y5KZSlUxBi8"], ["1q2_zOfuGcA", "4yOjnpVKsoQ"], ["O3B1TBdNW8o", "EIvmWTMIp3w"]],
-    aliases:["ヌエバ・カンシオン", "Nueva Canción", "新しい歌"],},
+    aliases:["ヌエバ・カンシオン", "Nueva Canción", "新しい歌", "ヌエヴァ・カンシオン", "ヌエバカンシオン"],},
 
   {id:"cajun", label:"Cajun", cat:"country_folk", era:"1920s", suno:false,
     desc:"アメリカ・ルイジアナ州南部の、フランス語を話す白人の共同体で受け継がれてきた音楽である。編成の中心はボタン式の全音階手風琴で、一つの調しか出せない単純な構造を持つ。この制約が、旋律を単純で力強いものに保っている。もうひとつの主役がフィドルで、しばしば二本用いられ、一方が旋律を弾き、もう一方が低い音域で持続音を擦って支える。この二重奏の唸るような響きが、この音楽の古層を伝えている。加えて三角形の金属の打楽器が細かい刻みを保ち、ギターが和音を刻む。20世紀半ば以降はドラムとスティールギターが加わった編成も一般化した。曲種は大きく二つで、緩やかな三拍子のワルツと、跳ねた二拍子の踊りの曲である。テンポは中庸で、隣接するズデコより明らかに落ち着いている。和声は単純な三和音の循環が中心である。歌唱がこの音楽の情感を担う。高く張り詰めた鼻にかかる声で、しばしば裏声へ跳ね上がりながら、絞り出すように歌われる。この独特の泣き節は他に類例が少ない。歌詞は失恋、貧困、家族との別れ、そして酒場での夜を、この地方特有のフランス語で歌う。",
@@ -5364,7 +5364,7 @@ const NODES = [
     rep_tracks:["Nha Cretcheu (Kodé di Dona)", "Funaná (Bulimundo)", "Funana di Nha Terra (Tito Paris)"],
     yt_mix:["_tLlYRC9rMQ", "7v52W0M-9L0"],
     yt_tracks:[["ZGHpmBeV2vs", "ujCm8regUTk"], ["RB-HYcdOHak", "7hPe8mjy3dw"], ["kjJhIBnFuc8", "B-VIoZmdbBc"]],
-    aliases:["フナナー", "Funaná", "ガイタ・ミュージック", "Gaita Music"],},
+    aliases:["フナナー", "Funaná", "ガイタ・ミュージック", "Gaita Music", "ガイタミュージック"],},
 
   {id:"punta", label:"Punta", cat:"caribbean", era:"1970s", suno:false,
     desc:"中米のカリブ海沿岸に暮らすガリフナの人々による、最も広く知られた舞踏音楽である。伝統的な編成は打楽器と声から成る。中心となるのは二種類の太鼓で、一方は一定のリズムの型を保ち続け、もう一方はその上で自由に即興を行う。後者の奏者は踊り手の動きを見ながら演奏し、踊り手の身体の動きに応答して打点を変えるため、音楽と踊りは常に相互に作用している。加えて、亀の甲羅を叩く楽器と振り楽器が加わる。歌は女性の合唱が中心で、一人が短い句を歌い、集団が応答するという掛け合いが繰り返される。言語はガリフナ語である。リズムは二拍子を基調とし、拍の内部が細かく分割される。踊りは極めて特徴的で、足の位置はほとんど動かさず、腰だけを高速で回転させる。この動きは生殖と再生の象徴とされる。近年広まった電気楽器を用いる形態では、この打楽器の型をドラムと低音楽器で再現し、その上に鋭く刻むエレクトリックギターと鍵盤を重ねる。テンポは速く、明るい長調の旋律が用いられる。伝統の形が儀礼と結びつくのに対し、こちらは純粋に踊るための音楽である。",
@@ -5372,7 +5372,7 @@ const NODES = [
     rep_tracks:["Sopa de Caracol (Banda Blanca)", "Watina (Andy Palacio & The Garifuna Collective)", "Punta Rock (Pen Cayetano)"],
     yt_mix:["-3op8ArX0i0", "IdfPciqSF30"],
     yt_tracks:[["yZ5lKU2Tdi8", "8qNF92cWE_c"], ["Esw5uaApDVg", "-Ns4OfwvafQ"], ["EQTtAQH73TA", "KKjYidzRfl8"]],
-    aliases:["プンタ", "プンタ・ロック", "Punta Rock", "ガリフナ・ミュージック"],},
+    aliases:["プンタ", "プンタ・ロック", "Punta Rock", "プンタロック"],},
 
   {id:"garifuna", label:"Garifuna Music", cat:"caribbean", era:"1700s", suno:false,
     desc:"中米のカリブ海沿岸に暮らすガリフナの人々による音楽の総体である。単一の様式ではなく、機能の異なる複数の形式から成る。中心にあるのは太鼓で、二つの異なる大きさの太鼓が役割を分担し、一方が基礎となる型を保ち、他方が即興を担う。この構造はアフリカ由来である。加えて亀の甲羅、振り楽器、そして貝殻を用いる。歌は独唱と合唱の掛け合いで、しばしば女性が中心となる。形式として、速く祝祭的なもの、通夜のためのもの、仮面をつけた男性が踊る年末のもの、そして最も重要な祖先の霊を迎える儀礼のためのものがある。この儀礼は数日にわたって行われ、太鼓の反復によって参加者が変性した意識状態に入り、祖先が憑依すると信じられている。もうひとつ重要なのが、ギターを伴う緩やかな形式で、こちらは打楽器中心の形式と対照的に、内省的で憂いを帯びた旋律を持ち、独唱者が自らの半生や喪失を語る。音階は西アフリカ由来の要素とヨーロッパの和声が混ざり、リズムは複数の周期が同時に進行する多層構造を取る。言語はガリフナ語で、これはアラワク系の言語を基層に、カリブ系、フランス語、英語、スペイン語の語彙を含む。",
@@ -5380,7 +5380,7 @@ const NODES = [
     rep_tracks:["Wátina (Andy Palacio & The Garifuna Collective)", "Sopa de Caracol (Banda Blanca)", "Naguya Nei (Andy Palacio)"],
     yt_mix:["G2xu0S_fcHI", "OsK4_7VtQrI"],
     yt_tracks:[["Esw5uaApDVg", "qkjnqdL_T8g"], ["yZ5lKU2Tdi8", "iPiHKOAMGqk"], ["i2R4xCtCViE", "wTRgdLjmPjo"]],
-    aliases:["ガリフナ音楽", "ガリフナ・ミュージック", "Punta Rock", "プンタ・ロック", "Paranda"],},
+    aliases:["ガリフナ音楽", "ガリフナ・ミュージック", "Paranda", "ガリフナミュージック"],},
 
   {id:"kwela", label:"Kwela", cat:"african", era:"1950s", suno:false,
     desc:"1950年代の南アフリカの都市の街角で生まれた、安価な金属製の縦笛を主役とする音楽である。この笛は本来子どもの玩具として輸入されたもので、極めて安く、指穴は六つしかない。しかし演奏者たちは、指穴を半分だけ塞いだり、息の強さを変えたりすることで、本来出せないはずの音程と、独特の鋭く割れた音色を作り出した。この、玩具から絞り出された切迫した音がこの音楽の刻印である。編成は笛を先頭に、ギターが和音を刻み、低音は木箱に棒と紐を張った自作の楽器が担う。後年にはサックスやベースが加わった。リズムは四拍子で、三連符を感じさせる跳ねた刻みを持ち、テンポは速い。和声は三つの和音を循環させるだけの単純な進行で、この循環の上で笛が延々と即興を展開する。旋律は五音音階を基本とし、繰り返しの中で少しずつ変化していく。歌が入る場合は短い掛け声程度で、基本的には器楽である。曲は踊りのために長く続けられる。極めて簡素な編成でありながら、演奏の技量が明確に問われる音楽であり、街角で演奏者同士が腕を競うという文化を伴っていた。",
@@ -5388,7 +5388,7 @@ const NODES = [
     rep_tracks:["Tom Hark (Elias and His Zig-Zag Jive Flutes)", "Kwela Spokes (Spokes Mashiyane)", "Ace Blues (Spokes Mashiyane)"],
     yt_mix:["zBfbg0HRY8g", "7StGJtI7SSI"],
     yt_tracks:[["zKz5kpqctV0", "UR9v485xrnU"], ["adyM1Gx1lHU", "VKqp119CJrw"], ["JxW5rp5JGb8", "UVhqIRYoyVo"]],
-    aliases:["クウェラ", "ペニーホイッスル・ジャズ", "Penny Whistle Music", "Kwela Music"],},
+    aliases:["クウェラ", "ペニーホイッスル・ジャズ", "Penny Whistle Music", "Kwela Music", "ペニーホイッスルジャズ"],},
 
   {id:"chimurenga", label:"Chimurenga", cat:"african", era:"1970s", suno:false,
     desc:"ジンバブエで生まれた、伝統的な親指ピアノの音楽を電気楽器へ移し替えた音楽である。名称はショナ語で闘争を意味する。この様式の核心は、ムビラという楽器の音型をエレクトリックギターで再現するという発想にある。ムビラは瓢箪の共鳴体の中に二十本以上の金属片を並べた楽器で、両手の親指と人差し指で弾く。その音楽は、複数の声部が入れ子状に絡み合いながら循環する構造を持ち、聴き手には常に複数の旋律が同時に聞こえる。この構造を、二本から三本のギターがそれぞれ別の音型を弾くことで再現するのである。加えて、瓢箪に種を入れた振り楽器が絶え間なく三連の刻みを保ち、これが独特の揺れを生む。拍子は12/8または6/8で、二拍子と三拍子が同時に感じられる交錯したリズムが基本となる。低音は循環する短い音型を反復し、ドラムがこれを支える。和声は進行せず、同じ循環が延々と続く。歌唱は独唱と合唱の掛け合いで、言語はショナ語である。歌詞には諺と比喩が多用され、その両義性がこの音楽の歴史において決定的な役割を果たした。",
@@ -5396,7 +5396,7 @@ const NODES = [
     rep_tracks:["Ngoma Yekwedu (Thomas Mapfumo & The Blacks Unlimited)", "Corruption (Thomas Mapfumo & The Blacks Unlimited)", "Todii (Oliver Mtukudzi)"],
     yt_mix:["dWooalnlYdY", "PhlCs19F7Zs"],
     yt_tracks:[["LDKZBrH9eSQ", "x4LnZFwYVfY"], ["LD9sNKTLVR8", "gy5vM7x9QVE"], ["dHMjH2LbNSA", "7AiuCkX5geM"]],
-    aliases:["チムレンガ", "チムレンガ・ミュージック", "Chimurenga Music", "ジンバブエ・ルーツ"],},
+    aliases:["チムレンガ", "チムレンガ・ミュージック", "Chimurenga Music", "ジンバブエ・ルーツ", "チムレンガミュージック", "ジンバブエルーツ"],},
 
   {id:"zouglou", label:"Zouglou", cat:"african", era:"1990s", suno:false,
     desc:"コートジボワールの最大都市アビジャンで生まれた、打楽器と合唱を軸とする音楽である。編成の中心は打楽器で、複数の太鼓と瓶や金属を叩く音が層をなし、四拍子を細かく分割した密度の高いリズムを作る。ここへギターが高音域で短い音型を反復し、低音楽器が支える。後年にはシンセサイザーと打ち込みが加わった。テンポは中庸から速い。最大の特徴は歌唱の形式にある。独唱者が一節を歌い、複数人の集団が声を揃えて応答するという掛け合いが、曲の全体を貫く。この合唱は洗練された和声ではなく、素朴な斉唱と単純な重ねであり、誰でも一緒に歌えることが優先される。言語はフランス語を基本としながら、アビジャンの若者が用いる独特の俗語が大量に混ぜられ、さらに現地の各言語の語彙が入り込む。この言語の混淆自体が、多民族都市の現実を反映している。歌詞こそがこの音楽の核心である。学生寮の劣悪な環境、失業、汚職、日常の困窮といった現実を、笑いと誇張を交えて語る。深刻な内容を深刻に語るのではなく、自嘲と諧謔によって共有するという態度が一貫しており、聴き手は笑いながら自分たちの状況を確認することになる。",
@@ -5404,7 +5404,7 @@ const NODES = [
     rep_tracks:["Premier Gaou (Magic System)", "Bouger Bouger (Magic System)", "Gnoantre (Yodé & Siro)"],
     yt_mix:["Wi0JFmBq0Gc", "3M0F5urnWdM"],
     yt_tracks:[["RJMpeYwifEU", "rw9K0hLM7xo"], ["AvYTRKRK2_U", "EGct4pzPqPE"], ["pALHs8iMpE8", ""]],
-    aliases:["ズーグルー", "Zouglou Music", "ズーグルー・ミュージック"],},
+    aliases:["ズーグルー", "Zouglou Music", "ズーグルー・ミュージック", "ズーグルーミュージック"],},
 
   {id:"taarab", label:"Taarab", cat:"african", era:"1880s", suno:false,
     desc:"東アフリカのスワヒリ語圏、とりわけザンジバル島を中心に発達した歌の様式である。名称はアラビア語で音楽による恍惚を意味する語に由来する。編成は大人数で、アラブ音楽の楽器と西洋の弦楽器が混在する。撥弦楽器のウード、箱形の琴カーヌーン、葦の笛ナイといったアラブ由来の楽器に、ヴァイオリンの群れ、手風琴、そしてインド由来の打楽器が加わり、時に三十人を超える。旋律はアラブ音楽の旋法体系に基づき、半音より狭い音程と、装飾を凝らした節回しが用いられる。しかし拍節にはインド洋交易圏を通じたインドやアフリカの影響が入り込み、独特の混淆が生じている。テンポは緩やかなものが中心で、弦楽器の群れが斉奏で旋律をなぞり、その隙間で独奏楽器が装飾を加える。歌唱は独唱者が朗々と歌い上げ、聴衆は感嘆の声を返す。言語はスワヒリ語である。歌詞は高度に洗練された詩であり、この分野の本質は言葉の技巧にある。とりわけ、直接には言わずに比喩と謎かけによって相手を刺すという技法が発達しており、結婚式の場で女性が敵対する相手を暗に非難するために用いられてきた。",
@@ -5420,7 +5420,7 @@ const NODES = [
     rep_tracks:["Salome (Diamond Platnumz)", "Nenda Lote (Mr. II feat. Lady Jaydee)", "Tetema (Diamond Platnumz feat. Rayvanny)"],
     yt_mix:["kisQdJ5c5UU", "-yso4qCfM-0"],
     yt_tracks:[["_bPjsDcPHks", "ri73kcEh00c"], ["FcAjVCy-m7s", "cyjeo2QUL_I"], ["n6pCgzHMJY8", "yOoqfaetRdc"]],
-    aliases:["ボンゴ・フラヴァ", "タンザニアン・ヒップホップ", "Bongo", "スワヒリ・ポップ", "Bongo Flavour"],},
+    aliases:["ボンゴ・フラヴァ", "タンザニアン・ヒップホップ", "Bongo", "スワヒリ・ポップ", "Bongo Flavour", "ボンゴフラヴァ", "タンザニアンヒップホップ", "スワヒリポップ"],},
 
   {id:"ndombolo", label:"Ndombolo", cat:"african", era:"1990s", suno:false,
     desc:"コンゴ民主共和国で1990年代に確立した、スークースを継ぐ高速のダンス音楽である。前身との最大の違いは構成の比重にある。スークースが歌の部分と器楽の部分をほぼ均等に持つのに対し、こちらは歌の部分を導入程度に切り詰め、セベネと呼ばれる高速の器楽部分が曲の大半を占める。この部分ではテンポが140 BPMを超え、複数のエレクトリックギターがそれぞれ別の短い音型を反復し、周期のずれによって目まぐるしい織物を作る。ギターの音色は高音を極端に強調した細く鋭いもので、歪みはかけられない。低音は短く切られた音を裏拍に置き、ドラムは打ち込みと生演奏を併用して硬く速い刻みを保つ。決定的に重要なのが煽り役の存在である。この役を担う者は歌手とは別に立ち、演奏中に短い掛け声を高速で連射し、踊りの動作を名指しで指示し、支援者の名を呼び上げる。この声の連射自体が打楽器的な役割を果たし、聴衆を追い立てる。曲は十分から二十分に及び、後半は延々と同じ循環が続く。言語はリンガラ語である。踊りは腰を激しく動かす形式で、音楽と不可分に発達している。",
@@ -5428,7 +5428,7 @@ const NODES = [
     rep_tracks:["Ndombolo (ジョスキン・ムワンダ)", "Pengo (ウェンゲ・ムジカ)", "Boite Noire (ファリー・イポパ)"],
     yt_mix:["jHUKI3ci54A", "IZvFojHp3WY"],
     yt_tracks:[["", ""], ["WsAaf1itq5Y", "Ge-C37LPfkI"], ["", ""]],
-    aliases:["ンドンボロ", "Ndombolo Dance", "コンゴ・ダンス", "Ndombolo Music"],},
+    aliases:["ンドンボロ", "Ndombolo Dance", "コンゴ・ダンス", "Ndombolo Music", "コンゴダンス"],},
 
   {id:"roots_rock", label:"Roots Rock", cat:"rock", era:"1960s", suno:false,
     desc:"1960年代末に、それ以前のロックが到達した過剰な実験と技巧から意識的に後退し、アメリカの古い音楽の素朴さへ回帰した様式である。編成はギター、ベース、ドラム、そしてピアノかオルガンという標準的なもので、大人数の管弦楽や複雑な電子的な処理は用いられない。録音の方針が決定的で、演奏者が同じ部屋で同時に演奏し、それをほぼそのまま記録するという方法が採られる。したがって細部の不揃いや息遣いが残り、音は乾いて温かい。ギターは歪ませすぎず、旋律を弾くより和音を的確に置くことが重んじられ、長い独奏はほとんど置かれない。リズムは四拍子を素直に刻み、テンポは中庸である。和声はブルース、カントリー、そしてゴスペルに由来する単純な進行が中心で、そこに教会音楽由来の複数の声による和音が重ねられる。この合唱がこの様式の情感を担う。歌唱は技巧を誇示せず、しゃがれた声や不完全な音程が肯定される。歌詞は都市の疎外や幻覚の体験ではなく、農村の風景、労働、家族、そして聖書に由来する物語や人物を扱い、古いアメリカの記憶を呼び起こす方向へ向かう。",
@@ -5436,7 +5436,7 @@ const NODES = [
     rep_tracks:["The Weight (The Band)", "Proud Mary (Creedence Clearwater Revival)", "American Girl (Tom Petty and the Heartbreakers)"],
     yt_mix:["OQYmGg3mKHg", "MJB5L9F05tc"],
     yt_tracks:[["xLFAQuWFcTo", "FFqb1I-hiHE"], ["5hid10EgMXE", "_MqKttEyYKc"], ["8v8-RSyuUeE", "J7bAeH7iJFc"]],
-    aliases:["ルーツロック", "アメリカーナ・ロック", "Americana Rock", "バック・トゥ・ルーツ"],},
+    aliases:["ルーツロック", "アメリカーナ・ロック", "Americana Rock", "バック・トゥ・ルーツ", "アメリカーナロック", "バックトゥルーツ"],},
 
   {id:"swamp_rock", label:"Swamp Rock", cat:"rock", era:"1960s", suno:false,
     desc:"アメリカ南部、とりわけルイジアナの湿地帯の空気を思わせるロックである。実際にその土地の出身であるかどうかは問われず、むしろ喚起される情景が様式を定義している。音の第一の特徴はギターの処理で、音量を周期的に揺らす効果と、金属のばねによる残響装置が深くかけられる。この、揺れながら反響する音色が、湿った空気と水面の情景を作る。演奏は速さを競わず、遅めから中庸の速度で、同じ音型を粘り強く反復する。和声は短調のブルースが中心で、和音の数は少なく、時に一つの和音の上で数分が経過する。低音は太く沈み、ドラムは装飾を排して重く叩かれるか、ニューオーリンズ由来の跳ねた複雑な刻みを用いる。ここに電気オルガンや管楽器、時に打楽器が加わる。歌唱は喉を潰したしゃがれ声で、南部の訛りが強調される。ゴスペルに由来する叫びの技法も用いられる。歌詞は沼地、川、密造酒、呪術、貧困、そして法の外側で生きる者を扱い、しばしば不吉で幻想的な情景が描かれる。全体として、明るさより暗さ、都会的な洗練より土の匂いを選ぶという方向が一貫している。",
@@ -5452,7 +5452,7 @@ const NODES = [
     rep_tracks:["Dancing Queen (ABBA)", "Take On Me (a-ha)", "The Sign (Ace of Base)"],
     yt_mix:["o9Xdp8ZMn0c", "I9zjlE6_R2o"],
     yt_tracks:[["xFrGuyw1V8s", "-sVB91NTa4A"], ["djV11Xbc914", "kmDBDn8Ju6w"], ["iqu132vTl5Y", "NIPPh7AWSt4"]],
-    aliases:["ユーロポップ", "ヨーロピアンポップ", "Euro Pop", "European Pop", "ユーロビート"],},
+    aliases:["ユーロポップ", "ヨーロピアンポップ", "Euro Pop", "European Pop"],},
 
   {id:"instrumental_rock", label:"Instrumental Rock", cat:"rock", era:"1950s-1960s", suno:false,
     desc:"歌を持たず、楽器の演奏だけで構成されるロックである。歌詞による情報が一切ないため、旋律そのものが記憶に残る強度を持たねばならず、その結果、極めて簡潔で口ずさめる音型が書かれる。中心となる楽器はエレクトリックギターで、その音色の設計が作品の性格を決める。金属のばねによる残響装置を深くかけて音を伸ばす手法、音量や音程を周期的に揺らす効果、そして低音弦を用いて太く唸らせる奏法が、この分野の主要な語彙である。奏法としては、撥を高速で往復させて一音を刻み続ける技法が多用され、これは中東や東欧の弦楽器の奏法に由来する。編成はギター二本、ベース、ドラムが基本で、そこに電気オルガンやサックスが加わることもある。リズムは四拍子で、二拍目と四拍目を強く打つ素直な刻みか、跳ねた三連の刻みが用いられる。テンポは中庸から速い。和声は単純な三和音の循環が中心だが、短調や、中東的な音階を用いることで異国的な色が加えられる。曲は2分から3分と短く、主題の提示と反復、そして中間部という明快な構造を持つ。踊るための実用と、演奏技術の提示を兼ねている。",
@@ -5460,7 +5460,7 @@ const NODES = [
     rep_tracks:["Rumble (Link Wray)", "Surfing with the Alien (Joe Satriani)", "Mogwai Fear Satan (Mogwai)"],
     yt_mix:["6aSjeSUwh6o", "uNIpbNgobVE"],
     yt_tracks:[["ucTg6rZJCu4", "KFCpUZVyXgg"], ["U5t2kDqvoYY", "d_0khAAItqg"], ["du4JbfK5okA", "gJRtMnZoYEs"]],
-    aliases:["インストゥルメンタル・ロック", "インスト・ロック", "Instro Rock", "器楽ロック", "インストロック"],},
+    aliases:["インストゥルメンタル・ロック", "インスト・ロック", "Instro Rock", "器楽ロック", "インストロック", "インストゥルメンタルロック"],},
 
   {id:"deconstructed_club", label:"Deconstructed Club", cat:"experimental_elec", era:"2010年代", suno:false,
     desc:"クラブ音楽の要素を素材として用いながら、それを成立させている前提を意図的に破壊する実験的な音楽である。通常のダンス音楽が、一定のテンポと規則的な拍によって身体を導くのに対し、この分野ではその規則性そのものが攻撃の対象となる。拍は途中で消え、テンポは予告なく変わり、数秒の完全な沈黙が挿入され、あるいは複数の異なる速度が同時に進行する。したがって聴き手は身体を委ねることができず、常に不安定な足場に置かれる。素材としては、レゲトンの定型的な打点、ボールルームの跳ねた刻み、グライムの尖った低音、あるいはアンゴラのクドゥロの打楽器といった、各地のクラブ音楽の記号が引用されるが、それらは完全な形では提示されず、断片として、しかも文脈から切り離されて配置される。音色は金属的で工業的なものが好まれ、ガラスの割れる音、金属の擦れる音、刃物の音、そして加工された悲鳴や吐息が用いられる。音量の落差は極端で、耳を刺す高音と、ほとんど無音の状態が隣り合う。旋律と和声はほとんど存在しない。踊るためではなく、クラブという場所が持つ暴力性と親密さの双方を提示するために作られている。",
@@ -5468,7 +5468,7 @@ const NODES = [
     rep_tracks:["Thievery (Arca)", "Tumbling Towards a Wall (Amnesia Scanner)", "Sticky Drama (Oneohtrix Point Never)"],
     yt_mix:["S9TP9Os9lzs", "SU_MigkdIa4"],
     yt_tracks:[["XQXKelbB9wk", "kKTsYyzC62w"], ["GEs97MucUSM", ""], ["td-e4i2BL_Q", "vmKH63NJvr0"]],
-    aliases:["デコンストラクテッド・クラブ", "ポスト・クラブ", "アンチ・クラブ", "Experimental Club", "Post-Club", "Decon Club"],},
+    aliases:["デコンストラクテッド・クラブ", "ポスト・クラブ", "アンチ・クラブ", "Experimental Club", "Post-Club", "Decon Club", "デコンストラクテッドクラブ", "ポストクラブ", "アンチクラブ"],},
 
   {id:"future_funk", label:"Future Funk", cat:"funk_cat", era:"2010s", suno:false,
     desc:"1970年代から1980年代の日本のシティポップやファンク、ディスコの録音を素材として、それを高速に切り刻んで再構成するインターネット由来の音楽である。母体となったヴェイパーウェイヴが、素材の再生速度を落として気だるく引き延ばすのに対し、この分野は逆に速度を上げ、音程を上へ移す。この一点の反転が性格を正反対にしている。すなわち、憂鬱ではなく多幸感、停滞ではなく疾走が選ばれる。テンポは概ね110から130 BPMで、キックは四つ打ちを刻む。原曲から切り取られるのは、歌の一節、金管の刺し込み、ギターの刻み、そして弦楽の走句といった短い断片であり、それらが数拍ごとに入れ替わりながら積み上げられる。加工の技法はフレンチ・ハウスから直接受け継がれており、共振の鋭いフィルターを通して周波数を上下させる処理と、キックが鳴るたびに他の音量を押し下げる処理が深くかけられる。この呼吸するような揺れが、単純な反復に起伏を与える。旋律は自分で書かず、原曲の中にあるものを浮かび上がらせる。視覚表現も一体で、1980年代の日本のアニメーションの断片が用いられる。",
