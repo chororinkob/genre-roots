@@ -46,12 +46,22 @@ function variantsOf(s, englishLabel) {
   if (toSeion !== s) out.add(toSeion);
 
   // 清音 → ヴ。英語表記に V がある場合のみ（例: Visual Kei / ビジュアル系 → ヴィジュアル系）
-  if (/[Vv]/.test(englishLabel || '')) {
+  //
+  // ただし「英語に V がある」だけでは不十分だった。Bossa Nova の V は nova 側に
+  // あるのに、bossa の「ボ」まで変換して「ヴォサノバ」という誤った綴りを作って
+  // しまう（Bongo Flava でも同様に「ヴォンゴ」が生じた）。そこで、英語表記に
+  // 含まれる V の個数より多くの箇所を変換した候補は誤りとみなして捨てる。
+  const vCount = ((englishLabel || '').match(/[Vv]/g) || []).length;
+  if (vCount > 0) {
     for (const [vu, se] of VU_PAIRS) {
-      if (s.includes(se)) {
-        const cand = s.split(se).join(vu);
-        if (cand !== s) out.add(cand);
-      }
+      if (!s.includes(se)) continue;
+      const occurrences = s.split(se).length - 1;
+      if (occurrences > vCount) continue;      // V の数を超える置換は誤り
+      const cand = s.split(se).join(vu);
+      // 変換後に「ヴ」が英語の V の数を超えて増えたものも誤り
+      const vuAfter = (cand.match(/ヴ/g) || []).length;
+      if (vuAfter > vCount) continue;
+      if (cand !== s) out.add(cand);
     }
   }
 
@@ -66,6 +76,16 @@ function variantsOf(s, englishLabel) {
   return [...out];
 }
 
+// 機械的な変換では弾ききれない、誤った綴り。
+// 英語表記のどの位置に V があるかまでは自動判定できないため、確認済みのものを列挙する。
+// 例: Bossa Nova の V は nova 側にあるので「ボサノヴァ」が正しく、
+//     bossa 側を変換した「ヴォサノバ」は誤り。
+const NOT_VARIANTS = new Set([
+  'ヴォサノバ', 'ヴォサノヴァ',            // Bossa Nova: bossa に V は無い
+  'ボンゴ・フラバ', 'ヴォンゴ・フラヴァ',   // Bongo Flava: Bongo に V は無い
+  'ヴォンゴフラヴァ', 'ヴォンゴフラバ',
+]);
+
 const suggestions = [];
 for (const n of NODES) {
   const eng = n.label.replace(/\n/g, ' ');
@@ -73,7 +93,7 @@ for (const n of NODES) {
   const add = new Set();
   for (const a of [...known]) {
     for (const v of variantsOf(a, eng)) {
-      if (!known.has(v)) add.add(v);
+      if (!known.has(v) && !NOT_VARIANTS.has(v)) add.add(v);
     }
   }
   if (add.size) suggestions.push({ id: n.id, label: n.label.replace(/\n/g, ' '), current: n.aliases || [], add: [...add] });
