@@ -1,64 +1,43 @@
-# 未完了: 新基準(desc 400字/roots_story 700字)への書き直し
+# 完了: 新基準(desc 400字/roots_story 700字)への書き直し
 
-2026-07-30時点で 46件が未達。着手は2026-08-04(火)以降の予定。
+**2026年8月3日、全565件が基準を満たした状態になった。この作業は完了。**
 
-## 再開手順
+- 全体の平均: desc 487字 / roots_story 853字
+- 用語集: 6361語
+- 最終バージョン: v26.06
 
+## 経緯
 
+2026-07-30 時点で 46件が新基準に未達だったため、来週以降へ持ち越していた。
+2026-08-03 に 10件・10件・10件・6件の4回に分けて全件を書き直し、完了した。
 
-下のリストは記録用のスナップショット。実際の対象は必ず上のコマンドで確認すること。
+書き直した46件:
 
-## 対象46件
+opera, waltz, chicago_blues, piano_blues, harmonica_blues, jump_blues,
+boogie_woogie, contemporary_blues, roots_reggae, rocksteady, honky_tonk,
+dark_country, neofolk, singer_songwriter, indie_folk, euphoric_hardstyle,
+hard_trap, acidcore, makina, power_noise, doomcore, lento_violento,
+moombahcore, raggacore, hard_bass_genre, hardvapour, bouncy_techno,
+melbourne_bounce, dubstyle, subground, jungle_terror, nu_style,
+splittercore, ndh, dungeon_synth, gamelan, kuduro, marrabenta, morna,
+coladeira, funana, punta, garifuna, kwela, taarab, deconstructed_club
 
-- opera (desc 392 / roots 698)
-- waltz (desc 377 / roots 646)
-- chicago_blues (desc 367 / roots 786)
-- piano_blues (desc 356 / roots 575)
-- harmonica_blues (desc 397 / roots 593)
-- jump_blues (desc 353 / roots 721)
-- boogie_woogie (desc 356 / roots 636)
-- contemporary_blues (desc 365 / roots 639)
-- roots_reggae (desc 379 / roots 628)
-- rocksteady (desc 376 / roots 597)
-- honky_tonk (desc 377 / roots 601)
-- dark_country (desc 347 / roots 538)
-- neofolk (desc 347 / roots 564)
-- singer_songwriter (desc 350 / roots 597)
-- indie_folk (desc 358 / roots 545)
-- euphoric_hardstyle (desc 390 / roots 506)
-- hard_trap (desc 339 / roots 597)
-- acidcore (desc 358 / roots 592)
-- makina (desc 377 / roots 618)
-- power_noise (desc 329 / roots 607)
-- doomcore (desc 324 / roots 673)
-- lento_violento (desc 311 / roots 513)
-- moombahcore (desc 365 / roots 596)
-- raggacore (desc 334 / roots 576)
-- hard_bass_genre (desc 397 / roots 657)
-- hardvapour (desc 302 / roots 645)
-- bouncy_techno (desc 351 / roots 653)
-- melbourne_bounce (desc 321 / roots 591)
-- dubstyle (desc 316 / roots 589)
-- subground (desc 314 / roots 604)
-- jungle_terror (desc 318 / roots 588)
-- nu_style (desc 326 / roots 631)
-- splittercore (desc 496 / roots 696)
-- ndh (desc 465 / roots 689)
-- dungeon_synth (desc 475 / roots 691)
-- gamelan (desc 489 / roots 664)
-- kuduro (desc 480 / roots 690)
-- marrabenta (desc 451 / roots 687)
-- morna (desc 461 / roots 679)
-- coladeira (desc 466 / roots 697)
-- funana (desc 466 / roots 696)
-- punta (desc 454 / roots 683)
-- garifuna (desc 481 / roots 685)
-- kwela (desc 452 / roots 659)
-- taarab (desc 461 / roots 694)
-- deconstructed_club (desc 482 / roots 676)
+## 今後の確認方法
 
-## 注意
+基準を割ったジャンルが出ていないかは、いつでもこれで確認できる。
 
-- これは既存の解説を厚くする作業で、内容が壊れているわけではない。急ぎではない。
-- 中心的なジャンル(hiphop, post_punk, industrial, synth_pop, dnb, gabber, drone_music等)は既に完了済み。
-- 書き方の基準は tools/check_quality.js の冒頭コメントを参照。
+    node tools/check_quality.js          # 全件
+    node tools/check_quality.js <ID...>  # 指定したジャンルだけ
+
+「OK: すべての基準を満たしています」と出れば問題なし。
+新しくジャンルを追加した場合や、本文を手で直した場合はこれを実行すること。
+
+## この作業で追加・修正したツール
+
+- `tools/apply_text.js` — desc / roots_story を差し替える専用ツール(新規)。
+  `tools/text_entries.json` に `{"ジャンルID": {"desc": "…", "roots_story": "…"}}`
+  の形で書いて実行する。改行コードや引用符の扱いで置換が空振りする事故を
+  防ぐため、1件でも失敗したら書き込み自体を中止する。
+
+- `tools/find_missing.js` — 数字を含む固有名詞(TB-303 など)が途中で切れて
+  誤検出される問題を修正。登録済みのより長い語が本文にあれば漏れとしない。
