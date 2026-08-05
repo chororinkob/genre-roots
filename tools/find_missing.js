@@ -53,7 +53,13 @@ for (const id of ids) {
   // 「」『』で囲まれた作品名
   const quoted = [...text.matchAll(/[「『]([^」』]{2,40})[」』]/g)].map(m => m[1]);
   const cand = [...new Set([...latin, ...quoted])].filter(s => s.length > 1);
-  const missing = cand.filter(c => !glossKeys.includes(c));
+  // 抽出は英字の連なりで区切るため、数字を含む固有名詞は途中で切れた断片になる。
+  // 例: 本文の「TB-303」からは「TB-」しか取れず、TB-303が用語集にあっても
+  // 未登録として報告されてしまう。断片を含むより長いキーが登録済みで、かつ
+  // その語が本文に実在するなら、説明は付いているので登録漏れではない。
+  const coveredByLonger = (c) =>
+    glossKeys.some(k => k.length > c.length && k.startsWith(c) && text.includes(k));
+  const missing = cand.filter(c => !glossKeys.includes(c) && !coveredByLonger(c));
   totalMissing += missing.length;
   if (args[0] === '--all' && missing.length === 0) continue; // --all時は問題のあるものだけ表示
   console.log('=== ' + id + ' (' + missing.length + ' missing of ' + cand.length + ')');
