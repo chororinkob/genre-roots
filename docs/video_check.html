@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>動画の確認リスト — 音楽ジャンルルーツ辞典</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #0d0d1a; color: #ddd; font-family: 'Helvetica Neue', Arial, sans-serif;
+        padding: 28px 16px 80px; line-height: 1.7; }
+.wrap { max-width: 940px; margin: 0 auto; }
+h1 { font-size: 24px; color: #7eb8f7; margin-bottom: 6px; }
+.meta { font-size: 12px; color: #667; margin-bottom: 24px; }
+.lead { background: #13132a; border: 1px solid #2a2a4a; border-radius: 10px;
+         padding: 16px 20px; margin-bottom: 24px; font-size: 13.5px; }
+.lead b { color: #f0a0a0; }
+.lead .ok { color: #78d478; }
+h2 { font-size: 15px; color: #5a8fd0; margin: 32px 0 4px; letter-spacing: .04em; }
+h2 .count { color: #667; font-size: 12px; font-weight: normal; }
+.hint { font-size: 12px; color: #778; margin-bottom: 14px; }
+.grid { display: grid; gap: 12px; }
+.card { display: flex; gap: 14px; background: #13132a; border: 1px solid #2a2a4a;
+         border-radius: 10px; padding: 12px; }
+.card.ng { border-color: #6a2626; background: #1c1114; }
+.card.warn { border-color: #5a4620; background: #1b1710; }
+.thumb-wrap { flex-shrink: 0; display: block; }
+.thumb { width: 190px; aspect-ratio: 16/9; object-fit: cover; border-radius: 7px;
+          display: block; background: #000; }
+.thumb.none { width: 190px; aspect-ratio: 16/9; display: flex; align-items: center;
+               justify-content: center; background: #0d0d1a; border-radius: 7px;
+               color: #556; font-size: 12px; }
+.body { min-width: 0; flex: 1; }
+h3 { font-size: 15px; color: #eee; margin-bottom: 4px; }
+.badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 4px;
+          background: #1a3050; color: #7eb8f7; vertical-align: middle; margin-left: 6px;
+          font-weight: normal; }
+.title { font-size: 12.5px; color: #aab; margin-bottom: 6px; word-break: break-word; }
+.note { font-size: 12.5px; margin-bottom: 8px; }
+.note.ng { color: #f08080; font-weight: 700; }
+.note.warn { color: #e0b060; }
+.note.ok { color: #6a9a6a; }
+details { font-size: 12px; color: #889; }
+summary { cursor: pointer; color: #6a7a9a; outline: none; }
+summary:hover { color: #8aa; }
+.old { margin-top: 6px; color: #778; }
+.reason { margin-top: 4px; color: #99a; border-left: 2px solid #2a2a4a; padding-left: 10px; }
+code { background: #0d0d1a; padding: 1px 6px; border-radius: 4px; font-size: 11px; color: #8ab; }
+.vid { margin-top: 8px; font-size: 12px; }
+.vid a { color: #7ecfff; text-decoration: none; border-bottom: 1px dotted #7ecfff; }
+.vid a:hover { color: #aee; }
+table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-top: 6px; }
+th { text-align: left; color: #667; font-weight: normal; font-size: 11px;
+      border-bottom: 1px solid #2a2a4a; padding: 6px 8px; }
+td { padding: 7px 8px; border-bottom: 1px solid #1c1c34; vertical-align: top; }
+td.g { color: #eee; white-space: nowrap; }
+.foot { margin-top: 40px; padding-top: 20px; border-top: 1px solid #2a2a4a;
+         font-size: 12.5px; color: #889; }
+.foot code { display: block; margin: 8px 0; padding: 10px 12px; white-space: pre-wrap; }
+@media (max-width: 640px) {
+  .card { flex-direction: column; }
+  .thumb, .thumb.none { width: 100%; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>動画の確認リスト</h1>
+  <p class="meta">音楽ジャンルルーツ辞典 ／ 最終更新 2026年8月7日</p>
+
+  <div class="lead">
+    <p>2026年7月11日、AIに動画を1本ずつ視聴させて「ジャンルと中身が合っているか」を
+    判定させたところ、<b>36本</b>が合っていないと判定されました。</p>
+    <p style="margin-top:10px">ただしその後の作業で動画が入れ替わっており、
+    <b>判定当時の動画がそのまま残っているものは1件もありません</b>。
+    そのため、確認は「いま入っている動画」に対して行ってください。</p>
+    <p style="margin-top:10px">今いちど中身を見たところ、
+    明らかに差し替えが必要なのは <b>2件</b>、
+    判断が分かれそうなのが <b>2件</b>、
+    残りは<span class="ok">ジャンルと合っていそう</span>でした。</p>
+  </div>
+
+  <h2>メイン動画 <span class="count">11件</span></h2>
+  <p class="hint">サムネイルか「YouTubeで開く」をクリックすると動画が開きます。
+     問題のありそうなものを上に並べています。</p>
+  <div class="grid">
+
+  <article class="card ng" data-state="ng">
+    <a class="thumb-wrap" href="https://www.youtube.com/watch?v=cEGMbxw8Eqs" target="_blank" rel="noopener"><img class="thumb" src="https://img.youtube.com/vi/cEGMbxw8Eqs/mqdefault.jpg" alt="" loading="lazy"></a>
+    <div class="body">
+      <h3>Power Noise </h3>
+      <p class="title">what is “power noise”? #music / blustre</p>
+      <p class="note ng">音楽ではなく「パワーノイズとは何か」を説明する動画</p>
+      <details>
+        <summary>7月11日の判定を見る</summary>
+        <p class="old">当時の動画: <code>uIBJJ3M76Mg</code> ／
+           AIの見立て: Slap House</p>
+        <p class="reason">この楽曲は現代的なダンスミュージックのサブジャンルである「Slap House」であり、Power Noiseのような硬質なノイズやインダストリアル特有の暴力性は含まれていません。</p>
+      </details>
+      <p class="vid"><a href="https://www.youtube.com/watch?v=cEGMbxw8Eqs" target="_blank" rel="noopener">YouTubeで開く</a>
+         <code>cEGMbxw8Eqs</code></p>
+    </div>
+  </article>
+  <article class="card ng" data-state="ng">
+    <a class="thumb-wrap" href="https://www.youtube.com/watch?v=2jxKy5LaiXU" target="_blank" rel="noopener"><img class="thumb" src="https://img.youtube.com/vi/2jxKy5LaiXU/mqdefault.jpg" alt="" loading="lazy"></a>
+    <div class="body">
+      <h3>Spirituals </h3>
+      <p class="title">MelyCrisp — Spiritual House Mix - Ritual experience / Melodic house / Play&#x27;EM</p>
+      <p class="note ng">黒人霊歌ではなく Spiritual House という別ジャンル</p>
+      <details>
+        <summary>7月11日の判定を見る</summary>
+        <p class="old">当時の動画: <code>Wo0AOf9b6fU</code> ／
+           AIの見立て: Barbershop</p>
+        <p class="reason">動画は「Barbershop Harmony Society」によるものであり、独特の和声構成や形式から、スピリチュアルズではなくバーバーショップ・コーラスに分類されます。</p>
+      </details>
+      <p class="vid"><a href="https://www.youtube.com/watch?v=2jxKy5LaiXU" target="_blank" rel="noopener">YouTubeで開く</a>
+         <code>2jxKy5LaiXU</code></p>
+    </div>
+  </article>
+  <article class="card warn" data-state="warn">
+    <a class="thumb-wrap" href="https://www.youtube.com/watch?v=3vmMCblQrJc" target="_blank" rel="noopener"><img class="thumb" src="https://img.youtube.com/vi/3vmMCblQrJc/mqdefault.jpg" alt="" loading="lazy"></a>
+    <div class="body">
+      <h3>J-POP アイドル </h3>
+      <p class="title">Best J-IDOL City Pop MIX – Japanese Idol Retro Groove / DJ_Investor_channel</p>
+      <p class="note warn">シティポップ寄りの選曲</p>
+      <details>
+        <summary>7月11日の判定を見る</summary>
+        <p class="old">当時の動画: <code>zQyP7rm765s</code> ／
+           AIの見立て: ユーロビート / ダンスミュージック</p>
+        <p class="reason">この楽曲はアップテンポで疾走感のある電子音を特徴とするユーロビート系であり、J-POPアイドルの楽曲というよりも、その影響を受けたダンスミュージックやリズムゲーム音楽の文脈に近いです。</p>
+      </details>
+      <p class="vid"><a href="https://www.youtube.com/watch?v=3vmMCblQrJc" target="_blank" rel="noopener">YouTubeで開く</a>
+         <code>3vmMCblQrJc</code></p>
+    </div>
+  </article>
+  <article class="card warn" data-state="warn">
+    <a class="thumb-wrap" href="https://www.youtube.com/watch?v=e_hDn7gtcoY" target="_blank" rel="noopener"><img class="thumb" src="https://img.youtube.com/vi/e_hDn7gtcoY/mqdefault.jpg" alt="" loading="lazy"></a>
+    <div class="body">
+      <h3>Qawwali </h3>
+      <p class="title">Nonstop Qawwali Remix 🔥 Best Sufi Mashup | 2026 | NFAK / Ideal Ads </p>
+      <p class="note warn">伝統的な演奏ではなくリミックス版</p>
+      <details>
+        <summary>7月11日の判定を見る</summary>
+        <p class="old">当時の動画: <code>_yNeYVPGgvY</code> ／
+           AIの見立て: Desi Hip Hop / Indian Pop Remix</p>
+        <p class="reason">動画に含まれる音楽は、パキスタン・インドの伝統的な「Qawwali」の楽曲をベースにしていますが、現代的なビートやリミックス技法が加えられており、純粋なQawwaliではありません。</p>
+      </details>
+      <p class="vid"><a href="https://www.youtube.com/watch?v=e_hDn7gtcoY" target="_blank" rel="noopener">YouTubeで開く</a>
+         <code>e_hDn7gtcoY</code></p>
+    </div>
+  </article>
+  <article class="card ok" data-state="ok">
+    <a class="thumb-wrap" href="https://www.youtube.com/watch?v=f7MJR8XwhX0" target="_blank" rel="noopener"><img class="thumb" src="https://img.youtube.com/vi/f7MJR8XwhX0/mqdefault.jpg" alt="" loading="lazy"></a>
+    <div class="body">
+      <h3>Dubstyle </h3>
+      <p class="title">[Dubstyle] Best of Dubstyle Vol. 1 mixed by T-Tunez / Tobi Mensch</p>
+      <p class="note ok">ジャンルと合っていそう</p>
+      <details>
+        <summary>7月11日の判定を見る</summary>
+        <p class="old">当時の動画: <code>rNWUHYDBRXc</code> ／
+           AIの見立て: Reggae/Dub</p>
+        <p class="reason">この楽曲は伝統的なレゲエのビートとベースラインが特徴であり、DubstyleのようなハードスタイルやEDM要素は含まれていません。</p>
+      </details>
+      <p class="vid"><a href="https://www.youtube.com/watch?v=f7MJR8XwhX0" target="_blank" rel="noopener">YouTubeで開く</a>
+         <code>f7MJR8XwhX0</code></p>
+    </div>
+  </article>
+  <article class="card ok" data-state="ok">
+    <a class="thumb-wrap" href="https://www.youtube.com/watch?v=nwC_kcIUbwk" target="_blank" rel="noopener"><img class="thumb" src="https://img.youtube.com/vi/nwC_kcIUbwk/mqdefault.jpg" alt="" loading="lazy"></a>
+    <div class="body">
+      <h3>Gothic Rock </h3>
+      <p class="title">Gothic Rock Darkwave Post-punk Alternative (Set Mix Julho 2024) / Gothic Rock &amp; Darkwave Pedrão DJ</p>
+      <p class="note ok">ジャンルと合っていそう</p>
+      <details>
+        <summary>7月11日の判定を見る</summary>
+        <p class="old">当時の動画: <code>aC-enyY6W8I</code> ／
+           AIの見立て: gothic rock</p>
+        <p class="reason">The song has a distinctive gothic rock sound with a deep, melancholic atmosphere, prominent basslines, and a dramatic vocal delivery, aligning well with the genre&#x27;s characteristics.</p>
+      </details>
+      <p class="vid"><a href="https://www.youtube.com/watch?v=nwC_kcIUbwk" target="_blank" rel="noopener">YouTubeで開く</a>
+         <code>nwC_kcIUbwk</code></p>
+    </div>
+  </article>
+  <article class="card ok" data-state="ok">
+    <a class="thumb-wrap" href="https://www.youtube.com/watch?v=iRfSFoVOPVE" target="_blank" rel="noopener"><img class="thumb" src="https://img.youtube.com/vi/iRfSFoVOPVE/mqdefault.jpg" alt="" loading="lazy"></a>
+    <div class="body">
+      <h3>Grunge <span class="badge today">8/6に差し替え</span></h3>
+      <p class="title">90&#x27;s Rock Vol . 1 (Nirvana, Pearl Jam, Spin Doctors, Alice in Chains, Aerosmith, Garbage, Offspring) / DJ Páez de México</p>
+      <p class="note ok">ジャンルと合っていそう</p>
+      <details>
+        <summary>7月11日の判定を見る</summary>
+        <p class="old">当時の動画: <code>f8jFvNaac1c</code> ／
+           AIの見立て: Mashup / DJ Mix</p>
+        <p class="reason">動画の内容はDJが複数の楽曲をリミックスして繋いでいく様子であり、特定の「Grunge」という楽曲ではありません。</p>
+      </details>
+      <p class="vid"><a href="https://www.youtube.com/watch?v=iRfSFoVOPVE" target="_blank" rel="noopener">YouTubeで開く</a>
+         <code>iRfSFoVOPVE</code></p>
+    </div>
+  </article>
+  <article class="card ok" data-state="ok">
+    <a class="thumb-wrap" href="https://www.youtube.com/watch?v=NoqDmpQ8ui4" target="_blank" rel="noopener"><img class="thumb" src="https://img.youtube.com/vi/NoqDmpQ8ui4/mqdefault.jpg" alt="" loading="lazy"></a>
+    <div class="body">
+      <h3>Mahraganat </h3>
+      <p class="title">Dance &amp; Mahraganat Mix (Original) / Mahmoud Salah - Topic</p>
+      <p class="note ok">ジャンルと合っていそう</p>
+      <details>
+        <summary>7月11日の判定を見る</summary>
+        <p class="old">当時の動画: <code>ZLR26V2MLts</code> ／
+           AIの見立て: Dancehall / Reggaeton</p>
+        <p class="reason">この楽曲はダンスホールやレゲトンのリズム、カリブ海周辺のスタイルが支配的であり、マフラガナート（エジプトのストリートミュージック）の固有の特徴とは一致しません。</p>
+      </details>
+      <p class="vid"><a href="https://www.youtube.com/watch?v=NoqDmpQ8ui4" target="_blank" rel="noopener">YouTubeで開く</a>
+         <code>NoqDmpQ8ui4</code></p>
+    </div>
+  </article>
+  <article class="card ok" data-state="ok">
+    <a class="thumb-wrap" href="https://www.youtube.com/watch?v=ZXJWO2FQ16c" target="_blank" rel="noopener"><img class="thumb" src="https://img.youtube.com/vi/ZXJWO2FQ16c/mqdefault.jpg" alt="" loading="lazy"></a>
+    <div class="body">
+      <h3>Minimalism <span class="badge today">8/6に差し替え</span></h3>
+      <p class="title">Steve Reich, &quot;Music for 18 Musicians&quot; - FULL PERFORMANCE with eighth blackbird / Vic Firth</p>
+      <p class="note ok">ジャンルと合っていそう</p>
+      <details>
+        <summary>7月11日の判定を見る</summary>
+        <p class="old">当時の動画: <code>217WvME3F6s</code> ／
+           AIの見立て: Education / Tutorial (Audio Engineering)</p>
+        <p class="reason">この動画は音楽制作のノウハウを解説する教育的な講義ビデオであり、Minimalismという音楽ジャンルの演奏や楽曲ではないため。</p>
+      </details>
+      <p class="vid"><a href="https://www.youtube.com/watch?v=ZXJWO2FQ16c" target="_blank" rel="noopener">YouTubeで開く</a>
+         <code>ZXJWO2FQ16c</code></p>
+    </div>
+  </article>
+  <article class="card ok" data-state="ok">
+    <a class="thumb-wrap" href="https://www.youtube.com/watch?v=IoAFVE2EYR8" target="_blank" rel="noopener"><img class="thumb" src="https://img.youtube.com/vi/IoAFVE2EYR8/mqdefault.jpg" alt="" loading="lazy"></a>
+    <div class="body">
+      <h3>Rave </h3>
+      <p class="title">Ultimate Rave Mix 2025 / donit</p>
+      <p class="note ok">ジャンルと合っていそう</p>
+      <details>
+        <summary>7月11日の判定を見る</summary>
+        <p class="old">当時の動画: <code>hAc9i-WEIcQ</code> ／
+           AIの見立て: Hard Techno</p>
+        <p class="reason">提供されたRaveの音楽的特徴（アシッドハウス基盤、ピアノスタブ、ブレイクビート等）は少なく、現代的でダークな重低音と速いテンポのハードテクノ要素が強いためです。</p>
+      </details>
+      <p class="vid"><a href="https://www.youtube.com/watch?v=IoAFVE2EYR8" target="_blank" rel="noopener">YouTubeで開く</a>
+         <code>IoAFVE2EYR8</code></p>
+    </div>
+  </article>
+  <article class="card ok" data-state="ok">
+    <a class="thumb-wrap" href="https://www.youtube.com/watch?v=KYqaBYloL1o" target="_blank" rel="noopener"><img class="thumb" src="https://img.youtube.com/vi/KYqaBYloL1o/mqdefault.jpg" alt="" loading="lazy"></a>
+    <div class="body">
+      <h3>Romantic <span class="badge today">8/6に差し替え</span></h3>
+      <p class="title">Romantic Classical Music | Beethoven, Chopin, Tchaikovsky, Liszt... / HALIDONMUSIC</p>
+      <p class="note ok">ジャンルと合っていそう</p>
+      <details>
+        <summary>7月11日の判定を見る</summary>
+        <p class="old">当時の動画: <code>WQ-P8Iyfo4w</code> ／
+           AIの見立て: Lo-fi Hip Hop</p>
+        <p class="reason">この楽曲はゆったりとしたビート、落ち着いたボーカル、リラックスできる雰囲気が特徴で、ロマン派音楽のようなドラマチックで壮大なオーケストラ編成ではありません。</p>
+      </details>
+      <p class="vid"><a href="https://www.youtube.com/watch?v=KYqaBYloL1o" target="_blank" rel="noopener">YouTubeで開く</a>
+         <code>KYqaBYloL1o</code></p>
+    </div>
+  </article>
+  </div>
+
+  <h2>代表曲の動画 <span class="count">25件</span></h2>
+  <p class="hint">7月11日に判定した動画は、いずれも既に別の動画へ入れ替わっています。
+     当時の判定内容だけ記録として残します。</p>
+  <table>
+    <tr><th>ジャンル</th><th>当時の動画</th><th>当時のAIの見立て</th><th></th></tr>
+    <tr><td class="g">Anatolian Rock</td>
+      <td><code>0:xOPESuSRnPc</code></td>
+      <td>Turkish Pop-Rock</td>
+      <td></td></tr>    <tr><td class="g">Anti-Folk</td>
+      <td><code>0:8Vl6H122VCE</code></td>
+      <td>Dance-Pop</td>
+      <td>8/6に補完</td></tr>    <tr><td class="g">Anti-Folk</td>
+      <td><code>1:RFz-7TXjqMM</code></td>
+      <td>UK Garage / R&amp;B</td>
+      <td>8/6に補完</td></tr>    <tr><td class="g">Arena Rock</td>
+      <td><code>0:pDNOaN0SiOU</code></td>
+      <td>Pop Ballad</td>
+      <td></td></tr>    <tr><td class="g">Arena Rock</td>
+      <td><code>1:FPEL5-KhIBk</code></td>
+      <td>Bollywood Pop</td>
+      <td></td></tr>    <tr><td class="g">Arena Rock</td>
+      <td><code>1:iZFNMM85np4</code></td>
+      <td>Electronic Dance Music (EDM)</td>
+      <td></td></tr>    <tr><td class="g">Arena Rock</td>
+      <td><code>0:hqiV23UEGpM</code></td>
+      <td>Islamic devotional music</td>
+      <td></td></tr>    <tr><td class="g">Baltimore Club</td>
+      <td><code>0:w5WuTnGpsck</code></td>
+      <td>J-Pop / Anime Music</td>
+      <td></td></tr>    <tr><td class="g">Baltimore Club</td>
+      <td><code>1:II-nl9J-6-Y</code></td>
+      <td>Pop / EDM</td>
+      <td></td></tr>    <tr><td class="g">Cantopop</td>
+      <td><code>0:MYZwnwCQr-w</code></td>
+      <td>Mandopop</td>
+      <td></td></tr>    <tr><td class="g">Carnatic Classical</td>
+      <td><code>0:6U1HZim9E_A</code></td>
+      <td>Indian Orchestral Music</td>
+      <td></td></tr>    <tr><td class="g">Chicha</td>
+      <td><code>1:oaq1u3aLZTU</code></td>
+      <td>Latin Pop</td>
+      <td></td></tr>    <tr><td class="g">City Pop Modern</td>
+      <td><code>1:WpQCCB0Lpik</code></td>
+      <td>City Pop (1980s)</td>
+      <td></td></tr>    <tr><td class="g">Deathrock</td>
+      <td><code>0:sEXHeTcxQy4</code></td>
+      <td>Indie Rock / Garage Rock Revival</td>
+      <td></td></tr>    <tr><td class="g">Goregrind</td>
+      <td><code>0:AMNFslNVNvA</code></td>
+      <td>環境音（ゴミ箱の蓋を開ける音）</td>
+      <td></td></tr>    <tr><td class="g">Grindcore</td>
+      <td><code>1:YX8a7gKvWwA</code></td>
+      <td>SFX（効果音）</td>
+      <td></td></tr>    <tr><td class="g">Illbient</td>
+      <td><code>0:ZdMwqKiSeEE</code></td>
+      <td>Video Game Music (VGM) / Pop</td>
+      <td></td></tr>    <tr><td class="g">Illbient</td>
+      <td><code>1:Rl5_C4sc5zk</code></td>
+      <td>オーケストラ / ファンタジー・ゲームミュージック</td>
+      <td></td></tr>    <tr><td class="g">Impressionism</td>
+      <td><code>0:cmNEvSFWftc</code></td>
+      <td>近代クラシック（印象派の影響を受けたオーケストラ曲）</td>
+      <td></td></tr>    <tr><td class="g">Mento</td>
+      <td><code>0:PedKojQKJXw</code></td>
+      <td>Calypso</td>
+      <td></td></tr>    <tr><td class="g">Minimal House</td>
+      <td><code>1:Nsct-e-HVE0</code></td>
+      <td>Minimal Techno</td>
+      <td></td></tr>    <tr><td class="g">Psychobilly</td>
+      <td><code>1:3X2ler0frB8</code></td>
+      <td>Rockabilly / Psychobilly-adjacent instrumental rock</td>
+      <td>8/6に補完</td></tr>    <tr><td class="g">Shidaiqu</td>
+      <td><code>1:OMVlGjmppeY</code></td>
+      <td>C-POP（台湾歌謡）</td>
+      <td></td></tr>    <tr><td class="g">Sovietwave</td>
+      <td><code>0:T3yPJAWEe2I</code></td>
+      <td>Indie Pop / Russian Indie</td>
+      <td>8/6に補完</td></tr>    <tr><td class="g">Sovietwave</td>
+      <td><code>1:T-hswDp-e2I</code></td>
+      <td>Russian Indie Pop / Synth-Pop</td>
+      <td>8/6に補完</td></tr>
+  </table>
+
+  <div class="foot">
+    <p><b>差し替えたいものが決まったら</b></p>
+    <p>ジャンル名と「こういう動画にしたい」を伝えていただければ、探し直して差し替えます。
+       検索語を指定することもできます。</p>
+    <p style="margin-top:14px"><b>全件をAIに判定し直させる場合</b></p>
+    <code>POST /admin/video_check/gemini_verify/start</code>
+    <p>※ YouTubeの検索は1日100回程度の上限があるため、件数が多いと日をまたぎます。</p>
+  </div>
+</div>
+</body>
+</html>
