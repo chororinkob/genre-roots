@@ -23,6 +23,7 @@ h2 .count { color: #667; font-size: 12px; font-weight: normal; }
          border-radius: 10px; padding: 12px; }
 .card.ng { border-color: #6a2626; background: #1c1114; }
 .card.warn { border-color: #5a4620; background: #1b1710; }
+.card.fixed { border-color: #2a5a30; background: #101a12; }
 .thumb-wrap { flex-shrink: 0; display: block; }
 .thumb { width: 190px; aspect-ratio: 16/9; object-fit: cover; border-radius: 7px;
           display: block; background: #000; }
@@ -38,6 +39,7 @@ h3 { font-size: 15px; color: #eee; margin-bottom: 4px; }
 .note { font-size: 12.5px; margin-bottom: 8px; }
 .note.ng { color: #f08080; font-weight: 700; }
 .note.warn { color: #e0b060; }
+.note.fixed { color: #78d478; }
 .note.ok { color: #6a9a6a; }
 details { font-size: 12px; color: #889; }
 summary { cursor: pointer; color: #6a7a9a; outline: none; }
@@ -73,10 +75,9 @@ td.g { color: #eee; white-space: nowrap; }
     <p style="margin-top:10px">ただしその後の作業で動画が入れ替わっており、
     <b>判定当時の動画がそのまま残っているものは1件もありません</b>。
     そのため、確認は「いま入っている動画」に対して行ってください。</p>
-    <p style="margin-top:10px">今いちど中身を見たところ、
-    明らかに差し替えが必要なのは <b>2件</b>、
-    判断が分かれそうなのが <b>2件</b>、
-    残りは<span class="ok">ジャンルと合っていそう</span>でした。</p>
+    <p style="margin-top:10px">中身を見て問題のあった <b>4件</b> は
+    <span class="ok">2026年8月7日に差し替え済み</span>です。
+    残り7件はジャンルと合っていそうでした。</p>
   </div>
 
   <h2>メイン動画 <span class="count">11件</span></h2>
@@ -84,68 +85,68 @@ td.g { color: #eee; white-space: nowrap; }
      問題のありそうなものを上に並べています。</p>
   <div class="grid">
 
-  <article class="card ng" data-state="ng">
-    <a class="thumb-wrap" href="https://www.youtube.com/watch?v=cEGMbxw8Eqs" target="_blank" rel="noopener"><img class="thumb" src="https://img.youtube.com/vi/cEGMbxw8Eqs/mqdefault.jpg" alt="" loading="lazy"></a>
-    <div class="body">
-      <h3>Power Noise </h3>
-      <p class="title">what is “power noise”? #music / blustre</p>
-      <p class="note ng">音楽ではなく「パワーノイズとは何か」を説明する動画</p>
-      <details>
-        <summary>7月11日の判定を見る</summary>
-        <p class="old">当時の動画: <code>uIBJJ3M76Mg</code> ／
-           AIの見立て: Slap House</p>
-        <p class="reason">この楽曲は現代的なダンスミュージックのサブジャンルである「Slap House」であり、Power Noiseのような硬質なノイズやインダストリアル特有の暴力性は含まれていません。</p>
-      </details>
-      <p class="vid"><a href="https://www.youtube.com/watch?v=cEGMbxw8Eqs" target="_blank" rel="noopener">YouTubeで開く</a>
-         <code>cEGMbxw8Eqs</code></p>
-    </div>
-  </article>
-  <article class="card ng" data-state="ng">
-    <a class="thumb-wrap" href="https://www.youtube.com/watch?v=2jxKy5LaiXU" target="_blank" rel="noopener"><img class="thumb" src="https://img.youtube.com/vi/2jxKy5LaiXU/mqdefault.jpg" alt="" loading="lazy"></a>
-    <div class="body">
-      <h3>Spirituals </h3>
-      <p class="title">MelyCrisp — Spiritual House Mix - Ritual experience / Melodic house / Play&#x27;EM</p>
-      <p class="note ng">黒人霊歌ではなく Spiritual House という別ジャンル</p>
-      <details>
-        <summary>7月11日の判定を見る</summary>
-        <p class="old">当時の動画: <code>Wo0AOf9b6fU</code> ／
-           AIの見立て: Barbershop</p>
-        <p class="reason">動画は「Barbershop Harmony Society」によるものであり、独特の和声構成や形式から、スピリチュアルズではなくバーバーショップ・コーラスに分類されます。</p>
-      </details>
-      <p class="vid"><a href="https://www.youtube.com/watch?v=2jxKy5LaiXU" target="_blank" rel="noopener">YouTubeで開く</a>
-         <code>2jxKy5LaiXU</code></p>
-    </div>
-  </article>
-  <article class="card warn" data-state="warn">
-    <a class="thumb-wrap" href="https://www.youtube.com/watch?v=3vmMCblQrJc" target="_blank" rel="noopener"><img class="thumb" src="https://img.youtube.com/vi/3vmMCblQrJc/mqdefault.jpg" alt="" loading="lazy"></a>
+  <article class="card fixed" data-state="fixed">
+    <a class="thumb-wrap" href="https://www.youtube.com/watch?v=nnK_CmPCVQE" target="_blank" rel="noopener"><img class="thumb" src="https://img.youtube.com/vi/nnK_CmPCVQE/mqdefault.jpg" alt="" loading="lazy"></a>
     <div class="body">
       <h3>J-POP アイドル </h3>
-      <p class="title">Best J-IDOL City Pop MIX – Japanese Idol Retro Groove / DJ_Investor_channel</p>
-      <p class="note warn">シティポップ寄りの選曲</p>
+      <p class="title">【1980年代アイドルメドレー】シングル売上ランキングTOP25 / 聖子病 ch</p>
+      <p class="note fixed">8/7に差し替え。以前はシティポップと混ざっていたため、1980年代のアイドルのみに変更</p>
       <details>
         <summary>7月11日の判定を見る</summary>
         <p class="old">当時の動画: <code>zQyP7rm765s</code> ／
            AIの見立て: ユーロビート / ダンスミュージック</p>
         <p class="reason">この楽曲はアップテンポで疾走感のある電子音を特徴とするユーロビート系であり、J-POPアイドルの楽曲というよりも、その影響を受けたダンスミュージックやリズムゲーム音楽の文脈に近いです。</p>
       </details>
-      <p class="vid"><a href="https://www.youtube.com/watch?v=3vmMCblQrJc" target="_blank" rel="noopener">YouTubeで開く</a>
-         <code>3vmMCblQrJc</code></p>
+      <p class="vid"><a href="https://www.youtube.com/watch?v=nnK_CmPCVQE" target="_blank" rel="noopener">YouTubeで開く</a>
+         <code>nnK_CmPCVQE</code></p>
     </div>
   </article>
-  <article class="card warn" data-state="warn">
-    <a class="thumb-wrap" href="https://www.youtube.com/watch?v=e_hDn7gtcoY" target="_blank" rel="noopener"><img class="thumb" src="https://img.youtube.com/vi/e_hDn7gtcoY/mqdefault.jpg" alt="" loading="lazy"></a>
+  <article class="card fixed" data-state="fixed">
+    <a class="thumb-wrap" href="https://www.youtube.com/watch?v=PrdSL2MA3wo" target="_blank" rel="noopener"><img class="thumb" src="https://img.youtube.com/vi/PrdSL2MA3wo/mqdefault.jpg" alt="" loading="lazy"></a>
+    <div class="body">
+      <h3>Power Noise </h3>
+      <p class="title">Winterkälte - Rebound Effect / DJNMI</p>
+      <p class="note fixed">8/7に差し替え。以前は解説動画だったため、実際の楽曲(Winterkälte)に変更</p>
+      <details>
+        <summary>7月11日の判定を見る</summary>
+        <p class="old">当時の動画: <code>uIBJJ3M76Mg</code> ／
+           AIの見立て: Slap House</p>
+        <p class="reason">この楽曲は現代的なダンスミュージックのサブジャンルである「Slap House」であり、Power Noiseのような硬質なノイズやインダストリアル特有の暴力性は含まれていません。</p>
+      </details>
+      <p class="vid"><a href="https://www.youtube.com/watch?v=PrdSL2MA3wo" target="_blank" rel="noopener">YouTubeで開く</a>
+         <code>PrdSL2MA3wo</code></p>
+    </div>
+  </article>
+  <article class="card fixed" data-state="fixed">
+    <a class="thumb-wrap" href="https://www.youtube.com/watch?v=YSMIDIt2Ku4" target="_blank" rel="noopener"><img class="thumb" src="https://img.youtube.com/vi/YSMIDIt2Ku4/mqdefault.jpg" alt="" loading="lazy"></a>
     <div class="body">
       <h3>Qawwali </h3>
-      <p class="title">Nonstop Qawwali Remix 🔥 Best Sufi Mashup | 2026 | NFAK / Ideal Ads </p>
-      <p class="note warn">伝統的な演奏ではなくリミックス版</p>
+      <p class="title">Akhiyan Udeek Dian - Ustad Nusrat Fateh Ali Khan - OSA Official HD Video / Oriental Star Agencies Ltd</p>
+      <p class="note fixed">8/7に差し替え。以前はリミックス版だったため、Nusrat Fateh Ali Khan の伝統的な演奏に変更</p>
       <details>
         <summary>7月11日の判定を見る</summary>
         <p class="old">当時の動画: <code>_yNeYVPGgvY</code> ／
            AIの見立て: Desi Hip Hop / Indian Pop Remix</p>
         <p class="reason">動画に含まれる音楽は、パキスタン・インドの伝統的な「Qawwali」の楽曲をベースにしていますが、現代的なビートやリミックス技法が加えられており、純粋なQawwaliではありません。</p>
       </details>
-      <p class="vid"><a href="https://www.youtube.com/watch?v=e_hDn7gtcoY" target="_blank" rel="noopener">YouTubeで開く</a>
-         <code>e_hDn7gtcoY</code></p>
+      <p class="vid"><a href="https://www.youtube.com/watch?v=YSMIDIt2Ku4" target="_blank" rel="noopener">YouTubeで開く</a>
+         <code>YSMIDIt2Ku4</code></p>
+    </div>
+  </article>
+  <article class="card fixed" data-state="fixed">
+    <a class="thumb-wrap" href="https://www.youtube.com/watch?v=u8VOGPm-iJM" target="_blank" rel="noopener"><img class="thumb" src="https://img.youtube.com/vi/u8VOGPm-iJM/mqdefault.jpg" alt="" loading="lazy"></a>
+    <div class="body">
+      <h3>Spirituals </h3>
+      <p class="title">&quot;Swing Low, Sweet Chariot&quot; | First Ever Recording (1909)  + Powerful Pictures of Slavery/Segregation / Owlscape</p>
+      <p class="note fixed">8/7に差し替え。以前は Spiritual House という別ジャンルだったため、黒人霊歌に変更</p>
+      <details>
+        <summary>7月11日の判定を見る</summary>
+        <p class="old">当時の動画: <code>Wo0AOf9b6fU</code> ／
+           AIの見立て: Barbershop</p>
+        <p class="reason">動画は「Barbershop Harmony Society」によるものであり、独特の和声構成や形式から、スピリチュアルズではなくバーバーショップ・コーラスに分類されます。</p>
+      </details>
+      <p class="vid"><a href="https://www.youtube.com/watch?v=u8VOGPm-iJM" target="_blank" rel="noopener">YouTubeで開く</a>
+         <code>u8VOGPm-iJM</code></p>
     </div>
   </article>
   <article class="card ok" data-state="ok">
