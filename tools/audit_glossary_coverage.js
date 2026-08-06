@@ -37,7 +37,7 @@ function candidates(text) {
   return [...new Set([...latin, ...quoted])].filter(s => s.length > 1);
 }
 const coveredByLonger = (c, text) =>
-  keys.some(k => k.length > c.length && k.startsWith(c) && text.includes(k));
+  keys.some(k => k.length > c.length && k.includes(c) && text.includes(k));
 
 const args = process.argv.slice(2);
 const rows = [];
