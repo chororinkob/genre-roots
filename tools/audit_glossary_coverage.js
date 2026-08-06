@@ -39,12 +39,42 @@ function candidates(text) {
 const coveredByLonger = (c, text) =>
   keys.some(k => k.length > c.length && k.includes(c) && text.includes(k));
 
+// ジャンル名（ラベルと別名）。用語集ではなくリンクで繋ぐものなので除外する
+const genreNames = new Set();
+for (const n of NODES) {
+  if (n.label) genreNames.add(String(n.label).replace(/\n/g, ' ').trim());
+  for (const a of (n.aliases || [])) if (a) genreNames.add(String(a).trim());
+}
+// 対応不要なものを除外する。これを入れないと、検出の副産物が大量に
+// 混ざって本当の漏れが埋もれる（2026-08-06、62件のうち実際に
+// 対応が要ったのは十数件だった）。
+function isNoise(c, text, glossKeys, genreNames) {
+  // 1. かな混じり = 筆者の言い回し（「音で殴られる体験」など）
+  if (/[ぁ-ん]/.test(c)) return true;
+  // 2. 数字だけ（本文中の「140」「17」など）
+  if (/^[0-9０-９.\-]+$/.test(c)) return true;
+  // 3. 短い大文字の断片。コード記号(IV)や型番の一部(JV/XV/MP)が該当する。
+  //    3文字以下で大文字を含む英字だけのものは、単独の見出しにならない
+  if (/^[A-Za-z]{1,3}$/.test(c) && /[A-Z]/.test(c)) return true;
+  // 4. 記号で終わる断片（Roland Juno- など）
+  if (/[-‐–—.\/]$/.test(c)) return true;
+  // 5. マップ上のジャンル名（用語集ではなくリンクで繋ぐもの）
+  if (genreNames.has(c)) return true;
+  // 6. 鉤括弧で囲まれた短い日常語・擬音。筆者が強調のために囲んだもので、
+  //    固有名詞ではない（「ズレ」「チープ」「感動」「ワウワウ」など）
+  if (/^[ァ-ヴー・一-龠]{2,6}$/.test(c) && text.includes('「' + c + '」')) return true;
+  // 7. 括弧付きの言い換え。括弧の外が登録済みなら説明は出ている
+  const m = c.match(/^(.+?)\s*[（(]/);
+  if (m && glossKeys.includes(m[1].trim())) return true;
+  return false;
+}
+
 const args = process.argv.slice(2);
 const rows = [];
 for (const n of NODES) {
   const text = (n.desc || '') + ' ' + (n.roots_story || '');
   const hits = new Set(text.match(regex) || []);
-  const missing = candidates(text).filter(c => !keys.includes(c) && !coveredByLonger(c, text));
+  const missing = candidates(text).filter(c => !keys.includes(c) && !coveredByLonger(c, text) && !isNoise(c, text, keys, genreNames));
   rows.push({
     id: n.id,
     label: (n.label || n.id).replace(/\n/g, ' '),
