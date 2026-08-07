@@ -559,7 +559,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v26.15<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v26.16<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -18058,105 +18058,11 @@ function grOpenIframeOverlay(url) {
   document.body.appendChild(overlay);
 }
 
-// genre_roots.html自体（GitHub Pages）はgit push後の反映に数分〜数十分かかる
-// ことがある。承認した本人がすぐ結果を確認したいだけなら、その反映を待つ
-// 必要は本来ない。承認直後の最新内容はRenderのサーバー側にはその場ですぐ
-// 届いているため、そちらから直接取得して、今開いているページのNODES/LINKS
-// データだけをその場で書き換える（ページの再読み込みは行わない）。
-// GitHub Pages自体への反映は裏で普通に進めておけばよく、他の人が後から
-// アクセスした時にはそのタイミングで自然と最新になっている。
-function _grExtractNodeBlockText(html, genreId) {
-  const starts = [];
-  const re = /\{id:"/g;
-  let m;
-  while ((m = re.exec(html))) starts.push(m.index);
-  for (let i = 0; i < starts.length; i++) {
-    const start = starts[i];
-    const end = i + 1 < starts.length ? starts[i + 1] : html.length;
-    const block = html.slice(start, end);
-    if (block.startsWith('{id:"' + genreId + '"')) {
-      return block.trim().replace(/,\s*$/, '');
-    }
-  }
-  return null;
-}
-
-function _grExtractRelatedLinks(html, genreId) {
-  // score（5軸の影響度）を読み飛ばせるようにしておくこと。
-  // 現在のリンクは全て {s:"…",t:"…",w:80,score:{"r":1,…},desc:"…"} の形で、
-  // score を想定していない正規表現では1本も一致しない。
-  // 実際、修正依頼を承認した直後にこの処理でリンクを入れ替えた際、
-  // 一致0本となって関連ジャンルが全て消え、「パネルにリンクが出ない」
-  // 「マップにジャンル名が出ない」という症状になっていた
-  // （2026-08-07。手動で再読み込みすると直るのは、ファイルから
-  //  正しいデータを読み直すため）。
-  const linkRe = /\{s:"([^"]*)",t:"([^"]*)",w:(\d+),(?:score:(\{[^}]*\}),)?desc:"((?:[^"\\]|\\.)*)"\}/g;
-  const results = [];
-  let m;
-  while ((m = linkRe.exec(html))) {
-    if (m[1] === genreId || m[2] === genreId) {
-      const link = { s: m[1], t: m[2], w: parseInt(m[3], 10), desc: m[5] };
-      if (m[4]) {
-        // score が無いまま取り込むと、そのリンクだけ線の太さもチップも
-        // 他と揃わなくなるため、必ず一緒に持ち込む
-        try { link.score = JSON.parse(m[4]); } catch (e) { /* 壊れていれば付けない */ }
-      }
-      results.push(link);
-    }
-  }
-  return results;
-}
-
-async function grRefreshGenreAndReopenPanel(genreId) {
-  // /rootsの取得・データの反映に失敗した場合（通信エラー、Renderの起床待ち等）、
-  // 以前は何もせず古いデータのままパネルだけ開いてしまい、「承認したのに画面が
-  // 変わらない。手動で更新したら直った」という分かりにくい状態になっていた。
-  //
-  // 以前はここで単にwindow.location.reload()（今のページの再読み込み）に
-  // フォールバックしていたが、これだと「どのジャンルを開いていたか」という
-  // 情報が失われ、パネルが閉じたただのジャンルマップに戻るだけになって
-  // しまっていた（このページ自体がGitHub Pagesの古いキャッシュの場合、
-  // 修正内容もまだ反映されていない）。ジャンル追加の承認直後と同じ、
-  // Render自身の/roots?genre=Xへ遷移する方式にフォールバックすることで、
-  // 常に最新データを取得しつつ、該当ジャンルのパネルも自動で開かれるように
-  // した（node/NODES初期化後のwindow.__grAutoOpenGenre処理を参照）。
-  let succeeded = false;
-  try {
-    const res  = await fetch(API_BASE + '/roots?_=' + Date.now(), { cache: 'no-store' });
-    const html = await res.text();
-    const blockText = _grExtractNodeBlockText(html, genreId);
-    if (blockText) {
-      const freshNode = new Function('return ' + blockText)();
-      const idx = NODES.findIndex(n => n.id === genreId);
-      if (idx >= 0) Object.assign(NODES[idx], freshNode);
-
-      const freshLinks = _grExtractRelatedLinks(html, genreId);
-      const hadLinks = LINKS.some(l => l.s === genreId || l.t === genreId);
-      if (freshLinks.length === 0 && hadLinks) {
-        // 取り出しに失敗している。ここで古いリンクを消すと、関連ジャンルが
-        // 全て画面から消えてしまう（2026-08-07に実際に発生）。
-        // 消さずに、ページごと読み込み直す方へ回す。
-        console.warn('[承認後の更新] 関連ジャンルを取り出せなかったため、読み込み直します');
-        throw new Error('link-extract-failed');
-      }
-      for (let i = LINKS.length - 1; i >= 0; i--) {
-        const l = LINKS[i];
-        if (l.s === genreId || l.t === genreId) LINKS.splice(i, 1);
-      }
-      freshLinks.forEach(l => LINKS.push(l));
-      rebuildLinkData();
-      succeeded = true;
-    }
-  } catch (e) {
-    // 下のフォールバックに進む
-  }
-  if (!succeeded) {
-    window.location.href = API_BASE + '/roots?genre=' + encodeURIComponent(genreId);
-    return;
-  }
-  const target = node.filter(n => n.id === genreId);
-  if (!target.empty()) target.dispatch('click');
-}
+// 承認直後の画面更新について。
+// 以前はここに、Renderから最新データを取ってきて今開いているページの
+// NODES/LINKSだけをその場で書き換える処理(grRefreshGenreAndReopenPanel等)
+// があったが、表示を2度壊したため撤去した。詳細は下のmessage受け取り部の
+// コメントを参照。今はジャンル追加と同じく、素直にページを読み込み直す。
 
 // iframe内（別オリジンのcorrection_preview.html等）からの合図を受け取る。
 // iframeと親ページはオリジンが違うため、直接DOM操作はできずpostMessageで
@@ -18173,10 +18079,23 @@ window.addEventListener('message', (e) => {
     // 邪魔になっていた）。
     const overlay = document.getElementById('gr-preview-overlay');
     if (overlay) overlay.remove();
+    // ページ自体を読み込み直す。
+    //
+    // 以前はここで grRefreshGenreAndReopenPanel（その場でデータだけ差し替える
+    // 近道）を呼んでいたが、この方式は2度続けて表示を壊している：
+    //   1回目 … 関連ジャンルの取り出しがscoreに未対応で、リンクが全滅した
+    //   2回目 … rebuildLinkData()は配列を入れ替えるだけで、マップの線の図形を
+    //            作り直さないため、増えたリンクの線が1本も描かれなかった
+    //            （説明パネルには出るのに、マップには線が無い状態）
+    // 線・ガラスのパイプ・音符の粒・矢印・ラベルと描き直す対象が多く、その場
+    // 更新を正しく作り込む労力に見合わない。ジャンル追加側（すぐ下）は最初から
+    // 読み込み直す作りで問題が出ていないので、修正依頼もそちらに揃える。
+    // 末尾の時刻は、ブラウザが古い内容を使い回さないようにするためのもの。
+    const _t = '_=' + Date.now();
     if (e.data.genreId) {
-      grRefreshGenreAndReopenPanel(e.data.genreId);
+      window.location.href = API_BASE + '/roots?genre=' + encodeURIComponent(e.data.genreId) + '&' + _t;
     } else {
-      window.location.reload();
+      window.location.href = API_BASE + '/roots?' + _t;
     }
   } else if (e && e.data && e.data.type === 'gr-genre-added') {
     // 新規追加されたジャンルはブラウザ側のNODESにまだ存在しないため、修正依頼の
