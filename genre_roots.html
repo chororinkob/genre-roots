@@ -559,7 +559,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v26.10<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v26.11<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -6499,6 +6499,7 @@ const LINKS = [
   {s:"happy_hardcore",t:"uk_hardcore_genre",w:70,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"ハッピーハードコアの明るいメロディーラインを土台に、よりプロダクションを洗練させることでUKハードコアが形成された"},
   {s:"punk",t:"digital_hardcore",w:50,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"パンクの攻撃的な演奏スタイルが、デジタルハードコアにおいてドラムマシンによる電子的なビートに置き換えられた"},
   {s:"industrial",t:"digital_hardcore",w:40,score:{"r":1,"h":0,"i":0,"v":0,"c":0},desc:"インダストリアルの工業的な攻撃的サウンドが、デジタルハードコアの過激な電子ビートの中に取り入れられている"},
+{s:"digital_hardcore",t:"breakcore",w:60,score:{"r":1,"h":0,"i":1,"v":0,"c":1},desc:"デジタルハードコアが持つアーメン・ブレイクの極端な高速化と破壊的なドラム処理、独立レーベル運営の姿勢がブレイクコアの成立に直接的な影響を与えた"},
   {s:"gabber",t:"uptempo_hardcore",w:65,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"ガバの歪んだキックドラムのサウンドが、アップテンポにおいてさらにテンポを上げた極端な高速ビートに発展した"},
   {s:"gabber",t:"terrorcore",w:60,score:{"r":0,"h":0,"i":1,"v":0,"c":0},desc:"ガバの歪んだキックドラムのサウンドが、テラーコアにおいて最も過激で攻撃的な音圧へと先鋭化した"},
   {s:"hardstyle",t:"jumpstyle",w:55,score:{"r":1,"h":0,"i":0,"v":0,"c":1},desc:"ハードスタイルの跳ねるようなキックドラムが、ジャンプスタイルの特徴的なダンスステップに合わせたビートパターンに発展した"},
@@ -14456,6 +14457,7 @@ const GLOSSARY = {
   "韓国観光公社": "韓国政府が設立した観光振興を目的とする公共機関。2020年に制作したプロモーション映像シリーズでイナルチらを起用し、その映像が世界中で数億回再生される現象が起きた。",
   "ragtime": "1890年代から1910年代にアメリカで流行したピアノ音楽のジャンル。拍の裏に音符を置くシンコペーションを多用した躍動的なリズムが特徴で、スコット・ジョプリンが代表的な作曲家として知られる。ジャズ成立に大きな影響を与えた先駆的な形式である。",
   "neurofunk": "1990年代後半にテックステップから派生したドラムンベースのサブジャンル。テックステップの無機質な硬さを受け継ぎながら、うねりや有機的な質感を持つ複雑なベース音色を特徴とする。",
+  "アーメン・ブレイク": "1969年録音のファンクバンド「The Winstons」の楽曲「Amen, Brother」に収録されたドラムソロの通称。ブレイクビーツ音楽全般で広く使用されるサンプルの定番であり、デジタル・ハードコアやブレイクコアではとくに歪ませた形で多用される。",
 };
 // 用語集のキーを、長い語から先に一致するよう並べ替えて正規表現を作る
 // （例:「オープンハイハット」を先に判定しないと「ハイハット」にだけ
