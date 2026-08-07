@@ -559,7 +559,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v26.14<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v26.15<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -5570,6 +5570,9 @@ const LINKS = [
   {s:"chicago_house",t:"deep_house",w:70,score:{"r":1,"h":1,"i":1,"v":0,"c":0},desc:"シカゴハウスの四つ打ちビートとクラブ向けのダンスサウンドを土台に、ジャズ由来のセブンスコードやエレピの柔らかいヴォイシングを加えることでディープハウスが形成された"},
   {s:"chicago_house",t:"acid_house",w:75,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"シカゴハウスの四つ打ちビートを土台に、Roland TB-303シンセベースのカットオフを歪ませて作る酸っぱい音色のベースラインを前面に出すことでアシッドハウスが形成された"},
   {s:"chicago_house",t:"funky_house",w:60,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"シカゴハウスの四つ打ちキックにファンクのカッティングギターやスラップベースのフレーズを重ねる手法が定着し、よりグルーヴ感の強いファンキーハウスの音作りへと発展した。"},
+{s:"disco",t:"funky_house",w:80,score:{"r":1,"h":1,"i":1,"v":1,"c":0},desc:"1970年代ディスコのレコードから弦のリフ・ホーンのスタブ・ヴォーカルのフックを切り出してループさせる手法がファンキーハウスの核を成し、明るいコード感とダンスフロア志向もそのまま受け継がれた。"},
+{s:"funk",t:"funky_house",w:75,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"スラップベースのサンプルやワウをかけたカッティングギターなど、ファンクに由来するグルーヴの核心的要素がファンキーハウスのビート構築に直接流用された。"},
+{s:"french_house",t:"funky_house",w:70,score:{"r":1,"h":1,"i":1,"v":0,"c":1},desc:"フィルター開閉による抑揚付けやディスコサンプルのループといった手法をほぼ共有しており、パリのシーンを起点に両ジャンルは同時期に形成された兄弟的な関係にある。"},
   {s:"chicago_house",t:"progressive_house",w:60,score:{"r":1,"h":0,"i":1,"v":0,"c":0},desc:"シカゴハウスの四つ打ちビートを土台に、長い時間をかけてレイヤーを積み重ねていく構成的なアレンジを加えることでプログレッシブハウスが形成された"},
   {s:"acid_house",t:"rave",w:80,score:{"r":1,"h":0,"i":1,"v":0,"c":1},desc:"アシッドハウスのTB-303による酸っぱいベースサウンドとハイテンポなビートが、レイヴという大規模な野外ダンスイベント文化の音楽的な核となった"},
   {s:"acid_house",t:"trance",w:55,score:{"r":0,"h":1,"i":1,"v":0,"c":0},desc:"アシッドハウスの反復するシンセベースのパターンを土台に、より長い展開とメロディックな高揚感を重視することでトランスが形成された"},
