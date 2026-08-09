@@ -15,7 +15,7 @@
   body{background:var(--bg);color:var(--ink);margin:0;
        font-family:"Hiragino Kaku Gothic ProN","Yu Gothic UI","Meiryo",system-ui,sans-serif;
        line-height:1.75;font-size:15px;}
-  .wrap{max-width:940px;margin:0 auto;padding:40px 20px 80px;}
+  .wrap{max-width:960px;margin:0 auto;padding:40px 20px 80px;}
   h1{font-size:26px;margin:0 0 6px;letter-spacing:.02em;}
   .sub{color:var(--dim);font-size:13px;margin-bottom:28px;}
   h2{font-size:19px;margin:38px 0 4px;padding-bottom:6px;border-bottom:2px solid var(--line);}
@@ -34,84 +34,85 @@
   th{background:var(--accent-soft);font-size:12px;color:var(--dim);font-weight:600;white-space:nowrap;}
   tr:last-child td{border-bottom:none;}
   .keep{color:var(--ok);font-weight:700;}
-  .drop{color:var(--accent);}
+  .drop{color:var(--dim);text-decoration:line-through;}
   .num{font-variant-numeric:tabular-nums;color:var(--dim);white-space:nowrap;}
   .desc{font-size:13px;color:var(--dim);}
+  .done{color:var(--ok);font-weight:700;white-space:nowrap;}
+  .rest{color:var(--accent);font-weight:700;white-space:nowrap;}
   .okbox{background:var(--ok-soft);border:1px solid var(--line);border-radius:10px;
          padding:14px 16px;font-size:14px;}
 </style>
 <div class="wrap">
 <h1>食い違い一覧</h1>
-<div class="sub">音楽ジャンルルーツ辞典 v26.17
-ジャンル565件・リンク1572本・用語集6598語を突き合わせた結果　2026年8月9日</div>
+<div class="sub">音楽ジャンルルーツ辞典 v26.22　ジャンル565件・リンク1572本・用語集6597語を突き合わせた結果　2026年8月10日時点</div>
 
 <div class="tiles">
-  <div class="tile"><b>11</b><span>ジャンル名の表記ゆれ</span></div>
-  <div class="tile"><b>19</b><span>一般語の表記ゆれ</span></div>
-  <div class="tile"><b>6</b><span>相互と書いて片方向</span></div>
+  <div class="tile "><b>35</b><span>対応済み</span></div>
+  <div class="tile "><b>1</b><span>残り</span></div>
+  <div class="tile zero"><b>0</b><span>相互と書いて片方向</span></div>
   <div class="tile zero"><b>0</b><span>本文と向きが逆</span></div>
 </div>
-<div class="note">直す対象は合わせて <b>36箇所</b>。ほかに「別の語をたまたま拾ったもの」が30組あり、こちらは直す必要がありません。</div>
+<div class="note">残っている1件は、いずれも「どちらの表記が正しいか判断が要る」もので、機械的には決められません。ほかに「別の語をたまたま拾ったもの」が30組あり、こちらは直す必要がありません。</div>
 
-<h2>1. ジャンル名の表記ゆれ　<span class="n">11組</span></h2>
-<div class="note">同じジャンルなのに画面上で2通りの名前が出ています。多く使われている方に寄せるのが基本ですが、どちらが正しいかは要判断です。</div>
+<h2>1. ジャンル名の表記ゆれ　<span class="n">11組中 残り1組</span></h2>
+<div class="note">同じジャンルが画面上で2通りの名前で出ていたものです。多く使われている方に寄せました。</div>
 <div class="scroll"><table>
-<tr><th>ジャンル</th><th>多い方</th><th>少ない方</th><th>少ない方が出てくる場所</th></tr>
-<tr><td>Moombahton</td><td class="keep">ムーンバートン <span class="num">26回</span></td><td class="drop">ムンバートン <span class="num">1回</span></td><td class="desc">用語集／Mad Decent Block Party</td></tr>
-<tr><td>Soukous</td><td class="keep">スークース <span class="num">12回</span></td><td class="drop">スクース <span class="num">3回</span></td><td class="desc">ルーツ解説／Mákina、リンク説明／Soukous→Afropop、用語集／UKバウンス</td></tr>
-<tr><td>Bhangra</td><td class="keep">バングラー <span class="num">21回</span></td><td class="drop">バングラ <span class="num">2回</span></td><td class="desc">説明文／Asian Underground、用語集／バングラー</td></tr>
-<tr><td>Indie Pop</td><td class="keep">インディーポップ <span class="num">13回</span></td><td class="drop">インディポップ <span class="num">1回</span></td><td class="desc">用語集／Biddu</td></tr>
-<tr><td>Partyschlager</td><td class="keep">パーティーシュラーガー <span class="num">1回</span></td><td class="drop">パーティシュラーガー <span class="num">1回</span></td><td class="desc">リンク説明／Schlager→Partyschlager</td></tr>
-<tr><td>Ranchera</td><td class="keep">ランチェーラ <span class="num">3回</span></td><td class="drop">ランチェラ <span class="num">4回</span></td><td class="desc">リンク説明／Mariachi→Ranchera、リンク説明／Ranchera→Mariachi</td></tr>
-<tr><td>Mbube</td><td class="keep">ムブーベ <span class="num">4回</span></td><td class="drop">ムブベ <span class="num">3回</span></td><td class="desc">リンク説明／Mbube→Afropop、リンク説明／Mbube→Isicathamiya、用語集／Isicathamiya</td></tr>
-<tr><td>Mento</td><td class="keep">メントー <span class="num">11回</span></td><td class="drop">メント <span class="num">1回</span></td><td class="desc">リンク説明／Mento→Ska</td></tr>
-<tr><td>Kuduro</td><td class="keep">クドゥーロ <span class="num">4回</span></td><td class="drop">クドゥロ <span class="num">2回</span></td><td class="desc">用語集／Tony Amado、用語集／Buraka Som Sistema</td></tr>
-<tr><td>Funaná</td><td class="keep">フナナー <span class="num">18回</span></td><td class="drop">フナナ <span class="num">9回</span></td><td class="desc">ルーツ解説／Coladeira、ルーツ解説／Funaná、用語集／ガイタ ほか</td></tr>
-<tr><td>Zouglou</td><td class="keep">ズーグルー <span class="num">6回</span></td><td class="drop">ズグルー <span class="num">6回</span></td><td class="desc">用語集／アビジャン、用語集／コートジボワール、用語集／緊縮政策 ほか</td></tr>
+<tr><th>状態</th><th>ジャンル</th><th>採用した書き方</th><th>やめた書き方</th><th>残っている場所</th></tr>
+<tr><td><span class="done">済み</span></td><td>Moombahton</td><td class="keep">ムーンバートン <span class="num">28回</span></td><td class="drop">ムンバートン</td><td class="desc"></td></tr>
+<tr><td><span class="done">済み</span></td><td>Soukous</td><td class="keep">スークース <span class="num">15回</span></td><td class="drop">スクース</td><td class="desc"></td></tr>
+<tr><td><span class="rest">残り3</span></td><td>Bhangra</td><td class="keep">バングラー <span class="num">22回</span></td><td class="drop">バングラ</td><td class="desc">説明文／Asian Underground、用語集／バングラー、用語集の見出し</td></tr>
+<tr><td><span class="done">済み</span></td><td>Indie Pop</td><td class="keep">インディーポップ <span class="num">14回</span></td><td class="drop">インディポップ</td><td class="desc"></td></tr>
+<tr><td><span class="done">済み</span></td><td>Partyschlager</td><td class="keep">パーティーシュラーガー <span class="num">2回</span></td><td class="drop">パーティシュラーガー</td><td class="desc"></td></tr>
+<tr><td><span class="done">済み</span></td><td>Ranchera</td><td class="keep">ランチェラ <span class="num">7回</span></td><td class="drop">ランチェーラ</td><td class="desc"></td></tr>
+<tr><td><span class="done">済み</span></td><td>Mbube</td><td class="keep">ムブーベ <span class="num">7回</span></td><td class="drop">ムブベ</td><td class="desc"></td></tr>
+<tr><td><span class="done">済み</span></td><td>Mento</td><td class="keep">メントー <span class="num">12回</span></td><td class="drop">メント</td><td class="desc"></td></tr>
+<tr><td><span class="done">済み</span></td><td>Kuduro</td><td class="keep">クドゥーロ <span class="num">6回</span></td><td class="drop">クドゥロ</td><td class="desc"></td></tr>
+<tr><td><span class="done">済み</span></td><td>Funaná</td><td class="keep">フナナー <span class="num">27回</span></td><td class="drop">フナナ</td><td class="desc"></td></tr>
+<tr><td><span class="done">済み</span></td><td>Zouglou</td><td class="keep">ズーグルー <span class="num">12回</span></td><td class="drop">ズグルー</td><td class="desc"></td></tr>
 </table></div>
 
-<h2>2. 一般語の表記ゆれ　<span class="n">19組</span></h2>
-<div class="note">ジャンル名以外の語で、伸ばす・伸ばさないが混在しているものです。</div>
+<h2>2. 一般語の表記ゆれ　<span class="n">19組中 残り0組</span></h2>
 <div class="scroll"><table>
-<tr><th>多い方</th><th>少ない方</th><th>少ない方が出てくる場所</th></tr>
-<tr><td class="keep">メロディーライン <span class="num">93回</span></td><td class="drop">メロディライン <span class="num">1回</span></td><td class="desc">リンク説明／Bolero→Latin Pop</td></tr>
-<tr><td class="keep">パーティー <span class="num">43回</span></td><td class="drop">パーティ <span class="num">37回</span></td><td class="desc">ルーツ解説／Disco、ルーツ解説／Hip Hop、ルーツ解説／Dub ほか</td></tr>
-<tr><td class="keep">メロディー <span class="num">39回</span></td><td class="drop">メロディ <span class="num">26回</span></td><td class="desc">説明文／Eurobeat、説明文／Dangdut、説明文／Min'yō ほか</td></tr>
-<tr><td class="keep">パンジャーブ <span class="num">15回</span></td><td class="drop">パンジャブ <span class="num">6回</span></td><td class="desc">ルーツ解説／Asian Underground、リンク説明／Bhangra→Asian Underground、リンク説明／Asian Underground→Bhangra ほか</td></tr>
-<tr><td class="keep">イスラーム <span class="num">12回</span></td><td class="drop">イスラム <span class="num">6回</span></td><td class="desc">ルーツ解説／Hindustani Classical、ルーツ解説／Folk Metal、ルーツ解説／Raï ほか</td></tr>
-<tr><td class="keep">フリーパーティー <span class="num">13回</span></td><td class="drop">フリーパーティ <span class="num">3回</span></td><td class="desc">ルーツ解説／Acid Techno、ルーツ解説／Rave、用語集／Guy McAffer</td></tr>
-<tr><td class="keep">ブンバップ <span class="num">9回</span></td><td class="drop">ブーンバップ <span class="num">1回</span></td><td class="desc">説明文／K-Hip Hop</td></tr>
-<tr><td class="keep">インディーレーベル <span class="num">4回</span></td><td class="drop">インディレーベル <span class="num">1回</span></td><td class="desc">ルーツ解説／Coldwave</td></tr>
-<tr><td class="keep">ダーティ <span class="num">4回</span></td><td class="drop">ダーティー <span class="num">1回</span></td><td class="desc">ルーツ解説／Rawstyle</td></tr>
-<tr><td class="keep">ダンスパーティー <span class="num">4回</span></td><td class="drop">ダンスパーティ <span class="num">1回</span></td><td class="desc">用語集／The Loft</td></tr>
-<tr><td class="keep">ハロウィン <span class="num">3回</span></td><td class="drop">ハロウィーン <span class="num">1回</span></td><td class="desc">ルーツ解説／Horror Ambient</td></tr>
-<tr><td class="keep">カシーキ <span class="num">3回</span></td><td class="drop">カシキ <span class="num">1回</span></td><td class="desc">ルーツ解説／Pagode</td></tr>
-<tr><td class="keep">カーヌーン <span class="num">2回</span></td><td class="drop">カヌーン <span class="num">1回</span></td><td class="desc">リンク説明／Taarab→Afropop</td></tr>
-<tr><td class="keep">キラーナ <span class="num">2回</span></td><td class="drop">キラーナー <span class="num">1回</span></td><td class="desc">用語集／Bhimsen Joshi</td></tr>
-<tr><td class="keep">チチャーラ <span class="num">1回</span></td><td class="drop">チチャラ <span class="num">1回</span></td><td class="desc">説明文／Neotango</td></tr>
-<tr><td class="keep">サイーディ <span class="num">1回</span></td><td class="drop">サイーディー <span class="num">1回</span></td><td class="desc">説明文／Mahraganat</td></tr>
-<tr><td class="keep">バーンスリー <span class="num">1回</span></td><td class="drop">バンスリ <span class="num">1回</span></td><td class="desc">説明文／Asian Underground</td></tr>
-<tr><td class="keep">コンサーティーナ <span class="num">1回</span></td><td class="drop">コンサティーナ <span class="num">1回</span></td><td class="desc">説明文／Celtic Music</td></tr>
-<tr><td class="keep">タンブーラー <span class="num">1回</span></td><td class="drop">タンブーラ <span class="num">1回</span></td><td class="desc">説明文／Spiritual Jazz</td></tr>
+<tr><th>状態</th><th>採用した書き方</th><th>やめた書き方</th><th>残っている場所</th></tr>
+<tr><td><span class="done">済み</span></td><td class="keep">メロディーライン <span class="num">94回</span></td><td class="drop">メロディライン</td><td class="desc"></td></tr>
+<tr><td><span class="done">済み</span></td><td class="keep">パーティー <span class="num">79回</span></td><td class="drop">パーティ</td><td class="desc"></td></tr>
+<tr><td><span class="done">済み</span></td><td class="keep">メロディー <span class="num">68回</span></td><td class="drop">メロディ</td><td class="desc"></td></tr>
+<tr><td><span class="done">済み</span></td><td class="keep">パンジャーブ <span class="num">21回</span></td><td class="drop">パンジャブ</td><td class="desc"></td></tr>
+<tr><td><span class="done">済み</span></td><td class="keep">イスラーム <span class="num">19回</span></td><td class="drop">イスラム</td><td class="desc"></td></tr>
+<tr><td><span class="done">済み</span></td><td class="keep">フリーパーティー <span class="num">17回</span></td><td class="drop">フリーパーティ</td><td class="desc"></td></tr>
+<tr><td><span class="done">済み</span></td><td class="keep">ブンバップ <span class="num">11回</span></td><td class="drop">ブーンバップ</td><td class="desc"></td></tr>
+<tr><td><span class="done">済み</span></td><td class="keep">インディーレーベル <span class="num">5回</span></td><td class="drop">インディレーベル</td><td class="desc"></td></tr>
+<tr><td><span class="done">済み</span></td><td class="keep">ダーティ <span class="num">6回</span></td><td class="drop">ダーティー</td><td class="desc"></td></tr>
+<tr><td><span class="done">済み</span></td><td class="keep">ダンスパーティー <span class="num">5回</span></td><td class="drop">ダンスパーティ</td><td class="desc"></td></tr>
+<tr><td><span class="done">済み</span></td><td class="keep">ハロウィン <span class="num">5回</span></td><td class="drop">ハロウィーン</td><td class="desc"></td></tr>
+<tr><td><span class="done">済み</span></td><td class="keep">カシーキ <span class="num">4回</span></td><td class="drop">カシキ</td><td class="desc"></td></tr>
+<tr><td><span class="done">済み</span></td><td class="keep">カーヌーン <span class="num">4回</span></td><td class="drop">カヌーン</td><td class="desc"></td></tr>
+<tr><td><span class="done">済み</span></td><td class="keep">キラーナ <span class="num">3回</span></td><td class="drop">キラーナー</td><td class="desc"></td></tr>
+<tr><td><span class="done">済み</span></td><td class="keep">チチャーラ <span class="num">2回</span></td><td class="drop">チチャラ</td><td class="desc"></td></tr>
+<tr><td><span class="done">済み</span></td><td class="keep">サイーディー <span class="num">2回</span></td><td class="drop">サイーディ</td><td class="desc"></td></tr>
+<tr><td><span class="done">済み</span></td><td class="keep">バーンスリー <span class="num">2回</span></td><td class="drop">バンスリ</td><td class="desc"></td></tr>
+<tr><td><span class="done">済み</span></td><td class="keep">コンサーティーナ <span class="num">2回</span></td><td class="drop">コンサティーナ</td><td class="desc"></td></tr>
+<tr><td><span class="done">済み</span></td><td class="keep">タンブーラー <span class="num">2回</span></td><td class="drop">タンブーラ</td><td class="desc"></td></tr>
 </table></div>
 
-<h2>3. 「相互・横並び」と書いてあるのにリンクは片方向　<span class="n">6件</span></h2>
-<div class="note">リンクの説明文が双方向の関係だと言っているのに、リンクは一方通行のままです。逆向きのリンクを足すか、説明文を一方通行の書き方に直すかのどちらかになります。</div>
+<h2>3. 「相互」と書いてあるのにリンクは片方向　<span class="n">残り0件</span></h2>
+<div class="note">6件を一律には扱わず、1件ずつ内容から判定しました。結論は3通りに分かれています。</div>
 <div class="scroll"><table>
-<tr><th>リンク</th><th>問題の語</th><th>説明文</th></tr>
-<tr><td>Country → Banda</td><td class="drop">並行して発展</td><td class="desc">カントリーのストーリーテリング重視の歌詞の伝統が、メキシコのバンダにおける金管楽器主体のダンスミュージックと並行して発展した</td></tr>
-<tr><td>Hip-Hop Soul → Neo Soul</td><td class="drop">互いに影響</td><td class="desc">ヒップホップソウルのビートメイキングの手法とネオソウルの生々しいボーカル表現が、互いに影響し合いながら発展した</td></tr>
-<tr><td>Mbube → Isicathamiya</td><td class="drop">姉妹関係</td><td class="desc">ムブベの複数人によるアカペラ合唱の伝統が、イシカタミヤのより静かで洗練されたズールー系アカペラのハーモニーと姉妹関係にある</td></tr>
-<tr><td>Folk Metal → Viking Metal</td><td class="drop">並行して発展</td><td class="desc">フォークメタルの民族楽器による旋律が、ヴァイキングメタルの北欧神話をテーマにした叙事的な世界観と重なり合いながら並行して発展した</td></tr>
-<tr><td>Country → Norteño</td><td class="drop">並行して発展</td><td class="desc">カントリーの物語的な歌詞の伝統が、ノルテーニョのアコーディオンによるメキシコ北部の庶民音楽と並行して発展した</td></tr>
-<tr><td>Calypso → Garifuna Music</td><td class="drop">相互に影響</td><td class="desc">トリニダード発祥のカリプソは、カリブ海全域の島嶼音楽として伝播し、ガリフナ音楽のコール・アンド・レスポンス形式や社会批評的な歌詞の伝統と共鳴した。カリプソのシンコペーションするリズム感覚は、ガリフナのプンタが持つ跳ねるグルーヴと親和性が高く、相互に影響を与え合った。</td></tr>
+<tr><th>リンク</th><th>どうしたか</th><th>理由</th></tr>
+<tr><td>Hip-Hop Soul ⇔ Neo Soul</td><td class="done">相互にした</td><td class="desc">逆向きのリンクを追加。どちらの向きにも実際の受け渡しがある</td></tr>
+<tr><td>Folk Metal ⇔ Viking Metal</td><td class="done">相互にした</td><td class="desc">ヴァイキングメタル(1988)の方が先で、片方向の向きが史実と逆だった</td></tr>
+<tr><td>Mbube → Isicathamiya</td><td class="done">片方向に直した</td><td class="desc">両方の本文が「ムブーベから派生」と明記していた</td></tr>
+<tr><td>Calypso → Garifuna Music</td><td class="done">片方向に直した</td><td class="desc">ガリフナ音楽(1700年代)の方がカリプソ(1900年代)より古い</td></tr>
+<tr><td>Country → Banda</td><td class="done">リンクを削除した</td><td class="desc">バンダはドイツ系移民の軍楽隊由来。カントリーとの影響関係がない</td></tr>
+<tr><td>Country → Norteño</td><td class="done">リンクを削除した</td><td class="desc">物語を歌う作法はコリード由来。修正依頼3往復のすえ削除で決着</td></tr>
 </table></div>
+
 
 <h2>4. 本文の系譜とリンクの向きが逆　<span class="n">0件</span></h2>
-<div class="okbox">本文が「AはBへ発展した」と書いているのにリンクがB→Aになっている、といった食い違いは<b>ありませんでした</b>。先日直したダークコアのような向きの誤りは、ほかに残っていません。</div>
+<div class="okbox">本文が「AはBへ発展した」と書いているのにリンクがB→Aになっている、といった食い違いは<b>ありません</b>。</div>
 
 <h2>5. 直す必要がなかったもの　<span class="n">30組</span></h2>
-<div class="note">機械的に拾うと表記ゆれに見えますが、実際は別の語・人名・作品名でした。念のため理由を残しておきます。</div>
+<div class="note">機械的に拾うと表記ゆれに見えますが、実際は別の語・人名・作品名でした。一括置換すると本文が壊れるので、理由を残しておきます。</div>
 <div class="scroll"><table>
 <tr><th>拾われた組</th><th>直さない理由</th></tr>
 <tr><td>レーベル / レベル</td><td class="desc">「レベル」は録音レベル・Level 42。別の語</td></tr>
