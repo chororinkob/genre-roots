@@ -43,6 +43,10 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
 #side-panel { position: fixed; right: 0; top: 50px; bottom: 0; width: 320px; background: rgba(0,0,0,0.3); border-left: none; padding: 0; overflow-y: auto; z-index: 25; display: none; font-size: 13px; transition: top 0.2s; }
 #sp-header { position: sticky; top: 0; background: rgba(0,0,0,0.85); padding: 14px 16px 10px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: flex-start; gap: 8px; z-index: 1; }
 #sp-tag { font-size: 18px; font-weight: 700; color: #fff; flex: 1; line-height: 1.3; }
+/* 別名。ジャンル名の下の段に、小さく控えめに出す。
+   横に並べると長い別名でボタンを押し出してしまうので、必ず改行して置く */
+#sp-tag .sp-alias { display: block; font-size: 11px; font-weight: 400;
+  color: #9fb4c4; line-height: 1.4; margin-top: 2px; word-break: break-word; }
 #sp-copy { padding: 4px 10px; background: #2a2a50; border: 1px solid #555; border-radius: 5px; color: #ccc; font-size: 11px; cursor: pointer; white-space: nowrap; }
 #sp-copy:hover { background: #3a3a70; color: #fff; }
 #sp-close { padding: 4px 10px; background: rgba(255,255,255,0.1); border: 1px solid #666; border-radius: 4px; color: #fff; font-size: 16px; cursor: pointer; line-height: 1; }
@@ -562,7 +566,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v26.27<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v26.28<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -1212,7 +1216,7 @@ const NODES = [
     rep_tracks:["Flowers (Sweet Female Attitude)", "Fill Me In (Craig David)", "Gabriel (Roy Davis Jr. ft. Peven Everett)"],
     yt_mix:["evL6qxKvPmc", "LkfgahE_Cus"],
     yt_tracks:[["iR2tIyj8_y8", "MxJQoyKh8TQ"], ["3imO7PFU5cI", "dG1F89DetCM"], ["FwxpMIEZ9fg", "bw1EjnufTD8"]],
-    aliases:["2ステップ", "Two Step"],},
+    aliases:["2ステップ", "Two Step", "2-step garage"],},
 
   {id:"speed_garage", label:"Speed Garage", cat:"house", era:"1996", suno:true,
     desc:"UKガラージの初期形態のひとつで、四つ打ちを保ちながら低音を極端に強調した攻撃的な系統。最大の特徴はベースで、レゲエやジャングルから受け継いだ、うねりながら跳ねるベースラインが曲の主役になる。この音はしばしば1オクターブ以上を跳躍し、ポルタメントで滑り、サブベース領域まで沈み込む。土台は四つ打ちのキックで、テンポは130〜140BPMとハウスより速い。ハイハットには深いスウィングがかかり、跳ねる質感を作る。特徴的な装飾として、ジャマイカのサウンドシステム文化から借りた銃声の効果音(ガンショット)や、DJが曲を頭に戻すリワインドの操作、サイレンの音が挿入される。上物は薄く、歌の断片を切り刻んで音程を上げたもの、シンセの短い和音の突き刺しが中心。ヴォーカルは女性歌手のディーヴァ的な歌唱を加工したものが多く、MCが上から煽る。和声は単純なマイナー調の循環か、和声を持たずベースの動きだけで曲が成立する場合もある。構成は8分前後で、ベースが抜けるブレイクと、そこから低音が戻る瞬間の落差が最大の見せ場になる。2ステップと違って拍の骨格は崩さず、ハウスと違って低音の暴力性を前面に出す点が識別点になる。",
@@ -15424,7 +15428,18 @@ node.on("click", (e, d) => {
 
 
   const name = d.label.replace("\n", " ");
-  spTag.textContent = name;
+  // 別名をジャンル名の下の段に併記する。
+  // 「ヘアメタル」で検索してグラムメタルが出てきたとき、説明文を読まないと
+  // 同じものだと分からないのは不親切なので、名前のところで分かるようにする。
+  // ジャンル名にすでに含まれている別名は出さない
+  // （Footwork / Juke の別名「Juke」は名前に入っているので重ねない）。
+  const _nameKey = name.toLowerCase().replace(/[^a-z0-9぀-ヿ一-鿿]/g, "");
+  const alias = (d.aliases || []).filter(a => {
+    const k = String(a).toLowerCase().replace(/[^a-z0-9぀-ヿ一-鿿]/g, "");
+    return k && !_nameKey.includes(k);
+  });
+  spTag.innerHTML = grEsc(name) + (alias.length
+    ? `<span class="sp-alias">（${grEsc(alias.join("・"))}）</span>` : "");
   spSunoW.innerHTML = '';
   // カテゴリー表示。凡例(legend-item)に既にカテゴリごとの日本語ラベルが
   // 用意されているので、そこから読み取って使う（別に一覧を持つと表記が
