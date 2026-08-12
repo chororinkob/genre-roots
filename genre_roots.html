@@ -45,12 +45,15 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
 /* 見出しの周りに、そのカテゴリの色をごく薄く差す。マップのガラス玉から
    光がこぼれている感じ。色は --al（カテゴリ色の成分）から作る。
    下の境目も、左だけ色を乗せて右へ消えていく線にする */
-#sp-header { background-image:
-    radial-gradient(120% 130% at 0% 0%, rgba(var(--al,96,96,110), .13), rgba(0,0,0,0) 62%);
+#sp-header { background-image: linear-gradient(116deg,
+    rgba(var(--al,96,96,110), var(--al-a,.36)),
+    rgba(var(--al,96,96,110), calc(var(--al-a,.36) * 0.22)) 58%,
+    rgba(0,0,0,0) 90%);
   border-bottom-color: transparent; }
 #sp-header::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0;
   height: 1px; background-image: linear-gradient(90deg,
-    rgba(var(--al-lit,150,150,160), .55), rgba(255,255,255,.10) 45%, rgba(255,255,255,.06)); }
+    rgba(var(--al-lit,150,150,160), .9), rgba(var(--al-lit,150,150,160), .25) 58%,
+    rgba(255,255,255,.06)); }
 #sp-tag { font-size: 18px; font-weight: 700; color: #fff; flex: 1; line-height: 1.3; }
 /* ジャンル名。パネルで一番見てほしいところなので、少し大きく、字間を詰めて、
    白からカテゴリ色へゆるやかに転じる色にする。マップのガラス玉に光が当たって
@@ -58,13 +61,13 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
    下の細い線はカテゴリ色から消えていくグラデーションで、マップの線と揃えた */
 #sp-tag .sp-name { display: block; font-size: 21px; font-weight: 700;
   letter-spacing: -0.012em; line-height: 1.22;
-  background-image: linear-gradient(102deg, #fff 28%, rgb(var(--al-lit)) 100%);
+  background-image: linear-gradient(100deg, #fff 6%, rgb(var(--al-lit)) 78%);
   -webkit-background-clip: text; background-clip: text; color: transparent; }
 /* 文字にグラデーションを乗せられない環境では、ふつうの白に戻す */
 @supports not ((-webkit-background-clip: text) or (background-clip: text)) {
   #sp-tag .sp-name { color: #fff; }
 }
-#sp-tag .sp-name::after { content: ""; display: block; width: 40px; height: 2px;
+#sp-tag .sp-name::after { content: ""; display: block; width: 58px; height: 3px;
   margin-top: 8px; border-radius: 2px;
   background-image: linear-gradient(90deg, rgb(var(--al-lit)), rgba(var(--al), 0)); }
 /* 別名。ジャンル名の下の段に、小さなタグを並べて出す。
@@ -605,7 +608,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v26.30<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v26.31<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -15493,6 +15496,12 @@ node.on("click", (e, d) => {
   spHeader.style.setProperty("--al", c.join(","));
   spHeader.style.setProperty("--al-lit",
     c.map(v => Math.round(v + (255 - v) * 0.5)).join(","));
+  // 背景に乗せる濃さは、色の明るさに合わせて変える。
+  // ジャズ系の黄色のように明るい色は、同じ濃さで乗せると背景が明るくなりすぎて
+  // 白いジャンル名が沈む。暗い色ほど濃く、明るい色ほど薄くする。
+  // 明るさは「目が感じる明るさ」の重み（緑を重く、青を軽く）で測る
+  const bri = (c[0] * 0.299 + c[1] * 0.587 + c[2] * 0.114) / 255;
+  spHeader.style.setProperty("--al-a", (0.46 - bri * 0.20).toFixed(3));
   spTag.innerHTML = `<span class="sp-name">${grEsc(name)}</span>` + (alias.length
     ? `<span class="sp-alias"><span class="sp-alias-cap">別名</span>` +
       alias.map(a => `<span class="sp-alias-chip">${grEsc(a)}</span>`).join("") +
