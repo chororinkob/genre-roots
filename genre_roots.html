@@ -41,14 +41,38 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
 
 /* 右サイドパネル */
 #side-panel { position: fixed; right: 0; top: 50px; bottom: 0; width: 320px; background: rgba(0,0,0,0.3); border-left: none; padding: 0; overflow-y: auto; z-index: 25; display: none; font-size: 13px; transition: top 0.2s; }
-#sp-header { position: sticky; top: 0; background: rgba(0,0,0,0.85); padding: 14px 16px 10px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: flex-start; gap: 8px; z-index: 1; }
+#sp-header { position: sticky; top: 0; background: rgba(0,0,0,0.85); padding: 15px 16px 12px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: flex-start; gap: 8px; z-index: 1; }
+/* 見出しの周りに、そのカテゴリの色をごく薄く差す。マップのガラス玉から
+   光がこぼれている感じ。色は --al（カテゴリ色の成分）から作る。
+   下の境目も、左だけ色を乗せて右へ消えていく線にする */
+#sp-header { background-image:
+    radial-gradient(120% 130% at 0% 0%, rgba(var(--al,96,96,110), .13), rgba(0,0,0,0) 62%);
+  border-bottom-color: transparent; }
+#sp-header::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0;
+  height: 1px; background-image: linear-gradient(90deg,
+    rgba(var(--al-lit,150,150,160), .55), rgba(255,255,255,.10) 45%, rgba(255,255,255,.06)); }
 #sp-tag { font-size: 18px; font-weight: 700; color: #fff; flex: 1; line-height: 1.3; }
+/* ジャンル名。パネルで一番見てほしいところなので、少し大きく、字間を詰めて、
+   白からカテゴリ色へゆるやかに転じる色にする。マップのガラス玉に光が当たって
+   色が乗る感じを、文字でもなぞっている。
+   下の細い線はカテゴリ色から消えていくグラデーションで、マップの線と揃えた */
+#sp-tag .sp-name { display: block; font-size: 21px; font-weight: 700;
+  letter-spacing: -0.012em; line-height: 1.22;
+  background-image: linear-gradient(102deg, #fff 28%, rgb(var(--al-lit)) 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent; }
+/* 文字にグラデーションを乗せられない環境では、ふつうの白に戻す */
+@supports not ((-webkit-background-clip: text) or (background-clip: text)) {
+  #sp-tag .sp-name { color: #fff; }
+}
+#sp-tag .sp-name::after { content: ""; display: block; width: 40px; height: 2px;
+  margin-top: 8px; border-radius: 2px;
+  background-image: linear-gradient(90deg, rgb(var(--al-lit)), rgba(var(--al), 0)); }
 /* 別名。ジャンル名の下の段に、小さなタグを並べて出す。
    横に並べると長い別名でボタンを押し出してしまうので、必ず改行して置く。
    色はそのジャンルのカテゴリ色（--al）を透明度違いで使い、
    マップの玉の色と揃える */
 #sp-tag .sp-alias { display: flex; flex-wrap: wrap; align-items: center;
-  gap: 4px; margin-top: 7px; }
+  gap: 4px; margin-top: 8px; }
 #sp-tag .sp-alias-cap { font-size: 9px; font-weight: 600; letter-spacing: .08em;
   color: rgba(var(--al-lit), .75); margin-right: 1px; }
 #sp-tag .sp-alias-chip { font-size: 10.5px; font-weight: 500; letter-spacing: .01em;
@@ -553,6 +577,11 @@ svg { width: 100vw; height: 100vh; }
   }
   #sp-header { padding: 10px 14px 8px; }
   #sp-tag { font-size: 16px; }
+  /* ジャンル名は独自に大きさを指定しているので、スマホ用にも別に指定する
+     （#sp-tag だけ小さくしても中の .sp-name には効かない） */
+  #sp-tag .sp-name { font-size: 18px; }
+  #sp-tag .sp-name::after { margin-top: 6px; }
+  #sp-tag .sp-alias { margin-top: 6px; }
   #sp-body { padding: 10px 14px; padding-bottom: 40px; }
   #sp-yt-player { height: 120px !important; }
   #sp-yt-next { font-size: 10px !important; padding: 3px 8px !important; }
@@ -576,7 +605,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v26.29<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v26.30<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -15448,26 +15477,27 @@ node.on("click", (e, d) => {
     const k = String(a).toLowerCase().replace(/[^a-z0-9぀-ヿ一-鿿]/g, "");
     return k && !_nameKey.includes(k);
   });
-  if (alias.length) {
-    // そのジャンルのカテゴリ色をほんのり乗せた小さなタグにする。
-    // マップの玉の色と揃うので、どのカテゴリの話か名前のところで分かる。
-    // 色は透明度を変えて3通り作る（背景・縁・文字）。文字は白に寄せないと
-    // 暗い背景で沈むので、白と混ぜて明るくする。
-    const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(CAT_COLOR[d.cat] || "");
-    let c = m ? [1, 2, 3].map(i => parseInt(m[i], 16)) : [143, 163, 176];
-    // メタル系(#37474F)のように元の色が暗いカテゴリは、そのまま薄めると
-    // タグが灰色に沈んで見えなくなる。暗いものだけ白に寄せて底上げする
-    const peak = Math.max.apply(null, c);
-    if (peak < 140) c = c.map(v => Math.round(v + (255 - v) * (140 - peak) / 255));
-    const lit = c.map(v => Math.round(v + (255 - v) * 0.5)).join(",");
-    const style = `--al:${c.join(",")};--al-lit:${lit}`;
-    spTag.innerHTML = grEsc(name) +
-      `<span class="sp-alias" style="${style}"><span class="sp-alias-cap">別名</span>` +
+  // 見出しも別名も、そのジャンルのカテゴリ色を使う。マップの玉と同じ色にすると
+  // 「いまどの系統を見ているか」が名前のところで分かる。
+  // 色は透明度を変えて使い分けるので、成分（R,G,B）のまま持たせる。
+  // 文字に使う分は白に寄せないと暗い背景で沈むので、明るい版も作る。
+  const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(CAT_COLOR[d.cat] || "");
+  let c = m ? [1, 2, 3].map(i => parseInt(m[i], 16)) : [143, 163, 176];
+  // メタル系(#37474F)のように元の色が暗いカテゴリは、そのまま薄めると
+  // 灰色に沈んで見えなくなる。暗いものだけ白に寄せて底上げする
+  const peak = Math.max.apply(null, c);
+  if (peak < 140) c = c.map(v => Math.round(v + (255 - v) * (140 - peak) / 255));
+  // 見出しの周りにも色を使うので、色は見出し全体の入れ物に持たせる
+  // （CSSの変数は入れ子の中へ引き継がれる）
+  const spHeader = document.getElementById("sp-header");
+  spHeader.style.setProperty("--al", c.join(","));
+  spHeader.style.setProperty("--al-lit",
+    c.map(v => Math.round(v + (255 - v) * 0.5)).join(","));
+  spTag.innerHTML = `<span class="sp-name">${grEsc(name)}</span>` + (alias.length
+    ? `<span class="sp-alias"><span class="sp-alias-cap">別名</span>` +
       alias.map(a => `<span class="sp-alias-chip">${grEsc(a)}</span>`).join("") +
-      `</span>`;
-  } else {
-    spTag.textContent = name;
-  }
+      `</span>`
+    : "");
   spSunoW.innerHTML = '';
   // カテゴリー表示。凡例(legend-item)に既にカテゴリごとの日本語ラベルが
   // 用意されているので、そこから読み取って使う（別に一覧を持つと表記が
