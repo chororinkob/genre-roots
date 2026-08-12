@@ -69,7 +69,7 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
 }
 /* ジャンル名の下の一筆。塗りはカテゴリ色。
    高さを縦につぶしても形が崩れないよう viewBox は横に伸ばして使う */
-#sp-tag .sp-rule { display: block; width: 176px; max-width: 100%; height: 12px;
+#sp-tag .sp-rule { display: block; width: 176px; max-width: 100%; height: 14px;
   margin-top: 7px; overflow: visible; }
 #sp-tag .sp-rule path { fill: rgb(var(--al-lit)); }
 /* 別名。ジャンル名の下の段に、小さなタグを並べて出す。
@@ -585,7 +585,7 @@ svg { width: 100vw; height: 100vh; }
   /* ジャンル名は独自に大きさを指定しているので、スマホ用にも別に指定する
      （#sp-tag だけ小さくしても中の .sp-name には効かない） */
   #sp-tag .sp-name { font-size: 18px; }
-  #sp-tag .sp-rule { width: 140px; height: 8px; margin-top: 6px; }
+  #sp-tag .sp-rule { width: 148px; height: 12px; margin-top: 6px; }
   #sp-tag .sp-alias { margin-top: 6px; }
   #sp-body { padding: 10px 14px; padding-bottom: 40px; }
   #sp-yt-player { height: 120px !important; }
@@ -610,7 +610,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v26.32<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v26.33<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -15502,28 +15502,34 @@ node.on("click", (e, d) => {
   // ・rough  … 尾のほうに細い抜けを入れて、かすれを作る
   const GR_BRUSH = `<svg class="sp-rule" viewBox="0 0 160 14" preserveAspectRatio="none" aria-hidden="true">
   <defs>
+    <filter id="gr-brush-rough" x="-8%" y="-80%" width="124%" height="260%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.028 0.8" numOctaves="4"
+                    seed="3" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="5.5"
+                         xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
     <linearGradient id="gr-brush-fade" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0" stop-color="#fff" stop-opacity="1"/>
-      <stop offset=".58" stop-color="#fff" stop-opacity=".98"/>
-      <stop offset=".82" stop-color="#fff" stop-opacity=".66"/>
-      <stop offset=".95" stop-color="#fff" stop-opacity=".28"/>
-      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+      <stop offset=".62" stop-color="#fff" stop-opacity=".98"/>
+      <stop offset=".86" stop-color="#fff" stop-opacity=".7"/>
+      <stop offset="1" stop-color="#fff" stop-opacity=".15"/>
     </linearGradient>
     <mask id="gr-brush-mask">
       <rect width="160" height="14" fill="url(#gr-brush-fade)"/>
-      <path d="M62 5.3 C 92 5.2 122 5.5 139 5.9 L139 6.35 C 120 5.95 92 5.65 62 5.75 Z"
-            fill="#000" opacity=".62"/>
-      <path d="M84 7.1 C 104 7.0 122 6.9 133 6.85 L133 7.2 C 120 7.3 104 7.45 84 7.55 Z"
-            fill="#000" opacity=".5"/>
-      <path d="M104 8.2 C 114 8.0 121 7.8 125 7.65 L125 7.95 C 120 8.15 113 8.4 104 8.6 Z"
-            fill="#000" opacity=".42"/>
+      <path d="M12 4.4 C 56 4.0 108 4.4 140 5.3 L140 6.3 C 106 5.3 56 4.7 12 5.2 Z"
+            fill="#000" opacity=".9"/>
+      <path d="M26 7.0 C 74 6.8 116 6.9 134 7.2 L134 8.0 C 112 7.7 74 7.6 26 7.8 Z"
+            fill="#000" opacity=".88"/>
+      <path d="M44 8.8 C 86 8.5 116 8.3 128 8.2 L128 8.9 C 112 9.1 86 9.4 44 9.7 Z"
+            fill="#000" opacity=".82"/>
+      <path d="M6 10.0 C 34 9.9 58 9.9 74 9.9 L74 10.4 C 56 10.5 34 10.6 6 10.6 Z"
+            fill="#000" opacity=".7"/>
     </mask>
   </defs>
-  <g mask="url(#gr-brush-mask)">
-    <path d="M2 4.6 C 18 4.0 50 3.8 84 4.0 C 110 4.2 130 4.9 141 5.6
-             L141 6.3 C 133 7.2 116 8.2 84 8.8 C 52 9.4 18 9.6 2 9.6 Z"/>
-    <path d="M144 5.7 C 148 5.9 151 6.1 153 6.3 L153 6.9 C 150 6.6 146 6.3 144 6.2 Z"/>
-    <path d="M155.5 6.5 C 157 6.6 158.3 6.7 159 6.8 L159 7.2 C 157.8 7.1 156.4 7.0 155.5 6.9 Z"/>
+  <g mask="url(#gr-brush-mask)" filter="url(#gr-brush-rough)">
+    <path d="M2 3.6 C 18 2.9 50 2.7 84 3.0 C 110 3.3 130 4.2 141 5.2
+             L141 6.4 C 133 7.6 116 9.0 84 9.8 C 52 10.6 18 10.9 2 10.9 Z"/>
+    <path d="M145 5.9 C 149 6.1 152 6.4 154 6.6 L154 7.4 C 151 7.0 147 6.6 145 6.4 Z"/>
   </g>
 </svg>`;
 
