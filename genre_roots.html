@@ -54,7 +54,10 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
   height: 1px; background-image: linear-gradient(90deg,
     rgba(var(--al-lit,150,150,160), .9), rgba(var(--al-lit,150,150,160), .25) 58%,
     rgba(255,255,255,.06)); }
-#sp-tag { font-size: 18px; font-weight: 700; color: #fff; flex: 1; line-height: 1.3; }
+/* min-width:0 が要る。これが無いと、中の別名タグ（折り返さない指定）の
+   ぶんだけ見出しが縮まなくなり、閉じるボタンを画面の外へ押し出す */
+#sp-tag { font-size: 18px; font-weight: 700; color: #fff; flex: 1; min-width: 0;
+  line-height: 1.3; }
 /* ジャンル名。パネルで一番見てほしいところなので、少し大きく、字間を詰めて、
    白からカテゴリ色へゆるやかに転じる色にする。マップのガラス玉に光が当たって
    色が乗る感じを、文字でもなぞっている。
@@ -72,8 +75,22 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
 /* 文字に重なるところまで上げる。手で引いた傍線のように、名前の下端へ
    食い込ませたいので余白は負の値にする */
 #sp-tag .sp-rule { display: block; width: 176px; max-width: 100%; height: 14px;
-  margin-top: -4px; overflow: visible; }
+  margin-top: -4px; overflow: visible; flex: 0 1 auto; }
 #sp-tag .sp-rule path { fill: rgb(var(--al-lit)); }
+/* 筆の線と知名度を同じ行に。知名度は右端へ寄せて、閉じるボタンの真下に置く */
+#sp-tag .sp-rule-row { display: flex; align-items: center; gap: 10px; }
+#sp-tag .sp-fame { margin-left: auto; flex: 0 0 auto;
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 2px 8px; border-radius: 999px;
+  background: rgba(var(--al), .22); border: 1px solid rgba(var(--al), .5); }
+#sp-tag .sp-fame-cap { font-size: 9px; font-weight: 600; letter-spacing: .06em;
+  color: rgba(var(--al-lit), .85); }
+#sp-tag .sp-fame-num { font-size: 13px; font-weight: 700; line-height: 1;
+  color: rgb(var(--al-lit)); }
+#sp-tag .sp-fame-meter { display: inline-flex; gap: 2px; }
+#sp-tag .sp-fame-meter i { width: 4px; height: 4px; border-radius: 50%;
+  background: rgba(var(--al-lit), .26); }
+#sp-tag .sp-fame-meter i.on { background: rgb(var(--al-lit)); }
 /* 別名。ジャンル名の下の段に、小さなタグを並べて出す。
    横に並べると長い別名でボタンを押し出してしまうので、必ず改行して置く。
    色はそのジャンルのカテゴリ色（--al）を透明度違いで使い、
@@ -88,9 +105,22 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
   background: rgba(var(--al), .16);
   border: 1px solid rgba(var(--al), .42);
   white-space: nowrap; }
-#sp-copy { padding: 4px 10px; background: #2a2a50; border: 1px solid #555; border-radius: 5px; color: #ccc; font-size: 11px; cursor: pointer; white-space: nowrap; }
+/* コピーボタンも、閉じるボタンに合わせて小さくする */
+#sp-copy { flex: 0 0 auto; padding: 3px 9px; background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.16); border-radius: 999px; color: #b9c2cc;
+  font-size: 10px; cursor: pointer; white-space: nowrap; line-height: 1.5;
+  transition: background .15s, color .15s; }
+#sp-copy:hover { background: rgba(255,255,255,0.14); color: #fff; }
 #sp-copy:hover { background: #3a3a70; color: #fff; }
-#sp-close { padding: 4px 10px; background: rgba(255,255,255,0.1); border: 1px solid #666; border-radius: 4px; color: #fff; font-size: 16px; cursor: pointer; line-height: 1; }
+/* 閉じるボタン。右上の角に小さくまとめる。
+   大きな箱にすると場所を取るうえ、見出しの中で一番目立ってしまうので、
+   四角い枠をやめて丸くし、下に置く知名度と重ならない大きさにした */
+#sp-close { width: 22px; height: 22px; flex: 0 0 auto; padding: 0;
+  background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 50%; color: rgba(255,255,255,0.62); font-size: 12px;
+  cursor: pointer; line-height: 1; display: flex; align-items: center;
+  justify-content: center; transition: background .15s, color .15s; }
+#sp-close:hover { background: rgba(255,255,255,0.16); color: #fff; }
 #sp-close:hover { background: rgba(255,255,255,0.25); }
 #sp-autoplay-row { display: flex; align-items: center; gap: 6px; margin-bottom: 5px; font-size: 11px; color: #999; user-select: none; }
 #sp-autoplay-row .sp-cat { margin-bottom: 0; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -612,7 +642,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v26.35<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v26.36<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -16084,6 +16114,20 @@ node.on("click", (e, d) => {
   // 灰色に沈んで見えなくなる。暗いものだけ白に寄せて底上げする
   const peak = Math.max.apply(null, c);
   if (peak < 140) c = c.map(v => Math.round(v + (255 - v) * (140 - peak) / 255));
+  // 知名度の表示を組み立てる。数字だけだと「3って何点満点なの」が
+  // 分からないので、5つの点で満点との関係も見せる。
+  // 詳しい根拠（言語版の数・閲覧数・再生回数）は、この後の段でⓘに入れる。
+  function n_fame(d) {
+    if (!d || !d.fame) return '';
+    const lv = d.fame;
+    const dots = [1, 2, 3, 4, 5]
+      .map(i => `<i class="${i <= lv ? 'on' : ''}"></i>`).join('');
+    return `<span class="sp-fame" title="知名度 ${lv}／5">`
+      + `<span class="sp-fame-cap">知名度</span>`
+      + `<span class="sp-fame-num">${lv}</span>`
+      + `<span class="sp-fame-meter">${dots}</span></span>`;
+  }
+
   // ジャンル名の下に引く、習字の一筆のような線。
   // 画像は使わず線を1本描くだけなので、重くならない（描くのはパネルを
   // 開いたときの1回きり）。左は太く、右へいくほど細くなって墨が切れ、
@@ -16137,7 +16181,12 @@ node.on("click", (e, d) => {
   // 明るさは「目が感じる明るさ」の重み（緑を重く、青を軽く）で測る
   const bri = (c[0] * 0.299 + c[1] * 0.587 + c[2] * 0.114) / 255;
   spHeader.style.setProperty("--al-a", (0.46 - bri * 0.20).toFixed(3));
-  spTag.innerHTML = `<span class="sp-name">${grEsc(name)}</span>` + GR_BRUSH + (alias.length
+  // 筆の線と知名度を同じ行に置き、知名度は右端へ寄せる。
+  // 線のすぐ右に置くと宙ぶらりんに見えるので、閉じるボタンの真下に来るよう
+  // 右端へ寄せる（FAME_UI が false なら知名度は出さない）。
+  const fm = FAME_UI && n_fame(d);
+  spTag.innerHTML = `<span class="sp-name">${grEsc(name)}</span>`
+    + `<span class="sp-rule-row">` + GR_BRUSH + (fm || '') + `</span>` + (alias.length
     ? `<span class="sp-alias"><span class="sp-alias-cap">別名</span>` +
       alias.map(a => `<span class="sp-alias-chip">${grEsc(a)}</span>`).join("") +
       `</span>`
