@@ -62,7 +62,10 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
    白からカテゴリ色へゆるやかに転じる色にする。マップのガラス玉に光が当たって
    色が乗る感じを、文字でもなぞっている。
    下の細い線はカテゴリ色から消えていくグラデーションで、マップの線と揃えた */
+/* 右上の閉じるボタンの下へ名前が潜らないよう、その分だけ右を空ける。
+   空けるのは名前の行だけ。下の筆の線と知名度の行は右端まで使う */
 #sp-tag .sp-name { display: block; font-size: 21px; font-weight: 700;
+  padding-right: 30px;
   letter-spacing: -0.012em; line-height: 1.22;
   background-image: linear-gradient(100deg, #fff 6%, rgb(var(--al-lit)) 78%);
   -webkit-background-clip: text; background-clip: text; color: transparent; }
@@ -79,18 +82,47 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
 #sp-tag .sp-rule path { fill: rgb(var(--al-lit)); }
 /* 筆の線と知名度を同じ行に。知名度は右端へ寄せて、閉じるボタンの真下に置く */
 #sp-tag .sp-rule-row { display: flex; align-items: center; gap: 10px; }
+/* 知名度。別名タグ（丸い枠のついた札）と同じ見た目だと見分けがつかないので、
+   枠も背景も持たせず、星だけで見せる。星は光らせて別名と質を変える */
 #sp-tag .sp-fame { margin-left: auto; flex: 0 0 auto;
-  display: inline-flex; align-items: center; gap: 5px;
-  padding: 2px 8px; border-radius: 999px;
-  background: rgba(var(--al), .22); border: 1px solid rgba(var(--al), .5); }
-#sp-tag .sp-fame-cap { font-size: 9px; font-weight: 600; letter-spacing: .06em;
-  color: rgba(var(--al-lit), .85); }
-#sp-tag .sp-fame-num { font-size: 13px; font-weight: 700; line-height: 1;
-  color: rgb(var(--al-lit)); }
-#sp-tag .sp-fame-meter { display: inline-flex; gap: 2px; }
-#sp-tag .sp-fame-meter i { width: 4px; height: 4px; border-radius: 50%;
-  background: rgba(var(--al-lit), .26); }
-#sp-tag .sp-fame-meter i.on { background: rgb(var(--al-lit)); }
+  display: inline-flex; align-items: center; gap: 6px; }
+#sp-tag .sp-fame-cap { font-size: 8.5px; font-weight: 600; letter-spacing: .14em;
+  color: rgba(var(--al-lit), .62); }
+#sp-tag .sp-fame-stars { display: inline-flex; gap: 1.5px; align-items: center; }
+#sp-tag .sp-star { width: 11px; height: 11px; display: block; }
+#sp-tag .sp-star path { fill: rgba(255,255,255,.14); }
+#sp-tag .sp-star.on path { fill: rgb(var(--al-lit)); }
+#sp-tag .sp-star.on { filter: drop-shadow(0 0 2.5px rgba(var(--al-lit), .55)); }
+/* ⓘ。用語説明と同じ仕組み（.gloss-term）に乗せて位置合わせを共通にするが、
+   点線の下線と「?」のカーソルは要らないので消す */
+#sp-tag .sp-fame-i { border-bottom: none; cursor: pointer;
+  width: 13px; height: 13px; border-radius: 50%; font-family: Georgia, serif;
+  border: 1px solid rgba(var(--al-lit), .5); color: rgba(var(--al-lit), .95);
+  font-size: 9px; font-style: italic; font-weight: 700;
+  display: inline-flex; align-items: center; justify-content: center;
+  line-height: 1; flex: 0 0 auto; }
+#sp-tag .sp-fame-i:hover { border-color: rgb(var(--al-lit));
+  background: rgba(var(--al-lit), .16); }
+/* ⓘの中身。数字を並べるので、けたが揃うようにする。
+   ⓘ本体は斜体のセリフ体にしてあるので、中身がそれを引き継がないよう
+   ここで打ち消す（打ち消さないと説明文まで斜体になった） */
+/* 既存の .gloss-term .gloss-tip と強さが同じだと、書いた位置が先なので
+   負けて幅が260pxのままになる。#sp-tag を足して強くする */
+#sp-tag .gloss-tip.fm-tip { max-width: 360px; padding: 10px 12px;
+  font-family: inherit; font-style: normal; font-weight: 400;
+  font-size: 11px; letter-spacing: 0; }
+#sp-tag .gloss-tip.fm-tip * { font-style: normal; }
+.fm-tip-h { font-size: 11px; color: #c8c8dc; margin-bottom: 7px; }
+.fm-tip-t { border-collapse: collapse; font-size: 11px; line-height: 1.5; }
+.fm-tip-t th { text-align: left; font-weight: 400; color: #a8a8c0;
+  padding: 1px 8px 1px 0; white-space: nowrap; }
+.fm-tip-t td { padding: 1px 0 1px 8px; white-space: nowrap; }
+.fm-tip-t .v { text-align: right; font-variant-numeric: tabular-nums; color: #e8e8f4; }
+.fm-tip-t .p { text-align: right; color: #fff; font-weight: 700; }
+.fm-tip-t .r { color: #8f8fa8; font-size: 10px; }
+.fm-tip-t .sum th, .fm-tip-t .sum td { border-top: 1px solid #4a4a6a;
+  padding-top: 5px; }
+.fm-tip-f { margin-top: 7px; font-size: 10px; color: #8f8fa8; }
 /* 別名。ジャンル名の下の段に、小さなタグを並べて出す。
    横に並べると長い別名でボタンを押し出してしまうので、必ず改行して置く。
    色はそのジャンルのカテゴリ色（--al）を透明度違いで使い、
@@ -115,6 +147,9 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
 /* 閉じるボタン。右上の角に小さくまとめる。
    大きな箱にすると場所を取るうえ、見出しの中で一番目立ってしまうので、
    四角い枠をやめて丸くし、下に置く知名度と重ならない大きさにした */
+/* 右上の角に固定する。並びから外すことで、見出しの行が
+   パネルの右端いっぱいまで使えるようになり、知名度を右端に寄せられる */
+#sp-close { position: absolute; top: 13px; right: 14px; z-index: 2; }
 #sp-close { width: 22px; height: 22px; flex: 0 0 auto; padding: 0;
   background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.18);
   border-radius: 50%; color: rgba(255,255,255,0.62); font-size: 12px;
@@ -618,6 +653,9 @@ svg { width: 100vw; height: 100vh; }
      （#sp-tag だけ小さくしても中の .sp-name には効かない） */
   #sp-tag .sp-name { font-size: 18px; }
   #sp-tag .sp-rule { width: 148px; height: 12px; margin-top: -3px; }
+  /* スマホは見出しの余白が狭いので、閉じるボタンの位置もそれに合わせる */
+  #sp-close { top: 9px; right: 12px; }
+  #sp-tag .sp-name { padding-right: 28px; }
   #sp-tag .sp-alias { margin-top: 6px; }
   #sp-body { padding: 10px 14px; padding-bottom: 40px; }
   #sp-yt-player { height: 120px !important; }
@@ -642,7 +680,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v26.36<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v26.37<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -16117,15 +16155,63 @@ node.on("click", (e, d) => {
   // 知名度の表示を組み立てる。数字だけだと「3って何点満点なの」が
   // 分からないので、5つの点で満点との関係も見せる。
   // 詳しい根拠（言語版の数・閲覧数・再生回数）は、この後の段でⓘに入れる。
+  // 知名度の点の付け方。ⓘの中で「なぜその点なのか」を示すのに使う。
+  // ここの数字は .claude/skills/fame-score/SKILL.md の表と同じもの。
+  const FAME_STEP = {
+    lang:  [[100, 5, '100以上'], [45, 4, '45〜99'], [25, 3, '25〜44'],
+            [12, 2, '12〜24'], [0, 1, '11以下']],
+    views: [[600000, 5, '60万以上'], [250000, 4, '25万〜60万'],
+            [100000, 3, '10万〜25万'], [30000, 2, '3万〜10万'], [0, 1, '3万未満']],
+    yt:    [[50000000, 5, '5000万回以上'], [10000000, 4, '1000万〜5000万'],
+            [2000000, 3, '200万〜1000万'], [300000, 2, '30万〜200万'],
+            [0, 1, '30万回未満']],
+    total: [[14, 5, '14〜15点'], [11, 4, '11〜13点'], [8, 3, '8〜10点'],
+            [5, 2, '5〜7点'], [0, 1, '3〜4点']],
+  };
+  const _step = (v, t) => (FAME_STEP[t].find(x => v >= x[0]) || [0, 1, ''])
+    .slice(1);   // [点, その点になる範囲]
+  const _num = v => Number(v).toLocaleString('ja-JP');
+
+  // 星ひとつ。文字の★は環境で形も大きさも変わるので、図形で描く
+  const STAR = on => `<svg class="sp-star${on ? ' on' : ''}" viewBox="0 0 10 10"`
+    + ` aria-hidden="true"><path d="M5 .5 6.37 3.9 9.9 4.16 7.2 6.48 8.05 9.9`
+    + ` 5 8.02 1.95 9.9 2.8 6.48 .1 4.16 3.63 3.9Z"/></svg>`;
+
+  // 知名度の表示を組み立てる。
+  // 星で「5段階のいくつか」を一目で示し、ⓘに数字の根拠を入れる。
+  // 別名タグ（丸い枠のついた札）とは形も色も変えて、別物だと分かるようにする。
   function n_fame(d) {
     if (!d || !d.fame) return '';
-    const lv = d.fame;
-    const dots = [1, 2, 3, 4, 5]
-      .map(i => `<i class="${i <= lv ? 'on' : ''}"></i>`).join('');
-    return `<span class="sp-fame" title="知名度 ${lv}／5">`
+    const lv = d.fame, r = d.fameRaw || {};
+    const stars = [1, 2, 3, 4, 5].map(i => STAR(i <= lv)).join('');
+    const [pl, rl] = _step(r.lang || 0, 'lang');
+    // 独立した記事が無いジャンルは、親の記事の閲覧数を借りることになるので
+    // 点にしない（言語版を1点にしているのと扱いをそろえる）
+    const [pv0, rv] = _step(r.views || 0, 'views');
+    const pv = r.own ? pv0 : 1;
+    const [py, ry] = _step(r.yt || 0, 'yt');
+    const tot = pl + pv + py;
+    const [, rt] = _step(tot, 'total');
+    const row = (name, val, pt, range) =>
+      `<tr><th>${name}</th><td class="v">${val}</td>`
+      + `<td class="p">${pt}点</td><td class="r">${range}</td></tr>`;
+    const tip = `<div class="fm-tip-h">3つの公開データを数えて決めています</div>`
+      + `<table class="fm-tip-t">`
+      + row('言語版の数', _num(r.lang || 0) + ' か国語', pl,
+            r.own ? rl : '独立記事なし')
+      + row('年間閲覧数', _num(r.views || 0) + ' 回', pv,
+            r.own ? rv : '借りた数字は数えない')
+      + row('代表曲の再生', _num(r.yt || 0) + ' 回', py, ry)
+      + `<tr class="sum"><th>合計</th><td class="v">${tot}点 ／ 15点満点</td>`
+      + `<td class="p">知名度${lv}</td><td class="r">${rt}</td></tr>`
+      + `</table>`
+      + `<div class="fm-tip-f">もとにした記事「${grEsc(r.title || '')}」`
+      + `／ ${FAME_DATE} 取得</div>`;
+    return `<span class="sp-fame">`
       + `<span class="sp-fame-cap">知名度</span>`
-      + `<span class="sp-fame-num">${lv}</span>`
-      + `<span class="sp-fame-meter">${dots}</span></span>`;
+      + `<span class="sp-fame-stars" role="img" aria-label="5段階中${lv}">${stars}</span>`
+      + `<span class="gloss-term sp-fame-i" tabindex="0">i`
+      + `<span class="gloss-tip fm-tip">${tip}</span></span></span>`;
   }
 
   // ジャンル名の下に引く、習字の一筆のような線。
