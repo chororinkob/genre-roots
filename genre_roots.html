@@ -77,8 +77,10 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
    高さを縦につぶしても形が崩れないよう viewBox は横に伸ばして使う */
 /* 文字に重なるところまで上げる。手で引いた傍線のように、名前の下端へ
    食い込ませたいので余白は負の値にする */
-#sp-tag .sp-rule { display: block; width: 176px; max-width: 100%; height: 14px;
-  margin-top: -4px; overflow: visible; flex: 0 1 auto; }
+/* 筆の線は、知名度の手前まで伸ばす。決まった長さにすると余白が余って
+   間延びするので、残りの幅をぜんぶ使う（横に引き伸ばしても形は崩れない） */
+#sp-tag .sp-rule { display: block; width: auto; height: 14px;
+  margin-top: -4px; overflow: visible; flex: 1 1 auto; min-width: 90px; }
 #sp-tag .sp-rule path { fill: rgb(var(--al-lit)); }
 /* 筆の線と知名度を同じ行に。知名度は右端へ寄せて、閉じるボタンの真下に置く */
 #sp-tag .sp-rule-row { display: flex; align-items: center; gap: 10px; }
@@ -95,14 +97,22 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
 #sp-tag .sp-star.on { filter: drop-shadow(0 0 2.5px rgba(var(--al-lit), .55)); }
 /* ⓘ。用語説明と同じ仕組み（.gloss-term）に乗せて位置合わせを共通にするが、
    点線の下線と「?」のカーソルは要らないので消す */
-#sp-tag .sp-fame-i { border-bottom: none; cursor: pointer;
-  width: 13px; height: 13px; border-radius: 50%; font-family: Georgia, serif;
-  border: 1px solid rgba(var(--al-lit), .5); color: rgba(var(--al-lit), .95);
-  font-size: 9px; font-style: italic; font-weight: 700;
+/* 根拠の入口。▼だけ。枠も文字も付けない（付けると星より目立ってしまう）。
+   見た目は小さいが、押す面積は指で押せるだけ広く取る */
+#sp-tag .sp-fame-i { border-bottom: none; cursor: pointer; flex: 0 0 auto;
   display: inline-flex; align-items: center; justify-content: center;
-  line-height: 1; flex: 0 0 auto; }
-#sp-tag .sp-fame-i:hover { border-color: rgb(var(--al-lit));
-  background: rgba(var(--al-lit), .16); }
+  width: 22px; height: 22px; margin: -6px -4px -6px -1px; border-radius: 50%;
+  transition: background .15s; }
+#sp-tag .sp-fame-tri { width: 10px; height: 7px; display: block;
+  transition: transform .18s, filter .15s; }
+#sp-tag .sp-fame-tri path { fill: rgb(var(--al-lit)); }
+#sp-tag .sp-fame-i:hover { background: rgba(var(--al-lit), .18); }
+#sp-tag .sp-fame-i:hover .sp-fame-tri,
+#sp-tag .sp-fame-i:focus-visible .sp-fame-tri {
+  filter: drop-shadow(0 0 3px rgba(var(--al-lit), .9)); transform: translateY(1px); }
+/* 開いている間は▲にして、いま開いていることを示す */
+#sp-tag .sp-fame-i.pinned { background: rgba(var(--al-lit), .22); }
+#sp-tag .sp-fame-i.pinned .sp-fame-tri { transform: rotate(180deg); }
 /* ⓘの中身。数字を並べるので、けたが揃うようにする。
    ⓘ本体は斜体のセリフ体にしてあるので、中身がそれを引き継がないよう
    ここで打ち消す（打ち消さないと説明文まで斜体になった） */
@@ -680,7 +690,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v26.37<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v26.38<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -15000,9 +15010,39 @@ function _positionGlossTip(termEl) {
   tip.style.top = top + 'px';
 }
 function _hideGlossTip(termEl) {
+  // 押して開いた（固定した）ものは、カーソルが外れても閉じない。
+  // スマホにはカーソルを乗せる動作が無く、押して開いたまま読めないと
+  // 使えないため（用語説明も同じ考え方でそろえたい）
+  if (termEl.classList.contains('pinned')) return;
   const tip = termEl.querySelector('.gloss-tip');
   if (tip) tip.style.display = 'none';
 }
+
+// 押したら開いたままにする／もう一度押したら閉じる。
+// マウスでもスマホでも同じ動きになるようにするための仕掛け。
+function _unpinAllTips(except) {
+  document.querySelectorAll('.gloss-term.pinned').forEach(el => {
+    if (el === except) return;
+    el.classList.remove('pinned');
+    const t = el.querySelector('.gloss-tip');
+    if (t) t.style.display = 'none';
+  });
+}
+document.addEventListener('click', (e) => {
+  const term = e.target.closest('.gloss-term');
+  _unpinAllTips(term);
+  if (!term) return;
+  if (term.classList.contains('pinned')) {
+    term.classList.remove('pinned');
+    _hideGlossTip(term);
+  } else {
+    term.classList.add('pinned');
+    _positionGlossTip(term);
+  }
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') _unpinAllTips(null);
+});
 document.addEventListener('mouseover', (e) => {
   const term = e.target.closest('.gloss-term');
   if (term) _positionGlossTip(term);
@@ -16207,10 +16247,16 @@ node.on("click", (e, d) => {
       + `</table>`
       + `<div class="fm-tip-f">もとにした記事「${grEsc(r.title || '')}」`
       + `／ ${FAME_DATE} 取得</div>`;
+    // 入口は▼だけ。枠を付けると「根拠」のほうが星より目立ってしまうので、
+    // 枠も文字も持たせず、色と動きで押せることを伝える。
+    // 押す面積は見た目より広く取る（指で押せるように）
     return `<span class="sp-fame">`
       + `<span class="sp-fame-cap">知名度</span>`
       + `<span class="sp-fame-stars" role="img" aria-label="5段階中${lv}">${stars}</span>`
-      + `<span class="gloss-term sp-fame-i" tabindex="0">i`
+      + `<span class="gloss-term sp-fame-i" tabindex="0" role="button"`
+      + ` aria-label="知名度の根拠を見る">`
+      + `<svg class="sp-fame-tri" viewBox="0 0 10 7" aria-hidden="true">`
+      + `<path d="M.6.8h8.8L5 6.3Z"/></svg>`
       + `<span class="gloss-tip fm-tip">${tip}</span></span></span>`;
   }
 
