@@ -97,22 +97,35 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
 #sp-tag .sp-star.on { filter: drop-shadow(0 0 2.5px rgba(var(--al-lit), .55)); }
 /* ⓘ。用語説明と同じ仕組み（.gloss-term）に乗せて位置合わせを共通にするが、
    点線の下線と「?」のカーソルは要らないので消す */
-/* 根拠の入口。▼だけ。枠も文字も付けない（付けると星より目立ってしまう）。
-   見た目は小さいが、押す面積は指で押せるだけ広く取る */
+/* 根拠の入口。丸ボタンに「？」。
+   ▼だけだとボタンに見えず、「なぜ？」の枠付きだと星より目立ってしまった。
+   「？」は世界中で「ここに答えがある」の合図なので、意味も伝わる。
+   ふだんはゆっくり明るくなって戻り、そこに何かあることを静かに知らせる */
 #sp-tag .sp-fame-i { border-bottom: none; cursor: pointer; flex: 0 0 auto;
   display: inline-flex; align-items: center; justify-content: center;
-  width: 22px; height: 22px; margin: -6px -4px -6px -1px; border-radius: 50%;
-  transition: background .15s; }
-#sp-tag .sp-fame-tri { width: 10px; height: 7px; display: block;
-  transition: transform .18s, filter .15s; }
-#sp-tag .sp-fame-tri path { fill: rgb(var(--al-lit)); }
-#sp-tag .sp-fame-i:hover { background: rgba(var(--al-lit), .18); }
-#sp-tag .sp-fame-i:hover .sp-fame-tri,
-#sp-tag .sp-fame-i:focus-visible .sp-fame-tri {
-  filter: drop-shadow(0 0 3px rgba(var(--al-lit), .9)); transform: translateY(1px); }
-/* 開いている間は▲にして、いま開いていることを示す */
-#sp-tag .sp-fame-i.pinned { background: rgba(var(--al-lit), .22); }
-#sp-tag .sp-fame-i.pinned .sp-fame-tri { transform: rotate(180deg); }
+  width: 22px; height: 22px; margin-left: -1px; border-radius: 50%;
+  font-size: 12px; font-weight: 700; line-height: 1; font-family: inherit;
+  color: rgb(var(--al-lit));
+  background: rgba(var(--al), .22); border: 1px solid rgba(var(--al-lit), .55);
+  animation: gr-fame-glow 2.8s ease-in-out infinite; }
+@keyframes gr-fame-glow {
+  0%, 100% { background: rgba(var(--al), .18);
+    border-color: rgba(var(--al-lit), .45);
+    filter: drop-shadow(0 0 0 rgba(var(--al-lit), 0)); }
+  50% { background: rgba(var(--al-lit), .42);
+    border-color: rgb(var(--al-lit));
+    filter: drop-shadow(0 0 6px rgba(var(--al-lit), .85)); }
+}
+#sp-tag .sp-fame-i:hover, #sp-tag .sp-fame-i:focus-visible {
+  background: rgba(var(--al-lit), .4); border-color: rgb(var(--al-lit));
+  animation: none; }
+/* 開いている間は、押されたままの見た目にして動きを止める */
+#sp-tag .sp-fame-i.pinned { background: rgba(var(--al-lit), .45);
+  border-color: rgb(var(--al-lit)); color: #1a1a20; animation: none; }
+/* 動きに弱い方の設定を尊重する。光り方だけ止め、ボタンはそのまま残す */
+@media (prefers-reduced-motion: reduce) {
+  #sp-tag .sp-fame-i { animation: none; }
+}
 /* ⓘの中身。数字を並べるので、けたが揃うようにする。
    ⓘ本体は斜体のセリフ体にしてあるので、中身がそれを引き継がないよう
    ここで打ち消す（打ち消さないと説明文まで斜体になった） */
@@ -690,7 +703,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v26.38<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v26.39<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -16235,7 +16248,7 @@ node.on("click", (e, d) => {
     const row = (name, val, pt, range) =>
       `<tr><th>${name}</th><td class="v">${val}</td>`
       + `<td class="p">${pt}点</td><td class="r">${range}</td></tr>`;
-    const tip = `<div class="fm-tip-h">3つの公開データを数えて決めています</div>`
+    const tip = `<div class="fm-tip-h">知名度は、3つの公開データを数えて決めています</div>`
       + `<table class="fm-tip-t">`
       + row('言語版の数', _num(r.lang || 0) + ' か国語', pl,
             r.own ? rl : '独立記事なし')
@@ -16254,9 +16267,7 @@ node.on("click", (e, d) => {
       + `<span class="sp-fame-cap">知名度</span>`
       + `<span class="sp-fame-stars" role="img" aria-label="5段階中${lv}">${stars}</span>`
       + `<span class="gloss-term sp-fame-i" tabindex="0" role="button"`
-      + ` aria-label="知名度の根拠を見る">`
-      + `<svg class="sp-fame-tri" viewBox="0 0 10 7" aria-hidden="true">`
-      + `<path d="M.6.8h8.8L5 6.3Z"/></svg>`
+      + ` aria-label="知名度の根拠を見る">?`
       + `<span class="gloss-tip fm-tip">${tip}</span></span></span>`;
   }
 
