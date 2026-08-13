@@ -122,9 +122,16 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
 /* 開いている間は、押されたままの見た目にして動きを止める */
 #sp-tag .sp-fame-i.pinned { background: rgba(var(--al-lit), .45);
   border-color: rgb(var(--al-lit)); color: #1a1a20; animation: none; }
-/* 動きに弱い方の設定を尊重する。光り方だけ止め、ボタンはそのまま残す */
+/* 「動きを減らす」設定のときは、ゆっくりにして控えめにする。止めはしない。
+   この設定は、画面の中で物が動いて気分が悪くなるのを防ぐためのもの。
+   ここでやっているのは明るさが変わるだけで、位置も大きさも動かないので、
+   その心配には当たらない。
+   止めてしまうと、この設定にしている人（チョロさんの環境がそうだった）には
+   「そこに何かある」という合図が一生届かない。
+   なお、物が動く見せ方（光の輪が外へ広がるなど）を足すときは、
+   そちらは必ずこの設定で止めること */
 @media (prefers-reduced-motion: reduce) {
-  #sp-tag .sp-fame-i { animation: none; }
+  #sp-tag .sp-fame-i { animation-duration: 4.2s; }
 }
 /* ⓘの中身。数字を並べるので、けたが揃うようにする。
    ⓘ本体は斜体のセリフ体にしてあるので、中身がそれを引き継がないよう
@@ -703,7 +710,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v26.39<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v26.40<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
