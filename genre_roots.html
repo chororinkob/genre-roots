@@ -710,7 +710,9 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v26.40<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v26.41<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <!-- 丸の大きさの案を試しているときだけ出る目印（試用中） -->
+  <span id="radius-plan-badge" style="display:none;"></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -8566,6 +8568,38 @@ NODES.forEach(n => {
   n.fame = f[0];
   n.fameRaw = { lang: f[1], views: f[2], yt: f[3], title: f[4], own: f[5] };
 });
+
+// ===== 丸の大きさの案を、その場で見比べるための入口（試用中）=====
+// URLの末尾に ?r=B のように付けたときだけ、丸の大きさを知名度から決め直す。
+// 何も付けなければ今までどおりで、既定の動きは一切変えない。
+// 案を決めたらこの仕掛けごと消して、決めた表だけを残す。
+//   いま … 知名度とは無関係の POPULARITY（手で付けた1〜10の数字）で決まっている
+//   A … 知名度が1つ上がるごとに丸の広さが2.5倍。丸の広さの合計は今の134%
+//   B … 同2.0倍。合計91%（今とほぼ同じ＝配置が崩れにくい）
+//   C … 同1.7倍。合計83%（安全だが大物と小物の差が出にくい）
+const RADIUS_PLANS = {
+  A: { 1: 34, 2: 54, 3: 85, 4: 135, 5: 215 },
+  B: { 1: 38, 2: 54, 3: 76, 4: 107, 5: 152 },
+  C: { 1: 44, 2: 57, 3: 75, 4: 98, 5: 127 },
+};
+window.RADIUS_PLAN = null;
+(function () {
+  const key = (new URLSearchParams(location.search).get('r') || '').toUpperCase();
+  const table = RADIUS_PLANS[key];
+  if (!table) return;
+  NODES.forEach(n => { if (n.fame) n.r = table[n.fame]; });
+  window.RADIUS_PLAN = key;
+  // どの案を見ているか、画面の上に出す（見比べていて分からなくなるため）
+  document.addEventListener('DOMContentLoaded', () => {
+    const el = document.getElementById('radius-plan-badge');
+    if (!el) return;
+    el.textContent = '丸の大きさ：' + key + '案（' +
+      [1, 2, 3, 4, 5].map(i => table[i]).join(' / ') + '）試用中';
+    el.style.cssText = 'display:inline-block;margin-left:12px;padding:2px 10px;'
+      + 'border-radius:999px;background:#8a2d2d;color:#fff;font-size:11px;'
+      + 'font-weight:700;white-space:nowrap;';
+  });
+})();
 
 const LAST_UPDATED = "2026年8月10日";
 (function() {
