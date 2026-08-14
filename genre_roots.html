@@ -710,7 +710,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v26.41<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v26.42<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <!-- 丸の大きさの案を試しているときだけ出る目印（試用中） -->
   <span id="radius-plan-badge" style="display:none;"></span>
   <div id="tab-buttons" style="display:none;">
@@ -8582,6 +8582,21 @@ const RADIUS_PLANS = {
   B: { 1: 38, 2: 54, 3: 76, 4: 107, 5: 152 },
   C: { 1: 44, 2: 57, 3: 75, 4: 98, 5: 127 },
 };
+// 画面で何px未満の文字を隠すか。URLに ?t=6 のように付けたときだけ効く。
+// 0（既定）なら今までどおり、何も隠さない。
+window.TEXT_MIN_PX = Number(
+  new URLSearchParams(location.search).get('t') || 0) || 0;
+// 地図の縮め具合(k)をかけた「画面に映る大きさ」で判断する。
+// 地図の中での大きさで判断すると、全体表示のときに16%まで縮むことを
+// 見落とす（実際に見落として「潰れは2件」と誤った報告をした）。
+function _applyTextCutoff(k) {
+  const min = window.TEXT_MIN_PX;
+  if (!min) return;
+  node.selectAll('text').style('display', function () {
+    const px = parseFloat(getComputedStyle(this).fontSize) * k;
+    return px < min ? 'none' : null;
+  });
+}
 window.RADIUS_PLAN = null;
 (function () {
   const key = (new URLSearchParams(location.search).get('r') || '').toUpperCase();
@@ -15223,6 +15238,11 @@ const g = svg.append("g");
 
 const zoom = d3.zoom().scaleExtent([0.005, 6]).on("zoom", e => {
   g.attr("transform", e.transform);
+  // 画面で小さすぎて読めない文字を隠す試し（URLに ?t=数字 を付けたときだけ）。
+  // 丸は隠さない。丸が消えると、そこに何かあること自体が分からなくなり、
+  // カーソルを持っていくこともできなくなるため。
+  // 拡大すれば文字は戻る（画面に映る大きさで判断しているので自動で戻る）。
+  if (window.TEXT_MIN_PX) _applyTextCutoff(e.transform.k);
   // ノードのドラッグ判定しきい値(clickDistance)は、ズームで縮小されたローカル座標系で
   // 判定されるため、画面上では常に約5pxのブレを許容するようズーム倍率に応じて動的に補正する。
   // (これをしないと、縮小表示時にごく僅かな手ブレでもドラッグ扱いになり、
