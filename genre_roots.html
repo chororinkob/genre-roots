@@ -710,9 +710,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v26.42<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
-  <!-- 丸の大きさの案を試しているときだけ出る目印（試用中） -->
-  <span id="radius-plan-badge" style="display:none;"></span>
+  <span id="version-info">v26.43<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -7974,9 +7972,11 @@ const POPULARITY = {
   "no_wave": 3,
   "jazz_funk": 7,
 };
+// popularity は「手で付けた1〜10の数字」。丸の大きさを決めるのには
+// もう使わない（知名度に置き換えた。下の FAME_RADIUS を参照）。
+// ただし丸の色・カテゴリ一覧の並び順・3D表示ではまだ使っている。
 NODES.forEach(n => {
   n.popularity = POPULARITY[n.id] || 3;
-  n.r = 15 + n.popularity * n.popularity * 2;
 });
 
 // ===== 知名度（FAME）=====
@@ -8559,62 +8559,35 @@ const FAME = {
   zydeco: [2,16,140621,1183638,"Zydeco",true],
 };
 
-// 各ジャンルに知名度をぶら下げる。
-// **玉の大きさ(n.r)には一切触らない。** ここで触ると、どこで
-// 壊れたのか分からなくなる。大きさを変えるのは別の段でやる。
+// 丸の大きさは知名度で決める。
+// 知名度が1つ上がるごとに、丸の広さ（面積）が2.5倍になる。
+// 半径にすると1段ごとに約1.58倍。
+//
+// 元は POPULARITY（手で付けた1〜10の数字）の2乗で決めていた。
+// その数字はAIの感覚で付けたもので、知名度とまったく一致しておらず、
+// 「知名度5なのに半径47px」「知名度3なのに177px」が混ざっていた。
+//
+// この表にした理由（実際に描いて見比べたうえで決めた）：
+//   ・大物と小物の差がいちばんはっきり出る
+//   ・丸の広さの合計は今の134%になり地図は少し広がるが、
+//     ぶつからないようにする力が働くので配置は崩れない
+// 面積2.0倍（38/54/76/107/152）や1.7倍（44/57/75/98/127）も試したが、
+// 全体が平べったくなり、知名度を大きさで表す意味が薄れた。
+const FAME_RADIUS = { 1: 34, 2: 54, 3: 85, 4: 135, 5: 215 };
+// 元の決め方（popularityの2乗）に戻したいときは、ここを false にする
+const USE_FAME_RADIUS = true;
+
 NODES.forEach(n => {
   const f = FAME[n.id];
-  if (!f) return;
-  n.fame = f[0];
-  n.fameRaw = { lang: f[1], views: f[2], yt: f[3], title: f[4], own: f[5] };
+  if (f) {
+    n.fame = f[0];
+    n.fameRaw = { lang: f[1], views: f[2], yt: f[3], title: f[4], own: f[5] };
+  }
+  n.r = (USE_FAME_RADIUS && n.fame)
+    ? FAME_RADIUS[n.fame]
+    : 15 + n.popularity * n.popularity * 2;
 });
 
-// ===== 丸の大きさの案を、その場で見比べるための入口（試用中）=====
-// URLの末尾に ?r=B のように付けたときだけ、丸の大きさを知名度から決め直す。
-// 何も付けなければ今までどおりで、既定の動きは一切変えない。
-// 案を決めたらこの仕掛けごと消して、決めた表だけを残す。
-//   いま … 知名度とは無関係の POPULARITY（手で付けた1〜10の数字）で決まっている
-//   A … 知名度が1つ上がるごとに丸の広さが2.5倍。丸の広さの合計は今の134%
-//   B … 同2.0倍。合計91%（今とほぼ同じ＝配置が崩れにくい）
-//   C … 同1.7倍。合計83%（安全だが大物と小物の差が出にくい）
-const RADIUS_PLANS = {
-  A: { 1: 34, 2: 54, 3: 85, 4: 135, 5: 215 },
-  B: { 1: 38, 2: 54, 3: 76, 4: 107, 5: 152 },
-  C: { 1: 44, 2: 57, 3: 75, 4: 98, 5: 127 },
-};
-// 画面で何px未満の文字を隠すか。URLに ?t=6 のように付けたときだけ効く。
-// 0（既定）なら今までどおり、何も隠さない。
-window.TEXT_MIN_PX = Number(
-  new URLSearchParams(location.search).get('t') || 0) || 0;
-// 地図の縮め具合(k)をかけた「画面に映る大きさ」で判断する。
-// 地図の中での大きさで判断すると、全体表示のときに16%まで縮むことを
-// 見落とす（実際に見落として「潰れは2件」と誤った報告をした）。
-function _applyTextCutoff(k) {
-  const min = window.TEXT_MIN_PX;
-  if (!min) return;
-  node.selectAll('text').style('display', function () {
-    const px = parseFloat(getComputedStyle(this).fontSize) * k;
-    return px < min ? 'none' : null;
-  });
-}
-window.RADIUS_PLAN = null;
-(function () {
-  const key = (new URLSearchParams(location.search).get('r') || '').toUpperCase();
-  const table = RADIUS_PLANS[key];
-  if (!table) return;
-  NODES.forEach(n => { if (n.fame) n.r = table[n.fame]; });
-  window.RADIUS_PLAN = key;
-  // どの案を見ているか、画面の上に出す（見比べていて分からなくなるため）
-  document.addEventListener('DOMContentLoaded', () => {
-    const el = document.getElementById('radius-plan-badge');
-    if (!el) return;
-    el.textContent = '丸の大きさ：' + key + '案（' +
-      [1, 2, 3, 4, 5].map(i => table[i]).join(' / ') + '）試用中';
-    el.style.cssText = 'display:inline-block;margin-left:12px;padding:2px 10px;'
-      + 'border-radius:999px;background:#8a2d2d;color:#fff;font-size:11px;'
-      + 'font-weight:700;white-space:nowrap;';
-  });
-})();
 
 const LAST_UPDATED = "2026年8月10日";
 (function() {
@@ -15238,11 +15211,6 @@ const g = svg.append("g");
 
 const zoom = d3.zoom().scaleExtent([0.005, 6]).on("zoom", e => {
   g.attr("transform", e.transform);
-  // 画面で小さすぎて読めない文字を隠す試し（URLに ?t=数字 を付けたときだけ）。
-  // 丸は隠さない。丸が消えると、そこに何かあること自体が分からなくなり、
-  // カーソルを持っていくこともできなくなるため。
-  // 拡大すれば文字は戻る（画面に映る大きさで判断しているので自動で戻る）。
-  if (window.TEXT_MIN_PX) _applyTextCutoff(e.transform.k);
   // ノードのドラッグ判定しきい値(clickDistance)は、ズームで縮小されたローカル座標系で
   // 判定されるため、画面上では常に約5pxのブレを許容するようズーム倍率に応じて動的に補正する。
   // (これをしないと、縮小表示時にごく僅かな手ブレでもドラッグ扱いになり、
