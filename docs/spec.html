@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>音楽ジャンルルーツ辞典 — 仕様書（自動書き出し）</title>
+<style>
+ body{margin:0;background:#0d0e11;color:#e8e8f0;
+   font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,system-ui,sans-serif;
+   font-size:14px;line-height:1.8;padding:28px 22px 80px}
+ .wrap{max-width:900px;margin:0 auto}
+ h1{font-size:22px;margin:0 0 4px}
+ h2{font-size:16px;margin:34px 0 8px;padding-bottom:5px;
+   border-bottom:1px solid #2b2c36}
+ h3{font-size:13px;margin:18px 0 6px;color:#b9c2cc}
+ .note{color:#9295a6;font-size:12.5px;margin:6px 0}
+ table{border-collapse:collapse;margin:8px 0 4px;font-size:13px}
+ th,td{border:1px solid #2b2c36;padding:5px 11px;text-align:left;vertical-align:top}
+ th{background:#171922;color:#b9c2cc;font-weight:600;white-space:nowrap}
+ td:first-child{white-space:nowrap;color:#cfd3dd}
+ code{background:#171922;padding:1px 5px;border-radius:3px;font-size:12px}
+ .human{background:#12141b;border:1px solid #2b2c36;border-radius:6px;
+   padding:14px 18px;margin-top:8px}
+ .human p{margin:0 0 9px}
+ .human p.num{margin-left:1em}
+ .human h3{margin:20px 0 6px;font-size:14px;color:#e2e6ee}
+ .human h3:first-child{margin-top:2px}
+ .human ul{margin:6px 0 10px;padding-left:1.3em}
+ .human li{margin:2px 0}
+ .human table{margin:6px 0 10px}
+ .back{display:inline-block;margin-bottom:14px;font-size:12px;color:#8fb6d8;
+   text-decoration:none}
+ .back:hover{text-decoration:underline}
+</style></head><body><div class="wrap">
+<a class="back" href="../genre_roots.html">← ジャンルマップに戻る</a>
+<h1>音楽ジャンルルーツ辞典 — 仕様書</h1>
+<h2>この仕様書について</h2>
+<p class="note">この文書は <b>spec_dump.py が実物を読み直して自動で書き出したもの</b>です。手で書き足しても次の書き出しで消えます。決めた理由など人が書くことは <code>docs/decisions.md</code> に書いてください。この文書の末尾にそのまま入ります。</p>
+<p class="note">書き出した日時：<b>2026-08-16 03:49</b></p>
+<h2>いまの版</h2>
+<table>
+<tr><th>項目</th><th>内容</th></tr>
+<tr><td>地図（genre_roots.html）</td><td>v26.43</td></tr>
+<tr><td>サーバー（genre_adder.py）</td><td>v1.99</td></tr>
+<tr><td>ジャンル数</td><td>567</td></tr>
+<tr><td>ジャンル間のつながり</td><td>1,596</td></tr>
+<tr><td>用語集の語数</td><td>6,311</td></tr>
+<tr><td>知名度のデータ</td><td>567 件（2026-08-12 取得）</td></tr>
+</table>
+<h2>置き場所（消えたときに戻せるように）</h2>
+<table>
+<tr><th>もの</th><th>どこ</th></tr>
+<tr><td>地図の本体</td><td>genre-roots-repo/genre_roots.html（1ファイル完結）</td></tr>
+<tr><td>地図の公開先</td><td>https://chororinkob.github.io/genre-roots/</td></tr>
+<tr><td>サーバーの本体</td><td>music_genre_finder/server.py, genre_adder.py</td></tr>
+<tr><td>サーバーの場所</td><td>https://genre-roots-server.onrender.com</td></tr>
+<tr><td>地図からサーバーを呼ぶ設定</td><td>genre_roots.html 内の API_BASE</td></tr>
+<tr><td>知名度の出し方</td><td>.claude/skills/fame-score/SKILL.md（手順と罠が全部書いてある）</td></tr>
+<tr><td>知名度のデータと道具</td><td>.claude/skills/fame-score/data/ と scripts/</td></tr>
+</table>
+<h2>元に戻すスイッチ</h2>
+<p class="note">genre_roots.html の中にある。1行を false にするだけで戻る。</p>
+<table>
+<tr><th>名前</th><th>いまの値</th><th>働き</th></tr>
+<tr><td>FAME_UI</td><td>true</td><td>知名度をパネルに表示する</td></tr>
+<tr><td>USE_FAME_RADIUS</td><td>true</td><td>丸の大きさを知名度で決める</td></tr>
+</table>
+<h2>丸の大きさ</h2>
+<p class="note">知名度で決まる。1段上がるごとに丸の広さが2.5倍（半径は約1.58倍）。</p>
+<table>
+<tr><th>知名度</th><th>大きさ</th></tr>
+<tr><td>知名度 1</td><td>半径 34 px</td></tr>
+<tr><td>知名度 2</td><td>半径 54 px</td></tr>
+<tr><td>知名度 3</td><td>半径 85 px</td></tr>
+<tr><td>知名度 4</td><td>半径 135 px</td></tr>
+<tr><td>知名度 5</td><td>半径 215 px</td></tr>
+</table>
+<h2>知名度の点の付け方</h2>
+<h3>言語版の数</h3>
+<table>
+<tr><th>点</th><th>範囲</th></tr>
+<tr><td>5 点</td><td>100以上</td></tr>
+<tr><td>4 点</td><td>45〜99</td></tr>
+</table>
+<h3>年間閲覧数（多言語合計）</h3>
+<table>
+<tr><th>点</th><th>範囲</th></tr>
+<tr><td>5 点</td><td>60万以上</td></tr>
+</table>
+<h3>代表曲の再生回数（最大）</h3>
+<table>
+<tr><th>点</th><th>範囲</th></tr>
+<tr><td>5 点</td><td>5000万回以上</td></tr>
+</table>
+<h3>合計から5段階へ</h3>
+<table>
+<tr><th>点</th><th>範囲</th></tr>
+<tr><td>5 点</td><td>14〜15点</td></tr>
+<tr><td>4 点</td><td>11〜13点</td></tr>
+</table>
+<h2>ジャンルが持っている項目</h2>
+<p class="note">aliases、cat、desc、era、id、label、rep_tracks、roots_story、suno、yt_mix、yt_tracks</p>
+<h2>つながりの採点軸</h2>
+<table>
+<tr><th>記号</th><th>意味</th></tr>
+<tr><td>r</td><td>リズム</td></tr>
+<tr><td>h</td><td>和音</td></tr>
+<tr><td>i</td><td>楽器</td></tr>
+<tr><td>v</td><td>歌唱法</td></tr>
+<tr><td>c</td><td>文化背景</td></tr>
+</table>
+<h2>カテゴリ（35種類）</h2>
+<table>
+<tr><th>記号</th><th>名前</th><th>色</th></tr>
+<tr><td>soul_cat</td><td>R&amp;B/ソウル系</td><td>#E040FB</td></tr>
+<tr><td>funk_cat</td><td>ファンク系</td><td>#FF6D00</td></tr>
+<tr><td>disco_cat</td><td>ディスコ系</td><td>#EC407A</td></tr>
+<tr><td>early_elec</td><td>初期電子音楽</td><td>#5C7CFA</td></tr>
+<tr><td>synthpop</td><td>シンセポップ系</td><td>#845EF7</td></tr>
+<tr><td>industrial</td><td>インダストリアル系</td><td>#607080</td></tr>
+<tr><td>ambient</td><td>アンビエント系</td><td>#607D8B</td></tr>
+<tr><td>house</td><td>ハウス系</td><td>#9C27B0</td></tr>
+<tr><td>techno</td><td>テクノ系</td><td>#1565C0</td></tr>
+<tr><td>trance</td><td>トランス系</td><td>#00838F</td></tr>
+<tr><td>hardcore</td><td>ハードコア系</td><td>#C62828</td></tr>
+<tr><td>dnb</td><td>DnB / ジャングル系</td><td>#E65100</td></tr>
+<tr><td>dubstep</td><td>ダブステップ系</td><td>#5D4037</td></tr>
+<tr><td>eurodance</td><td>ユーロダンス系</td><td>#AD1457</td></tr>
+<tr><td>edm</td><td>EDM系</td><td>#F57F17</td></tr>
+<tr><td>synthwave</td><td>シンセウェーブ系</td><td>#6A1B9A</td></tr>
+<tr><td>hiphop</td><td>ヒップホップ系</td><td>#2E7D32</td></tr>
+<tr><td>chiptune</td><td></td><td>#00695C</td></tr>
+<tr><td>rock</td><td>ロック系</td><td>#D84315</td></tr>
+<tr><td>metal</td><td>メタル系</td><td>#37474F</td></tr>
+<tr><td>country_folk</td><td>カントリー/フォーク系</td><td>#8D6E63</td></tr>
+<tr><td>latin</td><td>ラテン系</td><td>#E91E63</td></tr>
+<tr><td>african</td><td>アフリカ系</td><td>#FF8F00</td></tr>
+<tr><td>middle_east</td><td>中東/アラブ系</td><td>#BF360C</td></tr>
+<tr><td>south_asian</td><td>南アジア系</td><td>#311B92</td></tr>
+<tr><td>east_asian</td><td>東アジア系</td><td>#827717</td></tr>
+<tr><td>southeast_asian</td><td>東南アジア系</td><td>#43A047</td></tr>
+<tr><td>caribbean</td><td>カリブ系</td><td>#00BFA5</td></tr>
+<tr><td>pop</td><td>ポップス系</td><td>#7CB342</td></tr>
+<tr><td>jazz_sub</td><td>ジャズ系</td><td>#CFB53B</td></tr>
+<tr><td>classical_sub</td><td>クラシック系</td><td>#78909C</td></tr>
+<tr><td>blues_sub</td><td>ブルース系</td><td>#4FC3F7</td></tr>
+<tr><td>sacred</td><td>宗教/ゴスペル系</td><td>#C9A66B</td></tr>
+<tr><td>indie_pop</td><td>インディーポップ系</td><td>#F2967D</td></tr>
+<tr><td>ska</td><td>スカ系</td><td>#00BFA0</td></tr>
+</table>
+<h2>サーバーの入口（33個）</h2>
+<table>
+<tr><th>道筋</th><th>種類</th></tr>
+<tr><td>/</td><td>GET</td></tr>
+<tr><td>/roots</td><td>GET</td></tr>
+<tr><td>/recognize</td><td>POST</td></tr>
+<tr><td>/recognize/gemini_recheck</td><td>POST</td></tr>
+<tr><td>/request_genre</td><td>GET</td></tr>
+<tr><td>/request_genre</td><td>POST</td></tr>
+<tr><td>/request_genre/status/&lt;request_id&gt;</td><td>GET</td></tr>
+<tr><td>/test/request_genre</td><td>POST</td></tr>
+<tr><td>/admin</td><td>GET</td></tr>
+<tr><td>/admin/preview/&lt;token&gt;</td><td>GET</td></tr>
+<tr><td>/admin/approve/&lt;token&gt;</td><td>POST</td></tr>
+<tr><td>/admin/reject/&lt;token&gt;</td><td>POST</td></tr>
+<tr><td>/admin/revise/&lt;token&gt;</td><td>POST</td></tr>
+<tr><td>/correction_request</td><td>POST</td></tr>
+<tr><td>/correction_request/status/&lt;request_id&gt;</td><td>GET</td></tr>
+<tr><td>/admin/correction/&lt;token&gt;</td><td>GET</td></tr>
+<tr><td>/admin/correction/approve/&lt;token&gt;</td><td>POST</td></tr>
+<tr><td>/admin/correction/reject/&lt;token&gt;</td><td>POST</td></tr>
+<tr><td>/admin/video_check/start</td><td>POST</td></tr>
+<tr><td>/admin/video_check/status</td><td>GET</td></tr>
+<tr><td>/admin/video_check/report</td><td>GET</td></tr>
+<tr><td>/admin/video_check/gemini_verify/start</td><td>POST</td></tr>
+<tr><td>/admin/video_check/gemini_verify/status/&lt;request_id&gt;</td><td>GET</td></tr>
+<tr><td>/admin/video_check/gemini_verify/report</td><td>GET</td></tr>
+<tr><td>/admin/video_check/gemini_verify/replace/start</td><td>POST</td></tr>
+<tr><td>/admin/video_check/gemini_verify/replace/status/&lt;request_id&gt;</td><td>GET</td></tr>
+<tr><td>/admin/video_check/duplicates/report</td><td>GET</td></tr>
+<tr><td>/admin/video_check/duplicates/start</td><td>POST</td></tr>
+<tr><td>/admin/video_check/duplicates/status/&lt;request_id&gt;</td><td>GET</td></tr>
+<tr><td>/admin/video_check/replace_for</td><td>POST</td></tr>
+<tr><td>/admin/fame/youtube_views</td><td>GET</td></tr>
+<tr><td>/admin/video_check/tracks/report</td><td>GET</td></tr>
+<tr><td>/admin/video_check/tracks/fill</td><td>POST</td></tr>
+</table>
+<h2>使っている外部サービス</h2>
+<p class="note">YouTube Data API、Shazam（RapidAPI）、Gemini、OpenAI、Anthropic（Claude）、Resend（メール）</p>
+<h2>必要な設定値（config.py に置く）</h2>
+<p class="note">(、ANTHROPIC_API_KEY、GEMINI_API_KEY、GITHUB_TOKEN、OPENAI_API_KEY、RAPIDAPI_KEY、YOUTUBE_API_KEY</p>
+<p class="note">中身（鍵そのもの）はここには書かない。</p>
+<h2>処理の流れ・判定のしかた（人が書く）</h2>
+<p class="note">元は <code>music_genre_finder/docs/logic.md</code>。プログラムからは読み取れない「どういう順で何をするか」を書いてあります。</p>
+<div class="human"><p>ここには「処理の流れ・判定のしかた」を書きます。</p>
+<p>バージョン・件数・入口の一覧などはプログラムから読み取れるので、</p>
+<p>spec_dump.py が自動で書き出します。ここには書きません。</p>
+<p>もとは docs/spec.html に手で書かれていた内容です（2026-07-13が最終更新のまま</p>
+<p>止まっていた）。自動書き出しに一本化するため、2026-08-16 にこちらへ移しました。</p>
+<h3>全体の作り</h3>
+<p>フロント（地図）とバックエンド（サーバー）は、別々のリポジトリ・別々の置き場所で</p>
+<p>動いています。地図の中の <code>API_BASE</code> がサーバーの絶対URLを指し、</p>
+<p>CORSでGitHub Pagesからの呼び出しだけを許可しています。</p>
+<p>Renderの無料プランは、しばらく誰も使わないと休止します。</p>
+<p>次のアクセスで起き上がるまで50秒ほどかかります（コールドスタート）。</p>
+<h3>曲名検索（これなんて曲？）</h3>
+<p>音を聴かせて、曲名とジャンルを当てる機能です。次の順に試します。</p>
+<p class="num">1. <b>Shazam</b>（RapidAPI経由）で曲名・アーティスト名を特定する</p>
+<p class="num">2. <b>Wikidata</b> でアーティスト→曲の順に genre（P136）を探す。</p>
+<p>見つかればそのまま採用し、Geminiは使わない</p>
+<p class="num">3. Wikidataに無ければ <b>Gemini</b> に音声と曲名を渡して判断させる。</p>
+<p>temperature=0、複数モデルの自動切り替えあり</p>
+<p>音声が10,000バイト未満なら「音が検出できませんでした」と返し、Geminiには送りません。</p>
+<p>結果はジャンルのタグで出ます。タップで選び、「ジャンルマップで確認する」を押すと</p>
+<p>選んだジャンルだけを地図上で光らせます。履歴はブラウザ側（localStorage、最大15件）に</p>
+<p>残ります。</p>
+<h3>ジャンル追加の申請</h3>
+<p>ChatGPTが10項目（id／label／cat／era／desc／roots_story／rep_tracks／links／</p>
+<p>aliases／popularity）を作り、Claudeがファクトチェックします。</p>
+<p>守っていること（過去に事故が起きたので入れた安全策）</p>
+<ul>
+<li><b>既存のジャンルIDは省略せず全件渡す。</b> 以前は先頭50件だけ渡していて、</li>
+</ul>
+<p>ChatGPTが存在しないIDを推測して書く原因になっていた</p>
+<ul>
+<li><b>Claudeのファクトチェックは最大2回。</b> JSONの読み取りに失敗した場合も</li>
+</ul>
+<p>「検証NG」として必ず再試行する</p>
+<ul>
+<li><b>リンク先IDの自動補正</b>（<code>_auto_correct_link_targets</code>）。</li>
+</ul>
+<p>既存ラベルとの正規化一致で、誤ったIDを直す</p>
+<ul>
+<li><b>書き込み前にJavaScriptの構文検査</b>（<code>_html_is_valid_js</code> →</li>
+</ul>
+<p><code>check_html_syntax.js</code>）。壊れる場合は書き込み自体を中止する</p>
+<h3>修正依頼</h3>
+<p>指摘を受け取ったら、まずClaudeが「文章の指摘」か「動画の指摘」かに分けます</p>
+<p>（<code>_triage_correction</code>）。</p>
+<ul>
+<li><b>文章の指摘</b> … Claudeが既存の説明文とリンク先の内容と照らして事実確認する</li>
+</ul>
+<p>（<code>_judge_text_correction</code>）</p>
+<ul>
+<li><b>動画の指摘</b> … Geminiが動画を実際に視聴し、ジャンルと合っているか判定する</li>
+</ul>
+<p>（<code>_judge_video_correction</code>）。合っていなければ、代表曲側の確認済み動画から</p>
+<p>差し替え候補を自動で作る</p>
+<p>Geminiは無料枠の上限に当たると自動で別のモデルに切り替わります</p>
+<p>（<code>_gemini_generate</code>）。承認・却下・「間違いではない」のどの結果でも、</p>
+<p>依頼してくれた方への感謝の言葉を末尾に添えます（<code>THANK_YOU_MESSAGE</code>）。</p>
+<h3>動画の健全性チェック（管理者用）</h3>
+<p>一般の方向けではない内部機能です。</p>
+<p class="num">1. <b>全件スキャン</b> … YouTubeのタイトルを取得し、ジャンル名との一致度から</p>
+<p>機械的に「要確認」を抜き出す（無料・無制限だが誤検知は多い）</p>
+<p class="num">2. <b>Geminiで絞り込み</b> … 「要確認」だけをGeminiが実際に視聴する。</p>
+<p>1回で最大60件。続きは <code>gemini_verify_state.json</code> に進捗を保存して次回に持ち越す</p>
+<p class="num">3. <b>結果の分類</b> … 「確実に間違い」「動画が長すぎて確認不可」</p>
+<p>「エラーで確認不可」「未着手」の4つに分けて出す</p>
+<h3>データの残し方</h3>
+<p>Renderの無料プランは再起動でディスクの中身が消えることがあります。</p>
+<p>そのため大事なデータはすべてGitHubにコミットして残しています。</p>
+<ul>
+<li><b>地図の本体</b>（<code>genre_roots.html</code>）… 処理前に <code>_sync_roots_repo</code> で最新化し、</li>
+</ul>
+<p>承認時にコミット・プッシュする（<code>push_to_github</code>）</p>
+<ul>
+<li><b>承認待ちのデータ</b>（<code>pending_genres.json</code> / <code>pending_corrections.json</code>）…</li>
+</ul>
+<p>サーバー側のリポジトリ自体にコミット・プッシュする</p>
+<p>（<code>_sync_data_repo</code> / <code>_push_data_repo</code>）</p>
+<ul>
+<li><b>プッシュがぶつかったとき</b> … 自動バージョン更新のActionと競合して失敗した場合、</li>
+</ul>
+<p><code>pull --rebase</code> してから1回だけやり直す</p>
+<h3>設定値の用途</h3>
+<table>
+<tr><th>名前</th><th>何に使うか</th></tr>
+<tr><td>GITHUB_TOKEN</td><td>地図とサーバー、両方のリポジトリへの書き込み（Fine-grained PAT）</td></tr>
+<tr><td>PUBLIC_BASE_URL</td><td>承認メールに載せるリンクの基点URL</td></tr>
+<tr><td>RESEND_API_KEY</td><td>管理者への通知メール（RenderはSMTPを塞いでいるため）</td></tr>
+<tr><td>GEMINI_API_KEY</td><td>曲のジャンル解析・修正依頼の動画確認・全件チェック</td></tr>
+<tr><td>YOUTUBE_API_KEY</td><td>ジャンル追加時の代表曲の動画検索</td></tr>
+<tr><td>RAPIDAPI_KEY</td><td>Shazamの楽曲認識</td></tr>
+<tr><td>OPENAI_API_KEY</td><td>ジャンル情報の生成（ChatGPT）</td></tr>
+<tr><td>ANTHROPIC_API_KEY</td><td>ファクトチェック（Claude）</td></tr>
+<tr><td>GMAIL_SENDER / ADMIN_EMAIL</td><td>通知メールの送信元・宛先</td></tr>
+</table></div>
+<h2>決めたこと（人が書く）</h2>
+<p class="note">元は <code>music_genre_finder/docs/decisions.md</code>。決めたことと、その理由だけを書きます。</p>
+<div class="human"><p>ここには「決めたこと」と「その理由」だけを書きます。</p>
+<p>数字や一覧は spec_dump.py が実物から読み直して書き出すので、ここには書きません。</p>
+<p>書くのは1〜3行で十分です。長く書かないでください。</p>
+<p>新しい決定は下に足していきます（古いものは消さない）。</p>
+<p>2026-08-14 丸の大きさを知名度で決めるようにした（34/54/85/135/215）。</p>
+<p>それまでは手で付けた1〜10の数字の2乗で決めており、知名度とまったく一致して</p>
+<p>いなかった（知名度5なのに半径47px、知名度3なのに177pxが混在）。</p>
+<p>1段ごとに丸の広さが2.5倍になる案を、2.0倍・1.7倍の案と実際に描いて見比べて選んだ。</p>
+<p>2.0倍・1.7倍は全体が平べったくなり、知名度を大きさで表す意味が薄れた。</p>
+<p>2026-08-13 知名度は公開データ3つ（ウィキペディアの言語版の数・主要12言語版の</p>
+<p>年間閲覧数・代表曲のYouTube再生回数）を数えた合計で決める。AIの感覚では決めない。</p>
+<p>以前「影響の強さ」をAIの感覚で出していたときに信憑性を失ったため。</p>
+<p>1つでは必ず偏るので3つ使う。重み付けも補正もしない。</p>
+<p>2026-08-13 独立した記事が無いジャンルは、閲覧数も1点にする。</p>
+<p>親ジャンルのページの閲覧数は、そのジャンルが読まれた数ではないため。</p>
+<p>チョロさんの言葉で「他のジャンルから借りるなんていうのは論外」。</p>
+<p>例外は「同じジャンルを別の名前で呼んでいるだけ」のもので、</p>
+<p>567件中3件だけだった（2-Step / Footwork・Juke / Rage・Rage Beat）。</p>
+<p>2026-08-13 パラパラは音楽ジャンルではなくダンスなので、<code>Para Para</code> の記事を</p>
+<p>知名度の数字には使わない。ジャンルとしてはユーロビート。</p>
+<p>2026-08-13 知名度の根拠は「？」ボタンを押すと吹き出しで出す。パネルの中に</p>
+<p>開く形にすると、下にある動画や本文が押し下がってしまうため。</p>
+<p>根拠はヘルプ的な情報で、本文を動かしてまで見せるものではない。</p>
+<p>2026-08-13 「動きを減らす」設定のときも、？ボタンの光り方は止めない</p>
+<p>（ゆっくりにするだけ）。この設定は画面の中で物が動いて気分が悪くなるのを</p>
+<p>防ぐためのもので、明るさが変わるだけなら当たらないため。</p>
+<p>ただし物が実際に動く見せ方を足すときは、必ずこの設定で止めること。</p>
+<p>2026-08-13 別名はジャンル名の下に小さなタグで併記する。</p>
+<p>「ヘアメタル」で検索してグラムメタルが出てきたとき、説明文を読まないと</p>
+<p>同じものだと分からないのは不親切なため。</p>
+<p>2026-08-14 仕様書は「プログラムから読み取れる部分は自動で書き出し、</p>
+<p>決めた理由だけ人が書く」方式にする。「その都度きちんと書く」方式は一度</p>
+<p>失敗しており、仕様書もヘルプも2026-07-13から1か月止まっていた。</p></div>
+</div></body></html>
