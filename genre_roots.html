@@ -710,7 +710,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v26.43<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v26.44<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -17521,6 +17521,8 @@ function searchHandler(e) {
   const tags = raw.split(/[,、]/).map(t => t.trim().toLowerCase()).filter(t => t.length > 0);
   const foundIds = new Set();
   const notFound = [];
+  // 似たジャンルは見つかったが、その名前そのものは登録されていないもの
+  const partialOnly = [];
 
   tags.forEach(tag => {
     const tagId = tag.replace(/[\s-]/g, '_');
@@ -17548,8 +17550,28 @@ function searchHandler(e) {
       }
       return false;
     });
-    if (matches.length > 0) matches.forEach(m => foundIds.add(m.id));
-    else notFound.push(tag);
+    // 「そのものズバリで登録されているか」を、部分一致とは別に判定する。
+    // これが無いと、「フラメンコ」で検索したときに
+    // 「フラメンコフュージョン」が引っかかって“ヒットあり”と見なされ、
+    // 「未登録です→追加しますか」の案内が出ず、申請できなかった。
+    // 同じ形（短い名前が長い名前に隠れる）は567件中369通りある。
+    const isExact = NODES.some(n => {
+      const lbl = n.label.toLowerCase().replace('\n', ' ');
+      if (n.id === tagId || lbl === tag || normJp(lbl) === tagNorm) return true;
+      return (n.aliases || []).some(a => {
+        const al = String(a).toLowerCase();
+        return al === tag || normJp(al) === tagNorm;
+      });
+    });
+
+    if (matches.length > 0) {
+      matches.forEach(m => foundIds.add(m.id));
+      // 似たものは見つかったが、その名前そのものは無い場合。
+      // マップのハイライトは今までどおり出しつつ、申請もできるようにする
+      if (!isExact) partialOnly.push(tag);
+    } else {
+      notFound.push(tag);
+    }
   });
 
   node.classed("search-match", d => foundIds.has(d.id));
@@ -17573,14 +17595,22 @@ function searchHandler(e) {
   if (notFound.length > 0) {
     if (searchMode === 'label') {
       html += '<div style="color:#f88;margin-top:4px">✗ 未登録: ' + notFound.map(t => grEsc(t)).join(', ') + '</div>';
-      grStartQueue(notFound);
     } else {
       html += '<div style="color:#f88;margin-top:4px">✗ ヒットなし: ' + notFound.map(t => grEsc(t)).join(', ') + '</div>';
-      grClearQueue();
     }
-  } else {
-    grClearQueue();
   }
+  // 「似たものはあるが、そのものは無い」場合も知らせる。
+  // これが無いと、長い名前に隠れた短い名前を永久に申請できない
+  // （例：「フラメンコ」→「フラメンコフュージョン」が引っかかる）
+  if (searchMode === 'label' && partialOnly.length > 0) {
+    html += '<div style="color:#f0b25a;margin-top:4px">△ '
+      + partialOnly.map(t => grEsc(t)).join(', ')
+      + ' そのものは未登録です</div>';
+  }
+  // 説明文モードのときは申請に進ませない（言葉の検索であってジャンル名ではないため）
+  const askable = (searchMode === 'label') ? notFound.concat(partialOnly) : [];
+  if (askable.length > 0) grStartQueue(askable);
+  else grClearQueue();
   resultsDiv.innerHTML = html;
   resultsDiv.style.display = 'block';
   window._searchActive = foundIds.size > 0;
