@@ -729,7 +729,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v26.58<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v26.59<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -16429,21 +16429,50 @@ function syncPanelTop() {
 // 見えていない間はDOMから外しておく。表示を隠す（display:none）だけでは
 // 部品の数が減らず、効かないことを実測で確認済み。
 // d3が持っている選択やデータは外しても壊れないので、作り直す必要はない。
-let _mapDetached = null;   // { 要素, 親, 次 }
+// 消すのは「関係ないジャンル」だけ。選んだジャンルと、それにつながる
+// ジャンル、その間の線は必ず残す。
+// 最初は地図ごと外したが、それだと画面が真っ暗になって意味がなかった。
+let _detachedEls = null;   // [{ el, 親, 次 }]
 
 function detachMap() {
-  if (_mapDetached) return;
-  const el = document.getElementById('graph');
-  if (!el || !el.parentNode) return;
-  _mapDetached = { 要素: el, 親: el.parentNode, 次: el.nextSibling };
-  el.parentNode.removeChild(el);
+  if (_detachedEls) return;
+  const cur = window._currentNode;
+  if (!cur) return;
+  const 残す = new Set([cur.id]);
+  linkData.forEach(l => {
+    const s = l.s || (l.source && l.source.id);
+    const t = l.t || (l.target && l.target.id);
+    if (s === cur.id) 残す.add(t);
+    if (t === cur.id) 残す.add(s);
+  });
+  const 外す = [];
+  const 要る = (d) => {
+    if (!d) return true;
+    if (d.id !== undefined) return 残す.has(d.id);          // 玉
+    const s = d.s || (d.source && d.source.id);
+    const t = d.t || (d.target && d.target.id);
+    if (s === undefined) return true;
+    return s === cur.id || t === cur.id;                     // 線・線の文字
+  };
+  document.querySelectorAll('#graph .node, #graph line.link, #graph .link-label-group')
+    .forEach(el => {
+      if (!要る(el.__data__)) {
+        外す.push({ el, 親: el.parentNode, 次: el.nextSibling });
+      }
+    });
+  外す.forEach(x => x.親.removeChild(x.el));
+  _detachedEls = 外す;
 }
 
 function attachMap() {
-  if (!_mapDetached) return;
-  const { 要素, 親, 次 } = _mapDetached;
-  _mapDetached = null;
-  親.insertBefore(要素, 次);
+  if (!_detachedEls) return;
+  const 戻す = _detachedEls;
+  _detachedEls = null;
+  // 元の位置に戻す。後ろから戻すと「次の兄弟」がまだ居るので順序が保たれる
+  for (let i = 戻す.length - 1; i >= 0; i--) {
+    const { el, 親, 次 } = 戻す[i];
+    親.insertBefore(el, 次 && 次.parentNode === 親 ? 次 : null);
+  }
 }
 
 // アップになる動きが終わってから外す。動きの途中で外すと、
