@@ -729,7 +729,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v26.57<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v26.58<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -15394,6 +15394,7 @@ const zoom = d3.zoom().scaleExtent([0.005, 6]).on("zoom", e => {
 svg.call(zoom);
 
 function fitToView() {
+  attachMap(); clearTimeout(_detachTimer);
   const vw = window.innerWidth, vh = window.innerHeight;
   const headerH = document.getElementById('header').offsetHeight;
   const pad = 80;
@@ -15744,6 +15745,20 @@ function _syncLinkFlowMarks() {
     activeIdx.add(i);
     const x1 = +this.getAttribute('x1'), y1 = +this.getAttribute('y1');
     const x2 = +this.getAttribute('x2'), y2 = +this.getAttribute('y2');
+    // 動いていない線は書き直さない。
+    // ここから下はマスク・グラデーション・光の筋を作り直す処理で、
+    // 座標が1ミリも変わっていなくても毎回すべて書き込んでいた。
+    // 静止した画面で毎秒8,865回のsetAttributeを計測し、その大半がこれだった。
+    // 出来上がりを決めるのは両端の座標と両端の玉の大きさだけなので、
+    // それが前回と同じなら、音符の存在確認以外は丸ごと省く
+    // （2026-08-18、「他のパソコンで重くて使えない」との報告を受けた調査）。
+    const _geo = x1 + ',' + y1 + ',' + x2 + ',' + y2 + ','
+               + (d.source.r || 0) + ',' + (d.target.r || 0) + ','
+               + effectiveSpacing;
+    if (this.__lastGeo === _geo && flowMarksG.select(`g[data-idx="${i}"]`).size()) {
+      return;
+    }
+    this.__lastGeo = _geo;
     const pathD  = `M${x1},${y1} L${x2},${y2}`;
     const pathRD = `M${x2},${y2} L${x1},${y1}`; // 相互影響用：逆向きの経路
     const sourceColor = this.getAttribute('data-source-color');
@@ -15997,6 +16012,15 @@ function _syncNodeSphere() {
   }
   node.each(function(d) {
     const isSphereTarget = sphereIds.has(d.id);
+    // 動いていない玉は書き直さない（線と同じ理由）。
+    // 球体の影とハイライトの位置は、玉の座標と大きさだけで決まる。
+    if (isSphereTarget) {
+      const _g = d.x + ',' + d.y + ',' + d.r;
+      if (this.__lastSphereGeo === _g) return;
+      this.__lastSphereGeo = _g;
+    } else {
+      this.__lastSphereGeo = null;
+    }
     if (!isSphereTarget) {
       // 「見えていないジャンルの丸も裏で処理され続けているのでは」との指摘を
       // 受けた調査で、_syncLinkFlowMarksと同じ問題（対象外のノード全て(562個)
@@ -16399,6 +16423,37 @@ function syncPanelTop() {
   panel.style.top = h + 'px';  // PC・スマホ共通：ヘッダー直下から表示
   document.getElementById('left-sidebar').style.top = h + 'px';
 }
+// ===== 地図の外し／戻し（2026-08-18） =====
+// パネルを開いている間、地図はほとんど見えていないのに、
+// 8,462個の部品をブラウザが描き続けていて、これが「重い」の主因だった。
+// 見えていない間はDOMから外しておく。表示を隠す（display:none）だけでは
+// 部品の数が減らず、効かないことを実測で確認済み。
+// d3が持っている選択やデータは外しても壊れないので、作り直す必要はない。
+let _mapDetached = null;   // { 要素, 親, 次 }
+
+function detachMap() {
+  if (_mapDetached) return;
+  const el = document.getElementById('graph');
+  if (!el || !el.parentNode) return;
+  _mapDetached = { 要素: el, 親: el.parentNode, 次: el.nextSibling };
+  el.parentNode.removeChild(el);
+}
+
+function attachMap() {
+  if (!_mapDetached) return;
+  const { 要素, 親, 次 } = _mapDetached;
+  _mapDetached = null;
+  親.insertBefore(要素, 次);
+}
+
+// アップになる動きが終わってから外す。動きの途中で外すと、
+// せっかくの見た目が飛んでしまうため。
+let _detachTimer = null;
+function detachMapAfterZoom(ms) {
+  clearTimeout(_detachTimer);
+  _detachTimer = setTimeout(detachMap, ms || 900);
+}
+
 function openPanel() {
   syncPanelTop();
   if (isMobile()) { panel.style.display = 'block'; requestAnimationFrame(() => panel.classList.add('sp-visible')); }
@@ -16406,6 +16461,8 @@ function openPanel() {
 }
 window.addEventListener('resize', () => { if (panel.style.display === 'block') syncPanelTop(); });
 function closePanel() {
+  clearTimeout(_detachTimer);
+  attachMap();                     // 何より先に地図を戻す
   document.getElementById('sp-yt-player').src = '';
   if (isMobile()) { panel.classList.remove('sp-visible'); setTimeout(() => { if (!panel.classList.contains('sp-visible')) panel.style.display = 'none'; }, 300); }
   else { panel.style.display = 'none'; }
@@ -16449,6 +16506,8 @@ const nodeDrag = d3.drag()
 node.call(nodeDrag);
 
 node.on("click", (e, d) => {
+  attachMap();   // 外していたら先に戻す。以降の処理は地図がある前提
+  clearTimeout(_detachTimer);
   if(dragMoved) return;
   e.stopPropagation();
 
@@ -16828,6 +16887,8 @@ node.on("click", (e, d) => {
     if (scale <= 0 || !isFinite(scale)) return;
     const tx = cx - midX * scale, ty = cy - midY * scale;
     svg.transition().duration(600).call(zoom.transform, d3.zoomIdentity.translate(tx, ty).scale(scale));
+    // 動きが終わってから地図を外す（見た目は今までと変わらない）
+    detachMapAfterZoom(900);
   })();
 });
 
@@ -17141,6 +17202,7 @@ panel.addEventListener('click', (e) => {
   }
 });
 svg.on("click", () => {
+  attachMap();
   closePanel();
   stopHighlightFlash();
   window._nodeFocused = false;
@@ -17889,6 +17951,7 @@ function searchHandler(e) {
   else grClearQueue();
   resultsDiv.innerHTML = html;
   resultsDiv.style.display = 'block';
+  attachMap(); clearTimeout(_detachTimer);
   window._searchActive = foundIds.size > 0;
 }
 
@@ -17937,6 +18000,7 @@ updateCandidatesInfo();
 let lockedCat = null;
 
 function highlightCat(cat) {
+  attachMap(); clearTimeout(_detachTimer);
   // 前の状態を全クリア（検索含む）
   node.classed('cat-highlight', false);
   node.classed('cat-dim', false);
