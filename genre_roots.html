@@ -729,7 +729,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v26.62<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v26.63<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -15177,13 +15177,27 @@ function _escapeHtml(s) {
 // テキスト中の用語集に載っている語を、ツールチップ付きのspanに置き換える。
 // テキストは先にHTMLエスケープしてから置換するため、安全にinnerHTMLへ
 // 差し込める。
+// 同じ文章に対する答えは毎回同じなので、一度作ったら覚えておく。
+// 6,414語の用語集を、説明文・成り立ち・影響カード数十枚の全文に対して
+// 毎回すべて照合しており、パネルを開くたびに320msかかっていた
+// （2026-08-18、「開き直すと音楽が止まる」の調査）。
+const _glossaryCache = new Map();
 function _applyGlossary(text) {
   if (!text) return '';
+  const 覚え = _glossaryCache.get(text);
+  if (覚え !== undefined) return 覚え;
   const escaped = _escapeHtml(text);
-  return escaped.replace(_glossaryRegex, (term) => {
+  const 出来 = escaped.replace(_glossaryRegex, (term) => {
     const def = GLOSSARY[term];
     return `<span class="gloss-term" tabindex="0">${term}<span class="gloss-tip">${_escapeHtml(def)}</span></span>`;
   });
+  // 際限なく増えないよう、多くなったら古いものから捨てる
+  if (_glossaryCache.size > 4000) {
+    const it = _glossaryCache.keys();
+    for (let i = 0; i < 1000; i++) _glossaryCache.delete(it.next().value);
+  }
+  _glossaryCache.set(text, 出来);
+  return 出来;
 }
 // roots_story用：[[アーティスト / 曲名]]のYouTubeリンク変換と、用語集への
 // 置き換えを両方行う。曲名・アーティスト名にたまたま用語集の語と同じ
@@ -15614,7 +15628,11 @@ const flowMarksG = g.append("g").attr("id", "link-flow-marks").style("pointer-ev
 // 割って算出している。
 // 矢印の本数が多すぎて動作が重くなり、音楽の再生が途切れる不具合が
 // 報告されたため、間隔を3倍(23→69)にして本数をおおよそ3分の1に減らした。
-const FLOW_MARK_SPACING = 69;  // 矢印同士の間隔（線の長さによらず一定）
+// 2026-08-18、ふたたび「音楽が止まる」との報告を受けて69→138に。
+// 本数がさらに半分になる。音符1個は部品6個（入れ物・経路アニメ・
+// にじみ2枚・芯・明滅3層）を持ち、Jazzのパネルでは186個＝約1,192個。
+// とくにぼかしが1個に2枚あり、186個で372枚が常に再計算されていた。
+const FLOW_MARK_SPACING = 138;  // 音符同士の間隔（線の長さによらず一定）
 const FLOW_MARK_SPEED   = 88;  // 矢印が動く速さ：1秒あたりに進む距離（線の長さによらず一定）
 // 動く音符エフェクト全体のON/OFFスイッチ。環境によっては（検証端末の性能・
 // 同時ハイライト数などにより）カクつきが目立つことがあるため、trueをfalseに
@@ -16445,10 +16463,19 @@ window.addEventListener('message', (e) => {
 // click: 右サイドパネルを開く
 const panel     = document.getElementById("side-panel");
 const isMobile = () => window.innerWidth <= 768;
+// ヘッダーの高さは変わらないのに、パネルを開くたびに測り直していた。
+// offsetHeight を読むとブラウザが画面全体の配置を計算し直すため、
+// これだけで301msかかっていた。一度測ったら覚えておき、
+// 画面の大きさが変わったときだけ測り直す（2026-08-18）。
+let _headerH = null;
+addEventListener('resize', () => { _headerH = null; });
 function syncPanelTop() {
-  const h = document.getElementById('header').offsetHeight;
-  panel.style.top = h + 'px';  // PC・スマホ共通：ヘッダー直下から表示
-  document.getElementById('left-sidebar').style.top = h + 'px';
+  if (_headerH === null) _headerH = document.getElementById('header').offsetHeight;
+  const h = _headerH;
+  if (panel.style.top !== h + 'px') {
+    panel.style.top = h + 'px';  // PC・スマホ共通：ヘッダー直下から表示
+    document.getElementById('left-sidebar').style.top = h + 'px';
+  }
 }
 // ===== 地図の外し／戻し（2026-08-18） =====
 // パネルを開いている間、地図はほとんど見えていないのに、
@@ -16516,6 +16543,31 @@ function openPanel() {
   else { panel.style.display = 'block'; }
 }
 window.addEventListener('resize', () => { if (panel.style.display === 'block') syncPanelTop(); });
+
+// パネルを初めて開くときの1.4秒を、開く前に済ませておく（2026-08-18）。
+// 内訳はヘッダーの高さを測る317msと、用語集の照合338ms。どちらも
+// 1回目だけの費用なので、ページを開いた直後に前もってやっておけば、
+// クリックした瞬間には残っていない。
+//
+// 最初は requestIdleCallback（暇なときに実行）を使ったが、非力な環境では
+// 0.2秒ごとの定期処理が動き続けていて「暇」と判定されず、20秒待っても
+// 一度も呼ばれなかった。少しずつ区切って進める方式に変えた。
+(() => {
+  // ヘッダーの高さは先に測っておく（1回だけ）
+  setTimeout(() => { if (_headerH === null)
+    _headerH = document.getElementById('header').offsetHeight; }, 300);
+
+  // 説明文の用語集も先に通しておく。知名度の高いジャンルから順に。
+  // 1回20件までにして間に休みを入れるので、地図の表示は邪魔しない。
+  const 順 = NODES.slice().sort((a, b) => (b.fame || 0) - (a.fame || 0));
+  let i = 0;
+  const 進める = () => {
+    const 終 = Math.min(i + 20, 順.length);
+    for (; i < 終; i++) { const n = 順[i]; if (n.desc) _applyGlossary(n.desc); }
+    if (i < 順.length) setTimeout(進める, 60);
+  };
+  setTimeout(進める, 500);
+})();
 function closePanel() {
   clearTimeout(_detachTimer);
   attachMap();                     // 何より先に地図を戻す
@@ -16581,13 +16633,33 @@ node.on("click", (e, d) => {
     if (l.s === d.id) directIds.add(l.t);
     if (l.t === d.id) directIds.add(l.s);
   });
-  node.classed('focus-highlight', n => n.id === d.id);
-  node.classed('focus-dim', n => n.id !== d.id && !directIds.has(n.id));
   twinkleActive = false;
-  node.select("circle").attr("fill", n => (n.id === d.id || directIds.has(n.id)) ? d3.select(node.filter(dd => dd.id === n.id).select("circle").node()).attr("data-cat-color") : monoColor(n));
+  // ここは569個の玉すべてに印と色を書き込む場所で、クリックの重さの
+  // 半分（380ms）を占めていた。とくに色の行は、玉1個ごとに
+  // node.filter(...) で全569個から相手を探し直しており、
+  // 569×569＝32万回の探索になっていた。
+  // 一度だけまとめて走査し、変わるものだけ書き換える（2026-08-18、
+  // 「パネルを開き直すと音楽が止まる」の調査）。
+  node.each(function (n) {
+    const 選 = n.id === d.id;
+    const 近 = 選 || directIds.has(n.id);
+    const cl = this.classList;
+    if (cl.contains('focus-highlight') !== 選) cl.toggle('focus-highlight', 選);
+    if (cl.contains('focus-dim') !== !近) cl.toggle('focus-dim', !近);
+    const c = this.querySelector(':scope > circle');
+    if (c) {
+      const 色 = 近 ? c.getAttribute('data-cat-color') : monoColor(n);
+      if (c.getAttribute('fill') !== 色) c.setAttribute('fill', 色);
+    }
+  });
   startHighlightFlash(new Set([d.id]));
-  link.classed('focus-highlight', l => l.s === d.id || l.t === d.id);
-  link.classed('focus-dim', l => l.s !== d.id && l.t !== d.id);
+  // 線も同じ。1,314本すべてに書き込まず、変わるものだけ書き換える
+  link.each(function (l) {
+    const 関 = l.s === d.id || l.t === d.id;
+    const cl = this.classList;
+    if (cl.contains('focus-highlight') !== 関) cl.toggle('focus-highlight', 関);
+    if (cl.contains('focus-dim') !== !関) cl.toggle('focus-dim', !関);
+  });
   _syncLinkFlowMarks();
   _syncNodeSphere();
   // 三角形の矢印マーカーは表示しない（流れる矢印マークが方向を示すため不要になった）
