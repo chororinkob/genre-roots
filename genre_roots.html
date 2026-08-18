@@ -729,7 +729,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v26.59<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v26.60<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -16067,23 +16067,20 @@ function _syncNodeSphere() {
 }
 setInterval(_syncNodeSphere, 200);
 
-// edge label group: background rect + text
+// 線の真ん中に出していた「60%」「相互」という影響度の数字。
+// いまはCSSで .link-label / .link-label-bg とも opacity:0 になっており、
+// どの状態でも一度も表示されない（ジャンルを選んで線が光っている状態でも、
+// 枠だけ不透明になり中身は透明のままなので、掛け算で濃さは0）。
+// それでも部品は1,314組・3,942個ぶん作られ、ブラウザは毎フレーム
+// これを配置し直して塗り直していた。見えないものを描いていたことになる。
+// 作るのをやめる。見た目は1ピクセルも変わらない
+// （2026-08-18、「重くて使えない」の調査中に発見。チョロさんの
+// 「パーセンテージってもうないんだよ」という指摘がきっかけ）。
+// また出したくなったときのために、CSSの定義と、下の空の選択は残す。
 const linkLabelG = g.append("g").selectAll("g")
-  .data(linkData)
+  .data([])
   .join("g")
   .attr("class", "link-label-group");
-
-linkLabelG.append("rect")
-  .attr("class", "link-label-bg")
-  .attr("rx", 5).attr("ry", 5)
-  .attr("width", 120).attr("height", 50)
-  .attr("x", -60).attr("y", -35);
-
-linkLabelG.append("text")
-  .attr("class", "link-label")
-  .attr("text-anchor", "middle")
-  .attr("dominant-baseline", "central")
-  .text(d => d.mutual ? "相互" : d.w + "%");
 
 const node = g.append("g").selectAll("g")
   .data(NODES)
