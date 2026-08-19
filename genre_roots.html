@@ -303,7 +303,7 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
 .yt-music-link.sp-track-playing {
   color: #fff !important;
   font-weight: 700;
-  background: linear-gradient(90deg, rgba(233,69,96,0.30), rgba(233,69,96,0.02));
+  background: linear-gradient(90deg, rgba(233,69,96,0.14), rgba(233,69,96,0.01));
   border-left: 3px solid #e94560;
   padding: 1px 6px 1px 5px;
   margin-left: -8px;
@@ -320,18 +320,15 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
    影の色はふつうの色なので、なめらかに濃くなったり薄くなったりする。 */
 @keyframes sp-track-blink {
   0%, 100% {
-    box-shadow: inset 0 0 0 40px rgba(233,69,96,0.20);
-    border-left-color: rgb(255,95,120);
+    box-shadow: inset 0 0 0 40px rgba(233,69,96,0.62);
+    border-left-color: rgb(255,120,142);
   }
   50% {
     box-shadow: inset 0 0 0 40px rgba(233,69,96,0.00);
-    border-left-color: rgba(233,69,96,0.38);
+    border-left-color: rgba(233,69,96,0.30);
   }
 }
-/* 動きを減らす設定にしている人には点滅させない（明るいままにする） */
-@media (prefers-reduced-motion: reduce) {
-  .yt-music-link.sp-track-playing { animation: none; }
-}
+
 
 .gloss-term .gloss-tip {
   display: none;
@@ -768,7 +765,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v26.69<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v26.70<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
