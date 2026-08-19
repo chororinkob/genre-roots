@@ -708,7 +708,6 @@ svg { width: 100vw; height: 100vh; }
   #sp-tag .sp-alias { margin-top: 6px; }
   #sp-body { padding: 10px 14px; padding-bottom: 40px; }
   #sp-yt-player { height: 120px !important; }
-  #sp-yt-next { font-size: 10px !important; padding: 3px 8px !important; }
 
   /* 楽器パネル */
   #instruments-panel { padding: 12px 14px; top: 80px; }
@@ -729,7 +728,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v26.66<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v26.67<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -840,7 +839,10 @@ svg { width: 100vw; height: 100vh; }
       </div>
       <iframe id="sp-yt-player" width="100%" height="180" style="border:none;border-radius:8px;" allow="autoplay;encrypted-media" allowfullscreen></iframe>
       <button id="sp-yt-unmute" style="display:none;"></button>
-      <button id="sp-yt-next" style="display:none;margin-top:3px;padding:4px 10px;background:#1565C0;border:none;border-radius:4px;color:#fff;font-size:11px;font-weight:700;cursor:pointer;">次▶</button>
+    </div>
+    <div class="sp-section" id="sp-tracks-sec" style="display:none;">
+      <h4>代表曲・アーティスト</h4>
+      <div id="sp-tracks"></div>
     </div>
     <div id="sp-suno-wrap"></div>
     <div id="sp-era" class="sp-era"></div>
@@ -851,10 +853,6 @@ svg { width: 100vw; height: 100vh; }
     <div class="sp-section" id="sp-roots-story-sec">
       <h4>成り立ち</h4>
       <p id="sp-roots-story"></p>
-    </div>
-    <div class="sp-section" id="sp-tracks-sec" style="display:none;">
-      <h4>代表曲・アーティスト</h4>
-      <div id="sp-tracks"></div>
     </div>
     <div id="sp-influence-group" class="sp-influence-group">
     <div class="sp-section" id="sp-in-sec">
@@ -16488,12 +16486,9 @@ function _spMarkPlaying(idx) {
 function playByVideoId(primaryId, backupId, trackIdx) {
   const player = document.getElementById('sp-yt-player');
   const unmuteBtn = document.getElementById('sp-yt-unmute');
-  const nextBtn   = document.getElementById('sp-yt-next');
   player.dataset.backupId = backupId || '';
   player.src = `https://www.youtube.com/embed/${primaryId}?autoplay=${spAutoplayEnabled() ? 1 : 0}&rel=0&enablejsapi=1`;
   if (unmuteBtn) unmuteBtn.style.display = 'none';
-  if (nextBtn) nextBtn.style.display =
-    (_spTrackList.length > 1) ? '' : 'none';
   if (trackIdx !== undefined) {
     _spTrackIdx = trackIdx;
     _spMarkPlaying(trackIdx);
@@ -16525,15 +16520,10 @@ function spPlayNextTrack() {
   return spPlayTrack(_spTrackIdx + 1, 1);
 }
 
-// 「次▶」ボタン。代表曲を流しているときは次の代表曲へ送る。
-// 押しても何も起きない状態だったのを直した（送り先が旧方式のままだった）。
-document.addEventListener('DOMContentLoaded', () => {
-  const b = document.getElementById('sp-yt-next');
-  if (b) b.addEventListener('click', () => {
-    if (_spTrackList.length && spPlayNextTrack()) return;
-    if (window._ytPlaylist) playYtTrack((window._ytPlayIdx || 0) + 1);
-  });
-});
+// 「次▶」ボタンは廃止した（2026-08-19）。代表曲の一覧を動画のすぐ下に
+// 置いたので、次に聴きたい曲はその場で選べるし、いま流れている曲も
+// 「再生中」の印で分かる。曲が終われば自動で次の代表曲へ進む
+// （spPlayNextTrack、再生状態の受け取りは下のmessageハンドラ）。
 
 // YouTube再生関数
 function playYtTrack(idx) {
@@ -16543,7 +16533,6 @@ function playYtTrack(idx) {
   const q = encodeURIComponent(window._ytPlaylist[idx]);
   const player = document.getElementById('sp-yt-player');
   const unmuteBtn = document.getElementById('sp-yt-unmute');
-  const nextBtn = document.getElementById('sp-yt-next');
   const mobile = window.innerWidth <= 768;
   fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${q}&type=video&videoCategoryId=10&maxResults=1&videoEmbeddable=true&key=${ytKey}`)
     .then(r => r.json())
@@ -16564,16 +16553,7 @@ function playYtTrack(idx) {
           });
       }
       unmuteBtn.style.display = 'none';
-      // 次の曲ボタン
-      if (window._ytPlaylist.length > 1) {
-        nextBtn.style.display = 'block';
-        const nextIdx = (idx + 1) % window._ytPlaylist.length;
-        const parts = window._ytPlaylist[nextIdx].split(' / ');
-        nextBtn.textContent = `次▶ ${parts[0]}${parts[1] ? ' ♪ ' + parts[1] : ''}`;
-        nextBtn.onclick = () => playYtTrack(nextIdx);
-      } else {
-        nextBtn.style.display = 'none';
-      }
+      // 「次▶」ボタンは廃止したので、ここでは何もしない（旧方式の名残）
     })
     .catch(err => { console.error('YT search error:', err); });
 }
