@@ -729,7 +729,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v26.65<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v26.66<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -18716,6 +18716,28 @@ const 配置 = restoreLayout();
 // 待っている間は地図が拡大されたまま画面の外にあり、何も見えない状態だった。
 const _位置なし = NODES.some(n => !BAKED_POS[n.id]);
 setTimeout(fitToView, 配置 ? 400 : (_位置なし ? 3000 : 120));
+
+// 地図を開いた直後だけ、埋め込んだ配置から軽く力の計算を回して、
+// 玉がゆらいでから落ち着くようにする（2026-08-19、「うにょうにょ動く
+// あの有機的な感じが生き物みたいですごく良かった」との要望）。
+//
+// 以前は位置ゼロから569個を計算し直していたため、普通のパソコンで5秒、
+// 非力なパソコンでは25秒ものあいだ地図が重いままだった。ここでは
+// 完成した配置(BAKED_POS)を出発点にして、勢い(alpha)を少しだけ与える。
+// alphaDecay(0.05)で減っていき、_simIdleTimerが落ち着いたところで
+// 自動的に止める。
+//   勢い0.10 … 3.6秒で落ち着く／玉は平均92px・最大548px動く（実測）
+// 重くなるのはゆれている3.6秒のあいだだけで、そのあとは止まる。
+// ジャンルを選んだあとは計算が止まっているので、パネルを開いたときに
+// 玉がフラフラ動くことはない。
+//
+// 次の場合はゆらさない：
+//   ・配置を保存してある … その通りに置くのが目的なので動かしてはいけない
+//   ・位置を持たない玉がある … 既に計算が回っているので二重に回さない
+const MAP_INTRO_ALPHA = 0.10;
+if (!配置 && !_位置なし) {
+  setTimeout(() => simulation.alpha(MAP_INTRO_ALPHA).restart(), 350);
+}
 
 // ===== INSTRUMENTS & EFFECTS TAB =====
 const INST_DATA = INST_ITEMS;
