@@ -729,7 +729,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v26.63<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v26.64<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -15640,6 +15640,21 @@ const FLOW_MARK_SPEED   = 88;  // 矢印が動く速さ：1秒あたりに進む
 // （ガラスのパイプ表現・矢印グラデーション等、音符以外の演出は影響を受けない）
 // （2026-07-25、「重くなったら簡単にオフにできるように」との指示）。
 const FLOW_NOTES_ENABLED = true;
+// 音符の描き方の切り替えスイッチ（2026-08-19）。
+// true  … 音符を1枚のキャンバスにまとめて描く（軽い）
+// false … 音符1個ずつをSVGの部品として置く（元のやり方）
+//
+// 元のやり方では音符1個が部品6個（入れ物・経路アニメ・にじみ2枚・芯・
+// 明滅3層）を持ち、Jazzでは126個＝約750個の部品が常に動いていた。部品が
+// 動くたびにブラウザは画面全体の配置を計算し直すため、YouTubeが自分の
+// 表示サイズを問い合わせるたびにその計算が丸ごと走り、音が途切れていた
+// （配置の計算 5,775ms→27ms、画面がふさがる割合 61%→3.7%で確認）。
+// キャンバスは1枚の絵なので、中で何個動かしても配置の計算が起きない。
+//
+// 見た目は元の値をそのまま写している（色・にじみ3層の大きさ・明滅の
+// 振れ幅と周期・横ゆれ・音符の字・個数・速さ）。
+// 不具合が出たときは、この1行を false に書き換えるだけで元のやり方に戻る。
+const FLOW_NOTES_CANVAS = true;
 // 矢印バージョン(_flowMarkGlyph/_addFlowMarks)は
 // checkpoints/genre_roots_CHECKPOINT_arrow_version.html に保存済み。
 // 光る点バージョン(_flowGlowRadius)は
@@ -15696,6 +15711,30 @@ function _wavyPathD(x1, y1, x2, y2, amp, freq, phase) {
 function _addFlowNotes(grp, count, x1, y1, x2, y2, motionClass, dur, strokeWidth) {
   const fontSize = _flowNoteFontSize(strokeWidth);
   const maxAmp = Math.max(2, strokeWidth * 0.4); // 揺れの最大幅（線の太さに比例）
+  if (FLOW_NOTES_CANVAS) {
+    // キャンバス方式：SVGの部品は作らず、1個1個の性質だけを控えておく。
+    // 実際の描画は_drawFlowNotes()が毎コマまとめて行う。ばらつきの決め方は
+    // 下のSVG方式と同じ式・同じ範囲にしてある（見た目を変えないため）。
+    const 粒 = grp.node().__notes || (grp.node().__notes = []);
+    for (let k = 0; k < count; k++) {
+      const glyph = NOTE_GLYPHS[Math.floor(Math.random() * NOTE_GLYPHS.length)];
+      粒.push({
+        速: dur * (0.6 + Math.random() * 1.0),   // 端から端まで何秒かかるか
+        出: Math.random(),                        // 出発のタイミング（0〜1周期）
+        揺: maxAmp * (0.3 + Math.random() * 0.7), // 横ゆれの幅
+        細: 1 + Math.random() * 1.5,              // 横ゆれの細かさ
+        位: Math.random() * Math.PI * 2,          // 横ゆれの位相
+        脈: 0.9 + Math.random() * 1.8,            // 明滅の周期(秒)
+        脈位: Math.random(),                      // 明滅の開始位置
+        逆: motionClass === "rev-motion",         // 相互影響の線の逆向き分
+        字大: fontSize,
+        far:  _noteSprite(glyph, "far"),
+        near: _noteSprite(glyph, "near"),
+        core: _noteSprite(glyph, "core"),
+      });
+    }
+    return;
+  }
   for (let k = 0; k < count; k++) {
     const amp = maxAmp * (0.3 + Math.random() * 0.7);
     const freq = 1 + Math.random() * 1.5;
@@ -15762,6 +15801,132 @@ function _addFlowNotes(grp, count, x1, y1, x2, y2, motionClass, dur, strokeWidth
       .attr("begin", beginK + "s")
       .attr("path", _wavyPathD(x1, y1, x2, y2, amp, freq, phase));
   }
+}
+
+// ===== 音符をキャンバスに描く（FLOW_NOTES_CANVAS が true のときだけ動く） =====
+// 光る音符の絵は、字ごと・層ごとに1枚だけ先に作って使い回す。ぼかしは
+// 作るときに1回かけるだけなので、毎コマぼかし直す必要がない（SVG方式では
+// にじみ2枚×音符の数だけ、毎コマぼかしが計算し直されていた）。
+const _NOTE_SPRITE = new Map();
+const _NOTE_SPRITE_PX = 128;          // 絵1枚の大きさ。中の字はこの0.34倍
+const _NOTE_GLYPH_RATIO = 0.34;
+function _noteSprite(glyph, layer) {
+  const key = glyph + "|" + layer;
+  if (_NOTE_SPRITE.has(key)) return _NOTE_SPRITE.get(key);
+  const S = _NOTE_SPRITE_PX;
+  const cv = document.createElement("canvas");
+  cv.width = cv.height = S;
+  const x = cv.getContext("2d");
+  x.textAlign = "center"; x.textBaseline = "middle";
+  const 字 = S * _NOTE_GLYPH_RATIO;
+  x.font = 字 + "px serif";
+  if (layer === "far") {
+    // .link-flow-note-glow-far { fill: #cfe0ff } ＋ 大きめのぼかし
+    x.fillStyle = "#cfe0ff"; x.filter = "blur(" + (S * 0.10) + "px)";
+    x.fillText(glyph, S / 2, S / 2);
+  } else if (layer === "near") {
+    // .link-flow-note-glow-near { fill: #ffffff } ＋ 中くらいのぼかし
+    x.fillStyle = "#ffffff"; x.filter = "blur(" + (S * 0.045) + "px)";
+    x.fillText(glyph, S / 2, S / 2);
+  } else {
+    // .link-flow-note { fill:#fff; filter: drop-shadow(0 0 5px rgba(230,238,255,.95)) }
+    x.fillStyle = "#ffffff";
+    x.shadowColor = "rgba(230,238,255,0.95)"; x.shadowBlur = S * 0.06;
+    x.fillText(glyph, S / 2, S / 2);
+    x.fillText(glyph, S / 2, S / 2);   // 2度重ねて、drop-shadowと同じ濃さにする
+  }
+  _NOTE_SPRITE.set(key, cv);
+  return cv;
+}
+
+let _noteCanvas = null, _noteCtx = null, _noteRAF = null, _noteBox = null;
+function _ensureNoteCanvas() {
+  if (_noteCanvas) return _noteCanvas;
+  _noteCanvas = document.createElement("canvas");
+  _noteCanvas.id = "flow-note-canvas";
+  // 左のカテゴリ一覧(z-index:20)・説明パネル(25)より下、地図と同じ層に置く。
+  // #globe-container と同じ 5 にすることで、地図の上・パネルの下に収まる。
+  _noteCanvas.style.cssText = "position:fixed;pointer-events:none;z-index:5;";
+  document.body.appendChild(_noteCanvas);
+  _noteCtx = _noteCanvas.getContext("2d");
+  _fitNoteCanvas();
+  addEventListener("resize", _fitNoteCanvas);
+  // 説明パネルの開閉などで地図の大きさが変わったときも合わせ直す
+  if (window.ResizeObserver) new ResizeObserver(_fitNoteCanvas).observe(svgEl);
+  return _noteCanvas;
+}
+function _fitNoteCanvas() {
+  if (!_noteCanvas) return;
+  const b = svgEl.getBoundingClientRect();
+  const dpr = Math.min(2, window.devicePixelRatio || 1);
+  _noteCanvas.width  = Math.max(1, Math.round(b.width  * dpr));
+  _noteCanvas.height = Math.max(1, Math.round(b.height * dpr));
+  _noteCanvas.style.left = b.left + "px";
+  _noteCanvas.style.top = b.top + "px";
+  _noteCanvas.style.width = b.width + "px";
+  _noteCanvas.style.height = b.height + "px";
+  _noteCanvas.__dpr = dpr;
+  _noteBox = b;
+}
+
+// 1枚の絵を貼る。絵の中で字は S*0.34 なので、芯が字大になるよう逆算する
+function _blitNote(sprite, sx, sy, 大, 濃) {
+  if (濃 <= 0.01) return;
+  const w = 大 / _NOTE_GLYPH_RATIO;
+  if (w < 2) return;
+  _noteCtx.globalAlpha = 濃;
+  _noteCtx.drawImage(sprite, sx - w / 2, sy - w / 2, w, w);
+}
+
+function _drawFlowNotes() {
+  _noteRAF = null;
+  if (!FLOW_NOTES_CANVAS || !_noteCanvas) return;
+  const 群 = flowMarksG.node().children;
+  const dpr = _noteCanvas.__dpr || 1;
+  _noteCtx.setTransform(1, 0, 0, 1, 0, 0);
+  _noteCtx.clearRect(0, 0, _noteCanvas.width, _noteCanvas.height);
+  if (!群.length) return;                      // 何も光っていなければ止める
+  _noteCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  _noteCtx.globalCompositeOperation = "lighter"; // 光が重なるほど明るくなる
+  const t = performance.now() / 1000;
+  const m = g.node().getScreenCTM();             // 地図の拡大・移動をそのまま使う
+  const 左 = _noteBox ? _noteBox.left : 0, 上 = _noteBox ? _noteBox.top : 0;
+  for (let k = 0; k < 群.length; k++) {
+    const grp = 群[k];
+    const 粒 = grp.__notes, 線 = grp.__line;
+    if (!粒 || !粒.length || !線 || !線.isConnected) continue;
+    const ax = +線.getAttribute("x1"), ay = +線.getAttribute("y1");
+    const bx = +線.getAttribute("x2"), by = +線.getAttribute("y2");
+    const 長 = Math.hypot(bx - ax, by - ay) || 1;
+    const nx = -(by - ay) / 長, ny = (bx - ax) / 長;   // 線に垂直な向き
+    for (let j = 0; j < 粒.length; j++) {
+      const q = 粒[j];
+      const u = ((t / q.速) + q.出) % 1;               // 0→1で端から端へ
+      const x1 = q.逆 ? bx : ax, y1 = q.逆 ? by : ay;
+      const x2 = q.逆 ? ax : bx, y2 = q.逆 ? ay : by;
+      // 横ゆれ。両端では必ず0にして、玉の中心で線からずれないようにする
+      // （_wavyPathDのenvelopeと同じ考え方）
+      const 揺 = Math.sin(u * Math.PI) * Math.sin(u * q.細 * Math.PI * 2 + q.位) * q.揺;
+      const gx = x1 + (x2 - x1) * u + nx * 揺;
+      const gy = y1 + (y2 - y1) * u + ny * 揺;
+      const sx = m.a * gx + m.c * gy + m.e - 左;
+      const sy = m.b * gx + m.d * gy + m.f - 上;
+      if (sx < -80 || sy < -80 || sx > _noteBox.width + 80 || sy > _noteBox.height + 80) continue;
+      // 蛍のように「ふわーん」と脈打つ。0→1→0をなめらかに（fn-pulse-*と同じ）
+      const 脈 = 0.5 - 0.5 * Math.cos(((t / q.脈) + q.脈位) * Math.PI * 2);
+      const 基 = q.字大 * m.a;
+      _blitNote(q.far,  sx, sy, 基 * 2.6 * (0.65 + 0.80 * 脈), 0.55 * 脈);
+      _blitNote(q.near, sx, sy, 基 * 1.8 * (0.70 + 0.65 * 脈), 0.85 * 脈);
+      _blitNote(q.core, sx, sy, 基 * 1.0 * (0.75 + 0.55 * 脈), 0.30 + 0.70 * 脈);
+    }
+  }
+  _noteCtx.globalCompositeOperation = "source-over";
+  _noteRAF = requestAnimationFrame(_drawFlowNotes);
+}
+function _startFlowNotes() {
+  if (!FLOW_NOTES_CANVAS || _noteRAF) return;
+  _ensureNoteCanvas();
+  _noteRAF = requestAnimationFrame(_drawFlowNotes);
 }
 
 function _syncLinkFlowMarks() {
@@ -15955,6 +16120,10 @@ function _syncLinkFlowMarks() {
     this.setAttribute('stroke', `url(#${gradId})`);
 
     let grp = flowMarksG.select(`g[data-idx="${i}"]`);
+    // キャンバス方式は毎コマ線の現在の座標を読んで描くので、どの線の
+    // まとまりかをここで覚えておく（番号での照合はできない。軽量化で
+    // 関係ない線をDOMから外しているため、線の並び順とdata-idxは一致しない）
+    if (FLOW_NOTES_CANVAS && !grp.empty()) grp.node().__line = this;
     if (grp.empty()) {
       // 線の実際の長さから、間隔・速さが線の長さによらず一定になるよう
       // 本数と所要時間を逆算する（本数は最低2個、極端に長い線でも矢印が
@@ -15966,6 +16135,7 @@ function _syncLinkFlowMarks() {
       // 速さ・タイミング・揺れ方はここからランダム化する）
       const strokeWidth = _linkStrokeWidth(d);
       grp = flowMarksG.append("g").attr("data-idx", i).attr("data-path", pathD);
+      if (FLOW_NOTES_CANVAS) { grp.node().__line = this; grp.node().__notes = []; }
       if (FLOW_NOTES_ENABLED) {
         anyNewFlowNoteGroup = true;
         if (d.mutual) {
@@ -15981,7 +16151,7 @@ function _syncLinkFlowMarks() {
           _addFlowNotes(grp, count, x1, y1, x2, y2, "fwd-motion", dur, strokeWidth);
         }
       }
-    } else if (grp.attr("data-path") !== pathD) {
+    } else if (!FLOW_NOTES_CANVAS && grp.attr("data-path") !== pathD) {
       // ノードが動いて線の位置が変わった場合だけ経路を作り直す。個体ごとの
       // 揺れ方(amp/freq/phase、円のdata属性に保存済み)はそのまま維持し、
       // 新しい座標で経路だけを再計算する。
@@ -16019,9 +16189,12 @@ function _syncLinkFlowMarks() {
   // 一度自分自身に設定し直す(setCurrentTime)ことで、ブラウザに新しく
   // 増えたアニメーション要素の存在を再認識させ、動き出させる
   // （2026-07-25、「ブルースに戻ると光が消えたまま直らない」との報告への対応）。
-  if (anyNewFlowNoteGroup && typeof svgEl !== "undefined" && svgEl && svgEl.setCurrentTime) {
+  if (!FLOW_NOTES_CANVAS && anyNewFlowNoteGroup && typeof svgEl !== "undefined" && svgEl && svgEl.setCurrentTime) {
     try { svgEl.setCurrentTime(svgEl.getCurrentTime()); } catch (e) { /* 対応環境差は無視 */ }
   }
+  // キャンバス方式：光る線が1本でもあれば描き始める。1本も無くなったら
+  // _drawFlowNotes側が画面を消して自分から止まる（見ていない間は動かない）
+  if (FLOW_NOTES_CANVAS && FLOW_NOTES_ENABLED && flowMarksG.node().children.length) _startFlowNotes();
 }
 setInterval(_syncLinkFlowMarks, 200);
 
