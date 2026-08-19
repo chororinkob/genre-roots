@@ -202,6 +202,25 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
 .sp-cat { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: #ccc; margin-bottom: 4px; }
 .sp-cat-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 .sp-section { margin-bottom: 14px; }
+/* 代表曲は「聴くところ」。動画とひとまとまりに見えるよう枠で囲む。
+   囲まないと、代表曲の最後の曲と、その下の「発祥時期」が地続きに見えて、
+   曲の発売年をジャンルの発祥時期と読み違えてしまう
+   （2026-08-19、「何の隔たりもなくつながっている」との指摘）。 */
+#sp-tracks-sec {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.13);
+  border-radius: 8px;
+  padding: 9px 11px 10px;
+  margin-bottom: 0;
+}
+#sp-tracks-sec h4 { border-bottom-color: rgba(255,255,255,0.15); }
+/* 枠のすぐ下に区切り線を引いて、「ここから説明が始まる」ことを示す。
+   代表曲が無いジャンルでは線も出さない（JS側で枠と一緒に出し入れする）。 */
+.sp-explain-divider {
+  height: 1px;
+  background: rgba(255,255,255,0.22);
+  margin: 16px 0 13px;
+}
 .sp-section h4 { font-size: 12px; letter-spacing: 0.5px; color: #fff; font-weight: 700; margin-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 4px; }
 /* 見出しの中で意味の要となる部分(受けた/与えた/相互に)だけ、方向の
    配色(in=青/out=緑/mutual=紫)に合わせて色を変えて目立たせる（2026-07-23） */
@@ -292,6 +311,11 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
   margin-left: 7px; font-size: 9.5px; font-weight: 700;
   color: #ffd7de; background: rgba(233,69,96,0.55);
   padding: 1px 5px; border-radius: 8px; vertical-align: 1px;
+  /* 札そのものは折り返さない。代表曲を枠で囲んで幅が狭くなったとき、
+     「再生」「中」と2行に割れてしまったための指定（2026-08-19）。
+     曲名が長い場合は、札ごと次の行に送る。 */
+  display: inline-block;
+  white-space: nowrap;
 }
 .gloss-term .gloss-tip {
   display: none;
@@ -728,7 +752,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v26.67<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v26.68<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -844,6 +868,7 @@ svg { width: 100vw; height: 100vh; }
       <h4>代表曲・アーティスト</h4>
       <div id="sp-tracks"></div>
     </div>
+    <div class="sp-explain-divider" id="sp-explain-divider" style="display:none;"></div>
     <div id="sp-suno-wrap"></div>
     <div id="sp-era" class="sp-era"></div>
     <div class="sp-section" id="sp-desc-sec">
@@ -17041,11 +17066,16 @@ node.on("click", (e, d) => {
       tracksHtml += '</div>';
     });
   }
+  // 区切り線は代表曲の枠と一緒に出し入れする。代表曲が無いジャンルで
+  // 線だけが浮くのを避けるため。
+  const spDivider = document.getElementById("sp-explain-divider");
   if (tracksHtml) {
     spTracks.innerHTML = tracksHtml;
     spTracksSec.style.display = '';
+    if (spDivider) spDivider.style.display = '';
   } else {
     spTracksSec.style.display = 'none';
+    if (spDivider) spDivider.style.display = 'none';
   }
 
   // セクションの見出し（「受けた」「与えた」「相互に」）で方向は
