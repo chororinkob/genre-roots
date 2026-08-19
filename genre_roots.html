@@ -198,7 +198,10 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
 .sp-switch input:checked + .sp-switch-slider::before { transform: translateX(14px); }
 #sp-body { padding: 14px 16px; }
 .sp-suno { display: inline-block; background: #FFD700; color: #000; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 10px; margin-bottom: 10px; }
-.sp-era { font-size: 12px; color: #ccc; margin-bottom: 10px; }
+/* 発祥時期。見出しの中で、別名のすぐ下に置く（2026-08-19） */
+#sp-tag .sp-era { display: block; margin-top: 7px;
+  font-size: 11.5px; font-weight: 500; letter-spacing: .01em;
+  color: rgba(var(--al-lit), .92); }
 .sp-cat { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: #ccc; margin-bottom: 4px; }
 .sp-cat-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 .sp-section { margin-bottom: 14px; }
@@ -305,18 +308,31 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
   padding: 1px 6px 1px 5px;
   margin-left: -8px;
   border-radius: 3px;
+  /* 「再生中」の札の代わりに、赤い帯そのものをゆっくり明滅させる
+     （2026-08-19、「札はなしにして、赤い帯を点滅させて」との指示）。
+     動くのは代表曲1行ぶんだけなので、地図の音符と違って負荷はごく小さい。 */
+  animation: sp-track-blink 2.6s ease-in-out infinite;
 }
-.yt-music-link.sp-track-playing::after {
-  content: "再生中";
-  margin-left: 7px; font-size: 9.5px; font-weight: 700;
-  color: #ffd7de; background: rgba(233,69,96,0.55);
-  padding: 1px 5px; border-radius: 8px; vertical-align: 1px;
-  /* 札そのものは折り返さない。代表曲を枠で囲んで幅が狭くなったとき、
-     「再生」「中」と2行に割れてしまったための指定（2026-08-19）。
-     曲名が長い場合は、札ごと次の行に送る。 */
-  display: inline-block;
-  white-space: nowrap;
+/* 帯の濃さは、背景のグラデーションを差し替えるのではなく、内側の影
+   （inset box-shadow）を重ねて変える。グラデーションは途中の色に
+   なめらかに変化せず、パッと切り替わってしまうため（実測で確認：
+   縁の色は14段階に変化したのに、背景は0.08と0.42の2値しか出なかった）。
+   影の色はふつうの色なので、なめらかに濃くなったり薄くなったりする。 */
+@keyframes sp-track-blink {
+  0%, 100% {
+    box-shadow: inset 0 0 0 40px rgba(233,69,96,0.20);
+    border-left-color: rgb(255,95,120);
+  }
+  50% {
+    box-shadow: inset 0 0 0 40px rgba(233,69,96,0.00);
+    border-left-color: rgba(233,69,96,0.38);
+  }
 }
+/* 動きを減らす設定にしている人には点滅させない（明るいままにする） */
+@media (prefers-reduced-motion: reduce) {
+  .yt-music-link.sp-track-playing { animation: none; }
+}
+
 .gloss-term .gloss-tip {
   display: none;
   position: fixed;
@@ -752,7 +768,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v26.68<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v26.69<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -870,7 +886,6 @@ svg { width: 100vw; height: 100vh; }
     </div>
     <div class="sp-explain-divider" id="sp-explain-divider" style="display:none;"></div>
     <div id="sp-suno-wrap"></div>
-    <div id="sp-era" class="sp-era"></div>
     <div class="sp-section" id="sp-desc-sec">
       <h4>音楽性・特徴</h4>
       <p id="sp-desc"></p>
@@ -16767,7 +16782,6 @@ const spCopy    = document.getElementById("sp-copy");
 const spClose   = document.getElementById("sp-close");
 const spSunoW   = document.getElementById("sp-suno-wrap");
 const spCat     = document.getElementById("sp-cat");
-const spEra     = document.getElementById("sp-era");
 const spDesc    = document.getElementById("sp-desc");
 const spIn      = document.getElementById("sp-in");
 const spOut     = document.getElementById("sp-out");
@@ -17003,7 +17017,11 @@ node.on("click", (e, d) => {
     ? `<span class="sp-alias"><span class="sp-alias-cap">別名</span>` +
       alias.map(a => `<span class="sp-alias-chip">${grEsc(a)}</span>`).join("") +
       `</span>`
-    : "");
+    : "")
+    // 発祥時期は見出しの中、別名のすぐ下に置く。以前は代表曲と
+    // 「音楽性・特徴」の間にあり、代表曲の最後の曲の発売年と
+    // 読み違えやすい中途半端な位置だった（2026-08-19）。
+    + (d.era ? `<span class="sp-era">発祥時期：${grEsc(d.era)}</span>` : "");
   spSunoW.innerHTML = '';
   // カテゴリー表示。凡例(legend-item)に既にカテゴリごとの日本語ラベルが
   // 用意されているので、そこから読み取って使う（別に一覧を持つと表記が
@@ -17017,7 +17035,6 @@ node.on("click", (e, d) => {
   } else {
     spCat.style.display = 'none';
   }
-  spEra.textContent  = d.era ? `発祥時期：${d.era}` : '';
   spDesc.innerHTML = d.desc ? _applyGlossary(d.desc) : '（説明なし）';
 
   // ルーツの経緯（[[アーティスト / 曲名]]をYouTubeリンクに変換、あわせて
