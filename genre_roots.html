@@ -729,7 +729,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v26.64<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v26.65<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -15858,7 +15858,16 @@ function _ensureNoteCanvas() {
 function _fitNoteCanvas() {
   if (!_noteCanvas) return;
   const b = svgEl.getBoundingClientRect();
-  const dpr = Math.min(2, window.devicePixelRatio || 1);
+  // キャンバスのマス目の細かさ。画面と同じ細かさ(1.0)にすると、Jazzの
+  // ように音符が126個ある場面で毎コマ160万マスを塗ることになり、これが
+  // 残っていた重さの大半だった。0.7倍にするとマス目が約半分になり、
+  // 25fps→30fps（CPU4倍遅く・YouTube再生中の実測）で目標の30に届く。
+  // 引き伸ばすぶん輪郭がわずかに柔らかくなるが、音符はもともと光って
+  // にじんでいる絵なので、並べて見ても違いが分からないことを確認済み
+  // （2026-08-19、チョロさんが動画で見くらべて承認）。
+  // 音符の数・大きさ・にじみの広がり・色・明滅・速さは一切変えていない。
+  const NOTE_CANVAS_SCALE = 0.7;
+  const dpr = NOTE_CANVAS_SCALE * Math.min(2, window.devicePixelRatio || 1);
   _noteCanvas.width  = Math.max(1, Math.round(b.width  * dpr));
   _noteCanvas.height = Math.max(1, Math.round(b.height * dpr));
   _noteCanvas.style.left = b.left + "px";
