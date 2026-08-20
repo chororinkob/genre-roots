@@ -765,7 +765,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v26.74<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v26.75<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -16146,23 +16146,34 @@ function _drawLinkStaff() {
       l.setAttribute('opacity', 0.55);
     }
 
-    // 強弱記号（五線の中に収める。外に出すと道からはみ出して目立つ）
+    // 出発点の近くに、ト音記号と強弱記号を小さく並べる。
+    // どちらも五線の中に収める。ここは主張させたくないので、
+    // 「五線譜ですよ」と伝わる程度の薄さに留める
+    // （2026-08-19、「ギターのTAB譜ではないと分かる程度に、
+    //   小さくおしゃれに、全然主張しないように」との指示）。
     const 角 = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
     const 上下 = (角 > 90 || 角 < -90) ? 180 : 0;
-    const 進 = (d.source && d.source.r ? d.source.r * 0.15 : 0) + 高 * 0.9;
-    const px = x1 + ux * 進, py = y1 + uy * 進;
-    const t = 作('text', 記号組);
-    t.textContent = _STAFF_記号[lv - 1];
-    t.setAttribute('x', px); t.setAttribute('y', py);
-    t.setAttribute('fill', 線色);
-    t.setAttribute('font-size', 高 * 0.58);
-    t.setAttribute('text-anchor', 'middle');
-    t.setAttribute('dominant-baseline', 'central');
-    t.setAttribute('opacity', 0.85);
-    t.setAttribute('font-family', 'serif');
-    t.setAttribute('font-style', 'italic');
-    t.setAttribute('font-weight', '700');
-    t.setAttribute('transform', 'rotate(' + (角 + 上下) + ' ' + px + ' ' + py + ')');
+    const 起点 = (d.source && d.source.r ? d.source.r * 0.15 : 0) + 高 * 0.85;
+    const 置く = (文字, 進, 大, 濃, 斜め) => {
+      const px = x1 + ux * 進, py = y1 + uy * 進;
+      const t = 作('text', 記号組);
+      t.textContent = 文字;
+      t.setAttribute('x', px); t.setAttribute('y', py);
+      t.setAttribute('fill', 線色);
+      t.setAttribute('font-size', 大);
+      t.setAttribute('text-anchor', 'middle');
+      t.setAttribute('dominant-baseline', 'central');
+      t.setAttribute('opacity', 濃);
+      t.setAttribute('font-family', 'serif');
+      if (斜め) {
+        t.setAttribute('font-style', 'italic');
+        t.setAttribute('font-weight', '700');
+      }
+      t.setAttribute('transform',
+        'rotate(' + (角 + 上下) + ' ' + px + ' ' + py + ')');
+    };
+    置く('\u{1D11E}', 起点, 高 * 0.80, 0.50, false);          // ト音記号（薄く）
+    置く(_STAFF_記号[lv - 1], 起点 + 高 * 0.62, 高 * 0.52, 0.72, true);
   });
 }
 
