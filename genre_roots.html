@@ -765,7 +765,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v26.73<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v26.74<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -15973,6 +15973,199 @@ function _startFlowNotes() {
   _noteRAF = requestAnimationFrame(_drawFlowNotes);
 }
 
+// ===== 「五線譜の道」 =====
+// ガラスの管をやめ、線そのものを五線譜として描く（2026-08-19）。
+// 「金属的で神々しすぎる。もっと柔らかく綺麗な道筋にしたい」との要望から。
+//
+//  ・道の太さ＝影響の強さ（5段階）。線の本数も 2/3/4/5/5 本と変わる
+//    （5本線の五線譜にはマスが4つしかないので、上の2段階は同じ5本にして
+//      太さで区別している）
+//  ・小節線で区切って「マス」を作る
+//  ・強弱記号（pp/p/mf/f/ff）を出発点の近くに小さく置く。五線の中に収める
+//  ・五線譜の紙にジャンルの色を敷く。片方向は出発側が濃く進むほど薄れ、
+//    相互影響は両端が濃く中心が薄れる（どちらから来たとも言えない関係のため）
+//  ・線そのものは生成りの一色。端から端まで同じ色で濃淡は付けない
+//
+// false にすると、元のガラスのパイプに戻る。
+const LINK_STAFF = true;
+// 五線譜の高さの基準（画面上のpx）。地図の座標で決め打ちにすると、
+// ふつうにジャンルを開いた倍率(0.19〜0.34)では3〜9pxにしかならず
+// 五線譜が一本も引けなかったため、画面上の大きさを基準にする。
+const STAFF_BASE_PX = 17;
+const _STAFF_本数 = [2, 3, 4, 5, 5];
+const _STAFF_高さ = [0.35, 0.46, 0.60, 0.74, 0.90];
+const _STAFF_太さ = [0.85, 0.90, 0.95, 1.00, 1.20];
+const _STAFF_記号 = ['pp', 'p', 'mf', 'f', 'ff'];
+const _STAFF_小節 = 120;
+const _STAFF_NS = 'http://www.w3.org/2000/svg';
+let _staffSig = '';
+
+function _staffLevel(w) {
+  return w <= 35 ? 1 : w <= 45 ? 2 : w <= 60 ? 3 : w <= 75 ? 4 : 5;
+}
+function _staffLighten(col, 割) {
+  const m = /^#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(col || '');
+  if (!m) return col || '#9db6ff';
+  const v = [1, 2, 3].map(i =>
+    Math.round(parseInt(m[i], 16) + (255 - parseInt(m[i], 16)) * 割));
+  return 'rgb(' + v.join(',') + ')';
+}
+
+function _drawLinkStaff() {
+  const 倍率 = (g.node().getScreenCTM() || { a: 1 }).a;
+  const 対象 = [...document.querySelectorAll('#graph line.link.focus-highlight')];
+  // 形も倍率も変わっていなければ描き直さない（0.2秒ごとに作り直すのは無駄）
+  const 印 = 倍率.toFixed(3) + '|' + 対象.map(e =>
+    e.getAttribute('x1') + ',' + e.getAttribute('y1') + ',' +
+    e.getAttribute('x2') + ',' + e.getAttribute('y2')).join(';');
+  if (印 === _staffSig) return;
+  _staffSig = 印;
+
+  // ガラスのパイプの部品（片側の白い反射光と反対側の暗い影）は使わない。
+  // この2つが「丸い金属の管」に見せていた正体だった。
+  document.querySelectorAll('.link-glass-highlight, .link-glass-shadow')
+    .forEach(e => { e.style.display = 'none'; });
+
+  let 譜 = document.getElementById('link-staff');
+  if (譜) 譜.remove();
+  document.querySelectorAll('linearGradient[id^="staff-grad-"]').forEach(e => e.remove());
+  譜 = document.createElementNS(_STAFF_NS, 'g');
+  譜.id = 'link-staff';
+  譜.style.pointerEvents = 'none';
+  flowMarksG.node().parentNode.insertBefore(譜, flowMarksG.node());
+  const 作 = (種, 親) => {
+    const e = document.createElementNS(_STAFF_NS, 種);
+    親.appendChild(e);
+    return e;
+  };
+
+  対象.forEach(線 => {
+    const d = 線.__data__ || {};
+    const x1 = +線.getAttribute('x1'), y1 = +線.getAttribute('y1');
+    const x2 = +線.getAttribute('x2'), y2 = +線.getAttribute('y2');
+    const 長 = Math.hypot(x2 - x1, y2 - y1) || 1;
+    const ux = (x2 - x1) / 長, uy = (y2 - y1) / 長;
+    const nx = -uy, ny = ux;
+    const 元高 = parseFloat(getComputedStyle(線).strokeWidth) || 8;
+    // 相互影響の線は data-base-color が白(#fff)になっている（元は中央が
+    // 白くなるグラデーション用）。そのまま使うと道が灰色になるので、
+    // 出発側のジャンルの色を優先して読む。
+    const 色 = 線.getAttribute('data-source-color')
+             || 線.getAttribute('data-base-color') || '#9db6ff';
+    const 線色 = 'rgb(232,231,224)';       // 生成りの紙に引いた線の色
+    const 地色 = _staffLighten(色, 0.30);  // 暗い背景でも見えるよう明るく寄せる
+    const lv = _staffLevel(d.w || 40);
+    const 基準 = Math.max(元高, STAFF_BASE_PX / 倍率);
+    const 高 = 基準 * _STAFF_高さ[lv - 1];
+    const 半 = 高 / 2;
+    // 画面の上でこれより低いと線が重なって潰れるだけなので、1本の道に戻す
+    const 譜面 = 高 * 倍率 >= 5;
+
+    線.style.display = 'none';   // 元の太い線は隠す（五線譜が代わりになる）
+    const にじみ = document.querySelector('.link-glass-blur[data-idx="' + d.index + '"]');
+    if (にじみ) {
+      にじみ.setAttribute('stroke', d.mutual ? '#ffffff' : 地色);
+      にじみ.setAttribute('stroke-width', 高 * (譜面 ? 1.3 : 0.5));
+      にじみ.style.filter = 'blur(' + (高 * 0.45) + 'px)';
+      にじみ.style.opacity = 0.14;
+    }
+    const 組 = 作('g', 譜);
+    const マスク = にじみ && にじみ.getAttribute('mask');  // 玉の中を隠す元々のもの
+    if (マスク) 組.setAttribute('mask', マスク);
+    const 記号組 = 作('g', 譜);   // 記号はマスクをかけない
+
+    // 色の帯。片方向は出発側が濃く、相互影響は両端が濃く中心が薄い
+    const defs = document.querySelector('#graph defs')
+      || document.querySelector('#graph').appendChild(
+           document.createElementNS(_STAFF_NS, 'defs'));
+    const gid = 'staff-grad-' + d.index;
+    const grad = 作('linearGradient', defs);
+    grad.id = gid;
+    grad.setAttribute('gradientUnits', 'userSpaceOnUse');
+    grad.setAttribute('x1', x1); grad.setAttribute('y1', y1);
+    grad.setAttribute('x2', x2); grad.setAttribute('y2', y2);
+    const 濃 = 譜面 ? 0.55 : 0.95, 薄 = 譜面 ? 0.03 : 0.12;
+    const 止 = (offset, col, op) => {
+      const s = 作('stop', grad);
+      s.setAttribute('offset', offset);
+      s.setAttribute('stop-color', col);
+      s.setAttribute('stop-opacity', op);
+    };
+    if (d.mutual) {
+      止('0%', 地色, 濃);
+      止('50%', '#ffffff', 薄);
+      止('100%', _staffLighten(線.getAttribute('data-target-color') || 色, 0.30), 濃);
+    } else {
+      止('0%', 地色, 濃);
+      止('100%', 地色, 薄);
+    }
+    const 色id = 'url(#' + gid + ')';
+
+    if (!譜面) {
+      const l = 作('line', 組);
+      l.setAttribute('x1', x1); l.setAttribute('y1', y1);
+      l.setAttribute('x2', x2); l.setAttribute('y2', y2);
+      l.setAttribute('stroke', 色id);
+      l.setAttribute('stroke-width', Math.max(1.2, 高 * 0.32));
+      l.setAttribute('stroke-linecap', 'round');
+      return;
+    }
+
+    // 五線譜の紙
+    const 帯 = 作('polygon', 組);
+    帯.setAttribute('points', [
+      [x1 + nx * -半, y1 + ny * -半], [x2 + nx * -半, y2 + ny * -半],
+      [x2 + nx * 半, y2 + ny * 半], [x1 + nx * 半, y1 + ny * 半],
+    ].map(q => q[0].toFixed(1) + ',' + q[1].toFixed(1)).join(' '));
+    帯.setAttribute('fill', 色id);
+
+    // 五線（本数＝強さ）
+    const 線数 = _STAFF_本数[lv - 1];
+    const 太 = Math.max(0.6, 高 * 0.05 * _STAFF_太さ[lv - 1]);
+    const 間 = 線数 > 1 ? 高 / (線数 - 1) : 0;
+    for (let k = 0; k < 線数; k++) {
+      const o = 線数 > 1 ? -半 + 間 * k : 0;
+      const l = 作('line', 組);
+      l.setAttribute('x1', x1 + nx * o); l.setAttribute('y1', y1 + ny * o);
+      l.setAttribute('x2', x2 + nx * o); l.setAttribute('y2', y2 + ny * o);
+      l.setAttribute('stroke', 線色);
+      l.setAttribute('stroke-width', 太);
+      l.setAttribute('opacity', 0.72);
+    }
+
+    // 小節線
+    const 始 = 高 * 1.8;
+    const 間隔 = Math.max(_STAFF_小節, 高 * 2.2);
+    for (let s = 始 + 間隔; s < 長 - 高 * 0.6; s += 間隔) {
+      const cx = x1 + ux * s, cy = y1 + uy * s;
+      const l = 作('line', 組);
+      l.setAttribute('x1', cx + nx * -半); l.setAttribute('y1', cy + ny * -半);
+      l.setAttribute('x2', cx + nx * 半);  l.setAttribute('y2', cy + ny * 半);
+      l.setAttribute('stroke', 線色);
+      l.setAttribute('stroke-width', 太);
+      l.setAttribute('opacity', 0.55);
+    }
+
+    // 強弱記号（五線の中に収める。外に出すと道からはみ出して目立つ）
+    const 角 = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+    const 上下 = (角 > 90 || 角 < -90) ? 180 : 0;
+    const 進 = (d.source && d.source.r ? d.source.r * 0.15 : 0) + 高 * 0.9;
+    const px = x1 + ux * 進, py = y1 + uy * 進;
+    const t = 作('text', 記号組);
+    t.textContent = _STAFF_記号[lv - 1];
+    t.setAttribute('x', px); t.setAttribute('y', py);
+    t.setAttribute('fill', 線色);
+    t.setAttribute('font-size', 高 * 0.58);
+    t.setAttribute('text-anchor', 'middle');
+    t.setAttribute('dominant-baseline', 'central');
+    t.setAttribute('opacity', 0.85);
+    t.setAttribute('font-family', 'serif');
+    t.setAttribute('font-style', 'italic');
+    t.setAttribute('font-weight', '700');
+    t.setAttribute('transform', 'rotate(' + (角 + 上下) + ' ' + px + ' ' + py + ')');
+  });
+}
+
 function _syncLinkFlowMarks() {
   const activeIdx = new Set();
   let anyNewFlowNoteGroup = false;
@@ -16238,7 +16431,7 @@ function _syncLinkFlowMarks() {
   }
   // キャンバス方式：光る線が1本でもあれば描き始める。1本も無くなったら
   // _drawFlowNotes側が画面を消して自分から止まる（見ていない間は動かない）
-  if (FLOW_NOTES_CANVAS && FLOW_NOTES_ENABLED && flowMarksG.node().children.length) _startFlowNotes();
+  if (FLOW_NOTES_CANVAS && FLOW_NOTES_ENABLED && flowMarksG.node().children.length) _startFlowNotes();  if (LINK_STAFF) _drawLinkStaff();
 }
 setInterval(_syncLinkFlowMarks, 200);
 
