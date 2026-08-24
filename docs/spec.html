@@ -34,15 +34,15 @@
 <h1>音楽ジャンルルーツ辞典 — 仕様書</h1>
 <h2>この仕様書について</h2>
 <p class="note">この文書は <b>spec_dump.py が実物を読み直して自動で書き出したもの</b>です。手で書き足しても次の書き出しで消えます。決めた理由など人が書くことは <code>docs/decisions.md</code> に書いてください。この文書の末尾にそのまま入ります。</p>
-<p class="note">書き出した日時：<b>2026-08-18 01:42</b></p>
+<p class="note">書き出した日時：<b>2026-08-25 03:08</b></p>
 <h2>いまの版</h2>
 <table>
 <tr><th>項目</th><th>内容</th></tr>
-<tr><td>地図（genre_roots.html）</td><td>v26.52</td></tr>
-<tr><td>サーバー（genre_adder.py）</td><td>v2.03</td></tr>
+<tr><td>地図（genre_roots.html）</td><td>v26.79</td></tr>
+<tr><td>サーバー（genre_adder.py）</td><td>v2.11</td></tr>
 <tr><td>ジャンル数</td><td>570</td></tr>
-<tr><td>ジャンル間のつながり</td><td>1,627</td></tr>
-<tr><td>用語集の語数</td><td>6,413</td></tr>
+<tr><td>ジャンル間のつながり</td><td>1,641</td></tr>
+<tr><td>用語集の語数</td><td>6,445</td></tr>
 <tr><td>知名度のデータ</td><td>570 件（2026-08-16 取得）</td></tr>
 </table>
 <h2>置き場所（消えたときに戻せるように）</h2>
@@ -186,7 +186,7 @@
 <h2>使っている外部サービス</h2>
 <p class="note">ウィキペディア、ウィキメディア（閲覧数）、YouTube Data API、Shazam（RapidAPI）、Gemini、OpenAI、Anthropic（Claude）、Resend（メール）</p>
 <h2>必要な設定値（config.py に置く）</h2>
-<p class="note">(、ANTHROPIC_API_KEY、GEMINI_API_KEY、GITHUB_TOKEN、OPENAI_API_KEY、RAPIDAPI_KEY、YOUTUBE_API_KEY</p>
+<p class="note">(、ANTHROPIC_API_KEY、GEMINI_API_KEY、GENSPARK_API_KEY、GITHUB_TOKEN、OPENAI_API_KEY、RAPIDAPI_KEY、YOUTUBE_API_KEY</p>
 <p class="note">中身（鍵そのもの）はここには書かない。</p>
 <h2>処理の流れ・判定のしかた（人が書く）</h2>
 <p class="note">元は <code>music_genre_finder/docs/logic.md</code>。プログラムからは読み取れない「どういう順で何をするか」を書いてあります。</p>
@@ -213,25 +213,60 @@
 <p>選んだジャンルだけを地図上で光らせます。履歴はブラウザ側（localStorage、最大15件）に</p>
 <p>残ります。</p>
 <h3>ジャンル追加の申請</h3>
-<p><b>Claudeが実在確認と情報の生成を行い、ChatGPTがファクトチェックします。</b></p>
-<p>以前は逆（ChatGPTが生成・Claudeがファクトチェック）でしたが、</p>
-<p>「Claudeの生成のほうが説明が詳しい」というチョロさんの判断で</p>
-<p>役割を入れ替えました（genre_adder.py v1.69〜）。</p>
+<p>**Claudeが実在確認と情報の生成を行い、Gensparkのcross_check（事実確認の</p>
+<p>エージェント）が事実関係を検証します。**</p>
+<p>生成とファクトチェックの担当は2度変わっています。</p>
+<table>
+<tr><th>時期</th><th>生成</th><th>ファクトチェック</th></tr>
+<tr><td>〜v1.68</td><td>ChatGPT</td><td>Claude</td></tr>
+<tr><td>v1.69〜v2.08</td><td>Claude</td><td>ChatGPT</td></tr>
+<tr><td><b>v2.09〜（今）</b></td><td><b>Claude</b></td><td><b>Genspark cross_check</b></td></tr>
+</table>
+<p>1度目の入れ替えは「Claudeの生成のほうが説明が詳しい」という理由。</p>
+<p>2度目は、ChatGPTが事実の誤りをほとんど拾えていなかったためです</p>
+<p>（理由は「決めたこと」に書いてあります）。</p>
 <p>作るのは10項目（id／label／cat／era／desc／roots_story／rep_tracks／links／</p>
 <p>aliases／popularity）です。</p>
-<p>生成の前に2つの確認をします。</p>
-<p class="num">1. <b>重複チェック</b> … 既存のIDやラベルと完全に一致すれば、その場で</p>
-<p>「既に登録されています」と返して終わり</p>
-<p class="num">2. <b>似たジャンルの確認</b> … 部分一致で似た名前があれば、それを提示して確認を促す</p>
-<p>守っていること（過去に事故が起きたので入れた安全策）</p>
+<h4>全体の順番</h4>
+<table>
+<tr><th>段</th><th>誰が</th><th>何を</th></tr>
+<tr><td>事前</td><td>プログラム</td><td>IDの完全一致・似た名前の確認</td></tr>
+<tr><td>Step 1</td><td><b>Claude</b></td><td>実在確認＋10項目の生成</td></tr>
+<tr><td>Step 1.5</td><td>ChatGPT</td><td>Claudeが「実在しない」と言ったときだけ再確認</td></tr>
+<tr><td>Step 2</td><td><b>Genspark cross_check</b></td><td>Webを検索して事実関係を検証</td></tr>
+<tr><td>Step 2b</td><td>Claude</td><td>指摘が出たときだけ、本文を直す</td></tr>
+<tr><td>Step 2c</td><td>プログラム</td><td>リンク先IDの補正・分量・用語集の漏れ（AIは使わない）</td></tr>
+<tr><td>Step 3</td><td>プログラム</td><td>代表曲の動画を探して照合する</td></tr>
+<tr><td>Step 4</td><td>プログラム</td><td>知名度の計算</td></tr>
+<tr><td>最後</td><td>—</td><td>承認待ちに保存</td></tr>
+</table>
+<p>AIへの問い合わせは、<b>ふつう1件につき2回</b>（Claudeの生成1回と</p>
+<p>cross_check 1回）です。事実の誤りが見つかったときだけ、直しのClaudeが</p>
+<p>1回増えます。Step 1.5 は実在を否定されたときにしか走りません。</p>
+<h4>事実確認（cross_check）</h4>
+<p>cross_checkは「直した文章」ではなく<b>指摘レポート</b>を返します。</p>
+<p>①該当の記述 ②何が誤りか ③正しくは何か ④出典URL、という形です。</p>
+<p>指摘が出た場合は、そのレポートをClaudeに渡して本文を直させます。</p>
+<p><b>チョロさんが手で直す必要はありません。</b></p>
+<p>レポートと出典URLは承認画面にそのまま出します。本文が黙って書き換わると</p>
+<p>承認の判断ができないため、<b>何をどう直したのか、根拠はどこか</b>が必ず見えます。</p>
+<h4>代表曲の動画（v2.07〜）</h4>
+<p>以前は検索結果の上位2本をそのまま入れていたため、まったく別の動画が</p>
+<p>登録されていました（Chiptuneの代表曲にArduinoの電子工作の解説動画など）。</p>
+<p>今は次の順に確かめます。</p>
+<p class="num">1. <b>重複していないか</b> … 他のジャンルの代表曲と同じ曲は使わない</p>
+<p class="num">2. <b>段階的な検索語</b> … 「演奏者＋曲名」から順に、当たるまで語を変える</p>
+<p class="num">3. <b>動画の照合</b> … 曲名が題名か投稿者名にあるか／演奏者が投稿者名にいるか、</p>
+<p>または題名が演奏者名から始まるか／日本で見られるか／カバーや解説動画でないか</p>
+<p class="num">4. <b>通らなければ採らない</b> … 無理に入れず、その代表曲ごと落とす</p>
+<p class="num">5. <b>0曲になったら警告</b> … 承認画面に出して、生成し直せるようにする</p>
+<p>「題名の先頭のかたまり」で演奏者を判定しているのは、名前がどこかにあるだけだと</p>
+<p>別物が通るためです（会場名が一致した例、プロレスの試合が通った例があります）。</p>
+<h4>守っていること（過去に事故が起きたので入れた安全策）</h4>
 <ul>
 <li><b>既存のジャンルIDは省略せず全件渡す。</b> 以前は先頭50件だけ渡していて、</li>
 </ul>
 <p>存在しないIDを推測して書く原因になっていた</p>
-<ul>
-<li><b>ファクトチェックは最大2回。</b> JSONの読み取りに失敗した場合も</li>
-</ul>
-<p>「検証NG」として必ず再試行する</p>
 <ul>
 <li><b>生成に失敗したときは、必ず理由を添える。</b> 「失敗しました」だけでは、</li>
 </ul>
@@ -240,6 +275,10 @@
 <li><b>リンク先IDの自動補正</b>（<code>_auto_correct_link_targets</code>）。</li>
 </ul>
 <p>既存ラベルとの正規化一致で、誤ったIDを直す</p>
+<ul>
+<li><b>直した結果が不完全なら捨てる。</b> 必須の項目が欠けていたら、直したものを</li>
+</ul>
+<p>採用せず元のままにする。ファクトチェックが本文を丸ごと落とす事故を防ぐため</p>
 <ul>
 <li><b>書き込み前にJavaScriptの構文検査</b>（<code>_html_is_valid_js</code> →</li>
 </ul>
@@ -290,10 +329,11 @@
 <tr><td>PUBLIC_BASE_URL</td><td>承認メールに載せるリンクの基点URL</td></tr>
 <tr><td>RESEND_API_KEY</td><td>管理者への通知メール（RenderはSMTPを塞いでいるため）</td></tr>
 <tr><td>GEMINI_API_KEY</td><td>曲のジャンル解析・修正依頼の動画確認・全件チェック</td></tr>
-<tr><td>YOUTUBE_API_KEY</td><td>ジャンル追加時の代表曲の動画検索</td></tr>
+<tr><td>YOUTUBE_API_KEY</td><td>代表曲の動画の検索と、中身の照合</td></tr>
 <tr><td>RAPIDAPI_KEY</td><td>Shazamの楽曲認識</td></tr>
-<tr><td>OPENAI_API_KEY</td><td>ジャンル情報の生成（ChatGPT）</td></tr>
-<tr><td>ANTHROPIC_API_KEY</td><td>ファクトチェック（Claude）</td></tr>
+<tr><td>OPENAI_API_KEY</td><td>実在の再確認（ChatGPT。Claudeが実在を否定したときだけ）</td></tr>
+<tr><td>ANTHROPIC_API_KEY</td><td>ジャンル情報の生成と、事実確認の指摘に沿った修正（Claude）</td></tr>
+<tr><td>GENSPARK_API_KEY</td><td>事実確認（cross_check）。gskのログイン情報からも読める</td></tr>
 <tr><td>GMAIL_SENDER / ADMIN_EMAIL</td><td>通知メールの送信元・宛先</td></tr>
 </table></div>
 <h2>決めたこと（人が書く）</h2>
@@ -346,5 +386,35 @@
 <p>2026-08-18 地図を開いたときは、配置を保存してあっても必ず全体表示にする。</p>
 <p>保存があると全体表示をしない作りだったため、ジャンルが増えて地図が広がると</p>
 <p>拡大率100%のまま数個の玉しか映らず、地図が出てこなくなったように見えた。</p>
-<p>拡大率を変えるだけで玉の位置は動かさないので、保存した配置は保たれる。</p></div>
+<p>拡大率を変えるだけで玉の位置は動かさないので、保存した配置は保たれる。</p>
+<p>2026-08-24 ファクトチェックの担当を ChatGPT から Genspark の cross_check に</p>
+<p>変えた。ChatGPT は文体やリンクIDの直しばかりで、事実の誤りをほとんど拾えて</p>
+<p>いなかった。Noise で実測したところ、ChatGPT の指摘は「linksのtarget修正／</p>
+<p>descの書き直し／常体に修正」の3つだけで、次の3件を素通りさせ、承認・公開まで</p>
+<p>通してしまっていた。Metal Machine Music をヴェルヴェット・アンダーグラウンドの</p>
+<p>作品としていた（実際はリードがVU脱退後に出したソロ作）／C.C.C.C. の正式名称を</p>
+<p>「コズミック・コンシャスネス・クラブ・クラブ」としていた（正しくは Cosmic</p>
+<p>Coincidence Control Center で4語すべて別物）／不失者の結成を1970年代初頭と</p>
+<p>していた（正しくは1978年）。cross_check は実際にWebを検索して裏を取り、</p>
+<p>この3件すべてを出典URL付きで指摘した。</p>
+<p>2026-08-24 事実確認の指摘が出たときは、Claude が内部で本文を直す。人が見て</p>
+<p>直すのは二度手間になるため。ただし承認画面には「何が誤りで、正しくは何で、</p>
+<p>根拠のURLはどこか」を必ず出す。本文が黙って書き換わると、承認の判断ができない。</p>
+<p>2026-08-24 代表曲の重複は許さない。同じ曲が複数のジャンルに並ぶと</p>
+<p>「ジャンルが違うのに同じ曲はおかしい」と見え、知らない人ほど不具合だと思うため。</p>
+<p>重複したときに譲るのは <b>常に新しく入るほう</b>で、新規ジャンル側が別の曲を</p>
+<p>選び直す。本当は知名度の高いほうに残したいが、登録済みのほうを見直すのは</p>
+<p>自動化の手順が複雑になるため、新規追加では新しいほうが譲る。</p>
+<p>2026-08-24 代表曲の動画IDを探すのに Genspark の検索を使う。YouTube の検索は</p>
+<p>1回100ユニット・1日1万ユニットで実質100回/日しか叩けず、代表曲を選び直すと</p>
+<p>すぐ上限に当たって作業が何日にも延びる。Genspark の検索は1回1クレジットで、</p>
+<p>月10,000クレジットあるため実質詰まらない。拾ったIDの中身は従来どおり</p>
+<p>YouTube の videos.list（50本で1ユニット）で確かめるので、照合の厳しさは</p>
+<p>変わらない。</p>
+<p>2026-08-24 Genspark の Mixture-of-Agents（ChatGPT・Gemini・Claude 等を混ぜて</p>
+<p>答えを合成する機能）は、API からは使えない。使えるツール287個を全部調べたが</p>
+<p>存在せず、<code>moa</code> <code>chat</code> <code>llm</code> などを直接叩いても「Tool not found」だった。</p>
+<p>MoA はチャット画面のモデル選択ボタンから人が選ぶ機能で、API の</p>
+<p><code>create_task</code> が受け付ける種類にも <code>ai_chat</code> は無い。</p>
+<p>そのため「Genspark 一発で生成もチェックも」はできない。</p></div>
 </div></body></html>
