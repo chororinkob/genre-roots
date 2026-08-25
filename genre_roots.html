@@ -765,7 +765,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v26.88<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v26.89<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -18886,8 +18886,25 @@ document.querySelectorAll('.legend-item[data-cat]').forEach(item => {
   inner.className = 'cat-acc-inner';
   inner.style.setProperty('--acc-color', catColor);
 
+  // 並び順は知名度（★1〜5）順。玉の大きさも知名度で決めているので、
+  // 一覧の順番と地図の見た目が揃う。
+  // 2026-08-25まで popularity（手で付けた1〜10）で並べていたため、
+  // Rock カテゴリの先頭に Rock 自身が出てこない、Hip Hop カテゴリに
+  // Hip Hop が無い、といった状態になっていた。popularity が付いていない
+  // ジャンル（Techno など）は最後に回されてもいた。
+  // 知名度が同じときは popularity を second key にして、順番が毎回変わらないようにする。
+  // 知名度が同じジャンルの中は、その元になった数字で細かく並べる。
+  // 知名度は5段階しかないので、★5だけで8件並ぶカテゴリもある（rock）。
+  // そこを popularity（手で付けた1〜10）で並べていたため、値が付いて
+  // いない Rock が Hard Rock より後ろに来ていた。
+  // 言語版の数と年間閲覧数は、そのジャンル自体がどれだけ読まれているかを
+  // 表すので、同点のときの順番付けに使う。
+  const _知 = id => (FAME[id] || [0, 0, 0, 0]);
   const genres = NODES.filter(n => n.cat === cat)
-    .sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
+    .sort((a, b) => (_知(b.id)[0] - _知(a.id)[0])
+                 || (_知(b.id)[1] - _知(a.id)[1])
+                 || (_知(b.id)[2] - _知(a.id)[2])
+                 || String(a.label).localeCompare(String(b.label)));
   const MAX_SHOW = 12;
   const shown = genres.slice(0, MAX_SHOW);
   const rest = genres.length - MAX_SHOW;
