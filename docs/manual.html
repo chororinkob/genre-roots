@@ -22,11 +22,27 @@
     border-bottom: 1px solid var(--border);
     padding: 14px 20px;
   }
+  /* 「戻る」はボタンの形にして、ひと目で押せると分かるようにする。
+     もとは12.5pxの灰色の文字で、戻り方が分からないと指摘された（2026-08-26） */
   .top-bar a {
-    color: var(--text-2); text-decoration: none; font-size: 12.5px;
-    display: inline-flex; align-items: center; gap: 6px;
+    color: #fff; text-decoration: none; font-size: 14px; font-weight: 700;
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #2f6fd0; border: 1px solid #4a86e8; border-radius: 8px;
+    padding: 9px 18px; box-shadow: 0 2px 10px rgba(47,111,208,.35);
   }
-  .top-bar a:hover { color: var(--text); }
+  .top-bar a:hover { background: #3d80e6; box-shadow: 0 3px 14px rgba(47,111,208,.55); }
+  .top-bar a:focus-visible { outline: 2px solid #ffcc33; outline-offset: 2px; }
+
+  /* ページの終わりにも大きめに置く。読み終えたところから戻れるように */
+  .back-bottom { text-align: center; margin: 54px 0 10px; }
+  .back-bottom a {
+    display: inline-flex; align-items: center; gap: 10px;
+    color: #fff; text-decoration: none; font-size: 16px; font-weight: 700;
+    background: #2f6fd0; border: 1px solid #4a86e8; border-radius: 10px;
+    padding: 14px 30px; box-shadow: 0 3px 14px rgba(47,111,208,.4);
+  }
+  .back-bottom a:hover { background: #3d80e6; }
+  .back-bottom a:focus-visible { outline: 2px solid #ffcc33; outline-offset: 2px; }
 
   .page { max-width: 700px; margin: 0 auto; padding: 44px 20px 0; }
   .eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
@@ -92,9 +108,27 @@
   <div class="eyebrow">使い方ガイド</div>
   <h1>音楽ジャンルルーツ辞典の使い方</h1>
   <p class="lede">
-    このサイトは、音楽ジャンルどうしの成り立ちや影響関係を地図のようにたどれる事典です。
-    ジャンルを眺めるだけでなく、「この曲は何ジャンル？」を調べたり、載っていないジャンルをリクエストしたり、
-    間違いを見つけたら修正の依頼を送ることもできます。
+    <strong>「自分の好きな音楽って、どこから来たんだろう」</strong>——
+    そう思ったことはありませんか。</p>
+    <p class="lede">誰でも、聴く音楽は少し偏っています。日本で育てば J-POP やバラードが耳になじみ、
+    海外のものはロックばかり、というように。それは悪いことではありません。
+    ただ、<strong>そのすぐ隣に、まだ出会っていない「好きになるはずの音楽」がある</strong>としたら、
+    もったいないと思いませんか。</p>
+    <p class="lede">この事典は、572のジャンルを<strong>つながりの地図</strong>にしたものです。
+    好きなジャンルをひとつ選ぶと、そこから枝が伸びます。
+    <strong>そのジャンルを生んだ親</strong>、<strong>そこから生まれた子</strong>、
+    <strong>影響を与え合った仲間</strong>。たどっていくうちに、
+    名前も知らなかったジャンルにぶつかります。試しに1曲聴いてみる。
+    ——<strong>「あ、これ好きかも」。</strong></p>
+    <p class="lede">作者自身がそうでした。ロックのルーツをさかのぼり、
+    枝分かれの先を聴いていくうちに、<strong>まったく縁がないと思っていたトランス</strong>に行き着き、
+    それが自分の好みだと気づいたのです。名前だけ知っていて「よく分からない」で終わっていた音楽が、
+    <strong>ちゃんと自分の好きな音だった</strong>——そういう発見をしてほしくて、これを作りました。</p>
+    <p class="lede">ジャンルごとに<strong>代表曲がすぐ聴けます</strong>。
+    説明を読んでから聴いてもいいし、まず聴いてから説明を読んでもいい。
+    「この曲、何ジャンルなんだろう」を音から調べることもできます。</p>
+    <p class="lede">音楽の地図を、気の向くままに歩いてみてください。
+    <strong>寄り道の先に、次のお気に入りがあります。</strong>
   </p>
 
   <div class="toc">
@@ -115,7 +149,12 @@
        <figcaption>画面の見取り図。左に「これなんて曲？」と検索、その下にカテゴリの色の見本、右側が地図。右上にヘルプと表示の切り替えがある。</figcaption>
      </figure>
 
-    <p>マップに散らばっている丸(ノード)ひとつひとつが、ひとつの音楽ジャンルです。丸どうしをつなぐ線は「影響を与えた／受けた」という関係を表しています。</p>
+    <p>マップに散らばっている丸（ノード）ひとつひとつが、ひとつの音楽ジャンルです。
+     572個の丸が、全部そこに並んでいます。</p>
+     <p>ジャンルどうしの<strong>つながりは、全体の地図では線として出ていません</strong>。
+     1,600本以上あるので、全部いっぺんに出すと真っ白になってしまうからです。
+     <strong>丸をひとつクリックすると</strong>、そのジャンルにつながる相手だけが残り、
+     線（→ <a href="#staff">五線譜の道</a>）で結ばれます。</p>
 
     <h3>丸の大きさ＝そのジャンルの知られ具合</h3>
      <figure>
@@ -123,7 +162,9 @@
        <figcaption>丸が大きいほど、世界でよく知られているジャンル。Jazz（知名度★5）と Acid Jazz（★4）の大きさのちがい。</figcaption>
      </figure>
 
-    <p>丸が大きいほど、世界でよく知られているジャンルです。5段階あり、1段上がるごとに丸の広さが2.5倍になります。
+    <p>丸が大きいほど、世界でよく知られているジャンルです。5段階あり、
+     1段上がるごとに<strong>直径が約1.6倍</strong>（面積にすると約2.5倍）になります。
+     いちばん小さい★1といちばん大きい★5では、直径で約6倍のちがいがあります。
       Jazz や Rock のような大物は大きく、ごく一部の人だけが知っているジャンルは小さくなります。
       この大きさは感覚で決めたものではなく、<b>公開されている3つのデータを数えて</b>決めています（→ <a href="#fame">知名度のしくみ</a>）。</p>
 
@@ -204,7 +245,46 @@
       <li><b>年間の閲覧数</b>… 主要12言語版の合計。いま関心を持たれているかを表します</li>
       <li><b>代表曲の再生回数</b>… YouTubeで実際に聴かれた量を表します</li>
     </ul>
-    <p>3つ使うのは、1つだけでは必ず偏るからです。ウィキペディアは「書く人・集める人」の数であって
+    <p><h4 style="margin:22px 0 8px;font-size:14px;color:#cfcfe4;">何点になるかの目安</h4>
+     <div style="overflow-x:auto;">
+     <table style="border-collapse:collapse;width:100%;font-size:12.5px;min-width:440px;">
+       <thead>
+         <tr style="background:#22222e;color:#9a9ab0;">
+           <th style="padding:7px 10px;text-align:left;border:1px solid #33334a;">点</th>
+           <th style="padding:7px 10px;text-align:right;border:1px solid #33334a;">ウィキペディアの言語版</th>
+           <th style="padding:7px 10px;text-align:right;border:1px solid #33334a;">年間の閲覧数</th>
+           <th style="padding:7px 10px;text-align:right;border:1px solid #33334a;">代表曲の再生回数</th>
+         </tr>
+       </thead>
+       <tbody>
+         <tr><td style="padding:6px 10px;border:1px solid #33334a;">5点</td><td style="padding:6px 10px;text-align:right;border:1px solid #33334a;">100か国語以上</td><td style="padding:6px 10px;text-align:right;border:1px solid #33334a;">60万回以上</td><td style="padding:6px 10px;text-align:right;border:1px solid #33334a;">5,000万回以上</td></tr>
+         <tr><td style="padding:6px 10px;border:1px solid #33334a;">4点</td><td style="padding:6px 10px;text-align:right;border:1px solid #33334a;">45〜99</td><td style="padding:6px 10px;text-align:right;border:1px solid #33334a;">25万〜60万回</td><td style="padding:6px 10px;text-align:right;border:1px solid #33334a;">1,000万〜5,000万回</td></tr>
+         <tr><td style="padding:6px 10px;border:1px solid #33334a;">3点</td><td style="padding:6px 10px;text-align:right;border:1px solid #33334a;">25〜44</td><td style="padding:6px 10px;text-align:right;border:1px solid #33334a;">10万〜25万回</td><td style="padding:6px 10px;text-align:right;border:1px solid #33334a;">200万〜1,000万回</td></tr>
+         <tr><td style="padding:6px 10px;border:1px solid #33334a;">2点</td><td style="padding:6px 10px;text-align:right;border:1px solid #33334a;">12〜24</td><td style="padding:6px 10px;text-align:right;border:1px solid #33334a;">3万〜10万回</td><td style="padding:6px 10px;text-align:right;border:1px solid #33334a;">30万〜200万回</td></tr>
+         <tr><td style="padding:6px 10px;border:1px solid #33334a;">1点</td><td style="padding:6px 10px;text-align:right;border:1px solid #33334a;">11以下</td><td style="padding:6px 10px;text-align:right;border:1px solid #33334a;">3万回未満</td><td style="padding:6px 10px;text-align:right;border:1px solid #33334a;">30万回未満</td></tr>
+       </tbody>
+     </table>
+     </div>
+
+     <h4 style="margin:22px 0 8px;font-size:14px;color:#cfcfe4;">合計から★が決まる</h4>
+     <div style="overflow-x:auto;">
+     <table style="border-collapse:collapse;width:100%;font-size:12.5px;min-width:340px;">
+       <thead><tr style="background:#22222e;color:#9a9ab0;">
+         <th style="padding:7px 10px;text-align:left;border:1px solid #33334a;">3つの合計</th>
+         <th style="padding:7px 10px;text-align:left;border:1px solid #33334a;">知名度</th>
+         <th style="padding:7px 10px;text-align:left;border:1px solid #33334a;">例</th>
+       </tr></thead>
+       <tbody>
+         <tr><td style="padding:6px 10px;border:1px solid #33334a;">14点以上</td><td style="padding:6px 10px;border:1px solid #33334a;">★★★★★</td><td style="padding:6px 10px;border:1px solid #33334a;">Jazz、Rock、Pop、Hip Hop</td></tr>
+         <tr><td style="padding:6px 10px;border:1px solid #33334a;">11〜13点</td><td style="padding:6px 10px;border:1px solid #33334a;">★★★★☆</td><td style="padding:6px 10px;border:1px solid #33334a;">Bebop、Techno、Ragtime</td></tr>
+         <tr><td style="padding:6px 10px;border:1px solid #33334a;">8〜10点</td><td style="padding:6px 10px;border:1px solid #33334a;">★★★☆☆</td><td style="padding:6px 10px;border:1px solid #33334a;">Tech House、Afro House</td></tr>
+         <tr><td style="padding:6px 10px;border:1px solid #33334a;">5〜7点</td><td style="padding:6px 10px;border:1px solid #33334a;">★★☆☆☆</td><td style="padding:6px 10px;border:1px solid #33334a;">Detroit Techno、Acid Techno</td></tr>
+         <tr><td style="padding:6px 10px;border:1px solid #33334a;">4点以下</td><td style="padding:6px 10px;border:1px solid #33334a;">★☆☆☆☆</td><td style="padding:6px 10px;border:1px solid #33334a;">Skullstep、Deep Dubstep</td></tr>
+       </tbody>
+     </table>
+     </div>
+
+     3つ使うのは、1つだけでは必ず偏るからです。ウィキペディアは「書く人・集める人」の数であって
       「聴く人」の数ではありません。逆に再生回数だけを見ると、歴史の古いジャンルが新しい流行に埋もれます。</p>
     <p>星の右にある <span class="ui-tag">？</span> を押すと、そのジャンルの<b>実際の数字と、それが何点になったか</b>が出ます。
       もう一度押すか、画面のどこかを押すと閉じます。</p>
@@ -303,7 +383,11 @@
     <p class="muted">どんな些細な指摘でも大歓迎です。こうした指摘の積み重ねで、この辞典はより正確なものになっていきます。</p>
   </section>
 
-  <div class="footer-note">音楽ジャンルルーツ辞典 使い方ガイド ・ 最終更新：2026-08-25（図を追加）</div>
+  <div class="back-bottom">
+      <a href="../genre_roots.html">← ジャンルマップに戻る</a>
+    </div>
+
+    <div class="footer-note">音楽ジャンルルーツ辞典 使い方ガイド ・ 最終更新：2026-08-25（図を追加）</div>
 
 </div>
 </body>
