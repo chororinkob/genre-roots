@@ -662,20 +662,59 @@ svg { width: 100vw; height: 100vh; }
 
 /* ===== スマホ対応 (768px以下) ===== */
 @media (max-width: 768px) {
+  /* 2段になったぶん、左の欄の位置も下げる */
+  #left-sidebar { padding-top: 68px !important; }
+
   /* 指の操作（つまんで広げる・なぞって動かす）を、ブラウザではなく
      地図の側が受け取れるようにする。これが無いと、ブラウザ自身の
      拡大縮小と取り合いになって、思ったところが拡大されない。 */
   #graph { touch-action: none; }
 
-  /* ヘッダー：1行に収める。オーバーレイ(z-index:99)より上にして常にタップ可能に */
-  #header { flex-wrap: nowrap; padding: 2px 4px; gap: 3px; align-items: center; z-index: 200; }
-  #header h1 { font-size: 10px; white-space: nowrap; }
-  #version-info { display: block !important; font-size: 8px !important; color: #888 !important; margin-left: 4px !important; margin-right: auto !important; white-space: nowrap; }
-  #tab-buttons { margin-left: 0; display: flex; gap: 1px; flex-shrink: 0; }
+  /* ヘッダー：2段にする。
+     1段目 … ☰ ／ 題名 ／ ヘルプ・全体表示（よく使うもの）
+     2段目 … 版と件数と日付（小さく） ／ 配置の保存・リセット
+     1段に押し込むと文字が途中で切れ、操作するものが見えなくなっていた。
+     オーバーレイ(z-index:99)より上にして、いつでも押せるようにする。 */
+  #header {
+    flex-wrap: wrap; padding: 4px 6px 3px; gap: 4px 6px;
+    align-items: center; z-index: 200; row-gap: 2px;
+  }
+  #mobile-menu-btn { order: 0; }
+  #header h1 { order: 1; font-size: 12px; white-space: nowrap; }
+
+  /* 右側のボタンは1つの入れ物に入っているが、2段に振り分けたいので
+     入れ物そのものを無くし、中のボタンを直接ヘッダーの部品として扱う。
+     （display:contents は「箱は消して中身だけ残す」という指定） */
+  /* この入れ物には HTML に直接 display:flex が書いてあるので、
+     打ち消すために !important を付ける（付けないと負ける） */
+  #header > div:last-child { display: contents !important; }
+  #header > div:last-child button,
+  #header > div:last-child a { font-size: 10px !important; padding: 4px 8px !important; white-space: nowrap; }
+
+  /* 1段目の右 … よく使うもの */
+  #help-link { order: 2; margin-left: auto; }
+  #fit-view { order: 2; }
+
+  /* ここで段を折り返す */
+  #header::after { content: ""; flex-basis: 100%; height: 0; order: 3; }
+
+  /* 2段目。版・件数・日付は、いちばん大事な情報ではないので小さく揃える */
+  #version-info {
+    order: 4; flex: 1 1 auto; display: flex !important; align-items: center; gap: 6px;
+    font-size: 9px !important; color: #888 !important;
+    margin: 0 !important; white-space: nowrap; overflow: hidden;
+  }
+  #genre-count { font-size: 9px !important; font-weight: 400; color: #8fa8c4 !important;
+    margin-left: 0 !important; }
+
+  /* 2段目の右 … たまにしか使わないもの */
+  #layout-buttons { order: 5; margin-left: auto; display: flex !important; gap: 4px;
+    flex-shrink: 0; }
+  #save-layout, #reset-layout { display: inline-block; }
+  #admin-menu-wrap { order: 5; }
+
+  #tab-buttons { order: 2; margin-left: 0; display: flex; gap: 1px; flex-shrink: 0; }
   .tab-btn { font-size: 9px; padding: 3px 5px; white-space: nowrap; }
-  #header > div:last-child { gap: 1px; margin-left: auto; flex-shrink: 0; }
-  #header > div:last-child button { font-size: 9px !important; padding: 3px 5px !important; white-space: nowrap; }
-  #save-layout, #reset-layout { display: none; }
   .m-full { display: none !important; }
   .m-short { display: inline !important; }
 
@@ -770,7 +809,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v26.93<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v26.94<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -778,8 +817,10 @@ svg { width: 100vw; height: 100vh; }
   <div style="display:flex;gap:6px;margin-left:auto;align-items:center;">
     <a id="help-link" href="docs/manual.html" title="使い方ガイド" style="padding:4px 10px;background:none;border:1px solid #555;border-radius:5px;color:#ccc;font-size:11px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;">❓<span class="m-full" style="margin-left:4px;">ヘルプ</span></a>
     <button id="fit-view" style="padding:4px 12px;background:#1565C0;border:1px solid #555;border-radius:5px;color:#fff;font-size:11px;cursor:pointer;"><span class="m-full">全体表示</span><span class="m-short" style="display:none">全体</span></button>
-    <button id="save-layout" style="padding:4px 12px;background:#2a2a50;border:1px solid #555;border-radius:5px;color:#ccc;font-size:11px;cursor:pointer;">配置を保存</button>
-    <button id="reset-layout" style="padding:4px 12px;background:#2a2a50;border:1px solid #555;border-radius:5px;color:#ccc;font-size:11px;cursor:pointer;">配置リセット</button>
+    <span id="layout-buttons" style="display:flex;gap:6px;align-items:center;">
+      <button id="save-layout" style="padding:4px 12px;background:#2a2a50;border:1px solid #555;border-radius:5px;color:#ccc;font-size:11px;cursor:pointer;">配置を保存</button>
+      <button id="reset-layout" style="padding:4px 12px;background:#2a2a50;border:1px solid #555;border-radius:5px;color:#ccc;font-size:11px;cursor:pointer;">配置リセット</button>
+    </span>
     <!-- 管理者用メニュー：通常は非表示。?admin=1 を付けたURLでアクセスした
          ときだけ表示する（一般の来訪者には見えないようにするため）。 -->
     <div id="admin-menu-wrap" style="display:none;gap:6px;align-items:center;margin-left:8px;">
