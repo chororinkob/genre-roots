@@ -179,6 +179,7 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
    四角い枠をやめて丸くし、下に置く知名度と重ならない大きさにした */
 /* 右上の角に固定する。並びから外すことで、見出しの行が
    パネルの右端いっぱいまで使えるようになり、知名度を右端に寄せられる */
+#sp-grip { display: none; }   /* スマホでだけ出す（下の @media で表示） */
 #sp-close { position: absolute; top: 13px; right: 14px; z-index: 2; }
 #sp-close { width: 22px; height: 22px; flex: 0 0 auto; padding: 0;
   background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.18);
@@ -767,21 +768,47 @@ svg { width: 100vw; height: 100vh; }
     background: rgba(0,0,0,0.3); z-index: 99;
   }
 
-  /* 右サイドパネル：下からスライドアップ。44vh（55vhから20%カット） */
+  /* 説明パネル：画面いっぱいに出す。
+     半分ずつに分けると、どちらも小さすぎて読む気にならなかった。
+     背景は透かして、後ろのジャンルマップ（選んだジャンルとそのつながり）が
+     うっすら見えるようにする。つまみを押すと下へ畳んで、地図がよく見える。 */
   #side-panel {
-    position: fixed; left: 6px; right: 6px; bottom: 6px; top: auto;
-    width: auto !important; height: 44vh;
-    background: rgba(0,0,0,0.75) !important;
-    border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 16px;
-    transform: translateY(calc(100% + 6px)); transition: transform 0.3s ease;
-    overflow-y: scroll;
+    position: fixed; left: 0; right: 0; bottom: 0;
+    top: var(--header-h, 44px) !important;
+    width: auto !important; height: auto;
+    background: rgba(9, 10, 18, 0.74) !important;
+    border: none; border-top: 1px solid rgba(255,255,255,0.14);
+    border-radius: 14px 14px 0 0;
+    transform: translateY(100%); transition: transform 0.28s ease, top 0.28s ease;
+    overflow-y: scroll; overscroll-behavior: contain;
     scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.35) rgba(255,255,255,0.08);
   }
+
+  /* 畳んだ状態。下の方だけ残して、地図を広く見せる */
+  #side-panel.sp-peek {
+    top: 62% !important;
+  }
+
+  /* つまみ */
+  #sp-grip {
+    display: flex; position: sticky; top: 0; z-index: 3;
+    flex-direction: column; align-items: center; gap: 3px;
+    padding: 7px 0 6px; cursor: pointer;
+    background: rgba(9,10,18,0.86);
+    border-radius: 14px 14px 0 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .sp-grip-bar {
+    width: 42px; height: 4px; border-radius: 99px;
+    background: rgba(255,255,255,0.34);
+  }
+  .sp-grip-text { font-size: 10px; color: rgba(255,255,255,0.44); letter-spacing: .04em; }
+  #sp-grip:focus-visible { outline: 2px solid #4f8ef7; outline-offset: -2px; }
   #side-panel::-webkit-scrollbar { width: 5px; }
   #side-panel::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.35); border-radius: 3px; }
   #side-panel::-webkit-scrollbar-track { background: rgba(255,255,255,0.08); border-radius: 3px; }
-  #sp-header { background: rgba(0,0,0,0.9) !important; }
+  /* 見出しの帯。文字が読めるよう、本文よりは少し濃くする */
+  #sp-header { background-color: rgba(9,10,18,0.80) !important; top: 30px; }
   #side-panel.sp-visible {
     display: block !important; transform: translateY(0);
   }
@@ -817,7 +844,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v26.96</span><span id="genre-count"></span>
+  <span id="version-info">v26.97</span><span id="genre-count"></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -911,6 +938,12 @@ svg { width: 100vw; height: 100vh; }
 </div>
 
 <div id="side-panel">
+  <!-- スマホ用のつまみ。押すと畳む／広げるが切り替わる。
+       上下にはらってもよい。パソコンでは出さない。 -->
+  <div id="sp-grip" role="button" tabindex="0" aria-label="説明を畳む・広げる">
+    <span class="sp-grip-bar"></span>
+    <span class="sp-grip-text">下げて地図を見る</span>
+  </div>
   <div id="sp-header">
     <span id="sp-tag"></span>
     <button id="sp-copy" style="display:none;">コピー</button>
@@ -17159,8 +17192,18 @@ addEventListener('resize', () => { _headerH = null; });
 function syncPanelTop() {
   if (_headerH === null) _headerH = document.getElementById('header').offsetHeight;
   const h = _headerH;
+  // ヘッダーの高さを CSS へ伝える。スマホのパネルはこれを使って
+  // 「ヘッダーの下から画面の底まで」に広がる。
+  document.documentElement.style.setProperty('--header-h', h + 'px');
+  if (isMobile()) {
+    // スマホでは上端を CSS に任せる（畳む・広げるで上端が動くため、
+    // ここで直接指定してしまうと切り替えが効かなくなる）
+    if (panel.style.top) panel.style.top = '';
+    document.getElementById('left-sidebar').style.top = '';
+    return;
+  }
   if (panel.style.top !== h + 'px') {
-    panel.style.top = h + 'px';  // PC・スマホ共通：ヘッダー直下から表示
+    panel.style.top = h + 'px';  // パソコン：ヘッダー直下から表示
     document.getElementById('left-sidebar').style.top = h + 'px';
   }
 }
@@ -17224,9 +17267,51 @@ function detachMapAfterZoom(ms) {
   _detachTimer = setTimeout(detachMap, ms || 900);
 }
 
+// ──────────────────────────────────────────────────────────
+// 説明パネルを畳む・広げる（スマホ）
+// ──────────────────────────────────────────────────────────
+// 画面いっぱいに出したままだと、後ろの地図が見づらい。つまみを押すと
+// 下の方まで下がって地図が広く見え、もう一度押すと元に戻る。
+// 指で上下にはらっても切り替わる。
+function パネルを畳む(畳む) {
+  panel.classList.toggle('sp-peek', !!畳む);
+  const 文 = document.querySelector('.sp-grip-text');
+  if (文) 文.textContent = 畳む ? '上げて説明を読む' : '下げて地図を見る';
+  if (畳む) panel.scrollTop = 0;
+}
+
+(function つまみの操作() {
+  const grip = document.getElementById('sp-grip');
+  if (!grip) return;
+  grip.addEventListener('click', () => パネルを畳む(!panel.classList.contains('sp-peek')));
+  grip.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      パネルを畳む(!panel.classList.contains('sp-peek'));
+    }
+  });
+  // 上下にはらう
+  let 始y = null;
+  grip.addEventListener('touchstart', e => {
+    始y = e.touches[0] ? e.touches[0].clientY : null;
+  }, { passive: true });
+  grip.addEventListener('touchmove', e => {
+    if (始y === null || !e.touches[0]) return;
+    const 差 = e.touches[0].clientY - 始y;
+    if (Math.abs(差) < 26) return;
+    パネルを畳む(差 > 0);      // 下へはらえば畳む、上へはらえば広げる
+    始y = null;
+  }, { passive: true });
+  grip.addEventListener('touchend', () => { 始y = null; }, { passive: true });
+})();
+
 function openPanel() {
   syncPanelTop();
-  if (isMobile()) { panel.style.display = 'block'; requestAnimationFrame(() => panel.classList.add('sp-visible')); }
+  if (isMobile()) {
+    パネルを畳む(false);      // 開くときはいつも全面から
+    panel.style.display = 'block';
+    requestAnimationFrame(() => panel.classList.add('sp-visible'));
+  }
   else { panel.style.display = 'block'; }
 }
 window.addEventListener('resize', () => { if (panel.style.display === 'block') syncPanelTop(); });
