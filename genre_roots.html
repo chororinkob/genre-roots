@@ -676,11 +676,16 @@ svg { width: 100vw; height: 100vh; }
      1段に押し込むと文字が途中で切れ、操作するものが見えなくなっていた。
      オーバーレイ(z-index:99)より上にして、いつでも押せるようにする。 */
   #header {
-    flex-wrap: wrap; padding: 4px 6px 3px; gap: 4px 6px;
-    align-items: center; z-index: 200; row-gap: 2px;
+    /* ☰ の幅をここで決めておき、2段目の字下げに使い回す。
+       こうしておくと、2段目の「572 ジャンル」の左端が、
+       1段目の「音楽ジャンルルーツ辞典」の「音」の真下にそろう。 */
+    --menu-w: 24px;
+    --header-gap: 6px;
+    flex-wrap: wrap; padding: 4px 6px 4px; column-gap: var(--header-gap);
+    align-items: center; z-index: 200; row-gap: 0;
   }
-  #mobile-menu-btn { order: 0; }
-  #header h1 { order: 1; font-size: 12px; white-space: nowrap; }
+  #mobile-menu-btn { order: 0; width: var(--menu-w); padding: 1px 0; text-align: center; }
+  #header h1 { order: 1; font-size: 12px; white-space: nowrap; line-height: 1.35; }
 
   /* 右側のボタンは1つの入れ物に入っているが、2段に振り分けたいので
      入れ物そのものを無くし、中のボタンを直接ヘッダーの部品として扱う。
@@ -700,9 +705,13 @@ svg { width: 100vw; height: 100vh; }
   /* ここで段を折り返す */
   #header::after { content: ""; flex-basis: 100%; height: 0; order: 5; }
 
-  /* 2段目 … 件数と日付だけ。いちばん大事な情報ではないので小さく */
-  #genre-count { order: 6; font-size: 9px !important; font-weight: 400;
-    color: #8fa8c4 !important; margin: 0 !important; white-space: nowrap; }
+  /* 2段目 … 件数と日付だけ。いちばん大事な情報ではないので小さく。
+     ☰ のぶんだけ字下げして、題名の真下にそろえる。 */
+  #genre-count {
+    order: 6; font-size: 9px !important; font-weight: 400;
+    color: #8fa8c4 !important; white-space: nowrap; line-height: 1.2;
+    margin: 0 0 0 calc(var(--menu-w) + var(--header-gap)) !important;
+  }
 
   /* 配置の保存・リセットはスマホでは出さない。
      玉を掴んで動かせないようにしたので、保存する配置も戻す配置も無い。 */
@@ -808,7 +817,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v26.95</span><span id="genre-count"></span>
+  <span id="version-info">v26.96</span><span id="genre-count"></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
