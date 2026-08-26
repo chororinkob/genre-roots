@@ -793,25 +793,33 @@ svg { width: 100vw; height: 100vh; }
   }
   #side-panel.sp-peek #sp-body { display: none; }
 
-  /* つまみ。折りたたんだときに場所を取らないよう、できるだけ薄くする */
+  /* つまみ。見出しの帯のすぐ下に、文字の幅ぶんだけのタブとして置く。
+     真ん中ぞろえ。動画や本文と重ならないよう、流れの中に置いている
+     （貼り付かせると、めくったときに動画の上に乗ってしまう）。 */
   #sp-grip {
     display: flex; align-items: center; justify-content: center; gap: 5px;
-    flex-basis: 100%; margin-top: 5px; padding: 2px 0 1px;
-    border-top: 1px solid rgba(255,255,255,0.14);
+    width: fit-content; margin: 0 auto 4px; padding: 3px 14px 4px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.14); border-top: none;
+    border-radius: 0 0 11px 11px;
     cursor: pointer; -webkit-tap-highlight-color: transparent;
   }
-  .sp-grip-mark { font-size: 8px; color: rgba(255,255,255,0.5); line-height: 1; }
-  .sp-grip-text { font-size: 10px; color: rgba(255,255,255,0.5); letter-spacing: .02em;
-    line-height: 1.5; }
+  #sp-grip:active { background: rgba(255,255,255,0.12); }
+  .sp-grip-mark { font-size: 8px; color: rgba(255,255,255,0.55); line-height: 1; }
+  .sp-grip-text { font-size: 10.5px; color: rgba(255,255,255,0.62); letter-spacing: .02em;
+    line-height: 1.4; white-space: nowrap; }
   #sp-grip:focus-visible { outline: 2px solid #4f8ef7; outline-offset: -2px; }
 
-  /* 見出しの帯は、つまみを下の行に置けるよう折り返せるようにする */
-  #sp-header { flex-wrap: wrap; padding-bottom: 6px !important; }
+  /* 折りたたんだときは、タブの下の余白を詰める */
+  #side-panel.sp-peek #sp-grip { margin-bottom: 0; }
   #side-panel::-webkit-scrollbar { width: 5px; }
   #side-panel::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.35); border-radius: 3px; }
   #side-panel::-webkit-scrollbar-track { background: rgba(255,255,255,0.08); border-radius: 3px; }
-  /* 見出しの帯。文字が読めるよう、本文よりは少し濃くする */
-  #sp-header { background-color: rgba(9,10,18,0.80) !important; top: 30px; }
+  /* 見出しの帯。文字が読めるよう、本文よりは少し濃くする。
+     top を 0 以外にすると、貼り付き位置がそのぶん下へ押し下げられ、
+     パネルの上に要らない余白ができたうえ、本文が帯の下へ潜り込んで
+     動画と重なってしまう。0 にしておくこと。 */
+  #sp-header { background-color: rgba(9,10,18,0.80) !important; top: 0; }
   #side-panel.sp-visible {
     display: block !important; transform: translateY(0);
   }
@@ -847,7 +855,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v26.98</span><span id="genre-count"></span>
+  <span id="version-info">v26.99</span><span id="genre-count"></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -945,13 +953,13 @@ svg { width: 100vw; height: 100vh; }
     <span id="sp-tag"></span>
     <button id="sp-copy" style="display:none;">コピー</button>
     <button id="sp-close">✕</button>
-    <!-- スマホ用のつまみ。「発祥時期」の下に置く。押すと、ここから下
-         （動画・代表曲・説明）を折りたたんで、下のルーツマップを見せる。
-         上下にはらってもよい。パソコンでは出さない。 -->
-    <div id="sp-grip" role="button" tabindex="0" aria-label="説明を折りたたむ・広げる">
-      <span class="sp-grip-mark">▲</span>
-      <span class="sp-grip-text">上げてルーツマップを見る</span>
-    </div>
+  </div>
+  <!-- スマホ用のつまみ。見出しの帯の下に、文字の幅ぶんだけのタブとして出す。
+       押すと、ここから下（動画・代表曲・説明）を折りたたんで、
+       下のルーツマップを見せる。パソコンでは出さない。 -->
+  <div id="sp-grip" role="button" tabindex="0" aria-label="説明を折りたたむ・広げる">
+    <span class="sp-grip-mark">▲</span>
+    <span class="sp-grip-text">上げてルーツマップを見る</span>
   </div>
   <div id="sp-body">
     <div id="sp-yt-wrap" style="margin-bottom:6px;">
@@ -17310,6 +17318,25 @@ function パネルを畳む(畳む) {
     始y = null;
   }, { passive: true });
   grip.addEventListener('touchend', () => { 始y = null; }, { passive: true });
+
+  // 見出しの帯でも上下にはらえるようにする。タブは流れの中に置いてあるので、
+  // 下まで読み進めると画面から出てしまう。帯はいつも見えているので、
+  // そこからでも折りたためるようにしておく。
+  const 帯 = document.getElementById('sp-header');
+  if (帯) {
+    let y2 = null;
+    帯.addEventListener('touchstart', e => {
+      y2 = e.touches[0] ? e.touches[0].clientY : null;
+    }, { passive: true });
+    帯.addEventListener('touchmove', e => {
+      if (y2 === null || !e.touches[0]) return;
+      const 差 = e.touches[0].clientY - y2;
+      if (Math.abs(差) < 30) return;
+      パネルを畳む(差 < 0);
+      y2 = null;
+    }, { passive: true });
+    帯.addEventListener('touchend', () => { y2 = null; }, { passive: true });
+  }
 })();
 
 function openPanel() {
