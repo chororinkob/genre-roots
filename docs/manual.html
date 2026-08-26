@@ -34,6 +34,13 @@
   .top-bar a:focus-visible { outline: 2px solid #ffcc33; outline-offset: 2px; }
 
   /* ページの終わりにも大きめに置く。読み終えたところから戻れるように */
+  .contact-cta { margin: 22px 0 6px; }
+  .contact-cta a {
+    display: inline-block; padding: 12px 26px; font-size: 16px; font-weight: 700;
+    color: #fff; background: #4f8ef7; border-radius: 10px; text-decoration: none;
+  }
+  .contact-cta a:hover { background: #3d80e6; }
+  .contact-cta a:focus-visible { outline: 2px solid #ffcc33; outline-offset: 2px; }
   .back-bottom { text-align: center; margin: 54px 0 10px; }
   .back-bottom a {
     display: inline-flex; align-items: center; gap: 10px;
@@ -139,6 +146,7 @@
     <a href="#mic">4. 「これなんて曲？」で調べる</a>
     <a href="#add">5. 載っていないジャンルをリクエストする</a>
     <a href="#fix">6. 間違いを見つけたら</a>
+    <a href="#contact">7. お問い合わせ</a>
   </div>
 
   <section id="map">
@@ -383,11 +391,22 @@
     <p class="muted">どんな些細な指摘でも大歓迎です。こうした指摘の積み重ねで、この辞典はより正確なものになっていきます。</p>
   </section>
 
+  <section id="contact">
+    <div class="sec-num">7</div>
+    <h2>お問い合わせ</h2>
+    <p>使い方が分からない、こうなったら嬉しい、うまく動かない――そうしたご連絡は、お問い合わせフォームからお送りください。ひとつずつ読ませていただきます。</p>
+    <p class="muted">ジャンルの内容の間違いは前の章の「修正依頼」から、まだ載っていないジャンルの追加は地図の <span class="ui-tag">＋ ジャンルをリクエスト</span> からの方が早く反映されます。それ以外のこと（使い方の質問、表示の不具合、ご感想など）は、こちらへどうぞ。</p>
+    <p class="muted">お名前とメールアドレスは任意です。お返事が必要な場合だけご記入ください。</p>
+    <div class="contact-cta">
+      <a href="https://genre-roots-server.onrender.com/contact">お問い合わせフォームを開く</a>
+    </div>
+  </section>
+
   <div class="back-bottom">
       <a href="../genre_roots.html">← ジャンルマップに戻る</a>
     </div>
 
-    <div class="footer-note">音楽ジャンルルーツ辞典 使い方ガイド ・ 最終更新：2026-08-25（図を追加）</div>
+    <div class="footer-note">音楽ジャンルルーツ辞典 使い方ガイド ・ 最終更新：2026-08-26（お問い合わせを追加）</div>
 
 </div>
 </body>
