@@ -662,6 +662,11 @@ svg { width: 100vw; height: 100vh; }
 
 /* ===== スマホ対応 (768px以下) ===== */
 @media (max-width: 768px) {
+  /* 指の操作（つまんで広げる・なぞって動かす）を、ブラウザではなく
+     地図の側が受け取れるようにする。これが無いと、ブラウザ自身の
+     拡大縮小と取り合いになって、思ったところが拡大されない。 */
+  #graph { touch-action: none; }
+
   /* ヘッダー：1行に収める。オーバーレイ(z-index:99)より上にして常にタップ可能に */
   #header { flex-wrap: nowrap; padding: 2px 4px; gap: 3px; align-items: center; z-index: 200; }
   #header h1 { font-size: 10px; white-space: nowrap; }
@@ -765,7 +770,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v26.92<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v26.93<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -17239,7 +17244,24 @@ const nodeDrag = d3.drag()
     d.fx=e.x; d.fy=e.y;
   })
   .on("end",   (e,d) => { if(!e.active) simulation.alphaTarget(0); });
-node.call(nodeDrag);
+// ──────────────────────────────────────────────────────────
+// スマホでは玉を掴めないようにする
+// ──────────────────────────────────────────────────────────
+// 画面が小さいので、みんな指を広げて拡大しようとする。そのとき玉を
+// 掴んでしまい、拡大したいだけなのに地図がうにょうにょ動いてしまう。
+// スマホのときは「掴んで動かす」を外す。押したときの反応（タップ）は
+// 別の仕組みなので、そのまま残る。地図全体を指でなぞって移動するのも、
+// 拡大したあと端まで行くのに必要なので残す。
+function 掴める設定() {
+  if (isMobile()) {
+    node.on('.drag', null);        // 掴む仕組みを外す
+  } else {
+    node.call(nodeDrag);           // パソコンは今までどおり
+  }
+}
+掴める設定();
+// 画面の向きを変えたときにも合わせ直す
+window.addEventListener('resize', 掴める設定);
 
 node.on("click", (e, d) => {
   attachMap();   // 外していたら先に戻す。以降の処理は地図がある前提
