@@ -765,7 +765,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v26.91<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v26.92<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -928,6 +928,52 @@ svg { width: 100vw; height: 100vh; }
 <script>
 // 曲名検索・ジャンル追加・修正依頼などのバックエンドAPI（Render）
 const API_BASE = 'https://genre-roots-server.onrender.com';
+
+// ──────────────────────────────────────────────────────────
+// 見に来た人の記録
+// ──────────────────────────────────────────────────────────
+// どのジャンルの説明が読まれ、どの曲が聴かれているかをサーバーへ送る。
+// 管理画面の統計（/admin/stats）に出る。あわせて、いたずらの見分けにも使う。
+// 送れなくても地図の動きには一切影響させない（失敗は黙って捨てる）。
+function grLog(中身) {
+  try {
+    fetch(API_BASE + '/api/log', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',   // 来訪者を見分ける目印(cookie)を一緒に送る
+      body: JSON.stringify(中身),
+      keepalive: true,
+    }).catch(() => {});
+  } catch (e) { /* 記録が取れなくても地図は動かす */ }
+}
+
+// ──────────────────────────────────────────────────────────
+// 管理者用ボタンの鍵
+// ──────────────────────────────────────────────────────────
+// 承認待ち一覧や動画チェックは、合言葉なしでは呼べなくなった。
+// 別のドメイン（GitHub Pages）からはログインの記憶が使えないため、
+// 鍵を1回だけ聞いて、このブラウザに覚えさせる。
+function grAdminKey(聞き直す) {
+  let k = '';
+  try { k = localStorage.getItem('gr_admin_key') || ''; } catch (e) {}
+  if (!k || 聞き直す) {
+    k = window.prompt('管理者用の鍵を入力してください') || '';
+    if (k) { try { localStorage.setItem('gr_admin_key', k); } catch (e) {} }
+  }
+  return k;
+}
+
+// 管理者用の呼び出しに鍵を付ける。鍵が違えば聞き直す。
+async function grAdminFetch(url, opt) {
+  const k = grAdminKey(false);
+  const つなぎ = url.indexOf('?') >= 0 ? '&' : '?';
+  let r = await fetch(url + つなぎ + 'k=' + encodeURIComponent(k), opt);
+  if (r.status === 403) {
+    const k2 = grAdminKey(true);
+    if (k2) r = await fetch(url + つなぎ + 'k=' + encodeURIComponent(k2), opt);
+  }
+  return r;
+}
 window.API_BASE = API_BASE; // 別のscriptタグ（マイクパネル等）からも参照できるようにする
 window._ytk = ['AIzaSyBuMKsa','B80xm8J-iHQX','qdh71rIMUX1KZfM'].join('');
 
@@ -16896,6 +16942,14 @@ function _spMarkPlaying(idx) {
 }
 
 function playByVideoId(primaryId, backupId, trackIdx) {
+  // どの曲が聴かれたかを記録する（統計用）
+  try {
+    const nd = window._currentNode;
+    // 代表曲を押したときは曲名、パネルを開いたときの自動再生はメイン動画
+    const 曲 = (nd && nd.rep_tracks && trackIdx !== undefined && nd.rep_tracks[trackIdx])
+      ? nd.rep_tracks[trackIdx] : 'メイン動画';
+    grLog({ kind: 'play', genre: (nd && nd.id) || '', title: 曲, video: primaryId });
+  } catch (e) { /* 記録が取れなくても再生は続ける */ }
   const player = document.getElementById('sp-yt-player');
   const unmuteBtn = document.getElementById('sp-yt-unmute');
   player.dataset.backupId = backupId || '';
@@ -17192,6 +17246,10 @@ node.on("click", (e, d) => {
   clearTimeout(_detachTimer);
   if(dragMoved) return;
   e.stopPropagation();
+  // どのジャンルを見ているかを先に控える。パネルの組み立て中に
+  // メイン動画の再生が始まるので、その時点でも分かるようにしておく
+  // （後ろの window._currentNode = d では間に合わない）。
+  window._currentNode = d;
 
   // カテゴリのロック状態をクリア
   if (lockedCat) { clearHighlight(); }
@@ -17551,6 +17609,9 @@ node.on("click", (e, d) => {
 
   openPanel();
 
+  // どのジャンルの説明が読まれたかを記録する（統計用）
+  grLog({ kind: 'view', genre: (d && d.id) || '', label: name || '' });
+
   // パネルのスクロールを先頭に戻す
   panel.scrollTop = 0;
 
@@ -17777,7 +17838,7 @@ let vcGeminiPolling = null;
 async function vcGeminiVerifyShowReport() {
   const gvBody = document.getElementById('vc-gemini-body');
   if (!gvBody) return;
-  const res = await fetch(API_BASE + '/admin/video_check/gemini_verify/report');
+  const res = await grAdminFetch(API_BASE + '/admin/video_check/gemini_verify/report');
   const report = await res.json();
   if (report.status === 'no_report') {
     gvBody.innerHTML = '<div style="color:#888;">まだ実行されていません。</div>';
@@ -17797,7 +17858,7 @@ async function vcGeminiVerifyShowReport() {
 async function vcGeminiVerifyPoll(requestId) {
   const gvBody = document.getElementById('vc-gemini-body');
   if (!gvBody) { clearInterval(vcGeminiPolling); vcGeminiPolling = null; return; }
-  const res = await fetch(API_BASE + '/admin/video_check/gemini_verify/status/' + requestId);
+  const res = await grAdminFetch(API_BASE + '/admin/video_check/gemini_verify/status/' + requestId);
   const data = await res.json();
   const logHtml = vcRenderList('経過', data.log ? data.log.map(l => ({text: l.message})) : [], it => `<div style="padding:2px 0;color:#9db8d0;font-size:11px;">${it.text}</div>`);
   if (data.running) {
@@ -17819,7 +17880,7 @@ async function vcGeminiVerifyStart() {
   const gvBody = document.getElementById('vc-gemini-body');
   gvBody.innerHTML = '<div style="color:#7eb8f7;">開始しています…</div>';
   try {
-    const res = await fetch(API_BASE + '/admin/video_check/gemini_verify/start', { method: 'POST' });
+    const res = await grAdminFetch(API_BASE + '/admin/video_check/gemini_verify/start', { method: 'POST' });
     const data = await res.json();
     if (data.status !== 'started' || !data.request_id) {
       gvBody.innerHTML = `<div style="color:#e07878;">${data.status === 'already_running' ? '既に実行中です。' : 'エラーが発生しました。'}</div>`;
@@ -17834,7 +17895,7 @@ async function vcGeminiVerifyStart() {
 }
 
 async function vcCheckStatus() {
-  const res = await fetch(API_BASE + '/admin/video_check/status');
+  const res = await grAdminFetch(API_BASE + '/admin/video_check/status');
   const data = await res.json();
   if (data.running) {
     const progress = (data.total ? `${data.done || 0} / ${data.total} ジャンル` : '開始しています…');
@@ -17845,7 +17906,7 @@ async function vcCheckStatus() {
       vcBody.innerHTML = `<div style="color:#e07878;">エラーが発生しました：${data.error}</div>`;
       return;
     }
-    const repRes = await fetch(API_BASE + '/admin/video_check/report');
+    const repRes = await grAdminFetch(API_BASE + '/admin/video_check/report');
     const report = await repRes.json();
     if (report.status === 'no_report') {
       vcBody.innerHTML = '<div style="color:#888;">まだチェックが実行されていません。</div>';
@@ -17858,17 +17919,17 @@ async function vcCheckStatus() {
 vcBtn.onclick = async () => {
   vcOverlay.style.display = 'block';
   try {
-    const statusRes = await fetch(API_BASE + '/admin/video_check/status');
+    const statusRes = await grAdminFetch(API_BASE + '/admin/video_check/status');
     const status = await statusRes.json();
     if (!status.running) {
       if (!confirm('全ジャンルのメイン動画・代表曲動画をチェックします。本数が多いため数分〜十数分かかりますが、実行しますか？\n（既に一度実行済みの場合は前回の結果を先に表示します）')) {
-        const repRes = await fetch(API_BASE + '/admin/video_check/report');
+        const repRes = await grAdminFetch(API_BASE + '/admin/video_check/report');
         const report = await repRes.json();
         if (report.status !== 'no_report') vcShowReport(report);
         else vcBody.innerHTML = '<div style="color:#888;">まだチェックが実行されていません。</div>';
         return;
       }
-      await fetch(API_BASE + '/admin/video_check/start', { method: 'POST' });
+      await grAdminFetch(API_BASE + '/admin/video_check/start', { method: 'POST' });
     }
   } catch (e) {
     vcBody.innerHTML = 'エラー：サーバーが起動していないか、通信に問題がある可能性があります。時間をおいて再度お試しください。';
