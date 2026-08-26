@@ -691,32 +691,31 @@ svg { width: 100vw; height: 100vh; }
   #header > div:last-child button,
   #header > div:last-child a { font-size: 10px !important; padding: 4px 8px !important; white-space: nowrap; }
 
-  /* 1段目の右 … よく使うもの */
-  #help-link { order: 2; margin-left: auto; }
-  #fit-view { order: 2; }
+  /* 1段目 … 題名のすぐ隣に版、右端にヘルプ（いちばん押しやすい場所） */
+  #version-info { order: 2; font-size: 9px !important; color: #888 !important;
+    margin: 0 !important; white-space: nowrap; }
+  #fit-view { order: 3; margin-left: auto; }
+  #help-link { order: 4; }
 
   /* ここで段を折り返す */
-  #header::after { content: ""; flex-basis: 100%; height: 0; order: 3; }
+  #header::after { content: ""; flex-basis: 100%; height: 0; order: 5; }
 
-  /* 2段目。版・件数・日付は、いちばん大事な情報ではないので小さく揃える */
-  #version-info {
-    order: 4; flex: 1 1 auto; display: flex !important; align-items: center; gap: 6px;
-    font-size: 9px !important; color: #888 !important;
-    margin: 0 !important; white-space: nowrap; overflow: hidden;
-  }
-  #genre-count { font-size: 9px !important; font-weight: 400; color: #8fa8c4 !important;
-    margin-left: 0 !important; }
+  /* 2段目 … 件数と日付だけ。いちばん大事な情報ではないので小さく */
+  #genre-count { order: 6; font-size: 9px !important; font-weight: 400;
+    color: #8fa8c4 !important; margin: 0 !important; white-space: nowrap; }
 
-  /* 2段目の右 … たまにしか使わないもの */
-  #layout-buttons { order: 5; margin-left: auto; display: flex !important; gap: 4px;
-    flex-shrink: 0; }
-  #save-layout, #reset-layout { display: inline-block; }
-  #admin-menu-wrap { order: 5; }
+  /* 配置の保存・リセットはスマホでは出さない。
+     玉を掴んで動かせないようにしたので、保存する配置も戻す配置も無い。 */
+  #layout-buttons { display: none !important; }
+  #admin-menu-wrap { order: 7; }
 
   #tab-buttons { order: 2; margin-left: 0; display: flex; gap: 1px; flex-shrink: 0; }
   .tab-btn { font-size: 9px; padding: 3px 5px; white-space: nowrap; }
   .m-full { display: none !important; }
   .m-short { display: inline !important; }
+  /* 題名だけはパソコンと同じ長い表記にする（横幅に余裕ができたため） */
+  #header h1 .m-full { display: inline !important; }
+  #header h1 .m-short { display: none !important; }
 
   /* ハンバーガーメニューボタン表示 */
   #mobile-menu-btn { display: block; }
@@ -809,14 +808,14 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v26.94<span id="genre-count">533 ジャンル　2026年7月15日現在</span></span>
+  <span id="version-info">v26.95</span><span id="genre-count"></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
   </div>
   <div style="display:flex;gap:6px;margin-left:auto;align-items:center;">
     <a id="help-link" href="docs/manual.html" title="使い方ガイド" style="padding:4px 10px;background:none;border:1px solid #555;border-radius:5px;color:#ccc;font-size:11px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;">❓<span class="m-full" style="margin-left:4px;">ヘルプ</span></a>
-    <button id="fit-view" style="padding:4px 12px;background:#1565C0;border:1px solid #555;border-radius:5px;color:#fff;font-size:11px;cursor:pointer;"><span class="m-full">全体表示</span><span class="m-short" style="display:none">全体</span></button>
+    <button id="fit-view" style="padding:4px 12px;background:#1565C0;border:1px solid #555;border-radius:5px;color:#fff;font-size:11px;cursor:pointer;">全体表示</button>
     <span id="layout-buttons" style="display:flex;gap:6px;align-items:center;">
       <button id="save-layout" style="padding:4px 12px;background:#2a2a50;border:1px solid #555;border-radius:5px;color:#ccc;font-size:11px;cursor:pointer;">配置を保存</button>
       <button id="reset-layout" style="padding:4px 12px;background:#2a2a50;border:1px solid #555;border-radius:5px;color:#ccc;font-size:11px;cursor:pointer;">配置リセット</button>
@@ -8859,7 +8858,12 @@ NODES.forEach(n => {
 const LAST_UPDATED = "2026年8月25日";
 (function() {
   const el = document.getElementById('genre-count');
-  if (el) el.textContent = NODES.length + " ジャンル　" + LAST_UPDATED + "現在";
+  if (!el) return;
+  // 「2026年8月25日」は横幅を取るので「2026/8/25」に縮めて出す。
+  // 元の書き方（LAST_UPDATED）は、ジャンルを追加したときに自動で
+  // 書き換えられる場所なので、そのままにして表示だけ短くする。
+  const 短い日付 = LAST_UPDATED.replace('年', '/').replace('月', '/').replace('日', '');
+  el.textContent = NODES.length + ' ジャンル ・ ' + 短い日付;
 })();
 
 // 影響度の5項目採点（リズム・和音・楽器・歌唱法・文化的背景）。
