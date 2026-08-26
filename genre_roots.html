@@ -776,7 +776,10 @@ svg { width: 100vw; height: 100vh; }
     position: fixed; left: 0; right: 0; bottom: 0;
     top: var(--header-h, 44px) !important;
     width: auto !important; height: auto;
-    background: rgba(9, 10, 18, 0.74) !important;
+    /* 地の色はパネル自身ではなく本文（#sp-body）に持たせる。
+       パネルに持たせると、折りたたんだときタブの左右にも
+       黒い帯が残ってしまい、マップが見えない。 */
+    background: transparent !important;
     border: none; border-top: 1px solid rgba(255,255,255,0.14);
     border-radius: 14px 14px 0 0;
     transform: translateY(100%); transition: transform 0.28s ease, top 0.28s ease;
@@ -784,24 +787,36 @@ svg { width: 100vw; height: 100vh; }
     scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.35) rgba(255,255,255,0.08);
   }
 
+  /* 本文の地の色。ここが説明の下敷きになる */
+  #sp-body { background: rgba(9, 10, 18, 0.74); }
+
   /* 折りたたんだ状態。ジャンル名・別名・発祥時期までを残して、
      その下（動画・代表曲・説明）を隠す。空いたところにルーツマップが出る。 */
   #side-panel.sp-peek {
     bottom: auto !important; height: auto;
     border-radius: 0 0 14px 14px;
     overflow: visible;
+    /* タブの左右は透けているので、そこを押したらマップに届くようにする
+       （見えないのに指を吸い取る板が残らないように） */
+    pointer-events: none;
   }
+  #side-panel.sp-peek #sp-header,
+  #side-panel.sp-peek #sp-grip { pointer-events: auto; }
   #side-panel.sp-peek #sp-body { display: none; }
 
   /* つまみ。見出しの帯のすぐ下に、文字の幅ぶんだけのタブとして置く。
      真ん中ぞろえ。動画や本文と重ならないよう、流れの中に置いている
      （貼り付かせると、めくったときに動画の上に乗ってしまう）。 */
   #sp-grip {
+    /* 見出しの帯のすぐ下に貼り付ける。流れの中に置くと、説明を
+       めくったときに画面の外へ出てしまい、押せなくなる。 */
+    position: sticky; top: var(--sp-head-h, 150px); z-index: 4;
     display: flex; align-items: center; justify-content: center; gap: 5px;
-    width: fit-content; margin: 0 auto 4px; padding: 3px 14px 4px;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.14); border-top: none;
+    width: fit-content; margin: 0 auto; padding: 3px 14px 4px;
+    background: rgba(16, 18, 30, 0.94);
+    border: 1px solid rgba(255,255,255,0.16); border-top: none;
     border-radius: 0 0 11px 11px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.45);
     cursor: pointer; -webkit-tap-highlight-color: transparent;
   }
   #sp-grip:active { background: rgba(255,255,255,0.12); }
@@ -810,8 +825,8 @@ svg { width: 100vw; height: 100vh; }
     line-height: 1.4; white-space: nowrap; }
   #sp-grip:focus-visible { outline: 2px solid #4f8ef7; outline-offset: -2px; }
 
-  /* 折りたたんだときは、タブの下の余白を詰める */
-  #side-panel.sp-peek #sp-grip { margin-bottom: 0; }
+  /* 折りたたんだときは貼り付ける必要がない（めくる中身が無い） */
+  #side-panel.sp-peek #sp-grip { position: static; }
   #side-panel::-webkit-scrollbar { width: 5px; }
   #side-panel::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.35); border-radius: 3px; }
   #side-panel::-webkit-scrollbar-track { background: rgba(255,255,255,0.08); border-radius: 3px; }
@@ -855,7 +870,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v26.99</span><span id="genre-count"></span>
+  <span id="version-info">v27.00</span><span id="genre-count"></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -17285,6 +17300,15 @@ function detachMapAfterZoom(ms) {
 // 画面いっぱいに出したままだと、後ろの地図が見づらい。つまみを押すと
 // 下の方まで下がって地図が広く見え、もう一度押すと元に戻る。
 // 指で上下にはらっても切り替わる。
+// 見出しの帯の高さを測ってCSSへ渡す。タブはこの高さのところに貼り付く。
+// ジャンルによって別名の行数が変わるので、開くたびに測り直す。
+function 帯の高さを測る() {
+  const 帯 = document.getElementById('sp-header');
+  if (!帯) return;
+  const h = Math.round(帯.getBoundingClientRect().height);
+  if (h > 0) panel.style.setProperty('--sp-head-h', h + 'px');
+}
+
 function パネルを畳む(畳む) {
   panel.classList.toggle('sp-peek', !!畳む);
   const 文 = document.querySelector('.sp-grip-text');
@@ -17344,7 +17368,10 @@ function openPanel() {
   if (isMobile()) {
     パネルを畳む(false);      // 開くときはいつも全面から
     panel.style.display = 'block';
-    requestAnimationFrame(() => panel.classList.add('sp-visible'));
+    requestAnimationFrame(() => {
+      panel.classList.add('sp-visible');
+      帯の高さを測る();
+    });
   }
   else { panel.style.display = 'block'; }
 }
