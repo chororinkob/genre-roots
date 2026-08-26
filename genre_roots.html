@@ -876,7 +876,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v27.01</span><span id="genre-count"></span>
+  <span id="version-info">v27.02</span><span id="genre-count"></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -17411,8 +17411,16 @@ function closePanel() {
   clearTimeout(_detachTimer);
   attachMap();                     // 何より先に地図を戻す
   document.getElementById('sp-yt-player').src = '';
-  if (isMobile()) { panel.classList.remove('sp-visible'); setTimeout(() => { if (!panel.classList.contains('sp-visible')) panel.style.display = 'none'; }, 300); }
-  else { panel.style.display = 'none'; }
+  if (isMobile()) {
+    panel.classList.remove('sp-visible');
+    setTimeout(() => { if (!panel.classList.contains('sp-visible')) panel.style.display = 'none'; }, 300);
+    // 地図全体を真ん中へ戻す。ジャンルを選んだときに、そのジャンルの
+    // まわりへ寄せているので、閉じたあともそのままだと地図がずれた
+    // ままに見える。開く前と同じ「全体が真ん中」の状態に戻す。
+    setTimeout(fitToView, 60);
+  } else {
+    panel.style.display = 'none';
+  }
 }
 const spTag     = document.getElementById("sp-tag");
 const spCopy    = document.getElementById("sp-copy");
@@ -17872,8 +17880,17 @@ node.on("click", (e, d) => {
     const vw = window.innerWidth, vh = window.innerHeight;
     let cx, cy, uw, uh;
     if (isMobile()) {
+      // 折りたたんだときに見える範囲の真ん中へ寄せる。
+      // 【なぜ実測するか】以前はパネルが画面の44%だったので、その下端を
+      // 計算で出していた。今はパネルが全面に出て、折りたたむと
+      // 「見出しの帯＋タブ」だけが残る形に変わったため、計算値が合わなくなり、
+      // 折りたたんだときにマップが80pxほど下へずれていた。
+      const 帯 = document.getElementById('sp-header');
+      const タブ = document.getElementById('sp-grip');
       const headerH = document.getElementById('header').offsetHeight;
-      const panelBottom = headerH + vh * 0.44;
+      const 帯h = 帯 ? 帯.getBoundingClientRect().height : 0;
+      const タブh = タブ ? タブ.getBoundingClientRect().height : 0;
+      const panelBottom = 帯h > 0 ? headerH + 帯h + タブh : headerH + vh * 0.30;
       uw = vw; uh = vh - panelBottom;
       cx = vw / 2; cy = panelBottom + uh / 2;
     } else {
