@@ -784,26 +784,29 @@ svg { width: 100vw; height: 100vh; }
     scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.35) rgba(255,255,255,0.08);
   }
 
-  /* 畳んだ状態。下の方だけ残して、地図を広く見せる */
+  /* 折りたたんだ状態。ジャンル名・別名・発祥時期までを残して、
+     その下（動画・代表曲・説明）を隠す。空いたところにルーツマップが出る。 */
   #side-panel.sp-peek {
-    top: 62% !important;
+    bottom: auto !important; height: auto;
+    border-radius: 0 0 14px 14px;
+    overflow: visible;
   }
+  #side-panel.sp-peek #sp-body { display: none; }
 
-  /* つまみ */
+  /* つまみ。折りたたんだときに場所を取らないよう、できるだけ薄くする */
   #sp-grip {
-    display: flex; position: sticky; top: 0; z-index: 3;
-    flex-direction: column; align-items: center; gap: 3px;
-    padding: 7px 0 6px; cursor: pointer;
-    background: rgba(9,10,18,0.86);
-    border-radius: 14px 14px 0 0;
-    -webkit-tap-highlight-color: transparent;
+    display: flex; align-items: center; justify-content: center; gap: 5px;
+    flex-basis: 100%; margin-top: 5px; padding: 2px 0 1px;
+    border-top: 1px solid rgba(255,255,255,0.14);
+    cursor: pointer; -webkit-tap-highlight-color: transparent;
   }
-  .sp-grip-bar {
-    width: 42px; height: 4px; border-radius: 99px;
-    background: rgba(255,255,255,0.34);
-  }
-  .sp-grip-text { font-size: 10px; color: rgba(255,255,255,0.44); letter-spacing: .04em; }
+  .sp-grip-mark { font-size: 8px; color: rgba(255,255,255,0.5); line-height: 1; }
+  .sp-grip-text { font-size: 10px; color: rgba(255,255,255,0.5); letter-spacing: .02em;
+    line-height: 1.5; }
   #sp-grip:focus-visible { outline: 2px solid #4f8ef7; outline-offset: -2px; }
+
+  /* 見出しの帯は、つまみを下の行に置けるよう折り返せるようにする */
+  #sp-header { flex-wrap: wrap; padding-bottom: 6px !important; }
   #side-panel::-webkit-scrollbar { width: 5px; }
   #side-panel::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.35); border-radius: 3px; }
   #side-panel::-webkit-scrollbar-track { background: rgba(255,255,255,0.08); border-radius: 3px; }
@@ -844,7 +847,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v26.97</span><span id="genre-count"></span>
+  <span id="version-info">v26.98</span><span id="genre-count"></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -938,16 +941,17 @@ svg { width: 100vw; height: 100vh; }
 </div>
 
 <div id="side-panel">
-  <!-- スマホ用のつまみ。押すと畳む／広げるが切り替わる。
-       上下にはらってもよい。パソコンでは出さない。 -->
-  <div id="sp-grip" role="button" tabindex="0" aria-label="説明を畳む・広げる">
-    <span class="sp-grip-bar"></span>
-    <span class="sp-grip-text">下げて地図を見る</span>
-  </div>
   <div id="sp-header">
     <span id="sp-tag"></span>
     <button id="sp-copy" style="display:none;">コピー</button>
     <button id="sp-close">✕</button>
+    <!-- スマホ用のつまみ。「発祥時期」の下に置く。押すと、ここから下
+         （動画・代表曲・説明）を折りたたんで、下のルーツマップを見せる。
+         上下にはらってもよい。パソコンでは出さない。 -->
+    <div id="sp-grip" role="button" tabindex="0" aria-label="説明を折りたたむ・広げる">
+      <span class="sp-grip-mark">▲</span>
+      <span class="sp-grip-text">上げてルーツマップを見る</span>
+    </div>
   </div>
   <div id="sp-body">
     <div id="sp-yt-wrap" style="margin-bottom:6px;">
@@ -17276,7 +17280,10 @@ function detachMapAfterZoom(ms) {
 function パネルを畳む(畳む) {
   panel.classList.toggle('sp-peek', !!畳む);
   const 文 = document.querySelector('.sp-grip-text');
-  if (文) 文.textContent = 畳む ? '上げて説明を読む' : '下げて地図を見る';
+  const 印 = document.querySelector('.sp-grip-mark');
+  // 折りたたむと下にルーツマップが出るので、そのまま言葉にする
+  if (文) 文.textContent = 畳む ? '下げて説明を見る' : '上げてルーツマップを見る';
+  if (印) 印.textContent = 畳む ? '▼' : '▲';
   if (畳む) panel.scrollTop = 0;
 }
 
@@ -17299,7 +17306,7 @@ function パネルを畳む(畳む) {
     if (始y === null || !e.touches[0]) return;
     const 差 = e.touches[0].clientY - 始y;
     if (Math.abs(差) < 26) return;
-    パネルを畳む(差 > 0);      // 下へはらえば畳む、上へはらえば広げる
+    パネルを畳む(差 < 0);      // 上へはらえば折りたたむ、下へはらえば広げる
     始y = null;
   }, { passive: true });
   grip.addEventListener('touchend', () => { 始y = null; }, { passive: true });
