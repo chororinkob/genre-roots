@@ -782,7 +782,13 @@ svg { width: 100vw; height: 100vh; }
     background: transparent !important;
     border: none; border-top: 1px solid rgba(255,255,255,0.14);
     border-radius: 14px 14px 0 0;
-    transform: translateY(100%); transition: transform 0.28s ease, top 0.28s ease;
+    /* 出し入れは transform ではなく top を動かして行う。
+       【なぜか】transform が付いた入れ物の中では、「画面に固定」した
+       ものが画面ではなく入れ物を基準に置かれてしまう。用語の説明の
+       吹き出しがこれに当たり、めくったぶんだけ上へずれて、押しても
+       見えない位置に出ていた。transform を使わなければ起きない。 */
+    top: 100% !important;
+    transition: top 0.28s ease;
     overflow-y: scroll; overscroll-behavior: contain;
     scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.35) rgba(255,255,255,0.08);
   }
@@ -836,7 +842,7 @@ svg { width: 100vw; height: 100vh; }
      動画と重なってしまう。0 にしておくこと。 */
   #sp-header { background-color: rgba(9,10,18,0.80) !important; top: 0; }
   #side-panel.sp-visible {
-    display: block !important; transform: translateY(0);
+    display: block !important; top: var(--header-h, 44px) !important;
   }
   #sp-header { padding: 10px 14px 8px; }
   #sp-tag { font-size: 16px; }
@@ -870,7 +876,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v27.00</span><span id="genre-count"></span>
+  <span id="version-info">v27.01</span><span id="genre-count"></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
