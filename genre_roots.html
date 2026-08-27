@@ -957,7 +957,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v27.06</span><span id="genre-count"></span>
+  <span id="version-info">v27.07</span><span id="genre-count"></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -17403,6 +17403,26 @@ function 帯の高さを測る() {
   if (h > 0) panel.style.setProperty('--sp-head-h', h + 'px');
 }
 
+// つまみの高さを、そのときの画面に合わせて決める。
+//  ・説明パネルが出ているとき … 見出しの帯（ジャンル名・別名・発祥時期）と
+//    その下のタブより下に置く。帯に重なると、別名や発祥時期の文字が隠れる
+//  ・パネルが閉じているとき   … ヘッダーの少し下（地図の玉がまばらなところ）
+function つまみの高さを合わせる() {
+  const dt = document.getElementById('drawer-tab');
+  if (!dt || !isMobile()) return;
+  const 出ている = panel.classList.contains('sp-visible');
+  if (!出ている) { dt.style.top = ''; return; }   // CSSの既定値に戻す
+  const 帯 = document.getElementById('sp-header');
+  const タブ = document.getElementById('sp-grip');
+  // パネルの上端は「ヘッダーのすぐ下」。開くときは下からすべってくる途中なので、
+  // その場の位置を測ると画面の外の数字になってしまう。落ち着いたあとの位置
+  // （＝ヘッダーの高さ）を使う。
+  const 上 = document.getElementById('header').offsetHeight;
+  const 帯h = 帯 ? 帯.getBoundingClientRect().height : 0;
+  const タブh = タブ ? タブ.getBoundingClientRect().height : 0;
+  dt.style.top = Math.round(上 + 帯h + タブh + 10) + 'px';
+}
+
 function パネルを畳む(畳む) {
   panel.classList.toggle('sp-peek', !!畳む);
   // 説明を読んでいる間は、左端のつまみを引っ込める（読むのに邪魔なので）。
@@ -17411,6 +17431,8 @@ function パネルを畳む(畳む) {
   // 説明を読んでいる間は、矢印だけの細いつまみにする（消さない）。
   // 折りたたんでマップを見ているときは、元の大きさに戻す。
   if (dt) dt.classList.toggle('slim', !畳む);
+  // 見出しの帯に重ならないよう、高さも合わせ直す
+  requestAnimationFrame(つまみの高さを合わせる);
   const 文 = document.querySelector('.sp-grip-text');
   const 印 = document.querySelector('.sp-grip-mark');
   // 折りたたむと下にルーツマップが出るので、そのまま言葉にする
@@ -17471,6 +17493,7 @@ function openPanel() {
     requestAnimationFrame(() => {
       panel.classList.add('sp-visible');
       帯の高さを測る();
+      つまみの高さを合わせる();
     });
   }
   else { panel.style.display = 'block'; }
@@ -17508,7 +17531,7 @@ function closePanel() {
   if (isMobile()) {
     panel.classList.remove('sp-visible');
     const dt = document.getElementById('drawer-tab');
-    if (dt) dt.classList.remove('slim');     // 閉じたら元の大きさに戻す
+    if (dt) { dt.classList.remove('slim'); dt.style.top = ''; }  // 閉じたら元へ戻す
     setTimeout(() => { if (!panel.classList.contains('sp-visible')) panel.style.display = 'none'; }, 300);
     // 地図全体を真ん中へ戻す。ジャンルを選んだときに、そのジャンルの
     // まわりへ寄せているので、閉じたあともそのままだと地図がずれた
