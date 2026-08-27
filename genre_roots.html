@@ -817,17 +817,26 @@ svg { width: 100vw; height: 100vh; }
     /* 見出しの帯のすぐ下に貼り付ける。流れの中に置くと、説明を
        めくったときに画面の外へ出てしまい、押せなくなる。 */
     position: sticky; top: var(--sp-head-h, 150px); z-index: 4;
-    display: flex; align-items: center; justify-content: center; gap: 5px;
-    width: fit-content; margin: 0 auto; padding: 3px 14px 4px;
-    background: rgba(16, 18, 30, 0.94);
-    border: 1px solid rgba(255,255,255,0.16); border-top: none;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    width: fit-content; margin: 0 auto; padding: 3px 16px 4px;
+    /* 色はそのジャンルのカテゴリ色（見出しと同じ色）を使う。
+       画面に無い色を持ってくるとギトギトになるので、いま出ている色で
+       濃さだけ上げる。ジャンルごとに色が変わる。
+       下敷きは暗いまま（折りたたむと後ろにマップが来るため、
+       透かすと文字が読みにくくなる）。 */
+    background-color: rgba(14, 16, 26, 0.92);
+    background-image: linear-gradient(rgba(var(--al-lit, 150,150,160), 0.20),
+                                      rgba(var(--al, 96,96,110), 0.34));
+    border: 1px solid rgba(var(--al-lit, 150,150,160), 0.62); border-top: none;
     border-radius: 0 0 11px 11px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.45);
+    box-shadow: 0 3px 12px rgba(var(--al, 96,96,110), 0.42);
     cursor: pointer; -webkit-tap-highlight-color: transparent;
   }
-  #sp-grip:active { background: rgba(255,255,255,0.12); }
-  .sp-grip-mark { font-size: 8px; color: rgba(255,255,255,0.55); line-height: 1; }
-  .sp-grip-text { font-size: 10.5px; color: rgba(255,255,255,0.62); letter-spacing: .02em;
+  #sp-grip:active { background-image: linear-gradient(rgba(var(--al-lit), 0.34),
+                                                      rgba(var(--al), 0.5)); }
+  .sp-grip-mark { font-size: 8px; color: rgb(var(--al-lit, 200,200,210)); line-height: 1; }
+  .sp-grip-text { font-size: 11px; font-weight: 700;
+    color: rgb(var(--al-lit, 220,220,230)); letter-spacing: .02em;
     line-height: 1.4; white-space: nowrap; }
   #sp-grip:focus-visible { outline: 2px solid #4f8ef7; outline-offset: -2px; }
 
@@ -876,7 +885,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v27.02</span><span id="genre-count"></span>
+  <span id="version-info">v27.03</span><span id="genre-count"></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -17662,18 +17671,19 @@ node.on("click", (e, d) => {
   </g>
 </svg>`;
 
-  // 見出しの周りにも色を使うので、色は見出し全体の入れ物に持たせる
-  // （CSSの変数は入れ子の中へ引き継がれる）
+  // 見出しの周りにも、その下のタブにも色を使うので、色はパネル全体の
+  // 入れ物に持たせる（CSSの変数は入れ子の中へ引き継がれる）。
+  // 見出しだけに持たせていたときは、外に出したタブへ色が届かなかった。
   const spHeader = document.getElementById("sp-header");
-  spHeader.style.setProperty("--al", c.join(","));
-  spHeader.style.setProperty("--al-lit",
+  panel.style.setProperty("--al", c.join(","));
+  panel.style.setProperty("--al-lit",
     c.map(v => Math.round(v + (255 - v) * 0.5)).join(","));
   // 背景に乗せる濃さは、色の明るさに合わせて変える。
   // ジャズ系の黄色のように明るい色は、同じ濃さで乗せると背景が明るくなりすぎて
   // 白いジャンル名が沈む。暗い色ほど濃く、明るい色ほど薄くする。
   // 明るさは「目が感じる明るさ」の重み（緑を重く、青を軽く）で測る
   const bri = (c[0] * 0.299 + c[1] * 0.587 + c[2] * 0.114) / 255;
-  spHeader.style.setProperty("--al-a", (0.46 - bri * 0.20).toFixed(3));
+  panel.style.setProperty("--al-a", (0.46 - bri * 0.20).toFixed(3));
   // 筆の線と知名度を同じ行に置き、知名度は右端へ寄せる。
   // 線のすぐ右に置くと宙ぶらりんに見えるので、閉じるボタンの真下に来るよう
   // 右端へ寄せる（FAME_UI が false なら知名度は出さない）。
