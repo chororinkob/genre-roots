@@ -664,8 +664,9 @@ svg { width: 100vw; height: 100vh; }
 
 /* ===== スマホ対応 (768px以下) ===== */
 @media (max-width: 768px) {
-  /* 2段になったぶん、左の欄の位置も下げる */
-  #left-sidebar { padding-top: 68px !important; }
+  /* 引き出しの中身は、ヘッダーのすぐ下から始める。
+     ☰ を避けるために広めに空けていたが、☰ を消したので詰める。 */
+  #left-sidebar { padding-top: 50px !important; }
 
   /* 指の操作（つまんで広げる・なぞって動かす）を、ブラウザではなく
      地図の側が受け取れるようにする。これが無いと、ブラウザ自身の
@@ -681,8 +682,9 @@ svg { width: 100vw; height: 100vh; }
     /* ☰ の幅をここで決めておき、2段目の字下げに使い回す。
        こうしておくと、2段目の「572 ジャンル」の左端が、
        1段目の「音楽ジャンルルーツ辞典」の「音」の真下にそろう。 */
-    --menu-w: 24px;
-    --header-gap: 6px;
+    /* ☰ を消したので、2段目の字下げは要らない（題名が左端から始まる） */
+    --menu-w: 0px;
+    --header-gap: 0px;
     flex-wrap: wrap; padding: 4px 6px 4px; column-gap: var(--header-gap);
     align-items: center; z-index: 200; row-gap: 0;
   }
@@ -729,7 +731,9 @@ svg { width: 100vw; height: 100vh; }
   #header h1 .m-short { display: none !important; }
 
   /* ハンバーガーメニューボタン表示 */
-  #mobile-menu-btn { display: block; }
+  /* ☰ は出さない。左端の「ジャンル」つまみがあるので要らなくなった。
+     消したぶん、題名と件数を左へ寄せられる。 */
+  #mobile-menu-btn { display: none; }
 
   /* 左サイドバー：幅を狭くしてコンパクトに */
   #left-sidebar {
@@ -758,31 +762,62 @@ svg { width: 100vw; height: 100vh; }
     z-index: 101; align-items: center; justify-content: center; gap: 4px;
     flex-direction: column;
     padding: 12px 4px 12px 3px;
-    background-color: rgba(14, 16, 26, 0.90);
-    background-image: linear-gradient(rgba(255,255,255,0.10), rgba(255,255,255,0.02));
-    border: 1px solid rgba(255,255,255,0.22); border-left: none;
+    /* 色は画面の中ですでに使っている青（「全体表示」のボタンと同じ系統）。
+       新しい色を持ってこないので浮かない。 */
+    background-color: rgba(14, 16, 26, 0.92);
+    background-image: linear-gradient(rgba(79, 142, 247, 0.42), rgba(79, 142, 247, 0.16));
+    border: 1px solid rgba(120, 175, 255, 0.66); border-left: none;
     border-radius: 0 12px 12px 0;
-    box-shadow: 2px 0 10px rgba(0,0,0,0.45);
-    color: rgba(255,255,255,0.86);
+    box-shadow: 2px 0 12px rgba(79, 142, 247, 0.40);
+    color: #eaf2ff;
     cursor: pointer; -webkit-tap-highlight-color: transparent;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, padding 0.2s ease;
     touch-action: none;
   }
   .dt-text { writing-mode: vertical-rl; font-size: 11px; font-weight: 700;
     letter-spacing: .14em; line-height: 1; }
-  .dt-arrow { font-size: 13px; line-height: 1; color: rgba(255,255,255,0.7); }
+  /* 矢印は「こっちへ動く」の合図なので、少し速めに点滅させて気づいてもらう */
+  .dt-arrow { font-size: 14px; font-weight: 700; line-height: 1; color: #cfe2ff;
+    animation: dt-arrow-blink 1.4s ease-in-out infinite; }
+  @keyframes dt-arrow-blink {
+    0%, 100% { opacity: .35; transform: translateX(0); }
+    50%      { opacity: 1;   transform: translateX(2px);
+               text-shadow: 0 0 7px rgba(150,195,255,.9); }
+  }
+  /* 開いているときは矢印が逆を向くので、動く向きも逆にする */
+  #drawer-tab.open .dt-arrow { animation-name: dt-arrow-blink-back; }
+  @keyframes dt-arrow-blink-back {
+    0%, 100% { opacity: .35; transform: rotate(180deg) translateX(0); }
+    50%      { opacity: 1;   transform: rotate(180deg) translateX(2px);
+               text-shadow: 0 0 7px rgba(150,195,255,.9); }
+  }
+  /* 「動きを減らす」設定のときは、止めずにゆっくりにする
+     （止めると「そこに何かある」という合図が届かなくなるため） */
+  @media (prefers-reduced-motion: reduce) {
+    .dt-arrow { animation-duration: 3.2s; }
+  }
   #drawer-tab:active { background-image: linear-gradient(rgba(255,255,255,0.20), rgba(255,255,255,0.06)); }
   #drawer-tab:focus-visible { outline: 2px solid #4f8ef7; outline-offset: 2px; }
   /* 開いている間は引き出しの右端へ寄り、矢印が逆を向く */
   #drawer-tab.open { transform: translateX(150px); }
-  #drawer-tab.open .dt-arrow { transform: rotate(180deg); }
-  /* 説明を読んでいる間は出さない（読むのに邪魔なので） */
-  #drawer-tab.hide { display: none; }
 
-  /* 検索ボックスをコンパクトに */
-  #controls { padding: 6px 8px; }
+  /* 説明を読んでいる間も出しておく。ただし「ジャンル」の文字を隠して
+     矢印だけの細いつまみにする。そのぶん説明の左側に余白を取るので、
+     文字とは重ならない。 */
+  #drawer-tab.slim { padding: 14px 3px 14px 2px; }
+  #drawer-tab.slim .dt-text { display: none; }
+  #side-panel.sp-visible:not(.sp-peek) #sp-header,
+  #side-panel.sp-visible:not(.sp-peek) #sp-body { padding-left: 30px; }
+
+  /* 検索まわり。文字が大きすぎて「説明文を含む」が枠からはみ出し、
+     「ジャンル検索」も途中で切れていたので、全体的に小さくする。 */
+  #controls { padding: 6px 7px; }
   #controls h3 { font-size: 10px; margin-bottom: 4px; }
-  #search { font-size: 11px; padding: 4px 6px; }
+  #search { font-size: 10.5px; padding: 5px 6px; }
+  #search::placeholder { font-size: 10.5px; }
+  /* 「ジャンル名」「説明文を含む」の切り替え */
+  .search-mode-group { padding: 1px; margin-bottom: 5px; }
+  .search-mode-btn { font-size: 9.5px; padding: 4px 2px; letter-spacing: 0; }
 
   /* Sunoフィルターボタン非表示（スマホのみ） */
   .filter-btn[data-filter="suno"] { display: none; }
@@ -918,7 +953,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v27.04</span><span id="genre-count"></span>
+  <span id="version-info">v27.05</span><span id="genre-count"></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -17369,7 +17404,9 @@ function パネルを畳む(畳む) {
   // 説明を読んでいる間は、左端のつまみを引っ込める（読むのに邪魔なので）。
   // 折りたたんでマップを見ているときは出す。
   const dt = document.getElementById('drawer-tab');
-  if (dt) dt.classList.toggle('hide', !畳む);
+  // 説明を読んでいる間は、矢印だけの細いつまみにする（消さない）。
+  // 折りたたんでマップを見ているときは、元の大きさに戻す。
+  if (dt) dt.classList.toggle('slim', !畳む);
   const 文 = document.querySelector('.sp-grip-text');
   const 印 = document.querySelector('.sp-grip-mark');
   // 折りたたむと下にルーツマップが出るので、そのまま言葉にする
@@ -17467,7 +17504,7 @@ function closePanel() {
   if (isMobile()) {
     panel.classList.remove('sp-visible');
     const dt = document.getElementById('drawer-tab');
-    if (dt) dt.classList.remove('hide');     // 閉じたらつまみを戻す
+    if (dt) dt.classList.remove('slim');     // 閉じたら元の大きさに戻す
     setTimeout(() => { if (!panel.classList.contains('sp-visible')) panel.style.display = 'none'; }, 300);
     // 地図全体を真ん中へ戻す。ジャンルを選んだときに、そのジャンルの
     // まわりへ寄せているので、閉じたあともそのままだと地図がずれた
