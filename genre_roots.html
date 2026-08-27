@@ -522,8 +522,26 @@ svg { width: 100vw; height: 100vh; }
 .link.link-lvl5 { stroke-linecap: square; }
 .link.focus-highlight { stroke-opacity: 0.6 !important; pointer-events: auto; }
 .node circle { cursor: pointer; stroke-width: 2; transition: fill 0.3s ease-in, opacity 0.3s ease-in, filter 0.3s ease-in; }
-.node circle.flash-on { filter: brightness(2.5) drop-shadow(0 0 30px currentColor) drop-shadow(0 0 60px currentColor); }
-.node circle.flash-out { transition: fill 6s ease-out, opacity 6s ease-out, filter 6s ease-out; }
+/* 玉のきらめき。知名度の「？」（gr-fame-glow）と同じ考え方で、
+   2.8秒かけてゆっくり明るくなり、ゆっくり戻る。
+   【前はどうだったか】0.3秒で一気に明るくして6秒かけて戻す作りで、
+   スマホではさらに一瞬まっ白にしていた（transitionを切っていた）。
+   立ち上がりが速すぎて、点滅がカクついて見えていた。 */
+@keyframes gr-node-twinkle {
+  0%   { filter: brightness(1); }
+  50%  { filter: brightness(2.2)
+                 drop-shadow(0 0 22px currentColor)
+                 drop-shadow(0 0 44px currentColor); }
+  100% { filter: brightness(1); }
+}
+.node circle.twinkle {
+  animation: gr-node-twinkle 2.8s ease-in-out;
+  will-change: filter;
+}
+/* 「動きを減らす」設定のときは、止めずにゆっくりにする */
+@media (prefers-reduced-motion: reduce) {
+  .node circle.twinkle { animation-duration: 4.6s; }
+}
 .node circle.suno { stroke: none; stroke-width: 0; }
 .node text { pointer-events: none; font-size: 11px; fill: #eee; text-anchor: middle; dominant-baseline: central; }
 .node.highlighted circle { stroke: #fff !important; stroke-width: 3 !important; }
@@ -974,7 +992,9 @@ svg { width: 100vw; height: 100vh; }
   /* 検索結果 */
   #search-results { max-height: 50vh; overflow-y: auto; }
 
-  /* スマホ用：flashNodeによるJS制御のみ（CSSアニメーションなし） */
+  /* きらめきの見せ方はパソコンと共通（gr-node-twinkle）。
+     以前はスマホだけ別扱いで、一瞬まっ白にしていたが、
+     それがカクついて見える原因だったのでやめた。 */
 }
 </style>
 </head>
@@ -983,7 +1003,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v27.10</span><span id="genre-count"></span>
+  <span id="version-info">v27.11</span><span id="genre-count"></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -19872,29 +19892,35 @@ if (drawerTab) {
 // ===== 星のきらめき（JS制御） =====
 let twinkleActive = true;
 const twinkleNodes = node.select("circle").nodes();
+// 玉をひとつ、ふわっと光らせて戻す。
+// 明るさは gr-node-twinkle（2.8秒・ゆっくり始まってゆっくり終わる）に任せ、
+// 色の変化もその半分（1.4秒）ずつで行き帰りさせて、動きの速さをそろえる。
+// パソコンでもスマホでも同じ動きにする（前はスマホだけ別扱いで、
+// 一瞬まっ白にしていたのがカクつきの原因だった）。
+const _きらめき秒 = 2.8;
 function flashNode(el, returnColor) {
   const circle = d3.select(el);
   const catColor = circle.attr("data-cat-color");
   const d = circle.datum();
   const fadeColor   = returnColor !== undefined ? returnColor : monoColor(d);
   const fadeOpacity = returnColor !== undefined ? 1 : 0.85;
-  circle.classed("flash-out", false).classed("flash-on", true);
+  const 半分 = (_きらめき秒 / 2) * 1000;
+
+  // 同じ玉がまた光るときは、前の動きを消してから始め直す
+  // （消さないとブラウザが「もう動いている」と見なして、やり直してくれない）
+  circle.classed("twinkle", false);
+  el.offsetWidth;                         // ここで一度描き直させる
+  circle.style("transition",
+    "fill " + (半分 / 1000) + "s ease-in-out, fill-opacity " + (半分 / 1000) + "s ease-in-out");
   circle.attr("fill", catColor).attr("fill-opacity", 1);
-  if (isMobile()) {
-    circle.style("transition", "none").attr("fill", "#fff");
-    setTimeout(() => { circle.style("transition", null).attr("fill", catColor).attr("fill-opacity", 1); }, 100);
-    setTimeout(() => {
-      circle.classed("flash-on", false).classed("flash-out", true);
-      circle.attr("fill", fadeColor).attr("fill-opacity", fadeOpacity);
-      setTimeout(() => circle.classed("flash-out", false), 6200);
-    }, 700);
-  } else {
-    setTimeout(() => {
-      circle.classed("flash-on", false).classed("flash-out", true);
-      circle.attr("fill", fadeColor).attr("fill-opacity", fadeOpacity);
-      setTimeout(() => circle.classed("flash-out", false), 6200);
-    }, 400);
-  }
+  circle.classed("twinkle", true);
+
+  setTimeout(() => {
+    circle.attr("fill", fadeColor).attr("fill-opacity", fadeOpacity);
+  }, 半分);
+  setTimeout(() => {
+    circle.classed("twinkle", false).style("transition", null);
+  }, _きらめき秒 * 1000 + 100);
 }
 
 const nodeById = {};
