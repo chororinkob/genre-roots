@@ -657,6 +657,7 @@ svg { width: 100vw; height: 100vh; }
 #instruments-panel .inst-copy:hover { background: #3a3a70; color: #fff; }
 
 /* ハンバーガーメニューボタン（PC非表示） */
+#drawer-tab { display: none; }   /* スマホでだけ出す（下の @media で表示） */
 #mobile-menu-btn { display: none; background: none; border: 1px solid #555; border-radius: 3px; color: #fff; font-size: 14px; padding: 1px 4px; cursor: pointer; line-height: 1; }
 /* サイドバーオーバーレイ背景（PC非表示） */
 #sidebar-overlay { display: none; }
@@ -733,7 +734,10 @@ svg { width: 100vw; height: 100vh; }
   /* 左サイドバー：幅を狭くしてコンパクトに */
   #left-sidebar {
     position: fixed; top: 0; left: 0; bottom: 0; width: 150px;
-    z-index: 100; background: rgba(0,0,0,0.4);
+    /* 下敷きは濃くする。薄いと後ろの地図の文字と重なって、
+       カテゴリの名前が読めなくなる（実際に読めなかった）。 */
+    z-index: 100; background: rgba(10, 12, 20, 0.94);
+    border-right: 1px solid rgba(255,255,255,0.12);
     transform: translateX(-100%); transition: transform 0.3s ease;
     padding: 50px 6px 8px;
     scrollbar-width: none; -ms-overflow-style: none;
@@ -745,6 +749,35 @@ svg { width: 100vw; height: 100vh; }
   /* カテゴリー吹き出しも非表示（位置がずれるため。アコーディオンで代替） */
   #cat-tooltip { display: none !important; }
   #left-sidebar.open { transform: translateX(0); }
+
+  /* ── 左端のつまみ ──────────────────────────
+     縦書きで「ジャンル ›」。画面の左端、上下の真ん中あたりに出す。
+     引き出しが開いている間は、一緒に右へ動いて引き出しの縁に付いていく。 */
+  #drawer-tab {
+    display: flex; position: fixed; left: 0; top: 46%;
+    z-index: 101; align-items: center; justify-content: center; gap: 4px;
+    flex-direction: column;
+    padding: 12px 4px 12px 3px;
+    background-color: rgba(14, 16, 26, 0.90);
+    background-image: linear-gradient(rgba(255,255,255,0.10), rgba(255,255,255,0.02));
+    border: 1px solid rgba(255,255,255,0.22); border-left: none;
+    border-radius: 0 12px 12px 0;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.45);
+    color: rgba(255,255,255,0.86);
+    cursor: pointer; -webkit-tap-highlight-color: transparent;
+    transition: transform 0.3s ease;
+    touch-action: none;
+  }
+  .dt-text { writing-mode: vertical-rl; font-size: 11px; font-weight: 700;
+    letter-spacing: .14em; line-height: 1; }
+  .dt-arrow { font-size: 13px; line-height: 1; color: rgba(255,255,255,0.7); }
+  #drawer-tab:active { background-image: linear-gradient(rgba(255,255,255,0.20), rgba(255,255,255,0.06)); }
+  #drawer-tab:focus-visible { outline: 2px solid #4f8ef7; outline-offset: 2px; }
+  /* 開いている間は引き出しの右端へ寄り、矢印が逆を向く */
+  #drawer-tab.open { transform: translateX(150px); }
+  #drawer-tab.open .dt-arrow { transform: rotate(180deg); }
+  /* 説明を読んでいる間は出さない（読むのに邪魔なので） */
+  #drawer-tab.hide { display: none; }
 
   /* 検索ボックスをコンパクトに */
   #controls { padding: 6px 8px; }
@@ -885,7 +918,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v27.03</span><span id="genre-count"></span>
+  <span id="version-info">v27.04</span><span id="genre-count"></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -1049,6 +1082,13 @@ svg { width: 100vw; height: 100vh; }
   </div>
 </div>
 <div id="sidebar-overlay"></div>
+<!-- 画面の左端に出しておく引き出しのつまみ（スマホだけ）。
+     ☰ だけだと「そこに一覧がある」と気づかれないため、端に出しておく。
+     押しても開くし、右へなぞっても開く。 -->
+<div id="drawer-tab" role="button" tabindex="0" aria-label="ジャンル一覧を開く">
+  <span class="dt-text">ジャンル</span>
+  <span class="dt-arrow">›</span>
+</div>
 <div id="tooltip"></div>
 <div id="globe-container"></div>
 <div id="instruments-panel"></div>
@@ -17326,6 +17366,10 @@ function 帯の高さを測る() {
 
 function パネルを畳む(畳む) {
   panel.classList.toggle('sp-peek', !!畳む);
+  // 説明を読んでいる間は、左端のつまみを引っ込める（読むのに邪魔なので）。
+  // 折りたたんでマップを見ているときは出す。
+  const dt = document.getElementById('drawer-tab');
+  if (dt) dt.classList.toggle('hide', !畳む);
   const 文 = document.querySelector('.sp-grip-text');
   const 印 = document.querySelector('.sp-grip-mark');
   // 折りたたむと下にルーツマップが出るので、そのまま言葉にする
@@ -17422,6 +17466,8 @@ function closePanel() {
   document.getElementById('sp-yt-player').src = '';
   if (isMobile()) {
     panel.classList.remove('sp-visible');
+    const dt = document.getElementById('drawer-tab');
+    if (dt) dt.classList.remove('hide');     // 閉じたらつまみを戻す
     setTimeout(() => { if (!panel.classList.contains('sp-visible')) panel.style.display = 'none'; }, 300);
     // 地図全体を真ん中へ戻す。ジャンルを選んだときに、そのジャンルの
     // まわりへ寄せているので、閉じたあともそのままだと地図がずれた
@@ -19634,14 +19680,69 @@ const mobileMenuBtn = document.getElementById('mobile-menu-btn');
 const leftSidebar = document.getElementById('left-sidebar');
 const sidebarOverlay = document.getElementById('sidebar-overlay');
 
-mobileMenuBtn.addEventListener('click', () => {
-  leftSidebar.classList.toggle('open');
-  sidebarOverlay.classList.toggle('open');
-});
-sidebarOverlay.addEventListener('click', () => {
-  leftSidebar.classList.remove('open');
-  sidebarOverlay.classList.remove('open');
-});
+// ──────────────────────────────────────────────────────────
+// ジャンル一覧の引き出し（スマホ）
+// ──────────────────────────────────────────────────────────
+// ☰ を押すだけの作りだと「そこに一覧がある」と気づかれない。
+// 画面の左端につまみを出しておき、押しても、右へなぞっても開くようにする。
+const drawerTab = document.getElementById('drawer-tab');
+
+function 引き出し(開く) {
+  leftSidebar.classList.toggle('open', 開く);
+  sidebarOverlay.classList.toggle('open', 開く);
+  if (drawerTab) {
+    drawerTab.classList.toggle('open', 開く);
+    drawerTab.setAttribute('aria-label',
+      開く ? 'ジャンル一覧を閉じる' : 'ジャンル一覧を開く');
+  }
+}
+function 引き出しは開いている() { return leftSidebar.classList.contains('open'); }
+
+mobileMenuBtn.addEventListener('click', () => 引き出し(!引き出しは開いている()));
+sidebarOverlay.addEventListener('click', () => 引き出し(false));
+
+if (drawerTab) {
+  drawerTab.addEventListener('click', () => 引き出し(!引き出しは開いている()));
+  drawerTab.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); 引き出し(!引き出しは開いている()); }
+  });
+
+  // つまみを横へなぞって出し入れする。
+  // 右へ引けば開き、左へ戻せば閉じる。指を離した時点で決める。
+  let 始x = null, 始y = null, 横か = false;
+  drawerTab.addEventListener('touchstart', e => {
+    const t = e.touches[0];
+    if (!t) return;
+    始x = t.clientX; 始y = t.clientY; 横か = false;
+  }, { passive: true });
+  drawerTab.addEventListener('touchmove', e => {
+    const t = e.touches[0];
+    if (始x === null || !t) return;
+    const dx = t.clientX - 始x, dy = t.clientY - 始y;
+    if (!横か && Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy)) 横か = true;
+    if (!横か) return;
+    if (dx > 34) { 引き出し(true); 始x = null; }
+    else if (dx < -34) { 引き出し(false); 始x = null; }
+  }, { passive: true });
+  drawerTab.addEventListener('touchend', () => { 始x = null; }, { passive: true });
+}
+
+// 引き出しの中身を左へなぞっても閉じられるようにする
+(function 引き出しを閉じるなぞり() {
+  let x0 = null, y0 = null;
+  leftSidebar.addEventListener('touchstart', e => {
+    const t = e.touches[0];
+    if (!t) return;
+    x0 = t.clientX; y0 = t.clientY;
+  }, { passive: true });
+  leftSidebar.addEventListener('touchmove', e => {
+    const t = e.touches[0];
+    if (x0 === null || !t) return;
+    const dx = t.clientX - x0, dy = t.clientY - y0;
+    if (dx < -46 && Math.abs(dx) > Math.abs(dy)) { 引き出し(false); x0 = null; }
+  }, { passive: true });
+  leftSidebar.addEventListener('touchend', () => { x0 = null; }, { passive: true });
+})();
 
 // ===== 星のきらめき（JS制御） =====
 let twinkleActive = true;
