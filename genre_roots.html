@@ -758,7 +758,11 @@ svg { width: 100vw; height: 100vh; }
      縦書きで「ジャンル ›」。画面の左端、上下の真ん中あたりに出す。
      引き出しが開いている間は、一緒に右へ動いて引き出しの縁に付いていく。 */
   #drawer-tab {
-    display: flex; position: fixed; left: 0; top: 46%;
+    /* 高さは、ヘッダーの下の空いているところ。真ん中あたりに置くと
+       地図の玉と重なってしまう（玉は画面の中ほどに集まっている）。
+       上の方は玉がまばらなので、そこへ置く。 */
+    display: flex; position: fixed; left: 0;
+    top: calc(var(--header-h, 44px) + 46px);
     z-index: 101; align-items: center; justify-content: center; gap: 4px;
     flex-direction: column;
     padding: 12px 4px 12px 3px;
@@ -804,10 +808,10 @@ svg { width: 100vw; height: 100vh; }
   /* 説明を読んでいる間も出しておく。ただし「ジャンル」の文字を隠して
      矢印だけの細いつまみにする。そのぶん説明の左側に余白を取るので、
      文字とは重ならない。 */
+  /* 細いつまみは幅11px。説明の文字はもともと左から14pxで始まるので、
+     余白を足さなくても重ならない（足したら空きすぎた）。 */
   #drawer-tab.slim { padding: 14px 3px 14px 2px; }
   #drawer-tab.slim .dt-text { display: none; }
-  #side-panel.sp-visible:not(.sp-peek) #sp-header,
-  #side-panel.sp-visible:not(.sp-peek) #sp-body { padding-left: 30px; }
 
   /* 検索まわり。文字が大きすぎて「説明文を含む」が枠からはみ出し、
      「ジャンル検索」も途中で切れていたので、全体的に小さくする。 */
@@ -953,7 +957,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v27.05</span><span id="genre-count"></span>
+  <span id="version-info">v27.06</span><span id="genre-count"></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
