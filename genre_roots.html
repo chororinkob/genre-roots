@@ -962,20 +962,29 @@ svg { width: 100vw; height: 100vh; }
   }
   .dt-text { writing-mode: vertical-rl; font-size: 11px; font-weight: 700;
     letter-spacing: .14em; line-height: 1; }
-  /* 矢印は「こっちへ動く」の合図なので、少し速めに点滅させて気づいてもらう */
-  .dt-arrow { font-size: 14px; font-weight: 700; line-height: 1; color: #cfe2ff;
-    animation: dt-arrow-blink 1.4s ease-in-out infinite; }
+  /* 矢印は「こっちへ動く」の合図。文字の「›」は細い線なので、
+     点滅していても小さくて気づかれなかった。塗りつぶしの三角にして
+     面積を増やし、動く幅と大小の差も広げる。 */
+  .dt-arrow {
+    width: 0; height: 0; margin-top: 4px;
+    border-top: 11px solid transparent;
+    border-bottom: 11px solid transparent;
+    border-left: 15px solid #eaf3ff;
+    animation: dt-arrow-blink 1.4s ease-in-out infinite;
+  }
   @keyframes dt-arrow-blink {
-    0%, 100% { opacity: .35; transform: translateX(0); }
-    50%      { opacity: 1;   transform: translateX(2px);
-               text-shadow: 0 0 7px rgba(150,195,255,.9); }
+    0%, 100% { opacity: .34; transform: translateX(0) scale(0.80);
+               filter: drop-shadow(0 0 0 rgba(150,195,255,0)); }
+    50%      { opacity: 1;   transform: translateX(3px) scale(1.18);
+               filter: drop-shadow(0 0 7px rgba(150,195,255,.95)); }
   }
   /* 開いているときは矢印が逆を向くので、動く向きも逆にする */
   #drawer-tab.open .dt-arrow { animation-name: dt-arrow-blink-back; }
   @keyframes dt-arrow-blink-back {
-    0%, 100% { opacity: .35; transform: rotate(180deg) translateX(0); }
-    50%      { opacity: 1;   transform: rotate(180deg) translateX(2px);
-               text-shadow: 0 0 7px rgba(150,195,255,.9); }
+    0%, 100% { opacity: .34; transform: rotate(180deg) translateX(0) scale(0.80);
+               filter: drop-shadow(0 0 0 rgba(150,195,255,0)); }
+    50%      { opacity: 1;   transform: rotate(180deg) translateX(3px) scale(1.18);
+               filter: drop-shadow(0 0 7px rgba(150,195,255,.95)); }
   }
   /* 「動きを減らす」設定のときは、止めずにゆっくりにする
      （止めると「そこに何かある」という合図が届かなくなるため） */
@@ -992,8 +1001,13 @@ svg { width: 100vw; height: 100vh; }
      文字とは重ならない。 */
   /* 細いつまみは幅11px。説明の文字はもともと左から14pxで始まるので、
      余白を足さなくても重ならない（足したら空きすぎた）。 */
-  #drawer-tab.slim { padding: 14px 3px 14px 2px; }
+  #drawer-tab.slim { padding: 14px 2px 14px 1px; }
   #drawer-tab.slim .dt-text { display: none; }
+  /* 細いときは三角も少しだけ小さく。説明の文字が左から14pxで始まるので、
+     つまみ全体がそれを越えないようにする。 */
+  #drawer-tab.slim .dt-arrow {
+    border-top-width: 9px; border-bottom-width: 9px; border-left-width: 10px;
+  }
 
   /* 検索まわり。文字が大きすぎて「説明文を含む」が枠からはみ出し、
      「ジャンル検索」も途中で切れていたので、全体的に小さくする。 */
@@ -1153,7 +1167,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v27.17</span><span id="genre-count"></span>
+  <span id="version-info">v27.18</span><span id="genre-count"></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -1322,7 +1336,7 @@ svg { width: 100vw; height: 100vh; }
      押しても開くし、右へなぞっても開く。 -->
 <div id="drawer-tab" role="button" tabindex="0" aria-label="ジャンル一覧を開く">
   <span class="dt-text">ジャンル</span>
-  <span class="dt-arrow">›</span>
+  <span class="dt-arrow" aria-hidden="true"></span>
 </div>
 <div id="tooltip"></div>
 <div id="globe-container"></div>
