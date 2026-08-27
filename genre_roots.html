@@ -541,10 +541,12 @@ svg { width: 100vw; height: 100vh; }
                  drop-shadow(0 0 0 rgba(255,255,255,0))
                  drop-shadow(0 0 0 rgba(255,255,255,0))
                  drop-shadow(0 0 0 rgba(255,255,255,0)); }
-  /* 沈むところ。暗くして、さらに透かす。後ろの暗い地が透けるので、
-     カントリーの茶色でも、いったん黒くなったように見える。
-     「？」や代表曲の赤い点滅も、同じく透かして沈ませている。 */
-  22%  { filter: brightness(0.10) saturate(1) opacity(0.10)
+  /* 沈むところ。「黒くなる」であって「消える」ではない。
+     【やってみて分かったこと】透かして沈めると、暗い地に溶けて玉が
+     まるごと見えなくなり、ジャンル名の文字だけが宙に浮いてしまった。
+     消えるのではなく、真っ黒な玉として残っているのが正しい。
+     そこで透かすのはやめ、暗さだけを落とす。 */
+  22%  { filter: brightness(0.06) saturate(0.7) opacity(1)
                  drop-shadow(0 0 0 rgba(255,255,255,0))
                  drop-shadow(0 0 0 rgba(255,255,255,0))
                  drop-shadow(0 0 0 rgba(255,255,255,0)); }
@@ -553,7 +555,7 @@ svg { width: 100vw; height: 100vh; }
                  drop-shadow(0 0 30px rgba(255,255,255,0.95))
                  drop-shadow(0 0 62px currentColor)
                  drop-shadow(0 0 110px rgba(255,255,255,0.7)); }
-  80%  { filter: brightness(0.12) saturate(1) opacity(0.13)
+  80%  { filter: brightness(0.08) saturate(0.7) opacity(1)
                  drop-shadow(0 0 0 rgba(255,255,255,0))
                  drop-shadow(0 0 0 rgba(255,255,255,0))
                  drop-shadow(0 0 0 rgba(255,255,255,0)); }
@@ -570,11 +572,11 @@ svg { width: 100vw; height: 100vh; }
    重ねてある。これは丸そのものとは別の部品なので、一緒に沈ませないと、
    丸だけ黒くなっても飾りが残って「黒くなりきらない」。 */
 @keyframes gr-sphere-twinkle {
-  0%   { opacity: 1; }
-  22%  { opacity: 0.06; }
-  55%  { opacity: 1; }
-  80%  { opacity: 0.08; }
-  100% { opacity: 1; }
+  0%   { opacity: 1; filter: brightness(1); }
+  22%  { opacity: 0.5; filter: brightness(0.06); }
+  55%  { opacity: 1; filter: brightness(2.2); }
+  80%  { opacity: 0.5; filter: brightness(0.08); }
+  100% { opacity: 1; filter: brightness(1); }
 }
 .node-sphere.twinkle { animation: gr-sphere-twinkle 2.8s ease-in-out; }
 @media (prefers-reduced-motion: reduce) {
@@ -1045,7 +1047,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v27.14</span><span id="genre-count"></span>
+  <span id="version-info">v27.15</span><span id="genre-count"></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
