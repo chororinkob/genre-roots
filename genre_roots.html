@@ -668,6 +668,15 @@ svg { width: 100vw; height: 100vh; }
      ☰ を避けるために広めに空けていたが、☰ を消したので詰める。 */
   #left-sidebar { padding-top: 50px !important; }
 
+  /* 文字を入れる欄はすべて16px以上にする（上の #search と同じ理由。
+     16px未満だと iPhone が画面を勝手に拡大して、戻らなくなる）。
+     修正依頼の入力欄、問い合わせの欄など、あとから足すものにも効かせる。 */
+  input[type="text"], input[type="search"], input[type="email"],
+  input[type="number"], input[type="tel"], input[type="url"],
+  input[type="password"], textarea, select,
+  /* 個別に字の大きさを決めている欄は、そちらが勝ってしまうので名指しする */
+  #sp-correction-text, #gr-name, #gr-note { font-size: 16px !important; }
+
   /* 指の操作（つまんで広げる・なぞって動かす）を、ブラウザではなく
      地図の側が受け取れるようにする。これが無いと、ブラウザ自身の
      拡大縮小と取り合いになって、思ったところが拡大されない。 */
@@ -817,8 +826,14 @@ svg { width: 100vw; height: 100vh; }
      「ジャンル検索」も途中で切れていたので、全体的に小さくする。 */
   #controls { padding: 6px 7px; }
   #controls h3 { font-size: 10px; margin-bottom: 4px; }
-  #search { font-size: 10.5px; padding: 5px 6px; }
-  #search::placeholder { font-size: 10.5px; }
+  /* 【重要】文字を入れる欄の字を16pxより小さくしないこと。
+     iPhoneのSafariは、16px未満の欄に触れると画面を勝手に拡大し、
+     しかも元の大きさに戻らない（ヘッダーも地図も拡大されたままになる）。
+     小さく見せたいからと数字を下げると、この不具合がまた出る。
+     欄が狭くて入りきらないときは、字を小さくするのではなく、
+     中に出す案内の文（placeholder）を短くして合わせる。 */
+  #search { font-size: 16px; padding: 5px 6px; }
+  #search::placeholder { font-size: 11px; }
   /* 「ジャンル名」「説明文を含む」の切り替え */
   .search-mode-group { padding: 1px; margin-bottom: 5px; }
   .search-mode-btn { font-size: 9.5px; padding: 4px 2px; letter-spacing: 0; }
@@ -957,7 +972,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v27.07</span><span id="genre-count"></span>
+  <span id="version-info">v27.08</span><span id="genre-count"></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -997,7 +1012,7 @@ svg { width: 100vw; height: 100vh; }
       <span class="search-mode-btn" id="mode-vibe">説明文含む</span>
     </div>
     <div style="position:relative;">
-      <input id="search" type="text" placeholder="ジャンル検索（カンマ区切りで複数OK）" />
+      <input id="search" type="text" placeholder="ジャンル検索（カンマで複数）" />
       <span id="search-clear" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);cursor:pointer;color:#888;font-size:16px;display:none;z-index:1;">✕</span>
     </div>
   </div>
