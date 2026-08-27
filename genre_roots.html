@@ -868,7 +868,9 @@ svg { width: 100vw; height: 100vh; }
        黒い帯が残ってしまい、マップが見えない。 */
     background: transparent !important;
     border: none; border-top: 1px solid rgba(255,255,255,0.14);
-    border-radius: 14px 14px 0 0;
+    /* 角を丸くすると、ヘッダーとの間に隙間が空いて見える。
+       スマホは画面が狭いので、1pxでも中身に使う。 */
+    border-radius: 0;
     /* 出し入れは transform ではなく top を動かして行う。
        【なぜか】transform が付いた入れ物の中では、「画面に固定」した
        ものが画面ではなく入れ物を基準に置かれてしまう。用語の説明の
@@ -940,7 +942,8 @@ svg { width: 100vw; height: 100vh; }
   #side-panel.sp-visible {
     display: block !important; top: var(--header-h, 44px) !important;
   }
-  #sp-header { padding: 10px 14px 8px; }
+  /* ヘッダーのすぐ下から中身を始める。上の余白を10→4pxに詰めた */
+  #sp-header { padding: 4px 14px 6px; }
   #sp-tag { font-size: 16px; }
   /* ジャンル名は独自に大きさを指定しているので、スマホ用にも別に指定する
      （#sp-tag だけ小さくしても中の .sp-name には効かない） */
@@ -949,7 +952,8 @@ svg { width: 100vw; height: 100vh; }
   /* スマホは見出しの余白が狭いので、閉じるボタンの位置もそれに合わせる */
   #sp-close { top: 9px; right: 12px; }
   #sp-tag .sp-name { padding-right: 28px; }
-  #sp-tag .sp-alias { margin-top: 6px; }
+  #sp-tag .sp-alias { margin-top: 4px; }
+  #sp-tag .sp-era { margin-top: 5px; }
   #sp-body { padding: 10px 14px; padding-bottom: 40px; }
   #sp-yt-player { height: 120px !important; }
 
@@ -972,7 +976,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v27.08</span><span id="genre-count"></span>
+  <span id="version-info">v27.09</span><span id="genre-count"></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -17610,6 +17614,41 @@ function 掴める設定() {
 掴める設定();
 // 画面の向きを変えたときにも合わせ直す
 window.addEventListener('resize', 掴める設定);
+
+// ──────────────────────────────────────────────────────────
+// 画面の大きさが変わったときに、地図を置き直す
+// ──────────────────────────────────────────────────────────
+// 【なぜ必要か】画面を横向きにしたり、キーボードが出たりすると
+// 画面の高さが大きく変わる。地図はそのままなので、前の大きさに合わせた
+// 位置に取り残されて、画面の外へはみ出したり上に寄って見えたりする。
+// 実測でも、縦844pxで合わせた地図を横向き(390px)にすると、
+// 玉の中心が444px＝画面の外に出てしまっていた。
+//
+// ただし、スマホのブラウザは上の住所欄が出たり隠れたりするだけでも
+// 高さが数十px変わる。そのたびに置き直すと画面が揺れて落ち着かないので、
+// 「向きが変わった」または「高さが150px以上変わった」ときだけにする。
+// 説明パネルを開いている間は、そちらの都合で寄せてあるので触らない。
+(function 画面の大きさが変わったら() {
+  let 前の幅 = window.innerWidth, 前の高 = window.innerHeight;
+  let 待ち = null;
+  const 置き直す = () => {
+    const 幅 = window.innerWidth, 高 = window.innerHeight;
+    const 向きが変わった = (幅 > 高) !== (前の幅 > 前の高);
+    const 大きく変わった = Math.abs(高 - 前の高) >= 150 || Math.abs(幅 - 前の幅) >= 150;
+    前の幅 = 幅; 前の高 = 高;
+    if (!向きが変わった && !大きく変わった) return;
+    if (panel.classList.contains('sp-visible')) return;   // 説明を見ている間は触らない
+    fitToView();
+  };
+  window.addEventListener('resize', () => {
+    clearTimeout(待ち);
+    待ち = setTimeout(置き直す, 350);   // 変わり終わってから動かす
+  });
+  window.addEventListener('orientationchange', () => {
+    clearTimeout(待ち);
+    待ち = setTimeout(置き直す, 450);
+  });
+})();
 
 node.on("click", (e, d) => {
   attachMap();   // 外していたら先に戻す。以降の処理は地図がある前提
