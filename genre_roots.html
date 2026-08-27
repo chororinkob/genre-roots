@@ -12,6 +12,11 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
 
 #header { position: fixed; top: 0; left: 0; right: 0; z-index: 20; background: rgba(0,0,0,0.3); padding: 10px 16px; display: flex; align-items: center; gap: 16px; border-bottom: none; }
 #header h1 { font-size: 15px; font-weight: 700; color: #fff; white-space: nowrap; }
+/* 【重要】iPhoneに文字の大きさを自動で変えさせない。
+   放っておくと（初期値 auto）、YouTubeを全画面にして戻ったときや
+   画面の向きを変えたときに、勝手に本文の字を大きくしてしまい、
+   そのまま元に戻らない。100% にすると、こちらが決めた大きさのままになる。 */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 #version-info { margin-right: 16px; font-size: 10px; color: #666; }
 #genre-count { font-size: 13px; font-weight: 700; color: #7eb8f7; margin-left: 8px; letter-spacing: 0.02em; }
 
@@ -949,8 +954,10 @@ svg { width: 100vw; height: 100vh; }
      （#sp-tag だけ小さくしても中の .sp-name には効かない） */
   #sp-tag .sp-name { font-size: 18px; }
   #sp-tag .sp-rule { width: 148px; height: 12px; margin-top: -3px; }
-  /* スマホは見出しの余白が狭いので、閉じるボタンの位置もそれに合わせる */
-  #sp-close { top: 9px; right: 12px; }
+  /* 閉じるボタンは帯のいちばん上へ寄せる。上の余白を詰めたことで、
+     下にある知名度の「？」と重なってしまったため（実測で5px重複）。
+     上の空きへ寄せれば、どちらも押せる。 */
+  #sp-close { top: 2px; right: 10px; }
   #sp-tag .sp-name { padding-right: 28px; }
   #sp-tag .sp-alias { margin-top: 4px; }
   #sp-tag .sp-era { margin-top: 5px; }
@@ -976,7 +983,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v27.09</span><span id="genre-count"></span>
+  <span id="version-info">v27.10</span><span id="genre-count"></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
