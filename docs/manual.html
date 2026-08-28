@@ -101,6 +101,27 @@
     padding: 2px 8px; border-radius: 5px; color: #e0e0f0;
   }
 
+
+  /* ──────────────────────────────────────────────
+     パソコン版とスマホ版の出し分け（2026-08-28）
+     ──────────────────────────────────────────────
+     画面の広さで自動的に切り替える。読む人が選ぶ操作は要らない。
+     パソコンで窓を細くすれば、そのままスマホ版の見え方も確かめられる。 */
+  .only-sp { display: none; }
+  .only-pc { display: block; }
+  @media (max-width: 760px) {
+    .only-sp { display: block; }
+    .only-pc { display: none; }
+    /* スマホでは図を大きく見せたいので、余白を詰める */
+    .page { padding: 30px 14px 0; }
+    figure { margin: 16px 0 20px; }
+    figure img { border-radius: 6px; }
+    h1 { font-size: 21px; }
+    h2 { font-size: 17px; }
+    .lede { font-size: 13.5px; }
+  }
+  /* 図の上に置く見出し（スマホ版で使う） */
+  .fig-cap-top { font-size: 12px; color: #8a8a9a; margin-bottom: 6px; }
   .footer-note { text-align: center; font-size: 11px; color: #55556a; margin-top: 60px; }
 </style>
 </head>
@@ -138,7 +159,429 @@
     <strong>寄り道の先に、次のお気に入りがあります。</strong>
   </p>
 
+  <div class="only-sp">
   <div class="toc">
+    <div class="toc-title">目次</div>
+    <a href="#sp-map">1. 画面の見方</a>
+    <a href="#sp-drawer">2. 「ジャンル検索」のつまみ</a>
+    <a href="#sp-open">3. ジャンルを開く</a>
+    <a href="#sp-panel">4. 説明の画面と、上げ下げのつまみ</a>
+    <a href="#sp-read">5. 地図の読み方（大きさ・色・道）</a>
+    <a href="#sp-find">6. ジャンルを探す</a>
+    <a href="#sp-mic">7. 「これなんて曲？」で調べる</a>
+    <a href="#sp-add">8. 載っていないジャンルをリクエストする</a>
+    <a href="#sp-fix">9. 間違いを見つけたら</a>
+    <a href="#sp-contact">10. お問い合わせ</a>
+  </div>
+
+  <div class="tip" style="margin-bottom:30px;">
+    <b>このページについて：</b>いまスマホ（または画面の細い端末）でご覧になっているので、
+    <b>スマホ版の使い方</b>を出しています。パソコンで開くと、自動でパソコン版に切り替わります。
+    切り替えの操作は要りません。
+  </div>
+
+  <!-- ============ 1. 画面の見方 ============ -->
+  <section id="sp-map">
+    <div class="sec-num">1</div>
+    <h2>画面の見方</h2>
+
+    <figure>
+      <img src="img/sp01_gamen.jpg" alt="スマホの画面の見取り図。上にタイトルと「全体表示」「？」、左はしに「ジャンル検索」のつまみ、残りが地図。">
+      <figcaption>スマホの画面。上に見出しの帯、左はしに「ジャンル検索」のつまみ、残りぜんぶが地図です。</figcaption>
+    </figure>
+
+    <p>画面のほとんどが<b>地図</b>です。散らばっている丸ひとつひとつが、ひとつの音楽ジャンル。
+      <b>572個</b>の丸が並んでいます。</p>
+
+    <h3>上の帯にあるもの</h3>
+    <ul>
+      <li><b>全体表示</b>… 地図を最初の位置に戻します。動かしすぎて分からなくなったら、これを押してください</li>
+      <li><b>？</b>… このページ（使い方ガイド）を開きます</li>
+      <li>2段目の「572 ジャンル ・ 2026/8/25」は、いま載っているジャンルの数と、最後に更新した日です</li>
+    </ul>
+
+    <h3>指での動かし方</h3>
+    <ul>
+      <li><b>指1本でなぞる</b>… 地図が動きます</li>
+      <li><b>2本の指でつまむ／広げる</b>… 地図が小さく／大きくなります</li>
+      <li><b>丸を1回押す</b>… そのジャンルの説明が開きます</li>
+    </ul>
+    <p class="muted">スマホでは、丸を<b>つかんで動かすことはできません</b>。
+      指で広げて拡大しようとしたときに丸をつかんでしまい、地図がぐにゃぐにゃ動いてしまうためです。
+      パソコンでは今までどおりつかんで動かせます。</p>
+
+    <div class="tip"><b>つながりの線は、最初は出ていません。</b>
+      1,600本以上あるので、全部いっぺんに出すと画面が真っ白になってしまいます。
+      <b>丸をひとつ押すと</b>、そのジャンルにつながる相手だけが残って、線で結ばれます。</div>
+  </section>
+
+  <!-- ============ 2. ジャンル検索のつまみ ============ -->
+  <section id="sp-drawer">
+    <div class="sec-num">2</div>
+    <h2>「ジャンル検索」のつまみ</h2>
+
+    <p>スマホは画面が狭いので、<b>ジャンルの一覧・検索・「これなんて曲？」は、ふだんしまってあります</b>。
+      出すのが、画面の左はしにある<b>「ジャンル検索」のつまみ</b>です。</p>
+
+    <figure>
+      <img src="img/sp02_tab_before.jpg" alt="画面の左はしにある、縦書きで「ジャンル検索」と書かれたつまみ。下に三角の矢印。">
+      <figcaption>画面の左はし、上のほうにあります。縦書きで「ジャンル検索」、その下に三角の矢印。矢印はゆっくり点滅しています。</figcaption>
+    </figure>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">つまみを押す</div>
+        <div class="step-desc">指で1回押します。<b>右へ指ではらっても開きます</b>。やりやすいほうでどうぞ。</div>
+      </div>
+    </div>
+
+    <figure>
+      <img src="img/sp03_tab_after.jpg" alt="つまみを押すと、左から引き出しが出てくる。中に「これなんて曲？」、検索欄、カテゴリの色の一覧。">
+      <figcaption>押すと、左から引き出しが出てきます。つまみ自体も右へ動いて、矢印が逆を向きます。</figcaption>
+    </figure>
+
+    <h3>引き出しの中にあるもの</h3>
+    <ul>
+      <li><b>🎵 これなんて曲？</b>… いま流れている曲を聴かせて、ジャンルを調べます（→ <a href="#sp-mic">7章</a>）</li>
+      <li><b>🕘 履歴</b>… これまでに調べた曲の一覧</li>
+      <li><b>ジャンル検索の欄</b>… ジャンル名で探します（→ <a href="#sp-find">6章</a>）</li>
+      <li><b>カテゴリ</b>… 「ブルース系」「ジャズ系」といった色ごとの系統。押すとその一覧が開きます</li>
+    </ul>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">閉じるとき</div>
+        <div class="step-desc">つまみをもう一度押します。引き出しの中を<b>左へ指ではらっても</b>閉じます。
+          引き出しの外（地図のところ）を押しても閉じます。</div>
+      </div>
+    </div>
+
+    <h3>説明を読んでいる間は、細いつまみになります</h3>
+    <figure>
+      <img src="img/sp07_slim.jpg" alt="説明パネルを開いている間、左はしのつまみは矢印だけの細い形になる。">
+      <figcaption>ジャンルの説明を開いている間は、文字が消えて矢印だけの細いつまみになります。押せば同じように開きます。</figcaption>
+    </figure>
+    <p class="muted">説明の文字と重ならないように細くしています。無くなったわけではありません。</p>
+  </section>
+
+  <!-- ============ 3. ジャンルを開く ============ -->
+  <section id="sp-open">
+    <div class="sec-num">3</div>
+    <h2>ジャンルを開く</h2>
+
+    <figure>
+      <img src="img/sp04_tap_node.jpg" alt="地図の中の丸を、指で1回押す。">
+      <figcaption>知りたいジャンルの丸を、指で1回押します。</figcaption>
+    </figure>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">丸を1回押す</div>
+        <div class="step-desc">その丸を中心に地図が並び替わり、下から<b>説明の画面</b>がせり上がってきます。</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">小さい丸が押しにくいときは</div>
+        <div class="step-desc"><b>2本の指でつまんで広げる</b>と、地図が大きくなって押しやすくなります。
+          元に戻したいときは、上の「全体表示」を押してください。</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-title">名前から開くこともできます</div>
+        <div class="step-desc">「ジャンル検索」の引き出しから、検索したり、系統の一覧から選んだりしても、
+          同じ説明の画面が開きます。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 4. 説明の画面 ============ -->
+  <section id="sp-panel">
+    <div class="sec-num">4</div>
+    <h2>説明の画面と、上げ下げのつまみ</h2>
+
+    <figure>
+      <img src="img/sp05_panel.jpg" alt="説明パネルが画面いっぱいに出た状態。上にジャンル名と知名度、その下に上げ下げのつまみ、動画、代表曲、説明文。">
+      <figcaption>説明は画面いっぱいに出ます。半透明なので、後ろの地図がうっすら透けて見えます。</figcaption>
+    </figure>
+
+    <h3>上のほうにあるもの</h3>
+    <ul>
+      <li><b>ジャンル名</b>と、その下の<b>別名</b>（同じジャンルの別の呼び方）</li>
+      <li><b>発祥時期</b></li>
+      <li><b>知名度 ★★★★★</b> … 世界でどれだけ知られているか。右の <span class="ui-tag">？</span> を押すと、
+        <b>何の数字を数えてその★になったか</b>が出ます</li>
+      <li><b>✕</b> … 説明を閉じて地図に戻ります</li>
+    </ul>
+
+    <h3>下のほうにあるもの</h3>
+    <ul>
+      <li><b>動画</b> … 代表曲がその場で流れます（スマホでは、はじめの1回は自分で再生ボタンを押す必要があります）</li>
+      <li><b>代表曲・アーティスト</b> … 曲名を押すと、その曲の動画に切り替わります</li>
+      <li><b>音楽性・特徴</b>、<b>生まれた背景</b> … 読みものです。指でなぞって下へ読み進めてください</li>
+      <li><b>影響を受けた／与えたジャンル</b> … 名前を押すと、そのジャンルの説明に移ります</li>
+      <li><b>✎ このジャンルについて修正依頼</b> … 間違いを見つけたときに使います（→ <a href="#sp-fix">9章</a>）</li>
+    </ul>
+
+    <h3 id="sp-grip-how">「上げてルーツマップを見る」のつまみ</h3>
+    <p>説明の帯のすぐ下に、<b>横長のつまみ</b>があります。ここが、
+      <b>説明と地図を行き来するためのスイッチ</b>です。三角がゆっくり点滅しています。</p>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">「▲ 上げてルーツマップを見る」を押す</div>
+        <div class="step-desc">説明が上へ畳まれて、下に<b>ルーツマップ</b>——
+          そのジャンルとつながっている相手だけの地図——が出てきます。</div>
+      </div>
+    </div>
+
+    <figure>
+      <img src="img/sp06_peek.jpg" alt="つまみを押すと説明が畳まれ、選んだジャンルを中心にしたルーツマップが出る。">
+      <figcaption>説明が畳まれた状態。ジャンル名と知名度だけ残り、下につながりの地図が出ます。</figcaption>
+    </figure>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">「▼ 下げて説明を見る」を押す</div>
+        <div class="step-desc">同じつまみをもう一度押すと、説明にもどります。
+          <b>上へ指ではらう・下へ指ではらう</b>でも同じように切り替わります。</div>
+      </div>
+    </div>
+
+    <div class="tip"><b>使い方のコツ：</b>説明を読む → つまみを上げて地図でつながりを見る →
+      気になった丸を押して次のジャンルへ。この繰り返しで、ルーツをたどっていけます。</div>
+  </section>
+
+  <!-- ============ 5. 地図の読み方 ============ -->
+  <section id="sp-read">
+    <div class="sec-num">5</div>
+    <h2>地図の読み方</h2>
+
+    <h3>丸の大きさ＝そのジャンルの知られ具合</h3>
+    <figure>
+      <img src="img/sp08_size.jpg" alt="Jazz（知名度★5）は大きい丸、Acid Jazz（★4）は小さい丸。">
+      <figcaption>丸が大きいほど、世界でよく知られているジャンル。5段階あります。</figcaption>
+    </figure>
+    <p>1段上がるごとに<b>直径が約1.6倍</b>（面積にすると約2.5倍）になります。
+      いちばん小さい★1といちばん大きい★5では、直径で約6倍のちがいです。
+      この大きさは感覚で決めたものではなく、<b>公開されている3つのデータを数えて</b>決めています
+      （→ <a href="#fame">知名度のしくみ</a>）。</p>
+
+    <h3>丸の色＝ジャンルの系統</h3>
+    <figure>
+      <img src="img/sp09_color.jpg" alt="引き出しの中の「ジャズ系」を押すと、同じ色の丸が地図の上で光る。">
+      <figcaption>引き出しの色の見本と、地図の丸の色は同じです。系統の名前を押すと、その系統だけが残ります。</figcaption>
+    </figure>
+    <p>色は「ブルース系」「ジャズ系」「ロック系」といった<b>系統</b>を表します。
+      引き出しの中の「カテゴリ」に色の一覧があります。</p>
+
+    <h3>線の太さ＝影響の強さ</h3>
+    <figure>
+      <img src="img/sp10_michi.jpg" alt="ジャンルどうしをつなぐ「五線譜の道」。影響が強いほど道が太く、線の本数も多い。">
+      <figcaption>つなぐ線は「五線譜の道」。影響が強いほど道が太く、線の本数も多くなります。道の上を音符が流れます。</figcaption>
+    </figure>
+    <p>こちらも5段階で、<b>5つの要素のうちいくつが受け継がれたか</b>で決まります
+      （→ <a href="#influence">影響の強さのしくみ</a>）。</p>
+
+    <h3>系統ごとのジャンル一覧</h3>
+    <figure>
+      <img src="img/sp12_catlist.jpg" alt="カテゴリの「ジャズ系」を押すと、その系統のジャンルが知名度の高い順に並ぶ。">
+      <figcaption>系統の名前を押すと、その系統のジャンルが<b>知名度の高い順</b>に並びます。名前を押すと説明が開きます。</figcaption>
+    </figure>
+    <p class="muted">上から順に「その系統を代表するジャンル」が並ぶので、
+      知らない系統をのぞくときは、上から順に聴いてみるのがおすすめです。</p>
+  </section>
+
+  <!-- ============ 6. 探す ============ -->
+  <section id="sp-find">
+    <div class="sec-num">6</div>
+    <h2>ジャンルを探す</h2>
+
+    <figure>
+      <img src="img/sp11_search.jpg" alt="引き出しの検索欄にジャンル名を入れると、当てはまる丸が地図の上で光る。">
+      <figcaption>「ジャンル検索」の引き出しを開いて、検索欄に名前を入れます。</figcaption>
+    </figure>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">つまみを押して引き出しを開く</div>
+        <div class="step-desc">画面の左はしの「ジャンル検索」を押します。</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">検索欄にジャンル名を入れる</div>
+        <div class="step-desc">入れたそばから、当てはまるジャンルが地図の上で光ります。
+          欄の下に「✓ 17件ヒット」のように、いくつ見つかったかが出ます。
+          <b>カンマで区切ると、いくつも一度に</b>探せます。</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-title">引き出しを閉じて、光っているところを見る</div>
+        <div class="step-desc">引き出しが地図の左半分を隠しているので、
+          <b>閉じると地図全体で光っているのが見えます</b>。</div>
+      </div>
+    </div>
+
+    <div class="tip"><b>ヒント：</b>「説明文含む」に切り替えると、ジャンル名だけでなく説明文の中の言葉でも探せます。
+      「切ない」「夏」のような雰囲気の言葉から、それっぽいジャンルを探すのにも使えます。</div>
+  </section>
+
+  <!-- ============ 7. これなんて曲？ ============ -->
+  <section id="sp-mic">
+    <div class="sec-num">7</div>
+    <h2>「これなんて曲？」で調べる</h2>
+
+    <p>いま流れている曲や、持っている音源が何ジャンルなのか分からないとき、
+      <b>聴かせるだけで調べられます</b>。「ジャンル検索」の引き出しを開いて、
+      いちばん上の <span class="ui-tag">🎵 これなんて曲？</span> を押します。</p>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">音楽を聴かせる</div>
+        <div class="step-desc">マイクのボタンを押して音楽を流すか、音声ファイルを選びます。
+          <b>はじめてのときは、マイクを使う許可</b>をスマホが聞いてきます。「許可」を選んでください。</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">曲名・アーティスト名・ジャンルが出る</div>
+        <div class="step-desc">曲が分かると、曲名とアーティスト名、
+          考えられるジャンルがいくつかタグの形で出てきます。</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-title">気になるジャンルだけ押して選ぶ</div>
+        <div class="step-desc">出てきたジャンルには、関係のないものが混ざることもあります。
+          地図で見たいものだけ押して選んでください（選ぶと赤く塗りつぶされます）。</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <div class="step-title">「ジャンルマップで確認する」を押す</div>
+        <div class="step-desc">選んだジャンルが地図の上で光ります。
+          もしそのジャンルがまだ載っていなければ、そのまま追加のリクエストに進めます。</div>
+      </div>
+    </div>
+
+    <div class="tip"><b>履歴：</b>ボタンの下の「🕘 履歴」を押すと、これまで調べた曲の一覧が見られます。
+      ジャンルのタグを押せば、その場で説明に移れます。</div>
+  </section>
+
+  <!-- ============ 8. リクエスト ============ -->
+  <section id="sp-add">
+    <div class="sec-num">8</div>
+    <h2>載っていないジャンルをリクエストする</h2>
+
+    <p>検索や「これなんて曲？」で見つからなかったジャンルは、その場で追加をお願いできます。</p>
+
+    <figure>
+      <img src="img/sp13_request.jpg" alt="ジャンル追加申請の画面。ジャンル名の欄と、下に貼り付いた「申請する」ボタン。">
+      <figcaption>ジャンル名を入れて「申請する」を押すだけです。</figcaption>
+    </figure>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">ジャンル名を入れる</div>
+        <div class="step-desc">補足メモ（代表アーティスト、時代など）は任意です。分かれば入れてください。</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">「申請する」を押す</div>
+        <div class="step-desc"><b>キーボードが出ていても、このボタンはいつも画面の下に見えています。</b>
+          キーボードを閉じる必要はありません。</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-title">1〜2分待つ</div>
+        <div class="step-desc">AIが実在を確かめて、情報を作ります。進み具合がその場に出ます。
+          できあがると<b>確認の画面</b>が開くので、内容を見て承認してください。</div>
+      </div>
+    </div>
+
+    <p>作られる情報が正しいかどうかは、次の順で確かめています。</p>
+    <ol>
+      <li><b>そのジャンルが実在するか調べます。</b>実在が確認できないときは追加されません。
+        一方のAIが「無い」と判断しても、もう一方のAIがもう一度確かめます。
+        片方の思い違いで、実在するジャンルが弾かれてしまうのを防ぐためです。</li>
+      <li><b>書かれた内容の裏を取ります。</b>人名・グループ名・レーベル名・曲名・年号などを、
+        Webを実際に検索して1つずつ確かめます。</li>
+      <li><b>代表曲の動画を確かめます。</b>曲名と演奏者が動画の題名や投稿者名と合っているか、
+        日本で見られるか、カバーや解説動画ではないかを確かめます。</li>
+      <li><b>同じ曲が2つのジャンルに載らないようにします。</b></li>
+      <li><b>最後に人が確認して、承認したものだけが載ります。</b>AIが作ったものをそのまま公開することはありません。</li>
+    </ol>
+    <p>それでも誤りが残ることはあります。お気づきの点があれば、次の「間違いを見つけたら」から教えてください。</p>
+  </section>
+
+  <!-- ============ 9. 間違いを見つけたら ============ -->
+  <section id="sp-fix">
+    <div class="sec-num">9</div>
+    <h2>間違いを見つけたら</h2>
+
+    <p>説明が事実と違う、代表曲の動画が別の曲になっている——そんな間違いに気づいたら、
+      ジャンルの説明をいちばん下まで読み進めたところにある
+      <span class="ui-tag">✎ このジャンルについて修正依頼</span> を押してください。</p>
+
+    <figure>
+      <img src="img/sp14_correction.jpg" alt="修正依頼を書く画面。上に入力欄、下に送信とキャンセル。">
+      <figcaption>押すと、画面いっぱいの入力画面が出ます。入力欄は上のほうにあるので、キーボードが出ても隠れません。</figcaption>
+    </figure>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">どこが違うと思ったかを書く</div>
+        <div class="step-desc">「影響元にパンクロックが無いのはおかしい」「音楽性の説明が実態と違う気がする」——
+          このくらいの書き方で大丈夫です。</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">「送信」を押す</div>
+        <div class="step-desc">AIが調べて、その結果がこの画面に出ます。少し時間がかかります。</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-title">結果を確認する</div>
+        <div class="step-desc">直したほうがよいと判断されたときは、<b>どう直すかの確認画面</b>が出ます。
+          内容を見て承認すると、辞典に反映されます。</div>
+      </div>
+    </div>
+
+    <p class="muted">どんな些細な指摘でも大歓迎です。こうした指摘の積み重ねで、この辞典はより正確なものになっていきます。
+      やめたいときは、右上の <span class="ui-tag">✕</span> でいつでも説明にもどれます。</p>
+  </section>
+
+</div>
+
+<div class="only-pc">
+<div class="toc">
     <div class="toc-title">目次</div>
     <a href="#map">1. ジャンルマップの見方</a>
     <a href="#panel">2. 説明パネルの見方</a>
@@ -186,7 +629,7 @@
       画面左側に色の一覧があるので、どの色が何系かはそこで確認できます。
       一覧の系統名をクリックすると、その系統のジャンルだけがマップ上で光ります。</p>
 
-    <h3>線の太さ＝影響の強さ</h3>
+    <h3 id="staff">線の太さ＝影響の強さ</h3>
      <figure>
        <img src="img/fig04_gosenfu.jpg" alt="ジャンルどうしをつなぐ線は「五線譜の道」。線の本数が多いほど（道が太いほど）影響が強い。道の上を音符が流れる。">
        <figcaption>ジャンルどうしをつなぐ線は「五線譜の道」。線の本数が多いほど（道が太いほど）影響が強い。道の上を音符が流れる。</figcaption>
@@ -237,6 +680,12 @@
 
     <p>丸をクリックすると開く、右側のパネルの見方です。</p>
 
+    </section>
+</div>
+
+<section id="deep">
+    <div class="sec-num">＋</div>
+    <h2>もっと詳しく — 別名・知名度・影響の強さ・用語</h2>
     <h3 id="alias">ジャンル名の下の小さなタグ＝別名</h3>
     <p>同じジャンルが複数の呼ばれ方をしていることがあります。ジャンル名のすぐ下に、
       その<b>別の呼び名</b>を小さなタグで並べています。</p>
@@ -322,6 +771,26 @@
       点線がついていないか探してみてください。</p>
   </section>
 
+<div class="only-sp">
+
+  <section id="sp-contact">
+    <div class="sec-num">10</div>
+    <h2>お問い合わせ</h2>
+    <p>使い方が分からない、こうなったら嬉しい、うまく動かない――そうしたご連絡は、
+      お問い合わせフォームからお送りください。ひとつずつ読ませていただきます。</p>
+    <p class="muted">ジャンルの内容の間違いは<a href="#sp-fix">9章の「修正依頼」</a>から、
+      まだ載っていないジャンルの追加は<a href="#sp-add">8章のリクエスト</a>からのほうが早く反映されます。
+      それ以外のこと（使い方の質問、表示の不具合、ご感想など）は、こちらへどうぞ。</p>
+    <p class="muted">お名前とメールアドレスは任意です。お返事が必要な場合だけご記入ください。</p>
+    <div class="contact-cta">
+      <a href="https://genre-roots-server.onrender.com/contact">お問い合わせフォームを開く</a>
+    </div>
+  </section>
+</div>
+
+<div class="only-pc">
+
+
   <section id="search">
     <div class="sec-num">3</div>
     <h2>ジャンルを探す</h2>
@@ -402,11 +871,13 @@
     </div>
   </section>
 
-  <div class="back-bottom">
+  </div>
+
+<div class="back-bottom">
       <a href="../genre_roots.html">← ジャンルマップに戻る</a>
     </div>
 
-    <div class="footer-note">音楽ジャンルルーツ辞典 使い方ガイド ・ 最終更新：2026-08-26（お問い合わせを追加）</div>
+    <div class="footer-note">音楽ジャンルルーツ辞典 使い方ガイド ・ 最終更新：2026-08-28（スマホ版を作成）</div>
 
 </div>
 </body>
