@@ -86,27 +86,68 @@
   .gt-name, .gt-use { white-space: nowrap; }
   /* 「の使い方」だけ色を変えて、何のページかがひと目で分かるようにする */
   .gt-use {
-    background: linear-gradient(96deg, var(--accent) 10%, #ff9a6b 60%, var(--info) 100%);
+    /* 青は #7ecfff だと白っぽく見えたので、もっと濃い青にする */
+    /* 橙から青へ直に渡すと、真ん中が灰色っぽくなって「白っぽい」と見える。
+       間に紫を挟むと、どこも鮮やかなまま赤から青へ渡る。 */
+    background: linear-gradient(96deg,
+      var(--accent) 4%, #ff7a4d 34%, #c86bf0 70%, #2f8bff 100%);
     -webkit-background-clip: text; background-clip: text;
     -webkit-text-fill-color: transparent; color: var(--accent);
     /* 色を切り抜いて出しているので、text-shadow は使えない
        （字の後ろに影が出てしまう）。drop-shadow なら形に沿う */
     filter: drop-shadow(0 0 14px rgba(233,69,96,0.30));
   }
-  /* 題名の下の五線。地図の「五線譜の道」と同じ考え方 */
+  /* 題名の下の五線。地図の「五線譜の道」と同じ考え方だが、
+     こちらは五線らしく見えるように、音部記号（ト音記号）・調号（♭）・
+     小節線・終止線まで入れてある。線だけでは五線譜に見えなかったため。 */
   .title-staff {
-    display: flex; flex-direction: column; gap: 3px;
-    margin: 7px 0 0; max-width: 420px;
+    position: relative; margin: 9px 0 0; max-width: 430px;
+    height: 25px;                 /* 1px × 5本 ＋ 5px × 4 = 25px */
+    padding-left: 36px;           /* ト音記号と調号のぶんを空ける */
   }
-  .title-staff span {
+  .ts-lines {
+    position: absolute; left: 0; right: 0; top: 0;
+    display: flex; flex-direction: column; gap: 5px;
+  }
+  .ts-lines i {
     display: block; height: 1px;
     background: linear-gradient(90deg,
-      rgba(233,69,96,0.85) 0%, rgba(255,154,107,0.55) 34%,
-      rgba(126,207,255,0.30) 62%, rgba(126,207,255,0) 100%);
+      rgba(233,69,96,0.90) 0%, rgba(255,138,92,0.72) 30%,
+      rgba(120,170,255,0.55) 66%, rgba(120,170,255,0.34) 100%);
   }
-  /* 上下の線は少し薄くして、真ん中の線が主になるようにする */
-  .title-staff span:first-child, .title-staff span:last-child { opacity: 0.45; }
-  .title-staff span:nth-child(2), .title-staff span:nth-child(4) { opacity: 0.7; }
+  .ts-lines i:first-child, .ts-lines i:last-child { opacity: 0.55; }
+  .ts-lines i:nth-child(2), .ts-lines i:nth-child(4) { opacity: 0.78; }
+  /* 小節線。五線の上端から下端まで縦に引く */
+  .ts-bar {
+    position: absolute; top: 0; height: 25px; width: 1px;
+    background: rgba(190,175,225,0.40);
+  }
+  /* 終止線（細い線と太い線の組） */
+  .ts-end  { position: absolute; right: 3px; top: 0; height: 25px; width: 3px;
+             background: rgba(150,180,255,0.60); border-radius: 1px; }
+  .ts-end2 { position: absolute; right: 10px; top: 0; height: 25px; width: 1px;
+             background: rgba(150,180,255,0.48); }
+  /* ト音記号と調号。Unicodeの音楽記号を字として出す。
+     この字を持たない端末では豆腐（□）になるので、
+     ページの終わりの script が調べて、駄目なら消す。 */
+  .ts-clef {
+    position: absolute; left: -2px; top: 50%; transform: translateY(-50%);
+    font-size: 42px; line-height: 1;
+    font-family: "Segoe UI Symbol", "Apple Symbols", "Noto Music",
+                 "Noto Sans Symbols 2", sans-serif;
+    color: rgba(233,69,96,0.92);
+    text-shadow: 0 0 10px rgba(233,69,96,0.35);
+    pointer-events: none;
+  }
+  .ts-key {
+    position: absolute; left: 27px; top: 50%; transform: translateY(-62%);
+    font-size: 16px; line-height: 1;
+    font-family: "Segoe UI Symbol", "Apple Symbols", "Noto Music", sans-serif;
+    color: rgba(255,138,92,0.88); pointer-events: none;
+  }
+  /* 記号を出せない端末では、五線だけにする（豆腐を出さない） */
+  .title-staff.no-glyph .ts-clef, .title-staff.no-glyph .ts-key { display: none; }
+  .title-staff.no-glyph { padding-left: 0; }
   .lede { font-size: 14px; color: var(--text-2); margin-bottom: 44px; line-height: 1.75; }
 
   .toc { display: flex; flex-direction: column; gap: 6px; margin-bottom: 48px; padding: 16px 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; }
@@ -189,9 +230,16 @@
 
   <div class="title-block">
     <div class="eyebrow">使い方ガイド</div>
-    <h1><span class="gt-name">音楽ジャンルルーツ辞典</span><span class="gt-use">の使い方</span></h1>
+    <h1><span class="gt-name">音楽ジャンルルーツ</span><span class="gt-use">辞典の使い方</span></h1>
     <div class="title-staff" aria-hidden="true">
-      <span></span><span></span><span></span><span></span><span></span>
+      <div class="ts-lines"><i></i><i></i><i></i><i></i><i></i></div>
+      <span class="ts-clef">&#x1D11E;</span>
+      <span class="ts-key">&#x266D;</span>
+      <span class="ts-bar" style="left:46%"></span>
+      <span class="ts-bar" style="left:70%"></span>
+      <span class="ts-bar" style="left:87%"></span>
+      <span class="ts-end2"></span>
+      <span class="ts-end"></span>
     </div>
   </div>
   <p class="lede">
@@ -939,5 +987,26 @@
     <div class="footer-note">音楽ジャンルルーツ辞典 使い方ガイド ・ 最終更新：2026-08-28（スマホ版を作成）</div>
 
 </div>
+<script>
+// ト音記号（音楽記号）は、持っていない端末だと豆腐（□）になる。
+// 出せるかどうかを幅の比べ方で調べ、駄目なら記号を消して五線だけにする。
+// 【調べ方】まず「どのフォントにも無い字」を描いて豆腐の幅を測り、
+// 次にト音記号を描く。同じ幅なら、その端末でも豆腐になると判断する。
+(function () {
+  try {
+    var c = document.createElement('canvas').getContext('2d');
+    c.font = '42px "Segoe UI Symbol","Apple Symbols","Noto Music",'
+           + '"Noto Sans Symbols 2",sans-serif';
+    var 無い字 = String.fromCodePoint(0x10FFFD);   // どのフォントにも無い
+    var 記号   = String.fromCodePoint(0x1D11E);    // ト音記号
+    var a = c.measureText(無い字).width;
+    var b = c.measureText(記号).width;
+    if (b === 0 || Math.abs(b - a) < 0.5) {
+      var el = document.querySelector('.title-staff');
+      if (el) el.classList.add('no-glyph');
+    }
+  } catch (e) {}
+})();
+</script>
 </body>
 </html>
