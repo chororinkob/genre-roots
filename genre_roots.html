@@ -949,6 +949,23 @@ svg { width: 100vw; height: 100vh; }
   .node circle.twinkle { animation: gr-node-twinkle 2.8s linear; }
   .node-sphere.twinkle { animation: gr-sphere-twinkle 2.8s linear; }
 
+  /* 【ページそのものをスクロールさせない】
+     ここがずれの根本原因だった。地図(svg)の高さは 100vh 指定だが、
+     iPhoneのSafariでは 100vh が「住所欄が隠れているときの高さ」を指す。
+     実際に見えている高さ(innerHeight)より 60〜90px 大きいので、
+     ページ全体がそのぶんスクロールできてしまう。
+     指で地図をなぞったときやキーボードが閉じたときにページごと
+     ずり上がり、それが「地図が上に寄る」の正体。
+     しかもブラウザは再読み込みのときスクロール位置を復元するので、
+     更新しても直らず、ブラウザを閉じるまで残っていた。
+     地図の高さを「いま見えている高さ(100dvh)」にそろえ、
+     ページのスクロールそのものを止める。 */
+  html, body {
+    height: 100%; overflow: hidden;
+    overscroll-behavior: none; -webkit-overflow-scrolling: auto;
+  }
+  svg { height: 100dvh; }
+
   /* 【修正依頼の入力画面】
      スマホでは、文字を打とうとするとキーボードが画面の下半分を占める。
      説明パネルの中の入力欄はその下に隠れてしまい、打った字を確かめられない。
@@ -1280,7 +1297,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v27.26</span><span id="genre-count"></span>
+  <span id="version-info">v27.27</span><span id="genre-count"></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -16202,6 +16219,9 @@ svg.call(zoom);
 let _合わせ直しタイマ = null, _合わせ直し中 = false;
 function fitToView() {
   attachMap(); clearTimeout(_detachTimer);
+  // 地図の中の位置を決める前に、ページ自体のずれを取り除いておく。
+  // ここがずれていると、いくら地図を真ん中に置いても画面では上に寄る。
+  if (typeof ページのずれを戻す === 'function') ページのずれを戻す();
   const vw = window.innerWidth, vh = window.innerHeight;
   const headerH = document.getElementById('header').offsetHeight;
   const pad = 80;
@@ -20020,7 +20040,55 @@ function resetLayout() {
   setTimeout(() => btn.textContent = '配置リセット', 2000);
 }
 
-document.getElementById('fit-view').addEventListener('click', fitToView);
+// ──────────────────────────────────────────────────────────
+// 位置の初期化（スマホのずれ対策）
+// ──────────────────────────────────────────────────────────
+// 【何が起きていたか】iPhoneのSafariでは、地図の高さに使っている 100vh が
+// 「住所欄が隠れているときの高さ」を指すため、実際に見えている高さより
+// 60〜90px 大きい。そのぶんページ全体がスクロールできてしまい、指で
+// 地図をなぞったときにページごとずり上がる。地図の中の位置は正しいのに
+// 画面が上へずれるので、「全体表示」を押しても直らないように見えていた。
+// さらにブラウザは再読み込みでスクロール位置を復元するので、更新しても
+// 直らず、ブラウザを閉じ直すまで残っていた。
+//
+// ここでは3つやる。
+//  ・再読み込みでスクロール位置を復元させない
+//  ・ページのスクロール位置を、いつでも 0 に戻す
+//  ・立ち上げ時と「全体表示」で、必ず 0 に戻してから位置を決め直す
+function ページのずれを戻す() {
+  const se = document.scrollingElement || document.documentElement;
+  if (se && (se.scrollTop !== 0 || se.scrollLeft !== 0)) {
+    se.scrollTop = 0; se.scrollLeft = 0;
+  }
+  if (window.pageYOffset || window.pageXOffset) window.scrollTo(0, 0);
+}
+(function 位置の初期化() {
+  // 再読み込みしたときに、前のスクロール位置を復元させない
+  try { if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; } catch (e) {}
+  ページのずれを戻す();
+  // 立ち上がりの途中でも何度か戻す（画像や地図の組み立てで高さが変わるため）
+  [0, 60, 300, 900, 2000].forEach(t => setTimeout(ページのずれを戻す, t));
+  // それでもずれたら、その場で戻す（見張り）
+  window.addEventListener('scroll', ページのずれを戻す, { passive: true });
+  window.addEventListener('pageshow', ページのずれを戻す);
+  window.addEventListener('orientationchange', () => setTimeout(ページのずれを戻す, 200));
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', ページのずれを戻す);
+  }
+})();
+
+// 「全体表示」は、正しい位置に戻すために押すもの。
+// 押したら必ず真ん中に来るよう、ページのずれも、指で動かした記録も
+// 消してから位置を決め直す。
+document.getElementById('fit-view').addEventListener('click', () => {
+  ページのずれを戻す();
+  _地図を自分で動かした = false;
+  _合わせ直し中 = false;
+  clearTimeout(_合わせ直しタイマ);
+  fitToView();
+  // 動きが終わったあと、もう一度そろえる（この間に住所欄が動くことがある）
+  setTimeout(() => { ページのずれを戻す(); }, 820);
+});
 document.getElementById('save-layout').addEventListener('click', saveLayout);
 document.getElementById('reset-layout').addEventListener('click', resetLayout);
 
