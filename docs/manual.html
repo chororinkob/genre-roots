@@ -59,8 +59,54 @@
   .back-bottom a:focus-visible { outline: 2px solid #ffcc33; outline-offset: 2px; }
 
   .page { max-width: 700px; margin: 0 auto; padding: 44px 20px 0; }
-  .eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
-  h1 { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 10px; }
+  /* ──────────────────────────────────────────────
+     いちばん上の見出し（2026-08-28に作り直し）
+     ──────────────────────────────────────────────
+     ・「〜かた」だけが次の行に落ちるのを止める。
+       題名と「の使い方」をそれぞれひと固まりにして、
+       折り返すならその間だけ、という作りにした。
+     ・字の大きさは画面の幅に合わせて伸び縮みさせる（clamp）。
+       細い端末でも1行に収まり、広い画面では大きく出る。
+     ・飾りは、この辞典が地図で使っている「五線譜の道」に合わせた。
+       題名の下に五線を引き、右へいくほど薄くして墨が切れたようにする。 */
+  .title-block { position: relative; margin-bottom: 18px; }
+  .eyebrow {
+    display: inline-block; font-size: 10px; font-weight: 700;
+    letter-spacing: 0.15em; color: var(--accent); margin-bottom: 10px;
+    padding: 3px 10px; border-radius: 999px;
+    background: rgba(233,69,96,0.10);
+    border: 1px solid rgba(233,69,96,0.34);
+  }
+  h1 {
+    font-size: clamp(19px, 5.6vw, 30px);
+    font-weight: 700; letter-spacing: -0.02em; line-height: 1.3;
+    margin-bottom: 10px; text-wrap: balance;
+  }
+  /* 途中で切れないように、ふた固まりにする */
+  .gt-name, .gt-use { white-space: nowrap; }
+  /* 「の使い方」だけ色を変えて、何のページかがひと目で分かるようにする */
+  .gt-use {
+    background: linear-gradient(96deg, var(--accent) 10%, #ff9a6b 60%, var(--info) 100%);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent; color: var(--accent);
+    /* 色を切り抜いて出しているので、text-shadow は使えない
+       （字の後ろに影が出てしまう）。drop-shadow なら形に沿う */
+    filter: drop-shadow(0 0 14px rgba(233,69,96,0.30));
+  }
+  /* 題名の下の五線。地図の「五線譜の道」と同じ考え方 */
+  .title-staff {
+    display: flex; flex-direction: column; gap: 3px;
+    margin: 7px 0 0; max-width: 420px;
+  }
+  .title-staff span {
+    display: block; height: 1px;
+    background: linear-gradient(90deg,
+      rgba(233,69,96,0.85) 0%, rgba(255,154,107,0.55) 34%,
+      rgba(126,207,255,0.30) 62%, rgba(126,207,255,0) 100%);
+  }
+  /* 上下の線は少し薄くして、真ん中の線が主になるようにする */
+  .title-staff span:first-child, .title-staff span:last-child { opacity: 0.45; }
+  .title-staff span:nth-child(2), .title-staff span:nth-child(4) { opacity: 0.7; }
   .lede { font-size: 14px; color: var(--text-2); margin-bottom: 44px; line-height: 1.75; }
 
   .toc { display: flex; flex-direction: column; gap: 6px; margin-bottom: 48px; padding: 16px 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; }
@@ -123,7 +169,8 @@
     .page { padding: 30px 14px 0; }
     figure { margin: 16px 0 20px; }
     figure img { border-radius: 6px; }
-    h1 { font-size: 21px; }
+    /* h1 の大きさは clamp が画面幅に合わせて決めるので、ここでは触らない
+       （ここで固定すると、細い端末で「〜かた」だけ次の行に落ちる） */
     h2 { font-size: 17px; }
     .lede { font-size: 13.5px; }
   }
@@ -140,8 +187,13 @@
 
 <div class="page">
 
-  <div class="eyebrow">使い方ガイド</div>
-  <h1>音楽ジャンルルーツ辞典の使い方</h1>
+  <div class="title-block">
+    <div class="eyebrow">使い方ガイド</div>
+    <h1><span class="gt-name">音楽ジャンルルーツ辞典</span><span class="gt-use">の使い方</span></h1>
+    <div class="title-staff" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+  </div>
   <p class="lede">
     <strong>「自分の好きな音楽って、どこから来たんだろう」</strong>——
     そう思ったことはありませんか。</p>
