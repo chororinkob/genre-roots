@@ -116,8 +116,11 @@
        薄くなって、最後は見えなくなって終わる。 */
   .title-staff {
     /* いちばん上の線を、題名のすぐ真下に付ける（間を空けない）。
-       左端は題名の左端とそろう（ト音記号はさらにその左） */
-    position: relative; margin: 0; max-width: 430px;
+       五線そのものは、題名より左――ページのいちばん左から始める。
+       ト音記号は五線の中に書くものなので、五線の左端に置けるように
+       題名のぶんの字下げをここで取り消している。 */
+    position: relative; margin: 0 0 0 calc(-1 * var(--clef-w));
+    max-width: 430px;
     height: 25px;                 /* 1px × 5本 ＋ 5px × 4 = 25px */
   }
   /* かすれ。線と小節線をまとめて、右へいくほど薄くする */
@@ -152,16 +155,15 @@
   .ts-end2 { position: absolute; right: 8px; top: 0; height: 25px; width: 1px;
              background: rgba(170,190,255,0.50); }
   /* ト音記号と♭。線で描いてあるので、どの端末でも必ず出る */
+  /* ト音記号と調号。五線の中（左端）に書く。
+     絵の座標は「線の間隔＝6」で作ってあり、実際の五線も6px間隔
+     （線1px＋すき間5px）なので、1目盛り＝1px でそのまま重なる。
+     上端(-8px)は、絵の中の五線の位置と実際の五線を合わせるための値。 */
   .ts-clef {
-    /* 題名の左に空けた場所に立てる。字には重ならない */
-    position: absolute; left: calc(-1 * var(--clef-w) + 1px); top: 50%;
-    transform: translateY(-50%); overflow: visible;
+    position: absolute; left: 1px; top: -8px; overflow: visible;
     filter: drop-shadow(0 0 7px rgba(233,69,96,0.35));
     pointer-events: none;
   }
-  /* 調号の♭。五線の上に乗せる（ト音記号の右どなり） */
-  .ts-key { position: absolute; left: 3px; top: 0;
-            overflow: visible; pointer-events: none; }
   .lede { font-size: 14px; color: var(--text-2); margin-bottom: 44px; line-height: 1.75; }
 
   .toc { display: flex; flex-direction: column; gap: 6px; margin-bottom: 48px; padding: 16px 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; }
@@ -256,16 +258,28 @@
       </div>
       <!-- ト音記号と♭。五線の間隔(6)に合わせた座標で線を引いている。
            文字ではないので、音楽記号を持たない端末でも必ず出る。 -->
-      <svg class="ts-clef" width="16" height="65" viewBox="0 19 16 64"
+      <!-- ト音記号と調号。楽譜のきまりどおりに置いてある。
+           座標は「線の間隔＝6」。線は上から y=40,46,52,58,64。
+            ・ト音記号の渦の中心は y=58（下から2本目＝ソの線）。
+              この線がソであることを示すのがト音記号の役目なので、
+              ここがずれると記号の意味そのものが変わってしまう。
+            ・大きさも本物の割合に合わせ、上の線の1つ上から
+              下の線の2つ下まで（およそ7間ぶん）で描いている。
+            ・♭は y=52（真ん中＝シの線）。シに♭が1つでヘ長調。 -->
+      <svg class="ts-clef" width="40" height="46" viewBox="0 32 40 46"
            fill="none" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M8,58 C4.5,57 2.5,60 4,62.8 C6.5,67.5 13.5,65.5 13.5,58.5 C13.5,51 8,45.5 6.2,38.5 C4.4,31.5 6,24.5 9,21.5" stroke="rgba(233,69,96,0.95)" stroke-width="2.3"/>
-        <path d="M9,21.5 C11.4,19 13.4,20.6 13.4,25 C13.4,32.5 9.4,39.5 7.8,47 C6.2,54.5 5.8,63 6.8,69.5 C7.6,74.8 9.4,78.5 8.2,80.5 C7,82.5 3.8,81.6 2.8,78.4" stroke="rgba(233,69,96,0.95)" stroke-width="1.5"/>
-      </svg>
-      <!-- 調号の♭。五線の上、ト音記号の右どなりに置く（本物と同じ並び） -->
-      <svg class="ts-key" width="9" height="25" viewBox="17 40 9 24"
-           fill="none" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M20,40 L20,60 M20,60 C24,57 26,54.5 25,52 C24,49.5 21.5,50.5 20,53.5"
-              stroke="rgba(255,138,92,0.90)" stroke-width="1.5"/>
+        <path d="M8,58 C4,57 2.5,60 4,62.5 C7,66.5 13.5,64.5 13.5,58 C13.5,52 9,48 7,43 C5.5,39 6.5,36 8.5,34.5" stroke="rgba(233,69,96,0.95)" stroke-width="2.2"/>
+        <path d="M8.5,34.5 C10.5,33 12,34.5 12,37.5 C12,42 9.5,46.5 8.2,51 C6.8,56 6.4,62 7.2,67 C7.8,70.5 9.2,73 8.4,74.5 C7.6,76 5,75.4 4.2,73" stroke="rgba(233,69,96,0.95)" stroke-width="1.4"/>
+        <path d="M19,41 L19,56 M19,49 C23,50 24.5,52.5 22.5,54.5 C21.5,55.5 20.2,56 19,56" stroke="rgba(255,138,92,0.92)" stroke-width="1.4"/>
+        <!-- 拍子記号。楽譜の頭は「音部記号 → 調号 → 拍子記号」の順に並ぶ。
+             上の数字は上半分（y40〜52）、下の数字は下半分（y52〜64）に置く。
+             数字はどのフォントにもあるので、字で書いて差し支えない。 -->
+        <text x="32" y="51.6" font-size="15" font-weight="700" text-anchor="middle"
+              fill="rgba(200,150,255,0.85)" stroke="none"
+              font-family="inherit">4</text>
+        <text x="32" y="63.6" font-size="15" font-weight="700" text-anchor="middle"
+              fill="rgba(200,150,255,0.85)" stroke="none"
+              font-family="inherit">4</text>
       </svg>
     </div>
   </div>
