@@ -1023,7 +1023,24 @@ svg { width: 100vw; height: 100vh; }
   #drawer-tab.slim .dt-text { display: none; }
   /* 細いときも三角は同じ大きさ。もう十分に小さいので、これ以上縮めると
      何の印か分からなくなる。つまみの幅は10pxで、説明の文字（左から14px）
-     には重ならない。 */
+     には重ならない。
+     ただし、細いつまみは幅が三角そのもので決まるため、脈打つときに
+     右へ3px動くぶんの逃げ場がなく、先がふちからはみ出て見えていた。
+     細いときだけ横に動かさず、大きさの変化と光だけで合図する。 */
+  #drawer-tab.slim .dt-arrow { animation-name: dt-arrow-blink-slim; }
+  #drawer-tab.slim.open .dt-arrow { animation-name: dt-arrow-blink-slim-back; }
+  @keyframes dt-arrow-blink-slim {
+    0%, 100% { opacity: .34; transform: scale(0.80);
+               filter: drop-shadow(0 0 0 rgba(150,195,255,0)); }
+    50%      { opacity: 1;   transform: scale(1.18);
+               filter: drop-shadow(0 0 7px rgba(150,195,255,.95)); }
+  }
+  @keyframes dt-arrow-blink-slim-back {
+    0%, 100% { opacity: .34; transform: rotate(180deg) scale(0.80);
+               filter: drop-shadow(0 0 0 rgba(150,195,255,0)); }
+    50%      { opacity: 1;   transform: rotate(180deg) scale(1.18);
+               filter: drop-shadow(0 0 7px rgba(150,195,255,.95)); }
+  }
 
   /* 検索まわり。文字が大きすぎて「説明文を含む」が枠からはみ出し、
      「ジャンル検索」も途中で切れていたので、全体的に小さくする。 */
@@ -1183,7 +1200,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v27.22</span><span id="genre-count"></span>
+  <span id="version-info">v27.23</span><span id="genre-count"></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -1350,8 +1367,8 @@ svg { width: 100vw; height: 100vh; }
 <!-- 画面の左端に出しておく引き出しのつまみ（スマホだけ）。
      ☰ だけだと「そこに一覧がある」と気づかれないため、端に出しておく。
      押しても開くし、右へなぞっても開く。 -->
-<div id="drawer-tab" role="button" tabindex="0" aria-label="ジャンル一覧を開く">
-  <span class="dt-text">ジャンル</span>
+<div id="drawer-tab" role="button" tabindex="0" aria-label="ジャンル検索・一覧を開く">
+  <span class="dt-text">ジャンル検索</span>
   <span class="dt-arrow" aria-hidden="true"></span>
 </div>
 <div id="tooltip"></div>
