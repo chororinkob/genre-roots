@@ -1297,7 +1297,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v27.27</span><span id="genre-count"></span>
+  <span id="version-info">v27.28</span><span id="genre-count"></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -20917,11 +20917,41 @@ function initGlobe() {
   vertical-align:middle; margin-right:6px;
 }
 @keyframes grspin{to{transform:rotate(360deg)}}
+
+/* 【スマホ】キーボードが出ても「申請する」が押せるようにする。
+   もとは画面の真ん中に置いていたので、キーボードが下半分を覆うと
+   ボタンがその下に隠れた。しかも中身が入れ物に収まっていて
+   スクロールする余地が無く、上へずらすこともできなかった。
+   ・入れ物の高さは JS が「いま見えている範囲」に合わせて入れ直す
+   ・中身は上ぞろえにして、入りきらないぶんはスクロールで見せる */
+@media (max-width: 768px) {
+  #genre-request-overlay {
+    align-items: flex-start;
+    padding: 8px 0;
+    bottom: auto;   /* 高さは JS が入れるので、下端で引っぱらない */
+  }
+  #genre-request-card {
+    width: 94%;
+    max-height: 100%;
+    /* 下の余白は 0。ボタンの帯が下端まで届くようにする
+       （余白を残すと、その隙間から下の入力欄がのぞいて見えた） */
+    padding: 16px 16px 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  /* ボタンは常に入れ物の下端に貼り付けて、探さなくても押せるようにする */
+  #genre-request-card .gr-btns {
+    position: sticky; bottom: 0;
+    margin: 12px -16px 0; padding: 10px 16px 14px;
+    background: #0e0e1c;
+    border-top: 1px solid rgba(255,255,255,0.10);
+  }
+}
 </style>
 
 <div id="genre-request-overlay">
   <div id="genre-request-card">
-    <h2>ジャンル追加申請 <span class="gr-ver">v1.5</span></h2>
+    <h2>ジャンル追加申請 <span class="gr-ver">v1.6</span></h2>
     <p class="gr-sub">載っていないジャンルを申請できます。AIが情報を生成し、確認画面で承認されると、マップへ追加されます。</p>
 
     <label for="gr-name">ジャンル名 <span style="color:#e06060">*</span></label>
@@ -20939,13 +20969,36 @@ function initGlobe() {
 </div>
 
 <script>
+// スマホでキーボードが出ると、画面の下半分が隠れる。
+// 申請の入れ物を「いま見えている範囲」に合わせておけば、
+// 中身がその中でスクロールでき、「申請する」も押せる。
+function 申請画面の高さを合わせる() {
+  const ov = document.getElementById('genre-request-overlay');
+  if (!ov || !ov.classList.contains('open')) return;
+  if (window.innerWidth > 768) { ov.style.top = ''; ov.style.height = ''; return; }
+  const vv = window.visualViewport;
+  ov.style.top = Math.round(vv ? Math.max(0, vv.offsetTop) : 0) + 'px';
+  ov.style.height = Math.round(vv ? vv.height : window.innerHeight) + 'px';
+}
+if (window.visualViewport) {
+  window.visualViewport.addEventListener('resize', 申請画面の高さを合わせる);
+  window.visualViewport.addEventListener('scroll', 申請画面の高さを合わせる);
+}
+window.addEventListener('resize', 申請画面の高さを合わせる);
+
 function openGenreRequest(name) {
   document.getElementById('genre-request-overlay').classList.add('open');
   if (name) document.getElementById('gr-name').value = name;
+  申請画面の高さを合わせる();
   document.getElementById('gr-name').focus();
+  // キーボードが出てから高さが決まるので、少し待ってもう一度合わせる
+  setTimeout(申請画面の高さを合わせる, 250);
+  setTimeout(申請画面の高さを合わせる, 700);
 }
 function closeGenreRequest() {
-  document.getElementById('genre-request-overlay').classList.remove('open');
+  const ov = document.getElementById('genre-request-overlay');
+  ov.classList.remove('open');
+  ov.style.top = ''; ov.style.height = '';
   document.getElementById('gr-status').style.display = 'none';
   document.getElementById('gr-name').value = '';
   document.getElementById('gr-note').value = '';
@@ -20989,6 +21042,11 @@ async function submitGenreRequest() {
 
   const submitBtn = document.getElementById('gr-submit');
   submitBtn.disabled = true;
+  // ここから先は入力しないので、キーボードを引っ込めて、
+  // AIの進み具合が画面いっぱいに見えるようにする
+  document.getElementById('gr-name').blur();
+  document.getElementById('gr-note').blur();
+  setTimeout(申請画面の高さを合わせる, 300);
   grShowResult('<div class="gr-processing"><span class="gr-spinner"></span>AIが実在確認・情報生成中です。1〜2分かかります…</div>');
 
   try {
