@@ -982,10 +982,12 @@ svg { width: 100vw; height: 100vh; }
      点滅していても小さくて気づかれなかった。塗りつぶしの三角にして
      面積を増やし、動く幅と大小の差も広げる。 */
   .dt-arrow {
-    width: 0; height: 0; margin-top: 4px;
-    border-top: 7px solid transparent;
-    border-bottom: 7px solid transparent;
-    border-left: 10px solid #eaf3ff;
+    /* 大きさは「ジャンル」の文字1つぶんくらいに収める。これより大きいと、
+       いちばん大きく脈打った瞬間に先が青いふちに当たってしまう。 */
+    width: 0; height: 0; margin-top: 3px;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    border-left: 5px solid #eaf3ff;
     animation: dt-arrow-blink 1.4s ease-in-out infinite;
   }
   @keyframes dt-arrow-blink {
@@ -1017,13 +1019,11 @@ svg { width: 100vw; height: 100vh; }
      文字とは重ならない。 */
   /* 細いつまみは幅11px。説明の文字はもともと左から14pxで始まるので、
      余白を足さなくても重ならない（足したら空きすぎた）。 */
-  #drawer-tab.slim { padding: 14px 2px 14px 1px; }
+  #drawer-tab.slim { padding: 14px 3px 14px 2px; }
   #drawer-tab.slim .dt-text { display: none; }
-  /* 細いときは三角も少しだけ小さく。説明の文字が左から14pxで始まるので、
-     つまみ全体がそれを越えないようにする。 */
-  #drawer-tab.slim .dt-arrow {
-    border-top-width: 6px; border-bottom-width: 6px; border-left-width: 7px;
-  }
+  /* 細いときも三角は同じ大きさ。もう十分に小さいので、これ以上縮めると
+     何の印か分からなくなる。つまみの幅は10pxで、説明の文字（左から14px）
+     には重ならない。 */
 
   /* 検索まわり。文字が大きすぎて「説明文を含む」が枠からはみ出し、
      「ジャンル検索」も途中で切れていたので、全体的に小さくする。 */
@@ -1183,7 +1183,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v27.21</span><span id="genre-count"></span>
+  <span id="version-info">v27.22</span><span id="genre-count"></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
