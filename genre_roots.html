@@ -838,6 +838,9 @@ svg { width: 100vw; height: 100vh; }
 
 /* ハンバーガーメニューボタン（PC非表示） */
 #drawer-tab { display: none; }   /* スマホでだけ出す（下の @media で表示） */
+/* 修正依頼を書く画面もスマホ専用。パソコンでは今までどおり、
+   説明の中に入力欄が開く（下の @media でだけ出す） */
+#corr-sheet { display: none; }
 #mobile-menu-btn { display: none; background: none; border: 1px solid #555; border-radius: 3px; color: #fff; font-size: 14px; padding: 1px 4px; cursor: pointer; line-height: 1; }
 /* サイドバーオーバーレイ背景（PC非表示） */
 #sidebar-overlay { display: none; }
@@ -945,6 +948,45 @@ svg { width: 100vw; height: 100vh; }
      スマホ側だけを作り直して独立させている。 */
   .node circle.twinkle { animation: gr-node-twinkle 2.8s linear; }
   .node-sphere.twinkle { animation: gr-sphere-twinkle 2.8s linear; }
+
+  /* 【修正依頼の入力画面】
+     スマホでは、文字を打とうとするとキーボードが画面の下半分を占める。
+     説明パネルの中の入力欄はその下に隠れてしまい、打った字を確かめられない。
+     そこで押した瞬間に、画面いっぱいの入力画面を出す。
+     見た目は別画面だが、中身は同じページのままなので、閉じれば
+     さっきのジャンルの説明にそのまま戻る（地図の位置も失われない）。 */
+  #corr-sheet.open { display: flex; }
+  #corr-sheet {
+    display: none; position: fixed; left: 0; right: 0; top: 0;
+    height: 100%; z-index: 300; flex-direction: column;
+    background: #0d0f18;
+    /* 上端と高さは、キーボードを除いた「いま見えている範囲」に
+       合わせて JS が入れ直す（visualViewport） */
+  }
+  #corr-sheet .cs-head {
+    flex: 0 0 auto; display: flex; align-items: center; gap: 8px;
+    padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.10);
+    background: rgba(255,255,255,0.04);
+  }
+  #corr-sheet .cs-title { font-size: 14px; font-weight: 700; color: #eaf0ff; }
+  #corr-sheet #cs-close {
+    margin-left: auto; width: 30px; height: 30px; flex: 0 0 auto;
+    border-radius: 50%; border: 1px solid rgba(255,255,255,0.22);
+    background: rgba(255,255,255,0.08); color: #dfe6f5;
+    font-size: 15px; line-height: 1; cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  #corr-sheet .cs-body {
+    flex: 1 1 auto; overflow-y: auto; -webkit-overflow-scrolling: touch;
+    padding: 12px 14px 18px;
+  }
+  /* 入れ物の中では、入力欄をいちばん上・大きめにする */
+  #corr-sheet #sp-correction-form { display: block !important; margin-top: 0; }
+  #corr-sheet #sp-correction-prompt { font-size: 13px; margin-bottom: 8px; }
+  #corr-sheet #sp-correction-text { min-height: 108px; }
+  #corr-sheet #sp-correction-actions { margin-top: 10px; }
+  #corr-sheet #sp-correction-send,
+  #corr-sheet #sp-correction-cancel { padding: 10px 20px; font-size: 14px; }
 
   /* ホバーツールチップ非表示（指で隠れるため） */
   #tooltip { display: none !important; }
@@ -1238,7 +1280,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v27.25</span><span id="genre-count"></span>
+  <span id="version-info">v27.26</span><span id="genre-count"></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -1408,6 +1450,18 @@ svg { width: 100vw; height: 100vh; }
 <div id="drawer-tab" role="button" tabindex="0" aria-label="ジャンル検索・一覧を開く">
   <span class="dt-text">ジャンル検索</span>
   <span class="dt-arrow" aria-hidden="true"></span>
+</div>
+<!-- スマホで修正依頼を書くときの入力画面。
+     画面いっぱいに出して、入力欄をいちばん上に置く。
+     キーボードが出ても隠れないように、高さは「実際に見えている分」に合わせる。
+     中身（#sp-correction-form）は説明パネルから移してくるので、
+     送信・進み具合の表示・承認までの流れはこれまでと同じものが動く。 -->
+<div id="corr-sheet" aria-hidden="true">
+  <div class="cs-head">
+    <div class="cs-title">修正依頼</div>
+    <button id="cs-close" type="button" aria-label="修正依頼をやめて説明に戻る">✕</button>
+  </div>
+  <div class="cs-body"></div>
 </div>
 <div id="tooltip"></div>
 <div id="globe-container"></div>
@@ -18323,6 +18377,8 @@ node.on("click", (e, d) => {
   window._currentNode = d;  // rep_tracks再生時に参照
 
   // 修正依頼フォームをジャンルが切り替わるたびにリセット
+  // （書く画面を開いたままだったら、それも閉じて元の場所へ戻す）
+  if (typeof 修正依頼の画面を閉じる === 'function') 修正依頼の画面を閉じる();
   document.getElementById('sp-correction-form').style.display = 'none';
   document.getElementById('sp-correction-btn').style.display = '';
   document.getElementById('sp-correction-text').value = '';
@@ -18407,19 +18463,73 @@ const spCorrSend   = document.getElementById('sp-correction-send');
 const spCorrCancel = document.getElementById('sp-correction-cancel');
 const spCorrResult = document.getElementById('sp-correction-result');
 
+// ──────────────────────────────────────────────────────────
+// スマホの「修正依頼を書く画面」
+// ──────────────────────────────────────────────────────────
+// 【なぜ要るか】スマホで入力欄に触るとキーボードが下半分を覆い、
+// 説明パネルの中にある入力欄がその下に隠れて、打った字を確かめられない。
+// 押した瞬間に画面いっぱいの入力画面を出し、入力欄をいちばん上に置く。
+//
+// 【作り方】入力欄そのもの（#sp-correction-form）を作り直さず、
+// 説明パネルからこの画面へ「引っ越し」させる。こうすると、送信・
+// 進み具合の表示・承認画面までの流れは今までのものがそのまま動く。
+// 閉じるときは元の場所へ戻す。パソコンでは一切使わない。
+const corrSheet = document.getElementById('corr-sheet');
+function 修正依頼の画面の高さを合わせる() {
+  if (!corrSheet || !corrSheet.classList.contains('open')) return;
+  // キーボードが出ている間、visualViewport は「見えている範囲」を教えてくれる。
+  // これに合わせておけば、入力欄がキーボードの下に隠れない。
+  const vv = window.visualViewport;
+  const 上 = vv ? Math.max(0, vv.offsetTop) : 0;
+  const 高 = vv ? vv.height : window.innerHeight;
+  corrSheet.style.top = Math.round(上) + 'px';
+  corrSheet.style.height = Math.round(高) + 'px';
+}
+if (window.visualViewport) {
+  window.visualViewport.addEventListener('resize', 修正依頼の画面の高さを合わせる);
+  window.visualViewport.addEventListener('scroll', 修正依頼の画面の高さを合わせる);
+}
+window.addEventListener('resize', 修正依頼の画面の高さを合わせる);
+
+function 修正依頼の画面を開く() {
+  if (!corrSheet) return false;
+  corrSheet.querySelector('.cs-body').appendChild(spCorrForm);
+  corrSheet.classList.add('open');
+  corrSheet.setAttribute('aria-hidden', 'false');
+  修正依頼の画面の高さを合わせる();
+  return true;
+}
+function 修正依頼の画面を閉じる() {
+  if (!corrSheet || !corrSheet.classList.contains('open')) return;
+  // 入力欄を元の場所（説明パネルの中）へ戻す
+  const 元の場所 = document.getElementById('sp-correction-sec');
+  if (元の場所) 元の場所.appendChild(spCorrForm);
+  corrSheet.classList.remove('open');
+  corrSheet.setAttribute('aria-hidden', 'true');
+  corrSheet.style.top = ''; corrSheet.style.height = '';
+}
+
 spCorrBtn.onclick = () => {
   spCorrBtn.style.display = 'none';
   spCorrForm.style.display = 'block';
+  if (isMobile()) 修正依頼の画面を開く();
+  // キーボードが出てから高さが決まるので、少し待ってもう一度合わせる
   spCorrText.focus();
+  setTimeout(修正依頼の画面の高さを合わせる, 250);
+  setTimeout(修正依頼の画面の高さを合わせる, 700);
 };
-spCorrCancel.onclick = () => {
+function 修正依頼をやめる() {
+  修正依頼の画面を閉じる();
   spCorrForm.style.display = 'none';
   spCorrBtn.style.display = '';
   spCorrText.value = '';
   spCorrResult.className = '';
   spCorrResult.innerHTML = '';
   if (spCorrPolling) { clearInterval(spCorrPolling); spCorrPolling = null; }
-};
+}
+spCorrCancel.onclick = 修正依頼をやめる;
+const csClose = document.getElementById('cs-close');
+if (csClose) csClose.onclick = 修正依頼をやめる;
 let spCorrPolling = null;
 
 function spCorrRenderLog(log) {
