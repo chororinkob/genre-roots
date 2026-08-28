@@ -522,6 +522,15 @@ svg { width: 100vw; height: 100vh; }
 .link.link-lvl5 { stroke-linecap: square; }
 .link.focus-highlight { stroke-opacity: 0.6 !important; pointer-events: auto; }
 .node circle { cursor: pointer; stroke-width: 2; transition: fill 0.3s ease-in, opacity 0.3s ease-in, filter 0.3s ease-in; }
+/* 【パソコンのきらめき／さわらないこと】
+   これは 2026-08-26 の時点で完成していたもの。0.4秒で明るく光って、
+   6秒かけてゆっくり戻る。下にある gr-node-twinkle は「スマホ用」で、
+   パソコンには当てない（@media (max-width: 768px) の中でだけ効かせる）。
+   経緯：同じ指定にしたら、同じようには見えなかった。スマホは画面が小さく
+   玉も小さいので、パソコンで良く見える光り方がスマホでは伝わらない。
+   そこでスマホ側だけ作り直したのであって、パソコン側は直す必要がない。 */
+.node circle.flash-on { filter: brightness(2.5) drop-shadow(0 0 30px currentColor) drop-shadow(0 0 60px currentColor); }
+.node circle.flash-out { transition: fill 6s ease-out, opacity 6s ease-out, filter 6s ease-out; }
 /* 玉のきらめき。知名度の「？」（gr-fame-glow）と同じ考え方で、
    2.8秒かけてゆっくり明るくなり、ゆっくり戻る。
    【前はどうだったか】0.3秒で一気に明るくして6秒かけて戻す作りで、
@@ -662,12 +671,10 @@ svg { width: 100vw; height: 100vh; }
          drop-shadow(0 0 0.0px rgba(255,255,255,0.000));
          stroke: rgba(226,238,255,1); stroke-opacity: 0.000; }
 }
-.node circle.twinkle {
-  /* 進み方は linear。曲線そのものをなだらかな山で作ってあるので、
-     ここで ease をかけると節目ごとに速さが落ちて拍が割れる。 */
-  animation: gr-node-twinkle 2.8s linear;
-  will-change: filter;
-}
+/* 【ここでは動きを付けない】この指定はスマホ専用。
+   実際に動かすのは @media (max-width: 768px) の中。
+   ここで animation を書くとパソコンにも効いてしまう。 */
+.node circle.twinkle { will-change: filter; }
 /* 選んでいるジャンルの丸には、球体っぽく見せる飾り（ぼかし・光沢・影）が
    重ねてある。これは丸そのものとは別の部品なので、一緒に沈ませないと、
    丸だけ黒くなっても飾りが残って「黒くなりきらない」。 */
@@ -684,7 +691,7 @@ svg { width: 100vw; height: 100vh; }
   90% { opacity: 1.000; filter: brightness(1.046); }
   100% { opacity: 1.000; filter: brightness(1.000); }
 }
-.node-sphere.twinkle { animation: gr-sphere-twinkle 2.8s linear; }
+/* 飾りのきらめきもスマホ専用（@media の中で動かす） */
 @media (prefers-reduced-motion: reduce) {
   .node-sphere.twinkle { animation-duration: 4.6s; }
 }
@@ -883,8 +890,10 @@ svg { width: 100vw; height: 100vh; }
   #header > div:last-child a { font-size: 10px !important; padding: 4px 8px !important; white-space: nowrap; }
 
   /* 1段目 … 題名のすぐ隣に版、右端にヘルプ（いちばん押しやすい場所） */
+  /* 題名のすぐ右に置くので、間を空けないと「辞典v27.18」と
+     くっついて読めない（実測ですき間0pxだった） */
   #version-info { order: 2; font-size: 9px !important; color: #888 !important;
-    margin: 0 !important; white-space: nowrap; }
+    margin: 0 0 0 7px !important; white-space: nowrap; }
   #fit-view { order: 3; margin-left: auto; }
   #help-link { order: 4; }
 
@@ -929,6 +938,13 @@ svg { width: 100vw; height: 100vh; }
     scrollbar-width: none; -ms-overflow-style: none;
   }
   #left-sidebar::-webkit-scrollbar { display: none; }
+
+  /* 【スマホのきらめき】パソコンとは別の光り方にする。
+     パソコンは flash-on / flash-out（上の全体の指定）のまま。
+     同じ指定では、画面が小さいスマホで「光った」と伝わらなかったため、
+     スマホ側だけを作り直して独立させている。 */
+  .node circle.twinkle { animation: gr-node-twinkle 2.8s linear; }
+  .node-sphere.twinkle { animation: gr-sphere-twinkle 2.8s linear; }
 
   /* ホバーツールチップ非表示（指で隠れるため） */
   #tooltip { display: none !important; }
@@ -1167,7 +1183,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v27.18</span><span id="genre-count"></span>
+  <span id="version-info">v27.19</span><span id="genre-count"></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -20077,7 +20093,31 @@ function _白へ寄せる(色, 割合) {
   return c.formatRgb();
 }
 
+// パソコンのきらめき（2026-08-26 に完成していたもの。さわらないこと）。
+// 0.4秒でカテゴリ色のまま明るく光り、6秒かけてゆっくり元の色へ戻る。
+function _きらめき_パソコン(el, returnColor) {
+  const circle = d3.select(el);
+  const catColor = circle.attr("data-cat-color");
+  const d = circle.datum();
+  const fadeColor   = returnColor !== undefined ? returnColor : monoColor(d);
+  const fadeOpacity = returnColor !== undefined ? 1 : 0.85;
+  circle.classed("flash-out", false).classed("flash-on", true);
+  circle.attr("fill", catColor).attr("fill-opacity", 1);
+  setTimeout(() => {
+    circle.classed("flash-on", false).classed("flash-out", true);
+    circle.attr("fill", fadeColor).attr("fill-opacity", fadeOpacity);
+    setTimeout(() => circle.classed("flash-out", false), 6200);
+  }, 400);
+}
+
+// どちらを使うかの振り分け。スマホだけ下の作り直したほうを使う。
 function flashNode(el, returnColor) {
+  if (typeof isMobile === "function" && isMobile()) return _きらめき_スマホ(el, returnColor);
+  return _きらめき_パソコン(el, returnColor);
+}
+
+// スマホのきらめき（2.8秒かけて、沈んで白く光って戻る）。
+function _きらめき_スマホ(el, returnColor) {
   const circle = d3.select(el);
   const catColor = circle.attr("data-cat-color");
   const d = circle.datum();
