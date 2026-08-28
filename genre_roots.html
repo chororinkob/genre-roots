@@ -983,9 +983,9 @@ svg { width: 100vw; height: 100vh; }
      面積を増やし、動く幅と大小の差も広げる。 */
   .dt-arrow {
     width: 0; height: 0; margin-top: 4px;
-    border-top: 11px solid transparent;
-    border-bottom: 11px solid transparent;
-    border-left: 15px solid #eaf3ff;
+    border-top: 7px solid transparent;
+    border-bottom: 7px solid transparent;
+    border-left: 10px solid #eaf3ff;
     animation: dt-arrow-blink 1.4s ease-in-out infinite;
   }
   @keyframes dt-arrow-blink {
@@ -1022,7 +1022,7 @@ svg { width: 100vw; height: 100vh; }
   /* 細いときは三角も少しだけ小さく。説明の文字が左から14pxで始まるので、
      つまみ全体がそれを越えないようにする。 */
   #drawer-tab.slim .dt-arrow {
-    border-top-width: 9px; border-bottom-width: 9px; border-left-width: 10px;
+    border-top-width: 6px; border-bottom-width: 6px; border-left-width: 7px;
   }
 
   /* 検索まわり。文字が大きすぎて「説明文を含む」が枠からはみ出し、
@@ -1183,7 +1183,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v27.20</span><span id="genre-count"></span>
+  <span id="version-info">v27.21</span><span id="genre-count"></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -16065,8 +16065,13 @@ const svgEl = svg.node(); // SMILアニメーションの再始動(setCurrentTim
 const w = window.innerWidth, h = window.innerHeight;
 const g = svg.append("g");
 
+// 地図を「人が指で動かした（なぞった・つまんで拡大した）」かどうか。
+// 画面の高さが変わったときに置き直してよいかの判断に使う。
+// 自分で動かしたあとに勝手に戻されると邪魔なので、そのときは触らない。
+let _地図を自分で動かした = false;
 const zoom = d3.zoom().scaleExtent([0.005, 6]).on("zoom", e => {
   g.attr("transform", e.transform);
+  if (e.sourceEvent) _地図を自分で動かした = true;   // 人が動かしたときだけ印を付ける
   // ノードのドラッグ判定しきい値(clickDistance)は、ズームで縮小されたローカル座標系で
   // 判定されるため、画面上では常に約5pxのブレを許容するようズーム倍率に応じて動的に補正する。
   // (これをしないと、縮小表示時にごく僅かな手ブレでもドラッグ扱いになり、
@@ -16075,6 +16080,7 @@ const zoom = d3.zoom().scaleExtent([0.005, 6]).on("zoom", e => {
 });
 svg.call(zoom);
 
+let _合わせ直しタイマ = null, _合わせ直し中 = false;
 function fitToView() {
   attachMap(); clearTimeout(_detachTimer);
   const vw = window.innerWidth, vh = window.innerHeight;
@@ -16098,6 +16104,26 @@ function fitToView() {
   const tx = cx - (x0+x1)/2*scale;
   const ty = cy - (y0+y1)/2*scale;
   svg.transition().duration(750).call(zoom.transform, d3.zoomIdentity.translate(tx,ty).scale(scale));
+  _地図を自分で動かした = false;   // これは人が動かしたのではない
+  // 【スマホ向け】合わせている0.75秒の間に、画面の高さが変わることがある。
+  // スマホのブラウザは上の住所欄が引っ込んだり出たりするたびに数十px動く。
+  // 変わった高さのまま置き去りにされると、地図が上に寄ってヘッダーに
+  // くっついたように見え、「全体表示」を押しても直らなくなる。
+  // 動き終わってから高さを見比べて、変わっていたらもう一度だけ合わせる。
+  const _スマホ = window.innerWidth <= 768;
+  if (_スマホ && !_合わせ直し中) {
+    const 合わせた高 = vh;
+    clearTimeout(_合わせ直しタイマ);
+    _合わせ直しタイマ = setTimeout(() => {
+      const p = document.getElementById('side-panel');
+      if (p && p.classList.contains('sp-visible')) return;
+      if (_地図を自分で動かした) return;
+      if (Math.abs(window.innerHeight - 合わせた高) < 12) return;
+      _合わせ直し中 = true;            // 一度だけ。行ったり来たりさせない
+      fitToView();
+      setTimeout(() => { _合わせ直し中 = false; }, 1200);
+    }, 820);
+  }
 }
 
 // arrow markers per category
@@ -17756,13 +17782,21 @@ function closePanel() {
   document.getElementById('sp-yt-player').src = '';
   if (isMobile()) {
     panel.classList.remove('sp-visible');
+    // 「上げてルーツマップを見る」で畳んだ印が残っていると、次に開いた
+    // ときに畳んだ形のまま出てしまう。閉じるときに必ず外す。
+    panel.classList.remove('sp-peek');
     const dt = document.getElementById('drawer-tab');
     if (dt) { dt.classList.remove('slim'); dt.style.top = ''; }  // 閉じたら元へ戻す
     setTimeout(() => { if (!panel.classList.contains('sp-visible')) panel.style.display = 'none'; }, 300);
     // 地図全体を真ん中へ戻す。ジャンルを選んだときに、そのジャンルの
     // まわりへ寄せているので、閉じたあともそのままだと地図がずれた
     // ままに見える。開く前と同じ「全体が真ん中」の状態に戻す。
+    //
+    // 2回合わせるのは、パネルがすべり終わる（0.3秒）までの間に画面の
+    // 高さが変わることがあるため。1回目は見た目の応答のため早めに、
+    // 2回目はすべて落ち着いてからの高さで合わせ直す。
     setTimeout(fitToView, 60);
+    setTimeout(fitToView, 430);
   } else {
     panel.style.display = 'none';
   }
@@ -17842,10 +17876,19 @@ window.addEventListener('resize', 掴める設定);
     const 幅 = window.innerWidth, 高 = window.innerHeight;
     const 向きが変わった = (幅 > 高) !== (前の幅 > 前の高);
     const 大きく変わった = Math.abs(高 - 前の高) >= 150 || Math.abs(幅 - 前の幅) >= 150;
+    // 「少し変わった」も、前の値を書き換える前に出しておく
+    const 少し変わった = Math.abs(高 - 前の高) >= 40 || Math.abs(幅 - 前の幅) >= 40;
     前の幅 = 幅; 前の高 = 高;
-    if (!向きが変わった && !大きく変わった) return;
     if (panel.classList.contains('sp-visible')) return;   // 説明を見ている間は触らない
-    fitToView();
+    if (向きが変わった || 大きく変わった) { fitToView(); return; }
+    // 住所欄が出入りするくらいの小さな変化（数十px）でも、地図が上に
+    // 寄ったまま取り残されることがある。自分で指を動かしていないときに
+    // 限って、そっと合わせ直す。自分で拡大したあとは触らない。
+    //
+    // 【スマホだけ】パソコンで窓の大きさを少し変えただけで地図が動くと、
+    // 今までと挙動が変わってしまう。パソコンは今までどおり150px以上の
+    // ときだけ置き直す。
+    if (isMobile() && 少し変わった && !_地図を自分で動かした) fitToView();
   };
   window.addEventListener('resize', () => {
     clearTimeout(待ち);
