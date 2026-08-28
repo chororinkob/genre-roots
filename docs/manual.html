@@ -175,9 +175,37 @@
   .toc a { font-size: 12.5px; color: var(--info); text-decoration: none; }
   .toc a:hover { text-decoration: underline; }
 
-  section { margin-bottom: 52px; }
-  .sec-num { font-size: 11px; font-weight: 700; color: var(--accent); letter-spacing: 0.06em; margin-bottom: 6px; }
-  h2 { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
+  /* ──────────────────────────────────────────────
+     章の頭（2026-08-29に作り直し）
+     ──────────────────────────────────────────────
+     【前はどうだったか】章番号が11px。本文(13.5px)より小さく、
+     見出し(18px)との差も4.5pxしかなかった。そのため番号が
+     「章の印」ではなく飾りに見え、どこから章が始まるのか
+     分からないまま延々と読み続ける感じになっていた。
+     【どう直したか】
+      ・番号を「第1章」の形にして、本文より大きい札にした
+      ・見出しを22pxまで上げ、章の頭がひと目で分かるようにした
+      ・章と章の間に線を引いて、区切りを目で追えるようにした */
+  section {
+    margin-bottom: 56px; padding-top: 34px;
+    border-top: 1px solid var(--border);
+  }
+  /* いちばん最初の章の上には線を引かない（目次のすぐ下なので） */
+  section:first-of-type { border-top: none; padding-top: 6px; }
+  .sec-num {
+    display: inline-block;
+    font-size: 15px; font-weight: 700; color: var(--accent);
+    letter-spacing: 0.04em; margin-bottom: 10px;
+    padding: 4px 13px 5px; border-radius: 999px;
+    background: rgba(233,69,96,0.10);
+    border: 1px solid rgba(233,69,96,0.34);
+  }
+  /* 「第」と「章」はCSSで足す。本文には数字だけ書いてある */
+  .sec-num::before { content: "第"; }
+  .sec-num::after  { content: "章"; }
+  /* 番号ではない章（「もっと詳しく」）は、そのままの字を出す */
+  .sec-num.sec-plus::before, .sec-num.sec-plus::after { content: none; }
+  h2 { font-size: 22px; font-weight: 700; margin-bottom: 14px; letter-spacing: -0.01em; }
   /* 図。画面の写真に、実際の要素の位置を測って矢印と枠を重ねたもの。
    横幅いっぱいに出し、下に短い説明を付ける（2026-08-25） */
   figure { margin: 18px 0 22px; }
@@ -232,7 +260,10 @@
     figure img { border-radius: 6px; }
     /* h1 の大きさは clamp が画面幅に合わせて決めるので、ここでは触らない
        （ここで固定すると、細い端末で「〜かた」だけ次の行に落ちる） */
-    h2 { font-size: 17px; }
+    /* スマホでも、章の頭は本文よりはっきり大きくする */
+    h2 { font-size: 19px; }
+    .sec-num { font-size: 14px; padding: 3px 11px 4px; }
+    section { padding-top: 28px; margin-bottom: 46px; }
     .lede { font-size: 13.5px; }
   }
   /* 図の上に置く見出し（スマホ版で使う） */
@@ -897,7 +928,7 @@
 </div>
 
 <section id="deep">
-    <div class="sec-num">＋</div>
+    <div class="sec-num sec-plus">もっと詳しく</div>
     <h2>もっと詳しく — 別名・知名度・影響の強さ・用語</h2>
     <h3 id="alias">ジャンル名の下の小さなタグ＝別名</h3>
     <p>同じジャンルが複数の呼ばれ方をしていることがあります。ジャンル名のすぐ下に、
