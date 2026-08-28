@@ -1021,6 +1021,15 @@ svg { width: 100vw; height: 100vh; }
      余白を足さなくても重ならない（足したら空きすぎた）。 */
   #drawer-tab.slim { padding: 14px 3px 14px 2px; }
   #drawer-tab.slim .dt-text { display: none; }
+  /* 【指で押せる広さ】細いつまみは幅11px・高さ52pxしかなく、
+     指では狙えない（3回に1回は外れると報告があった）。
+     見た目はそのままに、当たり判定だけ外へ広げる。
+     広げすぎると説明の文字の上に「見えない板」ができて、
+     指でなぞってもスクロールしなくなるので、必要な分だけにする。 */
+  #drawer-tab.slim::before {
+    content: ""; position: absolute;
+    left: -3px; right: -20px; top: -14px; bottom: -14px;
+  }
   /* 細いときも三角は同じ大きさ。もう十分に小さいので、これ以上縮めると
      何の印か分からなくなる。つまみの幅は10pxで、説明の文字（左から14px）
      には重ならない。
@@ -1143,7 +1152,29 @@ svg { width: 100vw; height: 100vh; }
   }
   #sp-grip:active { background-image: linear-gradient(rgba(var(--al-lit), 0.34),
                                                       rgba(var(--al), 0.5)); }
-  .sp-grip-mark { font-size: 8px; color: rgb(var(--al-lit, 200,200,210)); line-height: 1; }
+  /* つまみの三角。動く向きで「上げる／下げる」が伝わるように、
+     ゆっくり上下しながら濃さが変わる。
+     【重さについて】動かすのは transform と opacity だけにしてある。
+     この2つはブラウザが絵を描き直さずに済ませられるので、
+     ずっと動かしていても地図の滑らかさに響かない。
+     大きさや色（filter・box-shadow）は毎回描き直しが要るので使わない。 */
+  .sp-grip-mark { font-size: 8px; color: rgb(var(--al-lit, 200,200,210)); line-height: 1;
+    will-change: transform, opacity;
+    animation: sp-grip-pulse 1.8s ease-in-out infinite; }
+  @keyframes sp-grip-pulse {
+    0%, 100% { opacity: .45; transform: translateY(1.5px); }
+    50%      { opacity: 1;   transform: translateY(-2.5px); }
+  }
+  /* 折りたたんでいるときは「▼ 下げて説明を見る」なので、動く向きも下へ */
+  #side-panel.sp-peek .sp-grip-mark { animation-name: sp-grip-pulse-down; }
+  @keyframes sp-grip-pulse-down {
+    0%, 100% { opacity: .45; transform: translateY(-1.5px); }
+    50%      { opacity: 1;   transform: translateY(2.5px); }
+  }
+  /* 「動きを減らす」設定のときは、止めずにゆっくりにする */
+  @media (prefers-reduced-motion: reduce) {
+    .sp-grip-mark { animation-duration: 4s; }
+  }
   .sp-grip-text { font-size: 11px; font-weight: 700;
     color: rgb(var(--al-lit, 220,220,230)); letter-spacing: .02em;
     line-height: 1.4; white-space: nowrap; }
@@ -1200,7 +1231,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v27.23</span><span id="genre-count"></span>
+  <span id="version-info">v27.24</span><span id="genre-count"></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -20078,7 +20109,7 @@ function 引き出し(開く) {
   if (drawerTab) {
     drawerTab.classList.toggle('open', 開く);
     drawerTab.setAttribute('aria-label',
-      開く ? 'ジャンル一覧を閉じる' : 'ジャンル一覧を開く');
+      開く ? 'ジャンル検索・一覧を閉じる' : 'ジャンル検索・一覧を開く');
   }
 }
 function 引き出しは開いている() { return leftSidebar.classList.contains('open'); }
@@ -20087,14 +20118,25 @@ mobileMenuBtn.addEventListener('click', () => 引き出し(!引き出しは開�
 sidebarOverlay.addEventListener('click', () => 引き出し(false));
 
 if (drawerTab) {
-  drawerTab.addEventListener('click', () => 引き出し(!引き出しは開いている()));
+  let 始x = null, 始y = null, 横か = false, なぞった時刻 = 0;
+  drawerTab.addEventListener('click', () => {
+    // なぞりで開け閉めした直後の click は、その取り消しになってしまうので捨てる
+    if (Date.now() - なぞった時刻 < 600) return;
+    引き出し(!引き出しは開いている());
+  });
   drawerTab.addEventListener('keydown', e => {
     if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); 引き出し(!引き出しは開いている()); }
   });
 
   // つまみを横へなぞって出し入れする。
   // 右へ引けば開き、左へ戻せば閉じる。指を離した時点で決める。
-  let 始x = null, 始y = null, 横か = false;
+  //
+  // 【押しても反応しないことがあった理由】
+  // 指が少しでも横に34px動くと、なぞりとして開く。ところがそのあと
+  // ブラウザが click も投げてくるので、上の click が受け取って
+  // すぐ閉じてしまい、「押しても何も起きない」ように見えていた。
+  // なぞりで動かした直後の click は無視する。時刻で見ているので、
+  // 状態が引っかかったまま二度と押せなくなることはない。
   drawerTab.addEventListener('touchstart', e => {
     const t = e.touches[0];
     if (!t) return;
@@ -20106,8 +20148,8 @@ if (drawerTab) {
     const dx = t.clientX - 始x, dy = t.clientY - 始y;
     if (!横か && Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy)) 横か = true;
     if (!横か) return;
-    if (dx > 34) { 引き出し(true); 始x = null; }
-    else if (dx < -34) { 引き出し(false); 始x = null; }
+    if (dx > 34) { 引き出し(true); 始x = null; なぞった時刻 = Date.now(); }
+    else if (dx < -34) { 引き出し(false); 始x = null; なぞった時刻 = Date.now(); }
   }, { passive: true });
   drawerTab.addEventListener('touchend', () => { 始x = null; }, { passive: true });
 }
