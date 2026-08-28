@@ -1183,7 +1183,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v27.19</span><span id="genre-count"></span>
+  <span id="version-info">v27.20</span><span id="genre-count"></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -20110,10 +20110,21 @@ function _きらめき_パソコン(el, returnColor) {
   }, 400);
 }
 
-// どちらを使うかの振り分け。スマホだけ下の作り直したほうを使う。
-function flashNode(el, returnColor) {
-  if (typeof isMobile === "function" && isMobile()) return _きらめき_スマホ(el, returnColor);
-  return _きらめき_パソコン(el, returnColor);
+// どちらを使うかの振り分け。
+//
+// 【大事】スマホでも、光り方を変えたのは「ハイライトのとき」だけ。
+//   ・全体のジャンルマップで、ときどきひとつの玉が光るやつ（doTwinkle）
+//     … パソコンと同じ光り方。スマホの作り直したほうを当てると、
+//        沈むときに色が抜けて、地図全体の色が見えなくなってしまった。
+//   ・カテゴリを選んだとき／検索でヒットしたとき／説明パネルの中心
+//     （startHighlightFlash）… スマホだけ作り直したほうを使う。
+//
+// 種類 に 'ハイライト' が渡されたときだけ、スマホで新しい光り方になる。
+function flashNode(el, returnColor, 種類) {
+  const スマホの新しいほう = 種類 === 'ハイライト'
+    && typeof isMobile === "function" && isMobile();
+  return スマホの新しいほう ? _きらめき_スマホ(el, returnColor)
+                            : _きらめき_パソコン(el, returnColor);
 }
 
 // スマホのきらめき（2.8秒かけて、沈んで白く光って戻る）。
@@ -20172,7 +20183,7 @@ function startHighlightFlash(ids) {
     if (lastFlash[nid] && now - lastFlash[nid] < 3000) return;
     lastFlash[nid] = now;
     const catColor = d3.select(el).attr("data-cat-color");
-    flashNode(el, catColor);
+    flashNode(el, catColor, 'ハイライト');
   }
   function fireOnce() {
     if (!idArray.length) return;
