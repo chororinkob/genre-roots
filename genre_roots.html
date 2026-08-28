@@ -1182,6 +1182,13 @@ svg { width: 100vw; height: 100vh; }
 
   /* 折りたたんだときは貼り付ける必要がない（めくる中身が無い） */
   #side-panel.sp-peek #sp-grip { position: static; }
+
+  /* 知名度の「？」を開いている間だけ、見出しの帯をつまみより手前に出す。
+     つまみ(#sp-grip)は z-index 4、帯(#sp-header)は 1 なので、そのままだと
+     「上げてルーツマップを見る」のつまみが手前に来て、知名度の内訳の表を
+     23pxぶん隠してしまっていた（実測）。
+     帯は位置指定(sticky)を持っているので、中の内訳もまとめて手前へ出る。 */
+  #side-panel.fm-open #sp-header { z-index: 6; }
   #side-panel::-webkit-scrollbar { width: 5px; }
   #side-panel::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.35); border-radius: 3px; }
   #side-panel::-webkit-scrollbar-track { background: rgba(255,255,255,0.08); border-radius: 3px; }
@@ -1231,7 +1238,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v27.24</span><span id="genre-count"></span>
+  <span id="version-info">v27.25</span><span id="genre-count"></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -15968,6 +15975,13 @@ function _hideGlossTip(termEl) {
 
 // 押したら開いたままにする／もう一度押したら閉じる。
 // マウスでもスマホでも同じ動きになるようにするための仕掛け。
+// 知名度の「？」を開いている間は、説明パネルに印を付ける。
+// この印が付いている間だけ、見出しの帯がつまみより手前に出る（上のCSS）。
+function _知名度の内訳の重なりを直す() {
+  const p = document.getElementById('side-panel');
+  if (!p) return;
+  p.classList.toggle('fm-open', !!document.querySelector('#sp-tag .sp-fame-i.pinned'));
+}
 function _unpinAllTips(except) {
   document.querySelectorAll('.gloss-term.pinned').forEach(el => {
     if (el === except) return;
@@ -15979,7 +15993,9 @@ function _unpinAllTips(except) {
 document.addEventListener('click', (e) => {
   const term = e.target.closest('.gloss-term');
   _unpinAllTips(term);
-  if (!term) return;
+  // 何もないところを押して閉じたときも、重なりの印を外す。
+  // ここで抜ける前に呼ばないと、印が付いたままになる。
+  if (!term) { _知名度の内訳の重なりを直す(); return; }
   if (term.classList.contains('pinned')) {
     term.classList.remove('pinned');
     _hideGlossTip(term);
@@ -15987,9 +16003,10 @@ document.addEventListener('click', (e) => {
     term.classList.add('pinned');
     _positionGlossTip(term);
   }
+  _知名度の内訳の重なりを直す();
 });
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') _unpinAllTips(null);
+  if (e.key === 'Escape') { _unpinAllTips(null); _知名度の内訳の重なりを直す(); }
 });
 document.addEventListener('mouseover', (e) => {
   const term = e.target.closest('.gloss-term');
