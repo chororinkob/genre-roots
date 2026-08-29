@@ -1343,7 +1343,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v27.32</span><span id="genre-count"></span>
+  <span id="version-info">v27.33</span><span id="genre-count"></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -1534,6 +1534,67 @@ svg { width: 100vw; height: 100vh; }
 <script>
 // 曲名検索・ジャンル追加・修正依頼などのバックエンドAPI（Render）
 const API_BASE = 'https://genre-roots-server.onrender.com';
+
+// ──────────────────────────────────────────────────────────
+// 来訪者の目印
+// ──────────────────────────────────────────────────────────
+// 【なぜcookieをやめたか】(2026-08-29)
+//   地図は chororinkob.github.io、記録を受けるサーバーは onrender.com と
+//   住所が違う。この組み合わせで配られる目印(cookie)は「よそのサイトのもの」
+//   として扱われ、iPhoneのSafariは既定でこれを捨ててしまう（Chromeも順次)。
+//   そのため同じ人が来るたびに新しい目印が作られ、
+//    ・統計の「来た人」が実際の何倍にも膨らむ
+//    ・1日3件などの上限が、目印を捨てる端末では効かない
+//   という状態になっていた。実際、同じ秒・同じ回線の1人が2人として
+//   数えられているのを統計画面で確認している。
+//
+// 【どう直したか】
+//   目印を、この地図自身のブラウザ保存領域(localStorage)に置く。ここは
+//   自分の住所なので、どの端末でも捨てられない。サーバーへ送るときは
+//   住所の末尾に ?u=… として付ける（下の grFetch の差し替え）。
+//
+// 【承知のうえの限界】
+//   目印は送る側が作り替えられる。これは cookie のときと同じで、
+//   守り(上限)の本体はIPアドレス側の数え方が担っている。ここで直るのは
+//   「ふつうに使っている人を、ちゃんと同じ人として数えられる」ことまで。
+const GR_UID_KEY = 'gr_uid';
+let _grUid = null;
+function grUid() {
+  if (_grUid) return _grUid;
+  let v = '';
+  try { v = localStorage.getItem(GR_UID_KEY) || ''; } catch (e) {}
+  if (!/^[A-Za-z0-9_-]{8,64}$/.test(v)) {
+    v = grMakeUid();
+    try { localStorage.setItem(GR_UID_KEY, v); } catch (e) {}
+  }
+  _grUid = v;
+  return v;
+}
+// 12バイトの乱数から、記号を含まない16文字を作る（サーバー側の作り方と同じ形）
+function grMakeUid() {
+  const a = new Uint8Array(12);
+  if (window.crypto && crypto.getRandomValues) crypto.getRandomValues(a);
+  else for (let i = 0; i < a.length; i++) a[i] = Math.floor(Math.random() * 256);
+  let b = '';
+  for (let i = 0; i < a.length; i++) b += String.fromCharCode(a[i]);
+  return btoa(b).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
+// サーバーへの通信すべてに、目印を自動で付ける。
+// 呼び出し場所が20か所以上あり（マイクのパネルも含む）、1つ書き忘れると
+// そこだけ別人になってしまうため、fetch そのものを差し替えて一度に片づける。
+// YouTubeなど、よそへの通信には付けない。
+(function () {
+  const 元のfetch = window.fetch.bind(window);
+  window.fetch = function (先, 設定) {
+    try {
+      if (typeof 先 === 'string' && 先.indexOf(API_BASE) === 0 && !/[?&]u=/.test(先)) {
+        先 += (先.indexOf('?') >= 0 ? '&' : '?') + 'u=' + encodeURIComponent(grUid());
+      }
+    } catch (e) { /* 付けられなくても通信は止めない */ }
+    return 元のfetch(先, 設定);
+  };
+})();
 
 // ──────────────────────────────────────────────────────────
 // 見に来た人の記録
