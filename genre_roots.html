@@ -302,6 +302,28 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 /* 代表曲欄の中では、用語説明の点線は残しつつカーソルは指の形のままにする。
    cursor:help のままだと、押せば曲が再生されるのに押せないように見えてしまう。 */
 .yt-music-link .gloss-term { cursor: pointer; }
+/* 代表曲は1曲1行。長い曲名は折り返さず、入りきらないぶんを「…」で切る
+   （2026-08-29、チョロさんの指示）。
+   【なぜ切るか】折り返すと2段になって美しくないうえ、
+   いま流れている曲を示す赤い帯が、2段目とそろわず枠からはみ出していた。
+   曲名が全部見えなくても、動画の画面に題名が出るので困らない。
+   【なぜ inline-block か】block にすると帯が行いっぱいに広がってしまう。
+   inline-block なら、短い曲名では文字の幅ぶんだけの帯になり、
+   長い曲名のときだけ枠いっぱいで切れる。 */
+#sp-tracks .yt-music-link {
+  display: inline-block;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: bottom;
+  /* 選ばれたときに行が横へずれないよう、赤い縦線のぶんの場所を先に取る */
+  border-left: 3px solid transparent;
+  padding: 1px 6px 1px 5px;
+  border-radius: 3px;
+  line-height: 1.5;
+}
+
 /* いま流れている代表曲を、一覧の中で光らせる（2026-08-18）。
    代表曲を順番に通して再生するようになったので、何曲目を聴いているのかが
    分からないと迷子になるため。文字色だけでなく背景も付けて、
@@ -310,10 +332,7 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   color: #fff !important;
   font-weight: 700;
   background: linear-gradient(90deg, rgba(233,69,96,0.14), rgba(233,69,96,0.01));
-  border-left: 3px solid #e94560;
-  padding: 1px 6px 1px 5px;
-  margin-left: -8px;
-  border-radius: 3px;
+  border-left-color: #e94560;
   /* 「再生中」の札の代わりに、赤い帯そのものをゆっくり明滅させる
      （2026-08-19、「札はなしにして、赤い帯を点滅させて」との指示）。
      動くのは代表曲1行ぶんだけなので、地図の音符と違って負荷はごく小さい。 */
@@ -1005,32 +1024,6 @@ svg { width: 100vw; height: 100vh; }
   #corr-sheet #sp-correction-send,
   #corr-sheet #sp-correction-cancel { padding: 10px 20px; font-size: 14px; }
 
-  /* 【代表曲の赤い帯】スマホでは1曲を1行の箱にする。
-     もとは文字に沿う形（インライン）だったので、曲名が長くて2行に
-     折り返すと、帯が枠の外へはみ出し、1行目と2行目の帯もそろわなかった。
-     行そのものを箱にすれば、何行になっても帯はきれいな四角に収まる。
-     ・左の赤い縦線のぶんの場所は、選ばれていないときも空けておく。
-       そうしないと、曲が切り替わるたびに行が横にずれる。
-     ・左へはみ出す指定（margin-left:-8px）はここでは使わない。
-     パソコンは今までどおり（文字に沿う形）。 */
-  #sp-tracks .yt-music-link {
-    display: block;
-    padding: 3px 6px 4px 7px;
-    border-left: 3px solid transparent;
-    border-radius: 4px;
-    /* 行の高さを決めておく。決めないと、2行になったかどうかを
-       数字で確かめられない（ブラウザ任せだと normal になる） */
-    line-height: 1.5;
-    /* 折り返すとき、最後の行に1語だけ残るような割り方を避ける */
-    text-wrap: pretty;
-  }
-  #sp-tracks .yt-music-link.sp-track-playing {
-    margin-left: 0;
-    padding: 3px 6px 4px 7px;
-    border-left-width: 3px;
-    border-radius: 4px;
-  }
-
   /* ホバーツールチップ非表示（指で隠れるため） */
   #tooltip { display: none !important; }
   /* カテゴリー吹き出しも非表示（位置がずれるため。アコーディオンで代替） */
@@ -1323,7 +1316,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v27.30</span><span id="genre-count"></span>
+  <span id="version-info">v27.31</span><span id="genre-count"></span>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
