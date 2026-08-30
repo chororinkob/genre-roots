@@ -203,6 +203,16 @@
     filter: drop-shadow(0 0 7px rgba(233,69,96,0.35));
     pointer-events: none;
   }
+  /* ガイド自身の版と、直した日。題名のすぐ下に控えめに置く。
+     読む前に「これは最新か」が分かるようにするのが目的なので、
+     フッター（読み終えたあと）ではなく、ここに出している。
+     題名と同じだけ字下げされるよう、title-block の中に入れてある。 */
+  .title-block .doc-ver {
+    font-size: 11.5px; color: var(--text-2); letter-spacing: .02em;
+    margin-top: 13px;
+  }
+  .title-block .doc-ver b { color: #c8c8dc; font-weight: 700; }
+
   .lede { font-size: 14px; color: var(--text-2); margin-bottom: 44px; line-height: 1.75; }
 
   .toc { display: flex; flex-direction: column; gap: 6px; margin-bottom: 48px; padding: 16px 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; }
@@ -372,6 +382,14 @@
               font-family="inherit">4</text>
       </svg>
     </div>
+    <!-- ガイド自身の版と、直した日（2026-08-30から）。
+         【地図の版を写さない理由】地図の版は地図をいじるたびに上がる。
+         それをここへ自動で写すと、ガイドの中身は古いままなのに数字だけ
+         新しくなり、「最新のガイドです」と嘘をつくことになる。
+         ここはガイドを直したときだけ手で上げること。
+         このガイドが地図に追いついているかは、下の日付を地図のヘッダーに
+         出ている日付（「◯◯ ジャンル・2026/8/30」）と見比べれば分かる。 -->
+    <div class="doc-ver">ガイド <b>v1.00</b> ・ 2026-08-30 更新</div>
   </div>
   <p class="lede">
     <strong>「自分の好きな音楽って、どこから来たんだろう」</strong>——
@@ -1551,8 +1569,8 @@
     </div>
 
     <div class="footer-note">
-      音楽ジャンルルーツ辞典 使い方ガイド ・ 最終更新：2026-08-30<br>
-      © 2026 チョロ ・ 無断複製を禁じます ・ <a href="about.html">このサイトについて</a>
+      © 2026 チョロ ・ 音楽ジャンルルーツ辞典 ・ 無断複製を禁じます
+      ・ <a href="about.html">このサイトについて</a>
     </div>
 
 </div>
