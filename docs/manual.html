@@ -75,17 +75,19 @@
   .top-bar a.to-toc:hover { background: rgba(255,255,255,0.08); color: #fff; box-shadow: none; }
   .tb-short { display: none; }
   @media (max-width: 760px) {
-    /* スマホは横幅が足りないので、短い言い方にする */
+    /* スマホは横幅が足りないので、短い言い方にする。
+       ボタンが3つになったので、余白と字も少し詰める。 */
     .tb-full { display: none; }
     .tb-short { display: inline; }
-    .top-bar a { padding: 9px 14px; font-size: 13.5px; }
+    .top-bar { gap: 6px; padding: 12px 12px; }
+    .top-bar a { padding: 8px 11px; font-size: 12.5px; }
   }
 
   /* 目次から章へ飛んだとき、見出しが上のバーに隠れないようにする。
      バーは常に上に貼り付いていて高さ74px。指定が無いと、飛んだ先の
      見出しがちょうどバーの裏に入り、本文の途中から始まったように
      見えていた（2026-08-30に気づいて修正。全部の章で起きていた）。 */
-  section[id], h3[id] { scroll-margin-top: 86px; }
+  section[id], h3[id], nav[id] { scroll-margin-top: 86px; }
   html { scroll-behavior: smooth; }
   @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
@@ -398,7 +400,13 @@
      同じものが並んで読みづらくなる（2026-08-31）。 -->
 <div class="top-bar">
   <a href="../genre_roots.html"><span class="tb-full">← ジャンルマップに戻る</span><span class="tb-short">← 地図へ</span></a>
-  <a class="to-toc" href="#howto"><span class="tb-full">↑ 目次へ戻る</span><span class="tb-short">↑ 目次</span></a>
+  <!-- 戻り先は2つある。名前で行き先が分かるようにしてある。
+       ・「目次に戻る」          … 大元の目次（はじめに／操作説明／免責…）
+       ・「操作説明の目次に戻る」 … 章ごとの目次（第1章〜）
+       はじめは1つだけ置いて章の目次へ飛ばしていたが、それだと大元へ
+       戻る道が無かった（2026-08-31に指摘を受けて分けた）。 -->
+  <a class="to-toc" href="#menu"><span class="tb-full">↑ 目次に戻る</span><span class="tb-short">↑ 目次</span></a>
+  <a class="to-toc" href="#howto"><span class="tb-full">↑ 操作説明の目次に戻る</span><span class="tb-short">↑ 操作説明</span></a>
 </div>
 
 <div class="page">
@@ -448,7 +456,7 @@
          ここはガイドを直したときだけ手で上げること。
          このガイドが地図に追いついているかは、下の日付を地図のヘッダーに
          出ている日付（「◯◯ ジャンル・2026/8/30」）と見比べれば分かる。 -->
-    <div class="doc-ver">ガイド <b>v1.12</b> ・ 2026-08-31 更新</div>
+    <div class="doc-ver">ガイド <b>v1.13</b> ・ 2026-08-31 更新</div>
   </div>
   <p class="lede">
     <strong>「自分の好きな音楽って、どこから来たんだろう」</strong>——
@@ -456,7 +464,7 @@
 
   <!-- このガイドの入口。ここから、操作説明だけでなく権利・更新履歴・
        問い合わせへも行けるようにしている（2026-08-31）。 -->
-  <nav class="hub" aria-label="このガイドの中身">
+  <nav class="hub" id="menu" aria-label="このガイドの中身">
     <div class="hub-title">何をご覧になりますか</div>
     <a class="hub-item" href="#intro">
       <span class="hub-name">はじめに</span>
