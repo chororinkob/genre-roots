@@ -51,6 +51,17 @@
   }
   .top-bar a:hover { background: #3d80e6; }
   .top-bar a:focus-visible { outline: 2px solid #ffcc33; outline-offset: 2px; }
+  /* 2つ目は枠線だけにして、地図へ戻るほうを主役にする */
+  .top-bar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .top-bar a.to-guide {
+    background: transparent; border-color: rgba(255,255,255,0.28);
+    color: var(--text-2); box-shadow: none;
+  }
+  .top-bar a.to-guide:hover { background: rgba(255,255,255,0.08); color: #fff; }
+  @media (max-width: 760px) {
+    .top-bar { gap: 8px; }
+    .top-bar a { padding: 8px 13px; font-size: 13px; }
+  }
 
   .wrap { max-width: 760px; margin: 0 auto; padding: 30px 20px 0; }
   h1 { font-size: clamp(19px, 5vw, 26px); font-weight: 800; letter-spacing: -.01em;
@@ -101,12 +112,23 @@
     font-size: 14px; text-decoration: none;
   }
   .back-bottom a:hover { background: #3d80e6; }
+  .back-bottom { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .back-bottom a.to-guide {
+    background: transparent; border-color: rgba(255,255,255,0.28); color: var(--text-2);
+  }
+  .back-bottom a.to-guide:hover { background: rgba(255,255,255,0.08); color: #fff; }
   .footer-note { text-align: center; font-size: 11px; color: #55556a; margin-top: 40px; }
 </style>
 </head>
 <body>
 
-<div class="top-bar"><a href="../genre_roots.html">← ジャンルマップに戻る</a></div>
+<!-- 出口は2つ。このページは、地図のヘッダーからも、使い方ガイドの目次からも
+     来られる。片方しか無いと、ガイドから来た人が戻れなくなる
+     （2026-08-31に指摘を受けて足した）。 -->
+<div class="top-bar">
+  <a href="../genre_roots.html">← ジャンルマップに戻る</a>
+  <a class="to-guide" href="manual.html#menu">← 使い方ガイドに戻る</a>
+</div>
 
 <div class="wrap">
   <h1>このサイトについて</h1>
@@ -207,7 +229,10 @@
   </section>
 </div>
 
-<div class="back-bottom"><a href="../genre_roots.html">← ジャンルマップに戻る</a></div>
+<div class="back-bottom">
+  <a href="../genre_roots.html">← ジャンルマップに戻る</a>
+  <a class="to-guide" href="manual.html#menu">← 使い方ガイドに戻る</a>
+</div>
 <div class="footer-note">© 2026 チョロ ・ 音楽ジャンルルーツ辞典 ・ 無断複製を禁じます</div>
 
 </body>
