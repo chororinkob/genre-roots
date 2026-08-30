@@ -51,16 +51,20 @@
   }
   .top-bar a:hover { background: #3d80e6; }
   .top-bar a:focus-visible { outline: 2px solid #ffcc33; outline-offset: 2px; }
-  /* 2つ目は枠線だけにして、地図へ戻るほうを主役にする */
+  /* 目次へ戻る2つは枠線だけにして、地図へ戻るほうを主役にする */
   .top-bar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-  .top-bar a.to-guide {
+  .top-bar a.to-toc {
     background: transparent; border-color: rgba(255,255,255,0.28);
     color: var(--text-2); box-shadow: none;
   }
-  .top-bar a.to-guide:hover { background: rgba(255,255,255,0.08); color: #fff; }
+  .top-bar a.to-toc:hover { background: rgba(255,255,255,0.08); color: #fff; }
+  .tb-short { display: none; }
   @media (max-width: 760px) {
-    .top-bar { gap: 8px; }
-    .top-bar a { padding: 8px 13px; font-size: 13px; }
+    /* スマホは横幅が足りないので、短い言い方にする */
+    .tb-full { display: none; }
+    .tb-short { display: inline; }
+    .top-bar { gap: 6px; padding: 12px 12px; }
+    .top-bar a { padding: 8px 11px; font-size: 12.5px; }
   }
 
   .wrap { max-width: 760px; margin: 0 auto; padding: 30px 20px 0; }
@@ -113,21 +117,25 @@
   }
   .back-bottom a:hover { background: #3d80e6; }
   .back-bottom { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-  .back-bottom a.to-guide {
+  .back-bottom a.to-toc {
     background: transparent; border-color: rgba(255,255,255,0.28); color: var(--text-2);
   }
-  .back-bottom a.to-guide:hover { background: rgba(255,255,255,0.08); color: #fff; }
+  .back-bottom a.to-toc:hover { background: rgba(255,255,255,0.08); color: #fff; }
   .footer-note { text-align: center; font-size: 11px; color: #55556a; margin-top: 40px; }
 </style>
 </head>
 <body>
 
-<!-- 出口は2つ。このページは、地図のヘッダーからも、使い方ガイドの目次からも
-     来られる。片方しか無いと、ガイドから来た人が戻れなくなる
-     （2026-08-31に指摘を受けて足した）。 -->
+<!-- 【どのページでも同じ3つにそろえる】2026-08-31
+     はじめは「← 使い方ガイドに戻る」と書いていたが、「使い方ガイド」は
+     こちらの都合のページの分け方であって、見ている人には関係がない。
+     見ている人にとっては、どのページにいても戻り先は「目次」なので、
+     使い方ガイド・このサイトについて・お問い合わせの3画面すべてで
+     同じ言い方・同じ並びにしてある。 -->
 <div class="top-bar">
-  <a href="../genre_roots.html">← ジャンルマップに戻る</a>
-  <a class="to-guide" href="manual.html#menu">← 使い方ガイドに戻る</a>
+  <a href="../genre_roots.html"><span class="tb-full">← ジャンルマップに戻る</span><span class="tb-short">← 地図へ</span></a>
+  <a class="to-toc" href="manual.html#menu"><span class="tb-full">↑ 目次に戻る</span><span class="tb-short">↑ 目次</span></a>
+  <a class="to-toc" href="manual.html#howto"><span class="tb-full">↑ 操作説明の目次に戻る</span><span class="tb-short">↑ 操作説明</span></a>
 </div>
 
 <div class="wrap">
@@ -231,7 +239,8 @@
 
 <div class="back-bottom">
   <a href="../genre_roots.html">← ジャンルマップに戻る</a>
-  <a class="to-guide" href="manual.html#menu">← 使い方ガイドに戻る</a>
+  <a class="to-toc" href="manual.html#menu">↑ 目次に戻る</a>
+  <a class="to-toc" href="manual.html#howto">↑ 操作説明の目次に戻る</a>
 </div>
 <div class="footer-note">© 2026 チョロ ・ 音楽ジャンルルーツ辞典 ・ 無断複製を禁じます</div>
 
