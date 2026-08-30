@@ -53,7 +53,9 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   display: flex; flex-direction: column; align-items: flex-end;
   line-height: 1.24; text-align: right;
 }
-#site-credit .sc-name { font-size: 10px; color: #e6e6f0; white-space: nowrap; }
+#site-credit .sc-name { font-size: 10px; color: #e6e6f0; white-space: nowrap;
+                        text-decoration: none; }
+#site-credit .sc-name:hover { color: #fff; }
 #site-credit .sc-link {
   font-size: 10px; color: #7eb8f7; text-decoration: underline;
   text-underline-offset: 2px; white-space: nowrap;
@@ -975,12 +977,21 @@ svg { width: 100vw; height: 100vh; }
      スマホは横幅が狭いので、パソコンのような2段組にはせず横に並べる。
      順番(order)を指定しないと、並べ替えの都合で題名より前に出てしまう
      （実際に題名に食い込んだ）。 */
+  /* スマホは横幅が足りない。「このサイトについて」まで並べると、
+     2段目の文字が「全体表示」のボタンの下まで伸びてしまい、ヘッダーが
+     広く見える。そこで下段は出さず、「© 2026 チョロ」そのものを
+     押せるようにする（青＋下線）。行けば同じページに着くので、
+     伝わる情報は変わらない（2026-08-31）。
+     著作権・免責の説明は、ヘルプの入口からも行ける。 */
   #site-credit {
     order: 6; margin: 0 0 0 10px !important;
-    flex-direction: row; align-items: baseline; gap: 8px; line-height: 1.2;
+    flex-direction: row; align-items: baseline; line-height: 1.2;
   }
-  #site-credit .sc-name { font-size: 9px !important; color: #c9c9d8 !important; }
-  #site-credit .sc-link { font-size: 9px !important; }
+  #site-credit .sc-link { display: none; }
+  #site-credit .sc-name {
+    font-size: 9px !important; color: #7eb8f7 !important;
+    text-decoration: underline; text-underline-offset: 2px;
+  }
 
   #admin-menu-wrap { order: 7; }
 
@@ -1365,7 +1376,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v27.35</span><span id="genre-count"></span>
+  <span id="version-info">v27.36</span><span id="genre-count"></span>
 
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
@@ -1378,7 +1389,7 @@ svg { width: 100vw; height: 100vh; }
        #header の直接の子のままにしてあるのは、スマホでは並べ替え(order)で
        2段目へ動かすため。入れ子にすると order が効かなくなる。 -->
   <span id="site-credit">
-    <span class="sc-name">© 2026 チョロ</span>
+    <a class="sc-name" href="docs/about.html">© 2026 チョロ</a>
     <a class="sc-link" href="docs/about.html" title="著作権・免責・記録している情報">このサイトについて</a>
   </span>
   <div style="display:flex;gap:6px;align-items:center;">
