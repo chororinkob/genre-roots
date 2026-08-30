@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>このサイトについて — 音楽ジャンルルーツ辞典</title>
+<meta name="description" content="音楽ジャンルルーツ辞典について。著作権の扱い、引用のしかた、動画や楽曲名などの出典、免責事項、記録している情報の取り扱い、お問い合わせ先をまとめています。">
+<link rel="canonical" href="https://chororinkob.github.io/genre-roots/docs/about.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="音楽ジャンルルーツ辞典">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="このサイトについて — 音楽ジャンルルーツ辞典">
+<meta property="og:description" content="音楽ジャンルルーツ辞典について。著作権の扱い、引用のしかた、出典、免責事項、記録している情報の取り扱い、お問い合わせ先。">
+<meta property="og:url" content="https://chororinkob.github.io/genre-roots/docs/about.html">
+<meta property="og:image" content="https://chororinkob.github.io/genre-roots/ogp.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="音楽ジャンルルーツ辞典 － 573のジャンルが並んだつながりの地図">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="このサイトについて — 音楽ジャンルルーツ辞典">
+<meta name="twitter:description" content="音楽ジャンルルーツ辞典について。著作権の扱い、引用のしかた、出典、免責事項、記録している情報の取り扱い、お問い合わせ先。">
+<meta name="twitter:image" content="https://chororinkob.github.io/genre-roots/ogp.jpg">
+<meta name="theme-color" content="#1a1a2e">
+
+<!-- 【ジャンル数の書き方について】使い方ガイドと同じ決まり。
+     本文のジャンル数は <span class="gr-genre-count">573</span> の形で書くこと。
+     ジャンルが追加されると genre_adder.py がこの印の中身だけを書き換える。
+     手で直したり、印を外して数字を直接書いたりしないこと。 -->
+<style>
+  :root {
+    --bg: #0f0f1a; --surface: #16162a; --surface-2: #1e1e38;
+    --text: #f0f0f8; --text-2: #9a9aae; --border: rgba(255,255,255,0.09);
+    --accent: #e94560; --ok: #22c55e; --info: #7ecfff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: "Hiragino Sans", "Noto Sans JP", system-ui, -apple-system, sans-serif;
+    padding: 0 0 80px; line-height: 1.75;
+  }
+  .top-bar {
+    position: sticky; top: 0; z-index: 10;
+    background: rgba(15,15,26,0.92); backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--border); padding: 14px 20px;
+  }
+  .top-bar a {
+    color: #fff; text-decoration: none; font-size: 14px; font-weight: 700;
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #2f6fd0; border: 1px solid #4a86e8; border-radius: 8px;
+    padding: 9px 18px; box-shadow: 0 2px 10px rgba(47,111,208,.35);
+  }
+  .top-bar a:hover { background: #3d80e6; }
+  .top-bar a:focus-visible { outline: 2px solid #ffcc33; outline-offset: 2px; }
+
+  .wrap { max-width: 760px; margin: 0 auto; padding: 30px 20px 0; }
+  h1 { font-size: clamp(19px, 5vw, 26px); font-weight: 800; letter-spacing: -.01em;
+       margin-bottom: 6px; }
+  .lede { font-size: 13.5px; color: var(--text-2); margin-bottom: 34px; }
+
+  section { border-top: 1px solid var(--border); padding-top: 30px; margin-bottom: 46px; }
+  section:first-of-type { border-top: none; padding-top: 4px; }
+  h2 { font-size: 19px; font-weight: 700; margin-bottom: 12px; letter-spacing: -.01em; }
+  h3 { font-size: 14.5px; font-weight: 700; margin: 22px 0 8px; }
+  p { font-size: 13.5px; color: #d8d8e6; margin-bottom: 14px; }
+  p.muted { color: var(--text-2); font-size: 12.5px; }
+  ul { margin: 0 0 14px 20px; }
+  li { font-size: 13.5px; color: #d8d8e6; margin-bottom: 7px; }
+  a { color: var(--info); }
+  b { color: #fff; }
+
+  .box {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 16px 18px; margin-bottom: 16px;
+  }
+  .box.warn { border-color: rgba(233,69,96,.45); background: rgba(233,69,96,.07); }
+  .box.warn h3 { color: #ff8fa0; margin-top: 0; }
+  .box p:last-child, .box ul:last-child { margin-bottom: 0; }
+
+  .cite {
+    background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px;
+    padding: 12px 14px; font-size: 12.5px; color: var(--text-2);
+    font-family: ui-monospace, "Consolas", monospace; line-height: 1.7;
+    word-break: break-all;
+  }
+
+  .contact-cta { margin: 22px 0 6px; }
+  .contact-cta a {
+    display: inline-block; background: #2f6fd0; border: 1px solid #4a86e8;
+    border-radius: 8px; padding: 11px 22px; color: #fff; font-weight: 700;
+    font-size: 14px; text-decoration: none;
+  }
+  .contact-cta a:hover { background: #3d80e6; }
+
+  .back-bottom { text-align: center; margin: 54px 0 10px; }
+  .back-bottom a {
+    display: inline-block; background: #2f6fd0; border: 1px solid #4a86e8;
+    border-radius: 8px; padding: 11px 22px; color: #fff; font-weight: 700;
+    font-size: 14px; text-decoration: none;
+  }
+  .back-bottom a:hover { background: #3d80e6; }
+  .footer-note { text-align: center; font-size: 11px; color: #55556a; margin-top: 40px; }
+</style>
+</head>
+<body>
+
+<div class="top-bar"><a href="../genre_roots.html">← ジャンルマップに戻る</a></div>
+
+<div class="wrap">
+  <h1>このサイトについて</h1>
+  <p class="lede">音楽ジャンルルーツ辞典の権利・出典・免責、そして記録している情報についてまとめています。</p>
+
+  <section id="what">
+    <h2>どんなサイトか</h2>
+    <p><b>音楽ジャンルルーツ辞典</b>は、<span class="gr-genre-count">573</span>の音楽ジャンルについて、
+      その成り立ち・親になったジャンル・影響を与えたジャンル・代表曲を1枚の地図にまとめた辞典です。
+      「自分の好きな音楽って、どこから来たんだろう」という素朴な疑問から作りはじめました。</p>
+    <p>作っているのは<b>チョロ</b>（chororinkob）という個人です。会社や団体ではありません。
+      使い方は<a href="manual.html">使い方ガイド</a>をご覧ください。</p>
+  </section>
+
+  <section id="copyright">
+    <h2>著作権について</h2>
+    <p>このサイトの内容（ジャンルの説明文、用語の解説、地図の構成、図、画面のデザイン）は、
+      <b>© 2026 チョロ</b> に帰属します。<b>無断複製・無断転載を禁じます。</b></p>
+
+    <div class="box warn">
+      <h3>とくに、まとめ方そのものが保護されます</h3>
+      <p>個々の説明文だけではありません。<b>どのジャンルを収録するか／どれとどれがつながっているか／
+        知名度をどう評価するか／どの曲を代表曲とするか</b>——この<b>選び方と並べ方そのもの</b>が、
+        編集著作物・データベースの著作物として保護されます。</p>
+      <p class="muted">つまり、文章を書き換えたとしても、この地図の構造をそのまま写し取れば
+        権利の侵害にあたりえます。</p>
+    </div>
+
+    <h3>許可なくできないこと</h3>
+    <ul>
+      <li>ジャンルのデータの全部または相当部分を、複製・転載・再配布すること</li>
+      <li>そのデータを、別のサイト・アプリ・データベース・機械学習用のデータセットに取り込むこと</li>
+      <li>画面構成や文章を複製して、よく似たサイトを作ること</li>
+    </ul>
+    <p class="muted">なお、このサイトを置いてある GitHub のリポジトリは、
+      GitHub Pages で公開するために公開設定にしています。中身を見られる状態ですが、
+      オープンソースのライセンスは一切付けていません。<b>「見られる＝自由に使ってよい」ではありません。</b></p>
+
+    <h3>引用は歓迎します</h3>
+    <p>出典を明記していただければ、著作権法上の引用の要件を満たす範囲での引用は歓迎します。
+      リンクを貼るのに許可は要りません。</p>
+    <div class="cite">音楽ジャンルルーツ辞典<br>https://chororinkob.github.io/genre-roots/</div>
+  </section>
+
+  <section id="sources">
+    <h2>出典と、第三者のもの</h2>
+    <h3>ジャンルの説明文</h3>
+    <p>説明文は、このサイトのためにAIが下書きし、<b>公開情報と照合して事実確認を行ったうえで</b>掲載しています。
+      他のサイトから文章を写したものではありません。事実確認の手順は
+      <a href="manual.html#add">使い方ガイド</a>で説明しています。</p>
+
+    <h3>動画</h3>
+    <p>代表曲などの動画は、<b>YouTube 公式の埋め込み機能</b>で表示しています。動画ファイルを保存したり
+      再配布したりはしていません。各動画の権利は、それぞれの権利者に帰属します。</p>
+
+    <h3>楽曲名・アーティスト名など</h3>
+    <p>楽曲名・アーティスト名・レーベル名などの固有名詞は、それぞれの権利者に帰属します。
+      本サイトはそれらの権利者と関係のない、独立した個人のサイトです。</p>
+  </section>
+
+  <section id="disclaimer">
+    <h2>免責事項</h2>
+    <p>内容は正確を期していますが、<b>誤りがないことを保証するものではありません。</b>
+      音楽ジャンルの定義や成り立ちには諸説あり、資料によって食い違うこともあります。
+      本サイトの情報を用いて行った判断・行動によって生じた損害について、責任を負いかねます。</p>
+    <p>間違いを見つけられた場合は、説明パネルの<b>「修正依頼」</b>からお知らせいただけると助かります。
+      出典を添えていただけると、より早く確認できます。</p>
+    <p class="muted">外部サイト（YouTube など）へのリンク先の内容については、責任を負いかねます。
+      また、予告なく内容を変更・中断することがあります。</p>
+  </section>
+
+  <section id="privacy">
+    <h2>記録している情報について</h2>
+    <p>どのジャンルが読まれているかを知るため、また、いたずらによる費用の増大を防ぐために、
+      次の情報を記録しています。</p>
+    <ul>
+      <li><b>来訪者を見分けるための目印</b>（ブラウザに保存される、意味を持たないランダムな文字列）</li>
+      <li><b>どのジャンルの説明を開いたか／どの曲を再生したか</b></li>
+      <li><b>IPアドレス</b>（同じ回線からの申請が集中していないかを見るため）</li>
+    </ul>
+    <p><b>お名前・メールアドレスをこちらから求めることはありません。</b>
+      お問い合わせフォームでご記入いただいた場合のみ、お返事のために使います。
+      広告や第三者への提供には一切使いません。</p>
+    <p class="muted"><b>IPアドレスは30日で削除しています。</b>
+      ブラウザに保存された目印は、ブラウザの設定からいつでも消せます
+      （消すと、次からは別の来訪者として数えられます）。</p>
+  </section>
+
+  <section id="contact">
+    <h2>お問い合わせ</h2>
+    <p>ご利用のご相談、削除のご依頼、そのほかのご連絡は、お問い合わせフォームからお願いします。
+      ひとつずつ読ませていただきます。</p>
+    <div class="contact-cta">
+      <a href="https://genre-roots-server.onrender.com/contact">お問い合わせフォームを開く</a>
+    </div>
+  </section>
+</div>
+
+<div class="back-bottom"><a href="../genre_roots.html">← ジャンルマップに戻る</a></div>
+<div class="footer-note">© 2026 チョロ ・ 音楽ジャンルルーツ辞典 ・ 無断複製を禁じます</div>
+
+</body>
+</html>

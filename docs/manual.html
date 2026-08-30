@@ -67,6 +67,14 @@
   .top-bar a:hover { background: #3d80e6; box-shadow: 0 3px 14px rgba(47,111,208,.55); }
   .top-bar a:focus-visible { outline: 2px solid #ffcc33; outline-offset: 2px; }
 
+  /* 目次から章へ飛んだとき、見出しが上のバーに隠れないようにする。
+     バーは常に上に貼り付いていて高さ74px。指定が無いと、飛んだ先の
+     見出しがちょうどバーの裏に入り、本文の途中から始まったように
+     見えていた（2026-08-30に気づいて修正。全部の章で起きていた）。 */
+  section[id], h3[id] { scroll-margin-top: 86px; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
   /* ページの終わりにも大きめに置く。読み終えたところから戻れるように */
   .contact-cta { margin: 22px 0 6px; }
   .contact-cta a {
@@ -295,7 +303,27 @@
   }
   /* 図の上に置く見出し（スマホ版で使う） */
   .fig-cap-top { font-size: 12px; color: #8a8a9a; margin-bottom: 6px; }
+  /* 更新のあゆみ。日付ごとに1行。細かい修正は載せず、
+     使う人にとって意味のある変更だけを並べる（2026-08-30に追加） */
+  .log-year { font-size: 12px; font-weight: 700; color: var(--text-2);
+              letter-spacing: .08em; margin: 26px 0 10px; }
+  .log-year:first-of-type { margin-top: 8px; }
+  .log { display: flex; gap: 14px; padding: 9px 0;
+         border-bottom: 1px solid var(--border); align-items: baseline; }
+  .log:last-child { border-bottom: none; }
+  .log-date { flex: 0 0 62px; font-size: 12px; color: var(--text-2);
+              font-variant-numeric: tabular-nums; }
+  .log-what { font-size: 13.5px; color: #d8d8e6; }
+  .log.big .log-what { color: #fff; font-weight: 700; }
+  .log.big .log-date { color: var(--accent); }
+  @media (max-width: 760px) {
+    .log { flex-direction: column; gap: 2px; padding: 10px 0; }
+    .log-date { flex: none; }
+  }
+
   .footer-note { text-align: center; font-size: 11px; color: #55556a; margin-top: 60px; }
+  .footer-note a { color: #6d6d85; }
+  .footer-note a:hover { color: #9a9aae; }
 </style>
 </head>
 <body>
@@ -389,6 +417,7 @@
     <a href="#sp-add">8. 載っていないジャンルをリクエストする</a>
     <a href="#sp-fix">9. 間違いを見つけたら</a>
     <a href="#sp-contact">10. お問い合わせ</a>
+    <a href="#history">11. 更新のあゆみ</a>
   </div>
 
   <div class="tip" style="margin-bottom:30px;">
@@ -994,6 +1023,7 @@
     <a href="#add">5. 載っていないジャンルをリクエストする</a>
     <a href="#fix">6. 間違いを見つけたら</a>
     <a href="#contact">7. お問い合わせ</a>
+    <a href="#history">8. 更新のあゆみ</a>
   </div>
 
   <section id="map">
@@ -1484,11 +1514,46 @@
 
   </div>
 
+
+<!-- ============ 更新のあゆみ（パソコン版・スマホ版 共通） ============
+     細かい修正は載せない。使う人にとって意味のある変更だけを、
+     新しい順に並べる。ここが長くなりすぎたら古い年をたたむこと。 -->
+<div class="wrap">
+  <section id="history">
+    <div class="sec-num sec-plus">更新のあゆみ</div>
+    <h2>更新のあゆみ</h2>
+    <p class="muted">大きな変更だけを新しい順に並べています。
+      日々の細かい直しは載せていません。</p>
+
+    <div class="log-year">2026年8月</div>
+    <div class="log"><div class="log-date">8/30</div><div class="log-what">「このサイトについて」のページを作りました（著作権・免責・記録している情報）。あわせて、使われていなかった「配置を保存」「配置リセット」のボタンを取り除きました。</div></div>
+    <div class="log"><div class="log-date">8/29</div><div class="log-what">リンクを貼ったときに、見出しと地図の画像が出るようになりました。</div></div>
+    <div class="log big"><div class="log-date">8/28</div><div class="log-what">スマホ用の使い方ガイドを作りました。パソコンとスマホで自動的に切り替わります。</div></div>
+    <div class="log"><div class="log-date">8/28</div><div class="log-what">Barbershop（バーバーショップ）を追加しました。</div></div>
+    <div class="log"><div class="log-date">8/26</div><div class="log-what">ジャンルどうしをつなぐ線を、五線譜のような見た目にしました。</div></div>
+    <div class="log"><div class="log-date">8/25</div><div class="log-what">使い方ガイドに、実際の画面の図を入れました。</div></div>
+    <div class="log"><div class="log-date">8/19</div><div class="log-what">いま鳴っている代表曲が、ひと目で分かるようになりました。</div></div>
+    <div class="log big"><div class="log-date">8/15</div><div class="log-what">地図の丸の大きさを、知名度で決めるようにしました。よく知られたジャンルほど大きく出ます。</div></div>
+    <div class="log"><div class="log-date">8/13</div><div class="log-what">知名度を★5段階で表示するようにしました。</div></div>
+    <div class="log"><div class="log-date">8/11</div><div class="log-what">代表曲の欄でも、専門用語にふれると説明が出るようになりました。</div></div>
+
+    <div class="log-year">2026年7月</div>
+    <div class="log"><div class="log-date">7/30</div><div class="log-what">別の呼ばれ方（表記ゆれ）でもジャンルを探せるようになりました。</div></div>
+    <div class="log big"><div class="log-date">7/25〜</div><div class="log-what">すべてのジャンルの説明文を書き直しました。専門用語にふれると、その場で意味が出るようになりました。</div></div>
+    <div class="log"><div class="log-date">7/20</div><div class="log-what">関係するジャンルへの線が、向きの分かる流れで動くようになりました。</div></div>
+    <div class="log"><div class="log-date">7/13</div><div class="log-what">間違いを指摘したとき、直った内容をその場で確認して、ご自身で反映できるようになりました。</div></div>
+    <div class="log big"><div class="log-date">7/12</div><div class="log-what">音楽ジャンルルーツ辞典を公開しました。</div></div>
+  </section>
+</div>
+
 <div class="back-bottom">
       <a href="../genre_roots.html">← ジャンルマップに戻る</a>
     </div>
 
-    <div class="footer-note">音楽ジャンルルーツ辞典 使い方ガイド ・ 最終更新：2026-08-28（スマホ版を作成）</div>
+    <div class="footer-note">
+      音楽ジャンルルーツ辞典 使い方ガイド ・ 最終更新：2026-08-30<br>
+      © 2026 チョロ ・ 無断複製を禁じます ・ <a href="about.html">このサイトについて</a>
+    </div>
 
 </div>
 </body>

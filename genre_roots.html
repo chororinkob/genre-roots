@@ -45,6 +45,11 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
    そのまま元に戻らない。100% にすると、こちらが決めた大きさのままになる。 */
 html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 #version-info { margin-right: 16px; font-size: 10px; color: #666; }
+/* 著作権の表示。目立たせず、しかし必ず出しておく場所として
+   版の数字と同じ扱いにする（2026-08-30） */
+#site-credit { margin-left: 14px; font-size: 10px; color: #666; text-decoration: none;
+               white-space: nowrap; }
+#site-credit:hover { color: #aaa; text-decoration: underline; }
 #genre-count { font-size: 13px; font-weight: 700; color: #7eb8f7; margin-left: 8px; letter-spacing: 0.02em; }
 
 #left-sidebar { position: fixed; top: 50px; left: 14px; bottom: 10px; z-index: 20; width: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; direction: rtl; }
@@ -957,9 +962,14 @@ svg { width: 100vw; height: 100vh; }
     margin: 0 0 0 calc(var(--menu-w) + var(--header-gap)) !important;
   }
 
-  /* 配置の保存・リセットはスマホでは出さない。
-     玉を掴んで動かせないようにしたので、保存する配置も戻す配置も無い。 */
-  #layout-buttons { display: none !important; }
+  /* 著作権の表示は、件数・日付と同じ2段目の右隣に置く。
+     順番(order)を指定しないと、並べ替えの都合で題名より前に出てしまう
+     （実際に題名に食い込んだ）。 */
+  #site-credit {
+    order: 6; margin-left: 10px !important; font-size: 9px !important;
+    color: #6a7a8c !important; line-height: 1.2;
+  }
+
   #admin-menu-wrap { order: 7; }
 
   #tab-buttons { order: 2; margin-left: 0; display: flex; gap: 1px; flex-shrink: 0; }
@@ -1343,7 +1353,10 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v27.33</span><span id="genre-count"></span>
+  <span id="version-info">v27.34</span><span id="genre-count"></span>
+  <!-- 著作権の表示。スマホでは場所が狭いので「©」だけにする
+       （m-full はスマホ用の指定で隠れる）。押すと「このサイトについて」へ。 -->
+  <a id="site-credit" href="docs/about.html" title="このサイトについて（著作権・免責）">©<span class="m-full"> 2026 チョロ</span></a>
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
@@ -1351,10 +1364,6 @@ svg { width: 100vw; height: 100vh; }
   <div style="display:flex;gap:6px;margin-left:auto;align-items:center;">
     <a id="help-link" href="docs/manual.html" title="使い方ガイド" style="padding:4px 10px;background:none;border:1px solid #555;border-radius:5px;color:#ccc;font-size:11px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;">❓<span class="m-full" style="margin-left:4px;">ヘルプ</span></a>
     <button id="fit-view" style="padding:4px 12px;background:#1565C0;border:1px solid #555;border-radius:5px;color:#fff;font-size:11px;cursor:pointer;">全体表示</button>
-    <span id="layout-buttons" style="display:flex;gap:6px;align-items:center;">
-      <button id="save-layout" style="padding:4px 12px;background:#2a2a50;border:1px solid #555;border-radius:5px;color:#ccc;font-size:11px;cursor:pointer;">配置を保存</button>
-      <button id="reset-layout" style="padding:4px 12px;background:#2a2a50;border:1px solid #555;border-radius:5px;color:#ccc;font-size:11px;cursor:pointer;">配置リセット</button>
-    </span>
     <!-- 管理者用メニュー：通常は非表示。?admin=1 を付けたURLでアクセスした
          ときだけ表示する（一般の来訪者には見えないようにするため）。 -->
     <div id="admin-menu-wrap" style="display:none;gap:6px;align-items:center;margin-left:8px;">
@@ -9497,7 +9506,7 @@ NODES.forEach(n => {
 });
 
 
-const LAST_UPDATED = "2026年8月29日";
+const LAST_UPDATED = "2026年8月30日";
 (function() {
   const el = document.getElementById('genre-count');
   if (!el) return;
@@ -16552,7 +16561,6 @@ const simulation = d3.forceSimulation(NODES)
 
 // 配置はもう決まっているので、最初から計算を止めておく。
 // 玉をつかんで動かせば alphaTarget(0.3).restart() で始まる。
-// 配置リセットを押したときも simulation.alpha(1).restart() で始まる。
 // 埋め込んだ位置を持たない玉（ジャンルを増やした直後など）があるときだけ、
 // その玉を落ち着かせるために少しだけ回す。
 (() => {
@@ -20068,121 +20076,22 @@ document.querySelectorAll(".filter-btn").forEach(btn => {
   });
 });
 
-// ===== LAYOUT SAVE/RESTORE =====
-const LAYOUT_KEY = 'genre_roots_layout';
-
-function saveLayout() {
-  const positions = {};
-  NODES.forEach(n => {
-    positions[n.id] = {x: n.x, y: n.y, fx: n.fx, fy: n.fy};
-  });
-  localStorage.setItem(LAYOUT_KEY, JSON.stringify(positions));
-  const btn = document.getElementById('save-layout');
-  btn.textContent = '保存しました';
-  btn.style.background = '#2E7D32';
-  setTimeout(() => { btn.textContent = '配置を保存'; btn.style.background = '#2a2a50'; }, 2000);
-}
-
-// 保存した配置を戻す。戻せなければ null、戻せたら
-// {戻した件数, 新入り件数} を返す。
-// 「新入り」＝保存したあとに増えたジャンル。保存の中に居場所が無い。
-function restoreLayout() {
-  const saved = localStorage.getItem(LAYOUT_KEY);
-  if (!saved) return null;
-  let positions;
-  try { positions = JSON.parse(saved); } catch (e) { return null; }
-  if (!positions || typeof positions !== 'object') return null;
-  let restored = 0;
-  const 新入り = [];
-  NODES.forEach(n => {
-    const p = positions[n.id];
-    if (p && isFinite(p.x) && isFinite(p.y)) {
-      n.x = p.x;
-      n.y = p.y;
-      if (p.fx != null) { n.fx = p.fx; n.fy = p.fy; }
-      restored++;
-    } else {
-      新入り.push(n);
-    }
-  });
-  if (restored === 0) return null;
-
-  // 保存したあとに増えたジャンルは、保存の中に居場所が無い。
-  // 力の計算に任せて押し出させる手も試したが、まわりが埋まっているせいで
-  // 押し切れず、他の玉に80ほど食い込んだまま止まってしまった
-  // （普通に開いた地図は重なり0なので、これは明らかにおかしい）。
-  // 計算に任せず、空いている場所を自分で探して置く。
-  新入り.forEach(placeNewNode);
-
-  // 保存した配置は「その通りに置く」のが目的なので、力の計算は動かさず
-  // 一度だけ描く。
-  // 以前はごく弱く（alpha 0.01）動かしていたが、それでも保存した配置が
-  // 最大200ほどずれた。中心を合わせる力（forceCenter）は計算の強さに
-  // 関係なく毎回全体を平行移動させるため、増えたジャンルを置いて重心が
-  // ずれると、そのぶん地図全体が動いてしまう。
-  // 玉をつかんで動かせば alphaTarget(0.3).restart() で計算はまた始まるので、
-  // 止めておいても操作には影響しない。
-  simulation.alpha(0).stop();
-  drawTick();
-  return { 戻した件数: restored, 新入り件数: 新入り.length };
-}
-
-// 増えたジャンルを、どの玉にも重ならない場所に置く。
-// つながりのあるジャンルの真ん中あたりを起点にして、渦を描くように
-// 外へ広げながら空き場所を探す。つながりが無ければ地図全体の真ん中から探す。
-// 置くのは増えたジャンルだけで、既にある玉には一切触らない。
-function placeNewNode(n) {
-  const 余白 = 30;   // 力の計算での間隔（r + 30）に合わせる
-  const 他 = NODES.filter(x => x !== n && isFinite(x.x) && isFinite(x.y));
-  if (他.length === 0) { n.x = 0; n.y = 0; return; }
-
-  // 起点：つながっているジャンルの平均。無ければ全体の真ん中
-  let sx = 0, sy = 0, k = 0;
-  linkData.forEach(l => {
-    const 相手id = l.s === n.id ? l.t : (l.t === n.id ? l.s : null);
-    if (!相手id) return;
-    const m = 他.find(x => x.id === 相手id);
-    if (m) { sx += m.x; sy += m.y; k++; }
-  });
-  if (k === 0) {
-    他.forEach(x => { sx += x.x; sy += x.y; });
-    k = 他.length;
+// ===== 昔の「配置を保存」の後片付け =====
+// 【2026-08-30に外した】ヘッダーに「配置を保存」「配置リセット」という
+// ボタンがあり、玉を並べ替えた状態をこのブラウザに覚えさせられた。
+// 保存すると次に開いたときその配置で開く仕組みだったが、
+//  ・保存しても画面上は何も起きないので、効いていることが分からない
+//  ・ジャンル名を調べに来た人が573個の玉を並べ替えることは、まずない
+//  ・いちばん先に目に入る場所を2つ占めていた
+// ため、ボタンごと取り除いた。
+//
+// 昔このボタンで保存した人が、その配置のまま二度と元に戻せなくなるので、
+// 残っている保存を1回だけ消す。消したあとは何もしない。
+try {
+  if (localStorage.getItem('genre_roots_layout') !== null) {
+    localStorage.removeItem('genre_roots_layout');
   }
-  const 起点x = sx / k, 起点y = sy / k;
-
-  const 空いている = (x, y) => 他.every(m =>
-    Math.hypot(x - m.x, y - m.y) >= n.r + m.r + 余白);
-
-  if (空いている(起点x, 起点y)) { n.x = 起点x; n.y = 起点y; return; }
-
-  // 渦を描いて外へ。刻みは小さめの玉の直径くらい
-  const 刻み = Math.max(40, n.r * 0.6);
-  for (let 輪 = 1; 輪 <= 200; 輪++) {
-    const 距離 = 刻み * 輪;
-    const 数 = Math.max(8, Math.round(2 * Math.PI * 距離 / 刻み));
-    for (let i = 0; i < 数; i++) {
-      const a = (2 * Math.PI * i) / 数 + 輪 * 0.7;   // 輪ごとに少しずらす
-      const x = 起点x + Math.cos(a) * 距離;
-      const y = 起点y + Math.sin(a) * 距離;
-      if (空いている(x, y)) { n.x = x; n.y = y; n.vx = 0; n.vy = 0; return; }
-    }
-  }
-  // ここまで来ることはまずないが、念のため地図の外側に置く
-  let 端 = 0;
-  他.forEach(m => { 端 = Math.max(端, Math.hypot(m.x - 起点x, m.y - 起点y) + m.r); });
-  n.x = 起点x + 端 + n.r + 余白;
-  n.y = 起点y;
-  n.vx = 0; n.vy = 0;
-}
-
-function resetLayout() {
-  localStorage.removeItem(LAYOUT_KEY);
-  NODES.forEach(n => { n.fx = null; n.fy = null; });
-  simulation.alpha(1).restart();
-  const btn = document.getElementById('reset-layout');
-  btn.textContent = 'リセットしました';
-  setTimeout(() => btn.textContent = '配置リセット', 2000);
-}
+} catch (e) { /* 保存領域が使えなくても地図は動かす */ }
 
 // ──────────────────────────────────────────────────────────
 // 位置の初期化（スマホのずれ対策）
@@ -20233,22 +20142,18 @@ document.getElementById('fit-view').addEventListener('click', () => {
   // 動きが終わったあと、もう一度そろえる（この間に住所欄が動くことがある）
   setTimeout(() => { ページのずれを戻す(); }, 820);
 });
-document.getElementById('save-layout').addEventListener('click', saveLayout);
-document.getElementById('reset-layout').addEventListener('click', resetLayout);
 
-// 開いたときは、配置を保存してあってもなくても、必ず全体が画面に入るように
-// 拡大率を合わせる。
-// 以前は「保存した配置を戻せたら全体表示はしない」としていたため、保存が
-// あると拡大率100%のまま開いていた。ジャンルが増えて地図が広がると、
-// 画面には巨大な玉が数個映るだけになり、地図が出てこなくなったように
-// 見えた（2026-08-17に指摘を受けて発覚。570ジャンルで再現を確認）。
-// fitToViewは拡大率を変えるだけで玉の位置は動かさないので、保存した配置は
-// そのまま保たれる。
-const 配置 = restoreLayout();
+// 開いたときは、必ず全体が画面に入るように拡大率を合わせる。
+// かつて「配置を保存」という仕組みがあった頃、保存があると全体表示をせず
+// 拡大率100%のまま開いていた。ジャンルが増えて地図が広がると、画面には
+// 巨大な玉が数個映るだけになり、地図が出てこなくなったように見えた
+// （2026-08-17に指摘を受けて発覚。570ジャンルで再現を確認）。
+// その仕組みは2026-08-30に取り除いたが、開いたら必ず全体を映すという
+// 決まりはそのまま残している。
 // 配置をあらかじめ埋め込んであるので、並び終わるのを待つ必要がない。
 // 待っている間は地図が拡大されたまま画面の外にあり、何も見えない状態だった。
 const _位置なし = REBAKE_POS || NODES.some(n => !BAKED_POS[n.id]);
-setTimeout(fitToView, 配置 ? 400 : (_位置なし ? 3000 : 120));
+setTimeout(fitToView, _位置なし ? 3000 : 120);
 
 // 地図を開いた直後だけ、埋め込んだ配置から軽く力の計算を回して、
 // 玉がゆらいでから落ち着くようにする（2026-08-19、「うにょうにょ動く
@@ -20264,11 +20169,10 @@ setTimeout(fitToView, 配置 ? 400 : (_位置なし ? 3000 : 120));
 // ジャンルを選んだあとは計算が止まっているので、パネルを開いたときに
 // 玉がフラフラ動くことはない。
 //
-// 次の場合はゆらさない：
-//   ・配置を保存してある … その通りに置くのが目的なので動かしてはいけない
-//   ・位置を持たない玉がある … 既に計算が回っているので二重に回さない
+// 位置を持たない玉があるときはゆらさない（既に計算が回っているので、
+// 二重に回さないため）。
 const MAP_INTRO_ALPHA = 0.10;
-if (!配置 && !_位置なし) {
+if (!_位置なし) {
   setTimeout(() => simulation.alpha(MAP_INTRO_ALPHA).restart(), 350);
 }
 
