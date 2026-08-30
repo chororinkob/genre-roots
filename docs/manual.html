@@ -215,6 +215,46 @@
 
   .lede { font-size: 14px; color: var(--text-2); margin-bottom: 44px; line-height: 1.75; }
 
+  /* ── このガイドの入口（2026-08-31に追加）──
+     以前は開くといきなり操作説明の目次で、権利・更新履歴・問い合わせへ
+     行く道がフッターの小さなリンクしかなかった。ガイド全体が「使い方の
+     説明」だけに見えていたので、まず「何をご覧になりますか」を出す。 */
+  .hub {
+    display: flex; flex-direction: column;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 6px; margin: 34px 0 48px;
+  }
+  .hub-title {
+    font-size: 11px; font-weight: 700; color: var(--text-2);
+    letter-spacing: .08em; padding: 11px 13px 9px;
+  }
+  .hub-item {
+    display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
+    padding: 13px 14px; border-radius: 8px; text-decoration: none;
+    border-top: 1px solid var(--border);
+  }
+  .hub-item:first-of-type { border-top: none; }
+  .hub-item:hover { background: var(--surface-2); }
+  .hub-item:focus-visible { outline: 2px solid #ffcc33; outline-offset: -2px; }
+  .hub-name { font-size: 14.5px; font-weight: 700; color: var(--info); }
+  .hub-item:hover .hub-name { text-decoration: underline; }
+  .hub-desc { font-size: 12px; color: var(--text-2); }
+  /* 問い合わせの飛び先だけは、パソコン版とスマホ版で章が違う。
+     .only-pc / .only-sp は display を block/none で切り替えるため、
+     flex で並べたいここでは使えない。専用の名前にしてある。 */
+  .hub-pc { display: flex; }
+  .hub-sp { display: none; }
+  @media (max-width: 760px) {
+    .hub-pc { display: none; }
+    .hub-sp { display: flex; }
+    .hub-name { font-size: 14px; }
+    .hub-desc { font-size: 11.5px; }
+    .hub { margin: 28px 0 40px; }
+  }
+
+  /* 「操作説明」の見出しは、すぐ下に目次が続くので下の余白を詰める */
+  .howto-head { margin-bottom: 18px; }
+
   .toc { display: flex; flex-direction: column; gap: 6px; margin-bottom: 48px; padding: 16px 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; }
   .toc-title { font-size: 10.5px; font-weight: 700; color: var(--text-2); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
   .toc a { font-size: 12.5px; color: var(--info); text-decoration: none; }
@@ -389,11 +429,45 @@
          ここはガイドを直したときだけ手で上げること。
          このガイドが地図に追いついているかは、下の日付を地図のヘッダーに
          出ている日付（「◯◯ ジャンル・2026/8/30」）と見比べれば分かる。 -->
-    <div class="doc-ver">ガイド <b>v1.00</b> ・ 2026-08-30 更新</div>
+    <div class="doc-ver">ガイド <b>v1.10</b> ・ 2026-08-31 更新</div>
   </div>
   <p class="lede">
     <strong>「自分の好きな音楽って、どこから来たんだろう」</strong>——
     ふと、そんなふうに思ったことはありませんか。</p>
+
+  <!-- このガイドの入口。ここから、操作説明だけでなく権利・更新履歴・
+       問い合わせへも行けるようにしている（2026-08-31）。 -->
+  <nav class="hub" aria-label="このガイドの中身">
+    <div class="hub-title">何をご覧になりますか</div>
+    <a class="hub-item" href="#intro">
+      <span class="hub-name">はじめに</span>
+      <span class="hub-desc">この辞典が、どんなものなのか</span>
+    </a>
+    <a class="hub-item" href="#howto">
+      <span class="hub-name">操作説明</span>
+      <span class="hub-desc">画面の使い方。この先に、章ごとの目次があります</span>
+    </a>
+    <a class="hub-item" href="about.html">
+      <span class="hub-name">免責事項・著作権について</span>
+      <span class="hub-desc">「このサイトについて」のページへ</span>
+    </a>
+    <a class="hub-item" href="#history">
+      <span class="hub-name">更新のあゆみ</span>
+      <span class="hub-desc">これまでの大きな変更を、新しい順に</span>
+    </a>
+    <a class="hub-item hub-pc" href="#contact">
+      <span class="hub-name">お問い合わせ</span>
+      <span class="hub-desc">ご質問・ご感想・不具合のご連絡はこちら</span>
+    </a>
+    <a class="hub-item hub-sp" href="#sp-contact">
+      <span class="hub-name">お問い合わせ</span>
+      <span class="hub-desc">ご質問・ご感想・不具合のご連絡はこちら</span>
+    </a>
+  </nav>
+
+  <section id="intro">
+    <div class="sec-num sec-plus">はじめに</div>
+    <h2>はじめに — この辞典について</h2>
     <p class="lede">聴く音楽って、気がつくと似たあたりに落ち着いていきますよね。
     日本で育てば J-POP やバラードが自然と耳になじみますし、
     海外のものはロックばかり、ということもあると思います。
@@ -421,6 +495,16 @@
     <strong>寄り道の先に、次のお気に入りが待っているかもしれません。
     どうぞ、ゆっくり楽しんでいってくださいね。</strong>
   </p>
+  </section>
+
+  <!-- ここから操作説明。パソコン版とスマホ版は自動で切り替わるので、
+       見出しは両方に共通の場所（切り替えの外側）に置いてある。 -->
+  <section id="howto" class="howto-head">
+    <div class="sec-num sec-plus">操作説明</div>
+    <h2>操作説明</h2>
+    <p class="muted">画面の使い方です。お使いの端末に合わせて、パソコン版とスマホ版が
+      自動で切り替わります。下の目次から、読みたいところへどうぞ。</p>
+  </section>
 
   <div class="only-sp">
   <div class="toc">

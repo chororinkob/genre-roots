@@ -45,11 +45,20 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
    そのまま元に戻らない。100% にすると、こちらが決めた大きさのままになる。 */
 html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 #version-info { margin-right: 16px; font-size: 10px; color: #666; }
-/* 著作権の表示。目立たせず、しかし必ず出しておく場所として
-   版の数字と同じ扱いにする（2026-08-30） */
-#site-credit { margin-left: 14px; font-size: 10px; color: #666; text-decoration: none;
-               white-space: nowrap; }
-#site-credit:hover { color: #aaa; text-decoration: underline; }
+/* 著作権と「このサイトについて」。ヘルプの左隣で2段。
+   margin-left:auto をここに持たせて、この塊から右をひとまとめに寄せる
+   （以前は右のボタン群に付けていた）。ヘッダーの高さは変えない。 */
+#site-credit {
+  margin-left: auto; margin-right: 10px;
+  display: flex; flex-direction: column; align-items: flex-end;
+  line-height: 1.24; text-align: right;
+}
+#site-credit .sc-name { font-size: 10px; color: #e6e6f0; white-space: nowrap; }
+#site-credit .sc-link {
+  font-size: 10px; color: #7eb8f7; text-decoration: underline;
+  text-underline-offset: 2px; white-space: nowrap;
+}
+#site-credit .sc-link:hover { color: #a8d0ff; }
 #genre-count { font-size: 13px; font-weight: 700; color: #7eb8f7; margin-left: 8px; letter-spacing: 0.02em; }
 
 #left-sidebar { position: fixed; top: 50px; left: 14px; bottom: 10px; z-index: 20; width: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; direction: rtl; }
@@ -962,13 +971,16 @@ svg { width: 100vw; height: 100vh; }
     margin: 0 0 0 calc(var(--menu-w) + var(--header-gap)) !important;
   }
 
-  /* 著作権の表示は、件数・日付と同じ2段目の右隣に置く。
+  /* 著作権と「このサイトについて」は、件数・日付と同じ2段目に置く。
+     スマホは横幅が狭いので、パソコンのような2段組にはせず横に並べる。
      順番(order)を指定しないと、並べ替えの都合で題名より前に出てしまう
      （実際に題名に食い込んだ）。 */
   #site-credit {
-    order: 6; margin-left: 10px !important; font-size: 9px !important;
-    color: #6a7a8c !important; line-height: 1.2;
+    order: 6; margin: 0 0 0 10px !important;
+    flex-direction: row; align-items: baseline; gap: 8px; line-height: 1.2;
   }
+  #site-credit .sc-name { font-size: 9px !important; color: #c9c9d8 !important; }
+  #site-credit .sc-link { font-size: 9px !important; }
 
   #admin-menu-wrap { order: 7; }
 
@@ -1353,15 +1365,23 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v27.34</span><span id="genre-count"></span>
-  <!-- 著作権の表示。スマホでは場所が狭いので「©」だけにする
-       （m-full はスマホ用の指定で隠れる）。押すと「このサイトについて」へ。 -->
-  <a id="site-credit" href="docs/about.html" title="このサイトについて（著作権・免責）">©<span class="m-full"> 2026 チョロ</span></a>
+  <span id="version-info">v27.35</span><span id="genre-count"></span>
+
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
   </div>
-  <div style="display:flex;gap:6px;margin-left:auto;align-items:center;">
+  <!-- 著作権と「このサイトについて」。ヘルプのすぐ左に、2段で置く。
+       上段は権利の表示なので白で読ませ、下段だけを青い下線付きにして
+       「押せる」と分かるようにしている（灰色の小さな字では、押せることに
+       気づいてもらえなかった。2026-08-31）。
+       #header の直接の子のままにしてあるのは、スマホでは並べ替え(order)で
+       2段目へ動かすため。入れ子にすると order が効かなくなる。 -->
+  <span id="site-credit">
+    <span class="sc-name">© 2026 チョロ</span>
+    <a class="sc-link" href="docs/about.html" title="著作権・免責・記録している情報">このサイトについて</a>
+  </span>
+  <div style="display:flex;gap:6px;align-items:center;">
     <a id="help-link" href="docs/manual.html" title="使い方ガイド" style="padding:4px 10px;background:none;border:1px solid #555;border-radius:5px;color:#ccc;font-size:11px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;">❓<span class="m-full" style="margin-left:4px;">ヘルプ</span></a>
     <button id="fit-view" style="padding:4px 12px;background:#1565C0;border:1px solid #555;border-radius:5px;color:#fff;font-size:11px;cursor:pointer;">全体表示</button>
     <!-- 管理者用メニュー：通常は非表示。?admin=1 を付けたURLでアクセスした
@@ -9506,7 +9526,7 @@ NODES.forEach(n => {
 });
 
 
-const LAST_UPDATED = "2026年8月30日";
+const LAST_UPDATED = "2026年8月31日";
 (function() {
   const el = document.getElementById('genre-count');
   if (!el) return;
