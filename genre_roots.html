@@ -988,6 +988,30 @@ svg { width: 100vw; height: 100vh; }
     flex-direction: row; align-items: baseline; line-height: 1.2;
   }
   #site-credit .sc-link { display: none; }
+
+  /* 【スマホのヘッダーの余白】2026-08-31
+     ヘッダーは2段（1段目＝題名、2段目＝件数・日付・著作権）だが、
+     ボタンは1段目にしか無いため、ボタンの下に何も無い帯ができて
+     間延びして見えていた。ボタンを並びから外して、ヘッダーの
+     上下まんなかに置く。こうすると2段ぶんの高さの中央に来て、
+     下の余白が消える。左の文字がボタンの下に潜らないよう、
+     ヘッダーの右側にボタンのぶんの余白を取っている。 */
+  #header { padding-right: 132px; }
+  /* 【display:contents を打ち消す必要がある】
+     すぐ上に #header > div:last-child { display: contents !important } があり、
+     スマホではこのまとまりが「箱として存在しない」状態にされている
+     （中のボタンがヘッダーの直接の子として並び、order で位置が決まる作り）。
+     箱が無いと位置指定がまったく効かない。実際、absolute を書いても
+     ボタンが左端に寄って「？」が下の行へ落ちた。
+     打ち消すには相手より細かい指定が要るので #header > を付けている。 */
+  #header > #header-actions {
+    display: flex !important;
+    position: absolute; right: 12px; top: 0; bottom: 0;
+    align-items: center; gap: 6px; width: max-content;
+  }
+  /* 並びから外したので、右へ寄せるための余白はもう要らない。
+     残すと、まとまりの幅が0になって中のボタンが折り返す。 */
+  #header > #header-actions #fit-view { margin-left: 0 !important; }
   #site-credit .sc-name {
     font-size: 9px !important; color: #7eb8f7 !important;
     text-decoration: underline; text-underline-offset: 2px;
@@ -1376,7 +1400,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v27.36</span><span id="genre-count"></span>
+  <span id="version-info">v27.37</span><span id="genre-count"></span>
 
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
@@ -1392,7 +1416,7 @@ svg { width: 100vw; height: 100vh; }
     <a class="sc-name" href="docs/about.html">© 2026 チョロ</a>
     <a class="sc-link" href="docs/about.html" title="著作権・免責・記録している情報">このサイトについて</a>
   </span>
-  <div style="display:flex;gap:6px;align-items:center;">
+  <div id="header-actions" style="display:flex;gap:6px;align-items:center;">
     <a id="help-link" href="docs/manual.html" title="使い方ガイド" style="padding:4px 10px;background:none;border:1px solid #555;border-radius:5px;color:#ccc;font-size:11px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;">❓<span class="m-full" style="margin-left:4px;">ヘルプ</span></a>
     <button id="fit-view" style="padding:4px 12px;background:#1565C0;border:1px solid #555;border-radius:5px;color:#fff;font-size:11px;cursor:pointer;">全体表示</button>
     <!-- 管理者用メニュー：通常は非表示。?admin=1 を付けたURLでアクセスした
