@@ -1423,7 +1423,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v27.43</span>
+  <span id="version-info">v27.44</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -21724,12 +21724,24 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 #mic-trigger-btn:hover { background: rgba(0,0,0,0.12); }
 /* スマホでは文字が入りきらないので音符だけにする（2026-09-01）。
    小さすぎると押しどころが分からないので、音符だけ少し大きくする。 */
+/* 【音符の置きかた】2026-09-01
+   音符を文字の中に並べると、その分だけ文字が右へ押されて真ん中に見えない。
+   負の margin で音符の幅を打ち消すと、幅の計算からは音符が消えるので
+   「この曲」だけがボタンの真ん中に来て、音符はその頭に少し左へ出る。
+   （音符の幅は実測16.5px。-20.5 + 4 でちょうど打ち消しになる）
+
+   パソコンは音符を出さない。1行の文字が幅いっぱい（135.3px／使える152px）で、
+   音符をぶら下げるとボタンの外へはみ出してしまうため。
+   チョロさんから「バランスが悪いなら音符は取ってよい」と了解済み。 */
+#mic-trigger-btn .mic-btn-icon { display: none; }
+
 /* スマホでは1行に入りきらないので「この曲 / なんてジャンル？」で折る。
    横の余白を 12px → 6px に詰めて、折ったあとの行にも余裕を持たせる
    （iPhoneの日本語はChromiumより5〜10%広いので、ぎりぎりでは折り返す）。 */
 @media (max-width: 768px) {
   #mic-trigger-btn { padding: 7px 6px; line-height: 1.35; }
   #mic-trigger-btn .mic-btn-l2 { display: block; }
+  #mic-trigger-btn .mic-btn-icon { display: inline; margin-left: -20.5px; margin-right: 4px; }
 }
 
 #mic-log-area { display: none; margin-top: 10px; background: rgba(0,0,0,0.25); border-radius: 7px; padding: 10px 12px; text-align: left; }
@@ -22503,8 +22515,10 @@ document.getElementById('mic-overlay').addEventListener('click', function(e) {
     // 前後を別の入れ物に分けておいて、スマホのときだけ後ろを block にすると、
     // ちょうどそこで折れる。white-space:nowrap があっても block は効く。
     // ※ m-full は使わない。1047行で「スマホでは消す」指定になっているため。
+    // 音符の前の空白は入れない。空白があると「この曲」の真ん中が
+    // その分だけ右へずれる（実際にずれていた）。左右のあきはCSSで付ける。
     btn.innerHTML = '<span class="mic-btn-icon">🎵</span>'
-                  + '<span class="mic-btn-l1"> この曲</span>'
+                  + '<span class="mic-btn-l1">この曲</span>'
                   + '<span class="mic-btn-l2">なんてジャンル？</span>';
     btn.title = 'この曲なんてジャンル？';
     btn.setAttribute('aria-label', 'この曲なんてジャンル？');
