@@ -1423,7 +1423,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v27.46</span>
+  <span id="version-info">v27.47</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -1557,7 +1557,7 @@ svg { width: 100vw; height: 100vh; }
           </label>
         </div>
       </div>
-      <iframe id="sp-yt-player" width="100%" height="180" style="border:none;border-radius:8px;" allow="autoplay;encrypted-media" allowfullscreen></iframe>
+      <iframe id="sp-yt-player" width="100%" height="180" style="border:none;border-radius:8px;" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" sandbox="allow-scripts allow-same-origin allow-presentation allow-popups allow-popups-to-escape-sandbox" allowfullscreen></iframe>
       <button id="sp-yt-unmute" style="display:none;"></button>
     </div>
     <div class="sp-section" id="sp-tracks-sec" style="display:none;">
@@ -17809,7 +17809,7 @@ function playByVideoId(primaryId, backupId, trackIdx) {
   const player = document.getElementById('sp-yt-player');
   const unmuteBtn = document.getElementById('sp-yt-unmute');
   player.dataset.backupId = backupId || '';
-  player.src = `https://www.youtube.com/embed/${primaryId}?autoplay=${spAutoplayEnabled() ? 1 : 0}&rel=0&enablejsapi=1`;
+  player.src = `https://www.youtube.com/embed/${primaryId}?autoplay=${spAutoplayEnabled() ? 1 : 0}&rel=0&playsinline=1&enablejsapi=1`;
   if (unmuteBtn) unmuteBtn.style.display = 'none';
   if (trackIdx !== undefined) {
     _spTrackIdx = trackIdx;
@@ -17861,7 +17861,7 @@ function playYtTrack(idx) {
     .then(data => {
       if (data.items && data.items.length > 0) {
         const videoId = data.items[0].id.videoId;
-        player.src = `https://www.youtube.com/embed/${videoId}?autoplay=${spAutoplayEnabled() ? 1 : 0}&rel=0&enablejsapi=1`;
+        player.src = `https://www.youtube.com/embed/${videoId}?autoplay=${spAutoplayEnabled() ? 1 : 0}&rel=0&playsinline=1&enablejsapi=1`;
         unmuteBtn.style.display = 'none';
       } else {
         // greatest hits mixが見つからない場合、ジャンル名+musicで再検索
@@ -17870,7 +17870,7 @@ function playYtTrack(idx) {
           .then(r2 => r2.json())
           .then(d2 => {
             if (d2.items && d2.items.length > 0) {
-              player.src = `https://www.youtube.com/embed/${d2.items[0].id.videoId}?autoplay=${spAutoplayEnabled() ? 1 : 0}&rel=0&enablejsapi=1`;
+              player.src = `https://www.youtube.com/embed/${d2.items[0].id.videoId}?autoplay=${spAutoplayEnabled() ? 1 : 0}&rel=0&playsinline=1&enablejsapi=1`;
             }
           });
       }
@@ -17889,14 +17889,14 @@ function searchAndPlayTrack(query) {
     .then(r => r.json())
     .then(data => {
       if (data.items && data.items.length > 0) {
-        player.src = `https://www.youtube.com/embed/${data.items[0].id.videoId}?autoplay=${spAutoplayEnabled() ? 1 : 0}&rel=0&enablejsapi=1`;
+        player.src = `https://www.youtube.com/embed/${data.items[0].id.videoId}?autoplay=${spAutoplayEnabled() ? 1 : 0}&rel=0&playsinline=1&enablejsapi=1`;
       } else {
         const fallbackQ = encodeURIComponent(query.replace(' / ', ' ') + ' official');
         fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${fallbackQ}&type=video&maxResults=1&videoEmbeddable=true&key=${ytKey}`)
           .then(r2 => r2.json())
           .then(d2 => {
             if (d2.items && d2.items.length > 0) {
-              player.src = `https://www.youtube.com/embed/${d2.items[0].id.videoId}?autoplay=${spAutoplayEnabled() ? 1 : 0}&rel=0&enablejsapi=1`;
+              player.src = `https://www.youtube.com/embed/${d2.items[0].id.videoId}?autoplay=${spAutoplayEnabled() ? 1 : 0}&rel=0&playsinline=1&enablejsapi=1`;
             }
           });
       }
@@ -17935,7 +17935,7 @@ window.addEventListener('message', (e) => {
       if (backupId) {
         console.warn('YT error', エラー, '→ 控えの動画:', backupId);
         player.dataset.backupId = '';
-        player.src = `https://www.youtube.com/embed/${backupId}?autoplay=${spAutoplayEnabled() ? 1 : 0}&rel=0&enablejsapi=1`;
+        player.src = `https://www.youtube.com/embed/${backupId}?autoplay=${spAutoplayEnabled() ? 1 : 0}&rel=0&playsinline=1&enablejsapi=1`;
       } else if (_spTrackList.length) {
         console.warn('YT error', エラー, '→ 次の代表曲へ');
         spPlayNextTrack();
@@ -20230,6 +20230,44 @@ function ページのずれを戻す() {
   }
 })();
 
+// ──────────────────────────────────────────────────────────
+// 拡大したまま戻ってきたときの立て直し（スマホのみ）
+// ──────────────────────────────────────────────────────────
+// 【何が起きるか】iPhoneのSafariは、指で広げた拡大の状態をタブごとに
+// 覚えていて、別のページへ行って戻ったときや、履歴・ブックマークから
+// 開き直したときに、その拡大を復元する。
+// この画面はヘッダーも地図も position:fixed で置いてあり、固定の部品は
+// 「拡大前の画面」を基準に置かれる。拡大されていると、それらは
+// 見えている範囲の外へ出てしまい、指で動かしても戻ってこない。
+// 「ヘッダーが消えて全体が上にずれ、元に戻せない」のはこれ。
+//
+// 【なぜ起きやすかったか】動画の埋め込みに playsinline が無く、再生を
+// 押すと iPhone が画面ごと動画に切り替えていた。そこから戻る途中に
+// 拡大が残りやすい。playsinline は入れたが、それでも指で広げたときの
+// ために受け皿を残しておく。
+//
+// 【直しかた】Safariは拡大の倍率を直接は変えさせてくれない。ただし
+// viewport の指定を一瞬 maximum-scale=1 にすると等倍へ戻る。
+// すぐ元に戻すので、指で広げられる状態はそのまま残る。
+// 本当にずれているときだけ動かす（ふつうに拡大して見ている人の
+// 邪魔をしないため、戻ってきた瞬間しか見ない）。
+function 拡大を戻す() {
+  if (window.innerWidth > 768) return;          // パソコンには触らない
+  const vv = window.visualViewport;
+  if (!vv) return;
+  // ずれていなければ何もしない
+  if (vv.scale <= 1.05 && vv.offsetTop <= 2 && vv.offsetLeft <= 2) return;
+  const m = document.querySelector('meta[name="viewport"]');
+  if (!m) return;
+  const 元 = m.content;
+  m.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+  setTimeout(() => { m.content = 元; ページのずれを戻す(); }, 350);
+}
+window.addEventListener('pageshow', () => setTimeout(拡大を戻す, 60));
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) setTimeout(拡大を戻す, 60);
+});
+
 // 「全体表示」は、正しい位置に戻すために押すもの。
 // 押したら必ず真ん中に来るよう、ページのずれも、指で動かした記録も
 // 消してから位置を決め直す。
@@ -21827,7 +21865,7 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
       <button class="mic-highlight-btn" onclick="micGoToMap()">選択したジャンルをマップで確認する</button>
       <div id="mic-yt-area">
         <div id="mic-yt-loading">YouTube を検索中...</div>
-        <iframe id="mic-yt-frame" allow="autoplay;encrypted-media" allowfullscreen style="display:none"></iframe>
+        <iframe id="mic-yt-frame" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" sandbox="allow-scripts allow-same-origin allow-presentation allow-popups allow-popups-to-escape-sandbox" allowfullscreen style="display:none"></iframe>
         <div id="mic-yt-fallback"></div>
       </div>
       <div id="mic-log-area">
@@ -22164,7 +22202,7 @@ async function micSearchYoutube(title, artist) {
       const data = await res.json();
       if (data.items && data.items.length > 0) {
         const vid = data.items[0].id.videoId;
-        frame.src           = 'https://www.youtube.com/embed/' + vid + '?autoplay=1&rel=0';
+        frame.src           = 'https://www.youtube.com/embed/' + vid + '?autoplay=1&rel=0&playsinline=1';
         frame.style.display = 'block';
         loading.style.display = 'none';
         micUpdateLatestHistoryVideoId(vid);
@@ -22459,7 +22497,7 @@ function micToggleHistoryVideo(btnEl) {
   const player = document.createElement('div');
   player.className = 'mic-history-player';
   player.dataset.idx = idx;
-  player.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0" allow="autoplay;encrypted-media" allowfullscreen></iframe>`;
+  player.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&playsinline=1" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" sandbox="allow-scripts allow-same-origin allow-presentation allow-popups allow-popups-to-escape-sandbox" allowfullscreen></iframe>`;
   item.appendChild(player);
   btnEl.classList.add('playing');
 }
