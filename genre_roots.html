@@ -1423,7 +1423,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v27.47</span>
+  <span id="version-info">v27.48</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -1557,7 +1557,16 @@ svg { width: 100vw; height: 100vh; }
           </label>
         </div>
       </div>
-      <iframe id="sp-yt-player" width="100%" height="180" style="border:none;border-radius:8px;" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" sandbox="allow-scripts allow-same-origin allow-presentation allow-popups allow-popups-to-escape-sandbox" allowfullscreen></iframe>
+      <!-- 【枠に別タブを開かせない】2026-09-01
+           プレーヤーの開始画面には、再生ボタンのすぐ右下に
+           「見る ▶YouTube」というボタンが並んでいる。押し間違えると
+           YouTubeが別のタブで開いてしまい、事典に戻るのにタブの
+           切り替えが要る（チョロさんからの報告）。
+           sandbox から allow-popups を外すと、押しても何も起きなくなる。
+           枠の中はプレーヤーのまま、事典もそのまま残ることを実測で確認済み。
+           allow-top-navigation も入れていないので、枠の中の広告が
+           ページごと連れ去ることもできない。 -->
+      <iframe id="sp-yt-player" width="100%" height="180" style="border:none;border-radius:8px;" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" sandbox="allow-scripts allow-same-origin allow-presentation" allowfullscreen></iframe>
       <button id="sp-yt-unmute" style="display:none;"></button>
     </div>
     <div class="sp-section" id="sp-tracks-sec" style="display:none;">
@@ -21865,7 +21874,7 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
       <button class="mic-highlight-btn" onclick="micGoToMap()">選択したジャンルをマップで確認する</button>
       <div id="mic-yt-area">
         <div id="mic-yt-loading">YouTube を検索中...</div>
-        <iframe id="mic-yt-frame" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" sandbox="allow-scripts allow-same-origin allow-presentation allow-popups allow-popups-to-escape-sandbox" allowfullscreen style="display:none"></iframe>
+        <iframe id="mic-yt-frame" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" sandbox="allow-scripts allow-same-origin allow-presentation" allowfullscreen style="display:none"></iframe>
         <div id="mic-yt-fallback"></div>
       </div>
       <div id="mic-log-area">
@@ -22497,7 +22506,7 @@ function micToggleHistoryVideo(btnEl) {
   const player = document.createElement('div');
   player.className = 'mic-history-player';
   player.dataset.idx = idx;
-  player.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&playsinline=1" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" sandbox="allow-scripts allow-same-origin allow-presentation allow-popups allow-popups-to-escape-sandbox" allowfullscreen></iframe>`;
+  player.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&playsinline=1" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" sandbox="allow-scripts allow-same-origin allow-presentation" allowfullscreen></iframe>`;
   item.appendChild(player);
   btnEl.classList.add('playing');
 }
