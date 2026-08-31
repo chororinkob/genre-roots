@@ -1423,7 +1423,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v27.45</span>
+  <span id="version-info">v27.46</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -21724,37 +21724,27 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 #mic-trigger-btn:hover { background: rgba(0,0,0,0.12); }
 /* スマホでは文字が入りきらないので音符だけにする（2026-09-01）。
    小さすぎると押しどころが分からないので、音符だけ少し大きくする。 */
-/* 【音符の置きかた】2026-09-01
-   音符を文字の中に並べると、その分だけ文字が右へ押されて真ん中に見えない。
-   負の margin で音符の幅を打ち消すと、幅の計算からは音符が消えるので
-   「この曲」だけがボタンの真ん中に来て、音符はその頭に少し左へ出る。
-   （音符の幅は実測16.5px。-20.5 + 4 でちょうど打ち消しになる）
+/* 【ボタンの中の並べかた】2026-09-01
+   パソコンもスマホも同じ形にする（チョロさんの指示）。
 
-   パソコンは負の margin ではなく、絶対位置で置く。
-   文字を1pxも動かさないため（チョロさんの指示。真ん中で決まっている今の
-   位置を動かさずに、頭へ音符だけを足す）。
-   文字の左のあきは22px、ふつうの大きさ（12px）の音符は16.5px。そのままだと
-   ふちとのすき間が1.5pxしか残らないので、パソコンだけ音符を11pxに縮める
-   （約15.1px）。ふちから3px、文字とのすき間が約3.9pxになる。
-   10pxも試したが小さすぎて見えたので、11pxにした。 */
-#mic-trigger-btn { position: relative; }
-#mic-trigger-btn .mic-btn-icon {
-  position: absolute; left: 3px; top: 50%; transform: translateY(-50%);
-  font-size: 11px; line-height: 1;
-}
+     1行目  🎵この曲            ← 「この曲」が真ん中。音符はその頭に少し左
+     2行目  なんてジャンル？    ← これも真ん中
 
-/* スマホでは1行に入りきらないので「この曲 / なんてジャンル？」で折る。
-   横の余白を 12px → 6px に詰めて、折ったあとの行にも余裕を持たせる
+   音符を文字と並べて置くと、音符の幅のぶんだけ文字が右へ押されて
+   真ん中に見えない。負の margin で音符の幅を打ち消すと、幅の計算からは
+   音符が消えるので、「この曲」だけがボタンの真ん中に来て、音符はその頭に
+   少し左へ出る（音符の幅は実測16.5px。-20.5 ＋ 右4 でちょうど打ち消しになる）。
+
+   ※ 一度パソコンだけ1行のままにして、音符を絶対位置で左端に置いたが、
+     左のあきが足りず窮屈になった。2段にそろえてやめた。 */
+#mic-trigger-btn { line-height: 1.35; }
+#mic-trigger-btn .mic-btn-l2 { display: block; }   /* ここで行が変わる */
+#mic-trigger-btn .mic-btn-icon { margin-left: -20.5px; margin-right: 4px; }
+
+/* スマホは左の欄が幅150pxしかないので、横の余白を 12px → 6px に詰める
    （iPhoneの日本語はChromiumより5〜10%広いので、ぎりぎりでは折り返す）。 */
 @media (max-width: 768px) {
-  #mic-trigger-btn { padding: 7px 6px; line-height: 1.35; }
-  #mic-trigger-btn .mic-btn-l2 { display: block; }
-  /* スマホは絶対位置をやめて、負の margin に戻す（1行目の頭に付いてほしいので、
-     ボタンの上下の真ん中ではなく、文字の流れの中に置く）。 */
-  #mic-trigger-btn .mic-btn-icon {
-    position: static; transform: none; font-size: inherit; line-height: inherit;
-    margin-left: -20.5px; margin-right: 4px;
-  }
+  #mic-trigger-btn { padding: 7px 6px; }
 }
 
 #mic-log-area { display: none; margin-top: 10px; background: rgba(0,0,0,0.25); border-radius: 7px; padding: 10px 12px; text-align: left; }
