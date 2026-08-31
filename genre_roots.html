@@ -1423,7 +1423,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v27.42</span>
+  <span id="version-info">v27.43</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -21724,11 +21724,12 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 #mic-trigger-btn:hover { background: rgba(0,0,0,0.12); }
 /* スマホでは文字が入りきらないので音符だけにする（2026-09-01）。
    小さすぎると押しどころが分からないので、音符だけ少し大きくする。 */
+/* スマホでは1行に入りきらないので「この曲 / なんてジャンル？」で折る。
+   横の余白を 12px → 6px に詰めて、折ったあとの行にも余裕を持たせる
+   （iPhoneの日本語はChromiumより5〜10%広いので、ぎりぎりでは折り返す）。 */
 @media (max-width: 768px) {
-  #mic-trigger-btn .mic-btn-icon { font-size: 16px; line-height: 1; }
-  /* 地図のほうには 1047行に同じ指定があるが、サーバー側のひな形には無い。
-     2つのファイルの中身をそろえておきたいので、こちらにも書いておく。 */
-  #mic-trigger-btn .m-full { display: none !important; }
+  #mic-trigger-btn { padding: 7px 6px; line-height: 1.35; }
+  #mic-trigger-btn .mic-btn-l2 { display: block; }
 }
 
 #mic-log-area { display: none; margin-top: 10px; background: rgba(0,0,0,0.25); border-radius: 7px; padding: 10px 12px; text-align: left; }
@@ -22492,18 +22493,19 @@ document.getElementById('mic-overlay').addEventListener('click', function(e) {
     var btn = document.createElement('button');
     btn.id = 'mic-trigger-btn';
     btn.onclick = function() { openMicPanel(); };
-    // 【スマホは音符だけにする】2026-09-01
+    // 【スマホは「この曲 / なんてジャンル？」で折る】2026-09-01
     // 「これなんて曲？」から「この曲なんてジャンル？」に変えた。
     // 聴かせる人は曲のほうを知っていて、知りたいのはジャンルだから。
-    // ただしスマホの左の欄は幅150pxしかなく、長いほうは入りきらない
-    // （中身164px / ボタン123px）。短くした「なんてジャンル？」でも
-    // まだ128pxで、5pxあふれた。2行にはしない決まりなので、
-    // チョロさんの指示どおりスマホでは文字を出さず、音符だけにする。
-    // 何をするボタンかはヘルプ（操作説明）に書いてある。
-    // 目の見えない人向けに、読み上げ用の名前は title と aria-label で残す。
-    // m-full は、この画面で前から使っているパソコン用の印（1047行）。
+    // スマホの左の欄は幅150pxしかなく、1行では入りきらない
+    // （中身164px / ボタン123px）。チョロさんの指示で、
+    // 「この曲」で区切って2段にする。ヘッダーを2段までにする決まりとは
+    // 別の話なので、ここは2段でよい。
+    // 前後を別の入れ物に分けておいて、スマホのときだけ後ろを block にすると、
+    // ちょうどそこで折れる。white-space:nowrap があっても block は効く。
+    // ※ m-full は使わない。1047行で「スマホでは消す」指定になっているため。
     btn.innerHTML = '<span class="mic-btn-icon">🎵</span>'
-                  + '<span class="m-full"> この曲なんてジャンル？</span>';
+                  + '<span class="mic-btn-l1"> この曲</span>'
+                  + '<span class="mic-btn-l2">なんてジャンル？</span>';
     btn.title = 'この曲なんてジャンル？';
     btn.setAttribute('aria-label', 'この曲なんてジャンル？');
 
