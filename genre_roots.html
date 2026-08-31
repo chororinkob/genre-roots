@@ -48,6 +48,9 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 /* 著作権と「このサイトについて」。ヘルプの左隣で2段。
    margin-left:auto をここに持たせて、この塊から右をひとまとめに寄せる
    （以前は右のボタン群に付けていた）。ヘッダーの高さは変えない。 */
+/* パソコンでは、この入れ物は無かったことにする（中身が直接の子として並ぶ）。
+   スマホだけ、2段目をひとかたまりにするために使う。 */
+#header-meta { display: contents; }
 #site-credit {
   margin-left: auto; margin-right: 10px;
   display: flex; flex-direction: column; align-items: flex-end;
@@ -967,10 +970,19 @@ svg { width: 100vw; height: 100vh; }
 
   /* 2段目 … 件数と日付だけ。いちばん大事な情報ではないので小さく。
      ☰ のぶんだけ字下げして、題名の真下にそろえる。 */
+  /* 2段目（件数・日付・著作権）をひとかたまりにする。
+     ここで折り返さないと決めることで、ヘッダーは必ず2段に収まる。
+     display:contents を打ち消すため、相手より細かい指定にしてある。 */
+  #header > #header-meta {
+    display: flex !important; order: 6;
+    align-items: baseline; gap: 6px; flex-wrap: nowrap;
+    margin: 0 0 0 calc(var(--menu-w) + var(--header-gap));
+    min-width: 0;
+  }
   #genre-count {
-    order: 6; font-size: 9px !important; font-weight: 400;
+    font-size: 9px !important; font-weight: 400;
     color: #8fa8c4 !important; white-space: nowrap; line-height: 1.2;
-    margin: 0 0 0 calc(var(--menu-w) + var(--header-gap)) !important;
+    margin: 0 !important;
   }
 
   /* 著作権と「このサイトについて」は、件数・日付と同じ2段目に置く。
@@ -984,8 +996,13 @@ svg { width: 100vw; height: 100vh; }
      伝わる情報は変わらない（2026-08-31）。
      著作権・免責の説明は、ヘルプの入口からも行ける。 */
   #site-credit {
-    order: 6; margin: 0 0 0 10px !important;
-    flex-direction: row; align-items: baseline; line-height: 1.2;
+    margin: 0 !important; flex-direction: row;
+    align-items: baseline; line-height: 1.2; white-space: nowrap;
+  }
+  /* 画面のいちばん狭い層（iPhone SE など）だけ、2段目の字を少し詰める。
+     ここを詰めないと余裕が1割しか取れず、実機で折り返す。 */
+  @media (max-width: 380px) {
+    #genre-count, #site-credit .sc-name { font-size: 8.5px !important; }
   }
   #site-credit .sc-link { display: none; }
 
@@ -996,7 +1013,13 @@ svg { width: 100vw; height: 100vh; }
      上下まんなかに置く。こうすると2段ぶんの高さの中央に来て、
      下の余白が消える。左の文字がボタンの下に潜らないよう、
      ヘッダーの右側にボタンのぶんの余白を取っている。 */
-  #header { padding-right: 132px; }
+  /* ボタンは実測で幅96px＋右12px＝108px。余白を取りすぎると2段目が
+     狭くなって折り返すので、2pxだけ足した110pxにする。
+     【余裕をどれだけ見るか】320pxの画面で、使える幅は 320-6-110=204px。
+     2段目の中身は約168pxなので、余裕は36px（約2割）。
+     iPhoneは日本語がChromiumより5〜10%広く出るため、1割の余裕では
+     足りずに折り返した（実際に3段になったのはこれが原因）。 */
+  #header { padding-right: 110px; }
   /* 【display:contents を打ち消す必要がある】
      すぐ上に #header > div:last-child { display: contents !important } があり、
      スマホではこのまとまりが「箱として存在しない」状態にされている
@@ -1400,7 +1423,16 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v27.39</span><span id="genre-count"></span>
+  <span id="version-info">v27.42</span>
+  <!-- 【2段目をひとかたまりにする】2026-08-31
+       件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
+       あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
+       Chromiumでは320pxでも残り1pxで、ぎりぎり収まっていて気づけなかった）。
+       ひとつの入れ物に入れて「途中で折り返さない」と決めれば、
+       どんな幅でも2段のままになる。
+       パソコンでは display:contents で入れ物を無かったことにするので、
+       これまでどおり件数は題名の隣、著作権はヘルプの左隣に置かれる。 -->
+  <span id="header-meta"><span id="genre-count"></span>
 
   <div id="tab-buttons" style="display:none;">
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
@@ -1415,7 +1447,7 @@ svg { width: 100vw; height: 100vh; }
   <span id="site-credit">
     <a class="sc-name" href="docs/about.html">© 2026 チョロ</a>
     <a class="sc-link" href="docs/about.html" title="著作権・免責・記録している情報">このサイトについて</a>
-  </span>
+  </span></span>
   <div id="header-actions" style="display:flex;gap:6px;align-items:center;">
     <a id="help-link" href="docs/manual.html" title="使い方ガイド" style="padding:4px 10px;background:none;border:1px solid #555;border-radius:5px;color:#ccc;font-size:11px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;">❓<span class="m-full" style="margin-left:4px;">ヘルプ</span></a>
     <button id="fit-view" style="padding:4px 12px;background:#1565C0;border:1px solid #555;border-radius:5px;color:#fff;font-size:11px;cursor:pointer;">全体表示</button>
@@ -21690,6 +21722,14 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
   white-space: nowrap;
 }
 #mic-trigger-btn:hover { background: rgba(0,0,0,0.12); }
+/* スマホでは文字が入りきらないので音符だけにする（2026-09-01）。
+   小さすぎると押しどころが分からないので、音符だけ少し大きくする。 */
+@media (max-width: 768px) {
+  #mic-trigger-btn .mic-btn-icon { font-size: 16px; line-height: 1; }
+  /* 地図のほうには 1047行に同じ指定があるが、サーバー側のひな形には無い。
+     2つのファイルの中身をそろえておきたいので、こちらにも書いておく。 */
+  #mic-trigger-btn .m-full { display: none !important; }
+}
 
 #mic-log-area { display: none; margin-top: 10px; background: rgba(0,0,0,0.25); border-radius: 7px; padding: 10px 12px; text-align: left; }
 #mic-log-area.visible { display: block; }
@@ -22452,7 +22492,20 @@ document.getElementById('mic-overlay').addEventListener('click', function(e) {
     var btn = document.createElement('button');
     btn.id = 'mic-trigger-btn';
     btn.onclick = function() { openMicPanel(); };
-    btn.textContent = '🎵 これなんて曲？';
+    // 【スマホは音符だけにする】2026-09-01
+    // 「これなんて曲？」から「この曲なんてジャンル？」に変えた。
+    // 聴かせる人は曲のほうを知っていて、知りたいのはジャンルだから。
+    // ただしスマホの左の欄は幅150pxしかなく、長いほうは入りきらない
+    // （中身164px / ボタン123px）。短くした「なんてジャンル？」でも
+    // まだ128pxで、5pxあふれた。2行にはしない決まりなので、
+    // チョロさんの指示どおりスマホでは文字を出さず、音符だけにする。
+    // 何をするボタンかはヘルプ（操作説明）に書いてある。
+    // 目の見えない人向けに、読み上げ用の名前は title と aria-label で残す。
+    // m-full は、この画面で前から使っているパソコン用の印（1047行）。
+    btn.innerHTML = '<span class="mic-btn-icon">🎵</span>'
+                  + '<span class="m-full"> この曲なんてジャンル？</span>';
+    btn.title = 'この曲なんてジャンル？';
+    btn.setAttribute('aria-label', 'この曲なんてジャンル？');
 
     var histToggle = document.createElement('button');
     histToggle.id = 'mic-history-toggle';
