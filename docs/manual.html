@@ -13,13 +13,13 @@
                        同じ中身が複数の住所で見えるとき、
                        検索側がどれを本物と見なすかを決める
      ──────────────────────────────────────────────── -->
-<meta name="description" content="音楽ジャンルルーツ辞典の使い方。地図の見かた、ジャンルの探しかた、曲を聴かせて調べる方法、載っていないジャンルのリクエストのしかたを、画面の図つきで説明しています。パソコン版・スマホ版どちらにも対応。">
+<meta name="description" content="573ジャンルの地図を気ままに旅する。 使い方ガイド：地図の見かた、探しかた、曲を聴かせて調べる方法を図つきで。">
 <link rel="canonical" href="https://chororinkob.github.io/genre-roots/docs/manual.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="音楽ジャンルルーツ辞典">
 <meta property="og:locale" content="ja_JP">
 <meta property="og:title" content="音楽ジャンルルーツ辞典の使い方ガイド">
-<meta property="og:description" content="音楽ジャンルルーツ辞典の使い方。地図の見かた、ジャンルの探しかた、曲を聴かせて調べる方法、載っていないジャンルのリクエストのしかたを、画面の図つきで説明しています。パソコン版・スマホ版どちらにも対応。">
+<meta property="og:description" content="573ジャンルの地図を気ままに旅する。 使い方ガイド：地図の見かた、探しかた、曲を聴かせて調べる方法を図つきで。">
 <meta property="og:url" content="https://chororinkob.github.io/genre-roots/docs/manual.html">
 <meta property="og:image" content="https://chororinkob.github.io/genre-roots/ogp.jpg">
 <meta property="og:image:width" content="1200">
@@ -27,7 +27,7 @@
 <meta property="og:image:alt" content="音楽ジャンルルーツ辞典 － 573のジャンルが並んだつながりの地図">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="音楽ジャンルルーツ辞典の使い方ガイド">
-<meta name="twitter:description" content="音楽ジャンルルーツ辞典の使い方。地図の見かた、ジャンルの探しかた、曲を聴かせて調べる方法、載っていないジャンルのリクエストのしかたを、画面の図つきで説明しています。パソコン版・スマホ版どちらにも対応。">
+<meta name="twitter:description" content="573ジャンルの地図を気ままに旅する。 使い方ガイド：地図の見かた、探しかた、曲を聴かせて調べる方法を図つきで。">
 <meta name="twitter:image" content="https://chororinkob.github.io/genre-roots/ogp.jpg">
 <meta name="theme-color" content="#1a1a2e">
 
@@ -223,6 +223,12 @@
      読む前に「これは最新か」が分かるようにするのが目的なので、
      フッター（読み終えたあと）ではなく、ここに出している。
      題名と同じだけ字下げされるよう、title-block の中に入れてある。 */
+  /* 辞典の売り文句。題名のすぐ下、版より上に置く。
+     何をする道具なのかを、読む前に一言で伝えるためのもの（2026-08-31） */
+  .title-block .tagline {
+    font-size: 15px; font-weight: 700; color: #d8d8e6;
+    letter-spacing: .01em; margin-top: 14px;
+  }
   .title-block .doc-ver {
     font-size: 11.5px; color: var(--text-2); letter-spacing: .02em;
     margin-top: 13px;
@@ -456,7 +462,9 @@
          ここはガイドを直したときだけ手で上げること。
          このガイドが地図に追いついているかは、下の日付を地図のヘッダーに
          出ている日付（「◯◯ ジャンル・2026/8/30」）と見比べれば分かる。 -->
-    <div class="doc-ver">ガイド <b>v1.14</b> ・ 2026-08-31 更新</div>
+    <!-- 辞典そのものの売り文句。何をする道具なのかを、読む前に一言で伝える -->
+    <div class="tagline">ふらっと、音楽の旅に出る</div>
+    <div class="doc-ver">ガイド <b>v1.15</b> ・ 2026-08-31 更新</div>
   </div>
   <p class="lede">
     <strong>「自分の好きな音楽って、どこから来たんだろう」</strong>——
