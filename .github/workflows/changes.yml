@@ -1,0 +1,62 @@
+name: Rebuild Change Log
+
+# 【何をするものか】
+# ジャンルの追加や修正依頼の反映が入るたびに、更新の記録
+# （docs/changes.html）を自動で作り直す。
+#
+# 【なぜ必要か】
+# ジャンルの追加も修正も、出した人がその場で承認すると辞典に入る。
+# チョロさんが一件ずつ見ているわけではないので、あとから
+# 「いつ・どのジャンルが・どう変わったか」を追える場所が要る。
+# 手で作り直す運用にすると、必ずどこかで忘れて記録が古くなるので、
+# 変更が入るたびに機械が作り直す。
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'genre_roots.html'
+  # 手で流したいとき用のボタン
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  rebuild:
+    # 自分自身が押した変更では動かさない（無限に繰り返さないため）
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: リポジトリを取ってくる
+        uses: actions/checkout@v4
+        with:
+          # 記録の全部を読む必要がある。浅く取ると過去の変更が拾えず、
+          # 一覧が数件だけになってしまう。
+          fetch-depth: 0
+
+      - name: Python を用意する
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: 更新の記録を作り直す
+        run: python tools/changes/build.py
+
+      - name: 変わっていたら記録に残す
+        run: |
+          git config user.name  'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          if git diff --quiet -- docs/changes.html; then
+            echo '変わっていないので、そのままにします'
+            exit 0
+          fi
+          git add docs/changes.html
+          # [skip-version-bump] は auto-version.yml が読む目印。
+          # これは中身の変更ではなく記録の作り直しなので、
+          # 地図の版を上げる対象から外す。
+          git commit -m '更新の記録を作り直す
+
+          [skip-version-bump]'
+          git push
