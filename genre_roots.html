@@ -1423,7 +1423,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v27.50</span>
+  <span id="version-info">v27.51</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -17846,14 +17846,24 @@ function playByVideoId(primaryId, backupId, trackIdx) {
   };
 
   clearTimeout(_yt保険タイマ);
+  const 直前まで鳴っていた = (_yt状態 === 1 || _yt状態 === 3);
   if (差し替える) {
     _yt状態 = -1;
     _ytTell({ event: 'command', func: 'loadVideoById', args: [primaryId] });
-    // 【保険】中身の差し替えでも鳴らなかったとき（一度も触っていない枠など）、
-    // 黒いままにしない。ふつうの入れ替えに戻して再生ボタンを出す。
-    _yt保険タイマ = setTimeout(() => {
-      if (_yt状態 !== 1 && _yt状態 !== 3) 枠ごと入れ替える(true);
-    }, 1800);
+    // 【保険】まだ一度も鳴っていない枠は、中身を差し替えても鳴らないことが
+    // ある（指で触った許しがまだ無いため）。黒いまま置き去りにせず、
+    // ふつうの入れ替えに戻して再生ボタンを出す。
+    //
+    // ただし直前まで鳴っていたときは、この保険を仕掛けない。
+    // 広告が入ったり読み込みに数秒かかったりすると、鳴る前に枠を
+    // 入れ替えてしまい、せっかく続いていた許しを自分で切ってしまう
+    // （最初 1.8秒で仕掛けていて、実際にこれが起きた）。
+    // 鳴っていたものは、そのまま鳴り続けるので待てばよい。
+    if (!直前まで鳴っていた) {
+      _yt保険タイマ = setTimeout(() => {
+        if (_yt状態 !== 1 && _yt状態 !== 3) 枠ごと入れ替える(true);
+      }, 2500);
+    }
   } else {
     枠ごと入れ替える(spAutoplayEnabled());
   }
