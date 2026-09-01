@@ -364,6 +364,7 @@ def 組み立てる(件):
 <div class="top-bar">
   <a href="../genre_roots.html"><span class="tb-full">← ジャンルマップに戻る</span><span class="tb-short">← 地図へ</span></a>
   <a class="to-toc" href="manual.html#menu"><span class="tb-full">↑ 目次に戻る</span><span class="tb-short">↑ 目次</span></a>
+  <a class="to-toc" href="manual.html#howto"><span class="tb-full">↑ 操作説明の目次に戻る</span><span class="tb-short">↑ 操作説明</span></a>
 </div>
 
 <div class="wrap">
