@@ -1423,7 +1423,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v27.52</span>
+  <span id="version-info">v27.53</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -17789,9 +17789,6 @@ let _spTrackList = [];      // [[本命ID, 控えID], ...] 代表曲順
 let _spTrackIdx  = -1;
 // 埋め込みプレーヤーと話が通じているか（合図が一度でも届いたか）
 let _ytつながっている = false;
-// 最後に届いた再生の状態（1=再生中 3=読み込み中）
-let _yt状態 = -1;
-let _yt保険タイマ = null;
 // 何回目の差し替えか。あとから届く「再生して」の頼みが、
 // 古い曲のものかどうかを見分けるための番号
 let _yt差し替え番号 = 0;
@@ -17848,10 +17845,7 @@ function playByVideoId(primaryId, backupId, trackIdx) {
     player.src = `https://www.youtube.com/embed/${primaryId}?autoplay=${鳴らすか ? 1 : 0}&rel=0&playsinline=1&enablejsapi=1`;
   };
 
-  clearTimeout(_yt保険タイマ);
-  const 直前まで鳴っていた = (_yt状態 === 1 || _yt状態 === 3);
   if (差し替える) {
-    _yt状態 = -1;
     const 番号 = ++_yt差し替え番号;
     _ytTell({ event: 'command', func: 'loadVideoById', args: [primaryId] });
     // 中身を差し替えただけでは鳴り出さないことがある（公開しているURLで実測。
@@ -17861,20 +17855,14 @@ function playByVideoId(primaryId, backupId, trackIdx) {
     [500, 1200, 2500].forEach(t => setTimeout(() => {
       if (番号 === _yt差し替え番号) _ytTell({ event: 'command', func: 'playVideo', args: [] });
     }, t));
-    // 【保険】まだ一度も鳴っていない枠は、中身を差し替えても鳴らないことが
-    // ある（指で触った許しがまだ無いため）。黒いまま置き去りにせず、
-    // ふつうの入れ替えに戻して再生ボタンを出す。
-    //
-    // ただし直前まで鳴っていたときは、この保険を仕掛けない。
-    // 広告が入ったり読み込みに数秒かかったりすると、鳴る前に枠を
-    // 入れ替えてしまい、せっかく続いていた許しを自分で切ってしまう
-    // （最初 1.8秒で仕掛けていて、実際にこれが起きた）。
-    // 鳴っていたものは、そのまま鳴り続けるので待てばよい。
-    if (!直前まで鳴っていた) {
-      _yt保険タイマ = setTimeout(() => {
-        if (_yt状態 !== 1 && _yt状態 !== 3) 枠ごと入れ替える(true);
-      }, 3500);   // 上の「再生して」の頼み（最後は2.5秒）が終わるのを待つ
-    }
+    // 【保険は置かない】いちど「鳴らなかったら枠を入れ替える」保険を
+    // 入れたが、外した。理由は2つ。
+    //  ・公開しているURLでは、鳴っている最中でも状態の合図が届かず、
+    //    保険が「鳴っていない」と誤って判断して枠を入れ替えていた。
+    //    これでは、せっかく保った「指で触った許し」を自分で切ってしまう。
+    //  ・そもそも保険が要らなかった。一度も鳴らしていない枠でも、
+    //    中身を差し替えれば動画は出て鳴り出す（公開URLで実測。
+    //    枠の中の動画そのものを見て確かめた）。真っ暗にはならない。
   } else {
     枠ごと入れ替える(spAutoplayEnabled());
   }
@@ -17985,7 +17973,6 @@ window.addEventListener('message', (e) => {
     // プレーヤーと話が通じていることの確認。中身だけの差し替えは、
     // 合図が届く相手にしか送らない（届かない相手に送ると黙って失敗するため）。
     if (data && data.event) _ytつながっている = true;
-    if (typeof 状態 === 'number') _yt状態 = 状態;
     if (状態 === 0) {
       // 代表曲の連続再生。次の代表曲へ進む
       if (_spTrackList.length && spPlayNextTrack()) return;
