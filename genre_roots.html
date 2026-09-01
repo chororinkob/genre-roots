@@ -1423,7 +1423,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v27.49</span>
+  <span id="version-info">v27.50</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -17787,6 +17787,11 @@ function spSetAutoplayEnabled(on) {
 // playerState。両方を見るようにしてある（実測で確認済み）。
 let _spTrackList = [];      // [[本命ID, 控えID], ...] 代表曲順
 let _spTrackIdx  = -1;
+// 埋め込みプレーヤーと話が通じているか（合図が一度でも届いたか）
+let _ytつながっている = false;
+// 最後に届いた再生の状態（1=再生中 3=読み込み中）
+let _yt状態 = -1;
+let _yt保険タイマ = null;
 
 function _ytTell(msg) {
   const player = document.getElementById('sp-yt-player');
@@ -17818,7 +17823,40 @@ function playByVideoId(primaryId, backupId, trackIdx) {
   const player = document.getElementById('sp-yt-player');
   const unmuteBtn = document.getElementById('sp-yt-unmute');
   player.dataset.backupId = backupId || '';
-  player.src = `https://www.youtube.com/embed/${primaryId}?autoplay=${spAutoplayEnabled() ? 1 : 0}&rel=0&playsinline=1&enablejsapi=1`;
+
+  // 【押した曲は、そのまま鳴らす】2026-09-01
+  // 代表曲を押すと、赤い帯は動いて動画も用意されるのに、止まったまま
+  // だった（チョロさんからの報告）。原因は、曲を替えるたびに枠(iframe)を
+  // まるごと作り直していたこと。iPhoneは「指で触ったから鳴らしてよい」と
+  // いう許しを枠ごとに覚えていて、枠を作り直すと別物とみなされ、
+  // 許しが引き継がれない。だから毎回、また再生ボタンを押す必要があった。
+  //
+  // すでに動画が入っている枠なら、枠は替えずに中身だけ差し替える
+  // （loadVideoById）。同じ枠のままなので許しが続き、押した瞬間に鳴る。
+  //
+  // パネルを開いたときの自動再生は今までどおり枠を入れ替える。
+  // ここを中身の差し替えにすると、ジャンルを見て回るだけで音が
+  // 鳴り出してしまうため。
+  const 押された = trackIdx !== undefined;   // 代表曲を押した／終わって次へ進んだ
+  const 枠に動画がある = /\/embed\//.test(player.src || '');
+  const 差し替える = 押された && 枠に動画がある && _ytつながっている;
+
+  const 枠ごと入れ替える = (鳴らすか) => {
+    player.src = `https://www.youtube.com/embed/${primaryId}?autoplay=${鳴らすか ? 1 : 0}&rel=0&playsinline=1&enablejsapi=1`;
+  };
+
+  clearTimeout(_yt保険タイマ);
+  if (差し替える) {
+    _yt状態 = -1;
+    _ytTell({ event: 'command', func: 'loadVideoById', args: [primaryId] });
+    // 【保険】中身の差し替えでも鳴らなかったとき（一度も触っていない枠など）、
+    // 黒いままにしない。ふつうの入れ替えに戻して再生ボタンを出す。
+    _yt保険タイマ = setTimeout(() => {
+      if (_yt状態 !== 1 && _yt状態 !== 3) 枠ごと入れ替える(true);
+    }, 1800);
+  } else {
+    枠ごと入れ替える(spAutoplayEnabled());
+  }
   if (unmuteBtn) unmuteBtn.style.display = 'none';
   if (trackIdx !== undefined) {
     _spTrackIdx = trackIdx;
@@ -17923,6 +17961,10 @@ window.addEventListener('message', (e) => {
                : (data.event === 'infoDelivery' && data.info
                   && typeof data.info.playerState === 'number')
                  ? data.info.playerState : undefined;
+    // プレーヤーと話が通じていることの確認。中身だけの差し替えは、
+    // 合図が届く相手にしか送らない（届かない相手に送ると黙って失敗するため）。
+    if (data && data.event) _ytつながっている = true;
+    if (typeof 状態 === 'number') _yt状態 = 状態;
     if (状態 === 0) {
       // 代表曲の連続再生。次の代表曲へ進む
       if (_spTrackList.length && spPlayNextTrack()) return;
