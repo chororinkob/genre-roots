@@ -13,6 +13,6 @@
 const path = require('path');
 
 module.exports = {
-  地図: 'https://chororinkob.github.io/genre-roots/genre_roots.html',
+  地図: 'https://genre-roots.com/genre_roots.html',
   出力先: path.join(__dirname, '_out'),
 };

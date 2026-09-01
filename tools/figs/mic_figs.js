@@ -24,7 +24,7 @@ async function 用意(b, 端末) {
       route.fulfill({
         status: 200, contentType: 'application/json',
         headers: {
-          'access-control-allow-origin': 'https://chororinkob.github.io',
+          'access-control-allow-origin': 'https://genre-roots.com',
           'access-control-allow-credentials': 'true'
         },
         body: 返事

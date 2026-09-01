@@ -3,7 +3,7 @@
 const { chromium } = require('playwright');
 // 手元のファイル（file://）から撮ると YouTube が動画を貸してくれず、
 // 図にエラーが写り込む。公開しているURLから撮ること。
-const 元 = 'https://chororinkob.github.io/genre-roots/genre_roots.html';
+const 元 = 'https://genre-roots.com/genre_roots.html';
 
 (async () => {
   const b = await chromium.launch();
