@@ -1423,7 +1423,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v27.53</span>
+  <span id="version-info">v27.54</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -17750,6 +17750,19 @@ const SP_AUTOPLAY_KEY = 'sp_yt_autoplay';
 function spAutoplayEnabled() {
   return localStorage.getItem(SP_AUTOPLAY_KEY) !== '0';
 }
+// パネルを開いたときに、こちらから勝手に鳴らすかどうか。
+// スマホでは鳴らさない（チョロさんの指示。再生はあくまで「押したとき」に限る）。
+// これまでもスマホは鳴っていなかったが、それは iPhone が止めていたからで、
+// 指定としては autoplay=1 を送り続けていた。一度でも再生すると iPhone が
+// 許してしまうので、以降はジャンルを移るたびに勝手に鳴り出していた。
+// パソコンはこれまでどおり、パネルのスイッチに従う（スイッチもパソコンにだけ出る）。
+function パネルの自動再生する() {
+  return window.innerWidth > 768 && spAutoplayEnabled();
+}
+// 最後に「鳴らそう」としたかどうか。動画が壊れていて控えに切り替えるとき、
+// 元の意図を引き継ぐために使う。
+let _yt鳴らす意図 = false;
+
 function spSetAutoplayEnabled(on) {
   localStorage.setItem(SP_AUTOPLAY_KEY, on ? '1' : '0');
 }
@@ -17811,7 +17824,11 @@ function _spMarkPlaying(idx) {
   });
 }
 
-function playByVideoId(primaryId, backupId, trackIdx) {
+// 押された … 利用者が代表曲を押した／曲が終わって次へ進んだ場合は true。
+//              パネルを開いただけのときは false。
+//              ここを取り違えると、ジャンルを移るたびに勝手に鳴り出す
+//              （実際に一度そうなった）。
+function playByVideoId(primaryId, backupId, trackIdx, 押された) {
   // どの曲が聴かれたかを記録する（統計用）
   try {
     const nd = window._currentNode;
@@ -17837,7 +17854,11 @@ function playByVideoId(primaryId, backupId, trackIdx) {
   // パネルを開いたときの自動再生は今までどおり枠を入れ替える。
   // ここを中身の差し替えにすると、ジャンルを見て回るだけで音が
   // 鳴り出してしまうため。
-  const 押された = trackIdx !== undefined;   // 代表曲を押した／終わって次へ進んだ
+  // trackIdx はパネルを開いたときにも渡ってくるので、これでは見分けられない。
+  // 呼び出し側から明示的に受け取る。
+  押された = !!押された;
+  const 鳴らす = 押された || パネルの自動再生する();
+  _yt鳴らす意図 = 鳴らす;
   const 枠に動画がある = /\/embed\//.test(player.src || '');
   const 差し替える = 押された && 枠に動画がある && _ytつながっている;
 
@@ -17864,7 +17885,7 @@ function playByVideoId(primaryId, backupId, trackIdx) {
     //    中身を差し替えれば動画は出て鳴り出す（公開URLで実測。
     //    枠の中の動画そのものを見て確かめた）。真っ暗にはならない。
   } else {
-    枠ごと入れ替える(spAutoplayEnabled());
+    枠ごと入れ替える(鳴らす);
   }
   if (unmuteBtn) unmuteBtn.style.display = 'none';
   if (trackIdx !== undefined) {
@@ -17881,12 +17902,12 @@ function spSetTrackList(node) {
 }
 
 // idx番目の代表曲を再生する。動画が無ければ次の曲へ送る。
-function spPlayTrack(idx, 進む方向) {
+function spPlayTrack(idx, 進む方向, 押された) {
   const 向き = 進む方向 || 1;
   while (idx >= 0 && idx < _spTrackList.length) {
     const row = _spTrackList[idx];
     if (row && row.length) {
-      playByVideoId(row[0], row[1] || '', idx);
+      playByVideoId(row[0], row[1] || '', idx, 押された);
       return true;
     }
     idx += 向き;   // 動画を持たない代表曲は飛ばす
@@ -17895,7 +17916,8 @@ function spPlayTrack(idx, 進む方向) {
 }
 
 function spPlayNextTrack() {
-  return spPlayTrack(_spTrackIdx + 1, 1);
+  // 曲が終わって次へ進むとき。すでに鳴っていたので、そのまま鳴らし続ける
+  return spPlayTrack(_spTrackIdx + 1, 1, true);
 }
 
 // 「次▶」ボタンは廃止した（2026-08-19）。代表曲の一覧を動画のすぐ下に
@@ -17904,9 +17926,11 @@ function spPlayNextTrack() {
 // （spPlayNextTrack、再生状態の受け取りは下のmessageハンドラ）。
 
 // YouTube再生関数
-function playYtTrack(idx) {
+function playYtTrack(idx, 押された) {
   if (!window._ytPlaylist || idx >= window._ytPlaylist.length) return;
   window._ytPlayIdx = idx;
+  const 鳴らす = !!押された || パネルの自動再生する();
+  _yt鳴らす意図 = 鳴らす;
   const ytKey = localStorage.getItem('yt_api_key') || window._ytk;
   const q = encodeURIComponent(window._ytPlaylist[idx]);
   const player = document.getElementById('sp-yt-player');
@@ -17917,7 +17941,7 @@ function playYtTrack(idx) {
     .then(data => {
       if (data.items && data.items.length > 0) {
         const videoId = data.items[0].id.videoId;
-        player.src = `https://www.youtube.com/embed/${videoId}?autoplay=${spAutoplayEnabled() ? 1 : 0}&rel=0&playsinline=1&enablejsapi=1`;
+        player.src = `https://www.youtube.com/embed/${videoId}?autoplay=${鳴らす ? 1 : 0}&rel=0&playsinline=1&enablejsapi=1`;
         unmuteBtn.style.display = 'none';
       } else {
         // greatest hits mixが見つからない場合、ジャンル名+musicで再検索
@@ -17926,7 +17950,7 @@ function playYtTrack(idx) {
           .then(r2 => r2.json())
           .then(d2 => {
             if (d2.items && d2.items.length > 0) {
-              player.src = `https://www.youtube.com/embed/${d2.items[0].id.videoId}?autoplay=${spAutoplayEnabled() ? 1 : 0}&rel=0&playsinline=1&enablejsapi=1`;
+              player.src = `https://www.youtube.com/embed/${d2.items[0].id.videoId}?autoplay=${鳴らす ? 1 : 0}&rel=0&playsinline=1&enablejsapi=1`;
             }
           });
       }
@@ -17937,7 +17961,11 @@ function playYtTrack(idx) {
 }
 
 // 代表曲リンクから個別曲を検索・再生（videoCategoryId制限なし）
+// 代表曲を押したのに動画IDが無いとき、名前で探して再生する経路。
+// ここへ来るのは必ず「押された」ときなので、鳴らしてよい。
 function searchAndPlayTrack(query) {
+  const 鳴らす = true;
+  _yt鳴らす意図 = true;
   const ytKey = localStorage.getItem('yt_api_key') || window._ytk;
   const cleanQ = encodeURIComponent(query.replace(' / ', ' '));
   const player = document.getElementById('sp-yt-player');
@@ -17945,14 +17973,14 @@ function searchAndPlayTrack(query) {
     .then(r => r.json())
     .then(data => {
       if (data.items && data.items.length > 0) {
-        player.src = `https://www.youtube.com/embed/${data.items[0].id.videoId}?autoplay=${spAutoplayEnabled() ? 1 : 0}&rel=0&playsinline=1&enablejsapi=1`;
+        player.src = `https://www.youtube.com/embed/${data.items[0].id.videoId}?autoplay=${鳴らす ? 1 : 0}&rel=0&playsinline=1&enablejsapi=1`;
       } else {
         const fallbackQ = encodeURIComponent(query.replace(' / ', ' ') + ' official');
         fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${fallbackQ}&type=video&maxResults=1&videoEmbeddable=true&key=${ytKey}`)
           .then(r2 => r2.json())
           .then(d2 => {
             if (d2.items && d2.items.length > 0) {
-              player.src = `https://www.youtube.com/embed/${d2.items[0].id.videoId}?autoplay=${spAutoplayEnabled() ? 1 : 0}&rel=0&playsinline=1&enablejsapi=1`;
+              player.src = `https://www.youtube.com/embed/${d2.items[0].id.videoId}?autoplay=${鳴らす ? 1 : 0}&rel=0&playsinline=1&enablejsapi=1`;
             }
           });
       }
@@ -17978,7 +18006,7 @@ window.addEventListener('message', (e) => {
       if (_spTrackList.length && spPlayNextTrack()) return;
       // 旧方式（検索で曲を探す経路）
       if (window._ytPlaylist && window._ytPlayIdx < window._ytPlaylist.length - 1) {
-        playYtTrack(window._ytPlayIdx + 1);
+        playYtTrack(window._ytPlayIdx + 1, true);   // 続けて鳴らす
       }
       return;
     }
@@ -17994,7 +18022,9 @@ window.addEventListener('message', (e) => {
       if (backupId) {
         console.warn('YT error', エラー, '→ 控えの動画:', backupId);
         player.dataset.backupId = '';
-        player.src = `https://www.youtube.com/embed/${backupId}?autoplay=${spAutoplayEnabled() ? 1 : 0}&rel=0&playsinline=1&enablejsapi=1`;
+        // 元が「鳴らそう」としていたかを引き継ぐ。パネルを開いただけで
+        // 動画が壊れていた場合に、控えだけ勝手に鳴り出さないようにする。
+        player.src = `https://www.youtube.com/embed/${backupId}?autoplay=${_yt鳴らす意図 ? 1 : 0}&rel=0&playsinline=1&enablejsapi=1`;
       } else if (_spTrackList.length) {
         console.warn('YT error', エラー, '→ 次の代表曲へ');
         spPlayNextTrack();
@@ -18688,7 +18718,7 @@ node.on("click", (e, d) => {
   // YouTube埋め込みプレイヤー
   // 代表曲を並び順のまま最後まで通して流す。1曲目が始まり、終わると次へ進む。
   spSetTrackList(d);
-  if (spPlayTrack(0, 1)) {
+  if (spPlayTrack(0, 1, false)) {   // パネルを開いただけ。勝手には鳴らさない
     // 代表曲から再生できた
   } else if (d.yt_mix && d.yt_mix.length > 0) {
     // 代表曲の動画が1本も無いジャンル向けの保険
@@ -19130,7 +19160,7 @@ panel.addEventListener('click', (e) => {
     if (nd && nd.yt_tracks && tidx >= 0 && nd.yt_tracks[tidx] && nd.yt_tracks[tidx][0]) {
       // 押した曲から再生し、そこから先も順に続ける
       if (!_spTrackList.length) spSetTrackList(nd);
-      playByVideoId(nd.yt_tracks[tidx][0], nd.yt_tracks[tidx][1] || '', tidx);
+      playByVideoId(nd.yt_tracks[tidx][0], nd.yt_tracks[tidx][1] || '', tidx, true);
     } else {
       searchAndPlayTrack(query);
     }
