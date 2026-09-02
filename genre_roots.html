@@ -1441,7 +1441,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v27.62</span>
+  <span id="version-info">v27.64</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -18700,10 +18700,21 @@ node.on("click", (e, d) => {
   // 会員でなくても、ログインしていなくても開けるページ。
   const spSpotifyLink = document.getElementById("sp-spotify-link");
   if (spSpotifyLink) {
-    const label = String(d.label || '').replace(/\\n/g, ' ');
+    // 【注意】ラベルの中の \n はソースの中では2文字(\ と n)だが、
+    // ブラウザがJSとして読み込んだ時点で本物の改行1文字に変わっている。
+    // /\\n/（2文字を探す）ではヒットしない。/\n/（本物の改行を探す）が正しい。
+    // これを取り違えて「Urban Contemporary」のような2語のジャンルで
+    // 改行が残り、ボタンが2段に割れる不具合になっていた（2026-09-03）。
+    const label = String(d.label || '').replace(/\n/g, ' ');
     spSpotifyLink.href = 'https://open.spotify.com/search/' + encodeURIComponent(label);
-    spSpotifyLink.innerHTML = '<span class="dot"></span>Spotifyで' + _escapeHtml(label)
-      + 'を<span class="cta">もっと聴く</span>';
+    // 【文中でジャンル名を繰り返さない】2026-09-03
+    // 「Spotifyで◯◯をもっと聴く」だと、いちばん長いジャンル
+    // 「MPB Música Popular Brasileira」（29字）のようなものが
+    // 2段に割れてしまう。ジャンル名はパネルの見出しに大きく出ているので、
+    // ここで繰り返す必要が無い。「Spotifyでもっと聴く」に短くすれば、
+    // ジャンル名の長さに関係なく必ず1段に収まる。
+    spSpotifyLink.innerHTML = '<span class="dot"></span>Spotifyで<span class="cta">もっと聴く</span>';
+    spSpotifyLink.title = label + 'を Spotify で聴く';
   }
 
   // セクションの見出し（「受けた」「与えた」「相互に」）で方向は
@@ -21563,7 +21574,11 @@ if (!window.__grAutoOpenGenre) {
 function _grページの情報を書き換える(id) {
   const n = NODES.find(x => x.id === id);
   if (!n) return;
-  const 名   = String(n.label || '').replace(/\\n/g, ' ');
+  // \n はソースでは2文字だが、JSとして読み込んだ時点で本物の改行1文字に
+  // なっている。/\\n/ ではヒットしない（2026-09-03、Spotifyリンクと
+  // 同じ間違いをここにもしていた。「Urban Contemporary」のような2語の
+  // ジャンルで、検索結果のタイトルに改行が紛れ込むところだった）。
+  const 名   = String(n.label || '').replace(/\n/g, ' ');
   const 読み = (n.aliases || []).find(a => /^[ァ-ヴー・\s]+$/.test(a)) || '';
   const 題   = 名 + (読み ? '（' + 読み + '）' : '') + ' とは — 音楽ジャンルルーツ辞典';
   const 説   = String(n.desc || '').replace(/\s+/g, ' ').slice(0, 115);
