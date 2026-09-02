@@ -277,6 +277,15 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   margin: 16px 0 13px;
 }
 .sp-section h4 { font-size: 12px; letter-spacing: 0.5px; color: #fff; font-weight: 700; margin-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 4px; }
+/* 【Spotifyで聴くリンク】2026-09-02
+   代表曲の下に「もっと聴きたい人向け」の控えめな入口として置く。
+   会員かどうかに関係なく開ける、ただの検索結果ページへのリンク。 */
+.sp-spotify-link {
+  display: inline-flex; align-items: center; gap: 6px; margin-top: 8px;
+  font-size: 11.5px; color: #8a92b0; text-decoration: none;
+}
+.sp-spotify-link:hover { color: #1DB954; }
+.sp-spotify-link .dot { width: 7px; height: 7px; border-radius: 50%; background: #1DB954; flex: 0 0 auto; }
 /* 見出しの中で意味の要となる部分(受けた/与えた/相互に)だけ、方向の
    配色(in=青/out=緑/mutual=紫)に合わせて色を変えて目立たせる（2026-07-23） */
 .sp-h4-em.in { color: #4fb4e8; }
@@ -1423,7 +1432,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v27.60</span>
+  <span id="version-info">v27.59</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -1572,6 +1581,7 @@ svg { width: 100vw; height: 100vh; }
     <div class="sp-section" id="sp-tracks-sec" style="display:none;">
       <h4>代表曲・アーティスト</h4>
       <div id="sp-tracks"></div>
+      <a href="#" id="sp-spotify-link" target="_blank" rel="noopener" class="sp-spotify-link"></a>
     </div>
     <div class="sp-explain-divider" id="sp-explain-divider" style="display:none;"></div>
     <div id="sp-suno-wrap"></div>
@@ -18670,6 +18680,20 @@ node.on("click", (e, d) => {
   } else {
     spTracksSec.style.display = 'none';
     if (spDivider) spDivider.style.display = 'none';
+  }
+
+  // 【Spotifyで聴く】2026-09-02
+  // Spotify の内部ジャンルタグ（genre:）は登録されている名称が限られていて、
+  // このジャンル名（例:「早稲田系」のような造語や細かい下位様式）の
+  // 大半は一致しない。genre: 絞り込みだと空振りが多くなるため、
+  // ふつうの検索（アーティスト名・トラック名・プレイリスト名を横断で探す）
+  // にする。ヒット率は落ちないが、精度はジャンルによって差が出る。
+  // 会員でなくても、ログインしていなくても開けるページ。
+  const spSpotifyLink = document.getElementById("sp-spotify-link");
+  if (spSpotifyLink) {
+    const label = String(d.label || '').replace(/\\n/g, ' ');
+    spSpotifyLink.href = 'https://open.spotify.com/search/' + encodeURIComponent(label);
+    spSpotifyLink.innerHTML = '<span class="dot"></span>Spotifyで' + _escapeHtml(label) + 'を聴く';
   }
 
   // セクションの見出し（「受けた」「与えた」「相互に」）で方向は
