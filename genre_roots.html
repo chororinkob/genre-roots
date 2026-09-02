@@ -1423,7 +1423,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v27.57</span>
+  <span id="version-info">v27.58</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -21518,18 +21518,65 @@ if (!window.__grAutoOpenGenre) {
   } catch (e) { /* 住所が読めなくても地図はふつうに開く */ }
 }
 
+// 【住所ごとに題名と説明文を変える】2026-09-02
+// 573ジャンルぶんの住所（genre_roots.html?genre=…）を、それぞれ別のページとして
+// 検索に載せるための下ごしらえ。どの住所でも題名と説明文が同じままだと、
+// Googleに「中身が同じページが573個ある」と判断され、1つだけ残して捨てられる。
+// 開いたジャンルに合わせて書き換えることで、573本が別々のページとして扱われる。
+//
+// 画面の見た目は何も変わらない。変わるのはブラウザのタブに出る文字と、
+// 検索結果・SNSに出る文字だけ。
+function _grページの情報を書き換える(id) {
+  const n = NODES.find(x => x.id === id);
+  if (!n) return;
+  const 名   = String(n.label || '').replace(/\\n/g, ' ');
+  const 読み = (n.aliases || []).find(a => /^[ァ-ヴー・\s]+$/.test(a)) || '';
+  const 題   = 名 + (読み ? '（' + 読み + '）' : '') + ' とは — 音楽ジャンルルーツ辞典';
+  const 説   = String(n.desc || '').replace(/\s+/g, ' ').slice(0, 115);
+  const 住所 = location.origin + location.pathname + '?genre=' + encodeURIComponent(id);
+  document.title = 題;
+  const 置く = (選び方, 作り方, 属性, 値) => {
+    let e = document.head.querySelector(選び方);
+    if (!e) { e = 作り方(); document.head.appendChild(e); }
+    e.setAttribute(属性, 値);
+  };
+  const メタ = (名前, 値, 種 = 'name') =>
+    置く('meta[' + 種 + '="' + 名前 + '"]',
+         () => { const m = document.createElement('meta'); m.setAttribute(種, 名前); return m; },
+         'content', 値);
+  メタ('description', 説);
+  メタ('og:title', 題, 'property');
+  メタ('og:description', 説, 'property');
+  メタ('og:url', 住所, 'property');
+  // このページ自身を正式な住所として名乗る。これが無いと、Googleが
+  // 573本を「genre_roots.html の重複」とみなしてまとめてしまう。
+  置く('link[rel="canonical"]',
+       () => { const l = document.createElement('link'); l.rel = 'canonical'; return l; },
+       'href', 住所);
+}
+
 if (window.__grAutoOpenGenre) {
   const _grAutoOpenId = window.__grAutoOpenGenre;
-  // このURL(?genre=...)を使うのは今回の表示1回だけにする。消しておかないと、
-  // このタブを後で（それこそ何日も後で、別のジャンルが承認された後でも）
-  // 再読み込みするたびに、この時点の?genre=の値がずっと開き直されてしまう
-  // （実際に「常に最後に承認したジャンルが開く」という不具合として報告された）。
-  // 履歴には残さずURLだけ書き換える（genre以外のパラメータ(admin=1等)は残す）。
-  try {
-    const _grUrl = new URL(location.href);
-    _grUrl.searchParams.delete('genre');
-    history.replaceState(null, '', _grUrl.pathname + _grUrl.search + _grUrl.hash);
-  } catch (e) { /* URL操作に失敗しても致命的ではないので無視する */ }
+  // 住所（?genre=…）から来たのか、サーバーが差し込んだのかを見分ける。
+  const _gr住所から = new URLSearchParams(location.search).get('genre') === _grAutoOpenId;
+
+  if (_gr住所から) {
+    // 検索や共有リンクから来た人。この住所こそがそのジャンルのページなので、
+    // 住所は消さずに残す（消すとリンクを人に渡せなくなる）。
+    _grページの情報を書き換える(_grAutoOpenId);
+  } else {
+    // サーバーが差し込んだ場合（承認直後の /roots?genre=…）。
+    // このURLを使うのは今回の表示1回だけにする。消しておかないと、
+    // このタブを後で（それこそ何日も後で、別のジャンルが承認された後でも）
+    // 再読み込みするたびに、この時点の?genre=の値がずっと開き直されてしまう
+    // （実際に「常に最後に承認したジャンルが開く」という不具合として報告された）。
+    // 履歴には残さずURLだけ書き換える（genre以外のパラメータ(admin=1等)は残す）。
+    try {
+      const _grUrl = new URL(location.href);
+      _grUrl.searchParams.delete('genre');
+      history.replaceState(null, '', _grUrl.pathname + _grUrl.search + _grUrl.hash);
+    } catch (e) { /* URL操作に失敗しても致命的ではないので無視する */ }
+  }
 
   let _grAutoOpened = false;
   const _grOpenAutoTarget = () => {

@@ -1,0 +1,7 @@
+# 音楽ジャンルルーツ辞典
+# ジャンルごとの住所は sitemap.xml に一覧がある。
+# 押さないと辿り着けない住所なので、これが無いと見つけてもらえない。
+User-agent: *
+Allow: /
+
+Sitemap: https://genre-roots.com/sitemap.xml
