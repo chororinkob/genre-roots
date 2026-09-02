@@ -1423,7 +1423,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v27.56</span>
+  <span id="version-info">v27.57</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -21505,6 +21505,19 @@ window.addEventListener('message', (e) => {
 // ノードがまだ動いている途中の座標でズームしてしまい、マップがぐちゃぐちゃな
 // 位置のまま表示されていた。シミュレーションが落ち着く(end)まで待ってから
 // 開くようにする（万一収束しない場合に備えて上限のタイムアウトも設ける）。
+// 【検索から来た人のために】2026-09-02
+// これまで __grAutoOpenGenre はサーバー（/roots?genre=…）からしか渡されず、
+// 地図を直接 genre_roots.html?genre=… で開いても、説明パネルは閉じたままだった。
+// ジャンルごとの解説ページから「地図で見る」で来たときに、そのジャンルが
+// 開いた状態で始まってほしいので、住所からも受け取れるようにする。
+// 実在しないidが指定されても何も起きない（存在するものだけ通す）。
+if (!window.__grAutoOpenGenre) {
+  try {
+    const _g = new URLSearchParams(location.search).get('genre');
+    if (_g && NODES.some(n => n.id === _g)) window.__grAutoOpenGenre = _g;
+  } catch (e) { /* 住所が読めなくても地図はふつうに開く */ }
+}
+
 if (window.__grAutoOpenGenre) {
   const _grAutoOpenId = window.__grAutoOpenGenre;
   // このURL(?genre=...)を使うのは今回の表示1回だけにする。消しておかないと、
