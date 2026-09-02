@@ -278,14 +278,23 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 }
 .sp-section h4 { font-size: 12px; letter-spacing: 0.5px; color: #fff; font-weight: 700; margin-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 4px; }
 /* 【Spotifyで聴くリンク】2026-09-02
-   代表曲の下に「もっと聴きたい人向け」の控えめな入口として置く。
-   会員かどうかに関係なく開ける、ただの検索結果ページへのリンク。 */
+   代表曲の下に「もっと聴きたい人向け」の入口として置く。
+   会員かどうかに関係なく開ける、ただの検索結果ページへのリンク。
+   最初は地の文と同じ灰色にしていたら「押せる場所に見えない」と
+   指摘された。「もっと聴く」の部分だけ、.mic-genre-tag と同じ
+   赤いピル型にして、押せることが一目で分かるようにした（2026-09-03）。 */
 .sp-spotify-link {
-  display: inline-flex; align-items: center; gap: 6px; margin-top: 8px;
+  display: inline-flex; align-items: center; gap: 7px; margin-top: 9px;
   font-size: 11.5px; color: #8a92b0; text-decoration: none;
 }
-.sp-spotify-link:hover { color: #1DB954; }
 .sp-spotify-link .dot { width: 7px; height: 7px; border-radius: 50%; background: #1DB954; flex: 0 0 auto; }
+.sp-spotify-link .cta {
+  background: rgba(233,69,96,0.14); color: #e94560;
+  border: 1px solid rgba(233,69,96,0.22); padding: 3px 11px;
+  border-radius: 100px; font-size: 11.5px; font-weight: 700;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.sp-spotify-link:hover .cta { background: #e94560; color: #fff; border-color: #e94560; }
 /* 見出しの中で意味の要となる部分(受けた/与えた/相互に)だけ、方向の
    配色(in=青/out=緑/mutual=紫)に合わせて色を変えて目立たせる（2026-07-23） */
 .sp-h4-em.in { color: #4fb4e8; }
@@ -1432,7 +1441,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v27.61</span>
+  <span id="version-info">v27.62</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -18693,7 +18702,8 @@ node.on("click", (e, d) => {
   if (spSpotifyLink) {
     const label = String(d.label || '').replace(/\\n/g, ' ');
     spSpotifyLink.href = 'https://open.spotify.com/search/' + encodeURIComponent(label);
-    spSpotifyLink.innerHTML = '<span class="dot"></span>Spotifyで' + _escapeHtml(label) + 'を聴く';
+    spSpotifyLink.innerHTML = '<span class="dot"></span>Spotifyで' + _escapeHtml(label)
+      + 'を<span class="cta">もっと聴く</span>';
   }
 
   // セクションの見出し（「受けた」「与えた」「相互に」）で方向は
