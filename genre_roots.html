@@ -295,6 +295,37 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   transition: background 0.15s, color 0.15s, border-color 0.15s;
 }
 .sp-spotify-link:hover .cta { background: #e94560; color: #fff; border-color: #e94560; }
+/* 【関連書籍の表紙を並べる（試作）】2026-09-03
+   「成り立ち」の下に、フィットする本を表紙画像で横スクロール表示する。
+   最初はテキストリンク1本だけの案だったが、
+   ①クリック率を考えると表紙が見える方が良さそう
+   ②Amazon側の自動おすすめ機能(PA-API)は売上実績が無いとまだ使えない
+     （新規アソシエイトは使用不可、と公式ヘルプに明記）
+   ③代表曲と同じように手作業で選んだ本のASINを並べる方式にした。
+   まだ試作段階（golden_age_hiphop=6冊、vaporwave=1冊の2件だけで確認中）。 */
+.sp-books-title {
+  font-size: 11.5px; color: #8a92b0; margin: 10px 0 6px;
+}
+.sp-books-row {
+  display: flex; gap: 10px; overflow-x: auto; padding-bottom: 4px;
+  scrollbar-width: thin;
+}
+.sp-book-card {
+  flex: 0 0 auto; width: 84px; text-decoration: none;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.sp-book-card img {
+  width: 84px; height: 120px; object-fit: cover; border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.12);
+  transition: transform 0.15s, border-color 0.15s;
+  background: #1a1a2e;
+}
+.sp-book-card:hover img { transform: translateY(-2px); border-color: #ff9900; }
+.sp-book-card .cap {
+  font-size: 10px; color: #8a92b0; line-height: 1.3;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 /* 見出しの中で意味の要となる部分(受けた/与えた/相互に)だけ、方向の
    配色(in=青/out=緑/mutual=紫)に合わせて色を変えて目立たせる（2026-07-23） */
 .sp-h4-em.in { color: #4fb4e8; }
@@ -865,7 +896,9 @@ svg { width: 100vw; height: 100vh; }
 
 /* カテゴリアコーディオン */
 .cat-accordion { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
-.cat-accordion.open { max-height: 1000px; transition: max-height 0.6s ease-in; }
+/* 1000pxは12件表示だった頃の値。全件表示にした今、最大のロック系
+   (68件)でも収まるよう十分な値に上げた（2026-09-04）。 */
+.cat-accordion.open { max-height: 8000px; transition: max-height 0.6s ease-in; }
 .cat-acc-inner { border-left: 2px solid var(--acc-color, #666); border-radius: 0 0 4px 4px; padding: 5px 8px 8px 10px; margin: 0 0 3px -5px; background: rgba(0,0,0,0.25); }
 .cat-acc-genre { padding: 2px 3px; cursor: pointer; border-radius: 3px; margin: 1px 0; }
 .cat-acc-genre:hover { background: rgba(255,255,255,0.08); }
@@ -1441,7 +1474,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v27.66</span>
+  <span id="version-info">v27.67</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -1601,6 +1634,10 @@ svg { width: 100vw; height: 100vh; }
     <div class="sp-section" id="sp-roots-story-sec">
       <h4>成り立ち</h4>
       <p id="sp-roots-story"></p>
+      <div id="sp-books-wrap" style="display:none;">
+        <div class="sp-books-title">関連する書籍</div>
+        <div id="sp-books-row" class="sp-books-row"></div>
+      </div>
     </div>
     <div id="sp-influence-group" class="sp-influence-group">
     <div class="sp-section" id="sp-in-sec">
@@ -2774,6 +2811,9 @@ const NODES = [
     aliases:["レトロウェーブ", "レトロウェーヴ"],},
 
   {id:"vaporwave", label:"Vaporwave", cat:"synthwave", era:"2010", suno:false,
+    books:[
+      {asin:"4866470860", title:"新蒸気波要点ガイド（ヴェイパーウェイヴ・アーカイブス2009-2019）", img:"https://m.media-amazon.com/images/I/81QnR1BpHIL._AC_UY218_.jpg"}
+    ],
     desc:"1980年代から1990年代の商業音楽や企業向け映像音楽を素材とし、それを極端に遅く再生し、加工して提示する電子音楽。中核となる技法は明快で、原曲の再生速度を三割から五割ほど落とすことによりピッチが下がり、歌声は間延びして正体を失い、シンセの音は溶けたように鈍る。そこにリバーブとコーラス（音を微妙にずらして重ねる効果）を過剰にかけ、時に音を数拍ごとに繰り返して引き伸ばすループ処理を施す。素材として選ばれるのは、スムーズ・ジャズ、シティ・ポップ、1980年代のR&B、そしてショッピングモールや企業ビデオで流れていた無名の環境音楽で、いずれも当時は使い捨ての商品音楽だったものである。BPMは原曲依存で60〜90程度に落ち着き、明確なリズムより漂う質感が主体になる。曲名やアルバム名には日本語やギリシャ彫刻、初期のパソコン画面の図像が用いられ、視覚表現と不可分に結び付く。音楽的な作為を最小限にとどめ、選曲と加工だけで意味を生み出す点が独特で、消費社会への郷愁と批評、そして空虚さそのものを主題とする、極めて概念的な音楽である。",
     roots_story:"2010年から2012年頃、インターネット上の匿名的な音楽コミュニティから生まれた。直接の前史は2000年代末のヒプナゴジック・ポップと呼ばれる潮流で、James Ferraroやthe Skaters周辺が、幼少期のテレビや広告の記憶を歪んだ音で再現する試みを行っていた。決定的な最初期の作品は、Daniel Lopatin（Oneohtrix Point Never）が2010年にChuck Person名義で発表したChuck Person's Eccojams Vol. 1で、1980年代のポップスを引き伸ばして反復させるという中核技法をほぼ完成させた。翌2011年、Ramona Xavier（Vektroid）がMacintosh Plus名義で発表したFloral Shoppeが、ジャンルの決定版として広く認識され、そのジャケットに描かれたギリシャ彫刻の胸像と日本語のカタカナ表記が視覚言語を固定した。流通はほぼ全てBandcampとインターネット・フォーラムを通じた無料または少額の配布で、物理媒体としてはあえて時代遅れのカセットテープが選ばれた。作品は数百枚単位の限定生産で、匿名の名義が次々に生まれては消えるという流動的な生態系を形成した。思想的な背景としては、後期資本主義への皮肉、1990年代のインターネットが約束した未来が実現しなかったことへの失望、そしてショッピングモールという場が衰退したことへの郷愁が繰り返し論じられた。一方で、批評家からは、素材を選んで加工しただけで音楽と呼べるのかという疑問、著作権処理の不明瞭さ、そして皮肉が消費されて単なる装飾になったという指摘がなされた。実際、2013年前後には流行が一巡し、当事者の多くが終わったと宣言したが、その後もフューチャー・ファンク、モール・ソフト、シグナルウェイヴなど無数の下位様式に分岐して存続し、インターネット発の美学が音楽を超えて視覚文化全般に影響を与えた稀な例となっている。",
     rep_tracks:["リサフランク420 / 現代のコンピュー (Macintosh Plus)", "Hit Vibes (SAINT PEPSI)", "Teen Pregnancy (Blank Banshee)", "Nobody Here (Oneohtrix Point Never)", "リサフランク420 / 現代のコンピュー (Macintosh Plus)"],
@@ -3941,6 +3981,11 @@ const NODES = [
 
   // ヒップホップ系追加2
   {id:"golden_age_hiphop", label:"Golden Age\nHip Hop", cat:"hiphop", era:"1986", suno:true,
+    books:[
+      {asin:"4845628511", title:"ヒップホップ・ジェネレーション", img:"https://m.media-amazon.com/images/I/81RtHCJM4CL._SY342_.jpg"},
+      {asin:"490758394X", title:"ラップ・イヤー・ブック", img:"https://m.media-amazon.com/images/I/91O7-nv3a6L._AC_UY218_.jpg"},
+      {asin:"4140817550", title:"ライムスター宇多丸の「ラップ史」入門", img:"https://m.media-amazon.com/images/I/81YEDZ9pINL._AC_UY218_.jpg"}
+    ],
     desc:"1986年頃から93年頃にかけての、ヒップホップの表現手法が一気に多様化した時期の様式。制作の核はサンプリングで、ジャズ、ソウル、ファンク、ロック、映画音楽から抜き出した無数の断片を重ね、一曲に数十のサンプルが積み上げられることもあった。権利処理の慣行がまだ確立していなかったため、この時期にしかできない密度の音づくりが行われている。ドラムはサンプラーで組まれ、テンポは毎分90から110拍程度が中心だが、跳ねた16分音符のスウィングを加えるものも多い。ベースはウッドベースの断片やシンセの低音で支えられ、上物にはホーンの刺しやローズピアノ、スクラッチが並ぶ。ラップの技術がこの時期に飛躍し、行末で韻を踏むだけの単純な形から、行内で何度も韻を重ね、拍の頭を外して食い込ませる複雑な譜割りへと進化した。歌詞の幅も広がり、自慢や恋愛だけでなく、人種差別、警察の暴力、教育、アフリカへの回帰、犯罪の描写、そして政治的な主張まで扱われるようになった。同時にユーモアや言葉遊び、自伝的な内省も並立し、単一の様式ではなく複数の潮流が同時に咲いた点が、この時期を黄金期と呼ばせている。",
     roots_story:"転換点は1986年である。この年、Run-D.M.C.の『Raising Hell』が全米三位に達し、Aerosmithと共演した『Walk This Way』でヒップホップが白人市場に届いた。同じ年、Beastie Boysの『Licensed to Ill』がヒップホップとして初の全米一位を獲得し、これらを手がけたレーベルDef Jamと制作者Rick Rubin、経営者Russell Simmonsが業界の中心となった。翌1987年、Eric B. and Rakimの『Paid in Full』とBoogie Down Productionsの『Criminal Minded』が、それぞれラップの技術と街の現実の描写を一段引き上げた。1988年は特に重要な年で、Public Enemyの『It Takes a Nation of Millions to Hold Us Back』が、制作集団The Bomb Squadによる耳を刺す不協和な音の壁と、Chuck Dの政治的な演説で、音楽が武器になりうることを示した。同じ年にはN.W.A.の『Straight Outta Compton』がロサンゼルス南部の警察暴力を描き、連邦捜査局から抗議の書簡が届くという事態になった。EPMD、Big Daddy Kane、Slick Rick、De La Soul、A Tribe Called Quest、Jungle Brothersが続き、後者三組はNative Tonguesという緩やかな連合を作って、ジャズと平和主義を掲げた。テレビではMTVが1988年に専門番組『Yo! MTV Raps』を開始し、全米の郊外の若者に映像を届けた。しかしこの時代は法によって終わる。1991年、Biz Markieが無許可でGilbert O'Sullivanの曲を使った件で敗訴し、以後サンプリングには事前の許諾と高額の使用料が必要になった。密度の高い音づくりは経済的に不可能となり、制作の方向は大きく変わった。",
     rep_tracks: ["Paid in Full (Eric B. & Rakim)", "Award Tour (A Tribe Called Quest)", "Nuthin' but a 'G' Thang（Dr. Dre ft. Snoop Dogg）", "Juicy（The Notorious B.I.G.）", "The World Is Yours（Nas）"],
@@ -18717,6 +18762,33 @@ node.on("click", (e, d) => {
     spSpotifyLink.title = label + 'を Spotify で聴く';
   }
 
+  // 【関連書籍を並べる（試作）】2026-09-03
+  // 「成り立ち」の下に置く。golden_age_hiphopとvaporwaveの2件だけで試作中。
+  // books配列(ASIN)が無いジャンルでは枠ごと出さない(空の枠を見せない)。
+  // 表紙画像はAmazon本体の商品画像を直接読み込む(ホットリンク制限なし、
+  // 実測で確認済み)。PA-API(自動でおすすめを取得する仕組み)は売上実績が
+  // 無いと使えないため、代表曲と同じく手作業で選んだ本を並べている。
+  const spBooksWrap = document.getElementById("sp-books-wrap");
+  const spBooksRow = document.getElementById("sp-books-row");
+  if (spBooksWrap && spBooksRow) {
+    const books = Array.isArray(d.books) ? d.books : [];
+    if (books.length) {
+      spBooksWrap.style.display = "";
+      spBooksRow.innerHTML = books.map(b => {
+        const asin = grEsc(b.asin);
+        const title = grEsc(b.title || "");
+        const img = grEsc(b.img || "");
+        return '<a href="https://www.amazon.co.jp/dp/' + asin + '?tag=genreroots-22" '
+          + 'target="_blank" rel="noopener" class="sp-book-card" title="' + title + '">'
+          + '<img src="' + img + '" loading="lazy" alt="' + title + '">'
+          + '<span class="cap">' + title + '</span></a>';
+      }).join("");
+    } else {
+      spBooksWrap.style.display = "none";
+      spBooksRow.innerHTML = "";
+    }
+  }
+
   // セクションの見出し（「受けた」「与えた」「相互に」）で方向は
   // 既に分かるため、カード内では相手ジャンル名だけを表示し、自分
   // (Future Funk等)の名前・矢印は出さない（2026-07-23、指摘を受けて簡略化）。
@@ -20241,11 +20313,14 @@ document.querySelectorAll('.legend-item[data-cat]').forEach(item => {
                  || (_知(b.id)[1] - _知(a.id)[1])
                  || (_知(b.id)[2] - _知(a.id)[2])
                  || String(a.label).localeCompare(String(b.label)));
-  const MAX_SHOW = 12;
-  const shown = genres.slice(0, MAX_SHOW);
-  const rest = genres.length - MAX_SHOW;
-
-  shown.forEach(genre => {
+  // 【上限を撤廃】2026-09-04
+  // 以前は上位12件だけ名前を出し、残りは「他Nジャンル」とまとめて
+  // 隠していた（2026-07-03、512ジャンル当時にこの機能を作った際に
+  // 決めた数字で、チョロさんの指示ではなかった）。573ジャンルまで
+  // 増えた今、ロック系68件中56件・ヒップホップ系36件中24件など、
+  // 半数近くが名前も見えない状態になっていた。中身はスクロールで
+  // 見られる場所なので、件数で切る理由が無い。全件表示に変える。
+  genres.forEach(genre => {
     const row = document.createElement('div');
     row.className = 'cat-acc-genre';
 
@@ -20270,13 +20345,6 @@ document.querySelectorAll('.legend-item[data-cat]').forEach(item => {
 
     inner.appendChild(row);
   });
-
-  if (rest > 0) {
-    const more = document.createElement('div');
-    more.className = 'cat-acc-more';
-    more.textContent = `他 ${rest} ジャンル`;
-    inner.appendChild(more);
-  }
 
   acc.appendChild(inner);
   item.after(acc);
