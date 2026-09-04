@@ -106,7 +106,7 @@
 <tr><td>ジャンル追加 genre_adder.py</td><td>v2.35</td><td>公開済み</td></tr>
 </table>
 
-<h2>🔶 進行中・次にやること <span class="h2-count">4件</span></h2>
+<h2>🔶 進行中・次にやること <span class="h2-count">3件</span></h2>
 
 <div class="item">
   <div class="item-head">
@@ -127,36 +127,6 @@
       直近でヘッダーの著作権表示を消して「個人でやってる感を出さない」方向に
       振ったばかりで、広告を貼るとその方向性と逆行してしまう。検索経由の
       来訪が増えてから改めて検討するのが良いのでは、とチョロさんに提案中。
-    </div>
-  </div>
-</div>
-
-<div class="item">
-  <div class="item-head">
-    <span class="status hold">保留</span>
-    <span class="item-title">ヘルプの抜本的見直し（旧「図の撮り直し」＋「ヘルプ全面見直し」を統合）</span>
-  </div>
-  <div class="item-body">
-    以前は「図の撮り直し（36枚）」と「ヘルプ・仕様書の全面見直し」を
-    別々の項目にしていたが、図（`docs/図の宿題.md`）は元々
-    <code>docs/manual.html</code>専用のものだったため、2026-09-04に
-    1つの項目へ統合した（チョロさんの指摘。分けたままだと、先に図を撮って
-    あとで文章を直すと図が古くなり、二度手間になる）。
-    <span class="item-order">順番：SEO拡大・広告表示など、画面に影響する
-    決めごとが全部落ち着く → <b>①文章の見直し</b>（下記）→
-    <b>②最後にまとめて図を36枚撮り直す</b>（<code>node tools/figs/all.js</code>）</span>
-    <div class="dim" style="margin-top:8px;">
-      <b>文章の見直しで直すこと：</b><br>
-      ・地図にあるのにヘルプに説明が無い機能が9件：知名度／影響度の5項目チップ／
-      別名の併記／用語のふきだし／玉の大きさ／カテゴリの色分け／楽器・効果タブ／
-      Sunoプロンプト／3D表示<br>
-      ・<code>music_genre_finder/docs/spec.html</code>・<code>flow_chart.html</code>・
-      <code>roadmap.html</code>も2026-07-13から更新なし<br>
-      ・<code>docs/about.html</code>の著作権欄にある「GitHub Pagesで公開する
-      ため公開設定にしています」という一文は、GitHubを知らない人には
-      伝わらない。中身（見られる＝自由に使ってよいわけではない、という
-      注意）は残しつつ、GitHubの専門用語を使わない言い回しに直す
-      （2026-09-04、チョロさんの指摘で発覚）
     </div>
   </div>
 </div>
@@ -269,6 +239,23 @@
   <div class="done-list">
 
     <div class="done-day">2026-09-04</div>
+    <div class="done-item">ヘルプの抜本的見直し（文章の見直し→図36枚の撮り直しまで一括）
+      <div class="dim">「地図にあるのに説明が無い機能が9件」を確認したところ、6件
+      （知名度・影響度チップ・別名・用語のふきだし・玉の大きさ・カテゴリの色分け）
+      は既に「もっと詳しく」章で説明済みだった。残る3件（楽器・効果タブ／
+      Sunoタグ絞り込み／3D表示）はコードを確認した結果、いずれも画面上に
+      出てこない無効化済み機能と判明（tab-buttonsがdisplay:none固定、
+      3Dマップはif(false)で丸ごと無効化）。チョロさんに確認のうえ、この3件は
+      ヘルプに書かず非表示のままにする方針にした。<br>
+      manual.htmlの「更新のあゆみ」に2026年9月分を追記（ガイドv1.20）。
+      about.htmlの著作権欄にあったGitHub専門用語（リポジトリ／GitHub Pages／
+      オープンソースのライセンス）を、意味を変えずに平易な言い回しへ書き直し。
+      spec.htmlは<code>spec_dump.py</code>を実行して実物から自動で書き出し
+      直し（2026-07-13から止まっていたのを解消）。flow_chart.html・
+      roadmap.htmlの数字（570→573ジャンル・地図バージョン）も同じ仕組みで
+      自動更新。最後にヘルプの図36枚を撮り直し、撮影中に見つけた不具合
+      （fig01の吹き出しに、削除済みの「このサイトについて」ボタンの説明が
+      古いまま残っていた）も合わせて修正した</div></div>
     <div class="done-item">検索タイトルにルーツ・影響関係のキーワードを自動で織り込み（地図 v28.2→v28.3）
       <div class="dim">「ジャズとは」のような定型文だと単語1つの検索でWikipedia等に
       埋もれるため、サイトが持つ「何から生まれ何に影響を与えたか」の関係性データ
