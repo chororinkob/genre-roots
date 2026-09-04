@@ -87,10 +87,9 @@
 <h1>作業状況</h1>
 <div class="sub">音楽ジャンルルーツ辞典 ／ 2026-09-05 更新</div>
 <div class="warn-note" style="background:var(--doing-soft);">
-  最新の変更：使い方ガイド v1.24。前回(v1.23)公開したパネル画像7枚中5枚が、
-  実は地図全体を含む全画面スクショの縮小版に化けていた事故を発見・修正
-  （原因：撮り直しスクリプトの使い回しで生スクショが残っていた）。
-  今回は7枚すべて目視確認してから公開。
+  最新の変更：使い方ガイド v1.25。「成り立ち」の図に見出しが写っていない・
+  「影響を受けたジャンル」の見出しがJazzのヘッダーの下に隠れている、を修正。
+  「〜を説明する読みものです」の言い回しも全廃し「〜を説明しています」に統一。
 </div>
 <div class="warn-note">
   セッションをまたぐとここの数字も古くなる。<b>着手する前に必ず実物を見て
@@ -101,7 +100,7 @@
 <table class="verinfo">
 <tr><th>もの</th><th>版</th><th>どこ</th></tr>
 <tr><td>地図</td><td>v28.3</td><td><a href="https://genre-roots.com/" target="_blank" rel="noopener">公開済み</a></td></tr>
-<tr><td>使い方ガイド</td><td>v1.24</td><td>公開済み</td></tr>
+<tr><td>使い方ガイド</td><td>v1.25</td><td>公開済み</td></tr>
 <tr><td>更新の記録</td><td>自動生成</td><td><code>docs/changes.html</code>（公開済み）</td></tr>
 <tr><td>いたずら対策 guard.py</td><td>v1.10</td><td>公開済み</td></tr>
 <tr><td>ジャンル追加 genre_adder.py</td><td>v2.35</td><td>公開済み</td></tr>
@@ -240,6 +239,15 @@
   <div class="done-list">
 
     <div class="done-day">2026-09-05</div>
+    <div class="done-item">見出しが写っていない・隠れている図を修正、「読みもの」表現を全廃（ガイド v1.24→v1.25）
+      <div class="dim">「成り立ち」の図に見出しが写っておらず何の画像か分からない、
+      「影響を受けたジャンル」の見出しがJazzのヘッダーの下に隠れている、との指摘。
+      scrollIntoViewの大まかな位置合わせにズレがあったため、
+      getBoundingClientRectで実際の描画位置を測って補正する方式に直した
+      （<code>panel_detail_figs3.js</code>）。「成り立ち」と「関連する書籍」は
+      2枚（それぞれ見出し付き）に分割。「影響を受けた」「影響を与えた」両方の
+      見出しが1枚に収まるよう縦を延長。「〜を説明する読みものです」は全箇所
+      「〜を説明しています」に統一</div></div>
     <div class="done-item">パネル画像7枚中5枚が全画面スクショの縮小版に化けていた事故を修正（ガイド v1.23→v1.24）
       <div class="dim">「ルーツマップが要らないのに写り込んでいて、パネルの文字が小さすぎる」
       という指摘で発覚。原因はfig04を撮り直すたびに実行していた
