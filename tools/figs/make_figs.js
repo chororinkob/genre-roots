@@ -127,7 +127,7 @@ const 撮る = async (p, 名) => {
     }
     if (測.ヘルプ && 測.全体) {
       it.push({ type: 'box', rect: { x: 測.ヘルプ.x - 5, y: 測.ヘルプ.y - 5, w: (1400 - 12) - 測.ヘルプ.x + 5, h: 測.ヘルプ.h + 10 } });
-      it.push({ type: 'tag', text: 'ヘルプ・全体表示・このサイトについて', x: 測.ヘルプ.x - 330, y: 測.ヘルプ.y + 46 });
+      it.push({ type: 'tag', text: 'ヘルプ・全体表示', x: 測.ヘルプ.x - 330, y: 測.ヘルプ.y + 46 });
       it.push({ type: 'arrow', pts: [測.ヘルプ.x - 40, 測.ヘルプ.y + 52, 測.ヘルプ.x + 10, 測.ヘルプ.y + 34] });
     }
     it.push({ type: 'tag', text: 'ここが地図。丸ひとつが1ジャンル', x: 760, y: 130, blue: true });
