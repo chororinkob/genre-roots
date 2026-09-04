@@ -1439,7 +1439,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v28.2</span>
+  <span id="version-info">v28.3</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -23729,9 +23729,13 @@ function _grページの情報を書き換える(id) {
   let 差別化句 = '';
   if (ルーツ元.length) 差別化句 = ルーツ元.join('・') + 'から生まれた';
   else if (影響先.length) 差別化句 = 影響先.join('・') + 'に影響を与えた';
+  // ジャンル名(英語表記)＋カタカナ読みは、差別化句を足す場合でも必ず残す。
+  // 「ジャズ」のようなカタカナ検索でヒットしなくなる不具合が2026-09-04に
+  // 一度出ていた（差別化句を足した際に読みを落としていた）。
+  const 名読み = 名 + (読み ? '（' + 読み + '）' : '');
   const 題 = 差別化句
-    ? 名 + 'とは？' + 差別化句 + '音楽ジャンルの成り立ち — 音楽ジャンルルーツ辞典'
-    : 名 + (読み ? '（' + 読み + '）' : '') + ' とは — 音楽ジャンルルーツ辞典';
+    ? 名読み + 'とは？' + 差別化句 + '音楽ジャンルの成り立ち — 音楽ジャンルルーツ辞典'
+    : 名読み + ' とは — 音楽ジャンルルーツ辞典';
   const 説   = String(n.desc || '').replace(/\s+/g, ' ').slice(0, 115);
   const 住所 = location.origin + location.pathname + '?genre=' + encodeURIComponent(id);
   document.title = 題;
