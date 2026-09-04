@@ -86,6 +86,11 @@
 
 <h1>作業状況</h1>
 <div class="sub">音楽ジャンルルーツ辞典 ／ 2026-09-04 更新</div>
+<div class="warn-note" style="background:var(--doing-soft);">
+  最新の変更（同日中）：検索タイトルの差別化を実装・公開（地図 v28.2）。
+  AdSenseの調査結果を反映。「新規ジャンル追加の申請テスト」の内容を
+  Spotify／Amazon書籍の具体的なテスト仕様に書き直し。
+</div>
 <div class="warn-note">
   セッションをまたぐとここの数字も古くなる。<b>着手する前に必ず実物を見て
   確かめる</b>こと（このページ自体も例外ではない）。図の撮り直しは
@@ -94,45 +99,35 @@
 
 <table class="verinfo">
 <tr><th>もの</th><th>版</th><th>どこ</th></tr>
-<tr><td>地図</td><td>v28.1</td><td><a href="https://genre-roots.com/" target="_blank" rel="noopener">公開済み</a></td></tr>
+<tr><td>地図</td><td>v28.2</td><td><a href="https://genre-roots.com/" target="_blank" rel="noopener">公開済み</a></td></tr>
 <tr><td>使い方ガイド</td><td>v1.19</td><td>公開済み</td></tr>
 <tr><td>更新の記録</td><td>自動生成</td><td><code>docs/changes.html</code>（公開済み）</td></tr>
 <tr><td>いたずら対策 guard.py</td><td>v1.10</td><td>公開済み</td></tr>
 <tr><td>ジャンル追加 genre_adder.py</td><td>v2.35</td><td>公開済み</td></tr>
 </table>
 
-<h2>🔶 進行中・次にやること <span class="h2-count">5件</span></h2>
+<h2>🔶 進行中・次にやること <span class="h2-count">4件</span></h2>
 
 <div class="item">
   <div class="item-head">
-    <span class="status hold">未着手（後でよい）</span>
-    <span class="item-title">検索タイトルに、うちのサイト独自の切り口を入れる</span>
-  </div>
-  <div class="item-body">
-    「ジャズ」のような単語1つだけだとWikipedia等に埋もれてしまうため、
-    「〇〇が影響を与えたジャンル」のような、このサイトならではの
-    キーワードをタイトル周りに入れて検索上位を狙う、というアイデアが
-    チョロさんから出ていた（優先度は低くてよいとのこと）。
-    <div class="dim" style="margin-top:6px;">
-      2026-09-04にコードを確認したところ、<b>未実装</b>だった。
-      今のタイトルは <code>[ジャンル名]とは — 音楽ジャンルルーツ辞典</code>
-      という最低限の作り分け（573ページが同じ内容とみなされて
-      Googleにまとめられるのを防ぐためのもの）のみで、差別化キーワードは
-      入っていない。話に出たのに記録が漏れて実装されないままだった項目。
-    </div>
-  </div>
-</div>
-
-<div class="item">
-  <div class="item-head">
-    <span class="status wait">決めごと待ち</span>
+    <span class="status wait">クローディアの結論：見送り推奨（チョロさんの最終判断待ち）</span>
     <span class="item-title">Google広告（アドセンス等）をジャンルマップに載せるか</span>
   </div>
   <div class="item-body">
-    書籍アフィリエイトとは別に検討中。ジャンルマップの見た目を崩さない
-    置き場所がまだ決まっていない（クローディアの意見：地図のUIは情報密度が
-    高いので、広告を挟むと窮屈に見える懸念がある）。結論は出ていないので、
-    引き続きアイデアを出していく。
+    2026-09-04に調査した結果：
+    <div class="dim" style="margin-top:6px;">
+      <b>置き場所：</b>Googleが今推奨しているのは「レスポンシブ広告ユニット」で、
+      置いた場所の横幅に自動で合わせてくれる。全体マップ表示時の上下の余白、
+      説明パネルを開いた時の最下段の帯、どちらにも技術的には置ける。<br><br>
+      <b>収益の目安：</b>日本語の個人ブログの実例では、1日400PV程度の専門ブログで
+      「表示1000回あたり880円」、1日200PVの一般ブログで「同450円」という水準。
+      月換算だと数百円〜千円程度が相場。genre-roots.comは検索経由の来訪が
+      まだほぼ無い段階なので、今入れても<b>収益はほぼ発生しない</b>と見込まれる。<br><br>
+      <b>クローディアの推奨：今は見送り。</b>収益がほぼゼロなことに加え、
+      直近でヘッダーの著作権表示を消して「個人でやってる感を出さない」方向に
+      振ったばかりで、広告を貼るとその方向性と逆行してしまう。検索経由の
+      来訪が増えてから改めて検討するのが良いのでは、とチョロさんに提案中。
+    </div>
   </div>
 </div>
 
@@ -168,11 +163,43 @@
 
 <div class="item">
   <div class="item-head">
-    <span class="status doing">中断中</span>
-    <span class="item-title">新規ジャンル追加の申請テスト</span>
+    <span class="status hold">未着手（開発が必要）</span>
+    <span class="item-title">新規ジャンル追加：Spotify・Amazon書籍の動作確認と実装</span>
   </div>
   <div class="item-body">
-    知名度の不備を見つけるきっかけになった作業。途中で中断したまま。
+    以前は「知名度の不備を見つけるきっかけになった申請テスト」という説明に
+    なっていたが、知名度の評価ロジックはすでに直り済み（fame関連は解決済み）。
+    2026-09-04にチョロさんから、574件目以降の新規ジャンルでも
+    Spotify・Amazon書籍がちゃんと動くか確認してほしいと改めて指示があり、
+    コードを実際に読んで現状を確認した。
+    <div class="dim" style="margin-top:8px;">
+      <b>①Spotify「もっと聴く」リンク：</b>ジャンル名(<code>label</code>)から
+      検索URLを組み立てるだけの仕組み（<code>'https://open.spotify.com/search/' +
+      encodeURIComponent(label)</code>）で、ジャンルごとの保存データを必要としない。
+      <b>コード上は新規ジャンルでも無改修で動くはず</b>だが、これは読んだだけの
+      推測であり、実機で1件試していない。<br><br>
+      <b>②Amazon書籍リンク：</b><code>genre_adder.py</code>の新規ジャンル書き込み処理
+      （<code>_format_node</code>関数）を確認したところ、<code>books</code>の
+      項目が一切無い。既存573ジャンルの書籍は、私が1件ずつ手作業で選定・
+      Amazonページで実在確認して直接HTMLに書き込んだもので、
+      <b>新規追加の自動化フローには組み込まれていない、未着手の開発項目</b>。
+      新しいジャンルを追加しても書籍欄が空のままになる。
+    </div>
+    <div class="dim" style="margin-top:8px;">
+      <b>何をテストするのか（チョロさんの指示により明記）：</b>
+      <ol style="margin:6px 0 0 18px;padding:0;">
+        <li>テスト用に1ジャンルを新規追加申請→承認まで実際に流す</li>
+        <li>承認後のページで「もっと聴く」ボタンがSpotifyの正しい検索結果に
+          飛ぶか確認する（①の検証）</li>
+        <li>承認後のページに「関連する書籍」欄が出るか確認する
+          （②は現状「出ない」のが期待される結果＝未実装の証拠になる）</li>
+        <li>②が未実装と確認できたら、新規ジャンル1件分について
+          ハルシネーション防止のルール（実在確認必須・見つからなければ0件で
+          可）を守ったまま、Amazon書籍を自動選定する処理を設計・実装する</li>
+        <li>実装後、同じテストジャンルで再度確認し、書籍欄が正しく出ることを
+          Playwright等で検証してから完了とする</li>
+      </ol>
+    </div>
   </div>
 </div>
 
@@ -242,6 +269,14 @@
   <div class="done-list">
 
     <div class="done-day">2026-09-04</div>
+    <div class="done-item">検索タイトルにルーツ・影響関係のキーワードを自動で織り込み（地図 v28.2）
+      <div class="dim">「ジャズとは」のような定型文だと単語1つの検索でWikipedia等に
+      埋もれるため、サイトが持つ「何から生まれ何に影響を与えたか」の関係性データ
+      (LINKS)を使って、ジャンルごとに「Jazzとは？Blues・Ragtimeから生まれた
+      音楽ジャンルの成り立ち」のようなタイトルを自動生成するようにした。
+      画面の見た目には影響しない(document.title/metaのみ)。全573ジャンルが
+      関係性データを持つことを確認済み。Playwrightで6ジャンル分・JSエラー0件を
+      確認し、本番反映も確認済み</div></div>
     <div class="done-item">「図の撮り直し」と「ヘルプ全面見直し」を1つの項目に統合
       <div class="dim">図は元々ヘルプ専用だったため、別々のままだと先に図を撮って
       あとで文章を直すと図が古くなる（二度手間）。文章見直し→最後に図、の
