@@ -1,0 +1,231 @@
+<title>音楽ジャンルルーツ辞典 — 作業状況</title>
+<style>
+  :root{
+    --bg:#f7f5f2; --card:#fff; --ink:#1c1a19; --dim:#6b6560; --line:#e2ddd6;
+    --accent:#9a3412; --accent-soft:#fdf0e7;
+    --ok:#3f6212; --ok-soft:#f2f7e8;
+    --doing:#1d4ed8; --doing-soft:#eaf0fd;
+    --wait:#a16207; --wait-soft:#fdf6e3;
+    --hold:#6b6560; --hold-soft:#eeece8;
+  }
+  @media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+    --bg:#17161a; --card:#201f24; --ink:#eae7e2; --dim:#a39c94; --line:#33313a;
+    --accent:#f0a173; --accent-soft:#2c2119;
+    --ok:#a9cc6a; --ok-soft:#1e2318;
+    --doing:#8ab4f8; --doing-soft:#1a2333;
+    --wait:#e0b84c; --wait-soft:#2a2416;
+    --hold:#a39c94; --hold-soft:#26242a;
+  }}
+  :root[data-theme="dark"]{
+    --bg:#17161a; --card:#201f24; --ink:#eae7e2; --dim:#a39c94; --line:#33313a;
+    --accent:#f0a173; --accent-soft:#2c2119;
+    --ok:#a9cc6a; --ok-soft:#1e2318;
+    --doing:#8ab4f8; --doing-soft:#1a2333;
+    --wait:#e0b84c; --wait-soft:#2a2416;
+    --hold:#a39c94; --hold-soft:#26242a;
+  }
+  *{box-sizing:border-box;}
+  body{background:var(--bg);color:var(--ink);margin:0;
+       font-family:"Hiragino Kaku Gothic ProN","Yu Gothic UI","Meiryo",system-ui,sans-serif;
+       line-height:1.75;font-size:15px;}
+  .wrap{max-width:900px;margin:0 auto;padding:36px 20px 90px;}
+  h1{font-size:24px;margin:0 0 4px;letter-spacing:.02em;}
+  .sub{color:var(--dim);font-size:13px;margin-bottom:6px;}
+  .warn-note{background:var(--wait-soft);border:1px solid var(--line);border-radius:8px;
+             padding:9px 14px;font-size:12.5px;color:var(--ink);margin:14px 0 26px;}
+
+  table.verinfo{width:100%;border-collapse:collapse;background:var(--card);
+        border:1px solid var(--line);border-radius:10px;overflow:hidden;font-size:13px;margin-bottom:28px;}
+  table.verinfo th,table.verinfo td{padding:8px 14px;border-bottom:1px solid var(--line);text-align:left;}
+  table.verinfo th{background:var(--accent-soft);color:var(--dim);font-weight:600;font-size:11.5px;white-space:nowrap;}
+  table.verinfo tr:last-child td{border-bottom:none;}
+
+  h2{font-size:18px;margin:36px 0 4px;padding-bottom:6px;border-bottom:2px solid var(--line);
+     display:flex;align-items:center;gap:8px;}
+  .h2-count{font-size:12px;font-weight:400;color:var(--dim);}
+  .section-note{color:var(--dim);font-size:13px;margin:6px 0 14px;}
+
+  .item{background:var(--card);border:1px solid var(--line);border-radius:10px;
+        padding:12px 16px;margin-bottom:9px;}
+  .item-head{display:flex;align-items:center;gap:9px;flex-wrap:wrap;}
+  .status{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;
+          padding:3px 10px;border-radius:100px;white-space:nowrap;flex:0 0 auto;}
+  .status.doing{background:var(--doing-soft);color:var(--doing);}
+  .status.wait{background:var(--wait-soft);color:var(--wait);}
+  .status.hold{background:var(--hold-soft);color:var(--hold);}
+  .status.ok{background:var(--ok-soft);color:var(--ok);}
+  .item-title{font-weight:700;font-size:14.5px;}
+  .item-body{font-size:13.5px;color:var(--ink);margin-top:7px;}
+  .item-body .dim{color:var(--dim);font-size:12.5px;}
+  .item-order{font-size:11.5px;color:var(--dim);background:var(--hold-soft);
+              border-radius:6px;padding:2px 8px;display:inline-block;margin-top:6px;}
+  code{font-family:"SF Mono",Consolas,"JetBrains Mono",monospace;background:var(--accent-soft);
+       color:var(--accent);padding:1px 6px;border-radius:5px;font-size:12.5px;}
+  a{color:var(--accent);}
+
+  details.donebox{background:var(--card);border:1px solid var(--line);border-radius:10px;
+                  margin-top:6px;overflow:hidden;}
+  details.donebox summary{cursor:pointer;padding:12px 16px;font-size:13.5px;font-weight:700;
+                          list-style:none;color:var(--dim);}
+  details.donebox summary::-webkit-details-marker{display:none;}
+  details.donebox summary::before{content:"▸ ";color:var(--dim);}
+  details.donebox[open] summary::before{content:"▾ ";}
+  .done-list{padding:0 16px 14px;}
+  .done-day{font-size:11.5px;color:var(--dim);font-weight:700;margin:14px 0 6px;
+            text-transform:uppercase;letter-spacing:.04em;}
+  .done-day:first-child{margin-top:0;}
+  .done-item{font-size:13px;padding:6px 0 6px 20px;border-bottom:1px solid var(--line);position:relative;}
+  .done-item:last-child{border-bottom:none;}
+  .done-item::before{content:"✓";position:absolute;left:0;color:var(--ok);font-weight:700;}
+  .done-item .dim{color:var(--dim);font-size:12px;}
+
+  footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);
+         font-size:12.5px;color:var(--dim);}
+</style>
+<div class="wrap">
+
+<h1>作業状況</h1>
+<div class="sub">音楽ジャンルルーツ辞典 ／ 2026-09-04 更新</div>
+<div class="warn-note">
+  セッションをまたぐとここの数字も古くなる。<b>着手する前に必ず実物を見て
+  確かめる</b>こと（このページ自体も例外ではない）。図の撮り直しは
+  <code>docs/図の宿題.md</code>に分けてある。
+</div>
+
+<table class="verinfo">
+<tr><th>もの</th><th>版</th><th>どこ</th></tr>
+<tr><td>地図</td><td>v27.99</td><td><a href="https://genre-roots.com/" target="_blank" rel="noopener">公開済み</a></td></tr>
+<tr><td>使い方ガイド</td><td>v1.18</td><td>公開済み</td></tr>
+<tr><td>更新の記録</td><td>自動生成</td><td><code>docs/changes.html</code>（公開済み）</td></tr>
+<tr><td>いたずら対策 guard.py</td><td>v1.10</td><td>公開済み</td></tr>
+<tr><td>ジャンル追加 genre_adder.py</td><td>v2.34</td><td>公開済み</td></tr>
+</table>
+
+<h2>🔶 進行中・次にやること <span class="h2-count">6件</span></h2>
+
+<div class="item">
+  <div class="item-head">
+    <span class="status doing">進行中</span>
+    <span class="item-title">SEOの表示改善を全ジャンルへ広げる</span>
+  </div>
+  <div class="item-body">
+    krautrock／jazz／techno の3ジャンルで、良い表示ができることを確認済み
+    （<span class="dim">詳しい内容はチョロさんに確認中。分かり次第ここに書く</span>）。
+    同じやり方を、残り570ジャンルにも広げるのが次の作業。
+    <div class="dim">仕込み自体（住所ごとの題名・説明文・canonical・og書き換え、sitemap 573本、
+    Search Console登録）は完了済み。</div>
+  </div>
+</div>
+
+<div class="item">
+  <div class="item-head">
+    <span class="status wait">決めごと待ち</span>
+    <span class="item-title">Google広告（アドセンス等）をジャンルマップに載せるか</span>
+  </div>
+  <div class="item-body">
+    書籍アフィリエイトとは別に検討中。ジャンルマップの見た目を崩さない
+    置き場所がまだ決まっていない（クローディアの意見：地図のUIは情報密度が
+    高いので、広告を挟むと窮屈に見える懸念がある）。結論は出ていないので、
+    引き続きアイデアを出していく。
+  </div>
+</div>
+
+<div class="item">
+  <div class="item-head">
+    <span class="status hold">保留</span>
+    <span class="item-title">図の撮り直し（36枚）</span>
+  </div>
+  <div class="item-body">
+    画面がまだ変わる見込みがあるため様子見（2026-09-02 チョロさん判断）。
+    <span class="item-order">順番：SEO拡大・広告表示など、画面に影響する作業が
+    全部落ち着いてから着手 → 図の撮り直し → その後にヘルプを直す</span>
+  </div>
+</div>
+
+<div class="item">
+  <div class="item-head">
+    <span class="status hold">保留（図の後）</span>
+    <span class="item-title">ヘルプ・仕様書の全面見直し</span>
+  </div>
+  <div class="item-body">
+    <code>docs/manual.html</code>（ヘルプ）・<code>music_genre_finder/docs/spec.html</code>（仕様書）・
+    <code>flow_chart.html</code>・<code>roadmap.html</code>が2026-07-13から更新なし。
+    地図にあるのにヘルプに説明が無い機能が9件：知名度／影響度の5項目チップ／
+    別名の併記／用語のふきだし／玉の大きさ／カテゴリの色分け／楽器・効果タブ／
+    Sunoプロンプト／3D表示。<b>図の撮り直しが終わってから着手する</b>。
+  </div>
+</div>
+
+<div class="item">
+  <div class="item-head">
+    <span class="status doing">中断中</span>
+    <span class="item-title">新規ジャンル追加の申請テスト</span>
+  </div>
+  <div class="item-body">
+    知名度の不備を見つけるきっかけになった作業。途中で中断したまま。
+  </div>
+</div>
+
+<div class="item">
+  <div class="item-head">
+    <span class="status doing">小さい修正</span>
+    <span class="item-title">代表曲の二重登録（vaporwave内に1件）</span>
+  </div>
+  <div class="item-body">
+    「リサフランク420 / 現代のコンピュー」がvaporwaveのrep_tracksに2回
+    入っている。片方を消すだけの軽微な修正。急がない。
+  </div>
+</div>
+
+<h2>✅ 完了 <span class="h2-count">クリックで開く</span></h2>
+<details class="donebox">
+  <summary>片づいた作業を見る（新しい順）</summary>
+  <div class="done-list">
+
+    <div class="done-day">2026-09-04</div>
+    <div class="done-item">作業項目一覧を「やることリスト.md」からこの作業状況.htmlに作り直し、管理画面（/admin）からリンク（genre_adder.py v2.34）
+      <div class="dim">完了/未完了がひと目で分かるチェックリスト形式に。今後の更新はこのページで行う</div></div>
+    <div class="done-item">Amazon書籍アフィリエイト、573ジャンル中563ジャンルに関連書籍リンクを実装
+      <div class="dim">サイトの方針とマッチしているため実施。月1回の点検プロトコル
+      （<a href="書籍リンク保守プロトコル.html">書籍リンク保守プロトコル.html</a>）と
+      点検スクリプト（<code>scripts/check_book_links.js</code>）も整備し、
+      Googleカレンダーに毎月の通知を設定済み</div></div>
+    <div class="done-item">代表曲の重複解消（実質完了）
+      <div class="dim">148件→残り1件（vaporwave内の二重登録のみ、上の「進行中」に記載）</div></div>
+    <div class="done-item">カテゴリ一覧の並び順を知名度順に統一
+      <div class="dim">2026-08-25に切り替え済み。コード中の古いコメントも訂正</div></div>
+    <div class="done-item">GitHub連携の鍵（GITHUB_TOKEN）の期限切れをGoogleカレンダーで自動通知するようにした</div>
+
+    <div class="done-day">2026-09-03</div>
+    <div class="done-item">説明文の漢数字を算用数字に統一（地図 v27.66）
+      <div class="dim">463か所・220ジャンル。人名・熟語・定着した専門用語は対象外に仕分け</div></div>
+    <div class="done-item">新規追加・修正依頼のAI生成プロンプトにも同じ数字ルールを追加（genre_adder.py v2.32）</div>
+
+    <div class="done-day">2026-09-02</div>
+    <div class="done-item">アクセス記録・承認回数が保管庫に届くのを確認
+      <div class="dim">原因は「定期の係が本番で死んでいた」こと。/admin/health で状態を見えるようにした</div></div>
+    <div class="done-item">記録専用リポジトリ genre-roots-logs を新設し、サーバー作り直しで記録が消える問題を解決</div>
+    <div class="done-item">用語集の「ドロップC」「ドロップD」誤爆を修正</div>
+    <div class="done-item">更新の記録ページ（docs/changes.html）を新設。追加・修正・動画差し替え全112件を掲載</div>
+
+    <div class="done-day">2026-09-01</div>
+    <div class="done-item">独自ドメイン genre-roots.com を取得して切り替え</div>
+    <div class="done-item">サーバー側のCORS対応、ボタン文言変更、共有画像の文言差し替え</div>
+    <div class="done-item">スマホの動画再生・広告サンドボックス・YouTubeリンクの不具合を修正</div>
+    <div class="done-item">代表曲の再生停止・自動再生の不具合を修正</div>
+
+    <div class="done-day">それ以前</div>
+    <div class="done-item">SEOの仕込み（住所ごとのtitle/description/canonical/og書き換え、sitemap 573本、Search Console登録・送信）</div>
+    <div class="done-item">動画差し替え（2026-08-25に実測で0件を確認、完了）</div>
+    <div class="done-item">知名度（fame）データ化・パネル表示・丸の大きさへの反映（v26.43）</div>
+    <div class="done-item">五線譜の道づくり・軽量化・知名度と反発力の調整</div>
+
+  </div>
+</details>
+
+<footer>
+  以前は <code>docs/やることリスト.md</code> で管理していたが、状況がひと目で
+  分かるようこのページに作り直した（2026-09-04）。今後の更新はこのページで行う。
+</footer>
+
+</div>
