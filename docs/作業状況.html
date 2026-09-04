@@ -101,21 +101,7 @@
 <tr><td>ジャンル追加 genre_adder.py</td><td>v2.34</td><td>公開済み</td></tr>
 </table>
 
-<h2>🔶 進行中・次にやること <span class="h2-count">6件</span></h2>
-
-<div class="item">
-  <div class="item-head">
-    <span class="status doing">進行中</span>
-    <span class="item-title">SEOの表示改善を全ジャンルへ広げる</span>
-  </div>
-  <div class="item-body">
-    krautrock／jazz／techno の3ジャンルで、良い表示ができることを確認済み
-    （<span class="dim">詳しい内容はチョロさんに確認中。分かり次第ここに書く</span>）。
-    同じやり方を、残り570ジャンルにも広げるのが次の作業。
-    <div class="dim">仕込み自体（住所ごとの題名・説明文・canonical・og書き換え、sitemap 573本、
-    Search Console登録）は完了済み。</div>
-  </div>
-</div>
+<h2>🔶 進行中・次にやること <span class="h2-count">5件</span></h2>
 
 <div class="item">
   <div class="item-head">
@@ -177,12 +163,48 @@
   </div>
 </div>
 
+<h2>⏳ Googleの巡回待ち <span class="h2-count">私たちの作業は完了済み</span></h2>
+
+<div class="item">
+  <div class="item-head">
+    <span class="status ok">検証済み</span>
+    <span class="item-title">SEO：音楽ジャンルツール本体が検索結果から立ち上がる方式</span>
+  </div>
+  <div class="item-body">
+    当初は573ジャンル分の<b>別ページ</b>を作る案で進めていたが、チョロさんから
+    「ヘルプを見ているような別物の読み物になってしまう」と指摘があり、
+    <b>ツール本体（全体マップ）が検索結果から立ち上がり、そのジャンルの
+    説明パネルが自動で開く</b>形（<code>genre_roots.html?genre=…</code>の
+    住所方式）に作り直した。
+    <div class="dim" style="margin-top:8px;">
+      <b>実際にチョロさんがGoogle検索で確認した結果（2026-09-02頃）：</b><br>
+      ・単体の一般語（例「ジャズ」）で検索 → Wikipedia等に埋もれてまだ出ない<br>
+      ・<b>サイト名</b>（「音楽ジャンルルーツ辞典」「ジャンルルーツ.com」）で検索
+      → サイトが出て、その中に「ジャズとは」「テクノとは」も一緒に表示される<br>
+      ・「テクノとは」を開く → <b>まず全体マップが立ち上がり、直後に説明パネルが
+      自動で開く</b>、狙い通りの流れを確認<br>
+      → <b>GoogleがこのサイトのJavaScriptを実行し、パネルの中身まで読んでいる
+      ことが確定した。</b>別ページ方式（案2）は不要と決着。
+    </div>
+    <div class="dim" style="margin-top:8px;">
+      残り570ジャンルについて、私たちが追加で作業することは無い。sitemap
+      （573本）は送信済みで、Googleが自分のペースで巡回するのを待つだけ。
+      一般語での検索順位が上がるかは別の話（content authority・被リンク等）で、
+      JS描画が読めているかどうかの検証とは切り離して考える。
+    </div>
+  </div>
+</div>
+
 <h2>✅ 完了 <span class="h2-count">クリックで開く</span></h2>
 <details class="donebox">
   <summary>片づいた作業を見る（新しい順）</summary>
   <div class="done-list">
 
     <div class="done-day">2026-09-04</div>
+    <div class="done-item">SEO：GoogleがJS描画したパネルまで読んでいることの確認結果を記録
+      <div class="dim">別セッションでのチョロさんの検証結果が未記録だったため、
+      改めて聞き取って作業状況.htmlとプロジェクトメモリに書き込んだ
+      （上の「⏳ Googleの巡回待ち」参照）</div></div>
     <div class="done-item">作業項目一覧を「やることリスト.md」からこの作業状況.htmlに作り直し、管理画面（/admin）からリンク（genre_adder.py v2.34）
       <div class="dim">完了/未完了がひと目で分かるチェックリスト形式に。今後の更新はこのページで行う</div></div>
     <div class="done-item">Amazon書籍アフィリエイト、573ジャンル中563ジャンルに関連書籍リンクを実装
