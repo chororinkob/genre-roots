@@ -1439,7 +1439,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v28.1</span>
+  <span id="version-info">v28.2</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -23718,7 +23718,20 @@ function _grページの情報を書き換える(id) {
   // ジャンルで、検索結果のタイトルに改行が紛れ込むところだった）。
   const 名   = String(n.label || '').replace(/\n/g, ' ');
   const 読み = (n.aliases || []).find(a => /^[ァ-ヴー・\s]+$/.test(a)) || '';
-  const 題   = 名 + (読み ? '（' + 読み + '）' : '') + ' とは — 音楽ジャンルルーツ辞典';
+  // タイトルに「〇〇とは」だけだと、単語1つの検索では老舗サイトに
+  // 埋もれてしまう。このサイトだけが持つ「ルーツ（影響関係）」の情報を
+  // タイトルに織り込んで差別化する（2026-09-04）。ルーツ（影響を受けた側）
+  // を優先し、無ければ影響を与えた側で代用。どちらも無い孤立ノードは
+  // 元の定型文にフォールバックする。
+  const ラベル探す = gid => { const g = NODES.find(x => x.id === gid); return g ? String(g.label || '').replace(/\n/g, ' ') : null; };
+  const ルーツ元   = LINKS.filter(l => l.t === id).map(l => ラベル探す(l.s)).filter(Boolean).slice(0, 2);
+  const 影響先     = LINKS.filter(l => l.s === id).map(l => ラベル探す(l.t)).filter(Boolean).slice(0, 2);
+  let 差別化句 = '';
+  if (ルーツ元.length) 差別化句 = ルーツ元.join('・') + 'から生まれた';
+  else if (影響先.length) 差別化句 = 影響先.join('・') + 'に影響を与えた';
+  const 題 = 差別化句
+    ? 名 + 'とは？' + 差別化句 + '音楽ジャンルの成り立ち — 音楽ジャンルルーツ辞典'
+    : 名 + (読み ? '（' + 読み + '）' : '') + ' とは — 音楽ジャンルルーツ辞典';
   const 説   = String(n.desc || '').replace(/\s+/g, ' ').slice(0, 115);
   const 住所 = location.origin + location.pathname + '?genre=' + encodeURIComponent(id);
   document.title = 題;
