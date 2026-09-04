@@ -99,7 +99,7 @@
 
 <table class="verinfo">
 <tr><th>もの</th><th>版</th><th>どこ</th></tr>
-<tr><td>地図</td><td>v28.2</td><td><a href="https://genre-roots.com/" target="_blank" rel="noopener">公開済み</a></td></tr>
+<tr><td>地図</td><td>v28.3</td><td><a href="https://genre-roots.com/" target="_blank" rel="noopener">公開済み</a></td></tr>
 <tr><td>使い方ガイド</td><td>v1.19</td><td>公開済み</td></tr>
 <tr><td>更新の記録</td><td>自動生成</td><td><code>docs/changes.html</code>（公開済み）</td></tr>
 <tr><td>いたずら対策 guard.py</td><td>v1.10</td><td>公開済み</td></tr>
@@ -269,14 +269,17 @@
   <div class="done-list">
 
     <div class="done-day">2026-09-04</div>
-    <div class="done-item">検索タイトルにルーツ・影響関係のキーワードを自動で織り込み（地図 v28.2）
+    <div class="done-item">検索タイトルにルーツ・影響関係のキーワードを自動で織り込み（地図 v28.2→v28.3）
       <div class="dim">「ジャズとは」のような定型文だと単語1つの検索でWikipedia等に
       埋もれるため、サイトが持つ「何から生まれ何に影響を与えたか」の関係性データ
-      (LINKS)を使って、ジャンルごとに「Jazzとは？Blues・Ragtimeから生まれた
-      音楽ジャンルの成り立ち」のようなタイトルを自動生成するようにした。
+      (LINKS)を使って、ジャンルごとに「Jazz（ジャズ）とは？Blues・Ragtimeから
+      生まれた音楽ジャンルの成り立ち」のようなタイトルを自動生成するようにした。
       画面の見た目には影響しない(document.title/metaのみ)。全573ジャンルが
-      関係性データを持つことを確認済み。Playwrightで6ジャンル分・JSエラー0件を
-      確認し、本番反映も確認済み</div></div>
+      関係性データを持つことを確認済み。<br>
+      v28.2公開直後、チョロさんから「元のジャンル名やサイト名が消えていない
+      か」と確認があり、洗い出したところ<b>カタカナ読み（例:「ジャズ」）が
+      タイトルから抜け落ちる不具合</b>を発見（535/573ジャンルが該当）。
+      v28.3で修正し、カタカナ検索での取りこぼしを防いだ</div></div>
     <div class="done-item">「図の撮り直し」と「ヘルプ全面見直し」を1つの項目に統合
       <div class="dim">図は元々ヘルプ専用だったため、別々のままだと先に図を撮って
       あとで文章を直すと図が古くなる（二度手間）。文章見直し→最後に図、の
