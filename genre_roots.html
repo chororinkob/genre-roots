@@ -45,25 +45,9 @@ body { font-family: "Segoe UI", "Hiragino Kaku Gothic ProN", sans-serif; backgro
    そのまま元に戻らない。100% にすると、こちらが決めた大きさのままになる。 */
 html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 #version-info { margin-right: 16px; font-size: 10px; color: #666; }
-/* 著作権と「このサイトについて」。ヘルプの左隣で2段。
-   margin-left:auto をここに持たせて、この塊から右をひとまとめに寄せる
-   （以前は右のボタン群に付けていた）。ヘッダーの高さは変えない。 */
 /* パソコンでは、この入れ物は無かったことにする（中身が直接の子として並ぶ）。
    スマホだけ、2段目をひとかたまりにするために使う。 */
 #header-meta { display: contents; }
-#site-credit {
-  margin-left: auto; margin-right: 10px;
-  display: flex; flex-direction: column; align-items: flex-end;
-  line-height: 1.24; text-align: right;
-}
-#site-credit .sc-name { font-size: 10px; color: #e6e6f0; white-space: nowrap;
-                        text-decoration: none; }
-#site-credit .sc-name:hover { color: #fff; }
-#site-credit .sc-link {
-  font-size: 10px; color: #7eb8f7; text-decoration: underline;
-  text-underline-offset: 2px; white-space: nowrap;
-}
-#site-credit .sc-link:hover { color: #a8d0ff; }
 #genre-count { font-size: 13px; font-weight: 700; color: #7eb8f7; margin-left: 8px; letter-spacing: 0.02em; }
 
 #left-sidebar { position: fixed; top: 50px; left: 14px; bottom: 10px; z-index: 20; width: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; direction: rtl; }
@@ -1036,26 +1020,11 @@ svg { width: 100vw; height: 100vh; }
     margin: 0 !important;
   }
 
-  /* 著作権と「このサイトについて」は、件数・日付と同じ2段目に置く。
-     スマホは横幅が狭いので、パソコンのような2段組にはせず横に並べる。
-     順番(order)を指定しないと、並べ替えの都合で題名より前に出てしまう
-     （実際に題名に食い込んだ）。 */
-  /* スマホは横幅が足りない。「このサイトについて」まで並べると、
-     2段目の文字が「全体表示」のボタンの下まで伸びてしまい、ヘッダーが
-     広く見える。そこで下段は出さず、「© 2026 チョロ」そのものを
-     押せるようにする（青＋下線）。行けば同じページに着くので、
-     伝わる情報は変わらない（2026-08-31）。
-     著作権・免責の説明は、ヘルプの入口からも行ける。 */
-  #site-credit {
-    margin: 0 !important; flex-direction: row;
-    align-items: baseline; line-height: 1.2; white-space: nowrap;
-  }
   /* 画面のいちばん狭い層（iPhone SE など）だけ、2段目の字を少し詰める。
      ここを詰めないと余裕が1割しか取れず、実機で折り返す。 */
   @media (max-width: 380px) {
-    #genre-count, #site-credit .sc-name { font-size: 8.5px !important; }
+    #genre-count { font-size: 8.5px !important; }
   }
-  #site-credit .sc-link { display: none; }
 
   /* 【スマホのヘッダーの余白】2026-08-31
      ヘッダーは2段（1段目＝題名、2段目＝件数・日付・著作権）だが、
@@ -1086,10 +1055,6 @@ svg { width: 100vw; height: 100vh; }
   /* 並びから外したので、右へ寄せるための余白はもう要らない。
      残すと、まとまりの幅が0になって中のボタンが折り返す。 */
   #header > #header-actions #fit-view { margin-left: 0 !important; }
-  #site-credit .sc-name {
-    font-size: 9px !important; color: #7eb8f7 !important;
-    text-decoration: underline; text-underline-offset: 2px;
-  }
 
   #admin-menu-wrap { order: 7; }
 
@@ -1474,7 +1439,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v28.0</span>
+  <span id="version-info">v28.1</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -1489,17 +1454,11 @@ svg { width: 100vw; height: 100vh; }
     <button class="tab-btn active" data-tab="map"><span class="m-full">ジャンルマップ</span><span class="m-short" style="display:none">マップ</span></button>
     <button class="tab-btn" data-tab="instruments"><span class="m-full">楽器・効果</span><span class="m-short" style="display:none">楽器・効果</span></button>
   </div>
-  <!-- 著作権と「このサイトについて」。ヘルプのすぐ左に、2段で置く。
-       上段は権利の表示なので白で読ませ、下段だけを青い下線付きにして
-       「押せる」と分かるようにしている（灰色の小さな字では、押せることに
-       気づいてもらえなかった。2026-08-31）。
-       #header の直接の子のままにしてあるのは、スマホでは並べ替え(order)で
-       2段目へ動かすため。入れ子にすると order が効かなくなる。 -->
-  <span id="site-credit">
-    <a class="sc-name" href="docs/about.html">© 2026 チョロ</a>
-    <a class="sc-link" href="docs/about.html" title="著作権・免責・記録している情報">このサイトについて</a>
-  </span></span>
-  <div id="header-actions" style="display:flex;gap:6px;align-items:center;">
+  <!-- 著作権と「このサイトについて」は2026-09-04にヘッダーから削除した
+       （チョロさんの指示。最初の画面で作者を主張しすぎない方針に変更。
+       詳しい説明はヘルプ(manual.html)の中にあるので、そちらで足りる）。
+       #site-credit / .sc-name / .sc-link 関連のCSSも一緒に削除済み。 --></span>
+  <div id="header-actions" style="display:flex;gap:6px;align-items:center;margin-left:auto;">
     <a id="help-link" href="docs/manual.html" title="使い方ガイド" style="padding:4px 10px;background:none;border:1px solid #555;border-radius:5px;color:#ccc;font-size:11px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;">❓<span class="m-full" style="margin-left:4px;">ヘルプ</span></a>
     <button id="fit-view" style="padding:4px 12px;background:#1565C0;border:1px solid #555;border-radius:5px;color:#fff;font-size:11px;cursor:pointer;">全体表示</button>
     <!-- 管理者用メニュー：通常は非表示。?admin=1 を付けたURLでアクセスした
