@@ -98,7 +98,7 @@
 <tr><td>使い方ガイド</td><td>v1.18</td><td>公開済み</td></tr>
 <tr><td>更新の記録</td><td>自動生成</td><td><code>docs/changes.html</code>（公開済み）</td></tr>
 <tr><td>いたずら対策 guard.py</td><td>v1.10</td><td>公開済み</td></tr>
-<tr><td>ジャンル追加 genre_adder.py</td><td>v2.34</td><td>公開済み</td></tr>
+<tr><td>ジャンル追加 genre_adder.py</td><td>v2.35</td><td>公開済み</td></tr>
 </table>
 
 <h2>🔶 進行中・次にやること <span class="h2-count">6件</span></h2>
@@ -221,6 +221,13 @@
       上がるかどうかは、インデックスされるかどうかとは別の話
       （content authority・被リンク等の要因。上の「検索タイトルに独自の
       切り口を入れる」項目が関係する）。
+      <br><br>
+      <b>574件目以降の新規ジャンルについて（2026-09-04修正）：</b>
+      承認処理がsitemap.xmlを一切更新していなかったため、このままだと
+      新しく追加したジャンルが永遠にGoogleの目録に載らない不具合が
+      あった。genre_adder.py v2.35で、承認のたびに自動でsitemap.xmlへ
+      追記されるよう修正済み。今後追加するジャンルも、この節と同じ
+      仕組みで自動的にGoogleの巡回対象に入る。
     </div>
   </div>
 </div>
@@ -231,6 +238,11 @@
   <div class="done-list">
 
     <div class="done-day">2026-09-04</div>
+    <div class="done-item">ジャンル承認時にsitemap.xmlへ自動追記するようにした（genre_adder.py v2.35）
+      <div class="dim">sitemap.xmlは2026-09-02に573件を書き込んだきり、承認処理が一切
+      更新していなかったため、574件目以降のジャンルがGoogleの目録に永遠に
+      載らない不具合だった。「新しいジャンルを追加したらGoogleはどうなるの？」
+      というチョロさんの質問で発覚。以後は承認のたびに自動で追記される</div></div>
     <div class="done-item">SEO：GoogleがJS描画したパネルまで読んでいることの確認結果を記録
       <div class="dim">別セッションでのチョロさんの検証結果が未記録だったため、
       改めて聞き取って作業状況.htmlとプロジェクトメモリに書き込んだ
