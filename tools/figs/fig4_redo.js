@@ -1,17 +1,18 @@
 const 設定 = require('./設定');
 const { 広告を飛ばす } = require('./広告');
 // 図4を作り直す。拡大せず、放射状に並んだ状態のまま
-// 「いちばん太い道」と「いちばん細い道」を実測して指す。
+// 「いちばん太い道」を1本だけ選び、その1本に沿って説明を並べる。
 //
-// 【2026-09-05に作り直した理由】
-// 以前は make_figs.js 側で document.querySelectorAll(...) の class 付け替えだけで
-// 「線が光っている」状態を偽造しており、実際にジャンルをクリックしたときに
-// 必ず開く説明パネルが写っていなかった。チョロさんから「こんな画面は
-// 表示できない、通常の状態を見せてほしい」と指摘を受け、実際にジャンルを
-// クリックして本物のパネルが開いた状態で撮るように直した。
-// あわせて、以前は「線の本数＝影響の強さ」しか説明していなかった
-// 「音符が流れる方向」「ト音記号・強弱記号（pp〜ff）」の意味も、
-// 実測した線の座標を使って書き添えるようにした。
+// 【2026-09-05 に2度目の作り直し】
+// 1度目の直し（実際にクリックして本物のパネルを開く）は良かったが、
+// 「影響が強い」「音符の向き」「ト音記号・強弱記号」の3つの矢印を、
+// それぞれ別々の道の途中（何もラベルの無い、線が密集した場所）に
+// 適当に置いていたため、どの矢印がどの道を指しているのか分からず
+// 「めちゃくちゃ」になっていた、とチョロさんに指摘された。
+// 今回は、名前がラベルとして見えている「いちばん太い道」1本だけを選び、
+// その道の3か所（ジャズ側の起点付近／中間／相手ジャンルの玉）を
+// 順になぞる形にした。同じ1本の道を指しているとひと目で分かるように、
+// 矢印はすべてこの道の上（またはすぐそば）に置く。
 const { chromium } = require('playwright');
 const path = require('path');
 const URL = 設定.地図;
@@ -21,8 +22,8 @@ const CSS = [
   '#annot{position:fixed;inset:0;z-index:99999;pointer-events:none;',
   '  font-family:"Zen Kaku Gothic New","Yu Gothic",sans-serif;}',
   '#annot .tag{position:absolute;background:#ffcc33;color:#1a1206;font-weight:800;',
-  '  font-size:16px;line-height:1.5;padding:6px 12px;border-radius:9px;',
-  '  box-shadow:0 3px 14px rgba(0,0,0,.75);white-space:pre;max-width:290px;}',
+  '  font-size:15px;line-height:1.5;padding:6px 12px;border-radius:9px;',
+  '  box-shadow:0 3px 14px rgba(0,0,0,.75);white-space:pre;max-width:270px;}',
   '#annot .tag.b{background:#2f6fd0;color:#fff;}',
   '#annot svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;}',
 ].join('\n');
@@ -51,6 +52,14 @@ async function 注釈(p, items) {
         ln.setAttribute('fill', 'none'); ln.setAttribute('stroke', '#ffcc33');
         ln.setAttribute('stroke-width', '5'); ln.setAttribute('stroke-linecap', 'round');
         ln.setAttribute('marker-end', 'url(#ah)'); svg.appendChild(ln);
+      } else if (it.type === 'line') {
+        // 「これが1本の同じ道です」を示す、細い目印の線（矢印なし）
+        var ln2 = document.createElementNS(NS, 'path');
+        ln2.setAttribute('d', 'M' + it.pts[0] + ',' + it.pts[1] + ' L' + it.pts[2] + ',' + it.pts[3]);
+        ln2.setAttribute('fill', 'none'); ln2.setAttribute('stroke', '#ffcc33');
+        ln2.setAttribute('stroke-width', '2'); ln2.setAttribute('stroke-dasharray', '2 6');
+        ln2.setAttribute('stroke-linecap', 'round'); ln2.setAttribute('opacity', '0.85');
+        svg.appendChild(ln2);
       }
     });
     document.body.appendChild(L);
@@ -61,8 +70,6 @@ async function 注釈(p, items) {
 (async () => {
   const b = await chromium.launch();
   const p = await b.newPage({ viewport: { width: 1400, height: 900 }, deviceScaleFactor: 2 });
-  // YouTubeの広告を止める。図の中で広告が流れていると、
-  // 「よく広告が出るツール」に見えてしまう。動画そのものは通す。
   await p.route('**://*.doubleclick.net/**', r => r.abort());
   await p.route('**://*.googlesyndication.com/**', r => r.abort());
   await p.route('**://*.googleadservices.com/**', r => r.abort());
@@ -72,83 +79,83 @@ async function 注釈(p, items) {
   await p.route('**://*.youtube.com/ptracking**', r => r.abort());
   await p.goto(URL, { waitUntil: 'load', timeout: 120000 });
   await p.waitForTimeout(6000);
-  // 実際にジャンルをクリックする（本物のパネルを開く）。
-  // 以前はCSSクラスを直接付け替えて「線が光っている」状態を偽造しており、
-  // 現実には起こらない「パネルが開いていないのに線が光っている」画面に
-  // なっていた。
   await p.evaluate(function () {
     var n = Array.prototype.slice.call(document.querySelectorAll('.node'))
       .filter(function (e) { return (e.__data__ || {}).id === 'jazz'; })[0];
     n.dispatchEvent(new MouseEvent('click', { bubbles: true }));
   });
-  await p.waitForTimeout(12000);   // 動画・パネルが出そろうまで待つ（ジャンル名のきらめき演出が終わるまで）
-
-  // 動画が写る図なので、広告が流れていないか確かめてから撮る
+  await p.waitForTimeout(12000);
   await 広告を飛ばす(p);
 
-  // 光っている線の中から、太いもの・細いものを影響度(score合計)で選ぶ。
-  // 「起点」（ジャズ側の端。ト音記号と強弱記号が実際に描かれている位置）と
-  // 「中間点」（音符が流れているのが見える位置）も、同じ実測データから求める。
+  // 「いちばん太い道」を1本選ぶ。相手ジャンルの玉が、地図の見える範囲
+  // （パネルや左の欄の裏ではない）にラベルごと収まっているものだけを候補にする。
   const 測 = await p.evaluate(function () {
+    var jazzEl = Array.prototype.slice.call(document.querySelectorAll('.node'))
+      .filter(function (e) { return (e.__data__ || {}).id === 'jazz'; })[0];
+    var jazzC = jazzEl.querySelector('circle').getBoundingClientRect();
+    var jazz = { x: jazzC.left + jazzC.width / 2, y: jazzC.top + jazzC.height / 2 };
+
     var ls = Array.prototype.slice.call(document.querySelectorAll('#graph line.link.focus-highlight'));
-    var 出 = [];
+    var 候補 = [];
     ls.forEach(function (l) {
       var d = l.__data__ || {};
       var sc = d.score || {};
-      var 合 = (sc.r || 0) + (sc.h || 0) + (sc.i || 0) + (sc.v || 0) + (sc.c || 0);
-      var x1 = +l.getAttribute('x1'), y1 = +l.getAttribute('y1'),
-          x2 = +l.getAttribute('x2'), y2 = +l.getAttribute('y2');
-      var g = document.getElementById('graph');
-      var m = g.getScreenCTM();
-      var pt = function (x, y) { return { x: m.a * x + m.e, y: m.d * y + m.f }; };
-      // ジャズが出発点(s)かどうかで、"起点"をジャズ側の端に揃える
-      var jazzIsSource = (d.source || {}).id === 'jazz';
-      var origin = jazzIsSource ? pt(x1, y1) : pt(x2, y2);
-      var far    = jazzIsSource ? pt(x2, y2) : pt(x1, y1);
-      // 矢印の指す先は、地図がはっきり見えている範囲にする
-      // （パネルや左の欄の裏、パネルの下は指せない。パネルはPCでは右側、
-      //   幅は画面の右側 約380px を占める）。
-      var 範囲内 = function (px, py) { return px >= 430 && px <= 1010 && py >= 190 && py <= 760; };
-      var 指す = null, 起点表示 = null;
-      for (var t = 0.30; t <= 0.78; t += 0.04) {
-        var px = origin.x + (far.x - origin.x) * t, py = origin.y + (far.y - origin.y) * t;
-        if (範囲内(px, py)) { 指す = { x: px, y: py }; break; }
-      }
-      for (var t2 = 0.06; t2 <= 0.30; t2 += 0.03) {
-        var px2 = origin.x + (far.x - origin.x) * t2, py2 = origin.y + (far.y - origin.y) * t2;
-        if (範囲内(px2, py2)) { 起点表示 = { x: px2, y: py2 }; break; }
-      }
-      if (!指す) return;
-      出.push({ lv: 合, mid: 指す, 起点: 起点表示 || 指す,
-        相手: ((d.source || {}).id === 'jazz' ? (d.target || {}) : (d.source || {})).label || '' });
+      var lv = (sc.r || 0) + (sc.h || 0) + (sc.i || 0) + (sc.v || 0) + (sc.c || 0);
+      var otherId = (d.source || {}).id === 'jazz' ? (d.target || {}).id : (d.source || {}).id;
+      var otherLabel = (d.source || {}).id === 'jazz' ? (d.target || {}).label : (d.source || {}).label;
+      var otherEl = Array.prototype.slice.call(document.querySelectorAll('.node'))
+        .filter(function (e) { return (e.__data__ || {}).id === otherId; })[0];
+      if (!otherEl) return;
+      var oc = otherEl.querySelector('circle').getBoundingClientRect();
+      var other = { x: oc.left + oc.width / 2, y: oc.top + oc.height / 2, r: oc.width / 2 };
+      // 相手の玉が、地図がはっきり見える範囲に収まっているか
+      // （左の欄の裏・パネルの裏・上下の帯の裏ではない）
+      if (other.x < 460 || other.x > 1000 || other.y < 220 || other.y > 720) return;
+      // ジャズから離れすぎていない・近すぎない道だけを選ぶ。
+      // 近すぎると3か所の説明（起点／中間／相手の玉）が重なって
+      // 読めなくなる（2026-09-05に実際に起きた）。
+      var 距 = Math.hypot(other.x - jazz.x, other.y - jazz.y);
+      if (距 < 230 || 距 > 420) return;
+      候補.push({ lv: lv, other: other, otherLabel: otherLabel, jazz: jazz, 距: 距 });
     });
-    出.sort(function (a2, b2) { return b2.lv - a2.lv; });
-    return { 太: 出[0], 細: 出[出.length - 1], 本数: 出.length };
+    候補.sort(function (a, b) { return b.lv - a.lv; });
+    var 弱い候補 = 候補.slice().sort(function (a, b) { return a.lv - b.lv; });
+    return { 太: 候補[0], 細: 弱い候補[0], 総数: 候補.length };
   });
   console.log('選んだ道:', JSON.stringify(測));
 
   const it = [{ type: 'tag', text: 'ジャンルをつなぐ線は「五線譜の道」', x: 380, y: 40, blue: true }];
+
   if (測.太) {
-    const tx = Math.min(720, Math.max(350, 測.太.mid.x - 330)), ty = Math.min(700, Math.max(170, 測.太.mid.y + 70));
-    it.push({ type: 'tag', text: '線の本数が多いほど\n影響が強い（2〜5本）', x: tx, y: ty });
-    it.push({ type: 'arrow', pts: [tx + 230, ty + 22, 測.太.mid.x, 測.太.mid.y] });
+    const j = 測.太.jazz, o = 測.太.other;
+    // 道に沿った2点：起点（ジャズのすぐそば）／中間
+    const at = (t) => ({ x: j.x + (o.x - j.x) * t, y: j.y + (o.y - j.y) * t });
+    const 起点 = at(0.12), 中間 = at(0.55);
 
-    // 音符の流れる方向＝影響の向き（ルーツ側→生まれた側）。
-    // 太い道の中間あたりに音符が見えるはずなので、そこを指す。
-    const nx = Math.min(720, Math.max(350, 測.太.mid.x - 330)), ny = Math.min(300, Math.max(90, 測.太.mid.y - 160));
-    it.push({ type: 'tag', text: '音符が流れる向き＝\n影響の向き（ルーツ→\n生まれたジャンル）', x: nx, y: ny });
-    it.push({ type: 'arrow', pts: [nx + 260, ny + 30, 測.太.mid.x + 10, 測.太.mid.y - 30] });
-  }
-  if (測.細) {
-    const tx = Math.min(720, Math.max(350, 測.細.mid.x - 330)), ty = Math.min(720, Math.max(170, 測.細.mid.y - 120));
-    it.push({ type: 'tag', text: '影響が弱い\n（線が少なく道が細い）', x: tx, y: ty });
-    it.push({ type: 'arrow', pts: [tx + 230, ty + 44, 測.細.mid.x, 測.細.mid.y] });
+    // 目印の線（起点〜相手の玉のすぐ手前まで、この1本が同じ道だと分かるように）
+    it.push({ type: 'line', pts: [起点.x, 起点.y, o.x - (o.x - j.x) * 0.06, o.y - (o.y - j.y) * 0.06] });
 
-    // ト音記号・強弱記号は、線の"出発点"（ジャズ側の端）近くに小さく描かれている。
-    const cx = Math.min(720, Math.max(350, 測.細.起点.x - 60)), cy = Math.min(760, Math.max(600, 測.細.起点.y + 40));
-    it.push({ type: 'tag', text: 'ト音記号は「五線譜です」の\n飾りで意味は無し。強弱記号\n（pp〜ff）は線の本数と同じ\n5段階の影響の強さ', x: cx, y: cy });
-    it.push({ type: 'arrow', pts: [cx + 40, cy - 6, 測.細.起点.x, 測.細.起点.y] });
+    // 3枚の札は、重ならないよう固定の場所（画面の下のほう・左のほう）に離して置き、
+    // 矢印だけを実測した道の3か所（相手の玉／中間／起点）へ伸ばす。
+    // ① 相手の玉（ラベルが見えている）を指して「影響が強い」
+    it.push({ type: 'tag', text: '線の本数が多いほど\n影響が強い（2〜5本）', x: 700, y: 760 });
+    it.push({ type: 'arrow', pts: [790, 758, o.x - 6, o.y + 6] });
+
+    // ② 中間点で「音符が流れる向き」
+    it.push({ type: 'tag', text: '同じ道の上を流れる音符の\n向き＝影響の向き\n（ルーツ→生まれたジャンル）', x: 340, y: 620 });
+    it.push({ type: 'arrow', pts: [610, 660, 中間.x, 中間.y] });
+
+    // ③ 起点付近で「強弱記号」（ト音記号は「五線譜です」の意味だけ添える）
+    it.push({ type: 'tag', text: '強弱記号（pp〜ff）は、線の\n本数と同じ5段階の影響の強さ\n（ト音記号は「五線譜」の意味）', x: 340, y: 380 });
+    it.push({ type: 'arrow', pts: [610, 420, 起点.x, 起点.y] });
   }
+
+  if (測.細 && (!測.太 || 測.細.otherLabel !== 測.太.otherLabel)) {
+    const o = 測.細.other;
+    it.push({ type: 'tag', text: '影響が弱い道は\n線が少なく、道が細い', x: 1000, y: 200 });
+    it.push({ type: 'arrow', pts: [1040, 260, o.x, o.y + 8] });
+  }
+
   await 注釈(p, it);
   await p.screenshot({ path: path.join(出力, 'fig04_gosenfu.png') });
   console.log('→ fig04_gosenfu.png');
