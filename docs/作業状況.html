@@ -101,7 +101,7 @@
 <tr><td>ジャンル追加 genre_adder.py</td><td>v2.35</td><td>公開済み</td></tr>
 </table>
 
-<h2>🔶 進行中・次にやること <span class="h2-count">6件</span></h2>
+<h2>🔶 進行中・次にやること <span class="h2-count">5件</span></h2>
 
 <div class="item">
   <div class="item-head">
@@ -139,26 +139,30 @@
 <div class="item">
   <div class="item-head">
     <span class="status hold">保留</span>
-    <span class="item-title">図の撮り直し（36枚）</span>
+    <span class="item-title">ヘルプの抜本的見直し（旧「図の撮り直し」＋「ヘルプ全面見直し」を統合）</span>
   </div>
   <div class="item-body">
-    画面がまだ変わる見込みがあるため様子見（2026-09-02 チョロさん判断）。
-    <span class="item-order">順番：SEO拡大・広告表示など、画面に影響する作業が
-    全部落ち着いてから着手 → 図の撮り直し → その後にヘルプを直す</span>
-  </div>
-</div>
-
-<div class="item">
-  <div class="item-head">
-    <span class="status hold">保留（図の後）</span>
-    <span class="item-title">ヘルプ・仕様書の全面見直し</span>
-  </div>
-  <div class="item-body">
-    <code>docs/manual.html</code>（ヘルプ）・<code>music_genre_finder/docs/spec.html</code>（仕様書）・
-    <code>flow_chart.html</code>・<code>roadmap.html</code>が2026-07-13から更新なし。
-    地図にあるのにヘルプに説明が無い機能が9件：知名度／影響度の5項目チップ／
-    別名の併記／用語のふきだし／玉の大きさ／カテゴリの色分け／楽器・効果タブ／
-    Sunoプロンプト／3D表示。<b>図の撮り直しが終わってから着手する</b>。
+    以前は「図の撮り直し（36枚）」と「ヘルプ・仕様書の全面見直し」を
+    別々の項目にしていたが、図（`docs/図の宿題.md`）は元々
+    <code>docs/manual.html</code>専用のものだったため、2026-09-04に
+    1つの項目へ統合した（チョロさんの指摘。分けたままだと、先に図を撮って
+    あとで文章を直すと図が古くなり、二度手間になる）。
+    <span class="item-order">順番：SEO拡大・広告表示など、画面に影響する
+    決めごとが全部落ち着く → <b>①文章の見直し</b>（下記）→
+    <b>②最後にまとめて図を36枚撮り直す</b>（<code>node tools/figs/all.js</code>）</span>
+    <div class="dim" style="margin-top:8px;">
+      <b>文章の見直しで直すこと：</b><br>
+      ・地図にあるのにヘルプに説明が無い機能が9件：知名度／影響度の5項目チップ／
+      別名の併記／用語のふきだし／玉の大きさ／カテゴリの色分け／楽器・効果タブ／
+      Sunoプロンプト／3D表示<br>
+      ・<code>music_genre_finder/docs/spec.html</code>・<code>flow_chart.html</code>・
+      <code>roadmap.html</code>も2026-07-13から更新なし<br>
+      ・<code>docs/about.html</code>の著作権欄にある「GitHub Pagesで公開する
+      ため公開設定にしています」という一文は、GitHubを知らない人には
+      伝わらない。中身（見られる＝自由に使ってよいわけではない、という
+      注意）は残しつつ、GitHubの専門用語を使わない言い回しに直す
+      （2026-09-04、チョロさんの指摘で発覚）
+    </div>
   </div>
 </div>
 
@@ -238,6 +242,10 @@
   <div class="done-list">
 
     <div class="done-day">2026-09-04</div>
+    <div class="done-item">「図の撮り直し」と「ヘルプ全面見直し」を1つの項目に統合
+      <div class="dim">図は元々ヘルプ専用だったため、別々のままだと先に図を撮って
+      あとで文章を直すと図が古くなる（二度手間）。文章見直し→最後に図、の
+      順番に整理し、about.htmlのGitHub関連の言い回しの見直しも見つけて追記</div></div>
     <div class="done-item">ヘッダーの著作権表示を削除し、名義をChororinkobに統一（地図 v28.1）
       <div class="dim">トップ画面から「© 2026 チョロ」「このサイトについて」を削除
       （最初の画面で作者を主張しすぎない方針）。about.html・manual.htmlの
