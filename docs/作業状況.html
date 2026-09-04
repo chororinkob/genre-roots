@@ -87,9 +87,9 @@
 <h1>作業状況</h1>
 <div class="sub">音楽ジャンルルーツ辞典 ／ 2026-09-04 更新</div>
 <div class="warn-note" style="background:var(--doing-soft);">
-  最新の変更（同日中）：検索タイトルの差別化を実装・公開（地図 v28.2）。
-  AdSenseの調査結果を反映。「新規ジャンル追加の申請テスト」の内容を
-  Spotify／Amazon書籍の具体的なテスト仕様に書き直し。
+  最新の変更（同日中）：ヘルプの抜本的見直し完了（v1.21）。チョロさんが
+  通読して見つけた4つの抜け（検索後の申請導線・修正依頼の場所・Spotify・
+  Amazon書籍の説明）を追記済み。
 </div>
 <div class="warn-note">
   セッションをまたぐとここの数字も古くなる。<b>着手する前に必ず実物を見て
@@ -100,7 +100,7 @@
 <table class="verinfo">
 <tr><th>もの</th><th>版</th><th>どこ</th></tr>
 <tr><td>地図</td><td>v28.3</td><td><a href="https://genre-roots.com/" target="_blank" rel="noopener">公開済み</a></td></tr>
-<tr><td>使い方ガイド</td><td>v1.19</td><td>公開済み</td></tr>
+<tr><td>使い方ガイド</td><td>v1.21</td><td>公開済み</td></tr>
 <tr><td>更新の記録</td><td>自動生成</td><td><code>docs/changes.html</code>（公開済み）</td></tr>
 <tr><td>いたずら対策 guard.py</td><td>v1.10</td><td>公開済み</td></tr>
 <tr><td>ジャンル追加 genre_adder.py</td><td>v2.35</td><td>公開済み</td></tr>
@@ -239,6 +239,15 @@
   <div class="done-list">
 
     <div class="done-day">2026-09-04</div>
+    <div class="done-item">ヘルプ通読で見つかった4つの抜けを追記（ガイド v1.20→v1.21）
+      <div class="dim">チョロさんがヘルプを最初から最後まで読んで、①検索して
+      見つからない時の申請導線 ②修正依頼ボタンの場所 ③Spotify「もっと聴く」の
+      説明 ④Amazon関連書籍の説明、の4つが抜けていると指摘。実際の挙動を
+      1つずつコードで確認してから追記した。配置は当初「もっと詳しく」章に
+      入れる案だったが、チョロさんの指示で「Spotifyは代表曲・音楽の聴き方の
+      流れ」「Amazon書籍は成り立ち（ルーツ）の説明の流れ」の中に、それぞれ
+      自然な流れで組み込む形に直した。あわせて、PC版のお問い合わせ欄にあった
+      「＋ ジャンルをリクエスト」という実在しないボタン名の記述も修正</div></div>
     <div class="done-item">ヘルプの抜本的見直し（文章の見直し→図36枚の撮り直しまで一括）
       <div class="dim">「地図にあるのに説明が無い機能が9件」を確認したところ、6件
       （知名度・影響度チップ・別名・用語のふきだし・玉の大きさ・カテゴリの色分け）
