@@ -224,8 +224,7 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 #sp-close:hover { background: rgba(255,255,255,0.16); color: #fff; }
 #sp-close:hover { background: rgba(255,255,255,0.25); }
 #sp-autoplay-row { display: flex; align-items: center; gap: 6px; margin-bottom: 5px; font-size: 11px; color: #999; user-select: none; }
-#sp-autoplay-row .sp-cat { margin-bottom: 0; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.sp-autoplay-switch-group { display: flex; align-items: center; gap: 6px; flex-shrink: 0; margin-left: auto; }
+.sp-autoplay-switch-group { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
 .sp-switch { position: relative; display: inline-block; width: 32px; height: 18px; flex-shrink: 0; }
 .sp-switch input { opacity: 0; width: 0; height: 0; }
 .sp-switch-slider { position: absolute; inset: 0; background: #555; border-radius: 18px; cursor: pointer; transition: background .15s; }
@@ -234,11 +233,14 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 .sp-switch input:checked + .sp-switch-slider::before { transform: translateX(14px); }
 #sp-body { padding: 14px 16px; }
 .sp-suno { display: inline-block; background: #FFD700; color: #000; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 10px; margin-bottom: 10px; }
-/* 発祥時期。見出しの中で、別名のすぐ下に置く（2026-08-19） */
-#sp-tag .sp-era { display: block; margin-top: 7px;
-  font-size: 11.5px; font-weight: 500; letter-spacing: .01em;
+/* 発祥時期・カテゴリー。見出しの中で、別名のすぐ下に横並びで置く
+   （2026-08-19に発祥時期を追加、2026-09-05にカテゴリーもここへ統合。
+   経緯は spTag.innerHTML を組み立てているJS側のコメントを参照）。 */
+#sp-tag .sp-era-cat-row { display: flex; align-items: center; flex-wrap: wrap;
+  gap: 4px 12px; margin-top: 7px; }
+#sp-tag .sp-era { font-size: 11.5px; font-weight: 500; letter-spacing: .01em;
   color: rgba(var(--al-lit), .92); }
-.sp-cat { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: #ccc; margin-bottom: 4px; }
+.sp-cat { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: #ccc; }
 .sp-cat-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 .sp-section { margin-bottom: 14px; }
 /* 代表曲は「聴くところ」。動画とひとまとまりに見えるよう枠で囲む。
@@ -1414,7 +1416,7 @@ svg { width: 100vw; height: 100vh; }
   #sp-close { top: 2px; right: 10px; }
   #sp-tag .sp-name { padding-right: 28px; }
   #sp-tag .sp-alias { margin-top: 4px; }
-  #sp-tag .sp-era { margin-top: 5px; }
+  #sp-tag .sp-era-cat-row { margin-top: 5px; }
   #sp-body { padding: 10px 14px; padding-bottom: 40px; }
   #sp-yt-player { height: 120px !important; }
 
@@ -1558,7 +1560,6 @@ svg { width: 100vw; height: 100vh; }
   <div id="sp-body">
     <div id="sp-yt-wrap" style="margin-bottom:6px;">
       <div id="sp-autoplay-row" style="display:none;">
-        <div id="sp-cat" class="sp-cat" style="display:none;"></div>
         <div class="sp-autoplay-switch-group">
           自動再生
           <label class="sp-switch">
@@ -20549,7 +20550,6 @@ const spTag     = document.getElementById("sp-tag");
 const spCopy    = document.getElementById("sp-copy");
 const spClose   = document.getElementById("sp-close");
 const spSunoW   = document.getElementById("sp-suno-wrap");
-const spCat     = document.getElementById("sp-cat");
 const spDesc    = document.getElementById("sp-desc");
 const spIn      = document.getElementById("sp-in");
 const spOut     = document.getElementById("sp-out");
@@ -20846,29 +20846,40 @@ node.on("click", (e, d) => {
   // 線のすぐ右に置くと宙ぶらりんに見えるので、閉じるボタンの真下に来るよう
   // 右端へ寄せる（FAME_UI が false なら知名度は出さない）。
   const fm = FAME_UI && n_fame(d);
+  // 発祥時期・カテゴリーは見出しの中、別名のすぐ下に横並びで置く。
+  // 【2026-09-05 配置変更】カテゴリー表示は以前、動画の上の自動再生の行
+  // (#sp-autoplay-row)にあったが、その行自体がスマホでは
+  // window.innerWidth<=768のときdisplay:noneのままになる（自動再生は
+  // パソコン限定の機能のため）。この巻き添えでカテゴリーもスマホでは
+  // 一切表示されなくなっていた（チョロさんの指摘で発覚）。パソコンでも
+  // 動画の上という位置は見出しから離れていて不自然だったため、発祥時期の
+  // 隣にまとめ、パソコン・スマホどちらでも見出しの帯（常に表示される）に
+  // 出すようにした。
+  // カテゴリー名は凡例(legend-item)に既に日本語ラベルが用意されているので、
+  // そこから読み取って使う（別に一覧を持つと表記がずれるリスクがあるため、
+  // 凡例を唯一の情報源にする）。
+  let eraCatHtml = "";
+  if (d.era || d.cat) {
+    let catHtml = "";
+    if (d.cat) {
+      const catLabelEl = document.querySelector('.legend-item[data-cat="' + d.cat + '"] .legend-label');
+      const catLabel = catLabelEl ? catLabelEl.textContent : d.cat;
+      const catColor = CAT_COLOR[d.cat] || '#888';
+      catHtml = `<span class="sp-cat"><span class="sp-cat-dot" style="background:${catColor}"></span>カテゴリ：${grEsc(catLabel)}</span>`;
+    }
+    eraCatHtml = `<span class="sp-era-cat-row">`
+      + (d.era ? `<span class="sp-era">発祥時期：${grEsc(d.era)}</span>` : "")
+      + catHtml
+      + `</span>`;
+  }
   spTag.innerHTML = `<span class="sp-name">${grEsc(name)}</span>`
     + `<span class="sp-rule-row">` + GR_BRUSH + (fm || '') + `</span>` + (alias.length
     ? `<span class="sp-alias"><span class="sp-alias-cap">別名</span>` +
       alias.map(a => `<span class="sp-alias-chip">${grEsc(a)}</span>`).join("") +
       `</span>`
     : "")
-    // 発祥時期は見出しの中、別名のすぐ下に置く。以前は代表曲と
-    // 「音楽性・特徴」の間にあり、代表曲の最後の曲の発売年と
-    // 読み違えやすい中途半端な位置だった（2026-08-19）。
-    + (d.era ? `<span class="sp-era">発祥時期：${grEsc(d.era)}</span>` : "");
+    + eraCatHtml;
   spSunoW.innerHTML = '';
-  // カテゴリー表示。凡例(legend-item)に既にカテゴリごとの日本語ラベルが
-  // 用意されているので、そこから読み取って使う（別に一覧を持つと表記が
-  // ずれるリスクがあるため、凡例を唯一の情報源にする）。
-  if (d.cat) {
-    const catLabelEl = document.querySelector('.legend-item[data-cat="' + d.cat + '"] .legend-label');
-    const catLabel = catLabelEl ? catLabelEl.textContent : d.cat;
-    const catColor = CAT_COLOR[d.cat] || '#888';
-    spCat.innerHTML = `<span class="sp-cat-dot" style="background:${catColor}"></span>カテゴリ：${grEsc(catLabel)}`;
-    spCat.style.display = '';
-  } else {
-    spCat.style.display = 'none';
-  }
   spDesc.innerHTML = d.desc ? _applyGlossary(d.desc) : '（説明なし）';
 
   // ルーツの経緯（[[アーティスト / 曲名]]をYouTubeリンクに変換、あわせて
