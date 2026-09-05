@@ -21221,7 +21221,7 @@ function vcShowReport(report) {
 
   if (s.mix_flagged_count + s.track_flagged_count > 0) {
     html += `<div style="margin-top:14px;padding-top:14px;border-top:1px solid #333;">
-      <button id="vc-gemini-btn" style="padding:6px 14px;background:#5a3a8a;border:none;border-radius:6px;color:#fff;font-size:12px;cursor:pointer;">🔍 Geminiで「要確認」を絞り込む</button>
+      <button id="vc-gemini-btn" style="padding:6px 14px;background:#5a3a8a;border:none;border-radius:6px;color:#fff;font-size:12px;cursor:pointer;">🔍 AIで「要確認」を絞り込む</button>
       <div id="vc-gemini-body" style="margin-top:10px;font-size:12px;color:#ccc;line-height:1.7;"></div>
     </div>`;
   }
@@ -21249,7 +21249,7 @@ async function vcGeminiVerifyShowReport() {
     <div>問題なし: <b style="color:#78d478;">${s.confirmed_ok_count}件</b></div>
     <div>未確認: <b style="color:#888;">${s.unchecked_count}件</b></div>
   </div>`;
-  html += vcRenderList('Geminiが「本当に間違い」と確認したもの', report.confirmed_bad,
+  html += vcRenderList('AIが「本当に間違い」と確認したもの', report.confirmed_bad,
     it => `<div style="padding:3px 0;">${it.label}${it.track ? ' / ' + it.track : ''}（${it.kind === 'mix' ? 'メイン動画' : '代表曲動画'} "${it.vid}"）→ 実際は「${it.gemini && it.gemini.detected_genre || '不明'}」</div>`);
   gvBody.innerHTML = html;
 }
@@ -24441,8 +24441,8 @@ function micBuildSourceSummary(data) {
   }
   const srcLabel = {
     'wikidata':      'Wikidata',
-    'gemini':        'Gemini（音声から直接判断）',
-    'gemini_recheck':'Gemini（聴き直し）'
+    'gemini':        'AI（音声から直接判断）',
+    'gemini_recheck':'AI（聴き直し）'
   }[data.genre_source];
   if (srcLabel && data.genres && data.genres.length) {
     parts.push('<span style="color:#4a4a6a">' + micEsc(srcLabel) + '</span>　' +
@@ -24494,7 +24494,7 @@ function micRenderRecheckButton(genreSource) {
 async function micRecheckWithGemini() {
   const btn = document.querySelector('.mic-recheck-btn');
   if (!micLastAudioBlob) return;
-  if (btn) { btn.disabled = true; btn.textContent = 'Geminiが確認中…（数十秒かかることがあります）'; }
+  if (btn) { btn.disabled = true; btn.textContent = 'AIが確認中…（数十秒かかることがあります）'; }
   try {
     const fd = new FormData();
     fd.append('audio', micLastAudioBlob, 'recheck.' + micLastAudioExt);
@@ -24521,7 +24521,7 @@ async function micRecheckWithGemini() {
     if (micFoundGenres.length === 0) {
       // Geminiが確信を持てるジャンルを挙げられなかった場合、何も表示されない
       // まま「反応がない」ように見えてしまっていたため、はっきり伝える。
-      logLines.innerHTML = '<div class="mic-log-line" style="color:#e07878">Geminiでもジャンルを判定できませんでした。</div>';
+      logLines.innerHTML = '<div class="mic-log-line" style="color:#e07878">AIでもジャンルを判定できませんでした。</div>';
       logArea.classList.add('visible');
     } else {
       const summary = micBuildSourceSummary({ ...data, title: micFoundTitle, artist: micFoundArtist });
