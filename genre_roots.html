@@ -1620,7 +1620,7 @@ svg { width: 100vw; height: 100vh; }
     </div>
     </div>
     <div class="sp-section" id="sp-correction-sec">
-      <button id="sp-correction-btn">✎ このジャンルについて修正依頼</button>
+      <button id="sp-correction-btn">✎ このジャンルについて修正更新</button>
       <div id="sp-correction-form" style="display:none;">
         <p id="sp-correction-prompt"></p>
         <textarea id="sp-correction-text" placeholder="例：影響元にパンクロックが無いのはおかしい／音楽性の説明が実態と違う気がする"></textarea>
@@ -1648,8 +1648,8 @@ svg { width: 100vw; height: 100vh; }
      送信・進み具合の表示・承認までの流れはこれまでと同じものが動く。 -->
 <div id="corr-sheet" aria-hidden="true">
   <div class="cs-head">
-    <div class="cs-title">修正依頼</div>
-    <button id="cs-close" type="button" aria-label="修正依頼をやめて説明に戻る">✕</button>
+    <div class="cs-title">修正更新</div>
+    <button id="cs-close" type="button" aria-label="修正更新をやめて説明に戻る">✕</button>
   </div>
   <div class="cs-body"></div>
 </div>
@@ -23556,8 +23556,9 @@ function initGlobe() {
 
 <div id="genre-request-overlay">
   <div id="genre-request-card">
-    <h2>ジャンル追加申請 <span class="gr-ver">v1.6</span></h2>
-    <p class="gr-sub">載っていないジャンルを申請できます。AIが情報を生成し、確認画面で承認されると、マップへ追加されます。</p>
+    <h2>新ジャンル登録 <span class="gr-ver">v1.7</span></h2>
+    <p class="gr-sub">載っていないジャンルをAIが自動で登録します。ジャンル名を入れて送信するだけ。<br>
+      作業時間の目安は10分ほどです。最後に内容の確認画面が出るので、間違いがなければ承認して完了です。</p>
 
     <label for="gr-name">ジャンル名 <span style="color:#e06060">*</span></label>
     <input type="text" id="gr-name" placeholder="例: Arena Rock、ニュージャック・スウィング">
@@ -23567,7 +23568,7 @@ function initGlobe() {
 
     <div class="gr-btns">
       <button id="gr-cancel" onclick="closeGenreRequest()">キャンセル</button>
-      <button id="gr-submit" onclick="submitGenreRequest()">申請する</button>
+      <button id="gr-submit" onclick="submitGenreRequest()">登録する</button>
     </div>
     <div id="gr-status"></div>
   </div>
@@ -23704,9 +23705,9 @@ function grPollGenreRequest(name, requestId, submitBtn) {
         clearInterval(grPolling); grPolling = null;
         grShowResult(`
           <div class="gr-result-title gr-title-err">✗ 処理中にサーバーが再起動しました</div>
-          <div class="gr-ai-checks" style="color:#e07878;">進捗情報が失われたため、結果を確認できませんでした。お手数ですが、もう一度申請してください。</div>
+          <div class="gr-ai-checks" style="color:#e07878;">進捗情報が失われたため、結果を確認できませんでした。お手数ですが、もう一度登録してください。</div>
           <div class="gr-action-row">
-            <button class="gr-btn-retry" onclick="grResetForm()">再申請する</button>
+            <button class="gr-btn-retry" onclick="grResetForm()">再登録する</button>
           </div>`);
         if (submitBtn) submitBtn.disabled = false;
         return;
@@ -23720,7 +23721,7 @@ function grPollGenreRequest(name, requestId, submitBtn) {
             <div class="gr-result-title gr-title-err">✗ エラーが発生しました</div>
             <div class="gr-ai-checks" style="color:#e07878;">${grEsc(sdata.message || '進捗の確認に失敗し続けました。')}</div>
             <div class="gr-action-row">
-              <button class="gr-btn-retry" onclick="grResetForm()">再申請する</button>
+              <button class="gr-btn-retry" onclick="grResetForm()">再登録する</button>
             </div>`);
           if (submitBtn) submitBtn.disabled = false;
         }
@@ -23743,7 +23744,7 @@ function grPollGenreRequest(name, requestId, submitBtn) {
           <div class="gr-result-title gr-title-err">✗ 通信エラーが発生しました</div>
           <div class="gr-ai-checks" style="color:#e07878;">${grEsc(e.message || '不明なエラー')}</div>
           <div class="gr-action-row">
-            <button class="gr-btn-retry" onclick="grResetForm()">再申請する</button>
+            <button class="gr-btn-retry" onclick="grResetForm()">再登録する</button>
           </div>`);
         if (submitBtn) submitBtn.disabled = false;
       }
@@ -23996,7 +23997,7 @@ function grRenderResult(inputName, data, submitBtn) {
 
   } else if (data.status === 'pending') {
     grShowResult(`
-      <div class="gr-result-title gr-title-ok">✓ 申請を受け付けました</div>
+      <div class="gr-result-title gr-title-ok">✓ 登録を受け付けました</div>
       <div class="gr-ai-checks">
         ${grAiBlock((data.generator_engine || 'AI') + ' – 実在確認＋情報生成', true, '9項目のジャンル情報を生成しました。')}
         ${grAiBlock((data.factcheck_engine || 'AI') + ' – ファクトチェック', true, '内容を検証しました。')}
@@ -24035,7 +24036,7 @@ function grRenderResult(inputName, data, submitBtn) {
 
   } else if (data.status === 'not_found' || data.status === 'not_found_chatgpt') {
     grShowResult(`
-      <div class="gr-result-title gr-title-ng">✗ 申請を受け付けられませんでした</div>
+      <div class="gr-result-title gr-title-ng">✗ 登録を受け付けられませんでした</div>
       <div class="gr-ai-checks">
         ${grAiBlock((data.primary_engine || 'AI') + ' – 実在確認', false, data.primary_reason || '実在する音楽ジャンルとして確認できませんでした。')}
         ${data.secondary_reason ? grAiBlock((data.secondary_engine || 'AI') + 'による再確認', false, data.secondary_reason) : ''}
@@ -24105,7 +24106,7 @@ function grShowQueuePanel() {
     '<div style="font-size:10px;color:#7a9a7a;margin-bottom:5px;">未登録ジャンル候補 ' + pos + ' / ' + tot + ' 件</div>'
     + '<div style="font-size:12px;color:#e0e0e0;margin-bottom:8px;">「<strong>' + grEsc(cur) + '</strong>」 をどうしますか？</div>'
     + '<div style="display:flex;gap:6px;">'
-    + '<button onclick="grQueueApply()" style="flex:1;padding:5px 0;background:#1a3a1a;border:1px solid #3a6a3a;border-radius:5px;color:#78c878;font-size:11px;cursor:pointer;">＋ 申請する</button>'
+    + '<button onclick="grQueueApply()" style="flex:1;padding:5px 0;background:#1a3a1a;border:1px solid #3a6a3a;border-radius:5px;color:#78c878;font-size:11px;cursor:pointer;">＋ 登録する</button>'
     + '<button onclick="grQueueSkip()" style="flex:1;padding:5px 0;background:#1a1a2a;border:1px solid #3a3a5a;border-radius:5px;color:#8a8aaa;font-size:11px;cursor:pointer;">スキップ →</button>'
     + '</div>';
 }
