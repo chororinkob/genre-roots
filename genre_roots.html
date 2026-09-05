@@ -23866,6 +23866,20 @@ function grRenderResult(inputName, data, submitBtn) {
         <button class="gr-btn-map" onclick="grCloseAndNext()">${grNextLabel()}</button>
       </div>`);
 
+  } else if (data.status === 'no_tracks_found') {
+    // 代表曲もメイン動画もYouTubeで1本も見つからなかった場合。以前は
+    // ここで止めずに承認待ちへ進めていたため、確認画面のパネル側にある
+    // 「ジャンル名 + greatest hits mix」で検索して代わりに再生する保険が
+    // 発動し、動画は出るのに代表曲欄は消えている、という矛盾した見た目に
+    // なっていた（2026-09-05、「チャルガ」の3回目の申請で発覚）。
+    grShowResult(`
+      <div class="gr-result-title gr-title-dup">⚠ 代表曲の動画が見つかりませんでした</div>
+      <div class="gr-ai-checks" style="color:#ccc;">${grEsc(data.message)}</div>
+      <div class="gr-action-row">
+        <button class="gr-btn-retry" onclick="grResetForm()">再試行する</button>
+      </div>`);
+    submitBtn.disabled = false;
+
   } else if (data.status === 'not_found' || data.status === 'not_found_chatgpt') {
     grShowResult(`
       <div class="gr-result-title gr-title-ng">✗ 申請を受け付けられませんでした</div>
