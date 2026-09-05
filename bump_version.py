@@ -61,7 +61,10 @@ major = int(ver_match.group(1))
 minor = int(ver_match.group(2))
 new_minor = minor + 1
 new_major = major
-if new_minor > 99:
+# 小数点以下は必ず1桁（0〜9）に収める。以前は99を超えたら繰り上げていたため
+# 2桁表記（v28.10等）が発生しており、チョロさんが元々使っていた「小数点以下
+# 1桁」というルールから外れてしまっていた（2026-09-05指摘）。
+if new_minor > 9:
     new_major = major + 1
     new_minor = 0
 old_ver_str = f"v{major}.{minor}"
