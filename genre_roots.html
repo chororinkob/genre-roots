@@ -23654,14 +23654,23 @@ function grPollGenreRequest(name, requestId, submitBtn) {
   grPolling = setInterval(poll, 2000);
 }
 
-function grOpenIframeOverlay(url) {
+function grOpenIframeOverlay(url, maxW, maxH) {
+  // maxW/maxH省略時は760x880（correction_preview.html等、旧来の狭い
+  // 項目一覧型テンプレート向けのサイズ）。admin_preview.html（本物の
+  // マップ+パネルをiframeで埋め込む新しい確認画面）をこの枠に入れると、
+  // 中のiframeの表示幅が350px程度まで潰れ、本物のマップ側がスマホ版の
+  // レイアウトで開いてしまい、カテゴリ一覧・線の太さ・丸の大きさ・関連
+  // ジャンルの整合性が確認できなくなる不具合になっていた（チョロさんの
+  // 指摘で発覚。2026-09-05）。呼び出し元でサイズを指定できるようにした。
+  maxW = maxW || 760;
+  maxH = maxH || 880;
   const old = document.getElementById('gr-preview-overlay');
   if (old) old.remove();
   const overlay = document.createElement('div');
   overlay.id = 'gr-preview-overlay';
   overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:10000;display:flex;align-items:center;justify-content:center;padding:16px;';
   overlay.innerHTML = `
-    <div style="position:relative;width:min(760px,100%);height:min(880px,100%);background:#0d0d1a;border-radius:12px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.6);">
+    <div style="position:relative;width:min(${maxW}px,100%);height:min(${maxH}px,100%);background:#0d0d1a;border-radius:12px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.6);">
       <button onclick="document.getElementById('gr-preview-overlay').remove()" style="position:absolute;top:10px;right:12px;z-index:1;background:rgba(255,255,255,0.12);color:#fff;border:none;border-radius:50%;width:30px;height:30px;cursor:pointer;font-size:15px;">✕</button>
       <iframe src="${url}" style="width:100%;height:100%;border:none;display:block;"></iframe>
     </div>`;
@@ -23856,7 +23865,11 @@ if (window.__grAutoOpenGenre) {
 }
 
 function grOpenPreview(token) {
-  grOpenIframeOverlay(`${API_BASE}/admin/preview/${encodeURIComponent(token)}`);
+  // admin_preview.htmlは本物のマップ+パネルをiframeで丸ごと埋め込む作りに
+  // なっているため、狭い枠だとカテゴリ一覧・線・丸の大きさ・関連ジャンルが
+  // 確認できない（スマホ版のレイアウトになってしまう）。画面のほとんどを
+  // 使えるようにする。
+  grOpenIframeOverlay(`${API_BASE}/admin/preview/${encodeURIComponent(token)}`, 1700, 940);
 }
 
 function grOpenCorrectionPreview(token) {
