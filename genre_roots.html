@@ -1447,7 +1447,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v29.8</span>
+  <span id="version-info">v29.9</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -21480,10 +21480,10 @@ spCorrSend.onclick = async () => {
         const result = sdata.result || {};
         if (result.status === 'not_an_error') {
           spCorrResult.className = 'not-error';
-          spCorrResult.innerHTML = logHtml + 'これは間違いではありません。<br>' + (result.reasoning || '').replace(/\n/g, '<br>');
+          spCorrResult.innerHTML = logHtml + '<b style="font-size:13px;">△ 修正はできませんでした（現在の内容に問題はないと判断しました）</b><br>' + (result.reasoning || '').replace(/\n/g, '<br>');
         } else if (result.status === 'pending') {
           spCorrResult.className = 'ok';
-          spCorrResult.innerHTML = logHtml + '修正内容の確認ができます。<br>' + (result.reasoning || '').replace(/\n/g, '<br>') +
+          spCorrResult.innerHTML = logHtml + '<b style="font-size:13px;">✓ 修正しました。内容をご確認のうえ承認してください</b><br>' + (result.reasoning || '').replace(/\n/g, '<br>') +
             (result.token ? `<div style="margin-top:8px;"><button onclick="grOpenCorrectionPreview('${result.token}')" style="font-size:12px;color:#7eb8f7;background:transparent;border:1px solid #2a4a7a;border-radius:6px;padding:6px 12px;cursor:pointer;">修正内容を確認する</button></div>` : '');
           spCorrText.value = '';
         } else {
