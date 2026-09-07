@@ -227,52 +227,49 @@
 <p>残ります。</p>
 <h3>ジャンル追加の申請</h3>
 <p>**Gensparkのsuper_agent（Web検索を使うエージェント）が実在確認と情報の生成を</p>
-<p>行います。生成そのものがWeb検索で裏取りするため、通常はGensparkのcross_check</p>
-<p>（事実確認のエージェント）による追加のファクトチェックは省略します。**</p>
-<p>生成とファクトチェックの担当は3度変わっています。</p>
+<p>行います。生成そのものがWeb検索で裏取りするため、追加のファクトチェックは</p>
+<p>行いません。他のAI（ChatGPT・Gemini・Claude）への問い合わせも一切ありません。**</p>
+<p>生成とファクトチェックの担当は4度変わっています。</p>
 <table>
 <tr><th>時期</th><th>生成</th><th>ファクトチェック</th></tr>
 <tr><td>〜v1.68</td><td>ChatGPT</td><td>Claude</td></tr>
 <tr><td>v1.69〜v2.08</td><td>Claude</td><td>ChatGPT</td></tr>
 <tr><td>v2.09〜v2.41</td><td>Claude</td><td>Genspark cross_check</td></tr>
-<tr><td><b>v2.42〜（今）</b></td><td><b>Genspark super_agent</b></td><td><b>（通常は省略。ChatGPTが実在判定を覆した場合のみGenspark cross_check）</b></td></tr>
+<tr><td>v2.42</td><td>Genspark super_agent</td><td>通常は省略。ChatGPTが実在判定を覆した場合のみGenspark cross_check</td></tr>
+<tr><td><b>v2.43〜（今）</b></td><td><b>Genspark super_agent</b></td><td><b>行わない（他のAIへの問い合わせも一切なし）</b></td></tr>
 </table>
 <p>1度目の入れ替えは「Claudeの生成のほうが説明が詳しい」という理由。</p>
 <p>2度目は、ChatGPTが事実の誤りをほとんど拾えていなかったためです</p>
 <p>（理由は「決めたこと」に書いてあります）。</p>
 <p>3度目は、API課金が都度別枠でかかるより、Gensparkの月額クレジットの中で</p>
-<p>回したいというチョロさんの判断です。super_agent自体がWeb検索で裏取り</p>
-<p>しながら書くため、同じGensparkに二度問い合わせる後段のcross_checkは</p>
-<p>通常省略します（理由は「決めたこと」に書いてあります）。</p>
+<p>回したいというチョロさんの判断です。</p>
+<p>4度目は、「Gensparkだけで完結させたい。ダブルチェックもファクトチェックも</p>
+<p>不要」というチョロさんの判断です。super_agent自体がWeb検索で裏取り</p>
+<p>しながら書くため、Gensparkが「実在しない」と判定した場合は他のAIに</p>
+<p>再確認させず、その場で却下します（理由は「決めたこと」に書いてあります）。</p>
 <p>作るのは10項目（id／label／cat／era／desc／roots_story／rep_tracks／links／</p>
 <p>aliases／popularity）です。</p>
 <h4>全体の順番</h4>
 <table>
 <tr><th>段</th><th>誰が</th><th>何を</th></tr>
 <tr><td>事前</td><td>プログラム</td><td>IDの完全一致・似た名前の確認</td></tr>
-<tr><td>Step 1</td><td><b>Genspark super_agent</b></td><td>実在確認＋10項目の生成（Web検索で裏取り）</td></tr>
-<tr><td>Step 1.5</td><td>ChatGPT</td><td>Gensparkが「実在しない」と言ったときだけ再確認</td></tr>
-<tr><td>Step 2</td><td><b>Genspark cross_check</b></td><td>（通常は省略）Web検索して事実関係を検証。Step 1.5でChatGPTが覆した場合のみ実施</td></tr>
-<tr><td>Step 2b</td><td>Claude</td><td>Step 2で指摘が出たときだけ、本文を直す</td></tr>
+<tr><td>Step 1</td><td><b>Genspark super_agent</b></td><td>実在確認＋10項目の生成（Web検索で裏取り）。実在しないと判定されたらその場で却下</td></tr>
+<tr><td>Step 2</td><td>—</td><td>事実確認は行わない</td></tr>
 <tr><td>Step 2c</td><td>プログラム</td><td>リンク先IDの補正・分量・用語集の漏れ（AIは使わない）</td></tr>
 <tr><td>Step 3</td><td>プログラム</td><td>代表曲の動画を探して照合する</td></tr>
 <tr><td>Step 4</td><td>プログラム</td><td>知名度の計算</td></tr>
 <tr><td>最後</td><td>—</td><td>承認待ちに保存</td></tr>
 </table>
-<p>AIへの問い合わせは、<b>ふつう1件につき1回</b>（Gensparkの生成1回のみ）です。</p>
-<p>Step 1.5・Step 2・Step 2bは、Gensparkが「実在しない」と言ったときだけ走る、</p>
-<p>まれな経路です。</p>
-<h4>事実確認（cross_check）— 通常は省略</h4>
-<p>v2.42〜：Step 1のsuper_agentがすでにWeb検索で裏取り済みのため、通常はこの</p>
-<p>手順自体を省略します（承認画面には「Genspark生成時にWeb検索で事実確認済み」</p>
-<p>と表示されます）。実施されるのは、Step 1.5でChatGPTが実在判定を覆して</p>
-<p>生成した場合だけです。</p>
-<p>cross_checkは「直した文章」ではなく<b>指摘レポート</b>を返します。</p>
-<p>①該当の記述 ②何が誤りか ③正しくは何か ④出典URL、という形です。</p>
-<p>指摘が出た場合は、そのレポートをClaudeに渡して本文を直させます。</p>
-<p><b>チョロさんが手で直す必要はありません。</b></p>
-<p>レポートと出典URLは承認画面にそのまま出します。本文が黙って書き換わると</p>
-<p>承認の判断ができないため、<b>何をどう直したのか、根拠はどこか</b>が必ず見えます。</p>
+<p>AIへの問い合わせは、<b>1件につき1回だけ</b>（Gensparkの生成1回のみ）です。</p>
+<h4>事実確認は行わない（v2.43〜）</h4>
+<p>Step 1のsuper_agentがすでにWeb検索で裏取り済みのため、別途の事実確認は</p>
+<p>行いません（承認画面には「Genspark(super_agent)による生成時にWeb検索で</p>
+<p>事実確認済みのため、追加のファクトチェックは行っていません」と表示されます）。</p>
+<p>〜v2.08はChatGPT、v2.09〜v2.42はGensparkのcross_checkが、この役割を</p>
+<p>別のAIとして担っていました。cross_check時代は「直した文章」ではなく</p>
+<p>指摘レポート（①該当の記述 ②何が誤りか ③正しくは何か ④出典URL）を返し、</p>
+<p>指摘が出た場合はそのレポートをClaudeに渡して本文を直させていましたが、</p>
+<p>今はその裏取り自体をStep 1のsuper_agentが兼ねているため使いません。</p>
 <h4>代表曲の動画（v2.07〜）</h4>
 <p>以前は検索結果の上位2本をそのまま入れていたため、まったく別の動画が</p>
 <p>登録されていました（Chiptuneの代表曲にArduinoの電子工作の解説動画など）。</p>
@@ -354,7 +351,7 @@
 <tr><td>GEMINI_API_KEY</td><td>曲のジャンル解析・修正依頼の動画確認・全件チェック</td></tr>
 <tr><td>YOUTUBE_API_KEY</td><td>代表曲の動画の検索と、中身の照合</td></tr>
 <tr><td>RAPIDAPI_KEY</td><td>Shazamの楽曲認識</td></tr>
-<tr><td>OPENAI_API_KEY</td><td>実在の再確認（ChatGPT。Gensparkが実在を否定したときだけ）</td></tr>
+<tr><td>OPENAI_API_KEY</td><td>v2.43〜：現在はどの経路からも使われていない（ChatGPTによる実在の再確認・生成・事実確認は廃止済み。関数自体は残しているので、設定を消すとその関数を呼んだ時にだけエラーになる）</td></tr>
 <tr><td>ANTHROPIC_API_KEY</td><td>修正依頼の判定・本文修正、事実確認の指摘に沿った修正（Claude）</td></tr>
 <tr><td>GENSPARK_API_KEY</td><td>ジャンル情報の生成（super_agent）・事実確認（cross_check、通常は省略）・代表曲動画の検索。gskのログイン情報からも読める</td></tr>
 <tr><td>GMAIL_SENDER / ADMIN_EMAIL</td><td>通知メールの送信元・宛先</td></tr>
