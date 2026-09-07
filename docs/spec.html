@@ -226,37 +226,47 @@
 <p>選んだジャンルだけを地図上で光らせます。履歴はブラウザ側（localStorage、最大15件）に</p>
 <p>残ります。</p>
 <h3>ジャンル追加の申請</h3>
-<p>**Claudeが実在確認と情報の生成を行い、Gensparkのcross_check（事実確認の</p>
-<p>エージェント）が事実関係を検証します。**</p>
-<p>生成とファクトチェックの担当は2度変わっています。</p>
+<p>**Gensparkのsuper_agent（Web検索を使うエージェント）が実在確認と情報の生成を</p>
+<p>行います。生成そのものがWeb検索で裏取りするため、通常はGensparkのcross_check</p>
+<p>（事実確認のエージェント）による追加のファクトチェックは省略します。**</p>
+<p>生成とファクトチェックの担当は3度変わっています。</p>
 <table>
 <tr><th>時期</th><th>生成</th><th>ファクトチェック</th></tr>
 <tr><td>〜v1.68</td><td>ChatGPT</td><td>Claude</td></tr>
 <tr><td>v1.69〜v2.08</td><td>Claude</td><td>ChatGPT</td></tr>
-<tr><td><b>v2.09〜（今）</b></td><td><b>Claude</b></td><td><b>Genspark cross_check</b></td></tr>
+<tr><td>v2.09〜v2.41</td><td>Claude</td><td>Genspark cross_check</td></tr>
+<tr><td><b>v2.42〜（今）</b></td><td><b>Genspark super_agent</b></td><td><b>（通常は省略。ChatGPTが実在判定を覆した場合のみGenspark cross_check）</b></td></tr>
 </table>
 <p>1度目の入れ替えは「Claudeの生成のほうが説明が詳しい」という理由。</p>
 <p>2度目は、ChatGPTが事実の誤りをほとんど拾えていなかったためです</p>
 <p>（理由は「決めたこと」に書いてあります）。</p>
+<p>3度目は、API課金が都度別枠でかかるより、Gensparkの月額クレジットの中で</p>
+<p>回したいというチョロさんの判断です。super_agent自体がWeb検索で裏取り</p>
+<p>しながら書くため、同じGensparkに二度問い合わせる後段のcross_checkは</p>
+<p>通常省略します（理由は「決めたこと」に書いてあります）。</p>
 <p>作るのは10項目（id／label／cat／era／desc／roots_story／rep_tracks／links／</p>
 <p>aliases／popularity）です。</p>
 <h4>全体の順番</h4>
 <table>
 <tr><th>段</th><th>誰が</th><th>何を</th></tr>
 <tr><td>事前</td><td>プログラム</td><td>IDの完全一致・似た名前の確認</td></tr>
-<tr><td>Step 1</td><td><b>Claude</b></td><td>実在確認＋10項目の生成</td></tr>
-<tr><td>Step 1.5</td><td>ChatGPT</td><td>Claudeが「実在しない」と言ったときだけ再確認</td></tr>
-<tr><td>Step 2</td><td><b>Genspark cross_check</b></td><td>Webを検索して事実関係を検証</td></tr>
-<tr><td>Step 2b</td><td>Claude</td><td>指摘が出たときだけ、本文を直す</td></tr>
+<tr><td>Step 1</td><td><b>Genspark super_agent</b></td><td>実在確認＋10項目の生成（Web検索で裏取り）</td></tr>
+<tr><td>Step 1.5</td><td>ChatGPT</td><td>Gensparkが「実在しない」と言ったときだけ再確認</td></tr>
+<tr><td>Step 2</td><td><b>Genspark cross_check</b></td><td>（通常は省略）Web検索して事実関係を検証。Step 1.5でChatGPTが覆した場合のみ実施</td></tr>
+<tr><td>Step 2b</td><td>Claude</td><td>Step 2で指摘が出たときだけ、本文を直す</td></tr>
 <tr><td>Step 2c</td><td>プログラム</td><td>リンク先IDの補正・分量・用語集の漏れ（AIは使わない）</td></tr>
 <tr><td>Step 3</td><td>プログラム</td><td>代表曲の動画を探して照合する</td></tr>
 <tr><td>Step 4</td><td>プログラム</td><td>知名度の計算</td></tr>
 <tr><td>最後</td><td>—</td><td>承認待ちに保存</td></tr>
 </table>
-<p>AIへの問い合わせは、<b>ふつう1件につき2回</b>（Claudeの生成1回と</p>
-<p>cross_check 1回）です。事実の誤りが見つかったときだけ、直しのClaudeが</p>
-<p>1回増えます。Step 1.5 は実在を否定されたときにしか走りません。</p>
-<h4>事実確認（cross_check）</h4>
+<p>AIへの問い合わせは、<b>ふつう1件につき1回</b>（Gensparkの生成1回のみ）です。</p>
+<p>Step 1.5・Step 2・Step 2bは、Gensparkが「実在しない」と言ったときだけ走る、</p>
+<p>まれな経路です。</p>
+<h4>事実確認（cross_check）— 通常は省略</h4>
+<p>v2.42〜：Step 1のsuper_agentがすでにWeb検索で裏取り済みのため、通常はこの</p>
+<p>手順自体を省略します（承認画面には「Genspark生成時にWeb検索で事実確認済み」</p>
+<p>と表示されます）。実施されるのは、Step 1.5でChatGPTが実在判定を覆して</p>
+<p>生成した場合だけです。</p>
 <p>cross_checkは「直した文章」ではなく<b>指摘レポート</b>を返します。</p>
 <p>①該当の記述 ②何が誤りか ③正しくは何か ④出典URL、という形です。</p>
 <p>指摘が出た場合は、そのレポートをClaudeに渡して本文を直させます。</p>
@@ -344,9 +354,9 @@
 <tr><td>GEMINI_API_KEY</td><td>曲のジャンル解析・修正依頼の動画確認・全件チェック</td></tr>
 <tr><td>YOUTUBE_API_KEY</td><td>代表曲の動画の検索と、中身の照合</td></tr>
 <tr><td>RAPIDAPI_KEY</td><td>Shazamの楽曲認識</td></tr>
-<tr><td>OPENAI_API_KEY</td><td>実在の再確認（ChatGPT。Claudeが実在を否定したときだけ）</td></tr>
-<tr><td>ANTHROPIC_API_KEY</td><td>ジャンル情報の生成と、事実確認の指摘に沿った修正（Claude）</td></tr>
-<tr><td>GENSPARK_API_KEY</td><td>事実確認（cross_check）。gskのログイン情報からも読める</td></tr>
+<tr><td>OPENAI_API_KEY</td><td>実在の再確認（ChatGPT。Gensparkが実在を否定したときだけ）</td></tr>
+<tr><td>ANTHROPIC_API_KEY</td><td>修正依頼の判定・本文修正、事実確認の指摘に沿った修正（Claude）</td></tr>
+<tr><td>GENSPARK_API_KEY</td><td>ジャンル情報の生成（super_agent）・事実確認（cross_check、通常は省略）・代表曲動画の検索。gskのログイン情報からも読める</td></tr>
 <tr><td>GMAIL_SENDER / ADMIN_EMAIL</td><td>通知メールの送信元・宛先</td></tr>
 </table></div>
 <h2>決めたこと（人が書く）</h2>
@@ -430,6 +440,19 @@
 <p>MoA はチャット画面のモデル選択ボタンから人が選ぶ機能で、API の</p>
 <p><code>create_task</code> が受け付ける種類にも <code>ai_chat</code> は無い。</p>
 <p>そのため「Genspark 一発で生成もチェックも」はできない。</p>
+<p>2026-09-08 上の結論を訂正する。公式CLI（<code>gsk list-tools</code>）で改めて</p>
+<p>全ツールを調べ直したところ、<code>create_task</code> の <code>task_type</code> に</p>
+<p><code>super_agent</code>（「general super agent」を作る、という説明のみ）という</p>
+<p>選択肢があった。これはチャット画面でGensparkが宣伝している「複数のAIを</p>
+<p>組み合わせて結論を出す」仕組みの実体と考えられる、名前が<code>moa</code>ではない</p>
+<p>だけの一般エージェントで、実際にReggaetonで試したところ、Web検索（El General・</p>
+<p>プエルトリコの取り締まり事件など、実在の史実）をしながら文章を書けることを</p>
+<p>確認した。8/24の調査は<code>moa</code> <code>chat</code> <code>llm</code>という名前だけを</p>
+<p>探しており、<code>create_task</code>のtask_type一覧の中まで確認していなかった</p>
+<p>ための見落としだったとみられる。「Genspark 一発で生成もチェックも」は</p>
+<p><b>super_agentを使えば実質できる</b>と分かったため、v2.42でジャンル情報の生成を</p>
+<p>ClaudeからGenspark super_agentに置き換え、生成時にWeb検索で裏取り済みの</p>
+<p>場合は後段のcross_checkを省略するようにした。</p>
 <p>2026-08-25 独立した記事が無いジャンルは、閲覧数だけでなく<b>言語版の数も1点</b>にする。</p>
 <p>どちらも「飛ばされた先（親ジャンル）」の数字であって、そのジャンル自身の数字では</p>
 <p>ないため。2026-08-13に閲覧数についてこう決めたときの理由がそのまま当てはまる。</p>
