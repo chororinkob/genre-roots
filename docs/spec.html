@@ -304,20 +304,31 @@
 </ul>
 <p><code>check_html_syntax.js</code>）。壊れる場合は書き込み自体を中止する</p>
 <h3>修正依頼</h3>
-<p>指摘を受け取ったら、まずClaudeが「文章の指摘」か「動画の指摘」かに分けます</p>
+<p>v2.44〜：振り分け・文章判定・動画判定の3か所とも、Claude・Geminiの直接呼び出し</p>
+<p>からGenspark(super_agent／analyze_media)に置き換えた。新規登録と同じく、</p>
+<p>API課金をGensparkの定額クレジットに寄せる狙い。</p>
+<p>指摘を受け取ったら、まずGensparkが「文章の指摘」か「動画の指摘」かに分けます</p>
 <p>（<code>_triage_correction</code>）。</p>
 <ul>
-<li><b>文章の指摘</b> … Claudeが既存の説明文とリンク先の内容と照らして事実確認する</li>
+<li><b>文章の指摘</b> … Genspark(super_agent)がWeb検索で裏取りしながら、既存の</li>
 </ul>
-<p>（<code>_judge_text_correction</code>）</p>
+<p>説明文とリンク先の内容と照らして事実確認する（<code>_judge_text_correction</code>）。</p>
+<p>cross_check（1回300クレジット超）ではなくsuper_agent（1回70〜90クレジット程度）</p>
+<p>を使う。既存の厳密な指示（old_string/new_stringの引用規則、指摘箇所だけを直し</p>
+<p>全面的な書き直しはしない、等）はそのまま引き継いでいる</p>
 <ul>
-<li><b>動画の指摘</b> … Geminiが動画を実際に視聴し、ジャンルと合っているか判定する</li>
+<li><b>動画の指摘</b> … Genspark(<code>analyze_media</code>、analysis_model=</li>
 </ul>
-<p>（<code>_judge_video_correction</code>）。合っていなければ、代表曲側の確認済み動画から</p>
-<p>差し替え候補を自動で作る</p>
-<p>Geminiは無料枠の上限に当たると自動で別のモデルに切り替わります</p>
-<p>（<code>_gemini_generate</code>）。承認・却下・「間違いではない」のどの結果でも、</p>
-<p>依頼してくれた方への感謝の言葉を末尾に添えます（<code>THANK_YOU_MESSAGE</code>）。</p>
+<p>gemini-3.1-pro-preview）が動画を実際に視聴し、ジャンルと合っているか判定する</p>
+<p>（<code>_judge_video_correction</code>、専用関数<code>_genspark_check_video</code>）。</p>
+<p>合っていなければ、代表曲側の確認済み動画から差し替え候補を自動で作る。</p>
+<p>内部ではGeminiのモデルを使うが、無料枠に収める必要がないぶん上位モデル</p>
+<p>（pro-preview）を指定できる。動画を一括で確認する他のメンテナンス処理</p>
+<p>（<code>fill_missing_track_videos</code>等）は対象外で、無料のGemini直接呼び出し</p>
+<p>（<code>_gemini_check_video</code>）のまま残している。1件の修正依頼で動画を複数本</p>
+<p>まとめて確認することがあり、一括処理にまで広げるとクレジット消費が跳ね上がる</p>
+<p>ため。承認・却下・「間違いではない」のどの結果でも、依頼してくれた方への</p>
+<p>感謝の言葉を末尾に添えます（<code>THANK_YOU_MESSAGE</code>）。</p>
 <h3>動画の健全性チェック（管理者用）</h3>
 <p>一般の方向けではない内部機能です。</p>
 <p class="num">1. <b>全件スキャン</b> … YouTubeのタイトルを取得し、ジャンル名との一致度から</p>
@@ -348,11 +359,11 @@
 <tr><td>GITHUB_TOKEN</td><td>地図とサーバー、両方のリポジトリへの書き込み（Fine-grained PAT）</td></tr>
 <tr><td>PUBLIC_BASE_URL</td><td>承認メールに載せるリンクの基点URL</td></tr>
 <tr><td>RESEND_API_KEY</td><td>管理者への通知メール（RenderはSMTPを塞いでいるため）</td></tr>
-<tr><td>GEMINI_API_KEY</td><td>曲のジャンル解析・修正依頼の動画確認・全件チェック</td></tr>
+<tr><td>GEMINI_API_KEY</td><td>曲のジャンル解析、動画の一括メンテナンス処理（fill_missing_track_videos等）。v2.44〜：修正依頼の動画確認自体はGensparkに移したため対象外</td></tr>
 <tr><td>YOUTUBE_API_KEY</td><td>代表曲の動画の検索と、中身の照合</td></tr>
 <tr><td>RAPIDAPI_KEY</td><td>Shazamの楽曲認識</td></tr>
 <tr><td>OPENAI_API_KEY</td><td>v2.43〜：現在はどの経路からも使われていない（ChatGPTによる実在の再確認・生成・事実確認は廃止済み。関数自体は残しているので、設定を消すとその関数を呼んだ時にだけエラーになる）</td></tr>
-<tr><td>ANTHROPIC_API_KEY</td><td>修正依頼の判定・本文修正、事実確認の指摘に沿った修正（Claude）</td></tr>
+<tr><td>ANTHROPIC_API_KEY</td><td>修正依頼の動画指摘の3分類（genre_mismatch/reasonable_request/unclear判定、_classify_video_request）。v2.44〜：振り分け・文章のファクトチェック・動画の一致判定はGensparkに移した</td></tr>
 <tr><td>GENSPARK_API_KEY</td><td>ジャンル情報の生成（super_agent）・事実確認（cross_check、通常は省略）・代表曲動画の検索。gskのログイン情報からも読める</td></tr>
 <tr><td>GMAIL_SENDER / ADMIN_EMAIL</td><td>通知メールの送信元・宛先</td></tr>
 </table></div>
