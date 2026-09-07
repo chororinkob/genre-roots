@@ -1447,7 +1447,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v29.3</span>
+  <span id="version-info">v29.4</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -24023,30 +24023,14 @@ function grOpenCorrectionPreview(token) {
 }
 
 function grRenderResult(inputName, data, submitBtn) {
-  if (data.status === 'pending' && data.factcheck_failed) {
-    // v24.122〜: ファクトチェック自体が行えなかった場合（AIサービスの利用上限超過等）は、
-    // 通常の「✓ 申請を受け付けました」（＝検証済みであるかのような表現）ではなく、
-    // 検証できていない旨を謝罪つきで伝える。以前はこの場合も通常と全く同じ「内容を
-    // 検証しました。」という表示になってしまい、実際には確認されていないことが
-    // 伝わらなかった。
-    grShowResult(`
-      <div class="gr-result-title gr-title-dup">申し訳ございません</div>
-      <div class="gr-ai-checks">
-        ${grAiBlock((data.generator_engine || 'AI') + ' – 実在確認＋情報生成', true, '9項目のジャンル情報を生成しました。')}
-        ${grAiBlock((data.factcheck_engine || 'AI') + ' – ファクトチェック', false, 'ただいま内容の確認を行うことができませんでした。')}
-      </div>
-      <div class="gr-next">${grEsc(data.message || '')}</div>
-      <div class="gr-action-row">
-        ${data.token ? `<button class="gr-btn-map" onclick="grOpenPreview('${grEsc(data.token)}')">生成内容を確認する</button>` : ''}
-        <button class="gr-btn-next" onclick="grCloseAndNext()">${grNextLabel()}</button>
-      </div>`);
-
-  } else if (data.status === 'pending') {
+  // v2.43〜: ファクトチェックは行わなくなった（実在確認・情報生成の時点で
+  // Web検索による事実確認まで完結するため）。「ファクトチェックだけ失敗」
+  // という状態が構造的に起こらなくなったので、その専用表示は廃止した。
+  if (data.status === 'pending') {
     grShowResult(`
       <div class="gr-result-title gr-title-ok">✓ 登録を受け付けました</div>
       <div class="gr-ai-checks">
-        ${grAiBlock((data.generator_engine || 'AI') + ' – 実在確認＋情報生成', true, '9項目のジャンル情報を生成しました。')}
-        ${grAiBlock((data.factcheck_engine || 'AI') + ' – ファクトチェック', true, '内容を検証しました。')}
+        ${grAiBlock((data.generator_engine || 'AI') + ' – 実在確認・情報生成・事実確認', true, 'Web検索で事実を確認しながら、9項目のジャンル情報を生成しました。')}
       </div>
       <div class="gr-next">生成された内容をこの場で確認できます。「${grNextLabel()}」で確認を後回しにしても、内容は承認待ち一覧に残り、管理者が確認後、内容が妥当であれば承認されます。</div>
       <div class="gr-action-row">
