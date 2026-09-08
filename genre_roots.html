@@ -1491,7 +1491,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v30.6</span>
+  <span id="version-info">v30.7</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -21554,6 +21554,10 @@ function grApplyCorrectionDiffsToPanel(fixViews) {
     if (fv.kind === 'text' && fv.panel_target) {
       const el = document.getElementById(fv.panel_target);
       if (!el) return;
+      // <del>(削除)・<ins>(追加)を赤・緑に色付けするクラス。以前はここで
+      // 付け忘れていたため、色が付かずただの取り消し線・下線にしか
+      // 見えていなかった（2026-09-09、チョロさんの指摘で発覚）。
+      el.classList.add('gr-corr-diff');
       if (fv.field === 'cat') {
         // catはコード名(例:middle_east)ではなく凡例の日本語ラベルで
         // 見せているため、パネルと同じ変換をしてから差分を組み立てる。
