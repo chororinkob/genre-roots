@@ -85,13 +85,13 @@
 <div class="wrap">
 
 <h1>作業状況</h1>
-<div class="sub">音楽ジャンルルーツ辞典 ／ 2026-09-05 更新</div>
+<div class="sub">音楽ジャンルルーツ辞典 ／ 2026-09-08 更新</div>
 <div class="warn-note" style="background:var(--doing-soft);">
-  最新の変更：申請確認画面を全面リニューアル（本物の説明パネルをiframeで
-  丸ごと埋め込む方式に作り直し）。あわせてAmazon書籍の自動選定・
-  AI名表記の統一・承認記録が消えるバグの修正・統計画面のIPまとめ表示・
-  説明パネルのカテゴリー表示位置の見直しなど、実際にチャルガ等を試験
-  申請しながら見つかった不具合を一通り解消した。
+  最新の変更：新規ジャンル登録・修正依頼の両方で、AIをClaude/ChatGPT/Geminiから
+  Gensparkへ置き換える作業を開始（目的：Claude等の課金APIへの依存を無くし、
+  Gensparkの月額クレジットに一本化する）。新規登録は生成からファクトチェックまで
+  Genspark(super_agent)のみで完結（v2.43）。修正依頼も振り分け・文章判定・
+  動画判定の3か所をGenspark化した（v2.44・v2.45）。詳細は下の「進行中」参照。
 </div>
 <div class="warn-note">
   セッションをまたぐとここの数字も古くなる。<b>着手する前に必ず実物を見て
@@ -101,15 +101,88 @@
 
 <table class="verinfo">
 <tr><th>もの</th><th>版</th><th>どこ</th></tr>
-<tr><td>地図</td><td>v29.1</td><td><a href="https://genre-roots.com/" target="_blank" rel="noopener">公開済み</a></td></tr>
-<tr><td>使い方ガイド</td><td>v1.27</td><td>公開済み</td></tr>
+<tr><td>地図</td><td>v29.9</td><td><a href="https://genre-roots.com/" target="_blank" rel="noopener">公開済み</a></td></tr>
+<tr><td>使い方ガイド</td><td>v1.29</td><td>公開済み</td></tr>
 <tr><td>更新の記録</td><td>自動生成</td><td><code>docs/changes.html</code>（公開済み）</td></tr>
 <tr><td>いたずら対策 guard.py</td><td>v1.11</td><td>公開済み</td></tr>
-<tr><td>ジャンル追加 genre_adder.py</td><td>v2.40</td><td>公開済み</td></tr>
-<tr><td>申請確認画面 admin_preview.html</td><td>v3.3</td><td>公開済み</td></tr>
+<tr><td>ジャンル追加 genre_adder.py</td><td>v2.45</td><td>公開済み</td></tr>
+<tr><td>申請確認画面 admin_preview.html</td><td>v3.5</td><td>公開済み</td></tr>
 </table>
 
-<h2>🔶 進行中・次にやること <span class="h2-count">3件</span></h2>
+<h2>🔶 進行中・次にやること <span class="h2-count">6件</span></h2>
+
+<div class="item">
+  <div class="item-head">
+    <span class="status doing">進行中（2026-09-08〜）</span>
+    <span class="item-title">AIをすべてGensparkに統一する — Claude/ChatGPTの課金APIへの依存を無くす</span>
+  </div>
+  <div class="item-body">
+    チョロさんの方針：無料枠のAPI（Geminiの1日10件程度など）以外は残さず、
+    Claude・ChatGPTを使っている箇所は全部Gensparkに置き換える。理由は、
+    使う量が少なくても複数の課金APIに依存していると、いつかどれかの
+    クレジット・利用枠が切れて止まる心配が消えないため。
+    <div class="dim" style="margin-top:8px;">
+      <b>すでに完了：</b>新規ジャンル登録の生成・ファクトチェック（Claude→
+      Genspark super_agent、v2.42・v2.43）。修正依頼の振り分け・文章の
+      ファクトチェック・動画の一致判定（Claude/Gemini→Genspark、v2.44・v2.45）。
+    </div>
+    <div class="dim" style="margin-top:8px;">
+      <b>まだ残っている、生きているClaude呼び出し（洗い出し済み、2026-09-08）：</b>
+      <ol style="margin:6px 0 0 20px;padding:0;">
+        <li><code>_classify_video_request</code> — 修正依頼の動画指摘を
+          「ジャンルが違う／もっと良い例にしてほしい／不明」の3種類に分類する。
+          Gensparkのsuper_agentが実際に動画を視聴できることは2026-09-08に
+          テスト済み（Reggaetonの動画で実証）。3分類の構造はそのまま残し、
+          中身のAIだけをGensparkに差し替える方針で合意済み。次にやる。</li>
+        <li><code>_judge_book_relevance</code> — 新規登録時、Amazon書籍の
+          候補が「ピンポイント／広い系統／無関係」かを1冊ずつ判定する。</li>
+        <li><code>_pick_alternative_tracks</code> — 代表曲が他ジャンルと
+          重複したときに、代わりの曲をAIに選ばせる。</li>
+        <li><code>revise_with_claude</code> — 承認前の申請内容を、管理者が
+          コメントで直させる画面（<code>/admin/revise</code>）。</li>
+        <li><code>generate_genre_info_claude</code> — <code>/admin/gentest</code>
+          という手動デバッグ専用の入口からのみ呼ばれる（通常のユーザーは
+          触れない）。Gensparkに差し替えるなら、実際の生成経路と同じものを
+          試せるよう<code>generate_genre_info_genspark</code>を呼ぶように直す。</li>
+      </ol>
+      いずれも1件ずつ実装後にテストしてから公開する方針（新規登録・修正依頼の
+      Genspark化と同じ進め方）。
+    </div>
+  </div>
+</div>
+
+<div class="item">
+  <div class="item-head">
+    <span class="status hold">保留</span>
+    <span class="item-title">「この曲なんてジャンル？」機能のGemini使用箇所の対応</span>
+  </div>
+  <div class="item-body">
+    音声からジャンルを判定する機能はGeminiの無料枠（1日10件程度）を使っており、
+    これ自体は残してよい対象（チョロさんの方針では無料枠APIは対象外）。
+    ただし判定の精度がいまいちという指摘があり（スカの裏打ちリズムを
+    「ムード歌謡」と誤判定した例など）、Gensparkのanalyze_media
+    （analysis_model=gemini-3.1-pro-preview）に変えた方が精度が上がる
+    可能性がある。これは修正依頼の動画判定（v2.44）で実証済みの技術と同じ。
+    無料枠を使い切る心配が無い分、あえて今すぐ変える必要は無いため保留に
+    しているが、忘れないよう作業項目として記録しておく。
+  </div>
+</div>
+
+<div class="item">
+  <div class="item-head">
+    <span class="status wait">相談中（2026-09-08〜、実装はまだ）</span>
+    <span class="item-title">「修正内容を確認する」画面は不要では？という提案</span>
+  </div>
+  <div class="item-body">
+    チョロさんからの提案：説明パネルの上に「何を直したか」がすでに表示されて
+    いるので、今の確認画面（プログラムっぽい書き方で同じ内容を見せているだけ）は
+    要らないのではないか。「修正内容を確認する」ボタンを無くし、説明パネル上で
+    直接「却下」「承認して反映する」の2択にする方がシンプル。動画の場合は
+    「〇〇という動画に変更しました」の表示（できればパネル内で再生確認）で
+    十分ではないか、という中規模の提案。<b>チョロさんの指示で、まだ実装せず
+    相談・検討の段階。</b>
+  </div>
+</div>
 
 <div class="item">
   <div class="item-head">
@@ -238,6 +311,33 @@
 <details class="donebox">
   <summary>片づいた作業を見る（新しい順）</summary>
   <div class="done-list">
+
+    <div class="done-day">2026-09-08</div>
+    <div class="done-item">新規ジャンル登録の生成・ファクトチェックをGensparkに一本化（genre_adder.py v2.41→v2.43）
+      <div class="dim">Claude(生成)・Genspark cross_check(ファクトチェック)・ChatGPT(却下時の
+      ダブルチェック)の3段構えだったのを、Genspark(super_agent)1本にまとめた。
+      super_agent自体がWeb検索で裏取りしながら書くため、後段の別ファクトチェックと
+      ChatGPTの再確認を両方廃止。理由：API課金が都度別枠でかかるより、Gensparkの
+      月額クレジットに寄せたいというチョロさんの判断。実測したところ、Gensparkの
+      ファクトチェック単体（旧方式、1回平均約317クレジット）より、super_agentでの
+      生成（1回70〜90クレジット程度）の方が4〜5倍安く、月の予算にも十分収まる
+      ことが分かった。実際に複数の新規ジャンル（Corridos Tumbados・Drift Phonk等）で
+      通しテスト済み</div></div>
+    <div class="done-item">修正依頼の振り分け・文章判定・動画判定をGensparkに一本化（genre_adder.py v2.44→v2.45）
+      <div class="dim">振り分け(Claude)・文章のファクトチェック(Claude)・動画の一致判定
+      (Gemini直接呼び出し)の3か所をGenspark化。動画判定は<code>analyze_media</code>
+      （analysis_model=gemini-3.1-pro-preview）を使う専用関数を新設し、修正依頼の
+      経路だけに限定（一括メンテナンス処理は無料のGeminiのまま維持、クレジット
+      消費が跳ね上がるのを防ぐため）。実装後、実際にNitzhonot（説明文には
+      「ゴアトランスの一系統」と書いてあるのにcat:"hardcore"になっていた、
+      本物の既存データの誤り）で修正依頼を試したところ、<b>reasoningでは
+      「修正が必要」と書きながらis_error（内部フラグ）がfalseのままになり、
+      「修正なし」という誤った結果になるバグを発見。</b>プロンプトに一貫性
+      チェックの指示を追加して修正し、再テストでcatフィールドだけを直す
+      正しい修正案が作られることを確認した。あわせて、確認結果画面の文言
+      「これは間違いではありません」（現在の内容と利用者の指摘のどちらが
+      「正しくない」のか分かりにくいとの指摘）を「△ 修正はできませんでした」
+      「✓ 修正しました」に変更（地図 v29.9）</div></div>
 
     <div class="done-day">2026-09-05</div>
     <div class="done-item">「このジャンルについて修正依頼」ボタンに淡い黄色の背景をつけた
