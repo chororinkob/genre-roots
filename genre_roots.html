@@ -647,8 +647,10 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
                     resize: vertical; box-sizing: border-box; font-family: inherit; }
 .gr-reject-row { display: flex; gap: 8px; }
 /* ジャンプ先を一瞬光らせて、どこが変わったか目で追いやすくする */
-@keyframes gr-jump-flash { 0%,100% { box-shadow: none; } 30% { box-shadow: 0 0 0 3px rgba(126,184,247,0.55); } }
-.gr-jump-highlight { animation: gr-jump-flash 1.4s ease-out; border-radius: 8px; }
+@keyframes gr-jump-flash { 0%,100% { box-shadow: none; } 50% { box-shadow: 0 0 0 3px rgba(126,184,247,0.55); } }
+/* 1回だけだとすぐ消えて見落とすとの指摘（2026-09-08）。次のジャンプまで
+   ずっと点滅し続けるようにする。 */
+.gr-jump-highlight { animation: gr-jump-flash 1.2s ease-in-out infinite; border-radius: 8px; }
 #sp-yt-wrap { border-radius: 8px; overflow: hidden; }
 
 svg { width: 100vw; height: 100vh; }
@@ -1486,7 +1488,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v30.2</span>
+  <span id="version-info">v30.3</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -21459,12 +21461,15 @@ function 修正依頼をやめる() {
   spCorrResult.className = '';
   spCorrResult.innerHTML = '';
   if (spCorrPolling) { clearInterval(spCorrPolling); spCorrPolling = null; }
+  if (typeof grHideCorrectionActionBar === 'function') grHideCorrectionActionBar();
 }
 // パネル自体を閉じたときは、fixedで貼り付けている承認・却下の帯も消す
 // （閉じても#sp-correction-resultの中に残ったままだと、パネルが無いのに
 // ボタンだけ画面に浮いて見える）。
 function grHideCorrectionActionBar() {
   document.querySelectorAll('.gr-corr-actions').forEach(b => b.classList.remove('gr-fixed'));
+  // 点滅はずっと続くので、パネルを閉じる・修正依頼をやめるときは消しておく
+  document.querySelectorAll('.gr-jump-highlight').forEach(x => x.classList.remove('gr-jump-highlight'));
 }
 spCorrCancel.onclick = 修正依頼をやめる;
 const csClose = document.getElementById('cs-close');
@@ -21517,7 +21522,10 @@ function grScrollToPanelSection(elId) {
     const el = document.getElementById(elId);
     if (!el) return;
     el.scrollIntoView({behavior: 'smooth', block: 'center'});
-    el.classList.remove('gr-jump-highlight');
+    // 点滅はずっと続くようにしたので（2026-09-08）、前にジャンプした
+    // 場所が光ったままにならないよう、いったん全部消してから今回の
+    // 箇所だけ光らせる（同時に複数箇所が点滅すると分かりにくいため）。
+    document.querySelectorAll('.gr-jump-highlight').forEach(x => x.classList.remove('gr-jump-highlight'));
     void el.offsetWidth; // 同じ箇所を2回押しても光り直すよう、一度クラスを外してリフローさせる
     el.classList.add('gr-jump-highlight');
   }, 60);
