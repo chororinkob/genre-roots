@@ -1491,7 +1491,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v30.7</span>
+  <span id="version-info">v30.8</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -21475,6 +21475,9 @@ function grHideCorrectionActionBar() {
   document.querySelectorAll('.gr-jump-highlight').forEach(x => x.classList.remove('gr-jump-highlight'));
   const badge = document.getElementById('gr-video-candidate-badge');
   if (badge) badge.remove();
+  // grPositionCorrectionActionBarで足した下側の余白も、帯を消すときに戻す
+  const body = document.getElementById('sp-body');
+  if (body) body.style.paddingBottom = '';
 }
 spCorrCancel.onclick = 修正依頼をやめる;
 const csClose = document.getElementById('cs-close');
@@ -21505,6 +21508,13 @@ function grPositionCorrectionActionBar() {
   bar.style.left   = r.left + 'px';
   bar.style.width  = r.width + 'px';
   bar.style.bottom = Math.max(0, window.innerHeight - r.bottom) + 'px';
+  // 帯を固定表示にしている間、パネルの中身の末尾（「該当箇所を見る」等）が
+  // 帯の下に潜り込んで隠れてしまわないよう、帯の実際の高さぶんだけ
+  // パネルの下側に余白を足す。以前はCSS側の固定値(モバイルで40px)しか
+  // 無く、帯の高さの方が大きいと隠れることがあった
+  // （2026-09-09、チョロさんの指摘：「見る」リンクがボタンの下に潜り込む）。
+  const body = document.getElementById('sp-body');
+  if (body) body.style.paddingBottom = (bar.offsetHeight + 16) + 'px';
 }
 window.addEventListener('resize', grPositionCorrectionActionBar);
 if (window.visualViewport) window.visualViewport.addEventListener('resize', grPositionCorrectionActionBar);
@@ -24326,6 +24336,43 @@ if (!window.__grAutoOpenGenre) {
   } catch (e) { /* 住所が読めなくても地図はふつうに開く */ }
 }
 
+// 【本物のパネル内プレビューを、あとから呼び出せるようにする】2026-09-09
+// これまで修正更新の確認画面（パネル本文への差分埋め込み）は、送信した直後の
+// その場でしか見られなかった。送信者本人以外（チョロさん等）が実際の説明パネルで
+// 見た目を確かめたい場合、これまでは別画面のcorrection_preview.htmlしか無く、
+// これは審査用の別デザインの画面であって「実際の説明パネルにどう出るか」の
+// 証明にはならないという指摘があった（2026-09-09）。genre_roots.html?genre=…&
+// review=（トークン）で開くと、本物の説明パネルの中に、本物の関数
+// （grApplyCorrectionDiffsToPanel・grBuildCorrectionReviewHtml）を使って
+// 同じ確認画面を再現する。新しくAIを呼ぶことはない（保存済みのデータを
+// 読み直すだけ）。
+if (!window.__grReviewToken) {
+  try {
+    const _r = new URLSearchParams(location.search).get('review');
+    if (_r) window.__grReviewToken = _r;
+  } catch (e) { /* 読めなくても無視する */ }
+}
+function _grOpenReviewFromUrl(token) {
+  spCorrBtn.style.display = 'none';
+  spCorrForm.style.display = 'block';
+  spCorrResult.className = 'ok';
+  spCorrResult.innerHTML = '<div class="gr-corr-loading">確認内容を読み込んでいます…</div>';
+  fetch(API_BASE + '/correction_request/review/' + encodeURIComponent(token)).then(r => r.json()).then(data => {
+    if (data.status !== 'ok') {
+      spCorrResult.innerHTML = 'エラー：' + (data.message || '見つかりませんでした。');
+      return;
+    }
+    data.token = token;
+    spCorrResult.innerHTML = '<b style="font-size:13px;">修正更新の確認（保存済みデータの再表示）</b><br>' +
+      (data.reasoning || '').replace(/\n/g, '<br>');
+    grApplyCorrectionDiffsToPanel(data.fix_views);
+    spCorrResult.insertAdjacentHTML('beforeend', grBuildCorrectionReviewHtml(data));
+    grPositionCorrectionActionBar();
+  }).catch(() => {
+    spCorrResult.innerHTML = '確認内容の読み込みに失敗しました。時間をおいて開き直してください。';
+  });
+}
+
 // 【住所ごとに題名と説明文を変える】2026-09-02
 // 573ジャンルぶんの住所（genre_roots.html?genre=…）を、それぞれ別のページとして
 // 検索に載せるための下ごしらえ。どの住所でも題名と説明文が同じままだと、
@@ -24433,6 +24480,10 @@ if (window.__grAutoOpenGenre) {
     }
     _grAutoOpened = true;
     target.dispatch('click');
+    if (window.__grReviewToken) {
+      // パネルの中身が描画されるのを少し待ってから、確認画面を差し込む
+      setTimeout(() => _grOpenReviewFromUrl(window.__grReviewToken), 400);
+    }
   };
   let _grAutoOpenWaited = 0;
   simulation.on('end.grAutoOpen', _grOpenAutoTarget);
