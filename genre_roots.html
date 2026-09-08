@@ -1491,7 +1491,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v30.8</span>
+  <span id="version-info">v30.9</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -21974,9 +21974,15 @@ panel.addEventListener('click', (e) => {
   if (ytLink) {
     e.preventDefault();
     const query = ytLink.dataset.query;
+    const directId = ytLink.dataset.directId;
     const tidx = parseInt(ytLink.dataset.trackIdx ?? '-1');
     const nd = window._currentNode;
-    if (nd && nd.yt_tracks && tidx >= 0 && nd.yt_tracks[tidx] && nd.yt_tracks[tidx][0]) {
+    if (directId) {
+      // 修正更新のプレビューで、AIがすでにWeb検索で見つけていた本物の
+      // 動画IDが分かっている場合（2026-09-09〜）。その場でもう一度
+      // 検索し直すより確実なので、これを最優先で使う。
+      playByVideoId(directId, '', undefined, true);
+    } else if (nd && nd.yt_tracks && tidx >= 0 && nd.yt_tracks[tidx] && nd.yt_tracks[tidx][0]) {
       // 押した曲から再生し、そこから先も順に続ける
       if (!_spTrackList.length) spSetTrackList(nd);
       playByVideoId(nd.yt_tracks[tidx][0], nd.yt_tracks[tidx][1] || '', tidx, true);
