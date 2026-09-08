@@ -610,6 +610,32 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 #sp-correction-result.ok { display: block; background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.3); color: #7ee0a0; }
 #sp-correction-result.not-error { display: block; background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.3); color: #f0c375; }
 #sp-correction-result.err { display: block; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.3); color: #f28b8b; }
+/* v2.46〜：別枠の確認ページを開かせず、この結果表示の中だけで修正内容の
+   確認・承認・却下を完結させる（チョロさんの提案）。 */
+.gr-corr-review { margin-top: 8px; display: flex; flex-direction: column; gap: 8px; }
+.gr-corr-item { background: rgba(0,0,0,0.18); border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; padding: 8px 10px; }
+.gr-corr-jump { display: block; font-size: 12px; font-weight: 700; color: #7eb8f7; text-decoration: none; cursor: pointer; }
+.gr-corr-jump:hover { text-decoration: underline; }
+.gr-corr-diff { margin-top: 5px; font-size: 12px; color: #ccc; line-height: 1.7; }
+.gr-corr-diff del { color: #f28b8b; text-decoration: line-through; text-decoration-color: rgba(242,139,139,0.7); }
+.gr-corr-diff ins { color: #7ee0a0; text-decoration: none; font-weight: 700; }
+/* 動画や本文を見るために説明パネルの上の方までスクロールしても、承認・却下の
+   ボタンだけは画面から消えないようにする（分割画面にしなくて済む）。
+   position:stickyは、この帯を包む小さな箱(#sp-correction-result)自体が
+   画面外へスクロールされると効かなくなるため、position:fixedにして
+   JS側(grPositionCorrectionActionBar)で毎回パネルの実際の位置に合わせる。
+   本体はいつも通りその場（sp-correction-resultの中）に描くが、見た目だけ
+   fixedの帯が上に重なって常に押せる状態にする。 */
+.gr-corr-actions { visibility: hidden; height: 0; overflow: visible; display: flex; gap: 8px; }
+.gr-corr-actions.gr-fixed { visibility: visible; height: auto; position: fixed; z-index: 40; padding: 8px 12px;
+                   background: #14141f; border-top: 1px solid rgba(255,255,255,0.1); box-sizing: border-box; }
+.gr-corr-btn { flex: 1; padding: 9px; border-radius: 6px; border: none; font-size: 12.5px; font-weight: 700; cursor: pointer; }
+.gr-corr-btn:disabled { opacity: .4; cursor: default; }
+.gr-corr-btn.approve { background: #1f7a3a; color: #fff; }
+.gr-corr-btn.reject { background: #6a2222; color: #fff; }
+/* ジャンプ先を一瞬光らせて、どこが変わったか目で追いやすくする */
+@keyframes gr-jump-flash { 0%,100% { box-shadow: none; } 30% { box-shadow: 0 0 0 3px rgba(126,184,247,0.55); } }
+.gr-jump-highlight { animation: gr-jump-flash 1.4s ease-out; border-radius: 8px; }
 #sp-yt-wrap { border-radius: 8px; overflow: hidden; }
 
 svg { width: 100vw; height: 100vh; }
@@ -1447,7 +1473,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v30.0</span>
+  <span id="version-info">v30.1</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -20727,6 +20753,7 @@ window.addEventListener('resize', () => { if (panel.style.display === 'block') s
 })();
 function closePanel() {
   clearTimeout(_detachTimer);
+  if (typeof grHideCorrectionActionBar === 'function') grHideCorrectionActionBar();
   attachMap();                     // 何より先に地図を戻す
   document.getElementById('sp-yt-player').src = '';
   if (isMobile()) {
@@ -21420,6 +21447,12 @@ function 修正依頼をやめる() {
   spCorrResult.innerHTML = '';
   if (spCorrPolling) { clearInterval(spCorrPolling); spCorrPolling = null; }
 }
+// パネル自体を閉じたときは、fixedで貼り付けている承認・却下の帯も消す
+// （閉じても#sp-correction-resultの中に残ったままだと、パネルが無いのに
+// ボタンだけ画面に浮いて見える）。
+function grHideCorrectionActionBar() {
+  document.querySelectorAll('.gr-corr-actions').forEach(b => b.classList.remove('gr-fixed'));
+}
 spCorrCancel.onclick = 修正依頼をやめる;
 const csClose = document.getElementById('cs-close');
 if (csClose) csClose.onclick = 修正依頼をやめる;
@@ -21431,6 +21464,117 @@ function spCorrRenderLog(log) {
     return `<div style="padding:2px 0;color:#9db8d0;">${e.message}</div>`;
   }).join('');
   return `<div id="sp-corr-log" style="max-height:180px;overflow-y:auto;background:#0d0d1a;border-radius:6px;padding:8px 10px;margin-bottom:8px;font-size:11px;">${lines}</div>`;
+}
+
+// ──────────────────────────────────────────────────────────
+// v2.46〜：修正内容の確認・承認・却下を、別枠のページを開かせず
+// この結果表示の中だけで完結させる（チョロさんの提案）。
+// ──────────────────────────────────────────────────────────
+// 承認・却下の帯を、今の説明パネル(#side-panel)の実際の位置・幅に
+// 合わせて画面に固定する。position:fixedはDOMの入れ子の深さに関係なく
+// ビューポート基準で置けるので、パネルの中のどこに実体があっても構わない。
+function grPositionCorrectionActionBar() {
+  const bar = document.querySelector('.gr-corr-actions');
+  const panel = document.getElementById('side-panel');
+  if (!bar || !panel || getComputedStyle(panel).display === 'none') return;
+  const r = panel.getBoundingClientRect();
+  bar.classList.add('gr-fixed');
+  bar.style.left   = r.left + 'px';
+  bar.style.width  = r.width + 'px';
+  bar.style.bottom = Math.max(0, window.innerHeight - r.bottom) + 'px';
+}
+window.addEventListener('resize', grPositionCorrectionActionBar);
+if (window.visualViewport) window.visualViewport.addEventListener('resize', grPositionCorrectionActionBar);
+
+function grFieldLabel(field) {
+  return ({desc: '音楽性・特徴', roots_story: '成り立ち', rep_tracks: '代表曲',
+           era: '発祥時期', cat: 'カテゴリー', aliases: '別名', popularity: '知名度の目安'
+          })[field] || '内容';
+}
+
+// 確認したい箇所までパネルの中を自動でスクロールする。スマホは「修正依頼を
+// 書く画面」が説明パネルの上に覆いかぶさっているので、まずそれを閉じて
+// パネル自体を見えるようにしてからスクロールする（閉じてもspCorrResultの
+// 中身＝この確認UI自体はsp-correction-secの中にそのまま残る）。
+function grScrollToPanelSection(elId) {
+  修正依頼の画面を閉じる();
+  grPositionCorrectionActionBar();
+  if (!elId) return;
+  setTimeout(() => {
+    const el = document.getElementById(elId);
+    if (!el) return;
+    el.scrollIntoView({behavior: 'smooth', block: 'center'});
+    el.classList.remove('gr-jump-highlight');
+    void el.offsetWidth; // 同じ箇所を2回押しても光り直すよう、一度クラスを外してリフローさせる
+    el.classList.add('gr-jump-highlight');
+  }, 60);
+}
+
+// メイン動画の候補を、パネル本来の再生場所（sp-yt-player）でそのまま試聴する。
+function grPreviewCorrectionVideo(field, newId, elId) {
+  grScrollToPanelSection(elId);
+  if (field === 'yt_mix' && newId) {
+    playByVideoId(newId, '', undefined, true);
+  }
+}
+
+function grBuildCorrectionReviewHtml(data) {
+  const items = (data.fix_views || []).map(fv => {
+    if (fv.kind === 'text' && fv.diff_html) {
+      return `<div class="gr-corr-item"><a class="gr-corr-jump" href="#" onclick="grScrollToPanelSection('${fv.scroll_target || ''}');return false;">${grFieldLabel(fv.field)}を修正しました（確認する）</a><div class="gr-corr-diff">${fv.diff_html}</div></div>`;
+    }
+    if (fv.kind === 'video') {
+      return `<div class="gr-corr-item"><a class="gr-corr-jump" href="#" onclick="grPreviewCorrectionVideo('${fv.field || ''}','${fv.new_id || ''}','${fv.scroll_target || ''}');return false;">動画を差し替えました（候補を再生して確認する）</a></div>`;
+    }
+    if (fv.kind === 'books' || fv.kind === 'links') {
+      return `<div class="gr-corr-item"><a class="gr-corr-jump" href="#" onclick="grScrollToPanelSection('${fv.scroll_target || ''}');return false;">${grEsc(fv.summary || '')}</a></div>`;
+    }
+    return '';
+  }).join('');
+  const problems = (data.fix_problems || []).concat(data.length_warnings || []);
+  const problemHtml = problems.length
+    ? `<div style="margin-top:6px;color:#f0c375;font-size:11.5px;">⚠ ${problems.map(grEsc).join('<br>⚠ ')}</div>` : '';
+  const actions = `<div class="gr-corr-actions">
+      <button class="gr-corr-btn reject" onclick="grRejectPendingCorrection('${data.token}', this)">✗ 却下</button>
+      <button class="gr-corr-btn approve" onclick="grApprovePendingCorrection('${data.token}', this)" ${items ? '' : 'disabled'}>✓ 承認して反映する</button>
+    </div>`;
+  return `<div class="gr-corr-review">${items || '<div class="gr-corr-item">自動で適用できる修正案がありません。却下するか、内容を変えて送り直してください。</div>'}${problemHtml}</div>${actions}`;
+}
+
+async function grApprovePendingCorrection(token, btn) {
+  const bar = btn.closest('.gr-corr-actions');
+  bar.querySelectorAll('button').forEach(b => b.disabled = true);
+  try {
+    const res  = await fetch(API_BASE + '/admin/correction/approve/' + token, {method: 'POST'});
+    const data = await res.json();
+    if (data.status === 'approved' || data.status === 'approved_push_failed') {
+      const genreId = data.genre_id || (window._currentNode && window._currentNode.id) || '';
+      const t = '_=' + Date.now();
+      window.location.href = API_BASE + '/roots?genre=' + encodeURIComponent(genreId) + '&' + t;
+      return;
+    }
+    bar.insertAdjacentHTML('beforebegin', `<div style="color:#f28b8b;font-size:12px;margin-top:6px;">${grEsc(data.message || data.status || '承認に失敗しました')}</div>`);
+  } catch (e) {
+    bar.insertAdjacentHTML('beforebegin', '<div style="color:#f28b8b;font-size:12px;margin-top:6px;">通信に失敗しました。もう一度お試しください。</div>');
+  }
+  bar.querySelectorAll('button').forEach(b => b.disabled = false);
+}
+
+async function grRejectPendingCorrection(token, btn) {
+  const reason = prompt('却下理由（省略可）:');
+  if (reason === null) return;
+  const bar = btn.closest('.gr-corr-actions');
+  bar.querySelectorAll('button').forEach(b => b.disabled = true);
+  try {
+    const res  = await fetch(API_BASE + '/admin/correction/reject/' + token, {
+      method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({reason})
+    });
+    const data = await res.json();
+    bar.insertAdjacentHTML('beforebegin', `<div style="font-size:12px;margin-top:6px;">${grEsc(data.message || data.status || '却下しました')}</div>`);
+  } catch (e) {
+    bar.insertAdjacentHTML('beforebegin', '<div style="color:#f28b8b;font-size:12px;margin-top:6px;">通信に失敗しました。もう一度お試しください。</div>');
+    bar.querySelectorAll('button').forEach(b => b.disabled = false);
+  }
 }
 
 spCorrSend.onclick = async () => {
@@ -21478,14 +21622,27 @@ spCorrSend.onclick = async () => {
         }
         clearInterval(spCorrPolling); spCorrPolling = null;
         const result = sdata.result || {};
+        // 結果が出た時点で、書く専用の全画面（スマホのみ）はもう不要。閉じて
+        // パネル自体を見えるようにしておく（sp-correction-resultの中身＝この
+        // 確認UIは、閉じてもsp-correction-sec側にそのまま残る）。
+        修正依頼の画面を閉じる();
         if (result.status === 'not_an_error') {
           spCorrResult.className = 'not-error';
           spCorrResult.innerHTML = logHtml + '<b style="font-size:13px;">△ 修正はできませんでした（現在の内容に問題はないと判断しました）</b><br>' + (result.reasoning || '').replace(/\n/g, '<br>');
-        } else if (result.status === 'pending') {
+        } else if (result.status === 'pending' && result.token) {
           spCorrResult.className = 'ok';
-          spCorrResult.innerHTML = logHtml + '<b style="font-size:13px;">✓ 修正しました。内容をご確認のうえ承認してください</b><br>' + (result.reasoning || '').replace(/\n/g, '<br>') +
-            (result.token ? `<div style="margin-top:8px;"><button onclick="grOpenCorrectionPreview('${result.token}')" style="font-size:12px;color:#7eb8f7;background:transparent;border:1px solid #2a4a7a;border-radius:6px;padding:6px 12px;cursor:pointer;">修正内容を確認する</button></div>` : '');
+          spCorrResult.innerHTML = logHtml + '<b style="font-size:13px;">✓ 修正しました。内容をご確認のうえ承認してください</b><br>' + (result.reasoning || '').replace(/\n/g, '<br>') + '<div class="gr-corr-loading">確認内容を読み込んでいます…</div>';
           spCorrText.value = '';
+          fetch(API_BASE + '/correction_request/review/' + result.token).then(r => r.json()).then(data => {
+            const loading = spCorrResult.querySelector('.gr-corr-loading');
+            if (loading) loading.remove();
+            data.token = result.token;
+            spCorrResult.insertAdjacentHTML('beforeend', grBuildCorrectionReviewHtml(data));
+            grPositionCorrectionActionBar();
+          }).catch(() => {
+            const loading = spCorrResult.querySelector('.gr-corr-loading');
+            if (loading) loading.textContent = '確認内容の読み込みに失敗しました。ページを開き直してお試しください。';
+          });
         } else {
           spCorrResult.className = 'err';
           spCorrResult.innerHTML = logHtml + 'エラー：' + (result.message || '処理に失敗しました。');
