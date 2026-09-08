@@ -322,6 +322,9 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 .gr-book-added img { border-color: #7ee0a0; box-shadow: 0 0 0 2px rgba(126,224,160,0.35); }
 .gr-book-added .cap { color: #7ee0a0; font-weight: 700; }
 .gr-book-note { font-size: 11px; color: #f0c375; margin-top: 4px; }
+.gr-video-candidate-badge { font-size: 11px; color: #f0c375; background: rgba(245,158,11,0.1);
+                            border: 1px solid rgba(245,158,11,0.3); border-radius: 6px;
+                            padding: 5px 9px; margin-bottom: 6px; }
 /* 見出しの中で意味の要となる部分(受けた/与えた/相互に)だけ、方向の
    配色(in=青/out=緑/mutual=紫)に合わせて色を変えて目立たせる（2026-07-23） */
 .sp-h4-em.in { color: #4fb4e8; }
@@ -21470,6 +21473,8 @@ function grHideCorrectionActionBar() {
   document.querySelectorAll('.gr-corr-actions').forEach(b => b.classList.remove('gr-fixed'));
   // 点滅はずっと続くので、パネルを閉じる・修正依頼をやめるときは消しておく
   document.querySelectorAll('.gr-jump-highlight').forEach(x => x.classList.remove('gr-jump-highlight'));
+  const badge = document.getElementById('gr-video-candidate-badge');
+  if (badge) badge.remove();
 }
 spCorrCancel.onclick = 修正依頼をやめる;
 const csClose = document.getElementById('cs-close');
@@ -21566,6 +21571,17 @@ function grApplyCorrectionDiffsToPanel(fixViews) {
       }
     } else if (fv.kind === 'books') {
       grApplyBooksDiffToPanel(fv);
+    } else if (fv.kind === 'video' && fv.field === 'yt_mix' && fv.new_id) {
+      // 文章・カテゴリー・書籍はこの時点で自動的にパネルへ反映しているのに、
+      // 動画だけ「リンクを押さないと切り替わらない」のは不揃いで分かりにくい
+      // という指摘（2026-09-08）。他と同じく、開いた時点で自動的に候補を
+      // 再生する。
+      playByVideoId(fv.new_id, '', undefined, true);
+      const wrap = document.getElementById('sp-yt-wrap');
+      if (wrap && !document.getElementById('gr-video-candidate-badge')) {
+        wrap.insertAdjacentHTML('beforebegin',
+          '<div id="gr-video-candidate-badge" class="gr-video-candidate-badge">▶ 差し替え候補の動画を再生しています</div>');
+      }
     }
   });
 }
@@ -21597,7 +21613,7 @@ function grBuildCorrectionReviewHtml(data) {
       return `<div class="gr-corr-item"><a class="gr-corr-jump" href="#" onclick="grScrollToPanelSection('${fv.scroll_target || ''}');return false;">${grFieldLabel(fv.field)}を修正しました（該当箇所を見る）</a></div>`;
     }
     if (fv.kind === 'video') {
-      return `<div class="gr-corr-item"><a class="gr-corr-jump" href="#" onclick="grPreviewCorrectionVideo('${fv.field || ''}','${fv.new_id || ''}','${fv.scroll_target || ''}');return false;">動画を差し替えました（候補を再生して確認する）</a></div>`;
+      return `<div class="gr-corr-item"><a class="gr-corr-jump" href="#" onclick="grPreviewCorrectionVideo('${fv.field || ''}','${fv.new_id || ''}','${fv.scroll_target || ''}');return false;">動画を差し替えました（該当箇所を見る。候補はすでに再生中）</a></div>`;
     }
     if (fv.kind === 'books' || fv.kind === 'links') {
       return `<div class="gr-corr-item"><a class="gr-corr-jump" href="#" onclick="grScrollToPanelSection('${fv.scroll_target || ''}');return false;">${grEsc(fv.summary || '')}</a></div>`;
