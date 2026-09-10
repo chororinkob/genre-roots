@@ -1491,7 +1491,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v31.3</span>
+  <span id="version-info">v31.4</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -24054,7 +24054,7 @@ function initGlobe() {
 
 <div id="genre-request-overlay">
   <div id="genre-request-card">
-    <h2>新ジャンル登録 <span class="gr-ver">v1.8</span></h2>
+    <h2>新ジャンル登録 <span class="gr-ver">v1.9</span></h2>
     <p class="gr-sub">載っていないジャンルをAIが自動で登録します。ジャンル名を入れて送信するだけ。<br>
       作業時間の目安は5分ほどです。最後に内容の確認画面が出るので、間違いがなければ承認して完了です。</p>
 
@@ -24100,6 +24100,10 @@ function openGenreRequest(name) {
   setTimeout(申請画面の高さを合わせる, 700);
 }
 function closeGenreRequest() {
+  // 処理待ちの途中でキャンセルされた場合、裏側の2秒おきの確認（ポーリング）を
+  // 止め忘れていた。以前はここで止めておらず、パネルを閉じた後もサーバーへの
+  // 問い合わせが動き続けていた（2026-09-10、チョロさんの指摘で発覚）。
+  if (grPolling) { clearInterval(grPolling); grPolling = null; }
   const ov = document.getElementById('genre-request-overlay');
   ov.classList.remove('open');
   ov.style.top = ''; ov.style.height = '';
@@ -24109,10 +24113,14 @@ function closeGenreRequest() {
   document.getElementById('gr-submit').disabled = false;
 }
 document.getElementById('genre-request-overlay').addEventListener('click', function(e) {
-  if (e.target === this) closeGenreRequest();
+  // AIが実在確認・情報生成中（grPollingが動いている間）は、枠の外を
+  // うっかりクリックしても閉じない。処理中かどうかが分からなくなる、という
+  // チョロさんの指摘（2026-09-10）。閉じたい場合は明示的に「キャンセル」を
+  // 押してもらう。
+  if (e.target === this && !grPolling) closeGenreRequest();
 });
 document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') closeGenreRequest();
+  if (e.key === 'Escape' && !grPolling) closeGenreRequest();
 });
 
 function grEsc(s) {
