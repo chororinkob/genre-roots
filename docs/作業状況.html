@@ -85,12 +85,12 @@
 <div class="wrap">
 
 <h1>作業状況</h1>
-<div class="sub">音楽ジャンルルーツ辞典 ／ 2026-09-08 更新</div>
+<div class="sub">音楽ジャンルルーツ辞典 ／ 2026-09-10 更新</div>
 <div class="warn-note" style="background:var(--doing-soft);">
-  最新の変更：新規ジャンル登録・修正依頼の両方で、AIをClaude/ChatGPT/Geminiから
+  最新の変更：新規登録・修正更新の両方で、AIをClaude/ChatGPT/Geminiから
   Gensparkへ置き換える作業を開始（目的：Claude等の課金APIへの依存を無くし、
   Gensparkの月額クレジットに一本化する）。新規登録は生成からファクトチェックまで
-  Genspark(super_agent)のみで完結（v2.43）。修正依頼も振り分け・文章判定・
+  Genspark(super_agent)のみで完結（v2.43）。修正更新も振り分け・文章判定・
   動画判定の3か所をGenspark化した（v2.44・v2.45）。詳細は下の「進行中」参照。
 </div>
 <div class="warn-note">
@@ -101,15 +101,96 @@
 
 <table class="verinfo">
 <tr><th>もの</th><th>版</th><th>どこ</th></tr>
-<tr><td>地図</td><td>v29.9</td><td><a href="https://genre-roots.com/" target="_blank" rel="noopener">公開済み</a></td></tr>
+<tr><td>地図</td><td>v31.5</td><td><a href="https://genre-roots.com/" target="_blank" rel="noopener">公開済み</a></td></tr>
 <tr><td>使い方ガイド</td><td>v1.29</td><td>公開済み</td></tr>
 <tr><td>更新の記録</td><td>自動生成</td><td><code>docs/changes.html</code>（公開済み）</td></tr>
-<tr><td>いたずら対策 guard.py</td><td>v1.11</td><td>公開済み</td></tr>
-<tr><td>ジャンル追加 genre_adder.py</td><td>v2.45</td><td>公開済み</td></tr>
-<tr><td>申請確認画面 admin_preview.html</td><td>v3.5</td><td>公開済み</td></tr>
+<tr><td>いたずら対策 guard.py</td><td>v1.12</td><td>公開済み</td></tr>
+<tr><td>ジャンル追加 genre_adder.py</td><td>v2.62</td><td>公開済み</td></tr>
+<tr><td>登録確認画面 admin_preview.html</td><td>v3.8</td><td>公開済み</td></tr>
 </table>
 
-<h2>🔶 進行中・次にやること <span class="h2-count">6件</span></h2>
+<h2>🔶 進行中・次にやること <span class="h2-count">10件</span></h2>
+
+<div class="item">
+  <div class="item-head">
+    <span class="status doing">進行中（最優先・中断中）</span>
+    <span class="item-title">修正更新プレビューの検証が途中で止まっている</span>
+  </div>
+  <div class="item-body">
+    修正更新で「ここをこう直します」と説明パネルの本文に差分（<code>&lt;del&gt;/&lt;ins&gt;</code>）を
+    埋め込んで見せる仕組みが、<b>すべての項目で正しく表示されるかの検証が途中</b>。
+    代表曲の追加・削除・入れ替え、音楽性の説明(desc)、成り立ち(roots_story)、
+    発祥時期(era)、カテゴリ(cat)、関連ジャンルのリンク(links)、動画、書籍——
+    この一つずつを、実データと実ブラウザで確認する必要がある。
+    <div class="dim" style="margin-top:8px;">
+      <b>止まった経緯：</b>クローディアが実物を確認しないまま「できました」と報告し、
+      チョロさんが実際に画面を見ると直っていない、ということが何度か続いた
+      （例：<code>&lt;a&gt;</code>タグが<code>&lt;del&gt;</code>の色を継承せず、削除された曲名が
+      赤い取り消し線ではなく普通の青いリンクのまま表示されていた件は、
+      チョロさんが実機で見て初めて発覚した）。「クローディアが自分で検証すること」
+      「どこまで検証したのかを明示すること」を確認している途中で、ドリームコアの件が
+      緊急で入ったため中断した。
+    </div>
+    <div class="dim" style="margin-top:8px;">
+      <b>再開時の注意：</b>削除のテスト題材として使う予定だったvaporwaveの二重登録は、
+      チョロさんが修正更新で実際に直し済み（2026-09-11に実データで確認。
+      「リサフランク420 / 現代のコンピュー」の出現は1回だけ、代表曲4曲すべて別の曲）。
+      別の題材を選ぶ必要がある。
+    </div>
+  </div>
+</div>
+
+<div class="item">
+  <div class="item-head">
+    <span class="status wait">仕様変更・未着手（2026-09-11に方針だけ決定）</span>
+    <span class="item-title">/adminを「承認待ち一覧」から「登録・修正された一覧（削除できる）」に作り替える</span>
+  </div>
+  <div class="item-body">
+    今の<code>/admin</code>は「承認待ち一覧」で、各項目に承認・却下ボタンが付いている。
+    <b>これは今の仕様と合っていない。</b>新規登録も修正更新も、登録した本人がその場で
+    承認・却下まで完了する方式（2026-07-13〜14）なので、管理者が承認・却下を判断する
+    場面はそもそも存在しない。承認待ちにデータが溜まること自体が異常な状態
+    （処理が途中で止まった残骸など）で、それは「判断する対象」ではなく「掃除する対象」。
+    <div class="dim" style="margin-top:8px;">
+      <b>あるべき姿（チョロさんの整理）：</b>管理画面に必要なのは、
+      <b>どんなジャンルが登録され、どこが修正されたかを確認できる一覧</b>と、
+      <b>そこから不要なものを削除できる機能</b>。用途は「重複して2回登録してしまった」
+      「同じものを登録してしまったので片方消してほしい」といった問い合わせへの対応。
+      承認・却下ボタンは不要。
+    </div>
+    <div class="dim" style="margin-top:8px;">
+      <b>すでにあるもの：</b>「何が追加・修正されたか」の一覧自体は
+      <code>docs/changes.html</code>（更新の記録）として既に存在し、変更のたびに
+      自動生成されている。ただし一般公開向けの閲覧専用ページで、削除機能は無い。
+      足りないのは「管理者が削除できること」、余計なのは「承認待ち一覧の承認・却下ボタン」。
+    </div>
+    <div class="dim" style="margin-top:8px;">
+      <b>この作業をやると連動して変わるもの：</b><code>admin_preview.html</code>の
+      却下・承認ボタンは、今「地図から開いた場合」と「/adminの一覧から直接開いた場合」で
+      戻り先を分岐している。一覧から承認・却下がなくなれば、この分岐自体が不要になる。
+      下の「却下ボタンを押した後の戻り先」の項目もこれと一緒に片付く可能性が高い。
+    </div>
+  </div>
+</div>
+
+<div class="item">
+  <div class="item-head">
+    <span class="status wait">実機確認待ち</span>
+    <span class="item-title">ドリームコアの件：却下ボタンを押した後の戻り先</span>
+  </div>
+  <div class="item-body">
+    新規登録の確認画面で「却下」を押したあと、「却下しました」と出たまま画面が
+    固まり、通常の地図に戻る導線が無かった問題。<code>admin_preview.html</code> v3.7で
+    修正済み（地図から開いた場合はオーバーレイを閉じて地図に戻る、管理者が
+    <code>/admin</code>から直接開いた場合だけ一覧に戻る案内を出す、という分岐）。
+    <b>ただしチョロさんが実機で確認してOKを出した記録がまだ無い。</b>
+    <div class="dim" style="margin-top:8px;">
+      この件は「新規登録したのは一般の利用者なのに、なぜ管理者用の承認一覧に
+      戻そうとするのか」という指摘につながり、そこから仕様書・フロー・作業項目を
+      作り直す一連の作業（2026-09-10〜11）が始まった。
+    </div>
+  </div>
+</div>
 
 <div class="item">
   <div class="item-head">
@@ -123,29 +204,25 @@
     クレジット・利用枠が切れて止まる心配が消えないため。
     <div class="dim" style="margin-top:8px;">
       <b>すでに完了：</b>新規ジャンル登録の生成・ファクトチェック（Claude→
-      Genspark super_agent、v2.42・v2.43）。修正依頼の振り分け・文章の
+      Genspark super_agent、v2.42・v2.43）。修正更新の振り分け・文章の
       ファクトチェック・動画の一致判定（Claude/Gemini→Genspark、v2.44・v2.45）。
     </div>
     <div class="dim" style="margin-top:8px;">
-      <b>まだ残っている、生きているClaude呼び出し（洗い出し済み、2026-09-08）：</b>
+      <b>まだ残っている、生きているClaude呼び出し（洗い出し済み、2026-09-08。
+      <code>_classify_video_request</code>は2026-09-11に完了）：</b>
       <ol style="margin:6px 0 0 20px;padding:0;">
-        <li><code>_classify_video_request</code> — 修正依頼の動画指摘を
-          「ジャンルが違う／もっと良い例にしてほしい／不明」の3種類に分類する。
-          Gensparkのsuper_agentが実際に動画を視聴できることは2026-09-08に
-          テスト済み（Reggaetonの動画で実証）。3分類の構造はそのまま残し、
-          中身のAIだけをGensparkに差し替える方針で合意済み。次にやる。</li>
         <li><code>_judge_book_relevance</code> — 新規登録時、Amazon書籍の
           候補が「ピンポイント／広い系統／無関係」かを1冊ずつ判定する。</li>
         <li><code>_pick_alternative_tracks</code> — 代表曲が他ジャンルと
           重複したときに、代わりの曲をAIに選ばせる。</li>
-        <li><code>revise_with_claude</code> — 承認前の申請内容を、管理者が
-          コメントで直させる画面（<code>/admin/revise</code>）。</li>
+        <li><code>revise_with_claude</code> — 承認前の登録内容を、画面を
+          開いている人がコメントで直させる画面（<code>/admin/revise</code>）。</li>
         <li><code>generate_genre_info_claude</code> — <code>/admin/gentest</code>
           という手動デバッグ専用の入口からのみ呼ばれる（通常のユーザーは
           触れない）。Gensparkに差し替えるなら、実際の生成経路と同じものを
           試せるよう<code>generate_genre_info_genspark</code>を呼ぶように直す。</li>
       </ol>
-      いずれも1件ずつ実装後にテストしてから公開する方針（新規登録・修正依頼の
+      いずれも1件ずつ実装後にテストしてから公開する方針（新規登録・修正更新の
       Genspark化と同じ進め方）。
     </div>
   </div>
@@ -162,25 +239,9 @@
     ただし判定の精度がいまいちという指摘があり（スカの裏打ちリズムを
     「ムード歌謡」と誤判定した例など）、Gensparkのanalyze_media
     （analysis_model=gemini-3.1-pro-preview）に変えた方が精度が上がる
-    可能性がある。これは修正依頼の動画判定（v2.44）で実証済みの技術と同じ。
+    可能性がある。これは修正更新の動画判定（v2.44）で実証済みの技術と同じ。
     無料枠を使い切る心配が無い分、あえて今すぐ変える必要は無いため保留に
     しているが、忘れないよう作業項目として記録しておく。
-  </div>
-</div>
-
-<div class="item">
-  <div class="item-head">
-    <span class="status wait">相談中（2026-09-08〜、実装はまだ）</span>
-    <span class="item-title">「修正内容を確認する」画面は不要では？という提案</span>
-  </div>
-  <div class="item-body">
-    チョロさんからの提案：説明パネルの上に「何を直したか」がすでに表示されて
-    いるので、今の確認画面（プログラムっぽい書き方で同じ内容を見せているだけ）は
-    要らないのではないか。「修正内容を確認する」ボタンを無くし、説明パネル上で
-    直接「却下」「承認して反映する」の2択にする方がシンプル。動画の場合は
-    「〇〇という動画に変更しました」の表示（できればパネル内で再生確認）で
-    十分ではないか、という中規模の提案。<b>チョロさんの指示で、まだ実装せず
-    相談・検討の段階。</b>
   </div>
 </div>
 
@@ -258,6 +319,30 @@
   </div>
 </div>
 
+<div class="item">
+  <div class="item-head">
+    <span class="status hold">保留</span>
+    <span class="item-title">「全件動画チェック」ボタンの表示位置</span>
+  </div>
+  <div class="item-body">
+    一般ユーザー向けではない内部機能（管理者用）のため、目立たない場所への
+    移動を検討中。<code>roadmap.html</code>から移設（2026-09-10、タスクの
+    二重管理をやめて作業状況.htmlに一本化）。
+  </div>
+</div>
+
+<div class="item">
+  <div class="item-head">
+    <span class="status hold">保留</span>
+    <span class="item-title">隠したままの機能（楽器・効果タブ／地球儀／Sunoフィルター）</span>
+  </div>
+  <div class="item-body">
+    いずれも画面には出ていない無効化済み機能。出すかどうか未定のため、
+    使い方ガイドにも書いていない。<code>roadmap.html</code>から移設
+    （2026-09-10、タスクの二重管理をやめて作業状況.htmlに一本化）。
+  </div>
+</div>
+
 <h2>⏳ Googleの巡回待ち <span class="h2-count">私たちの作業は完了済み</span></h2>
 
 <div class="item">
@@ -312,6 +397,33 @@
   <summary>片づいた作業を見る（新しい順）</summary>
   <div class="done-list">
 
+    <div class="done-day">2026-09-11</div>
+    <div class="done-item">修正更新の「動画の指摘の3分類」をClaudeからGensparkに移行（genre_adder.py v2.62→v2.63）
+      <div class="dim">「AIをすべてGensparkに統一する」の残り項目の1つ、
+      <code>_classify_video_request</code>（届いた動画の指摘を genre_mismatch／
+      reasonable_request／unclear の3種類に分類する処理）をGenspark(super_agent)に
+      置き換えた。実際にGensparkを呼んで3パターンとも期待通りに分類されることを確認済み。
+      <b>あわせて、この3分類の仕組み自体が2026-07-14から動いていたのに仕様書にもフロー図にも
+      一度も書かれていなかったことが判明したため、logic.mdとflow_chart.htmlに新しく書き出した。</b>
+      （きっかけ：歌謡曲の代表曲が松田聖子の曲に偏っていた件で「複数アーティストの代表曲に
+      するのがふさわしいのでは」という指摘が届いたとき、ジャンル自体は合っているため
+      「間違いではない」と機械的に却下されてしまうのを防ぐために足された分類だった）</div></div>
+
+    <div class="done-day">2026-09-10</div>
+    <div class="done-item">「修正内容を確認する」画面を廃止し、説明パネル上で直接、却下・承認できるようにした（地図v29.9→v31.5、<code>grApplyCorrectionDiffsToPanel</code>）
+      <div class="dim">2026-09-08〜09に「相談中」だったチョロさんの提案（説明パネルの上に
+      「何を直したか」がすでに表示されているので、プログラムっぽい書き方で同じ内容を
+      見せるだけの確認画面は不要では、という提案）が実装済みであることをコードで確認し、
+      「進行中・相談中」から「完了」に移した。別枠のページを一切開かせず、修正案を
+      本物の説明パネルの本文に<code>&lt;del&gt;/&lt;ins&gt;</code>で直接埋め込み、パネルに
+      貼り付けた帯から「✗却下」「✓承認して反映する」を押せる。新規登録側は一足先に
+      2026-09-05の全面リニューアルで同じ考え方（本物の説明パネルをそのまま見せる）に
+      切り替わっていた。あわせて「申請」「依頼」という古い呼び方（2026-07-13〜14に
+      自己承認方式へ統一済みなのに用語だけ古いままだった）をコード・spec_dump.pyの
+      生成元（docs/logic.md）・flow_chart.html・このページなど全体で「登録」「更新」に
+      洗い出して置き換え、flow_chart.html②③節に上記のパネル埋め込み方式を明記した
+      （genre_adder.py v2.61→v2.62、guard.py v1.11→v1.12）。</div></div>
+
     <div class="done-day">2026-09-08</div>
     <div class="done-item">新規ジャンル登録の生成・ファクトチェックをGensparkに一本化（genre_adder.py v2.41→v2.43）
       <div class="dim">Claude(生成)・Genspark cross_check(ファクトチェック)・ChatGPT(却下時の
@@ -323,14 +435,14 @@
       生成（1回70〜90クレジット程度）の方が4〜5倍安く、月の予算にも十分収まる
       ことが分かった。実際に複数の新規ジャンル（Corridos Tumbados・Drift Phonk等）で
       通しテスト済み</div></div>
-    <div class="done-item">修正依頼の振り分け・文章判定・動画判定をGensparkに一本化（genre_adder.py v2.44→v2.45）
+    <div class="done-item">修正更新の振り分け・文章判定・動画判定をGensparkに一本化（genre_adder.py v2.44→v2.45）
       <div class="dim">振り分け(Claude)・文章のファクトチェック(Claude)・動画の一致判定
       (Gemini直接呼び出し)の3か所をGenspark化。動画判定は<code>analyze_media</code>
-      （analysis_model=gemini-3.1-pro-preview）を使う専用関数を新設し、修正依頼の
+      （analysis_model=gemini-3.1-pro-preview）を使う専用関数を新設し、修正更新の
       経路だけに限定（一括メンテナンス処理は無料のGeminiのまま維持、クレジット
       消費が跳ね上がるのを防ぐため）。実装後、実際にNitzhonot（説明文には
       「ゴアトランスの一系統」と書いてあるのにcat:"hardcore"になっていた、
-      本物の既存データの誤り）で修正依頼を試したところ、<b>reasoningでは
+      本物の既存データの誤り）で修正更新を試したところ、<b>reasoningでは
       「修正が必要」と書きながらis_error（内部フラグ）がfalseのままになり、
       「修正なし」という誤った結果になるバグを発見。</b>プロンプトに一貫性
       チェックの指示を追加して修正し、再テストでcatフィールドだけを直す
@@ -340,7 +452,7 @@
       「✓ 修正しました」に変更（地図 v29.9）</div></div>
 
     <div class="done-day">2026-09-05</div>
-    <div class="done-item">「このジャンルについて修正依頼」ボタンに淡い黄色の背景をつけた
+    <div class="done-item">「このジャンルについて修正更新」ボタンに淡い黄色の背景をつけた
       <div class="dim">パソコン・スマホ共通のCSSのため1箇所の変更で両方に反映される</div></div>
     <div class="done-item">自動再生スイッチを右寄せに戻し、一回り小さくした
       <div class="dim">カテゴリー表示を見出しへ移した後、この行にスイッチだけが残り
@@ -351,7 +463,7 @@
       されなくなっていた（「スマホでショールのカテゴリを確認しようとしたら
       場所が分からなかった」との指摘で発覚）。パソコンでも動画の上という
       位置は見出しから離れて不自然だったため、発祥時期の隣に統合した</div></div>
-    <div class="done-item">申請確認画面のオーバーレイが狭すぎてスマホ判定になっていたバグを修正
+    <div class="done-item">登録確認画面のオーバーレイが狭すぎてスマホ判定になっていたバグを修正
       <div class="dim">マップ側の共通オーバーレイ枠(grOpenIframeOverlay)が幅760px固定で、
       旧来の狭い項目一覧型テンプレート向けのサイズだった。新しい確認画面
       （本物のマップ+パネルを丸ごとiframeで埋め込む作り）をその枠に入れると
@@ -360,7 +472,7 @@
       （「パソコン版もスマホ版もパネルだけでは事足りない」との指摘で発覚）。
       呼び出し元でサイズを指定できるようにし、新規ジャンル確認は1700x940の
       広い枠を使うようにした</div></div>
-    <div class="done-item">申請確認画面をスマホ幅対応にした（admin_preview.html v3.2→v3.3）
+    <div class="done-item">登録確認画面をスマホ幅対応にした（admin_preview.html v3.2→v3.3）
       <div class="dim">左右2カラムのまま固定していたため、スマホ幅では中のiframe幅が0近く
       まで潰れ、幅固定のサイドバーだけが画面からはみ出す状態になっていた
       （実機検証していなかった）。900px以下では縦積みレイアウトに切り替える
@@ -372,9 +484,9 @@
       秘密情報として機能するため、/admin/preview_map/&lt;token&gt;を
       認証チェックの対象外にして解決</div></div>
     <div class="done-item">承認記録が消えるバグを修正、統計画面をIPアドレス単位に再編（guard.py v1.10→v1.11）
-      <div class="dim">申請とトークンを結びつける記録(remember_submitter)にGitHubの保管庫
+      <div class="dim">登録とトークンを結びつける記録(remember_submitter)にGitHubの保管庫
       への保存(flush())が抜けており、Renderは再起動でディスクの中身が消える
-      ため、申請から承認までの間にサーバーが再起動すると対応関係が失われ、
+      ため、登録から承認までの間にサーバーが再起動すると対応関係が失われ、
       承認しても承認回数が上がらないままになっていた（「チャルガを承認した
       のに統計画面のどの行にも承認数が付かない」との指摘で発覚）。あわせて
       統計画面の「来た人ごと」が同じ人が何行にも分かれて見づらかったため
@@ -389,14 +501,14 @@
       2桁(v28.10等)になる余地も残っていた。チョロさんの「元々は小数点以下
       1桁だった」との指摘を受け、繰り上げ閾値を「9超え」に統一した</div></div>
     <div class="done-item">代表曲もメイン動画も1本もYouTubeで見つからない場合、生成時点で打ち切るようにした（genre_adder.py v2.38）
-      <div class="dim">「チャルガ」を試験的に3回申請したところ、AIが提案する代表曲の候補が
+      <div class="dim">「チャルガ」を試験的に3回登録したところ、AIが提案する代表曲の候補が
       毎回まったく異なり、3回目は代表曲が0件のまま承認待ちに残った。この
       状態のまま確認画面を開くと、パネル側にある「代表曲もメイン動画も
       無いジャンル向けの保険（ジャンル名+greatest hits mixで検索して
       代わりに再生する）」が発動し、動画は流れているのに代表曲欄は消えて
       いるという矛盾した見た目になっていた。Step 3（YouTube取得）の直後に
       打ち切るチェックを追加し、公開サイト側にも専用の結果表示を新設</div></div>
-    <div class="done-item">申請確認画面を全面リニューアル、AI名の表記を「AI」に統一（genre_adder.py v2.36→v2.37、admin_preview.html v2.8→v3.1）
+    <div class="done-item">登録確認画面を全面リニューアル、AI名の表記を「AI」に統一（genre_adder.py v2.36→v2.37、admin_preview.html v2.8→v3.1）
       <div class="dim">「Amazonの書籍は載っているのにSpotifyのリンクが見当たらない」との
       指摘で、確認画面が本物の説明パネルを一切再現しておらず手作りの項目
       一覧に過ぎなかったことが発覚。本物のgenre_roots.htmlに承認待ち
@@ -415,12 +527,12 @@
       あわせて修正</div></div>
     <div class="done-item">新規ジャンル追加にAmazon書籍の自動検索を実装（genre_adder.py v2.36）
       <div class="dim">既存573ジャンルの書籍は人手で1件ずつ実在確認して選んだものだが、
-      自動化フローには一切組み込まれておらず「Chalga」の申請テストで
+      自動化フローには一切組み込まれておらず「Chalga」の登録テストで
       発覚。search_books_for_genre()を新設：①Gensparkでの検索でASIN候補を
       拾う②requestsでAmazon実物のページを取得し実在確認（検索結果の
       スニペットは信用しない）③AIにピンポイント/広い系統/無関係を判定させ、
       ピンポイント優先で最大3冊採用。0件も仕様どおりの正常な結果として
-      扱う（架空の本を載せない）。<b>チョロさんが実際の新規申請でSpotify
+      扱う（架空の本を載せない）。<b>チョロさんが実際の新規登録でSpotify
       「もっと聴く」リンク・Amazon関連書籍の両方の動作を確認し、OKの
       回答済み（2026-09-05）</b></div></div>
 
@@ -482,11 +594,11 @@
       右のパネルの見方です」の1文だけでほぼ空だった問題を発見。①ジャンル名
       ②知名度③別名・発祥時期④代表曲の動画⑤Spotify「もっと聴く」
       ⑥音楽性・特徴⑦用語のふきだし⑧成り立ち・関連する書籍⑨影響の度合い、
-      修正依頼ボタンまで、新規の図7枚（Spotify・Amazonへ実際に飛んで
+      修正更新ボタンまで、新規の図7枚（Spotify・Amazonへ実際に飛んで
       撮った外部サイトの画面2枚を含む）を添えて全面的に書き直した</div></div>
     <div class="done-item">ヘルプ通読で見つかった4つの抜けを追記（ガイド v1.20→v1.21）
       <div class="dim">チョロさんがヘルプを最初から最後まで読んで、①検索して
-      見つからない時の申請導線 ②修正依頼ボタンの場所 ③Spotify「もっと聴く」の
+      見つからない時の登録導線 ②修正更新ボタンの場所 ③Spotify「もっと聴く」の
       説明 ④Amazon関連書籍の説明、の4つが抜けていると指摘。実際の挙動を
       1つずつコードで確認してから追記した。配置は当初「もっと詳しく」章に
       入れる案だったが、チョロさんの指示で「Spotifyは代表曲・音楽の聴き方の
@@ -554,7 +666,7 @@
     <div class="done-day">2026-09-03</div>
     <div class="done-item">説明文の漢数字を算用数字に統一（地図 v27.66）
       <div class="dim">463か所・220ジャンル。人名・熟語・定着した専門用語は対象外に仕分け</div></div>
-    <div class="done-item">新規追加・修正依頼のAI生成プロンプトにも同じ数字ルールを追加（genre_adder.py v2.32）</div>
+    <div class="done-item">新規登録・修正更新のAI生成プロンプトにも同じ数字ルールを追加（genre_adder.py v2.32）</div>
 
     <div class="done-day">2026-09-02</div>
     <div class="done-item">アクセス記録・承認回数が保管庫に届くのを確認

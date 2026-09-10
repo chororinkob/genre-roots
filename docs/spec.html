@@ -34,16 +34,16 @@
 <h1>音楽ジャンルルーツ辞典 — 仕様書</h1>
 <h2>この仕様書について</h2>
 <p class="note">この文書は <b>spec_dump.py が実物を読み直して自動で書き出したもの</b>です。手で書き足しても次の書き出しで消えます。決めた理由など人が書くことは <code>docs/decisions.md</code> に書いてください。この文書の末尾にそのまま入ります。</p>
-<p class="note">書き出した日時：<b>2026-09-04 20:03</b></p>
+<p class="note">書き出した日時：<b>2026-09-11 02:45</b></p>
 <h2>いまの版</h2>
 <table>
 <tr><th>項目</th><th>内容</th></tr>
-<tr><td>地図（genre_roots.html）</td><td>v28.3</td></tr>
-<tr><td>サーバー（genre_adder.py）</td><td>v2.35</td></tr>
-<tr><td>ジャンル数</td><td>573</td></tr>
-<tr><td>ジャンル間のつながり</td><td>1,662</td></tr>
-<tr><td>用語集の語数</td><td>6,512</td></tr>
-<tr><td>知名度のデータ</td><td>573 件（2026-08-25 取得）</td></tr>
+<tr><td>地図（genre_roots.html）</td><td>v31.5</td></tr>
+<tr><td>サーバー（genre_adder.py）</td><td>v2.63</td></tr>
+<tr><td>ジャンル数</td><td>580</td></tr>
+<tr><td>ジャンル間のつながり</td><td>1,717</td></tr>
+<tr><td>用語集の語数</td><td>6,691</td></tr>
+<tr><td>知名度のデータ</td><td>580 件（2026-08-25 取得）</td></tr>
 </table>
 <h2>置き場所（消えたときに戻せるように）</h2>
 <table>
@@ -146,12 +146,13 @@
 <tr><td>indie_pop</td><td>インディーポップ系</td><td>#F2967D</td></tr>
 <tr><td>ska</td><td>スカ系</td><td>#00BFA0</td></tr>
 </table>
-<h2>サーバーの入口（46個）</h2>
+<h2>サーバーの入口（49個）</h2>
 <table>
 <tr><th>道筋</th><th>種類</th></tr>
 <tr><td>/admin/login</td><td>GET,POST</td></tr>
 <tr><td>/admin/logout</td><td>GET</td></tr>
 <tr><td>/admin/stats</td><td>GET</td></tr>
+<tr><td>/admin/stats/reset_ip</td><td>POST</td></tr>
 <tr><td>/contact</td><td>GET</td></tr>
 <tr><td>/contact</td><td>POST</td></tr>
 <tr><td>/admin/contacts</td><td>GET</td></tr>
@@ -164,7 +165,6 @@
 <tr><td>/roots</td><td>GET</td></tr>
 <tr><td>/recognize</td><td>POST</td></tr>
 <tr><td>/recognize/gemini_recheck</td><td>POST</td></tr>
-<tr><td>/request_genre</td><td>GET</td></tr>
 <tr><td>/request_genre</td><td>POST</td></tr>
 <tr><td>/request_genre/status/&lt;request_id&gt;</td><td>GET</td></tr>
 <tr><td>/test/request_genre</td><td>POST</td></tr>
@@ -172,11 +172,14 @@
 <tr><td>/admin/health</td><td>GET</td></tr>
 <tr><td>/admin</td><td>GET</td></tr>
 <tr><td>/admin/preview/&lt;token&gt;</td><td>GET</td></tr>
+<tr><td>/admin/preview_map/&lt;token&gt;</td><td>GET</td></tr>
 <tr><td>/admin/approve/&lt;token&gt;</td><td>POST</td></tr>
+<tr><td>/admin/add_books/&lt;token&gt;</td><td>POST</td></tr>
 <tr><td>/admin/reject/&lt;token&gt;</td><td>POST</td></tr>
 <tr><td>/admin/revise/&lt;token&gt;</td><td>POST</td></tr>
 <tr><td>/correction_request</td><td>POST</td></tr>
 <tr><td>/correction_request/status/&lt;request_id&gt;</td><td>GET</td></tr>
+<tr><td>/correction_request/review/&lt;token&gt;</td><td>GET</td></tr>
 <tr><td>/admin/correction/&lt;token&gt;</td><td>GET</td></tr>
 <tr><td>/admin/correction/approve/&lt;token&gt;</td><td>POST</td></tr>
 <tr><td>/admin/correction/reject/&lt;token&gt;</td><td>POST</td></tr>
@@ -214,21 +217,33 @@
 <p>CORSでGitHub Pagesからの呼び出しだけを許可しています。</p>
 <p>Renderの無料プランは、しばらく誰も使わないと休止します。</p>
 <p>次のアクセスで起き上がるまで50秒ほどかかります（コールドスタート）。</p>
-<h3>曲名検索（これなんて曲？）</h3>
+<h3>曲名検索（この曲なんてジャンル？）</h3>
 <p>音を聴かせて、曲名とジャンルを当てる機能です。次の順に試します。</p>
 <p class="num">1. <b>Shazam</b>（RapidAPI経由）で曲名・アーティスト名を特定する</p>
 <p class="num">2. <b>Wikidata</b> でアーティスト→曲の順に genre（P136）を探す。</p>
 <p>見つかればそのまま採用し、Geminiは使わない</p>
 <p class="num">3. Wikidataに無ければ <b>Gemini</b> に音声と曲名を渡して判断させる。</p>
 <p>temperature=0、複数モデルの自動切り替えあり</p>
-<p>音声が10,000バイト未満なら「音が検出できませんでした」と返し、Geminiには送りません。</p>
+<p>Shazamで曲を特定できなかった場合だけ、音声が10,000バイト未満なら</p>
+<p>「音が検出できませんでした」と返し、Geminiには送りません（Shazamで特定</p>
+<p>できたがWikidataに情報が無いときは、このサイズチェックを経由せずそのまま</p>
+<p>Geminiへ進みます）。</p>
 <p>結果はジャンルのタグで出ます。タップで選び、「ジャンルマップで確認する」を押すと</p>
 <p>選んだジャンルだけを地図上で光らせます。履歴はブラウザ側（localStorage、最大15件）に</p>
 <p>残ります。</p>
-<h3>ジャンル追加の申請</h3>
-<p>**Gensparkのsuper_agent（Web検索を使うエージェント）が実在確認と情報の生成を</p>
-<p>行います。生成そのものがWeb検索で裏取りするため、追加のファクトチェックは</p>
-<p>行いません。他のAI（ChatGPT・Gemini・Claude）への問い合わせも一切ありません。**</p>
+<h4>「AIに聴き直してもらう」ボタン（v1.32〜）</h4>
+<p>結果がWikidataの判定だったときだけ表示されるボタン。利用者が「Wikidataの</p>
+<p>答えは違うのでは」と感じた場合、送信済みの同じ音声をブラウザ側に一時保持</p>
+<p>しておき、Wikidataを経由せず<b>Geminiに直接</b>聴き直させます</p>
+<p>（<code>/recognize/gemini_recheck</code>）。Shazamで特定できていた曲名・アーティスト名は</p>
+<p>参考情報としてそのまま渡します。v1.32〜33で、Geminiの429（レート制限）に</p>
+<p>阻まれ毎回「判定できませんでした」になる不具合を調査・対応済みですが、</p>
+<p>音声モダリティ専用の別枠クォータが原因と見られる部分は、コード側だけでは</p>
+<p>解決しきれず残っています。</p>
+<h3>ジャンル追加の新規登録</h3>
+<p>Genspark(super_agent)が、実在確認・10項目の生成・事実確認（Web検索での</p>
+<p>裏取り）まで1回の呼び出しで完結させます。他のAI（Claude/ChatGPT/Gemini）</p>
+<p>への問い合わせは行いません。</p>
 <p>生成とファクトチェックの担当は4度変わっています。</p>
 <table>
 <tr><th>時期</th><th>生成</th><th>ファクトチェック</th></tr>
@@ -236,17 +251,13 @@
 <tr><td>v1.69〜v2.08</td><td>Claude</td><td>ChatGPT</td></tr>
 <tr><td>v2.09〜v2.41</td><td>Claude</td><td>Genspark cross_check</td></tr>
 <tr><td>v2.42</td><td>Genspark super_agent</td><td>通常は省略。ChatGPTが実在判定を覆した場合のみGenspark cross_check</td></tr>
-<tr><td><b>v2.43〜（今）</b></td><td><b>Genspark super_agent</b></td><td><b>行わない（他のAIへの問い合わせも一切なし）</b></td></tr>
+<tr><td><b>v2.43〜（今）</b></td><td><b>Genspark super_agent</b></td><td><b>行わない（生成時のWeb検索裏取りで完結。他AIへの問い合わせも一切なし）</b></td></tr>
 </table>
 <p>1度目の入れ替えは「Claudeの生成のほうが説明が詳しい」という理由。</p>
 <p>2度目は、ChatGPTが事実の誤りをほとんど拾えていなかったためです</p>
-<p>（理由は「決めたこと」に書いてあります）。</p>
-<p>3度目は、API課金が都度別枠でかかるより、Gensparkの月額クレジットの中で</p>
-<p>回したいというチョロさんの判断です。</p>
-<p>4度目は、「Gensparkだけで完結させたい。ダブルチェックもファクトチェックも</p>
-<p>不要」というチョロさんの判断です。super_agent自体がWeb検索で裏取り</p>
-<p>しながら書くため、Gensparkが「実在しない」と判定した場合は他のAIに</p>
-<p>再確認させず、その場で却下します（理由は「決めたこと」に書いてあります）。</p>
+<p>（理由は「決めたこと」に書いてあります）。3度目・4度目は、API課金が</p>
+<p>都度別枠でかかる複数のAIに依存するより、Gensparkの月額クレジットに</p>
+<p>一本化したいというチョロさんの判断です。</p>
 <p>作るのは10項目（id／label／cat／era／desc／roots_story／rep_tracks／links／</p>
 <p>aliases／popularity）です。</p>
 <h4>全体の順番</h4>
@@ -254,22 +265,23 @@
 <tr><th>段</th><th>誰が</th><th>何を</th></tr>
 <tr><td>事前</td><td>プログラム</td><td>IDの完全一致・似た名前の確認</td></tr>
 <tr><td>Step 1</td><td><b>Genspark super_agent</b></td><td>実在確認＋10項目の生成（Web検索で裏取り）。実在しないと判定されたらその場で却下</td></tr>
-<tr><td>Step 2</td><td>—</td><td>事実確認は行わない</td></tr>
+<tr><td>Step 2</td><td>—</td><td>事実確認は行わない（Step 1がすでにWeb検索で裏取り済みのため）</td></tr>
 <tr><td>Step 2c</td><td>プログラム</td><td>リンク先IDの補正・分量・用語集の漏れ（AIは使わない）</td></tr>
 <tr><td>Step 3</td><td>プログラム</td><td>代表曲の動画を探して照合する</td></tr>
 <tr><td>Step 4</td><td>プログラム</td><td>知名度の計算</td></tr>
-<tr><td>最後</td><td>—</td><td>承認待ちに保存</td></tr>
+<tr><td>最後</td><td>入力した本人</td><td>その場で本物の説明パネルを見て確認・登録（下記）</td></tr>
 </table>
 <p>AIへの問い合わせは、<b>1件につき1回だけ</b>（Gensparkの生成1回のみ）です。</p>
-<h4>事実確認は行わない（v2.43〜）</h4>
-<p>Step 1のsuper_agentがすでにWeb検索で裏取り済みのため、別途の事実確認は</p>
-<p>行いません（承認画面には「Genspark(super_agent)による生成時にWeb検索で</p>
-<p>事実確認済みのため、追加のファクトチェックは行っていません」と表示されます）。</p>
-<p>〜v2.08はChatGPT、v2.09〜v2.42はGensparkのcross_checkが、この役割を</p>
-<p>別のAIとして担っていました。cross_check時代は「直した文章」ではなく</p>
-<p>指摘レポート（①該当の記述 ②何が誤りか ③正しくは何か ④出典URL）を返し、</p>
-<p>指摘が出た場合はそのレポートをClaudeに渡して本文を直させていましたが、</p>
-<p>今はその裏取り自体をStep 1のsuper_agentが兼ねているため使いません。</p>
+<h4>確認・登録（v1.47〜、全面リニューアルv2.37〜）</h4>
+<p>管理者（チョロさん）宛のメール通知・承認は2026-07-14（v1.47）に廃止済みで、</p>
+<p>通常の流れに管理者は関与しません。入力した本人がその場で内容を確認して</p>
+<p>登録します。確認画面は手作りの項目一覧ではなく、本物のgenre_roots.htmlに</p>
+<p>登録待ちのジャンルを一時ノードとして差し込み、本物の説明パネルをそのまま</p>
+<p>iframeで表示したもの（2026-09-05、<code>build_preview_map_html</code>）。承認後に</p>
+<p>読者が実際に目にするものと見分けがつきません。「次へ」で確認を後回しに</p>
+<p>した場合だけ、ログインが要る管理者専用の「承認待ち一覧」（<code>/admin</code>）に</p>
+<p>残ります。これは通常の流れではなく、確認せずに放置された分をチョロさんが</p>
+<p>後から拾うための保険です。</p>
 <h4>代表曲の動画（v2.07〜）</h4>
 <p>以前は検索結果の上位2本をそのまま入れていたため、まったく別の動画が</p>
 <p>登録されていました（Chiptuneの代表曲にArduinoの電子工作の解説動画など）。</p>
@@ -290,7 +302,7 @@
 <ul>
 <li><b>生成に失敗したときは、必ず理由を添える。</b> 「失敗しました」だけでは、</li>
 </ul>
-<p>利用上限なのか通信エラーなのか、申請した人にも管理者にも分からない</p>
+<p>利用上限なのか通信エラーなのか、登録した人にも分からない</p>
 <ul>
 <li><b>リンク先IDの自動補正</b>（<code>_auto_correct_link_targets</code>）。</li>
 </ul>
@@ -303,40 +315,127 @@
 <li><b>書き込み前にJavaScriptの構文検査</b>（<code>_html_is_valid_js</code> →</li>
 </ul>
 <p><code>check_html_syntax.js</code>）。壊れる場合は書き込み自体を中止する</p>
-<h3>修正依頼</h3>
-<p>v2.44〜：振り分け・文章判定・動画判定の3か所とも、Claude・Geminiの直接呼び出し</p>
-<p>からGenspark(super_agent／analyze_media)に置き換えた。新規登録と同じく、</p>
-<p>API課金をGensparkの定額クレジットに寄せる狙い。</p>
-<p>指摘を受け取ったら、まずGensparkが「文章の指摘」か「動画の指摘」かに分けます</p>
-<p>（<code>_triage_correction</code>）。</p>
+<h3>修正更新</h3>
+<p>指摘を受け取ったら、まずGenspark(super_agent)が「文章の指摘」か「動画の</p>
+<p>指摘」かに分けます（<code>_triage_correction</code>）。v2.44〜Genspark担当（以前は</p>
+<p>Claude担当）。</p>
 <ul>
 <li><b>文章の指摘</b> … Genspark(super_agent)がWeb検索で裏取りしながら、既存の</li>
 </ul>
 <p>説明文とリンク先の内容と照らして事実確認する（<code>_judge_text_correction</code>）。</p>
-<p>cross_check（1回300クレジット超）ではなくsuper_agent（1回70〜90クレジット程度）</p>
-<p>を使う。既存の厳密な指示（old_string/new_stringの引用規則、指摘箇所だけを直し</p>
-<p>全面的な書き直しはしない、等）はそのまま引き継いでいる</p>
+<p>v2.44〜Genspark担当（以前はClaude担当）</p>
 <ul>
-<li><b>動画の指摘</b> … Genspark(<code>analyze_media</code>、analysis_model=</li>
+<li><b>動画の指摘</b> … <code>_judge_video_correction</code>が担当。中身は下の</li>
 </ul>
-<p>gemini-3.1-pro-preview）が動画を実際に視聴し、ジャンルと合っているか判定する</p>
-<p>（<code>_judge_video_correction</code>、専用関数<code>_genspark_check_video</code>）。</p>
-<p>合っていなければ、代表曲側の確認済み動画から差し替え候補を自動で作る。</p>
-<p>内部ではGeminiのモデルを使うが、無料枠に収める必要がないぶん上位モデル</p>
-<p>（pro-preview）を指定できる。動画を一括で確認する他のメンテナンス処理</p>
-<p>（<code>fill_missing_track_videos</code>等）は対象外で、無料のGemini直接呼び出し</p>
-<p>（<code>_gemini_check_video</code>）のまま残している。1件の修正依頼で動画を複数本</p>
-<p>まとめて確認することがあり、一括処理にまで広げるとクレジット消費が跳ね上がる</p>
-<p>ため。承認・却下・「間違いではない」のどの結果でも、依頼してくれた方への</p>
+<p>「動画の指摘は、さらに3種類に分かれる」を参照</p>
+<ul>
+<li>動画を一括で確認する他のメンテナンス処理（<code>fill_missing_track_videos</code>等）</li>
+</ul>
+<p>は対象外で、無料のGemini直接呼び出しのまま残している。1件の修正更新で</p>
+<p>動画を複数本まとめて確認することがあり、一括処理にまで広げるとクレジット</p>
+<p>消費が跳ね上がるため</p>
+<p>承認・却下・「間違いではない」のどの結果でも、送信してくれた方への</p>
 <p>感謝の言葉を末尾に添えます（<code>THANK_YOU_MESSAGE</code>）。</p>
+<h4>動画の指摘は、さらに3種類に分かれる</h4>
+<p>（この節は2026-09-11に初めて仕様書に書き出した。処理自体は2026-07-14から</p>
+<p>動いていたが、それまで仕様書にもフロー図にも一度も書かれておらず、</p>
+<p>コードの中にしか存在しない状態だった）</p>
+<p>「動画の指摘」と振り分けられたものは、<code>_judge_video_correction</code>が受け取り、</p>
+<p>まず<code>_classify_video_request</code>が指摘の文面を読んで3種類に分類する</p>
+<p>（v2.63〜Genspark(super_agent)担当。以前はClaude担当。動画は見ず、</p>
+<p>文面だけを読む軽い処理）。</p>
+<table>
+<tr><th>分類</th><th>どういう指摘か</th><th>そのあと何をするか</th></tr>
+<tr><td>genre_mismatch</td><td>「この動画はこのジャンルに聴こえない」という中身への指摘</td><td>Genspark(<code>analyze_media</code>、gemini-3.1-pro-preview)が<b>冒頭60秒</b>を視聴し、ジャンルと一致するかだけを判定（<code>_genspark_check_video</code>）</td></tr>
+<tr><td>reasonable_request</td><td>ジャンル自体は合っているが、もっと良い代表例にしてほしいという具体的な要望</td><td>Gensparkが<b>冒頭120秒</b>を視聴し、「ジャンルが合っているか」と「その要望に沿っているか」の両方を判定（<code>_fulfill_reasonable_video_request</code>→<code>_genspark_check_fits_request</code>）。既存の登録動画に合うものが無ければ、YouTubeを検索して候補を探す</td></tr>
+<tr><td>unclear</td><td>何を言いたいのか分からない、具体性がない、テスト投稿</td><td>その場で「具体的に教えてください」と返して終了。<b>AIに動画を見せる処理は一切行わない</b>（無駄なクレジット・無料枠を使わないため）</td></tr>
+</table>
+<p><b>なぜ3つに分けているか:</b> 2026-07-14、歌謡曲の代表曲が松田聖子の曲ばかりに</p>
+<p>偏っていたことについて「複数アーティストの代表曲にするのがふさわしいのでは」</p>
+<p>という指摘が届いた。ジャンル自体は合っているため、「ジャンルと一致するか」</p>
+<p>だけを見る判定では「間違いではない」として機械的に却下されてしまい、</p>
+<p>もっともな要望が捨てられてしまう。それを拾えるようにするために分類を足した。</p>
+<p>genre_mismatchで不一致と判定された場合は、代表曲側で確認済みの動画から</p>
+<p>差し替え候補を自動で作る。まだ確認していない代表曲しか残っていない場合だけ、</p>
+<p>その代替候補探しに無料のGeminiを直接呼ぶ（判定そのものはGensparkのままで、</p>
+<p>無料枠で済む付随的な確認にだけ使う）。</p>
+<h4>確認・承認（2026-07-13〜、2026-09-08〜10でさらに簡略化）</h4>
+<p>管理者宛メールを送って管理者が承認する方式は廃止済み（2026-07-13）。</p>
+<p><b>送信した本人がその場で内容を確認して承認します。</b> さらに2026-09-08〜10、</p>
+<p>「説明パネルの上に何を直したかがすでに表示されているのに、別枠の確認画面</p>
+<p>（プログラムっぽい書き方で同じ内容を見せるだけ）は不要では」というチョロ</p>
+<p>さんの提案を受けて、別枠のページを一切開かせず、修正案を本物の説明</p>
+<p>パネルの本文に<code>&lt;del&gt;/&lt;ins&gt;</code>で直接埋め込み、パネルに貼り付けた帯から</p>
+<p>直接「✗却下」「✓承認して反映する」を押せる方式に変えました</p>
+<p>（<code>grApplyCorrectionDiffsToPanel</code>）。動画の指摘の場合は「〇〇という動画に</p>
+<p>変更しました」の表示になります。</p>
 <h3>動画の健全性チェック（管理者用）</h3>
 <p>一般の方向けではない内部機能です。</p>
 <p class="num">1. <b>全件スキャン</b> … YouTubeのタイトルを取得し、ジャンル名との一致度から</p>
 <p>機械的に「要確認」を抜き出す（無料・無制限だが誤検知は多い）</p>
 <p class="num">2. <b>Geminiで絞り込み</b> … 「要確認」だけをGeminiが実際に視聴する。</p>
 <p>1回で最大60件。続きは <code>gemini_verify_state.json</code> に進捗を保存して次回に持ち越す</p>
-<p class="num">3. <b>結果の分類</b> … 「確実に間違い」「動画が長すぎて確認不可」</p>
-<p>「エラーで確認不可」「未着手」の4つに分けて出す</p>
+<p class="num">3. <b>結果の分類</b> … 「本当に間違い」「問題なし」「未確認」の3つに分けて出す</p>
+<p>（<code>get_gemini_verify_report</code>。未確認には、動画が長すぎる・エラー・</p>
+<p>まだGeminiで見ていない、の3つの理由が区別されずまとめて入る）</p>
+<h3>音声・動画の中身をAIに聴かせて判定するとき、GeminiとGensparkのどちらを使うか</h3>
+<p>（2026-09-11、チョロさんの相談を受けて整理・記録。まだ確信を持てていない</p>
+<p>部分も含めて書く）</p>
+<p><b>①「この曲なんてジャンル？」（曲名検索）</b></p>
+<p>Wikidataに情報が無いときの判定と、「AIに聴き直してもらう」ボタンの両方で</p>
+<p>Geminiを直接使う。ここは<b>意図的にGeminiのまま残している場所</b>（無料枠で</p>
+<p>足りる規模で、「無料枠のAPIは統合の対象外」というチョロさんの方針にも</p>
+<p>合っているため）。モデルは<code>gemini-2.5-flash</code>を基本に、混雑時（429）は</p>
+<p><code>gemini-2.5-flash-lite</code>→<code>gemini-3.1-flash-lite</code>→<code>gemini-3-flash-preview</code>の</p>
+<p>順に自動で逃がす（CLAUDE.mdに書いてある切り替え順と一致）。</p>
+<p><b>②動画を実際に視聴して確認する仕事（3つの用途がある）</b></p>
+<ul>
+<li>全件動画チェック・動画の自動差し替え（管理者用の一括メンテナンス）…</li>
+</ul>
+<p>無料のGemini直接呼び出しのまま。1件ずつでなく大量に確認するため、</p>
+<p>Gensparkのクレジットを使うと跳ね上がってしまうから</p>
+<ul>
+<li>修正更新での動画の判定そのもの（「この動画は違う」かどうかの本判定）…</li>
+</ul>
+<p>v2.44でGensparkに移行済み（<code>_genspark_check_video</code>。内部ではGeminiの</p>
+<p>モデルを使っているが、呼び出し方はGensparkのクレジット経由）</p>
+<ul>
+<li>修正更新で代替候補を探すとき、まだ確認していない代表曲しか残っていない</li>
+</ul>
+<p>場合だけ、そこだけ無料のGeminiを直接呼ぶ（コード中に「Gemini呼び出しは</p>
+<p>必要な時だけ」というコメントあり）。判定の主役はあくまでGensparkで、</p>
+<p>ここは付随的な軽い確認</p>
+<p><b>なぜ判定にはGensparkを使っているか（v2.44で確認済み）:</b></p>
+<p>Gensparkの<code>analyze_media</code>は内部でGeminiのモデルを使っているが、無料の直接</p>
+<p>呼び出しでは使えない上位モデル（<code>gemini-3.1-pro-preview</code>）を指定できる。</p>
+<p>Genspark公式のツール説明に「music/audio QCではflashは不安定、pro-preview</p>
+<p>を使うこと」と明記されており、実際にReggaetonの動画で正しいジャンルと</p>
+<p>一致・わざと違うジャンル（Bluegrass）を指定すると正しく不一致、という</p>
+<p>テストも通っている（2026-09-08）。つまりGensparkは独自の動画認識エンジンを</p>
+<p>持っているのではなく、無料枠では使えない上位のGeminiモデルに、定額</p>
+<p>クレジット経由でアクセスする手段という位置づけ。「クレジットを使わない</p>
+<p>分、直接Geminiでいいのでは」は、その上位モデル自体が無料では使えない</p>
+<p>以上、そのままでは成立しない。</p>
+<p><b>まだ確信が持てていない・調べ切れていないこと:</b></p>
+<ul>
+<li>無料枠で1日何件の動画・音声確認ができるか、実測していない。</li>
+</ul>
+<p>CLAUDE.mdには「モデルごとに1日20リクエスト程度」とあるが、これは目安で、</p>
+<p>実際の枠は https://aistudio.google.com/rate-limit でしか確認できない</p>
+<p>（v1.33のときに実際そこで確認した前例あり）。動画は音声よりトークンを</p>
+<p>食うため、テキストと同じ感覚で20件とは限らない可能性がある。</p>
+<ul>
+<li>Gemini以外に、音声・動画ファイルを直接渡して内容を判定できる信頼できる</li>
+</ul>
+<p>APIがどれだけあるか、比較しきれていない。GPT-4oは音声はできるが動画は</p>
+<p>コマ送り画像方式が中心でGeminiのような時系列理解ではない、Claudeは今の</p>
+<p>ところ音声・動画ファイルの直接理解に対応していない、という理解はあるが、</p>
+<p>最新の状況を検証したわけではない。Grok（xAI）はチョロさんの信頼感の</p>
+<p>問題で対象外。</p>
+<ul>
+<li>新規登録のGenspark(super_agent)が内部で何のモデルを使っているかは</li>
+</ul>
+<p>不明（文章生成・Web検索の話であり、音声・動画の視聴とは別の仕組み）。</p>
 <h3>データの残し方</h3>
 <p>Renderの無料プランは再起動でディスクの中身が消えることがあります。</p>
 <p>そのため大事なデータはすべてGitHubにコミットして残しています。</p>
@@ -357,15 +456,13 @@
 <table>
 <tr><th>名前</th><th>何に使うか</th></tr>
 <tr><td>GITHUB_TOKEN</td><td>地図とサーバー、両方のリポジトリへの書き込み（Fine-grained PAT）</td></tr>
-<tr><td>PUBLIC_BASE_URL</td><td>承認メールに載せるリンクの基点URL</td></tr>
-<tr><td>RESEND_API_KEY</td><td>管理者への通知メール（RenderはSMTPを塞いでいるため）</td></tr>
-<tr><td>GEMINI_API_KEY</td><td>曲のジャンル解析、動画の一括メンテナンス処理（fill_missing_track_videos等）。v2.44〜：修正依頼の動画確認自体はGensparkに移したため対象外</td></tr>
+<tr><td>GEMINI_API_KEY</td><td>曲のジャンル解析（この曲なんてジャンル？、Wikidataに情報が無いときと「AIに聴き直してもらう」ボタン）・動画の一括メンテナンス処理（全件動画チェック・差し替え）・修正更新の動画判定で、まだ確認していない代表曲を代替候補として探すときだけの軽い呼び出し。判定そのもの（本当に間違っているか）はGensparkが担当し、Geminiは無料枠で済む付随的な確認にだけ使う</td></tr>
 <tr><td>YOUTUBE_API_KEY</td><td>代表曲の動画の検索と、中身の照合</td></tr>
 <tr><td>RAPIDAPI_KEY</td><td>Shazamの楽曲認識</td></tr>
-<tr><td>OPENAI_API_KEY</td><td>v2.43〜：現在はどの経路からも使われていない（ChatGPTによる実在の再確認・生成・事実確認は廃止済み。関数自体は残しているので、設定を消すとその関数を呼んだ時にだけエラーになる）</td></tr>
-<tr><td>ANTHROPIC_API_KEY</td><td>修正依頼の動画指摘の3分類（genre_mismatch/reasonable_request/unclear判定、_classify_video_request）。v2.44〜：振り分け・文章のファクトチェック・動画の一致判定はGensparkに移した</td></tr>
-<tr><td>GENSPARK_API_KEY</td><td>ジャンル情報の生成（super_agent）・事実確認（cross_check、通常は省略）・代表曲動画の検索。gskのログイン情報からも読める</td></tr>
-<tr><td>GMAIL_SENDER / ADMIN_EMAIL</td><td>通知メールの送信元・宛先</td></tr>
+<tr><td>ANTHROPIC_API_KEY</td><td>まだ残っている個別のClaude呼び出し（<code>revise_with_claude</code>＝登録前に本人がAIへ修正依頼する機能、<code>_judge_book_relevance</code>、<code>_pick_alternative_tracks</code>、デバッグ専用の<code>/admin/gentest</code>）。新規登録の生成・ファクトチェックそのものはv2.42〜Gensparkに置き換え済み</td></tr>
+<tr><td>GENSPARK_API_KEY</td><td>新規登録の実在確認・生成・事実確認、修正更新の振り分け・文章判定・動画判定など、AI処理の中心。gskのログイン情報からも読める</td></tr>
+<tr><td>OPENAI_API_KEY</td><td>config.pyには残っているが、呼び出し元（ChatGPTでの実在再確認・生成・ファクトチェック）はv2.43で全廃済みのため、今のところどの処理からも呼ばれていない</td></tr>
+<tr><td>PUBLIC_BASE_URL / RESEND_API_KEY / GMAIL_SENDER / GMAIL_APP_PASS / ADMIN_EMAIL</td><td>以前は管理者宛の承認依頼メールに使っていたが、2026-07-13〜14に自己承認方式へ統一したためgenre_adder.py側の呼び出し元を削除済み。今は<code>/admin/mailtest</code>という手動デバッグ用の疎通確認ツールでのみ使う</td></tr>
 </table></div>
 <h2>決めたこと（人が書く）</h2>
 <p class="note">元は <code>music_genre_finder/docs/decisions.md</code>。決めたことと、その理由だけを書きます。</p>
@@ -448,19 +545,6 @@
 <p>MoA はチャット画面のモデル選択ボタンから人が選ぶ機能で、API の</p>
 <p><code>create_task</code> が受け付ける種類にも <code>ai_chat</code> は無い。</p>
 <p>そのため「Genspark 一発で生成もチェックも」はできない。</p>
-<p>2026-09-08 上の結論を訂正する。公式CLI（<code>gsk list-tools</code>）で改めて</p>
-<p>全ツールを調べ直したところ、<code>create_task</code> の <code>task_type</code> に</p>
-<p><code>super_agent</code>（「general super agent」を作る、という説明のみ）という</p>
-<p>選択肢があった。これはチャット画面でGensparkが宣伝している「複数のAIを</p>
-<p>組み合わせて結論を出す」仕組みの実体と考えられる、名前が<code>moa</code>ではない</p>
-<p>だけの一般エージェントで、実際にReggaetonで試したところ、Web検索（El General・</p>
-<p>プエルトリコの取り締まり事件など、実在の史実）をしながら文章を書けることを</p>
-<p>確認した。8/24の調査は<code>moa</code> <code>chat</code> <code>llm</code>という名前だけを</p>
-<p>探しており、<code>create_task</code>のtask_type一覧の中まで確認していなかった</p>
-<p>ための見落としだったとみられる。「Genspark 一発で生成もチェックも」は</p>
-<p><b>super_agentを使えば実質できる</b>と分かったため、v2.42でジャンル情報の生成を</p>
-<p>ClaudeからGenspark super_agentに置き換え、生成時にWeb検索で裏取り済みの</p>
-<p>場合は後段のcross_checkを省略するようにした。</p>
 <p>2026-08-25 独立した記事が無いジャンルは、閲覧数だけでなく<b>言語版の数も1点</b>にする。</p>
 <p>どちらも「飛ばされた先（親ジャンル）」の数字であって、そのジャンル自身の数字では</p>
 <p>ないため。2026-08-13に閲覧数についてこう決めたときの理由がそのまま当てはまる。</p>

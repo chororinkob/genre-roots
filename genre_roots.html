@@ -315,7 +315,7 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
   overflow: hidden;
 }
-/* v2.47〜：修正依頼で書籍の削除・追加候補が出たとき、その場（sp-books-row）に
+/* v2.47〜：修正更新で書籍の削除・追加候補が出たとき、その場（sp-books-row）に
    直接カードを差し込んで見せる（別枠に文章だけ出すのではなく）。 */
 .gr-book-removed img { opacity: 0.35; filter: grayscale(1); border-color: rgba(242,139,139,0.5); }
 .gr-book-removed .cap { text-decoration: line-through; color: #f28b8b; }
@@ -990,7 +990,7 @@ svg { width: 100vw; height: 100vh; }
 
 /* ハンバーガーメニューボタン（PC非表示） */
 #drawer-tab { display: none; }   /* スマホでだけ出す（下の @media で表示） */
-/* 修正依頼を書く画面もスマホ専用。パソコンでは今までどおり、
+/* 修正更新を書く画面もスマホ専用。パソコンでは今までどおり、
    説明の中に入力欄が開く（下の @media でだけ出す） */
 #corr-sheet { display: none; }
 #mobile-menu-btn { display: none; background: none; border: 1px solid #555; border-radius: 3px; color: #fff; font-size: 14px; padding: 1px 4px; cursor: pointer; line-height: 1; }
@@ -1005,7 +1005,7 @@ svg { width: 100vw; height: 100vh; }
 
   /* 文字を入れる欄はすべて16px以上にする（上の #search と同じ理由。
      16px未満だと iPhone が画面を勝手に拡大して、戻らなくなる）。
-     修正依頼の入力欄、問い合わせの欄など、あとから足すものにも効かせる。 */
+     修正更新の入力欄、問い合わせの欄など、あとから足すものにも効かせる。 */
   input[type="text"], input[type="search"], input[type="email"],
   input[type="number"], input[type="tel"], input[type="url"],
   input[type="password"], textarea, select,
@@ -1160,7 +1160,7 @@ svg { width: 100vw; height: 100vh; }
   }
   svg { height: 100dvh; }
 
-  /* 【修正依頼の入力画面】
+  /* 【修正更新の入力画面】
      スマホでは、文字を打とうとするとキーボードが画面の下半分を占める。
      説明パネルの中の入力欄はその下に隠れてしまい、打った字を確かめられない。
      そこで押した瞬間に、画面いっぱいの入力画面を出す。
@@ -1685,7 +1685,7 @@ svg { width: 100vw; height: 100vh; }
   <span class="dt-text">ジャンル検索</span>
   <span class="dt-arrow" aria-hidden="true"></span>
 </div>
-<!-- スマホで修正依頼を書くときの入力画面。
+<!-- スマホで修正更新を書くときの入力画面。
      画面いっぱいに出して、入力欄をいちばん上に置く。
      キーボードが出ても隠れないように、高さは「実際に見えている分」に合わせる。
      中身（#sp-correction-form）は説明パネルから移してくるので、
@@ -1703,7 +1703,7 @@ svg { width: 100vw; height: 100vh; }
 <svg id="graph"></svg>
 
 <script>
-// 曲名検索・ジャンル追加・修正依頼などのバックエンドAPI（Render）
+// 曲名検索・ジャンル追加・修正更新などのバックエンドAPI（Render）
 const API_BASE = 'https://genre-roots-server.onrender.com';
 
 // ──────────────────────────────────────────────────────────
@@ -19169,7 +19169,7 @@ defs.append("marker")
 const nodeMap = Object.fromEntries(NODES.map(n => [n.id, n]));
 
 // 相互リンクを1本に統合（2本目を除去し、1本目にmutualフラグ）。
-// LINKSが後から書き換わった場合（修正依頼の承認直後など）に、同じロジックで
+// LINKSが後から書き換わった場合（修正更新の承認直後など）に、同じロジックで
 // 作り直せるよう関数化している（linkData自体はconstのまま中身だけ差し替える。
 // D3のグラフ描画がこの配列を参照しているため、束縛自体は変えない）。
 function rebuildLinkData() {
@@ -21373,9 +21373,9 @@ node.on("click", (e, d) => {
 
   window._currentNode = d;  // rep_tracks再生時に参照
 
-  // 修正依頼フォームをジャンルが切り替わるたびにリセット
+  // 修正更新フォームをジャンルが切り替わるたびにリセット
   // （書く画面を開いたままだったら、それも閉じて元の場所へ戻す）
-  if (typeof 修正依頼の画面を閉じる === 'function') 修正依頼の画面を閉じる();
+  if (typeof 修正更新の画面を閉じる === 'function') 修正更新の画面を閉じる();
   document.getElementById('sp-correction-form').style.display = 'none';
   document.getElementById('sp-correction-btn').style.display = '';
   document.getElementById('sp-correction-text').value = '';
@@ -21452,7 +21452,7 @@ node.on("click", (e, d) => {
 
 spClose.onclick = () => closePanel();
 
-// 修正依頼ボタン
+// 修正更新ボタン
 const spCorrBtn    = document.getElementById('sp-correction-btn');
 const spCorrForm   = document.getElementById('sp-correction-form');
 const spCorrText   = document.getElementById('sp-correction-text');
@@ -21461,7 +21461,7 @@ const spCorrCancel = document.getElementById('sp-correction-cancel');
 const spCorrResult = document.getElementById('sp-correction-result');
 
 // ──────────────────────────────────────────────────────────
-// スマホの「修正依頼を書く画面」
+// スマホの「修正更新を書く画面」
 // ──────────────────────────────────────────────────────────
 // 【なぜ要るか】スマホで入力欄に触るとキーボードが下半分を覆い、
 // 説明パネルの中にある入力欄がその下に隠れて、打った字を確かめられない。
@@ -21472,7 +21472,7 @@ const spCorrResult = document.getElementById('sp-correction-result');
 // 進み具合の表示・承認画面までの流れは今までのものがそのまま動く。
 // 閉じるときは元の場所へ戻す。パソコンでは一切使わない。
 const corrSheet = document.getElementById('corr-sheet');
-function 修正依頼の画面の高さを合わせる() {
+function 修正更新の画面の高さを合わせる() {
   if (!corrSheet || !corrSheet.classList.contains('open')) return;
   // キーボードが出ている間、visualViewport は「見えている範囲」を教えてくれる。
   // これに合わせておけば、入力欄がキーボードの下に隠れない。
@@ -21483,20 +21483,20 @@ function 修正依頼の画面の高さを合わせる() {
   corrSheet.style.height = Math.round(高) + 'px';
 }
 if (window.visualViewport) {
-  window.visualViewport.addEventListener('resize', 修正依頼の画面の高さを合わせる);
-  window.visualViewport.addEventListener('scroll', 修正依頼の画面の高さを合わせる);
+  window.visualViewport.addEventListener('resize', 修正更新の画面の高さを合わせる);
+  window.visualViewport.addEventListener('scroll', 修正更新の画面の高さを合わせる);
 }
-window.addEventListener('resize', 修正依頼の画面の高さを合わせる);
+window.addEventListener('resize', 修正更新の画面の高さを合わせる);
 
-function 修正依頼の画面を開く() {
+function 修正更新の画面を開く() {
   if (!corrSheet) return false;
   corrSheet.querySelector('.cs-body').appendChild(spCorrForm);
   corrSheet.classList.add('open');
   corrSheet.setAttribute('aria-hidden', 'false');
-  修正依頼の画面の高さを合わせる();
+  修正更新の画面の高さを合わせる();
   return true;
 }
-function 修正依頼の画面を閉じる() {
+function 修正更新の画面を閉じる() {
   if (!corrSheet || !corrSheet.classList.contains('open')) return;
   // 入力欄を元の場所（説明パネルの中）へ戻す
   const 元の場所 = document.getElementById('sp-correction-sec');
@@ -21509,14 +21509,14 @@ function 修正依頼の画面を閉じる() {
 spCorrBtn.onclick = () => {
   spCorrBtn.style.display = 'none';
   spCorrForm.style.display = 'block';
-  if (isMobile()) 修正依頼の画面を開く();
+  if (isMobile()) 修正更新の画面を開く();
   // キーボードが出てから高さが決まるので、少し待ってもう一度合わせる
   spCorrText.focus();
-  setTimeout(修正依頼の画面の高さを合わせる, 250);
-  setTimeout(修正依頼の画面の高さを合わせる, 700);
+  setTimeout(修正更新の画面の高さを合わせる, 250);
+  setTimeout(修正更新の画面の高さを合わせる, 700);
 };
-function 修正依頼をやめる() {
-  修正依頼の画面を閉じる();
+function 修正更新をやめる() {
+  修正更新の画面を閉じる();
   spCorrForm.style.display = 'none';
   spCorrBtn.style.display = '';
   spCorrText.value = '';
@@ -21530,7 +21530,7 @@ function 修正依頼をやめる() {
 // ボタンだけ画面に浮いて見える）。
 function grHideCorrectionActionBar() {
   document.querySelectorAll('.gr-corr-actions').forEach(b => b.classList.remove('gr-fixed'));
-  // 点滅はずっと続くので、パネルを閉じる・修正依頼をやめるときは消しておく
+  // 点滅はずっと続くので、パネルを閉じる・修正更新をやめるときは消しておく
   document.querySelectorAll('.gr-jump-highlight').forEach(x => x.classList.remove('gr-jump-highlight'));
   const badge = document.getElementById('gr-video-candidate-badge');
   if (badge) badge.remove();
@@ -21538,9 +21538,9 @@ function grHideCorrectionActionBar() {
   const body = document.getElementById('sp-body');
   if (body) body.style.paddingBottom = '';
 }
-spCorrCancel.onclick = 修正依頼をやめる;
+spCorrCancel.onclick = 修正更新をやめる;
 const csClose = document.getElementById('cs-close');
-if (csClose) csClose.onclick = 修正依頼をやめる;
+if (csClose) csClose.onclick = 修正更新をやめる;
 let spCorrPolling = null;
 
 function spCorrRenderLog(log) {
@@ -21584,12 +21584,12 @@ function grFieldLabel(field) {
           })[field] || '内容';
 }
 
-// 確認したい箇所までパネルの中を自動でスクロールする。スマホは「修正依頼を
+// 確認したい箇所までパネルの中を自動でスクロールする。スマホは「修正更新を
 // 書く画面」が説明パネルの上に覆いかぶさっているので、まずそれを閉じて
 // パネル自体を見えるようにしてからスクロールする（閉じてもspCorrResultの
 // 中身＝この確認UI自体はsp-correction-secの中にそのまま残る）。
 function grScrollToPanelSection(elId) {
-  修正依頼の画面を閉じる();
+  修正更新の画面を閉じる();
   grPositionCorrectionActionBar();
   if (!elId) return;
   setTimeout(() => {
@@ -21812,7 +21812,7 @@ spCorrSend.onclick = async () => {
         // 結果が出た時点で、書く専用の全画面（スマホのみ）はもう不要。閉じて
         // パネル自体を見えるようにしておく（sp-correction-resultの中身＝この
         // 確認UIは、閉じてもsp-correction-sec側にそのまま残る）。
-        修正依頼の画面を閉じる();
+        修正更新の画面を閉じる();
         if (result.status === 'not_an_error') {
           spCorrResult.className = 'not-error';
           spCorrResult.innerHTML = logHtml + '<b style="font-size:13px;">△ 修正はできませんでした（現在の内容に問題はないと判断しました）</b><br>' + (result.reasoning || '').replace(/\n/g, '<br>');
@@ -21847,7 +21847,7 @@ spCorrSend.onclick = async () => {
     spCorrPolling = setInterval(poll, 2000);
   } catch (e) {
     spCorrResult.className = 'err';
-    spCorrResult.innerHTML = 'エラー：修正依頼の送信に失敗しました。サーバーが起動していないか、通信に問題がある可能性があります。時間をおいて再度お試しください。';
+    spCorrResult.innerHTML = 'エラー：修正更新の送信に失敗しました。サーバーが起動していないか、通信に問題がある可能性があります。時間をおいて再度お試しください。';
     spCorrSend.disabled = false;
     spCorrSend.textContent = '送信';
   }
@@ -22771,7 +22771,7 @@ function searchHandler(e) {
     // 「そのものズバリで登録されているか」を、部分一致とは別に判定する。
     // これが無いと、「フラメンコ」で検索したときに
     // 「フラメンコフュージョン」が引っかかって“ヒットあり”と見なされ、
-    // 「未登録です→追加しますか」の案内が出ず、申請できなかった。
+    // 「未登録です→追加しますか」の案内が出ず、登録できなかった。
     // 同じ形（短い名前が長い名前に隠れる）は567件中369通りある。
     const isExact = NODES.some(n => {
       const lbl = n.label.toLowerCase().replace('\n', ' ');
@@ -22785,7 +22785,7 @@ function searchHandler(e) {
     if (matches.length > 0) {
       matches.forEach(m => foundIds.add(m.id));
       // 似たものは見つかったが、その名前そのものは無い場合。
-      // マップのハイライトは今までどおり出しつつ、申請もできるようにする
+      // マップのハイライトは今までどおり出しつつ、登録もできるようにする
       if (!isExact) partialOnly.push(tag);
     } else {
       notFound.push(tag);
@@ -22818,14 +22818,14 @@ function searchHandler(e) {
     }
   }
   // 「似たものはあるが、そのものは無い」場合も知らせる。
-  // これが無いと、長い名前に隠れた短い名前を永久に申請できない
+  // これが無いと、長い名前に隠れた短い名前を永久に登録できない
   // （例：「フラメンコ」→「フラメンコフュージョン」が引っかかる）
   if (searchMode === 'label' && partialOnly.length > 0) {
     html += '<div style="color:#f0b25a;margin-top:4px">△ '
       + partialOnly.map(t => grEsc(t)).join(', ')
       + ' そのものは未登録です</div>';
   }
-  // 説明文モードのときは申請に進ませない（言葉の検索であってジャンル名ではないため）
+  // 説明文モードのときは登録に進ませない（言葉の検索であってジャンル名ではないため）
   const askable = (searchMode === 'label') ? notFound.concat(partialOnly) : [];
   if (askable.length > 0) grStartQueue(askable);
   else grClearQueue();
@@ -23926,7 +23926,7 @@ function initGlobe() {
 
 </script>
 
-<!-- ===== ジャンル追加申請 モーダル v1.4 ===== -->
+<!-- ===== 新規登録 モーダル v1.4 ===== -->
 <style>
 #genre-request-overlay {
   display: none;
@@ -24073,7 +24073,7 @@ function initGlobe() {
 }
 @keyframes grspin{to{transform:rotate(360deg)}}
 
-/* 【スマホ】キーボードが出ても「申請する」が押せるようにする。
+/* 【スマホ】キーボードが出ても「登録する」が押せるようにする。
    もとは画面の真ん中に置いていたので、キーボードが下半分を覆うと
    ボタンがその下に隠れた。しかも中身が入れ物に収まっていて
    スクロールする余地が無く、上へずらすこともできなかった。
@@ -24106,7 +24106,7 @@ function initGlobe() {
 
 <div id="genre-request-overlay">
   <div id="genre-request-card">
-    <h2>新ジャンル登録 <span class="gr-ver">v1.9</span></h2>
+    <h2>新ジャンル登録 <span class="gr-ver">v2.0</span></h2>
     <p class="gr-sub">載っていないジャンルをAIが自動で登録します。ジャンル名を入れて送信するだけ。<br>
       作業時間の目安は5分ほどです。最後に内容の確認画面が出るので、間違いがなければ承認して完了です。</p>
 
@@ -24126,9 +24126,9 @@ function initGlobe() {
 
 <script>
 // スマホでキーボードが出ると、画面の下半分が隠れる。
-// 申請の入れ物を「いま見えている範囲」に合わせておけば、
-// 中身がその中でスクロールでき、「申請する」も押せる。
-function 申請画面の高さを合わせる() {
+// 登録画面の入れ物を「いま見えている範囲」に合わせておけば、
+// 中身がその中でスクロールでき、「登録する」も押せる。
+function 登録画面の高さを合わせる() {
   const ov = document.getElementById('genre-request-overlay');
   if (!ov || !ov.classList.contains('open')) return;
   if (window.innerWidth > 768) { ov.style.top = ''; ov.style.height = ''; return; }
@@ -24137,19 +24137,19 @@ function 申請画面の高さを合わせる() {
   ov.style.height = Math.round(vv ? vv.height : window.innerHeight) + 'px';
 }
 if (window.visualViewport) {
-  window.visualViewport.addEventListener('resize', 申請画面の高さを合わせる);
-  window.visualViewport.addEventListener('scroll', 申請画面の高さを合わせる);
+  window.visualViewport.addEventListener('resize', 登録画面の高さを合わせる);
+  window.visualViewport.addEventListener('scroll', 登録画面の高さを合わせる);
 }
-window.addEventListener('resize', 申請画面の高さを合わせる);
+window.addEventListener('resize', 登録画面の高さを合わせる);
 
 function openGenreRequest(name) {
   document.getElementById('genre-request-overlay').classList.add('open');
   if (name) document.getElementById('gr-name').value = name;
-  申請画面の高さを合わせる();
+  登録画面の高さを合わせる();
   document.getElementById('gr-name').focus();
   // キーボードが出てから高さが決まるので、少し待ってもう一度合わせる
-  setTimeout(申請画面の高さを合わせる, 250);
-  setTimeout(申請画面の高さを合わせる, 700);
+  setTimeout(登録画面の高さを合わせる, 250);
+  setTimeout(登録画面の高さを合わせる, 700);
 }
 function closeGenreRequest() {
   // 処理待ちの途中でキャンセルされた場合、裏側の2秒おきの確認（ポーリング）を
@@ -24210,7 +24210,7 @@ async function submitGenreRequest() {
   // AIの進み具合が画面いっぱいに見えるようにする
   document.getElementById('gr-name').blur();
   document.getElementById('gr-note').blur();
-  setTimeout(申請画面の高さを合わせる, 300);
+  setTimeout(登録画面の高さを合わせる, 300);
   grShowResult('<div class="gr-processing"><span class="gr-spinner"></span>AIが実在確認・情報生成中です。1〜2分かかります…</div>');
 
   try {
@@ -24250,7 +24250,7 @@ let grPollFailCount = 0;
 // 進捗状況を2秒おきにポーリングして取得する方式にしている。
 // 注意：サーバー再起動（デプロイ等）が処理の途中で挟まると、進捗はメモリ上にしか
 // 持っていないためrequest_idごと消える。この場合/status/<id>は404を返すので、
-// 「404＝もう戻ってこない」と即座に判断してポーリングを打ち切り、再申請を促す
+// 「404＝もう戻ってこない」と即座に判断してポーリングを打ち切り、再登録を促す
 // （以前はここでdoneのチェックしかしておらず、404が来ても無限に「処理中…」の
 // まま固まって見えるバグがあった）。
 function grPollGenreRequest(name, requestId, submitBtn) {
@@ -24352,7 +24352,7 @@ window.addEventListener('message', (e) => {
   } else if (e && e.data && e.data.type === 'gr-correction-approved') {
     // 承認自体はここで届いた時点で完了している。裏側のGitHub連携（この後の
     // データ取得・パネル再オープンより後にも別途進む）を待つ理由はないので、
-    // 「修正依頼」のオーバーレイはこの時点ですぐ閉じる（閉じずに残すと、
+    // 「修正更新」のオーバーレイはこの時点ですぐ閉じる（閉じずに残すと、
     // 画面はもう更新されているのに確認パネルだけ「処理中」のまま居座って
     // 邪魔になっていた）。
     const overlay = document.getElementById('gr-preview-overlay');
@@ -24367,7 +24367,7 @@ window.addEventListener('message', (e) => {
     //            （説明パネルには出るのに、マップには線が無い状態）
     // 線・ガラスのパイプ・音符の粒・矢印・ラベルと描き直す対象が多く、その場
     // 更新を正しく作り込む労力に見合わない。ジャンル追加側（すぐ下）は最初から
-    // 読み込み直す作りで問題が出ていないので、修正依頼もそちらに揃える。
+    // 読み込み直す作りで問題が出ていないので、修正更新もそちらに揃える。
     // 末尾の時刻は、ブラウザが古い内容を使い回さないようにするためのもの。
     const _t = '_=' + Date.now();
     if (e.data.genreId) {
@@ -24376,7 +24376,7 @@ window.addEventListener('message', (e) => {
       window.location.href = API_BASE + '/roots?' + _t;
     }
   } else if (e && e.data && e.data.type === 'gr-genre-added') {
-    // 新規追加されたジャンルはブラウザ側のNODESにまだ存在しないため、修正依頼の
+    // 新規追加されたジャンルはブラウザ側のNODESにまだ存在しないため、修正更新の
     // ようなその場でのデータ差し替えではなく、ページ自体を読み込み直す必要がある。
     // GitHub Pagesではなくこのサーバー自身の/rootsから読み込むことで、GitHub Pages
     // への反映（数分〜数十分かかることがある）を待たずに済む。
@@ -24389,7 +24389,7 @@ window.addEventListener('message', (e) => {
 });
 
 // /roots?genre=... で開かれた場合、指定ジャンルの説明パネルを自動的に開く
-// （ジャンル追加申請の承認直後の遷移用。node/NODESの初期化が終わった後の
+// （新規登録の承認直後の遷移用。node/NODESの初期化が終わった後の
 // この位置で実行する）。
 // パネルを開くクリック処理は、その時点のノード座標(n.x/n.y)を使ってズーム位置を
 // 決めるため、シミュレーションがまだ収束していない300ミリ秒後に実行すると、
@@ -24608,7 +24608,7 @@ function grRenderResult(inputName, data, submitBtn) {
     // ここで止めずに承認待ちへ進めていたため、確認画面のパネル側にある
     // 「ジャンル名 + greatest hits mix」で検索して代わりに再生する保険が
     // 発動し、動画は出るのに代表曲欄は消えている、という矛盾した見た目に
-    // なっていた（2026-09-05、「チャルガ」の3回目の申請で発覚）。
+    // なっていた（2026-09-05、「チャルガ」の3回目の登録で発覚）。
     grShowResult(`
       <div class="gr-result-title gr-title-dup">⚠ 代表曲の動画が見つかりませんでした</div>
       <div class="gr-ai-checks" style="color:#ccc;">${grEsc(data.message)}</div>
@@ -24860,7 +24860,7 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 #mic-yt-fallback a:hover { text-decoration: underline; }
 .mic-yt-fail-reason { font-size: 10px; color: #777; margin-top: 3px; }
 
-/* 「これなんて曲？」ボタンと履歴トグルを、1つの赤い枠にまとめて視覚的に紐付ける */
+/* 「この曲なんてジャンル？」ボタンと履歴トグルを、1つの赤い枠にまとめて視覚的に紐付ける */
 #mic-trigger-wrap {
   background: #e94560; border-radius: 7px; margin-bottom: 10px; overflow: hidden;
 }
@@ -24902,7 +24902,7 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 .mic-log-line { font-family: ui-monospace, 'Cascadia Mono', monospace; font-size: 10.5px; color: #666; line-height: 1.7; }
 #mic-panel-version { position: absolute; bottom: 8px; right: 12px; font-size: 10px; color: #333; pointer-events: none; }
 
-/* === 「これなんて曲？」履歴 === */
+/* === 「この曲なんてジャンル？」履歴 === */
 #mic-history-toggle {
   display: block; width: 100%; text-align: center;
   padding: 4px 2px; font-size: 10.5px; color: rgba(255,255,255,0.8);
@@ -24939,7 +24939,7 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 <div id="mic-overlay">
   <div id="mic-panel">
     <button id="mic-panel-close" onclick="closeMicPanel()">✕</button>
-    <div id="mic-panel-version">v2.39</div>
+    <div id="mic-panel-version">v2.41</div>
     <div id="mic-panel-title">🎵 音楽を聴かせてください</div>
     <div id="mic-panel-sub">ジャンルを調べてマップに表示します</div>
 
@@ -25469,7 +25469,7 @@ function micGoToMap() {
     _rd.style.display = 'block';
   }
 
-  // 未登録ジャンルがあれば申請フローを起動
+  // 未登録ジャンルがあれば登録フローを起動
   if (missedGenres.length > 0 && typeof grStartQueue === 'function') {
     grStartQueue(missedGenres);
   }
@@ -25540,7 +25540,7 @@ function micPickMimeType() {
   return candidates.find(t => MediaRecorder.isTypeSupported(t)) || '';
 }
 
-// ===== 「これなんて曲？」履歴 =====
+// ===== 「この曲なんてジャンル？」履歴 =====
 const MIC_HISTORY_KEY = 'micHistory';
 const MIC_HISTORY_MAX = 15;
 
