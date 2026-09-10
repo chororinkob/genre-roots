@@ -14,7 +14,23 @@
                        検索側がどれを本物と見なすかを決める
      ──────────────────────────────────────────────── -->
 <meta name="description" content="581ジャンルの地図を気ままに旅する。つながりをたどって、代表曲を聴きながら放浪できます。">
-<link rel="canonical" href="https://genre-roots.com/genre_roots.html">
+<!-- 【canonicalをここに書かない理由】2026-09-11
+     以前はここに href="…/genre_roots.html"（?genre= の付かない住所）を
+     固定で書いていた。これが原因で、573ジャンル分の住所すべてが
+     「私の正式な住所はトップページです」とGoogleに申告する状態になっていた。
+
+     Googleは①HTMLをそのまま読む②あとからJavaScriptを実行して読み直す、
+     の2段階でページを見る。①の時点で「トップページの重複」と判断されると、
+     費用の高い②が後回しにされ、いつまでもインデックスに登録されない。
+     実際にSearch Consoleで「検出 - インデックス未登録」が571件たまり、
+     手作業で登録を頼んだ5件以外は1件も進んでいなかった（2026-09-11に発覚）。
+
+     canonicalは「無ければアクセスされた住所そのものが正式」と扱われるので、
+     ここには書かず、JavaScript側（下の方の 置く('link[rel="canonical"]' …)）で
+     ジャンルごとの正しい住所を差し込む形にした。
+     **ここに canonical を書き戻さないこと。** 書き戻すと同じ問題が再発する。
+     （index.html には canonical を残してある。あちらは genre_roots.html への
+     転送ページなので、正式な住所を指し示すのが正しい使い方） -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="音楽ジャンルルーツ辞典">
 <meta property="og:locale" content="ja_JP">
@@ -1491,7 +1507,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v31.6</span>
+  <span id="version-info">v31.7</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -24499,6 +24515,8 @@ function _grページの情報を書き換える(id) {
   メタ('og:url', 住所, 'property');
   // このページ自身を正式な住所として名乗る。これが無いと、Googleが
   // 573本を「genre_roots.html の重複」とみなしてまとめてしまう。
+  // 2026-09-11〜：<head>に固定で書いてあったcanonical（トップページを指していた）を
+  // 削除したため、ジャンルの住所で開いたときはここが唯一のcanonicalになる。
   置く('link[rel="canonical"]',
        () => { const l = document.createElement('link'); l.rel = 'canonical'; return l; },
        'href', 住所);
