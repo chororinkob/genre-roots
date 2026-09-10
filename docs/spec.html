@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="ja"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- 開発者向けの資料なので、検索結果には出さない（2026-09-11）。
+     URLを知っていれば今まで通り開ける。sitemap.xmlにも載せていないので、
+     この2つで「検索には出さない」という意思表示を揃えている。 -->
+<meta name="robots" content="noindex">
 <title>音楽ジャンルルーツ辞典 — 仕様書（自動書き出し）</title>
 <style>
  body{margin:0;background:#0d0e11;color:#e8e8f0;
@@ -34,7 +38,7 @@
 <h1>音楽ジャンルルーツ辞典 — 仕様書</h1>
 <h2>この仕様書について</h2>
 <p class="note">この文書は <b>spec_dump.py が実物を読み直して自動で書き出したもの</b>です。手で書き足しても次の書き出しで消えます。決めた理由など人が書くことは <code>docs/decisions.md</code> に書いてください。この文書の末尾にそのまま入ります。</p>
-<p class="note">書き出した日時：<b>2026-09-11 04:28</b></p>
+<p class="note">書き出した日時：<b>2026-09-11 04:46</b></p>
 <h2>いまの版</h2>
 <table>
 <tr><th>項目</th><th>内容</th></tr>
@@ -490,6 +494,28 @@
 <p>この対策の効果は2026-09-11時点でまだ確認できていません。2週間ほど様子を見て</p>
 <p>「検出 - インデックス未登録」が減らなければ、ジャンルごとの軽い入口ページを</p>
 <p>573本作る案を検討します（詳細は<code>作業状況.html</code>）。</p>
+<h4>検索に出す／出さないの意思表示は、2か所を必ず揃える</h4>
+<p>ページを検索結果に出すかどうかは、2つの場所で指示しています。</p>
+<p><b>この2つが食い違うとGoogleがエラー扱いします</b>（実際に更新の記録で起きた）。</p>
+<table>
+<tr><th>指示のしかた</th><th>「出す」とき</th><th>「出さない」とき</th></tr>
+<tr><td><code>&lt;meta name=&quot;robots&quot; content=&quot;noindex&quot;&gt;</code></td><td>書かない</td><td>書く</td></tr>
+<tr><td><code>sitemap.xml</code>（<code>tools/sitemap/build.py</code>）</td><td>載せる</td><td>載せない</td></tr>
+</table>
+<p>2026-09-11に全ページを揃えました。</p>
+<ul>
+<li><b>検索に出すページ</b>（noindexなし＋sitemapに載せる）…</li>
+</ul>
+<p>地図本体、使い方ガイド、このサイトについて、更新の記録</p>
+<ul>
+<li><b>検索に出さないページ</b>（noindexあり＋sitemapに載せない）…</li>
+</ul>
+<p>仕様書、作業状況、書籍リンク保守プロトコル、食い違い一覧、動画の確認リスト。</p>
+<p>開発者向けの資料なので検索結果には出さない。URLを知っていれば今まで通り開ける</p>
+<p>（GitHub Pagesは静的な置き場所なのでパスワードはかけられない。ただし</p>
+<p><code>/docs/</code>を開いてもファイル一覧は出ないので、URLを知らないと辿り着けない）</p>
+<p>自動生成されるページは<b>生成元も直さないと次の書き出しで元に戻ります</b>。</p>
+<p>更新の記録は<code>tools/changes/build.py</code>、仕様書は<code>docs/spec_dump.py</code>が生成元です。</p>
 <h3>データの残し方</h3>
 <p>Renderの無料プランは再起動でディスクの中身が消えることがあります。</p>
 <p>そのため大事なデータはすべてGitHubにコミットして残しています。</p>

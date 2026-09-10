@@ -249,7 +249,6 @@ def 組み立てる(件):
 <title>更新の記録 — 音楽ジャンルルーツ辞典</title>
 <meta name="description" content="音楽ジャンルルーツ辞典に、いつ・どのジャンルが追加され、どこが直されたかの一覧。">
 <link rel="canonical" href="https://genre-roots.com/docs/changes.html">
-<meta name="robots" content="noindex">
 <style>
   :root {
     --bg: #0f0f1a; --surface: #16162a; --surface-2: #1e1e38;
