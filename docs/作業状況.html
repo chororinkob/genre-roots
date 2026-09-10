@@ -310,7 +310,49 @@
   </div>
 </div>
 
-<h2>⏳ Googleの巡回待ち <span class="h2-count">私たちの作業は完了済み</span></h2>
+<h2>⏳ Googleの巡回待ち <span class="h2-count">1件は対策を打った直後・様子見中</span></h2>
+
+<div class="item">
+  <div class="item-head">
+    <span class="status doing">対策を打った直後（2026-09-11〜、2週間ほど様子見）</span>
+    <span class="item-title">インデックス登録が1件も進まない → canonicalの誤りを直した</span>
+  </div>
+  <div class="item-body">
+    チョロさんがSearch Consoleを見て「全然先に進まない、本当にGoogleが遅いだけなのか」と
+    指摘。調べたところ<b>遅いだけではなく、構造的に不利な状態だった</b>。
+    <div class="dim" style="margin-top:8px;">
+      <b>症状（2026-09-11、最終更新2026-09-04時点のSearch Console）：</b><br>
+      ・登録済み <b>5件</b>（すべてチョロさんが手作業でインデックス登録をリクエストしたもの）<br>
+      ・未登録 <b>573件</b>。内訳は「検出 - インデックス未登録」571件、
+      「noindexで除外」1件、「重複、Googleが別のページを正規と判断」1件<br>
+      ・つまり<b>自動では1件も進んでいなかった</b>
+    </div>
+    <div class="dim" style="margin-top:8px;">
+      <b>原因：</b><code>&lt;head&gt;</code>に固定で書いてあったcanonicalが
+      <code>?genre=</code>の付かないトップページを指していた。JavaScriptで正しい住所に
+      書き換えてはいたが、<b>書き換える前の値</b>がGoogleに見えていた。GoogleはHTMLを
+      そのまま読む段階と、あとからJavaScriptを実行して読み直す段階の2段階でページを見る。
+      前者の時点で573ジャンル全部が「私の正式な住所はトップページです」と申告している
+      状態だったため、重複と判断され、費用の高い後者（JS実行）が後回しにされていたと考えられる。
+      robots.txt・sitemap.xml（585件）は正常で、異常はcanonicalだけだった。
+    </div>
+    <div class="dim" style="margin-top:8px;">
+      <b>打った手（地図 v31.7）：</b><code>&lt;head&gt;</code>からcanonicalを外し、
+      JS側だけで出すようにした。canonicalは無ければアクセスされた住所そのものが正式と
+      扱われるため、誤った申告が消える。生HTMLにcanonicalが無いこと・JS実行後は
+      ジャンルごとの正しい住所になることを確認済み。
+    </div>
+    <div class="dim" style="margin-top:8px;">
+      <b>次にやること：</b>2週間ほど様子を見て、Search Consoleの
+      「検出 - インデックス未登録」571件が減り始めるかを確認する。
+      <b>減らなければ次の手として、ジャンルごとの軽い入口ページ（正しいcanonical・
+      タイトル・説明文をJavaScript無しで読める形で持つHTML）を573本作る案</b>がある。
+      以前却下された「別ページ方式」とは別物で、読み物を作るのではなく地図へ送り込む
+      入口を置くだけ。<br>
+      あわせて「noindexで除外 1件」「重複と判断 1件」が具体的にどのページなのかは未調査。
+    </div>
+  </div>
+</div>
 
 <div class="item">
   <div class="item-head">
