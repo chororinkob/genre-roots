@@ -113,7 +113,7 @@
 <tr><td>登録確認画面 admin_preview.html</td><td>v3.8</td><td>公開済み</td></tr>
 </table>
 
-<h2>🔶 進行中・次にやること <span class="h2-count">10件</span></h2>
+<h2>🔶 進行中・次にやること <span class="h2-count">11件</span></h2>
 
 <div class="item">
   <div class="item-head">
@@ -176,6 +176,28 @@
       チョロさんが修正更新で実際に直し済み（2026-09-11に実データで確認。
       「リサフランク420 / 現代のコンピュー」の出現は1回だけ、代表曲4曲すべて別の曲）。
       別の題材を選ぶ必要がある。
+    </div>
+  </div>
+</div>
+
+<div class="item">
+  <div class="item-head">
+    <span class="status hold">チョロさんの判断待ち（3件）</span>
+    <span class="item-title">仕様書の見直しで出てきた、決めていない3つのこと</span>
+  </div>
+  <div class="item-body">
+    2026-09-11の仕様書の全面見直しで見つかったもの。<b>どれも今すぐ困るものではないが、
+    決めないと仕様書に「決めていません」と書いたまま残る。</b>
+    <div class="dim" style="margin-top:8px;">
+      ①<b>サーバーの表紙（<code>index.html</code>）を消すか残すか</b>…
+      <code>/</code>を開くと出る「Music Genre Finder」という古い単独ページ。地図にパネルを
+      埋め込む前の形で、地図からもガイドからも一切リンクされていない。<br>
+      ②<b>手元のスクリプト2つを直すか、移動するか</b>…
+      <code>check_missing_genres.py</code>と<code>rewrite_link_descs.py</code>。書き出し先が消えた
+      一時フォルダのままで、使っていないAIを呼び、件数も古い。今のままでは動かない。<br>
+      ③<b><code>mic_panel.html</code>の二重管理をやめるか</b>…
+      サーバー側と地図の中に同じHTMLが2つあり、片方だけ直すともう片方が古いまま残る。
+      一本化するか、手で揃える今のままにするか。
     </div>
   </div>
 </div>
@@ -500,6 +522,23 @@
   <div class="done-list">
 
     <div class="done-day">2026-09-11</div>
+    <div class="done-item">仕様書の全面見直し（8節 → 16節）
+      <div class="dim">仕様書がほぼ<code>genre_adder.py</code>だけを見て書かれており、
+      <code>guard.py</code>（1,206行）・<code>server.py</code>・<code>contact.py</code>・<code>jst.py</code>は
+      名前すら一度も出てこなかった。全ファイルを突き合わせて、抜けていた節を実物から書き出した。<br>
+      <b>新設：</b>いたずら対策とセキュリティ（来訪者の見分け方・4段構えの上限・管理画面の鍵・CORS・記録の残し方）／
+      問い合わせフォーム／知名度／用語集／スマホでの見せ方／手元で走らせる一度きりの道具／
+      修正案を説明パネルにどう表示するか／動画は内部でどう差し替わるか。<br>
+      <b>直したところ：</b>管理画面の「やることは2つだけ」（統計・問い合わせ・動画チェックもあるので不正確）／
+      「CORSでGitHub Pagesからの呼び出しだけを許可」（実際は5つの置き場）／
+      設定値の表に<code>ADMIN_PASSWORD</code>・<code>ADMIN_KEY</code>・<code>FLASK_SECRET</code>・<code>LASTFM_API_KEY</code>が
+      抜けていた／知名度の点の境目は自動生成の表を参照する形に改め、数字の二重管理をやめた。<br>
+      <b>調べて分かったこと：</b><code>mic_panel.html</code>はサーバー側と地図の中の2か所に同じものがあり手で揃える必要がある（今はどちらもv2.41で一致）／
+      サーバーの表紙<code>index.html</code>はどこからもリンクされていない／
+      手元のスクリプト2つは書き出し先が消えた一時フォルダのままで今は動かない。<br>
+      Sunoのプロンプト機能だけはチョロさんの指示で対象外。</div>
+    </div>
+
     <div class="done-item">管理画面(/admin)を「承認待ち一覧」から「登録・修正の記録」に作り替えた（genre_adder.py v2.63→v2.64）
       <div class="dim">承認・却下は登録した本人がその場で行う方式（2026-07-13〜14）なのに、
       管理画面に承認・却下ボタンが残っていて仕様と食い違っていた。チョロさんの整理を受けて、

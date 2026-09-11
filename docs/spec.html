@@ -38,7 +38,7 @@
 <h1>音楽ジャンルルーツ辞典 — 仕様書</h1>
 <h2>この仕様書について</h2>
 <p class="note">この文書は <b>spec_dump.py が実物を読み直して自動で書き出したもの</b>です。手で書き足しても次の書き出しで消えます。決めた理由など人が書くことは <code>docs/decisions.md</code> に書いてください。この文書の末尾にそのまま入ります。</p>
-<p class="note">書き出した日時：<b>2026-09-11 15:54</b></p>
+<p class="note">書き出した日時：<b>2026-09-11 16:01</b></p>
 <h2>いまの版</h2>
 <table>
 <tr><th>項目</th><th>内容</th></tr>
@@ -219,8 +219,9 @@
 <p>止まっていた）。自動書き出しに一本化するため、2026-08-16 にこちらへ移しました。</p>
 <h3>全体の作り</h3>
 <p>フロント（地図）とバックエンド（サーバー）は、別々のリポジトリ・別々の置き場所で</p>
-<p>動いています。地図の中の <code>API_BASE</code> がサーバーの絶対URLを指し、</p>
-<p>CORSでGitHub Pagesからの呼び出しだけを許可しています。</p>
+<p>動いています。地図の中の<code>API_BASE</code>がサーバーの絶対URLを指し、CORSで決まった置き場からの</p>
+<p>呼び出しだけを許可しています（GitHub Pagesのほか独自ドメインと開発用の</p>
+<p>合わせて5つ。詳しくは「いたずら対策とセキュリティ」を参照）。</p>
 <p>Renderの無料プランは、しばらく誰も使わないと休止します。</p>
 <p>次のアクセスで起き上がるまで50秒ほどかかります（コールドスタート）。</p>
 <h3>曲名検索（この曲なんてジャンル？）</h3>
@@ -874,6 +875,10 @@
 <tr><td>ANTHROPIC_API_KEY</td><td>まだ残っている個別のClaude呼び出し（<code>revise_with_claude</code>＝登録前に本人がAIへ修正依頼する機能、<code>_judge_book_relevance</code>、<code>_pick_alternative_tracks</code>、デバッグ専用の<code>/admin/gentest</code>）。新規登録の生成・ファクトチェックそのものはv2.42〜Gensparkに置き換え済み</td></tr>
 <tr><td>GENSPARK_API_KEY</td><td>新規登録の実在確認・生成・事実確認、修正更新の振り分け・文章判定・動画判定など、AI処理の中心。gskのログイン情報からも読める</td></tr>
 <tr><td>OPENAI_API_KEY</td><td>config.pyには残っているが、呼び出し元（ChatGPTでの実在再確認・生成・ファクトチェック）はv2.43で全廃済みのため、今のところどの処理からも呼ばれていない</td></tr>
+<tr><td>ADMIN_PASSWORD</td><td>管理画面にログインするときの合言葉。これが未設定だと、同じPCからの開発中のアクセスだけが素通しになる</td></tr>
+<tr><td>ADMIN_KEY</td><td>別ドメインの地図の画面から管理用の入口を呼ぶときに直接付ける鍵（<code>X-Admin-Key</code>、または<code>?k=</code>）</td></tr>
+<tr><td>FLASK_SECRET</td><td>ログイン状態を保つための署名の鍵。未設定なら起動のたびに自動生成するが、その場合サーバーを入れ替えるたびにログインし直しになる</td></tr>
+<tr><td>LASTFM_API_KEY</td><td><b>今はどこからも使っていません。</b> config.pyに定義が残っているだけで、<code>.py</code>のどのファイルからも呼ばれていません（2026-09-11に全ファイルを調べて確認）</td></tr>
 <tr><td>PUBLIC_BASE_URL / RESEND_API_KEY / GMAIL_SENDER / GMAIL_APP_PASS / ADMIN_EMAIL</td><td>以前は管理者宛の承認依頼メールに使っていたが、2026-07-13〜14に自己承認方式へ統一したためgenre_adder.py側の呼び出し元を削除済み。今は<code>/admin/mailtest</code>という手動デバッグ用の疎通確認ツールでのみ使う</td></tr>
 </table></div>
 <h2>決めたこと（人が書く）</h2>
