@@ -182,8 +182,8 @@
 
 <div class="item">
   <div class="item-head">
-    <span class="status hold">チョロさんの判断待ち（3件）</span>
-    <span class="item-title">仕様書の見直しで出てきた、決めていない3つのこと</span>
+    <span class="status hold">チョロさんの判断待ち（1件）</span>
+    <span class="item-title">仕様書の見直しで出てきたこと（残り1件）</span>
   </div>
   <div class="item-body">
     2026-09-11の仕様書の全面見直しで見つかったもの。<b>どれも今すぐ困るものではないが、
@@ -195,9 +195,11 @@
       ②<b>手元のスクリプト2つを直すか、移動するか</b>…
       <code>check_missing_genres.py</code>と<code>rewrite_link_descs.py</code>。書き出し先が消えた
       一時フォルダのままで、使っていないAIを呼び、件数も古い。今のままでは動かない。<br>
-      ③<b><code>mic_panel.html</code>の二重管理をやめるか</b>…
-      サーバー側と地図の中に同じHTMLが2つあり、片方だけ直すともう片方が古いまま残る。
-      一本化するか、手で揃える今のままにするか。
+      ③<b>（解決済み）<code>mic_panel.html</code>の二重管理</b>…
+      調べ直したところ<b>二重管理はとっくに解消されていた</b>。2026-07-15（v1.55）に
+      <code>/roots</code>への注入をやめ、地図に埋め込んだ1つだけを使う形に一本化済み。
+      残っていたテンプレートはどこからも読み込まれない置物だったので、2026-09-11に
+      削除（<code>削除済みファイル</code>フォルダーへ移動）した。
     </div>
   </div>
 </div>
@@ -533,7 +535,8 @@
       「CORSでGitHub Pagesからの呼び出しだけを許可」（実際は5つの置き場）／
       設定値の表に<code>ADMIN_PASSWORD</code>・<code>ADMIN_KEY</code>・<code>FLASK_SECRET</code>・<code>LASTFM_API_KEY</code>が
       抜けていた／知名度の点の境目は自動生成の表を参照する形に改め、数字の二重管理をやめた。<br>
-      <b>調べて分かったこと：</b><code>mic_panel.html</code>はサーバー側と地図の中の2か所に同じものがあり手で揃える必要がある（今はどちらもv2.41で一致）／
+      <b>調べて分かったこと：</b>サーバーは休止しない（GitHub Actionsが10分おきに叩いている。<code>keep-alive.yml</code>）／
+      <code>mic_panel.html</code>の二重管理は2026-07-15にすでに解消済みで、残っていたテンプレートは使われていない置物だった（削除した）／
       サーバーの表紙<code>index.html</code>はどこからもリンクされていない／
       手元のスクリプト2つは書き出し先が消えた一時フォルダのままで今は動かない。<br>
       Sunoのプロンプト機能だけはチョロさんの指示で対象外。</div>
@@ -674,7 +677,7 @@
       すべて「AI」に統一（1箇所ずつ確認しながら置き換え、一括置換はして
       いない）。公開サイト側モーダルのgenerator_engine/factcheck_engineが
       生のエンジン名を返していた見落としと、genre_roots.html内にある
-      mic_panel.htmlの埋め込みコピー（手作業同期が必要）の直し忘れも
+      mic_panel.htmlの埋め込みコピー（2026-07-15に一本化済み。当時は手作業同期が必要だった）の直し忘れも
       あわせて修正</div></div>
     <div class="done-item">新規ジャンル追加にAmazon書籍の自動検索を実装（genre_adder.py v2.36）
       <div class="dim">既存573ジャンルの書籍は人手で1件ずつ実在確認して選んだものだが、
