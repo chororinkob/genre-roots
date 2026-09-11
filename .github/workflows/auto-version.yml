@@ -21,7 +21,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           # デフォルトのfetch-depth:1（浅いクローン）だとHEAD~1（1つ前のコミット）
           # を取得できず、bump_version.py側の「既にバージョンが上がっているか」の
@@ -29,7 +29,7 @@ jobs:
           fetch-depth: 2
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: '3.11'
 
