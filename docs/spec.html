@@ -38,7 +38,7 @@
 <h1>音楽ジャンルルーツ辞典 — 仕様書</h1>
 <h2>この仕様書について</h2>
 <p class="note">この文書は <b>spec_dump.py が実物を読み直して自動で書き出したもの</b>です。手で書き足しても次の書き出しで消えます。決めた理由など人が書くことは <code>docs/decisions.md</code> に書いてください。この文書の末尾にそのまま入ります。</p>
-<p class="note">書き出した日時：<b>2026-09-11 05:18</b></p>
+<p class="note">書き出した日時：<b>2026-09-11 12:32</b></p>
 <h2>いまの版</h2>
 <table>
 <tr><th>項目</th><th>内容</th></tr>
@@ -374,6 +374,75 @@
 <p>直接「✗却下」「✓承認して反映する」を押せる方式に変えました</p>
 <p>（<code>grApplyCorrectionDiffsToPanel</code>）。動画の指摘の場合は「〇〇という動画に</p>
 <p>変更しました」の表示になります。</p>
+<h4>どの項目の修正が、説明パネルのどこに、どう出るか</h4>
+<p>（この節は2026-09-11に書き出した。それまで仕様書には「修正案を説明パネルの</p>
+<p>本文に<code>&lt;del&gt;/&lt;ins&gt;</code>で直接埋め込む」と方式が1行あるだけで、</p>
+<p><b>どの項目がどう表示されれば正しいのかは、どこにも書かれていなかった</b>。そのため</p>
+<p>「全項目の差分表示が正しく出るかの検証」という作業項目が、何をもって</p>
+<p>正しいとするのかが決まらないまま止まっていた）</p>
+<p>指摘の内容によって、AIが書き換える項目は変わります。項目ごとに</p>
+<p>「確認画面（パネルに貼り付く帯）に何と出るか」「パネル本文のどこが</p>
+<p>どう変わるか」が決まっていて、その組み合わせは<code>analyze_correction_fixes</code></p>
+<p>（サーバー側）と<code>grApplyCorrectionDiffsToPanel</code>（地図側）の2か所で</p>
+<p>対になっています。片方だけを直すと、帯には出るのにパネルは変わらない</p>
+<p>（あるいはその逆）という食い違いになります。</p>
+<table>
+<tr><th>項目</th><th>データ名</th><th>パネルのどこに出るか</th><th>どう表示されるか</th><th>状態</th></tr>
+<tr><td>音楽性・特徴</td><td><code>desc</code></td><td>音楽性の本文（<code>sp-desc</code>）</td><td>本文を全文で出し直し、消える文字に<code>&lt;del&gt;</code>（赤）・増える文字に<code>&lt;ins&gt;</code>（緑）を付ける</td><td>完成</td></tr>
+<tr><td>成り立ち</td><td><code>roots_story</code></td><td>成り立ちの本文（<code>sp-roots-story</code>）</td><td>同上</td><td>完成</td></tr>
+<tr><td>代表曲</td><td><code>rep_tracks</code></td><td>代表曲リスト（<code>sp-tracks</code>）</td><td>普段の「▶ 曲名」の並びのまま、消える曲を赤・増える曲を緑にする。増えた曲の動画IDは<code>yt_tracks</code>へ一緒に書き足される</td><td>完成</td></tr>
+<tr><td>発祥時期</td><td><code>era</code></td><td>見出し帯の「発祥時期：」（<code>sp-era</code>）</td><td>旧い値と新しい値を<code>&lt;del&gt;</code>／<code>&lt;ins&gt;</code>で並べる</td><td>完成</td></tr>
+<tr><td>カテゴリー</td><td><code>cat</code></td><td>見出し帯の「カテゴリ：」（<code>sp-cat-label</code>）</td><td>凡例の日本語ラベルに直してから<code>&lt;del&gt;</code>／<code>&lt;ins&gt;</code>。左の丸の色も新しいカテゴリーの色に変える</td><td>完成</td></tr>
+<tr><td>書籍</td><td><code>books</code></td><td>関連書籍の棚（<code>sp-books-row</code>）</td><td>残る本はそのまま、消える本は赤枠、増える本は緑枠で並べる。代わりが見つからなかったときは「代わりの書籍は見つかりませんでした」と添える</td><td>完成</td></tr>
+<tr><td>動画（メイン）</td><td><code>yt_mix</code></td><td>プレイヤー（<code>sp-yt-player</code>）</td><td>文字の差分は出さない。候補動画をその場で自動再生し、上に「▶ 差し替え候補の動画を再生しています」の帯を出す</td><td>完成（意図してこの方式）</td></tr>
+<tr><td>動画（代表曲ぶん）</td><td><code>yt_tracks</code></td><td>—</td><td>単独では何も出さない。代表曲の修正に付随して書き換わるデータで、実際に何が起きたかは代表曲の欄ですでに見えているため</td><td>完成（意図してこの方式）</td></tr>
+<tr><td>リンク（影響関係）</td><td><code>LINKS</code></td><td>影響関係の一覧（<code>sp-influence-group</code>）</td><td>見出しまでスクロールするだけ。一覧のどの行が増えた・減ったかには印が付かない</td><td><b>未完成</b></td></tr>
+<tr><td>別名</td><td><code>aliases</code></td><td>見出し帯の別名チップ</td><td>何も起きない</td><td><b>未完成</b></td></tr>
+<tr><td>知名度</td><td><code>popularity</code></td><td>見出し帯の★</td><td>何も起きない</td><td><b>未完成</b></td></tr>
+<tr><td>ジャンル名</td><td><code>label</code></td><td>見出し帯の名前</td><td>何も起きない。確認画面の文言も項目名にならず「内容を修正しました」になる</td><td><b>未着手</b></td></tr>
+</table>
+<p>動画の2項目を「差分」ではなく「その場で再生する」方式にしているのは、</p>
+<p>動画IDの文字列（<code>dQw4w9WgXcQ</code>のような11文字）に赤と緑を付けて見せても、</p>
+<p>それが良い動画に変わったのかどうかは誰にも判断できないためです。</p>
+<p>実際に聴いてもらうほうが確認になります。</p>
+<p><b>未完成の3項目は、それぞれ足りないものが違います。</b></p>
+<ul>
+<li><b>リンク（影響関係）</b> … サーバー側は増えた・減ったリンクを<code>link_changes</code></li>
+</ul>
+<p>として正しく作れています。ところが地図側は<code>summary</code>（説明の一文）を</p>
+<p>表示しようとしているのに、サーバー側はその<code>summary</code>を作っていません。</p>
+<p>結果、確認画面に<b>文字の入っていない空の行</b>が出ます。<code>link_changes</code>から</p>
+<p>「〇〇との影響関係を1件追加しました」のような文を組み立てれば埋まります。</p>
+<p>一覧本体への赤緑の印付けは、そのあとの別作業になります。</p>
+<ul>
+<li><b>別名</b> … <code>_detect_text_fix_fields</code>は<code>aliases</code>を拾えていますが、</li>
+</ul>
+<p>ジャンプ先の表（<code>_TEXT_FIELD_SCROLL_TARGET</code>）にも、パネルへ差し込む先の表</p>
+<p>（<code>_TEXT_FIELD_PANEL_TARGET</code>）にも登録がありません。地図側でも別名チップに</p>
+<p><code>id</code>が付いていないので、差し込む先自体がありません。確認画面には</p>
+<p>「別名を修正しました（該当箇所を見る）」だけが出て、押しても何も起きません。</p>
+<ul>
+<li><b>知名度</b> … 別名とまったく同じ状態です。ただし知名度は本来、公開データを</li>
+</ul>
+<p>数えて機械的に決める値（<code>compute_fame_for_genre</code>）なので、指摘で</p>
+<p>書き換えてよいものかどうかから決める必要があります。</p>
+<p><b>ジャンル名（<code>label</code>）だけは扱いが別です。</b> そもそも<code>_detect_text_fix_fields</code></p>
+<p>が見る7項目に入っていません。ジャンル名を変えるとIDとの対応・リンクの</p>
+<p>つながり・検索の別名すべてに波及するため、修正更新で直してよい項目なのか</p>
+<p>どうかが決まっていません。</p>
+<h4>差分表示の検証で「正しい」とする基準</h4>
+<p>上の表を踏まえて、検証で確かめるのは次の6つです。</p>
+<p class="num">1. 実際に値が変わった項目の数だけ、確認画面に行が出る（多くも少なくもない）</p>
+<p class="num">2. その行の文言が、項目名として正しく出ている（<code>grFieldLabel</code>）</p>
+<p class="num">3. 行を押すと、パネルのその場所まで実際に飛ぶ</p>
+<p class="num">4. パネルのその場所に、消える側が赤・増える側が緑で表示されている</p>
+<p class="num">5. 引用に含まれていただけで値は変わっていない項目の行は、出ない</p>
+<p class="num">6. 承認すると、パネルに見えていたとおりの内容が地図に書き込まれる</p>
+<p><b>1〜2はAIもクレジットも使わずに確かめられます。</b> <code>analyze_correction_fixes</code></p>
+<p>に手で作った<code>old_string</code>／<code>new_string</code>を食わせて、返ってくる<code>fix_view</code>の</p>
+<p><code>kind</code>・<code>field</code>・<code>scroll_target</code>・<code>panel_target</code>を見るだけです。上の表は</p>
+<p>実際にこの方法（12項目ぶんのテストデータ）で作りました。3〜6はブラウザで</p>
+<p>実物を触る必要があり、Gensparkのクレジットを使うため、まとめて行います。</p>
 <h3>管理画面（<code>/admin</code>）— 登録・修正の記録</h3>
 <p>（v2.64、2026-09-11に作り替えた。それまでは「承認待ち一覧」で各項目に承認・却下</p>
 <p>ボタンが付いていたが、これは仕様と食い違っていた。新規登録も修正更新も本人が</p>
