@@ -5,6 +5,8 @@
 【何をするか】
 全ジャンルのメイン動画（yt_mix）と代表曲の動画（yt_tracks）が
 まだ生きているかをYouTubeに確かめ、消えていたものを手当てする。
+確かめる本数は約4,200本（同じ動画がメインと代表曲の両方に入っている
+ことが多いので、実際の登録本数5,300より少ない）。実測で7分ほど。
 
 【どう手当てするか（2026-09-12にチョロさんが決めた規則）】
   ■ 代表曲の動画
@@ -51,7 +53,16 @@ sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
 HTML_PATH   = sys.argv[1] if len(sys.argv) > 1 else "genre_roots.html"
 REPORT_PATH = sys.argv[2] if len(sys.argv) > 2 else "fallback_report.json"
-SLEEP_SEC   = float(sys.argv[3]) if len(sys.argv) > 3 else 1.0
+# 生死の確認そのものには待ち時間を入れない。
+#
+# 【なぜ0なのか】2026-09-12
+# 全部で約5,300本あるので、1本ごとに1秒待つと1時間半かかる。
+# 実際の実行時間は 6分45秒（2026-08-01）と 6分46秒（2026-09-01）で、
+# 待ち時間なしで5,300本を確かめきれている。以前の作りでも、待っていたのは
+# 「消えていた動画を見つけたあと」だけで、生きている動画の確認では
+# 待っていなかった。作り直したときに全部待つようにしてしまい、
+# 13倍遅くしていた（GitHubの実行画面を見て気づいた）。
+SLEEP_SEC   = float(sys.argv[3]) if len(sys.argv) > 3 else 0.0
 
 
 # ──────────────────────────────────────────────────────────────
@@ -136,7 +147,10 @@ def 手当てする(chunk, gid, 覚え):
     def 生死(vid):
         if vid not in 覚え:
             覚え[vid] = 生きているか(vid)
-            time.sleep(SLEEP_SEC)
+            # 消えていた動画のあとだけ少し待つ（そのあと yt-dlp を呼ぶため）。
+            # 生きている動画の確認では待たない。上の SLEEP_SEC の説明を参照。
+            if not 覚え[vid] and SLEEP_SEC:
+                time.sleep(SLEEP_SEC)
         return 覚え[vid]
 
     label_m = re.search(r'label:"([^"]+)"', chunk)
