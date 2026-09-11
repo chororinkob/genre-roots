@@ -38,7 +38,7 @@
 <h1>音楽ジャンルルーツ辞典 — 仕様書</h1>
 <h2>この仕様書について</h2>
 <p class="note">この文書は <b>spec_dump.py が実物を読み直して自動で書き出したもの</b>です。手で書き足しても次の書き出しで消えます。決めた理由など人が書くことは <code>docs/decisions.md</code> に書いてください。この文書の末尾にそのまま入ります。</p>
-<p class="note">書き出した日時：<b>2026-09-11 17:25</b></p>
+<p class="note">書き出した日時：<b>2026-09-11 18:07</b></p>
 <h2>いまの版</h2>
 <table>
 <tr><th>項目</th><th>内容</th></tr>
@@ -923,6 +923,56 @@
 <p>（ChatGPTの鍵、無料枠の無い<code>gemini-2.0-flash</code>）を呼び、件数の前提も古い</p>
 <p>（「既存1336件」と書いてあるがリンクは1,500本以上）状態でした。</p>
 <p><b>呼び出し元はどこにも無かったので、消しても影響はありません。</b></p>
+<h3>自動で動いている仕組み（GitHub Actions）</h3>
+<p>（この節は2026-09-11に書き出した。それまで仕様書は<code>.py</code>のファイルばかりを</p>
+<p>見て書かれており、<b>勝手に動いている4つの仕組みがどこにも書かれていなかった。</b></p>
+<p>コードを追っても見つからないので、ここに一覧を置く）</p>
+<p>置き場所は各リポジトリの<code>.github/workflows/</code>です。</p>
+<table>
+<tr><th>名前</th><th>いつ動くか</th><th>何をするか</th></tr>
+<tr><td><code>keep-alive.yml</code>（サーバー側）</td><td><b>10分おき</b></td><td>サーバーの入口を叩いて起こし続ける。止めると15分で眠るようになる</td></tr>
+<tr><td><code>auto-version.yml</code>（地図側）</td><td>地図を送るたび</td><td>地図の版を1つ上げ、更新日を書き換える</td></tr>
+<tr><td><code>changes.yml</code>（地図側）</td><td>地図を送るたび</td><td>一般公開向けの「更新の記録」（<code>docs/changes.html</code>）を作り直す</td></tr>
+<tr><td><code>youtube-check.yml</code>（地図側）</td><td><b>毎月1日</b></td><td>全ジャンルの動画が生きているか調べ、切れていたら差し替える</td></tr>
+</table>
+<p><b>版を上げる仕組みには、二重に上げない工夫が入っています。</b> ジャンルの追加・</p>
+<p>修正更新で送るときは<code>genre_adder.py</code>が自分で版を上げているので、コミットの</p>
+<p>メッセージに<code>[skip-version-bump]</code>という目印を入れて、この仕組みを動かさない</p>
+<p>ようにしています。目印が無いときだけ、直前のコミットと版を見比べて、</p>
+<p>まだ上がっていなければ上げます。</p>
+<p><b>毎月1日の動画チェックは、勝手に地図を書き換えます</b>（<code>check_and_update.py</code>）。</p>
+<p>全ジャンルの<code>yt_mix</code>・<code>yt_tracks</code>をYouTubeに問い合わせて生死を確かめ、</p>
+<p>切れていたものを<code>yt-dlp</code>で探し直して差し替え、その場で送ります。</p>
+<p><b>知らないうちに動画が変わっていることがあるのは、この仕組みのためです。</b></p>
+<h3>サーバーを動かすための設定</h3>
+<table>
+<tr><th>ファイル</th><th>中身</th></tr>
+<tr><td><code>Procfile</code></td><td>Renderがサーバーを起動するときの命令。<code>gunicorn</code>で<code>server.py</code>を動かす。同時に動く数は1、その中で4本並行、120秒で打ち切り</td></tr>
+<tr><td><code>requirements.txt</code></td><td>使っている部品と、その版</td></tr>
+</table>
+<p><b>部品の版は固定してあります（2026-08-25〜）。</b> 固定していなかったころ、</p>
+<p>Renderが作り直したときに新しい版が入り、</p>
+<p><b>本番だけ「AIへの問い合わせでエラーが起きました」で止まりました。</b></p>
+<p>手元では同じコードが動いていたので原因が分かりにくい事故でした。</p>
+<p>版を上げるときは、<b>上げてから必ずジャンル追加を1件通して確かめてください。</b></p>
+<h3>地図を置くための設定（GitHub Pages）</h3>
+<table>
+<tr><th>ファイル</th><th>役割</th></tr>
+<tr><td><code>CNAME</code></td><td>独自ドメイン<code>genre-roots.com</code>の指定。<b>消すとGitHubの元の住所に戻り、今の住所で開けなくなります</b></td></tr>
+<tr><td><code>.nojekyll</code></td><td>中身が空のファイル。GitHubが勝手にページを組み立て直すのを止める</td></tr>
+<tr><td><code>robots.txt</code></td><td>検索してよい範囲の案内。全部許可し、サイトマップの場所を伝える</td></tr>
+<tr><td><code>sitemap.xml</code></td><td>ジャンルごとの住所の一覧。押さないと辿り着けない住所なので、これが無いと見つけてもらえない</td></tr>
+<tr><td><code>googlefdc07a8060eea935.html</code></td><td>Google Search Consoleの所有者確認用。<b>中身は1行だけだが、消すと所有者確認が外れます</b></td></tr>
+<tr><td><code>ogp.jpg</code></td><td>共有したときに出る画像（1200×630）</td></tr>
+</table>
+<h3>手元で使う道具（Node.js）</h3>
+<table>
+<tr><th>ファイル</th><th>何をするか</th></tr>
+<tr><td><code>check_html_syntax.js</code></td><td>地図に書き込む直前の安全確認。<b>追加・修正を反映する前に必ず通す</b>。問題なければ<code>OK</code>を返す</td></tr>
+<tr><td><code>video_health_check.js</code></td><td>全ジャンルの動画をYouTubeに問い合わせて、切れ・空き・無関係そうなものを洗い出す。全件で数分〜十数分かかる</td></tr>
+</table>
+<p>地図側の<code>tools/</code>にも、用語集の点検や別名の反映など、その場かぎりの道具が</p>
+<p>入っています。<b>これらは仕組みの一部ではなく、必要なときに手で走らせるものです。</b></p>
 <h3>データの残し方</h3>
 <p>Renderの無料プランは再起動でディスクの中身が消えることがあります。</p>
 <p>そのため大事なデータはすべてGitHubにコミットして残しています。</p>
