@@ -1,0 +1,90 @@
+{
+  "実行日": "2026-09-12 03:47",
+  "件数": 11,
+  "内容": [
+    {
+      "種類": "代表曲の繰り上げ",
+      "ジャンル": "Musique Concrète",
+      "id": "musique_concrete",
+      "曲名": "Gesang der Jünglinge (Karlheinz Stockhausen)",
+      "消えた動画": "nffOJXcJCDg",
+      "新しい動画": "UmGIiBfWI0E"
+    },
+    {
+      "種類": "予備の削除",
+      "ジャンル": "Experimental Electronic",
+      "id": "experimental_elec",
+      "曲名": "Switched-On Bach (Wendy Carlos)",
+      "消えた動画": "V_4lZKCXjR8"
+    },
+    {
+      "種類": "代表曲の繰り上げ",
+      "ジャンル": "Festival EDM",
+      "id": "festival_edm",
+      "曲名": "Save The World (Swedish House Mafia)",
+      "消えた動画": "dhs3u6Fny8o",
+      "新しい動画": "x25JkDZQWOQ"
+    },
+    {
+      "種類": "メイン動画の繰り上げ",
+      "ジャンル": "Festival EDM",
+      "id": "festival_edm",
+      "曲名": "",
+      "消えた動画": "dhs3u6Fny8o",
+      "新しい動画": "x25JkDZQWOQ"
+    },
+    {
+      "種類": "予備の削除",
+      "ジャンル": "Psychedelic Rock",
+      "id": "psychedelic_rock",
+      "曲名": "Light My Fire (The Doors)",
+      "消えた動画": "mbj1RFaoyLk"
+    },
+    {
+      "種類": "予備の削除",
+      "ジャンル": "Afropop",
+      "id": "afropop",
+      "曲名": "Joromi (Simi)",
+      "消えた動画": "lbCC_eb6Q0E"
+    },
+    {
+      "種類": "代表曲の繰り上げ",
+      "ジャンル": "Enka",
+      "id": "enka",
+      "曲名": "まつり (北島三郎)",
+      "消えた動画": "N87ikbj_1vo",
+      "新しい動画": "k0XbnO8muuA"
+    },
+    {
+      "種類": "予備の削除",
+      "ジャンル": "Britpop",
+      "id": "britpop",
+      "曲名": "Wonderwall (Oasis)",
+      "消えた動画": "NbSzTi0d6pQ"
+    },
+    {
+      "種類": "メイン動画の繰り上げ",
+      "ジャンル": "Britpop",
+      "id": "britpop",
+      "曲名": "",
+      "消えた動画": "NbSzTi0d6pQ",
+      "新しい動画": "bx1Bh8ZvH84"
+    },
+    {
+      "種類": "代表曲の繰り上げ",
+      "ジャンル": "Screamo",
+      "id": "screamo",
+      "曲名": "Document #8 (pg.99)",
+      "消えた動画": "07gfvZLaEqc",
+      "新しい動画": "5eZGRgHqbLw"
+    },
+    {
+      "種類": "予備の削除",
+      "ジャンル": "Drone Metal",
+      "id": "drone_metal",
+      "曲名": "Rift.Canyon.Dreams (Burning Witch)",
+      "消えた動画": "7TlgiiPkkvo"
+    }
+  ],
+  "コミットの題名": "feat: 代表曲の繰り上げ4件・予備の削除5件・メイン動画の繰り上げ2件 を追加 (2026年9月12日)"
+}
