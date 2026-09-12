@@ -24122,7 +24122,7 @@ function initGlobe() {
 
 <div id="genre-request-overlay">
   <div id="genre-request-card">
-    <h2>新ジャンル登録 <span class="gr-ver">v2.0</span></h2>
+    <h2>新ジャンル登録 <span class="gr-ver">v2.1</span></h2>
     <p class="gr-sub">載っていないジャンルをAIが自動で登録します。ジャンル名を入れて送信するだけ。<br>
       作業時間の目安は5分ほどです。最後に内容の確認画面が出るので、間違いがなければ承認して完了です。</p>
 
@@ -24172,6 +24172,16 @@ function closeGenreRequest() {
   // 止め忘れていた。以前はここで止めておらず、パネルを閉じた後もサーバーへの
   // 問い合わせが動き続けていた（2026-09-10、チョロさんの指摘で発覚）。
   if (grPolling) { clearInterval(grPolling); grPolling = null; }
+  // 【地図の丸を戻す】2026-09-13
+  // 説明パネルを開いていると、関係のないジャンルの丸と線を一時的に
+  // 外している（detachMap。重くなるのを防ぐため）。登録の画面はその
+  // 状態の上から開かれるので、ここで戻さないと閉じたあとの地図が
+  // ほとんど空っぽに見える。
+  // 実際に「マップに戻る」を押したら何も点灯していない地図が出て、
+  // 空白をクリックして初めて元に戻る、という状態になっていた
+  // （2026-09-13、チョロさんがグレゴリオ聖歌の却下を試して発覚）。
+  if (typeof clearTimeout === 'function' && typeof _detachTimer !== 'undefined') clearTimeout(_detachTimer);
+  if (typeof attachMap === 'function') attachMap();
   const ov = document.getElementById('genre-request-overlay');
   ov.classList.remove('open');
   ov.style.top = ''; ov.style.height = '';
@@ -24603,7 +24613,7 @@ function grRenderResult(inputName, data, submitBtn) {
       <div class="gr-ai-checks">
         ${grAiBlock((data.generator_engine || 'AI') + ' – 実在確認・情報生成・事実確認', true, 'Web検索で事実を確認しながら、9項目のジャンル情報を生成しました。')}
       </div>
-      <div class="gr-next">生成された内容をこの場で確認できます。「${grNextLabel()}」で確認を後回しにしても、内容は承認待ち一覧に残り、管理者が確認後、内容が妥当であれば承認されます。</div>
+      <div class="gr-next">生成された内容をこの場で確認できます。「${grNextLabel()}」で確認を後回しにした場合、内容は承認待ちのまま残ります。あとから承認することはできないので、登録したい場合はこの場で確認してください。</div>
       <div class="gr-action-row">
         ${data.token ? `<button class="gr-btn-map" onclick="grOpenPreview('${grEsc(data.token)}')">生成内容を確認する</button>` : ''}
         <button class="gr-btn-next" onclick="grCloseAndNext()">${grNextLabel()}</button>
