@@ -24122,7 +24122,7 @@ function initGlobe() {
 
 <div id="genre-request-overlay">
   <div id="genre-request-card">
-    <h2>新ジャンル登録 <span class="gr-ver">v2.1</span></h2>
+    <h2>新ジャンル登録 <span class="gr-ver">v2.2</span></h2>
     <p class="gr-sub">載っていないジャンルをAIが自動で登録します。ジャンル名を入れて送信するだけ。<br>
       作業時間の目安は5分ほどです。最後に内容の確認画面が出るので、間違いがなければ承認して完了です。</p>
 
@@ -24375,6 +24375,21 @@ window.addEventListener('message', (e) => {
   if (e && e.data && e.data.type === 'gr-close-overlay') {
     const overlay = document.getElementById('gr-preview-overlay');
     if (overlay) overlay.remove();
+  } else if (e && e.data && e.data.type === 'gr-genre-rejected') {
+    // 【却下したら、登録の画面まで閉じて次の候補へ戻す】2026-09-13
+    // 以前はこの確認画面だけを閉じていたため、下の登録の画面
+    // （「✓ 登録を受け付けました」「生成内容を確認する」）がそのまま残り、
+    // 却下したのに「生成内容を確認する」が押せる状態になっていた。
+    // 押せば確認画面がまた開き、承認ボタンまで押せるように見える
+    // （サーバー側が「処理済みです」で弾くので実害は無いが、分かりにくい）。
+    //
+    // 戻す先は地図の一番最初ではなく、その1つ手前——画面の左に
+    // 「未登録ジャンル候補 N/M件 『〇〇』をどうしますか？」が出て、
+    // 地図が見えている状態。複数まとめて登録している途中でも、
+    // 次の候補をそのまま選べる（2026-09-13、チョロさんの指示）。
+    const overlay = document.getElementById('gr-preview-overlay');
+    if (overlay) overlay.remove();
+    grCloseAndNext();
   } else if (e && e.data && e.data.type === 'gr-correction-approved') {
     // 承認自体はここで届いた時点で完了している。裏側のGitHub連携（この後の
     // データ取得・パネル再オープンより後にも別途進む）を待つ理由はないので、
