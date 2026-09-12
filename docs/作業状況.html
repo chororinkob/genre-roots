@@ -75,6 +75,24 @@
   details.donebox summary::before{content:"▸ ";color:var(--dim);}
   details.donebox[open] summary::before{content:"▾ ";}
   .done-list{padding:0 16px 14px;}
+
+    <div class="done-day">2026-09-13</div>
+    <div class="done-item">登録の画面を閉じたあと、地図の丸が戻らない不具合を直した（登録フォーム v2.1）
+      <div class="dim">チョロさんがグレゴリオ聖歌で却下を試したときに発覚。「← マップに戻る」を押すと
+      <b>何も点灯していない地図</b>が出て、空白をクリックして初めて元に戻る、という状態だった。<br>
+      原因は、説明パネルを開いている間は関係のない丸と線を一時的に外している仕組み（<code>detachMap</code>。
+      重くなるのを防ぐための意図した作り）に対し、<b>登録の画面を閉じるときに戻していなかった</b>こと。
+      <code>closeGenreRequest</code> で <code>attachMap</code> を呼ぶようにした。<br>
+      <b>あわせて同じ画面の古い案内文も直した。</b>「内容は承認待ち一覧に残り、<b>管理者が確認後、
+      内容が妥当であれば承認されます</b>」と書いてあったが、管理者が承認する方式は2026-07-14に廃止済み。
+      あとから承認する道は無いので、そう正しく伝える文面にした。<br>
+      <b>却下ボタンの戻り先そのものは、意図したとおりだった。</b>却下すると重ねて開いていた確認画面が
+      自動で閉じ、その下の登録の画面が見える。以前の「固まって戻れない」状態は解消されている。<br>
+      <b>残っている確認：</b>却下したあとも画面は「✓ 登録を受け付けました」のままで「生成内容を確認する」が
+      押せる。却下済みのものを開くとどうなるかは未確認。<br>
+      テスト：3つの関数を本物のコードから取り出し、偽の画面で「パネルを開くと丸が減り、
+      登録の画面を閉じると全部戻る」ことを確認（3件とも合格）。</div>
+    </div>
   .done-day{font-size:11.5px;color:var(--dim);font-weight:700;margin:14px 0 6px;
             text-transform:uppercase;letter-spacing:.04em;}
   .done-day:first-child{margin-top:0;}
