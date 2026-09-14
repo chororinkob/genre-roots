@@ -1648,18 +1648,18 @@ svg { width: 100vw; height: 100vh; }
     </div>
     <div class="sp-section" id="sp-tracks-sec" style="display:none;">
       <h4>代表曲・アーティスト</h4>
-      <div id="sp-tracks"></div>
+      <div id="sp-tracks" data-field="rep_tracks"></div>
       <a href="#" id="sp-spotify-link" target="_blank" rel="noopener" class="sp-spotify-link"></a>
     </div>
     <div class="sp-explain-divider" id="sp-explain-divider" style="display:none;"></div>
     <div id="sp-suno-wrap"></div>
     <div class="sp-section" id="sp-desc-sec">
       <h4>音楽性・特徴</h4>
-      <p id="sp-desc"></p>
+      <p id="sp-desc" data-field="desc"></p>
     </div>
     <div class="sp-section" id="sp-roots-story-sec">
       <h4>成り立ち</h4>
-      <p id="sp-roots-story"></p>
+      <p id="sp-roots-story" data-field="roots_story"></p>
       <div id="sp-books-wrap" style="display:none;">
         <div class="sp-books-title">関連する書籍</div>
         <div id="sp-books-row" class="sp-books-row"></div>
@@ -21245,16 +21245,16 @@ node.on("click", (e, d) => {
       const catLabelEl = document.querySelector('.legend-item[data-cat="' + d.cat + '"] .legend-label');
       const catLabel = catLabelEl ? catLabelEl.textContent : d.cat;
       const catColor = CAT_COLOR[d.cat] || '#888';
-      catHtml = `<span class="sp-cat"><span class="sp-cat-dot" style="background:${catColor}"></span>カテゴリ：<span id="sp-cat-label">${grEsc(catLabel)}</span></span>`;
+      catHtml = `<span class="sp-cat"><span class="sp-cat-dot" style="background:${catColor}"></span>カテゴリ：<span id="sp-cat-label" data-field="cat">${grEsc(catLabel)}</span></span>`;
     }
     eraCatHtml = `<span class="sp-era-cat-row" id="sp-era-cat-row">`
-      + (d.era ? `<span class="sp-era">発祥時期：<span id="sp-era">${grEsc(d.era)}</span></span>` : "")
+      + (d.era ? `<span class="sp-era">発祥時期：<span id="sp-era" data-field="era">${grEsc(d.era)}</span></span>` : "")
       + catHtml
       + `</span>`;
   }
   spTag.innerHTML = `<span class="sp-name">${grEsc(name)}</span>`
     + `<span class="sp-rule-row">` + GR_BRUSH + (fm || '') + `</span>` + (alias.length
-    ? `<span class="sp-alias"><span class="sp-alias-cap">別名</span>` +
+    ? `<span class="sp-alias" data-field="aliases"><span class="sp-alias-cap">別名</span>` +
       alias.map(a => `<span class="sp-alias-chip">${grEsc(a)}</span>`).join("") +
       `</span>`
     : "")
@@ -21660,6 +21660,29 @@ function grFieldLabel(field) {
 // 書く画面」が説明パネルの上に覆いかぶさっているので、まずそれを閉じて
 // パネル自体を見えるようにしてからスクロールする（閉じてもspCorrResultの
 // 中身＝この確認UI自体はsp-correction-secの中にそのまま残る）。
+// 項目名から、パネル内の飛び先を探す。
+// 見出しごと見せたいので、その要素を含む区画（.sp-section）があればそちらへ。
+// 無ければ要素そのものへ飛ぶ。ここも対応表は持たない（2026-09-15）。
+// 項目名で飛ぶ。grScrollToPanelSection（idで飛ぶ従来版）は
+// 書籍・影響など、まだ項目名を持たないものが使っている。
+function grScrollToField(field) {
+  const el = grFindPanelTarget(field);
+  if (!el) return;
+  grScrollToPanelSection(el.id || '');
+  if (!el.id) {
+    修正更新の画面を閉じる();
+    grPositionCorrectionActionBar();
+    setTimeout(() => el.scrollIntoView({behavior: 'smooth', block: 'center'}), 60);
+  }
+}
+
+function grFindPanelTarget(field) {
+  if (!field) return null;
+  const el = document.querySelector('#side-panel [data-field="' + field + '"]');
+  if (!el) return null;
+  return el.closest('.sp-section') || el;
+}
+
 function grScrollToPanelSection(elId) {
   修正更新の画面を閉じる();
   grPositionCorrectionActionBar();
@@ -21692,8 +21715,15 @@ function grPreviewCorrectionVideo(field, newId, elId) {
 // 下の一覧は「どこが変わったか」のジャンプ用リンクだけに絞る。
 function grApplyCorrectionDiffsToPanel(fixViews) {
   (fixViews || []).forEach(fv => {
-    if (fv.kind === 'text' && fv.panel_target) {
-      const el = document.getElementById(fv.panel_target);
+    if (fv.kind === 'text' && fv.field) {
+      // 【項目ごとの表をやめた】2026-09-15
+      // 以前はサーバー側が「この項目はこのidの要素へ」という対応表を
+      // 持っており、項目が増えるたびに手で登録が要った。登録漏れが
+      // そのまま不具合になっていた（別名が動かなかったのはこれ）。
+      // いまはパネル側の要素に data-field という目印を付けてあるので、
+      // サーバーは項目名だけを伝え、置き場所はここで探す。
+      // 新しい項目を足すときは、パネルに目印を1つ付けるだけで済む。
+      const el = document.querySelector('#side-panel [data-field="' + fv.field + '"]');
       if (!el) return;
       // <del>(削除)・<ins>(追加)を赤・緑に色付けするクラス。以前はここで
       // 付け忘れていたため、色が付かずただの取り消し線・下線にしか
@@ -21755,7 +21785,8 @@ function grApplyBooksDiffToPanel(fv) {
 function grBuildCorrectionReviewHtml(data) {
   const items = (data.fix_views || []).map(fv => {
     if (fv.kind === 'text' && fv.diff_html) {
-      return `<div class="gr-corr-item"><a class="gr-corr-jump" href="#" onclick="grScrollToPanelSection('${fv.scroll_target || ''}');return false;">${grFieldLabel(fv.field)}を修正しました（該当箇所を見る）</a></div>`;
+      // 飛び先は項目名から探す（対応表は持たない。2026-09-15）
+      return `<div class="gr-corr-item"><a class="gr-corr-jump" href="#" onclick="grScrollToField('${fv.field || ''}');return false;">${grFieldLabel(fv.field)}を修正しました（該当箇所を見る）</a></div>`;
     }
     if (fv.kind === 'video') {
       return `<div class="gr-corr-item"><a class="gr-corr-jump" href="#" onclick="grPreviewCorrectionVideo('${fv.field || ''}','${fv.new_id || ''}','${fv.scroll_target || ''}');return false;">動画を差し替えました（該当箇所を見る。候補はすでに再生中）</a></div>`;
