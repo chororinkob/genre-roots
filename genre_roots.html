@@ -338,6 +338,10 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 .gr-book-added img { border-color: #7ee0a0; box-shadow: 0 0 0 2px rgba(126,224,160,0.35); }
 .gr-book-added .cap { color: #7ee0a0; font-weight: 700; }
 .gr-book-note { font-size: 11px; color: #f0c375; margin-top: 4px; }
+/* 差し替えの本は対で並べる（修正更新のときだけ出る） */
+.gr-book-pair { display: inline-flex; align-items: center; gap: 2px;
+  padding: 2px 4px; border-radius: 6px; background: rgba(255,255,255,0.04); }
+.gr-book-arrow { color: #9aa; font-size: 13px; padding: 0 2px; }
 .gr-video-candidate-badge { font-size: 11px; color: #f0c375; background: rgba(245,158,11,0.1);
                             border: 1px solid rgba(245,158,11,0.3); border-radius: 6px;
                             padding: 5px 9px; margin-bottom: 6px; }
@@ -644,6 +648,13 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 .gr-corr-jump:hover { text-decoration: underline; }
 .gr-corr-diff { margin-top: 5px; font-size: 12px; color: #ccc; line-height: 1.7; }
 .gr-corr-diff del { color: #f28b8b; text-decoration: line-through; text-decoration-color: rgba(242,139,139,0.7); }
+/* カテゴリーの色の丸（修正更新のときだけ出る）と、その説明の一言 */
+.gr-cat-dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%;
+  margin-right: 4px; vertical-align: middle; border: 1px solid rgba(255,255,255,0.35); }
+.gr-cat-note { font-size: 11px; color: #9aa; margin-top: 4px; line-height: 1.6; }
+/* 修正更新で説明を直した用語（ふきだしを開いたままにする） */
+.gloss-term.gr-gloss-corrected { border-bottom-color: #7ee0a0; }
+.gloss-term.gr-gloss-corrected .gloss-tip { border-color: #7ee0a0; max-width: 320px; }
 .gr-corr-diff ins { color: #7ee0a0; text-decoration: none; font-weight: 700; }
 /* 動画や本文を見るために説明パネルの上の方までスクロールしても、承認・却下の
    ボタンだけは画面から消えないようにする（分割画面にしなくて済む）。
@@ -21665,6 +21676,19 @@ function grFieldLabel(field) {
 // 無ければ要素そのものへ飛ぶ。ここも対応表は持たない（2026-09-15）。
 // 項目名で飛ぶ。grScrollToPanelSection（idで飛ぶ従来版）は
 // 書籍・影響など、まだ項目名を持たないものが使っている。
+// 用語のところまで飛ぶ。ふきだしはすでに開いた状態になっている。
+function grScrollToGlossary(term) {
+  const el = document.querySelector('#side-panel .gloss-term.gr-gloss-corrected');
+  if (!el) return;
+  修正更新の画面を閉じる();
+  grPositionCorrectionActionBar();
+  setTimeout(() => {
+    el.scrollIntoView({behavior: 'smooth', block: 'center'});
+    // 動かしたあとは、ふきだしの位置を測り直す（画面に対して固定のため）
+    setTimeout(() => { if (typeof _positionGlossTip === 'function') _positionGlossTip(el); }, 400);
+  }, 60);
+}
+
 function grScrollToField(field) {
   const el = grFindPanelTarget(field);
   if (!el) return;
@@ -21730,20 +21754,39 @@ function grApplyCorrectionDiffsToPanel(fixViews) {
       // 見えていなかった（2026-09-09、チョロさんの指摘で発覚）。
       el.classList.add('gr-corr-diff');
       if (fv.field === 'cat') {
-        // catはコード名(例:middle_east)ではなく凡例の日本語ラベルで
-        // 見せているため、パネルと同じ変換をしてから差分を組み立てる。
+        // 【カテゴリーの実体は色】2026-09-15
+        // カテゴリーが変わると、地図の丸の色が変わり、まとまりが移る。
+        // 文字だけでは移る先がどこか分からないので、
+        // 前と後の色の丸を並べて見せる（凡例と同じ色なので一目で分かる）。
+        // 地図そのものは動かさない。丸が飛び回る見せ方はジャンルが多すぎて
+        // 成り立たず、作り込みも重くなるため（チョロさんの判断）。
         const labelOf = v => {
           const li = document.querySelector('.legend-item[data-cat="' + v + '"] .legend-label');
           return li ? li.textContent : v;
         };
-        el.innerHTML = `<del>${grEsc(labelOf(fv.old_value))}</del><ins>${grEsc(labelOf(fv.new_value))}</ins>`;
+        const colorOf = v => (typeof CAT_COLOR !== 'undefined' && CAT_COLOR[v]) || '#888';
+        const 丸 = v => `<span class="gr-cat-dot" style="background:${colorOf(v)}"></span>`;
+        el.innerHTML =
+          `<del>${丸(fv.old_value)}${grEsc(labelOf(fv.old_value))}</del>`
+          + `<ins>${丸(fv.new_value)}${grEsc(labelOf(fv.new_value))}</ins>`;
         const dot = document.querySelector('#sp-era-cat-row .sp-cat-dot');
         if (dot && typeof CAT_COLOR !== 'undefined' && CAT_COLOR[fv.new_value]) {
           dot.style.background = CAT_COLOR[fv.new_value];
         }
+        // カテゴリーを変えると何が起きるのかは、書かれていないと伝わらない。
+        // 一言添える（2026-09-15、チョロさんの指示）。
+        const 行 = document.getElementById('sp-era-cat-row');
+        if (行 && !document.getElementById('gr-cat-note')) {
+          行.insertAdjacentHTML('afterend',
+            '<div id="gr-cat-note" class="gr-cat-note">承認すると、地図の丸が'
+            + '<span class="gr-cat-dot" style="background:' + colorOf(fv.new_value) + '"></span>'
+            + 'この色に変わり、' + grEsc(labelOf(fv.new_value)) + 'のまとまりへ移ります。</div>');
+        }
       } else {
         el.innerHTML = fv.diff_html;
       }
+    } else if (fv.kind === 'glossary') {
+      grApplyGlossaryDiffToPanel(fv);
     } else if (fv.kind === 'books') {
       grApplyBooksDiffToPanel(fv);
     } else if (fv.kind === 'video' && fv.field === 'yt_mix' && fv.new_id) {
@@ -21761,6 +21804,35 @@ function grApplyCorrectionDiffsToPanel(fixViews) {
   });
 }
 
+// 【用語の説明を直したとき】2026-09-15
+// 用語の説明は、ふだんカーソルを乗せないと見えない。直しても画面のどこにも
+// 出てこないので、そのままでは確認できない。
+// そこで、直す用語のふきだしだけを開いたままにして、中身に赤と緑を入れる。
+// 別の欄を作ったりはしない（チョロさんの指示）。
+// 開きっぱなしにする仕組み（pinned）は、押して読めるようにするために
+// もともと用意されているので、それをそのまま使う。
+function grApplyGlossaryDiffToPanel(fv) {
+  if (!fv.term) return;
+  // 本文の中から、その用語が使われている箇所を探す
+  const 用語たち = document.querySelectorAll('#side-panel .gloss-term');
+  let 見つけた = null;
+  用語たち.forEach(el => {
+    if (見つけた) return;
+    // 用語のふきだしを除いた「見えている文字」で照合する
+    const tip = el.querySelector('.gloss-tip');
+    const 文字 = tip ? el.textContent.replace(tip.textContent, '') : el.textContent;
+    if (文字.trim() === fv.term) 見つけた = el;
+  });
+  if (!見つけた) return;
+  const tip = 見つけた.querySelector('.gloss-tip');
+  if (!tip) return;
+  tip.classList.add('gr-corr-diff');
+  tip.innerHTML = fv.diff_html;
+  見つけた.classList.add('pinned', 'gr-gloss-corrected');
+  // 位置を測って置く（開いてからでないと大きさが測れない）
+  if (typeof _positionGlossTip === 'function') _positionGlossTip(見つけた);
+}
+
 function grBookCardHtml(b, cls) {
   const asin = grEsc(b.asin || ''), title = grEsc(b.title || ''), img = grEsc(b.img || '');
   return `<span class="sp-book-card ${cls}"><img src="${img}" loading="lazy" alt="${title}"><span class="cap">${title}</span></span>`;
@@ -21771,14 +21843,38 @@ function grApplyBooksDiffToPanel(fv) {
   const row  = document.getElementById('sp-books-row');
   if (!wrap || !row) return;
   wrap.style.display = '';
-  const kept    = (fv.kept_books || []).map(b => grBookCardHtml(b, '')).join('');
-  const removed = (fv.removed_books || []).map(b => grBookCardHtml(b, 'gr-book-removed')).join('');
-  const added   = (fv.added_books || []).map(b => grBookCardHtml(b, 'gr-book-added')).join('');
-  row.innerHTML = kept + removed + added;
-  const noteId = 'gr-book-note-' + Math.random().toString(36).slice(2);
+
+  // 【差し替えは対で並べる】2026-09-15
+  // 以前は「残る本 → 消える本 → 増える本」の順に並べていたため、
+  // 3冊あって1冊差し替えだと赤と緑が離れた場所に出て、
+  // どれがどれの代わりなのか分からなかった（チョロさんの指摘）。
+  // 消える本と増える本が両方あるときは、隣同士に置いて矢印でつなぐ。
+  const 消える = (fv.removed_books || []).slice();
+  const 増える = (fv.added_books || []).slice();
+  const 対の数 = Math.min(消える.length, 増える.length);
+
+  let html = (fv.kept_books || []).map(b => grBookCardHtml(b, '')).join('');
+  for (let i = 0; i < 対の数; i++) {
+    html += '<span class="gr-book-pair">'
+      + grBookCardHtml(消える[i], 'gr-book-removed')
+      + '<span class="gr-book-arrow">→</span>'
+      + grBookCardHtml(増える[i], 'gr-book-added')
+      + '</span>';
+  }
+  // 数が合わないぶんは、今までどおり単独で出す
+  html += 消える.slice(対の数).map(b => grBookCardHtml(b, 'gr-book-removed')).join('');
+  html += 増える.slice(対の数).map(b => grBookCardHtml(b, 'gr-book-added')).join('');
+  row.innerHTML = html;
+
+  // 理由を一言添える。なぜ消すのか・なぜ増やすのかは、書かれていないと
+  // 伝わらない（2026-09-15、チョロさんの指示）。サーバーが理由を
+  // 用意していればそれを、無ければ従来どおりの案内を出す。
   document.querySelectorAll('.gr-book-note').forEach(n => n.remove());
-  if ((fv.removed_books || []).length && !(fv.added_books || []).length) {
-    row.insertAdjacentHTML('afterend', `<div class="gr-book-note" id="${noteId}">代わりの書籍は見つかりませんでした</div>`);
+  const 理由 = fv.reason || ((消える.length && !増える.length)
+    ? '代わりの書籍は見つかりませんでした' : '');
+  if (理由) {
+    row.insertAdjacentHTML('afterend',
+      '<div class="gr-book-note">' + grEsc(理由) + '</div>');
   }
 }
 
@@ -21790,6 +21886,9 @@ function grBuildCorrectionReviewHtml(data) {
     }
     if (fv.kind === 'video') {
       return `<div class="gr-corr-item"><a class="gr-corr-jump" href="#" onclick="grPreviewCorrectionVideo('${fv.field || ''}','${fv.new_id || ''}','${fv.scroll_target || ''}');return false;">動画を差し替えました（該当箇所を見る。候補はすでに再生中）</a></div>`;
+    }
+    if (fv.kind === 'glossary') {
+      return `<div class="gr-corr-item"><a class="gr-corr-jump" href="#" onclick="grScrollToGlossary('${grEsc(fv.term || '')}');return false;">用語「${grEsc(fv.term || '')}」の説明を直しました（該当箇所を見る）</a></div>`;
     }
     if (fv.kind === 'books' || fv.kind === 'links') {
       return `<div class="gr-corr-item"><a class="gr-corr-jump" href="#" onclick="grScrollToPanelSection('${fv.scroll_target || ''}');return false;">${grEsc(fv.summary || '')}</a></div>`;
