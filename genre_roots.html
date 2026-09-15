@@ -655,9 +655,13 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 /* カテゴリーの前と後の間の矢印（丸がどちらのものか分かるよう余白を取る） */
 .gr-cat-arrow { display: inline-block; margin: 0 8px; color: #9aa; }
 /* 修正更新で別名が消える／増えるときのチップ */
-.sp-alias-chip.gr-alias-removed { color: #f28b8b; text-decoration: line-through;
-  text-decoration-color: rgba(242,139,139,0.7); border-color: rgba(242,139,139,0.5); }
-.sp-alias-chip.gr-alias-added { color: #7ee0a0; font-weight: 700; border-color: #7ee0a0; }
+/* 元のチップが #sp-tag .sp-alias-chip と強い書き方をしているので、同じ強さに
+   そろえないと色が負けて緑に見えない（2026-09-15、実ブラウザで確認して発覚） */
+#sp-tag .sp-alias-chip.gr-alias-removed { color: #f28b8b; text-decoration: line-through;
+  text-decoration-color: rgba(242,139,139,0.7); background: rgba(242,139,139,0.10);
+  border-color: rgba(242,139,139,0.55); }
+#sp-tag .sp-alias-chip.gr-alias-added { color: #7ee0a0; font-weight: 700;
+  background: rgba(126,224,160,0.12); border-color: rgba(126,224,160,0.7); }
 /* 修正更新で説明を直した用語（ふきだしを開いたままにする） */
 .gloss-term.gr-gloss-corrected { border-bottom-color: #7ee0a0; }
 .gloss-term.gr-gloss-corrected .gloss-tip { border-color: #7ee0a0; max-width: 320px; }
