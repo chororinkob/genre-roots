@@ -21974,6 +21974,20 @@ function grClearReviewMarks() {
     .forEach(li => li.classList.remove('gr-legend-removed', 'gr-legend-added'));
 }
 
+// 影響関係の、変わった相手のカードへ飛んで、そのカードだけを光らせる。
+function grScrollToInfluenceCard(otherId) {
+  修正更新の画面を閉じる();
+  grPositionCorrectionActionBar();
+  const カード = grFindInfluenceCard(otherId);
+  if (!カード) { grScrollToPanelSection('sp-influence-group'); return; }
+  setTimeout(() => {
+    カード.scrollIntoView({behavior: 'smooth', block: 'center'});
+    document.querySelectorAll('.gr-jump-highlight').forEach(x => x.classList.remove('gr-jump-highlight'));
+    void カード.offsetWidth;
+    カード.classList.add('gr-jump-highlight');
+  }, 60);
+}
+
 function grFindInfluenceCard(otherId) {
   const 名 = document.querySelector(
     '#sp-in .sp-card-name[data-id="' + otherId + '"], '
@@ -22104,7 +22118,17 @@ function grBuildCorrectionReviewHtml(data) {
     if (fv.kind === 'glossary') {
       return `<div class="gr-corr-item"><a class="gr-corr-jump" href="#" onclick="grScrollToGlossary('${grEsc(fv.term || '')}');return false;">用語「${grEsc(fv.term || '')}」の説明を直しました（該当箇所を見る）</a></div>`;
     }
-    if (fv.kind === 'books' || fv.kind === 'links') {
+    if (fv.kind === 'links') {
+      // 【変わったカードそのものへ飛ぶ】2026-09-15
+      // 以前は影響関係の欄全体（sp-influence-group）を画面の中央へ寄せていた。
+      // 影響関係が多いジャンルは欄が縦に長いので、真ん中あたりにある別の
+      // カードが中央に来てしまい、「Jazz から受けた影響」を押したのに
+      // スムース・ジャズのところに飛んでいた（チョロさんが表示テストで発見）。
+      // 変わった相手のカードを探して、そこへ飛ぶ。
+      const 相手 = ((fv.link_changes || [])[0] || {}).other_id || '';
+      return `<div class="gr-corr-item"><a class="gr-corr-jump" href="#" onclick="grScrollToInfluenceCard('${grEsc(相手)}');return false;">${grEsc(fv.summary || '')}（該当箇所を見る）</a></div>`;
+    }
+    if (fv.kind === 'books') {
       return `<div class="gr-corr-item"><a class="gr-corr-jump" href="#" onclick="grScrollToPanelSection('${fv.scroll_target || ''}');return false;">${grEsc(fv.summary || '')}</a></div>`;
     }
     return '';
