@@ -711,6 +711,8 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
                     border: 1px solid #444; border-radius: 6px; color: #eee; font-size: 12px;
                     resize: vertical; box-sizing: border-box; font-family: inherit; }
 .gr-reject-row { display: flex; gap: 8px; }
+.gr-reject-done { font-size: 13px; font-weight: 700; color: #f28b8b; }
+.gr-reject-msg { font-size: 12px; white-space: pre-wrap; color: #cfd6d6; margin: 4px 0 6px; }
 /* ジャンプ先を一瞬光らせて、どこが変わったか目で追いやすくする */
 @keyframes gr-jump-flash { 0%,100% { box-shadow: none; } 50% { box-shadow: 0 0 0 3px rgba(126,184,247,0.55); } }
 /* 1回だけだとすぐ消えて見落とすとの指摘（2026-09-08）。次のジャンプまで
@@ -21719,7 +21721,7 @@ function grScrollToGlossary(term) {
   修正更新の画面を閉じる();
   grPositionCorrectionActionBar();
   setTimeout(() => {
-    el.scrollIntoView({behavior: 'smooth', block: 'center'});
+    grScrollPanelTo(el);
     // 動かしたあとは、ふきだしの位置を測り直す（画面に対して固定のため）
     setTimeout(() => { if (typeof _positionGlossTip === 'function') _positionGlossTip(el); }, 400);
   }, 60);
@@ -21728,11 +21730,21 @@ function grScrollToGlossary(term) {
 function grScrollToField(field) {
   const el = grFindPanelTarget(field);
   if (!el) return;
+  const 帯 = document.getElementById('sp-header');
+  if (帯 && 帯.contains(el)) {
+    // 見出しの帯の中は常に見えているので、動かさずに光らせるだけ
+    修正更新の画面を閉じる();
+    grPositionCorrectionActionBar();
+    document.querySelectorAll('.gr-jump-highlight').forEach(x => x.classList.remove('gr-jump-highlight'));
+    void el.offsetWidth;
+    el.classList.add('gr-jump-highlight');
+    return;
+  }
   grScrollToPanelSection(el.id || '');
   if (!el.id) {
     修正更新の画面を閉じる();
     grPositionCorrectionActionBar();
-    setTimeout(() => el.scrollIntoView({behavior: 'smooth', block: 'center'}), 60);
+    setTimeout(() => grScrollPanelTo(el), 60);
   }
 }
 
@@ -21743,6 +21755,37 @@ function grFindPanelTarget(field) {
   return el.closest('.sp-section') || el;
 }
 
+// 【飛んだ先が見出しの帯の裏に潜らないようにする】2026-09-15
+// 説明パネルは中身がスクロールし、ジャンル名・別名・カテゴリーの見出しの帯は
+// その上端に貼り付いている。以前は scrollIntoView で画面の真ん中へ寄せていた
+// だけなので、背の高い箇所（音楽性の本文など）は上端が帯の裏に潜り込み、
+// 飛んだのに見えない状態になっていた（チョロさんの指摘）。
+// 見える範囲を「帯の下端〜下に貼り付いた却下・承認の帯の上端」として、
+// その中に収める。収まる大きさなら真ん中、収まらなければ上端を帯のすぐ下に。
+// 見出しの帯の中にあるもの（別名・カテゴリー）は常に見えているので動かさない。
+function grScrollPanelTo(el) {
+  const panel = document.getElementById('side-panel');
+  if (!el || !panel) return;
+  const 帯 = document.getElementById('sp-header');
+  if (帯 && 帯.contains(el)) return;
+  const 箱 = panel.getBoundingClientRect();
+  const 帯の高さ = 帯 ? 帯.getBoundingClientRect().height : 0;
+  const 下の帯 = document.querySelector('.gr-corr-actions.gr-fixed');
+  const 見える上 = 箱.top + 帯の高さ;
+  let 見える下 = 箱.bottom;
+  if (下の帯) 見える下 = Math.min(見える下, 下の帯.getBoundingClientRect().top);
+  const 余白 = 12;
+  const 見える高さ = 見える下 - 見える上;
+  const r = el.getBoundingClientRect();
+  let ずらす;
+  if (r.height + 余白 * 2 >= 見える高さ) {
+    ずらす = r.top - (見える上 + 余白);
+  } else {
+    ずらす = (r.top + r.height / 2) - (見える上 + 見える高さ / 2);
+  }
+  panel.scrollBy({ top: ずらす, behavior: 'smooth' });
+}
+
 function grScrollToPanelSection(elId) {
   修正更新の画面を閉じる();
   grPositionCorrectionActionBar();
@@ -21750,7 +21793,7 @@ function grScrollToPanelSection(elId) {
   setTimeout(() => {
     const el = document.getElementById(elId);
     if (!el) return;
-    el.scrollIntoView({behavior: 'smooth', block: 'center'});
+    grScrollPanelTo(el);
     // 点滅はずっと続くようにしたので（2026-09-08）、前にジャンプした
     // 場所が光ったままにならないよう、いったん全部消してから今回の
     // 箇所だけ光らせる（同時に複数箇所が点滅すると分かりにくいため）。
@@ -22016,7 +22059,7 @@ function grScrollToInfluenceCard(otherId) {
   const カード = grFindInfluenceCard(otherId);
   if (!カード) { grScrollToPanelSection('sp-influence-group'); return; }
   setTimeout(() => {
-    カード.scrollIntoView({behavior: 'smooth', block: 'center'});
+    grScrollPanelTo(カード);
     document.querySelectorAll('.gr-jump-highlight').forEach(x => x.classList.remove('gr-jump-highlight'));
     void カード.offsetWidth;
     カード.classList.add('gr-jump-highlight');
@@ -22197,46 +22240,61 @@ async function grApprovePendingCorrection(token, btn) {
   bar.querySelectorAll('button').forEach(b => b.disabled = false);
 }
 
-// v2.47〜：window.prompt()（ブラウザ標準のポップアップ）をやめた。
-// ポップアップは環境によって出方が分かりづらく、「押しても反応がない
-// （実は裏でポップアップの回答待ちだった）」という「固まった」報告が
-// あったため、画面の中だけで完結する入力欄に差し替えた。
-function grStartRejectPendingCorrection(token, btn) {
+// 【却下は1回押せば完了する】2026-09-15
+// 以前は「✗ 却下」を押すと理由の欄が出て、もう一度「却下する」を押す
+// 2段構えだった。理由は省略できるので、ほとんどの人は何も書かずに
+// もう一度押すことになり、実質同じボタンを2回押させていた（チョロさんの指摘）。
+// いまは1回押した時点で却下が完了し、そのあとに任意で理由を送れる。
+// 書かずにそのまま離れても、却下はもう済んでいる。
+// （もとは window.prompt で理由を聞いていたが、環境によって「押しても
+//  反応がない」ように見えたため v2.47 で画面の中の入力欄に変えていた）
+async function grStartRejectPendingCorrection(token, btn) {
   const bar = btn.closest('.gr-corr-actions');
-  bar.innerHTML = `
-    <div class="gr-reject-box">
-      <textarea class="gr-reject-reason" placeholder="却下理由（省略可）"></textarea>
-      <div class="gr-reject-row">
-        <button class="gr-corr-btn reject" onclick="grConfirmRejectPendingCorrection('${token}', this)">却下する</button>
-        <button class="gr-corr-btn cancel" onclick="grCancelRejectPendingCorrection('${token}', this)">やめる</button>
-      </div>
-    </div>`;
-  grPositionCorrectionActionBar();
-}
-
-function grCancelRejectPendingCorrection(token, btn) {
-  const bar = btn.closest('.gr-corr-actions');
-  bar.innerHTML = `
-    <button class="gr-corr-btn reject" onclick="grStartRejectPendingCorrection('${token}', this)">✗ 却下</button>
-    <button class="gr-corr-btn approve" onclick="grApprovePendingCorrection('${token}', this)">✓ 承認して反映する</button>`;
-  grPositionCorrectionActionBar();
-}
-
-async function grConfirmRejectPendingCorrection(token, btn) {
-  const bar = btn.closest('.gr-corr-actions');
-  const reason = (bar.querySelector('.gr-reject-reason') || {}).value || '';
-  bar.querySelectorAll('button, textarea').forEach(b => b.disabled = true);
+  bar.querySelectorAll('button').forEach(b => b.disabled = true);
   try {
     const res  = await fetch(API_BASE + '/admin/correction/reject/' + token, {
+      method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({reason: ''})
+    });
+    const data = await res.json();
+    if (data.status !== 'rejected') {
+      bar.insertAdjacentHTML('beforebegin', `<div style="color:#f28b8b;font-size:12px;margin-top:6px;">${grEsc(data.message || '却下できませんでした')}</div>`);
+      bar.querySelectorAll('button').forEach(b => b.disabled = false);
+      return;
+    }
+    grClearReviewMarks();
+    bar.innerHTML = `
+      <div class="gr-reject-box">
+        <div class="gr-reject-done">✗ 却下しました</div>
+        <div class="gr-reject-msg">${grEsc(data.message || '')}</div>
+        <textarea class="gr-reject-reason" placeholder="よければ理由を一言（任意）"></textarea>
+        <div class="gr-reject-row">
+          <button class="gr-corr-btn send" onclick="grSendRejectReason('${token}', this)">送る</button>
+        </div>
+      </div>`;
+    grPositionCorrectionActionBar();
+  } catch (e) {
+    bar.insertAdjacentHTML('beforebegin', '<div style="color:#f28b8b;font-size:12px;margin-top:6px;">通信に失敗しました。もう一度お試しください。</div>');
+    bar.querySelectorAll('button').forEach(b => b.disabled = false);
+  }
+}
+
+// 却下したあとに、任意で理由を送る
+async function grSendRejectReason(token, btn) {
+  const box = btn.closest('.gr-reject-box');
+  const reason = (box.querySelector('.gr-reject-reason') || {}).value || '';
+  const 入力を片付ける = () => box.querySelectorAll('.gr-reject-reason, .gr-reject-row').forEach(x => x.remove());
+  if (!reason.trim()) { 入力を片付ける(); return; }
+  box.querySelectorAll('button, textarea').forEach(b => b.disabled = true);
+  try {
+    const res  = await fetch(API_BASE + '/admin/correction/reject/' + token + '/reason', {
       method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({reason})
     });
     const data = await res.json();
-    bar.insertAdjacentHTML('beforebegin', `<div style="font-size:12px;margin-top:6px;">${grEsc(data.message || data.status || '却下しました')}</div>`);
-    bar.remove();
-    grClearReviewMarks();
+    入力を片付ける();
+    box.insertAdjacentHTML('beforeend', `<div class="gr-reject-sent" style="font-size:12px;margin-top:4px;color:#9aa;">${grEsc(data.message || '理由を記録しました')}</div>`);
   } catch (e) {
-    bar.insertAdjacentHTML('beforebegin', '<div style="color:#f28b8b;font-size:12px;margin-top:6px;">通信に失敗しました。もう一度お試しください。</div>');
-    bar.querySelectorAll('button, textarea').forEach(b => b.disabled = false);
+    box.querySelectorAll('button, textarea').forEach(b => b.disabled = false);
+    box.insertAdjacentHTML('beforeend', '<div style="color:#f28b8b;font-size:12px;margin-top:4px;">理由を送れませんでした。却下そのものは済んでいます。</div>');
   }
 }
 
