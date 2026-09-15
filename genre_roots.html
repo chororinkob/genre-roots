@@ -654,6 +654,31 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 .gr-cat-note { font-size: 11px; color: #9aa; margin-top: 4px; line-height: 1.6; }
 /* カテゴリーの前と後の間の矢印（丸がどちらのものか分かるよう余白を取る） */
 .gr-cat-arrow { display: inline-block; margin: 0 8px; color: #9aa; }
+/* ③ 影響関係のカード（修正更新のときだけ出る） */
+#side-panel .sp-chip.gr-chip-removed { color: #f28b8b !important; text-decoration: line-through;
+  text-decoration-color: rgba(242,139,139,0.9); opacity: 0.75;
+  box-shadow: inset 0 0 0 1px rgba(242,139,139,0.8) !important; }
+#side-panel .sp-chip.gr-chip-added { color: #7ee0a0 !important; font-weight: 700;
+  box-shadow: inset 0 0 0 1px rgba(126,224,160,0.9) !important; }
+.gr-lv-old { color: #f28b8b; text-decoration: line-through; font-weight: 700; }
+.gr-lv-new { color: #7ee0a0; text-decoration: none; font-weight: 800; }
+.gr-lv-arrow { margin: 0 3px; color: #9aa; font-weight: 400; }
+.sp-card-name.gr-name-removed { text-decoration: line-through; color: #f28b8b !important; }
+@keyframes gr-blink-red   { 0%,100% { box-shadow: 0 0 0 2px rgba(242,139,139,0.9); }
+                            50%     { box-shadow: 0 0 0 2px rgba(242,139,139,0.15); } }
+@keyframes gr-blink-green { 0%,100% { box-shadow: 0 0 0 2px rgba(126,224,160,0.9); }
+                            50%     { box-shadow: 0 0 0 2px rgba(126,224,160,0.15); } }
+.sp-card.gr-card-removed { border-radius: 8px; animation: gr-blink-red 1.4s ease-in-out infinite; }
+.sp-card.gr-card-added   { border-radius: 8px; animation: gr-blink-green 1.4s ease-in-out infinite; }
+.sp-card.gr-card-modified { border-radius: 8px; box-shadow: 0 0 0 1px rgba(126,224,160,0.45); }
+@media (prefers-reduced-motion: reduce) {
+  .sp-card.gr-card-removed { animation: none; box-shadow: 0 0 0 2px rgba(242,139,139,0.9); }
+  .sp-card.gr-card-added   { animation: none; box-shadow: 0 0 0 2px rgba(126,224,160,0.9); }
+}
+/* ④ 左のカテゴリー一覧の前と後 */
+.legend-item.gr-legend-removed .legend-label { color: #f28b8b; text-decoration: line-through;
+  text-decoration-color: rgba(242,139,139,0.8); }
+.legend-item.gr-legend-added .legend-label { color: #7ee0a0; font-weight: 700; }
 /* 修正更新で別名が消える／増えるときのチップ */
 /* 元のチップが #sp-tag .sp-alias-chip と強い書き方をしているので、同じ強さに
    そろえないと色が負けて緑に見えない（2026-09-15、実ブラウザで確認して発覚） */
@@ -20922,6 +20947,7 @@ window.addEventListener('resize', () => { if (panel.style.display === 'block') s
   setTimeout(進める, 500);
 })();
 function closePanel() {
+  if (typeof grClearReviewMarks === 'function') grClearReviewMarks();
   clearTimeout(_detachTimer);
   if (typeof grHideCorrectionActionBar === 'function') grHideCorrectionActionBar();
   attachMap();                     // 何より先に地図を戻す
@@ -21791,6 +21817,16 @@ function grApplyCorrectionDiffsToPanel(fixViews) {
         if (dot && typeof CAT_COLOR !== 'undefined' && CAT_COLOR[fv.new_value]) {
           dot.style.background = CAT_COLOR[fv.new_value];
         }
+        // 【左のカテゴリー一覧にも印を付ける】2026-09-15
+        // カテゴリーの一覧は画面の左にずらりと並んでいて、そこも直す対象になる。
+        // 見出しの帯だけでなく、一覧でも前のカテゴリーに赤の取り消し線、
+        // 後のカテゴリーに緑の印を付ける（チョロさんの指摘）。
+        document.querySelectorAll('.legend-item.gr-legend-removed, .legend-item.gr-legend-added')
+          .forEach(li => li.classList.remove('gr-legend-removed', 'gr-legend-added'));
+        const 前の項目 = document.querySelector('.legend-item[data-cat="' + fv.old_value + '"]');
+        const 後の項目 = document.querySelector('.legend-item[data-cat="' + fv.new_value + '"]');
+        if (前の項目) 前の項目.classList.add('gr-legend-removed');
+        if (後の項目) 後の項目.classList.add('gr-legend-added');
         // カテゴリーを変えると何が起きるのかは、書かれていないと伝わらない。
         // 一言添える（2026-09-15、チョロさんの指示）。
         const 行 = document.getElementById('sp-era-cat-row');
@@ -21815,6 +21851,8 @@ function grApplyCorrectionDiffsToPanel(fixViews) {
       } else {
         el.innerHTML = fv.diff_html;
       }
+    } else if (fv.kind === 'links') {
+      grApplyLinksDiffToPanel(fv);
     } else if (fv.kind === 'glossary') {
       grApplyGlossaryDiffToPanel(fv);
     } else if (fv.kind === 'books') {
@@ -21916,6 +21954,94 @@ function grWrapTermInPanel(term) {
     return 包み;
   }
   return null;
+}
+
+// 【影響関係のカードに差分を出す】2026-09-15
+// 以前は確認画面の一覧に「〇〇から受けた影響のうち、歌唱法を外しました」と
+// 文を出すだけで、パネルのカード自体には何もしていなかった。そのため
+// 一覧には「外しました」と出ているのに、カードでは歌唱法が光ったまま、
+// 影響Lvも5のまま、という食い違いになっていた（チョロさんが表示テストで発見）。
+//   ・軸が変わった … 外れた軸のチップに赤の取り消し線、足された軸は緑、
+//                    影響Lvは「前 → 後」
+//   ・関係が消える … ジャンル名に取り消し線、枠を赤く点滅（これが無くなりますよ）
+//   ・関係が増える … カードを足して、枠を緑に点滅
+// 見せ方の決まりは仕様書「③ 影響関係は、調べ直して答える」を参照。
+// 修正更新の確認のために、パネルの外（左のカテゴリー一覧）に付けた印を外す。
+// パネルの中の印は、パネルを描き直せば一緒に消えるが、一覧はパネルの外に
+// あるので、そのままだと別のジャンルへ移っても残ってしまう（2026-09-15）。
+function grClearReviewMarks() {
+  document.querySelectorAll('.legend-item.gr-legend-removed, .legend-item.gr-legend-added')
+    .forEach(li => li.classList.remove('gr-legend-removed', 'gr-legend-added'));
+}
+
+function grFindInfluenceCard(otherId) {
+  const 名 = document.querySelector(
+    '#sp-in .sp-card-name[data-id="' + otherId + '"], '
+    + '#sp-out .sp-card-name[data-id="' + otherId + '"], '
+    + '#sp-mutual .sp-card-name[data-id="' + otherId + '"]');
+  return 名 ? 名.closest('.sp-card') : null;
+}
+
+function grApplyLinksDiffToPanel(fv) {
+  const 変化 = fv.link_changes || [];
+  const 相手ごと = {};
+  変化.forEach(c => { (相手ごと[c.other_id] = 相手ごと[c.other_id] || []).push(c); });
+
+  Object.keys(相手ごと).forEach(相手 => {
+    const 群 = 相手ごと[相手];
+    const 消える = 群.filter(c => c.change === 'removed');
+    const 増える = 群.filter(c => c.change === 'added');
+    const カード = grFindInfluenceCard(相手);
+
+    // 同じ向きが消えて増えている＝その向きの中身（軸や説明）を直しただけ
+    const 直した = 消える.filter(r => 増える.some(a => a.direction === r.direction));
+    直した.forEach(旧 => {
+      const 新 = 増える.find(a => a.direction === 旧.direction);
+      if (!カード || !旧.score || !新.score) return;
+      カード.classList.add('gr-card-modified');
+      const チップ = カード.querySelectorAll('.sp-score .sp-chip');
+      SCORE_DIMS.forEach((d, i) => {
+        const el = チップ[i];
+        if (!el) return;
+        const 前 = !!旧.score[d.key], 後 = !!新.score[d.key];
+        if (前 && !後) el.classList.add('gr-chip-removed');
+        if (!前 && 後) el.classList.add('gr-chip-added');
+      });
+      const lv = カード.querySelector('.sp-influence-lv b');
+      const 前Lv = _scoreTotal(旧.score), 後Lv = _scoreTotal(新.score);
+      if (lv && 前Lv !== 後Lv) {
+        lv.innerHTML = '<del class="gr-lv-old">' + 前Lv + '</del>'
+          + '<span class="gr-lv-arrow">→</span><ins class="gr-lv-new">' + 後Lv + '</ins>';
+      }
+    });
+
+    // 関係そのものが消える
+    消える.filter(r => !増える.some(a => a.direction === r.direction)).forEach(() => {
+      if (!カード) return;
+      カード.classList.add('gr-card-removed');
+      const 名 = カード.querySelector('.sp-card-name');
+      if (名) 名.classList.add('gr-name-removed');
+    });
+
+    // 関係そのものが増える：まだパネルに無いので、カードを足す
+    増える.filter(a => !消える.some(r => r.direction === a.direction)).forEach(a => {
+      const 置き場 = document.getElementById(a.direction === 'out' ? 'sp-out' : 'sp-in');
+      if (!置き場) return;
+      const l = { s: a.direction === 'out' ? '' : 相手, t: a.direction === 'out' ? 相手 : '',
+                  score: a.score, desc: a.desc || '' };
+      const html = '<div class="sp-card gr-card-added">'
+        + '<div class="sp-card-names-row">'
+        + '<a href="#" class="sp-genre-link sp-card-name" data-id="' + grEsc(相手) + '">'
+        + grEsc(a.other_label || 相手) + '</a>' + _influenceLvHtml(l)
+        + '</div>'
+        + '<div class="sp-card-score-row">' + _scoreMeterHtml(l, a.direction === 'out' ? 'out' : 'in') + '</div>'
+        + '<div class="sp-card-desc">' + grEsc(a.desc || '') + '</div>'
+        + '</div>';
+      // 「なし」とだけ書かれていた場合は、それを置き換える
+      if (!置き場.querySelector('.sp-card')) 置き場.innerHTML = '';
+      置き場.insertAdjacentHTML('beforeend', html);
+    });
+  });
 }
 
 function grBookCardHtml(b, cls) {
@@ -22048,6 +22174,7 @@ async function grConfirmRejectPendingCorrection(token, btn) {
     const data = await res.json();
     bar.insertAdjacentHTML('beforebegin', `<div style="font-size:12px;margin-top:6px;">${grEsc(data.message || data.status || '却下しました')}</div>`);
     bar.remove();
+    grClearReviewMarks();
   } catch (e) {
     bar.insertAdjacentHTML('beforebegin', '<div style="color:#f28b8b;font-size:12px;margin-top:6px;">通信に失敗しました。もう一度お試しください。</div>');
     bar.querySelectorAll('button, textarea').forEach(b => b.disabled = false);
