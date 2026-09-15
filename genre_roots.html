@@ -652,6 +652,12 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 .gr-cat-dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%;
   margin-right: 4px; vertical-align: middle; border: 1px solid rgba(255,255,255,0.35); }
 .gr-cat-note { font-size: 11px; color: #9aa; margin-top: 4px; line-height: 1.6; }
+/* カテゴリーの前と後の間の矢印（丸がどちらのものか分かるよう余白を取る） */
+.gr-cat-arrow { display: inline-block; margin: 0 8px; color: #9aa; }
+/* 修正更新で別名が消える／増えるときのチップ */
+.sp-alias-chip.gr-alias-removed { color: #f28b8b; text-decoration: line-through;
+  text-decoration-color: rgba(242,139,139,0.7); border-color: rgba(242,139,139,0.5); }
+.sp-alias-chip.gr-alias-added { color: #7ee0a0; font-weight: 700; border-color: #7ee0a0; }
 /* 修正更新で説明を直した用語（ふきだしを開いたままにする） */
 .gloss-term.gr-gloss-corrected { border-bottom-color: #7ee0a0; }
 .gloss-term.gr-gloss-corrected .gloss-tip { border-color: #7ee0a0; max-width: 320px; }
@@ -21738,7 +21744,11 @@ function grPreviewCorrectionVideo(field, newId, elId) {
 // きても意味がない。説明パネルの方に直接斜線を引いて書いて」）。
 // 下の一覧は「どこが変わったか」のジャンプ用リンクだけに絞る。
 function grApplyCorrectionDiffsToPanel(fixViews) {
-  (fixViews || []).forEach(fv => {
+  // 用語集の直しは最後に回す（2026-09-15）。本文の差し替えより先に当てると、
+  // あとから本文を差し替えたときに、付けたふきだしごと消えてしまうため。
+  const 並べ直し = (fixViews || []).filter(fv => fv.kind !== 'glossary')
+    .concat((fixViews || []).filter(fv => fv.kind === 'glossary'));
+  並べ直し.forEach(fv => {
     if (fv.kind === 'text' && fv.field) {
       // 【項目ごとの表をやめた】2026-09-15
       // 以前はサーバー側が「この項目はこのidの要素へ」という対応表を
@@ -21766,8 +21776,12 @@ function grApplyCorrectionDiffsToPanel(fixViews) {
         };
         const colorOf = v => (typeof CAT_COLOR !== 'undefined' && CAT_COLOR[v]) || '#888';
         const 丸 = v => `<span class="gr-cat-dot" style="background:${colorOf(v)}"></span>`;
+        // 前と後の間に矢印をはさむ（2026-09-15）。はさまないと、後ろの色の丸が
+        // 前のカテゴリー名にくっついて、どちらの丸なのか分からなかった
+        // （チョロさんが表示テストで発見）。
         el.innerHTML =
           `<del>${丸(fv.old_value)}${grEsc(labelOf(fv.old_value))}</del>`
+          + `<span class="gr-cat-arrow">→</span>`
           + `<ins>${丸(fv.new_value)}${grEsc(labelOf(fv.new_value))}</ins>`;
         const dot = document.querySelector('#sp-era-cat-row .sp-cat-dot');
         if (dot && typeof CAT_COLOR !== 'undefined' && CAT_COLOR[fv.new_value]) {
@@ -21782,6 +21796,18 @@ function grApplyCorrectionDiffsToPanel(fixViews) {
             + '<span class="gr-cat-dot" style="background:' + colorOf(fv.new_value) + '"></span>'
             + 'この色に変わり、' + grEsc(labelOf(fv.new_value)) + 'のまとまりへ移ります。</div>');
         }
+      } else if (fv.field === 'aliases' && Array.isArray(fv.old_list) && Array.isArray(fv.new_list)) {
+        // 【別名はチップで見せる】2026-09-15
+        // 以前はデータの書き方（aliases:["…", "…"]）をそのまま差分にして
+        // 別名の欄へ入れていたので、画面に aliases:[" などの記号が出ていた
+        // （チョロさんが表示テストで発見）。いつもの別名のチップの形で、
+        // 残るものはそのまま、消えるものは赤の取り消し線、増えるものは緑にする。
+        const 旧 = fv.old_list, 新 = fv.new_list;
+        const チップ = (a, cls) => `<span class="sp-alias-chip ${cls}">${grEsc(a)}</span>`;
+        let html = '<span class="sp-alias-cap">別名</span>';
+        旧.forEach(a => { html += 新.includes(a) ? チップ(a, '') : チップ(a, 'gr-alias-removed'); });
+        新.forEach(a => { if (!旧.includes(a)) html += チップ(a, 'gr-alias-added'); });
+        el.innerHTML = html;
       } else {
         el.innerHTML = fv.diff_html;
       }
@@ -21813,17 +21839,28 @@ function grApplyCorrectionDiffsToPanel(fixViews) {
 // もともと用意されているので、それをそのまま使う。
 function grApplyGlossaryDiffToPanel(fv) {
   if (!fv.term) return;
-  // 本文の中から、その用語が使われている箇所を探す
-  const 用語たち = document.querySelectorAll('#side-panel .gloss-term');
+  // まず、本文の中にすでにある用語のふきだしを探す
   let 見つけた = null;
-  用語たち.forEach(el => {
+  document.querySelectorAll('#side-panel .gloss-term').forEach(el => {
     if (見つけた) return;
-    // 用語のふきだしを除いた「見えている文字」で照合する
     const tip = el.querySelector('.gloss-tip');
     const 文字 = tip ? el.textContent.replace(tip.textContent, '') : el.textContent;
     if (文字.trim() === fv.term) 見つけた = el;
   });
+
+  // 【本文を差し替えたあとでも見つけられるようにする】2026-09-15
+  // 同じ修正で音楽性の本文にも赤と緑を入れると、本文をまるごと
+  // 差し替えるので、その中にあった用語のふきだしも一緒に消える。
+  // すると用語が見つからず、ふきだしも開かず、飛び先も無くなっていた
+  // （チョロさんが表示テストで「リンクで飛んでいかない、どこの言葉だか
+  // 分からない」と発見。実ブラウザで調べて、本文にはコンガがあるのに
+  // ふきだしの付いた用語が0件になっていたことを確認した）。
+  // すでにあるふきだしが見つからなければ、パネルの文字の中から
+  // その用語を探して、新しくふきだしを付ける。消える側（<del>）の
+  // 中にある文字は対象にしない。
+  if (!見つけた) 見つけた = grWrapTermInPanel(fv.term);
   if (!見つけた) return;
+
   const tip = 見つけた.querySelector('.gloss-tip');
   if (!tip) return;
   tip.classList.add('gr-corr-diff');
@@ -21831,6 +21868,36 @@ function grApplyGlossaryDiffToPanel(fv) {
   見つけた.classList.add('pinned', 'gr-gloss-corrected');
   // 位置を測って置く（開いてからでないと大きさが測れない）
   if (typeof _positionGlossTip === 'function') _positionGlossTip(見つけた);
+}
+
+// パネルの文字の中から用語を1つ探し、ふきだし付きの印で包む。
+// 見つからなければ null。
+function grWrapTermInPanel(term) {
+  const 場所 = document.querySelectorAll('#side-panel [data-field], #sp-in, #sp-out, #sp-mutual');
+  for (const 箱 of 場所) {
+    const 歩く = document.createTreeWalker(箱, NodeFilter.SHOW_TEXT, {
+      acceptNode: n => {
+        // 消える側の文字と、すでにあるふきだしの中は対象にしない
+        if (n.parentElement && n.parentElement.closest('del, .gloss-tip')) return NodeFilter.FILTER_REJECT;
+        return n.nodeValue.includes(term) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;
+      }
+    });
+    const 文字 = 歩く.nextNode();
+    if (!文字) continue;
+    const 位置 = 文字.nodeValue.indexOf(term);
+    const 後ろ = 文字.splitText(位置);
+    後ろ.splitText(term.length);
+    const 包み = document.createElement('span');
+    包み.className = 'gloss-term';
+    包み.tabIndex = 0;
+    包み.textContent = term;
+    const tip = document.createElement('span');
+    tip.className = 'gloss-tip';
+    包み.appendChild(tip);
+    後ろ.parentNode.replaceChild(包み, 後ろ);
+    return 包み;
+  }
+  return null;
 }
 
 function grBookCardHtml(b, cls) {
@@ -21885,7 +21952,10 @@ function grBuildCorrectionReviewHtml(data) {
       return `<div class="gr-corr-item"><a class="gr-corr-jump" href="#" onclick="grScrollToField('${fv.field || ''}');return false;">${grFieldLabel(fv.field)}を修正しました（該当箇所を見る）</a></div>`;
     }
     if (fv.kind === 'video') {
-      return `<div class="gr-corr-item"><a class="gr-corr-jump" href="#" onclick="grPreviewCorrectionVideo('${fv.field || ''}','${fv.new_id || ''}','${fv.scroll_target || ''}');return false;">動画を差し替えました（該当箇所を見る。候補はすでに再生中）</a></div>`;
+      // 何の曲の動画から、何の曲の動画に変えたのかを出す（2026-09-15）。
+      // サーバーが作った一文があればそれを、無ければ従来の言い方にする。
+      const 文 = fv.summary || '動画を差し替えました';
+      return `<div class="gr-corr-item"><a class="gr-corr-jump" href="#" onclick="grPreviewCorrectionVideo('${fv.field || ''}','${fv.new_id || ''}','${fv.scroll_target || ''}');return false;">${grEsc(文)}（該当箇所を見る。候補はすでに再生中）</a></div>`;
     }
     if (fv.kind === 'glossary') {
       return `<div class="gr-corr-item"><a class="gr-corr-jump" href="#" onclick="grScrollToGlossary('${grEsc(fv.term || '')}');return false;">用語「${grEsc(fv.term || '')}」の説明を直しました（該当箇所を見る）</a></div>`;
