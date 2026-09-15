@@ -21926,6 +21926,41 @@ function grApplyGlossaryDiffToPanel(fv) {
   if (typeof _positionGlossTip === 'function') _positionGlossTip(見つけた);
 }
 
+// 【直した用語のふきだしを、スクロールに付いてこさせる】2026-09-15
+// ふきだしは画面に対して位置を固定する作り（position: fixed）で、位置は
+// 開いた瞬間に1回だけ測っていた。修正更新では開いたままにするので、
+// スクロールしてもふきだしだけが同じ場所に残り、関係のない所（確認画面の
+// 一覧の上など）に浮いて見えていた（チョロさんが表示テストで発見）。
+// スクロールのたびに位置を測り直し、用語が見えない所（パネルの外や、
+// 上に貼り付いた見出しの帯の裏）へ出たら、ふきだしも隠す。
+// 対象は修正更新で直した用語だけ。ふだんカーソルで開くふきだしは変えない。
+let _grTipFollowFrame = null;
+function _grCorrectedTipsFollow() {
+  _grTipFollowFrame = null;
+  document.querySelectorAll('#side-panel .gloss-term.gr-gloss-corrected').forEach(el => {
+    const tip = el.querySelector('.gloss-tip');
+    if (!tip) return;
+    const 用語 = el.getBoundingClientRect();
+    const panel = document.getElementById('side-panel');
+    const 枠 = panel ? panel.getBoundingClientRect() : { top: 0, bottom: window.innerHeight };
+    const 帯 = document.getElementById('sp-header');
+    const 見える上端 = 帯 ? Math.max(枠.top, 帯.getBoundingClientRect().bottom) : 枠.top;
+    if (用語.bottom < 見える上端 || 用語.top > 枠.bottom || 用語.bottom < 0 || 用語.top > window.innerHeight) {
+      tip.style.display = 'none';
+      return;
+    }
+    if (typeof _positionGlossTip === 'function') _positionGlossTip(el);
+  });
+}
+function _grRequestTipFollow() {
+  if (_grTipFollowFrame) return;
+  if (!document.querySelector('#side-panel .gloss-term.gr-gloss-corrected')) return;
+  _grTipFollowFrame = requestAnimationFrame(_grCorrectedTipsFollow);
+}
+// パネルは中身だけがスクロールするので、窓ではなく「どこかがスクロールした」を拾う
+document.addEventListener('scroll', _grRequestTipFollow, { capture: true, passive: true });
+window.addEventListener('resize', _grRequestTipFollow, { passive: true });
+
 // パネルの文字の中から用語を1つ探し、ふきだし付きの印で包む。
 // 見つからなければ null。
 function grWrapTermInPanel(term) {
