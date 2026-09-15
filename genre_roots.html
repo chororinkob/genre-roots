@@ -21824,7 +21824,21 @@ function grApplyCorrectionDiffsToPanel(fixViews) {
       // 動画だけ「リンクを押さないと切り替わらない」のは不揃いで分かりにくい
       // という指摘（2026-09-08）。他と同じく、開いた時点で自動的に候補を
       // 再生する。
-      playByVideoId(fv.new_id, '', undefined, true);
+      // 流す動画が代表曲の何曲目かを探して渡す（2026-09-15）。
+      // 以前は渡していなかったので、代表曲の一覧の再生中の印が、最初に
+      // 流れていた曲に残ったままになっていた。実際には「Watermelon Man」が
+      // 流れているのに「Headhunters」に印が付き、どの動画に変えたのかが
+      // かえって分かりにくかった（実ブラウザの画面を見て発覚）。
+      // 代表曲に無い動画のときは、どの曲にも印を付けない。
+      const nd = window._currentNode;
+      let 何曲目;
+      if (nd && Array.isArray(nd.yt_tracks)) {
+        nd.yt_tracks.forEach((ids, i) => {
+          if (何曲目 === undefined && Array.isArray(ids) && ids.includes(fv.new_id)) 何曲目 = i;
+        });
+      }
+      playByVideoId(fv.new_id, '', 何曲目, true);
+      if (何曲目 === undefined && typeof _spMarkPlaying === 'function') _spMarkPlaying(-1);
       const wrap = document.getElementById('sp-yt-wrap');
       if (wrap && !document.getElementById('gr-video-candidate-badge')) {
         wrap.insertAdjacentHTML('beforebegin',
