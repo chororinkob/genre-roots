@@ -698,7 +698,8 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
    JS側(grPositionCorrectionActionBar)で毎回パネルの実際の位置に合わせる。
    本体はいつも通りその場（sp-correction-resultの中）に描くが、見た目だけ
    fixedの帯が上に重なって常に押せる状態にする。 */
-.gr-corr-actions { visibility: hidden; height: 0; overflow: visible; display: flex; gap: 8px; }
+.gr-corr-actions { visibility: hidden; height: 0; overflow: visible; display: flex; flex-wrap: wrap; gap: 8px; }
+.gr-corr-bar-msg { flex: 0 0 100%; font-size: 12px; line-height: 1.5; white-space: pre-wrap; }
 .gr-corr-actions.gr-fixed { visibility: visible; height: auto; position: fixed; z-index: 40; padding: 8px 12px;
                    background: #14141f; border-top: 1px solid rgba(255,255,255,0.1); box-sizing: border-box; }
 .gr-corr-btn { flex: 1; padding: 9px; border-radius: 6px; border: none; font-size: 12.5px; font-weight: 700; cursor: pointer; }
@@ -22221,6 +22222,24 @@ function grBuildCorrectionReviewHtml(data) {
   return `<div class="gr-corr-review">${items || '<div class="gr-corr-item">自動で適用できる修正案がありません。却下するか、内容を変えて送り直してください。</div>'}${problemHtml}</div>${actions}`;
 }
 
+// 【承認・却下の結果は、帯の中に出す】2026-09-15
+// 以前は失敗したときの文言（「処理済みです」「通信に失敗しました」など）を
+// 帯の「手前」に差し込んでいた。帯は画面の下に固定して見せているが、
+// 実体はパネルのずっと上（確認一覧の直後）にあるため、文言は画面外の
+// 見えない場所に出ていた。押しても何も起きないように見え、チョロさんから
+// 「却下ボタンが効かない」と指摘された。結果は必ず帯の中に出す。
+function grBarMessage(bar, text, color) {
+  let el = bar.querySelector('.gr-corr-bar-msg');
+  if (!el) {
+    el = document.createElement('div');
+    el.className = 'gr-corr-bar-msg';
+    bar.insertBefore(el, bar.firstChild);
+  }
+  el.style.color = color || '#cfd6d6';
+  el.textContent = text;
+  grPositionCorrectionActionBar();
+}
+
 async function grApprovePendingCorrection(token, btn) {
   const bar = btn.closest('.gr-corr-actions');
   bar.querySelectorAll('button').forEach(b => b.disabled = true);
@@ -22233,9 +22252,9 @@ async function grApprovePendingCorrection(token, btn) {
       window.location.href = API_BASE + '/roots?genre=' + encodeURIComponent(genreId) + '&' + t;
       return;
     }
-    bar.insertAdjacentHTML('beforebegin', `<div style="color:#f28b8b;font-size:12px;margin-top:6px;">${grEsc(data.message || data.status || '承認に失敗しました')}</div>`);
+    grBarMessage(bar, data.message || data.status || '承認に失敗しました', '#f28b8b');
   } catch (e) {
-    bar.insertAdjacentHTML('beforebegin', '<div style="color:#f28b8b;font-size:12px;margin-top:6px;">通信に失敗しました。もう一度お試しください。</div>');
+    grBarMessage(bar, '通信に失敗しました。もう一度お試しください。', '#f28b8b');
   }
   bar.querySelectorAll('button').forEach(b => b.disabled = false);
 }
@@ -22251,13 +22270,24 @@ async function grApprovePendingCorrection(token, btn) {
 async function grStartRejectPendingCorrection(token, btn) {
   const bar = btn.closest('.gr-corr-actions');
   bar.querySelectorAll('button').forEach(b => b.disabled = true);
+  // サーバーは記録を書き換えてGitHubへ送るまで返事をしないので、数秒かかる。
+  // その間も押したことが分かるようにする。
+  const 元の文字 = btn.textContent;
+  btn.textContent = '却下しています…';
   try {
     const res  = await fetch(API_BASE + '/admin/correction/reject/' + token, {
       method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({reason: ''})
     });
     const data = await res.json();
     if (data.status !== 'rejected') {
-      bar.insertAdjacentHTML('beforebegin', `<div style="color:#f28b8b;font-size:12px;margin-top:6px;">${grEsc(data.message || '却下できませんでした')}</div>`);
+      btn.textContent = 元の文字;
+      if (String(data.message || '').startsWith('処理済み')) {
+        // すでに却下（または承認）されている。もう押せるボタンは無い。
+        bar.querySelectorAll('button').forEach(b => b.remove());
+        grBarMessage(bar, 'この修正更新は、すでに処理が済んでいます。' + (data.message ? '（' + data.message + '）' : ''), '#f0c375');
+        return;
+      }
+      grBarMessage(bar, data.message || '却下できませんでした', '#f28b8b');
       bar.querySelectorAll('button').forEach(b => b.disabled = false);
       return;
     }
@@ -22273,7 +22303,8 @@ async function grStartRejectPendingCorrection(token, btn) {
       </div>`;
     grPositionCorrectionActionBar();
   } catch (e) {
-    bar.insertAdjacentHTML('beforebegin', '<div style="color:#f28b8b;font-size:12px;margin-top:6px;">通信に失敗しました。もう一度お試しください。</div>');
+    btn.textContent = 元の文字;
+    grBarMessage(bar, '通信に失敗しました。もう一度お試しください。', '#f28b8b');
     bar.querySelectorAll('button').forEach(b => b.disabled = false);
   }
 }
@@ -24995,6 +25026,17 @@ function _grOpenReviewFromUrl(token) {
       return;
     }
     data.token = token;
+    // 【処理済みのものは、ボタンを出さない】2026-09-15
+    // 以前は却下・承認が済んだあとに同じ住所を開き直しても、却下・承認の
+    // ボタンがそのまま出ていた。押しても「処理済みです」で弾かれるだけで、
+    // 押せるのに効かないように見える。赤と緑の差分も、もう起きない変更なので出さない。
+    if (data.record_status && data.record_status !== 'pending') {
+      const 状態 = { rejected: '却下', approved: '承認して反映' }[data.record_status] || data.record_status;
+      spCorrResult.className = 'not-error';
+      spCorrResult.innerHTML = '<b style="font-size:13px;">この修正更新は、すでに' + grEsc(状態) + 'されています</b><br>'
+        + '<span style="font-size:12px;">もう一度却下・承認することはできません。説明パネルは今の内容のまま表示しています。</span>';
+      return;
+    }
     spCorrResult.innerHTML = '<b style="font-size:13px;">修正更新の確認（保存済みデータの再表示）</b><br>' +
       (data.reasoning || '').replace(/\n/g, '<br>');
     grApplyCorrectionDiffsToPanel(data.fix_views);
