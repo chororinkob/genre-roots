@@ -21506,6 +21506,13 @@ node.on("click", (e, d) => {
   spCorrResult.innerHTML = '';
   document.getElementById('sp-correction-prompt').textContent =
     `「${name}」に関して、どこが気になりますか？どこを修正したいですか？`;
+  // 登録確認画面のプレビューで、登録するジャンルそのものを開いたとき（2026-09-16）
+  document.getElementById('sp-correction-btn').textContent = grIsPrepublishNode(d)
+    ? '✎ 公開前にAIに直してもらう' : '✎ このジャンルについて修正更新';
+  if (grIsPrepublishNode(d)) {
+    document.getElementById('sp-correction-prompt').textContent =
+      `「${name}」の登録内容で、どこを直したいですか？（動画・影響関係・書籍なども直せます）`;
+  }
 
   openPanel();
 
@@ -22079,6 +22086,8 @@ function grApplyLinksDiffToPanel(fv) {
   const 変化 = fv.link_changes || [];
   const 相手ごと = {};
   変化.forEach(c => { (相手ごと[c.other_id] = 相手ごと[c.other_id] || []).push(c); });
+  // 「相互」は受けた・与えたの両方の行がそろった状態
+  const 広げる = dir => dir === 'mutual' ? ['in', 'out'] : [dir];
 
   Object.keys(相手ごと).forEach(相手 => {
     const 群 = 相手ごと[相手];
@@ -22086,54 +22095,85 @@ function grApplyLinksDiffToPanel(fv) {
     const 増える = 群.filter(c => c.change === 'added');
     const カード = grFindInfluenceCard(相手);
 
-    // 同じ向きが消えて増えている＝その向きの中身（軸や説明）を直しただけ
-    const 直した = 消える.filter(r => 増える.some(a => a.direction === r.direction));
-    直した.forEach(旧 => {
-      const 新 = 増える.find(a => a.direction === 旧.direction);
-      if (!カード || !旧.score || !新.score) return;
-      カード.classList.add('gr-card-modified');
-      const チップ = カード.querySelectorAll('.sp-score .sp-chip');
-      SCORE_DIMS.forEach((d, i) => {
-        const el = チップ[i];
-        if (!el) return;
-        const 前 = !!旧.score[d.key], 後 = !!新.score[d.key];
-        if (前 && !後) el.classList.add('gr-chip-removed');
-        if (!前 && 後) el.classList.add('gr-chip-added');
-      });
-      const lv = カード.querySelector('.sp-influence-lv b');
-      const 前Lv = _scoreTotal(旧.score), 後Lv = _scoreTotal(新.score);
-      if (lv && 前Lv !== 後Lv) {
-        lv.innerHTML = '<del class="gr-lv-old">' + 前Lv + '</del>'
-          + '<span class="gr-lv-arrow">→</span><ins class="gr-lv-new">' + 後Lv + '</ins>';
-      }
-    });
+    // 【関係の種類が変わるか】2026-09-16
+    // 以前は「消える行があればカードごと消える」扱いだったため、相互の関係の片方の行を
+    // 外して「受けた」だけにする直しでも、相互のカードが丸ごと消えるように見えた。
+    // また、片方向の関係に逆向きを足して相互にする直しでは、カードが「受けた」欄に
+    // 足されていた。いまは、今カードがある欄（受けた・与えた・相互）と、直した後の
+    // 向きを比べ、種類が変わるときは今のカードに赤、移る先の欄に緑のカードを出す。
+    const 箱 = (カード && カード.closest) ? カード.closest('#sp-in, #sp-out, #sp-mutual') : null;
+    const 前 = new Set(!カード ? []
+      : !箱 ? 消える.flatMap(c => 広げる(c.direction))
+      : 箱.id === 'sp-mutual' ? ['in', 'out'] : [箱.id === 'sp-out' ? 'out' : 'in']);
+    const 消向き = new Set(消える.flatMap(c => 広げる(c.direction)));
+    const 増向き = new Set(増える.flatMap(c => 広げる(c.direction)));
+    const 後 = new Set([...前].filter(x => !消向き.has(x) || 増向き.has(x)));
+    増向き.forEach(x => 後.add(x));
+    const 種類が同じ = 前.size === 後.size && [...前].every(x => 後.has(x));
 
-    // 関係そのものが消える
-    消える.filter(r => !増える.some(a => a.direction === r.direction)).forEach(() => {
-      if (!カード) return;
+    if (種類が同じ) {
+      // 同じ向きが消えて増えている＝その向きの中身（軸や説明）を直しただけ
+      const 直した = 消える.filter(r => 増える.some(a => a.direction === r.direction));
+      直した.forEach(旧 => {
+        const 新 = 増える.find(a => a.direction === 旧.direction);
+        if (!カード || !旧.score || !新.score) return;
+        カード.classList.add('gr-card-modified');
+        const チップ = カード.querySelectorAll('.sp-score .sp-chip');
+        SCORE_DIMS.forEach((d, i) => {
+          const el = チップ[i];
+          if (!el) return;
+          const 前軸 = !!旧.score[d.key], 後軸 = !!新.score[d.key];
+          if (前軸 && !後軸) el.classList.add('gr-chip-removed');
+          if (!前軸 && 後軸) el.classList.add('gr-chip-added');
+        });
+        const lv = カード.querySelector('.sp-influence-lv b');
+        const 前Lv = _scoreTotal(旧.score), 後Lv = _scoreTotal(新.score);
+        if (lv && 前Lv !== 後Lv) {
+          lv.innerHTML = '<del class="gr-lv-old">' + 前Lv + '</del>'
+            + '<span class="gr-lv-arrow">→</span><ins class="gr-lv-new">' + 後Lv + '</ins>';
+        }
+      });
+      return;
+    }
+
+    // 今のカードは、この形では無くなる
+    if (カード) {
       カード.classList.add('gr-card-removed');
       const 名 = カード.querySelector('.sp-card-name');
       if (名) 名.classList.add('gr-name-removed');
-    });
+    }
+    if (!後.size) return;
 
-    // 関係そのものが増える：まだパネルに無いので、カードを足す
-    増える.filter(a => !消える.some(r => r.direction === a.direction)).forEach(a => {
-      const 置き場 = document.getElementById(a.direction === 'out' ? 'sp-out' : 'sp-in');
-      if (!置き場) return;
-      const l = { s: a.direction === 'out' ? '' : 相手, t: a.direction === 'out' ? 相手 : '',
-                  score: a.score, desc: a.desc || '' };
-      const html = '<div class="sp-card gr-card-added">'
+    // 直した後の欄に、カードを足す
+    const 置き場id = 後.size === 2 ? 'sp-mutual' : (後.has('out') ? 'sp-out' : 'sp-in');
+    const 置き場 = document.getElementById(置き場id);
+    if (!置き場) return;
+    const 向き = 置き場id === 'sp-mutual' ? 'mutual' : (置き場id === 'sp-out' ? 'out' : 'in');
+    const 元 = 増える.find(a => a.direction === 'mutual') || 増える.find(a => 広げる(a.direction).some(x => 後.has(x)));
+    let html;
+    if (元) {
+      const l = { s: 向き === 'out' ? '' : 相手, t: 向き === 'out' ? 相手 : '',
+                  score: 元.score || 元.score_in || 元.score_out, desc: 元.desc || 元.desc_in || 元.desc_out || '' };
+      html = '<div class="sp-card gr-card-added">'
         + '<div class="sp-card-names-row">'
         + '<a href="#" class="sp-genre-link sp-card-name" data-id="' + grEsc(相手) + '">'
-        + grEsc(a.other_label || 相手) + '</a>' + _influenceLvHtml(l)
+        + grEsc(元.other_label || 相手) + '</a>' + _influenceLvHtml(l)
         + '</div>'
-        + '<div class="sp-card-score-row">' + _scoreMeterHtml(l, a.direction === 'out' ? 'out' : 'in') + '</div>'
-        + '<div class="sp-card-desc">' + grEsc(a.desc || '') + '</div>'
+        + '<div class="sp-card-score-row">' + _scoreMeterHtml(l, 向き) + '</div>'
+        + '<div class="sp-card-desc">' + grEsc(l.desc) + '</div>'
         + '</div>';
-      // 「なし」とだけ書かれていた場合は、それを置き換える
-      if (!置き場.querySelector('.sp-card')) 置き場.innerHTML = '';
-      置き場.insertAdjacentHTML('beforeend', html);
-    });
+    } else if (カード && カード.cloneNode) {
+      // 行を外しただけで新しい中身が無いときは、今のカードを写して移す
+      const 写し = カード.cloneNode(true);
+      写し.classList.remove('gr-card-removed');
+      写し.classList.add('gr-card-added');
+      写し.querySelectorAll('.gr-name-removed').forEach(x => x.classList.remove('gr-name-removed'));
+      html = 写し.outerHTML;
+    }
+    if (!html) return;
+    // 「なし」とだけ書かれていた場合は、それを置き換える
+    if (!置き場.querySelector('.sp-card')) 置き場.innerHTML = '';
+    置き場.insertAdjacentHTML('beforeend', html);
   });
 }
 
@@ -22215,9 +22255,11 @@ function grBuildCorrectionReviewHtml(data) {
   const problems = (data.fix_problems || []).concat(data.length_warnings || []);
   const problemHtml = problems.length
     ? `<div style="margin-top:6px;color:#f0c375;font-size:11.5px;">⚠ ${problems.map(grEsc).join('<br>⚠ ')}</div>` : '';
+  // 公開前の直しでは「承認」が登録そのものの承認と紛らわしいので、何をするボタンかを言葉にする
+  const 公開前 = grIsPrepublishNode();
   const actions = `<div class="gr-corr-actions">
-      <button class="gr-corr-btn reject" onclick="grStartRejectPendingCorrection('${data.token}', this)">✗ 却下</button>
-      <button class="gr-corr-btn approve" onclick="grApprovePendingCorrection('${data.token}', this)" ${items ? '' : 'disabled'}>✓ 承認して反映する</button>
+      <button class="gr-corr-btn reject" onclick="grStartRejectPendingCorrection('${data.token}', this)">${公開前 ? '✗ 入れない' : '✗ 却下'}</button>
+      <button class="gr-corr-btn approve" onclick="grApprovePendingCorrection('${data.token}', this)" ${items ? '' : 'disabled'}>${公開前 ? '✓ 登録内容に入れる' : '✓ 承認して反映する'}</button>
     </div>`;
   return `<div class="gr-corr-review">${items || '<div class="gr-corr-item">自動で適用できる修正案がありません。却下するか、内容を変えて送り直してください。</div>'}${problemHtml}</div>${actions}`;
 }
@@ -22243,6 +22285,35 @@ function grBarMessage(bar, text, color) {
 async function grApprovePendingCorrection(token, btn) {
   const bar = btn.closest('.gr-corr-actions');
   bar.querySelectorAll('button').forEach(b => b.disabled = true);
+  if (grIsPrepublishNode()) {
+    // 公開前の直し：登録待ちのデータに入れて、確認画面ごと読み込み直す
+    // （承認後はページごと読み込み直す決まり。その場の書き換えは表示を壊したため）
+    btn.textContent = '入れています…';
+    try {
+      const res  = await fetch(grPrepublishBase() + '/apply/' + token, {method: 'POST'});
+      const data = await res.json();
+      if (data.status === 'applied') {
+        grBarMessage(bar, data.message || '直しを登録内容に入れました。', '#7ee0a0');
+        setTimeout(() => {
+          try {
+            if (window.parent !== window && window.parent.location.pathname.indexOf('/admin/preview/') === 0) {
+              window.parent.location.reload();
+              return;
+            }
+          } catch (e) { /* 親の画面に触れないときは、この画面だけ読み込み直す */ }
+          location.reload();
+        }, 1500);
+        return;
+      }
+      btn.textContent = '✓ 登録内容に入れる';
+      grBarMessage(bar, data.message || '入れられませんでした', '#f28b8b');
+    } catch (e) {
+      btn.textContent = '✓ 登録内容に入れる';
+      grBarMessage(bar, '通信に失敗しました。もう一度お試しください。', '#f28b8b');
+    }
+    bar.querySelectorAll('button').forEach(b => b.disabled = false);
+    return;
+  }
   try {
     const res  = await fetch(API_BASE + '/admin/correction/approve/' + token, {method: 'POST'});
     const data = await res.json();
@@ -22294,7 +22365,7 @@ async function grStartRejectPendingCorrection(token, btn) {
     grClearReviewMarks();
     bar.innerHTML = `
       <div class="gr-reject-box">
-        <div class="gr-reject-done">✗ 却下しました</div>
+        <div class="gr-reject-done">${grIsPrepublishNode() ? '✗ 入れませんでした' : '✗ 却下しました'}</div>
         <div class="gr-reject-msg">${grEsc(data.message || '')}</div>
         <textarea class="gr-reject-reason" placeholder="よければ理由を一言（任意）"></textarea>
         <div class="gr-reject-row">
@@ -22329,6 +22400,34 @@ async function grSendRejectReason(token, btn) {
   }
 }
 
+// 【公開前にAIに直してもらう】2026-09-16
+// 登録確認画面のプレビュー（まだ公開していない登録を仮に差し込んだ地図）で、
+// 登録するジャンルの説明パネルを開いているときだけ、修正更新の入力欄・赤緑の表示・
+// ボタンを「公開前の直し」として使う。送り先と、承認したときの書き先だけが違う
+// （公開はせず、登録待ちのデータに入れる）。公開中の地図では window.__grPrepublishToken が
+// 無いので、今までと何も変わらない。仕様書「公開前にAIに直してもらう」を参照。
+function grIsPrepublishNode(d) {
+  const n = d || window._currentNode;
+  return !!(window.__grPrepublishToken && n && n.id === '__preview__');
+}
+function grPrepublishBase() {
+  return API_BASE + '/admin/preview/' + encodeURIComponent(window.__grPrepublishToken) + '/fix';
+}
+// 登録確認画面の「公開前にAIに直してもらう」ボタンから呼ばれる。
+// 別のジャンルを開いていたら、登録するジャンルを開き直してから入力欄を出す。
+function grOpenPrepublishForm() {
+  const 出す = () => {
+    if (spCorrForm.style.display !== 'block') spCorrBtn.click();
+    grScrollPanelTo(document.getElementById('sp-correction-sec'));
+    spCorrText.focus();
+  };
+  if (grIsPrepublishNode()) { 出す(); return; }
+  const target = node.filter(n => n.id === '__preview__');
+  if (target.empty()) return;
+  target.dispatch('click');
+  setTimeout(出す, 700);
+}
+
 spCorrSend.onclick = async () => {
   const comment = spCorrText.value.trim();
   const d = window._currentNode;
@@ -22340,7 +22439,8 @@ spCorrSend.onclick = async () => {
   if (spCorrPolling) { clearInterval(spCorrPolling); spCorrPolling = null; }
 
   try {
-    const res = await fetch(API_BASE + '/correction_request', {
+    const 公開前 = grIsPrepublishNode(d);
+    const res = await fetch(公開前 ? grPrepublishBase() : API_BASE + '/correction_request', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ genre_id: d.id, comment })
@@ -22383,9 +22483,12 @@ spCorrSend.onclick = async () => {
           spCorrResult.innerHTML = logHtml + '<b style="font-size:13px;">△ 修正はできませんでした（現在の内容に問題はないと判断しました）</b><br>' + (result.reasoning || '').replace(/\n/g, '<br>');
         } else if (result.status === 'pending' && result.token) {
           spCorrResult.className = 'ok';
-          spCorrResult.innerHTML = logHtml + '<b style="font-size:13px;">✓ 修正しました。内容をご確認のうえ承認してください</b><br>' + (result.reasoning || '').replace(/\n/g, '<br>') + '<div class="gr-corr-loading">確認内容を読み込んでいます…</div>';
+          spCorrResult.innerHTML = logHtml + (公開前
+            ? '<b style="font-size:13px;">✓ 直し案を作りました。内容をご確認のうえ、登録内容に入れるか決めてください</b><br>'
+            : '<b style="font-size:13px;">✓ 修正しました。内容をご確認のうえ承認してください</b><br>') + (result.reasoning || '').replace(/\n/g, '<br>') + '<div class="gr-corr-loading">確認内容を読み込んでいます…</div>';
           spCorrText.value = '';
-          fetch(API_BASE + '/correction_request/review/' + result.token).then(r => r.json()).then(data => {
+          fetch(公開前 ? grPrepublishBase() + '/review/' + result.token
+                      : API_BASE + '/correction_request/review/' + result.token).then(r => r.json()).then(data => {
             const loading = spCorrResult.querySelector('.gr-corr-loading');
             if (loading) loading.remove();
             data.token = result.token;
