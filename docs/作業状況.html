@@ -155,14 +155,14 @@
 
 <div class="item">
   <div class="item-head">
-    <span class="status hold">任意・クレジットを使う</span>
-    <span class="item-title">影響関係の「わざと間違えた指摘」を本物のAIで試す</span>
+    <span class="status wait">次にやること（修正更新の最後の確認）</span>
+    <span class="item-title">修正更新③ 影響関係の「わざと間違えた指摘」を本物のAIで試す</span>
   </div>
   <div class="item-body">
     修正更新の作り直しで、判定の指示に「指摘は鵜呑みにせず調べ直す」を書き足した（v2.70）。
     表示はAIを使わずに確かめ終えたが、<b>AIが本当に調べ直して「いえ、こうでした」と返すか</b>は
     まだ本物で試していない。わざと外れた影響関係の指摘を1回送って確かめる。
-    <div class="dim" style="margin-top:8px;">Gensparkのsuper_agentを1回使う（70〜90クレジット程度）。やるかどうかはチョロさんの判断待ち。</div>
+    <div class="dim" style="margin-top:8px;">Gensparkのsuper_agentを1回使う（70〜90クレジット程度）。<b>これが済むまで修正更新の作り直しは完了ではない</b>（2026-09-15、いったん「任意」として完了扱いにしてしまい、チョロさんに指摘された）。</div>
   </div>
 </div>
 
@@ -510,7 +510,7 @@
   <div class="done-list">
 
     <div class="done-day">2026-09-15</div>
-    <div class="done-item">修正更新の作り直し ― 6種類に整理して作り込み、実機で確認した（genre_adder.py v2.69→v2.73・地図 v33.3・確認画面 v3.10）
+    <div class="done-item">修正更新の作り直し ― 6種類に整理して作り込み、表示を実機で確認した（genre_adder.py v2.69→v2.73・地図 v33.3・確認画面 v3.10）<b>※③のAIが調べ直すかの確認は未了。進行中に残してある</b>
       <div class="dim"><b>大原則：指摘は鵜呑みにせず、調べてから返す。</b>当たっていた→直して根拠／外れていた→直さず「いえ、こうでした」／
       違うことが分かった→見つけたことを提示。判定の指示に書き足した。<br>
       <b>① 文字</b>…項目ごとの対応表2つを廃止し、パネルの <code>data-field</code> の目印から置き場所と飛び先を探す。別名は札で見せる。<br>
