@@ -22217,6 +22217,12 @@ function grMarkMapLink(相手id) {
   // line.link そのものは display:none で、画面には出ていなかった）。
   window.__grChangedPairs = window.__grChangedPairs || new Set();
   window.__grChangedPairs.add(自分 + '|' + 相手id);
+  // 道はいま描かれているものをそのまま使うので、印の帯を足すために描き直させる
+  // （描き直しの中で、印の付いた道にだけ明るい帯をかぶせている）
+  if (typeof _drawLinkStaff === 'function') {
+    _staffSig = '';
+    try { _drawLinkStaff(); } catch (e) { /* 描き直せなくても印だけは付ける */ }
+  }
   let 見つかった = false;
   document.querySelectorAll('#link-staff > g[data-pair]').forEach(g => {
     const [s_, t_] = (g.getAttribute('data-pair') || '').split('|');
