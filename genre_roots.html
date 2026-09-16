@@ -673,10 +673,14 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 /* 地図の線と丸の点滅（変わったところを地図でも分かるように。2026-09-16） */
 @keyframes gr-map-line-blink { 0%,100% { stroke-opacity: 1; } 50% { stroke-opacity: 0.1; } }
 @keyframes gr-map-node-blink { 0%,100% { opacity: 1; } 50% { opacity: 0.25; } }
-line.link.gr-map-changed { animation: gr-map-line-blink 1.2s ease-in-out infinite; }
+line.link.gr-map-changed, .link-glass-blur.gr-map-changed,
+.link-glass-highlight.gr-map-changed, .link-glass-shadow.gr-map-changed {
+  animation: gr-map-line-blink 1.2s ease-in-out infinite; }
 g.node.gr-map-changed    { animation: gr-map-node-blink 1.2s ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce) {
-  line.link.gr-map-changed, g.node.gr-map-changed { animation: none; }
+  line.link.gr-map-changed, .link-glass-blur.gr-map-changed,
+  .link-glass-highlight.gr-map-changed, .link-glass-shadow.gr-map-changed,
+  g.node.gr-map-changed { animation: none; }
 }
 .sp-card.gr-card-removed { border-radius: 8px; animation: gr-blink-red 1.4s ease-in-out infinite; }
 .sp-card.gr-card-added   { border-radius: 8px; animation: gr-blink-green 1.4s ease-in-out infinite; }
@@ -22190,15 +22194,19 @@ function grCardDirections(カード) {
 function grMarkMapLink(相手id) {
   const 自分 = (window._currentNode || {}).id;
   let 見つかった = false;
-  document.querySelectorAll('line.link').forEach(el => {
-    const d = el.__data__;
-    if (!d) return;
-    const s_ = (d.s && d.s.id) || d.s, t_ = (d.t && d.t.id) || d.t;
-    if ((s_ === 自分 && t_ === 相手id) || (s_ === 相手id && t_ === 自分)) {
-      el.classList.add('gr-map-changed');
-      見つかった = true;
-    }
-  });
+  // 画面に出ている線は「ガラスのパイプ」の層（link-glass-…）で描かれていて、
+  // line.link 自体は display:none で隠れている。印は見えている層にも付ける
+  // （2026-09-16、線が点滅しないというチョロさんの指摘で判明）。
+  document.querySelectorAll('line.link, .link-glass-blur, .link-glass-highlight, .link-glass-shadow')
+    .forEach(el => {
+      const d = el.__data__;
+      if (!d) return;
+      const s_ = (d.s && d.s.id) || d.s, t_ = (d.t && d.t.id) || d.t;
+      if ((s_ === 自分 && t_ === 相手id) || (s_ === 相手id && t_ === 自分)) {
+        el.classList.add('gr-map-changed');
+        if (getComputedStyle(el).display !== 'none') 見つかった = true;
+      }
+    });
   if (!見つかった) grMarkMapNode(相手id);
 }
 
