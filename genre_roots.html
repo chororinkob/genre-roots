@@ -664,10 +664,20 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 .gr-lv-new { color: #7ee0a0; text-decoration: none; font-weight: 800; }
 .gr-lv-arrow { margin: 0 3px; color: #9aa; font-weight: 400; }
 .sp-card-name.gr-name-removed { text-decoration: line-through; color: #f28b8b !important; }
-@keyframes gr-blink-red   { 0%,100% { box-shadow: 0 0 0 2px rgba(242,139,139,0.9); }
-                            50%     { box-shadow: 0 0 0 2px rgba(242,139,139,0.15); } }
-@keyframes gr-blink-green { 0%,100% { box-shadow: 0 0 0 2px rgba(126,224,160,0.9); }
-                            50%     { box-shadow: 0 0 0 2px rgba(126,224,160,0.15); } }
+/* 点滅は、はっきり消えるようにする（2026-09-16。以前は濃さが揺れるだけで
+   「点きっぱなし」に見えていた、というチョロさんの指摘） */
+@keyframes gr-blink-red   { 0%,100% { box-shadow: 0 0 0 2px rgba(242,139,139,1); }
+                            45%,55% { box-shadow: 0 0 0 2px rgba(242,139,139,0); } }
+@keyframes gr-blink-green { 0%,100% { box-shadow: 0 0 0 2px rgba(126,224,160,1); }
+                            45%,55% { box-shadow: 0 0 0 2px rgba(126,224,160,0); } }
+/* 地図の線と丸の点滅（変わったところを地図でも分かるように。2026-09-16） */
+@keyframes gr-map-line-blink { 0%,100% { stroke-opacity: 1; } 50% { stroke-opacity: 0.1; } }
+@keyframes gr-map-node-blink { 0%,100% { opacity: 1; } 50% { opacity: 0.25; } }
+line.link.gr-map-changed { animation: gr-map-line-blink 1.2s ease-in-out infinite; }
+g.node.gr-map-changed    { animation: gr-map-node-blink 1.2s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  line.link.gr-map-changed, g.node.gr-map-changed { animation: none; }
+}
 .sp-card.gr-card-removed { border-radius: 8px; animation: gr-blink-red 1.4s ease-in-out infinite; }
 .sp-card.gr-card-added   { border-radius: 8px; animation: gr-blink-green 1.4s ease-in-out infinite; }
 .sp-card.gr-card-modified { border-radius: 8px; box-shadow: 0 0 0 1px rgba(126,224,160,0.45); }
@@ -712,6 +722,8 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
                     border: 1px solid #444; border-radius: 6px; color: #eee; font-size: 12px;
                     resize: vertical; box-sizing: border-box; font-family: inherit; }
 .gr-reject-row { display: flex; gap: 8px; }
+.gr-corr-said { background: rgba(255,255,255,0.05); border-left: 3px solid rgba(255,214,102,0.6);
+  padding: 6px 10px; margin-bottom: 8px; border-radius: 0 6px 6px 0; font-size: 12px; line-height: 1.7; }
 .gr-reject-done { font-size: 13px; font-weight: 700; color: #f28b8b; }
 .gr-reject-msg { font-size: 12px; white-space: pre-wrap; color: #cfd6d6; margin: 4px 0 6px; }
 /* ジャンプ先を一瞬光らせて、どこが変わったか目で追いやすくする */
@@ -19079,6 +19091,22 @@ function _scoreMeterHtml(l, dirClass) {
 // ジャンル名の右にくっつける「影響Lv」バッジ。数字だけ太字の赤にして
 // 目立たせる（「影響レベル」がジャンルマップへの影響度合いを表すという
 // ことが伝わるように、との要望を受けて設計。2026-07-24）
+// 【影響関係のカードを描くのは、ここ1か所だけ】2026-09-16
+// 説明パネルの「受けた」「与えた」「相互に」の3か所と、修正更新・公開前の直しの
+// レビューで「これが無くなります」と見せるカードが、同じこの部品を使う。
+// 以前はレビュー側だけ手作りのHTMLを組み立てていたため、軸の光のアニメーションが
+// 付かず、承認後の見た目と違っていた（2026-09-16、チョロさんの指摘）。
+function spInfluenceCardHtml(l, 向き, 相手id, 追加クラス) {
+  const 名 = (nodeMap[相手id] && nodeMap[相手id].label ? nodeMap[相手id].label : 相手id).replace("\n", " ");
+  return `<div class="sp-card${追加クラス ? ' ' + 追加クラス : ''}">
+    <div class="sp-card-names-row">
+      <a href="#" class="sp-genre-link sp-card-name" data-id="${相手id}">${名}</a>${_influenceLvHtml(l)}
+    </div>
+    <div class="sp-card-score-row">${_scoreMeterHtml(l, 向き)}</div>
+    <div class="sp-card-desc">${_applyGlossary(l.desc || '')}</div>
+  </div>`;
+}
+
 function _influenceLvHtml(l) {
   if (!l.score) return '';
   return ` <span class="sp-influence-lv">影響Lv<b>${_scoreTotal(l.score)}</b></span>`;
@@ -21430,41 +21458,20 @@ node.on("click", (e, d) => {
   // 影響を受けた（一方向のみ）：影響元のジャンル名
   const incoming = linkData.filter(l => l.t === d.id && !l.mutual);
   spIn.innerHTML = incoming.length
-    ? incoming.map(l => `<div class="sp-card">
-        <div class="sp-card-names-row">
-          <a href="#" class="sp-genre-link sp-card-name" data-id="${l.s}">${nodeMap[l.s]?.label?.replace("\n"," ")}</a>${_influenceLvHtml(l)}
-        </div>
-        <div class="sp-card-score-row">${_scoreMeterHtml(l, "in")}</div>
-        <div class="sp-card-desc">${_applyGlossary(l.desc||'')}</div>
-      </div>`).join('')
+    ? incoming.map(l => spInfluenceCardHtml(l, 'in', l.s)).join('')
     : '<span style="color:#666">なし</span>';
 
   // 影響を与えた（一方向のみ）：影響先のジャンル名
   const outgoing = linkData.filter(l => l.s === d.id && !l.mutual);
   spOut.innerHTML = outgoing.length
-    ? outgoing.map(l => `<div class="sp-card">
-        <div class="sp-card-names-row">
-          <a href="#" class="sp-genre-link sp-card-name" data-id="${l.t}">${nodeMap[l.t]?.label?.replace("\n"," ")}</a>${_influenceLvHtml(l)}
-        </div>
-        <div class="sp-card-score-row">${_scoreMeterHtml(l, "out")}</div>
-        <div class="sp-card-desc">${_applyGlossary(l.desc||'')}</div>
-      </div>`).join('')
+    ? outgoing.map(l => spInfluenceCardHtml(l, 'out', l.t)).join('')
     : '<span style="color:#666">なし</span>';
 
   // 相互に影響し合ったジャンル：相手のジャンル名
   const spMutual = document.getElementById("sp-mutual");
   const mutualLinks = linkData.filter(l => l.mutual && (l.s === d.id || l.t === d.id));
   spMutual.innerHTML = mutualLinks.length
-    ? mutualLinks.map(l => {
-        const otherId = l.s === d.id ? l.t : l.s;
-        return `<div class="sp-card">
-          <div class="sp-card-names-row">
-            <a href="#" class="sp-genre-link sp-card-name" data-id="${otherId}">${nodeMap[otherId]?.label?.replace("\n"," ")}</a>${_influenceLvHtml(l)}
-          </div>
-          <div class="sp-card-score-row">${_scoreMeterHtml(l, "mutual")}</div>
-          <div class="sp-card-desc">${_applyGlossary(l.desc||'')}</div>
-        </div>`;
-      }).join('')
+    ? mutualLinks.map(l => spInfluenceCardHtml(l, 'mutual', l.s === d.id ? l.t : l.s)).join('')
     : '<span style="color:#666">なし</span>';
 
   // 各カードのバー/チップ/矢印を、スクロールで実際に見えた瞬間から
@@ -21889,6 +21896,8 @@ function grApplyCorrectionDiffsToPanel(fixViews) {
         const 後の項目 = document.querySelector('.legend-item[data-cat="' + fv.new_value + '"]');
         if (前の項目) 前の項目.classList.add('gr-legend-removed');
         if (後の項目) 後の項目.classList.add('gr-legend-added');
+        // 丸の色と居場所が変わるので、地図の丸も点滅させる（2026-09-16）
+        if (window._currentNode) grMarkMapNode(window._currentNode.id);
         // カテゴリーを変えると何が起きるのかは、書かれていないと伝わらない。
         // 一言添える（2026-09-15、チョロさんの指示）。
         const 行 = document.getElementById('sp-era-cat-row');
@@ -22093,98 +22102,110 @@ function grFindInfluenceCard(otherId) {
   return 名 ? 名.closest('.sp-card') : null;
 }
 
+// 【影響関係の印】2026-09-16に作り直した
+// レビューの画面は「直したあとのデータ」で組み立てた地図そのものなので、カードは
+// すでに直したあとの姿で描かれている。ここでやるのは、その上に
+//   ・変わった軸に赤（外れた）と緑（足した）、影響Lvは「前 → 後」
+//   ・無くなる関係は、元の姿のカードを赤い点滅つきで足す（同じ部品で描く）
+//   ・地図の線と丸を点滅させる
+// という印を乗せることだけ。以前はここでカードを手作りしていたため、軸の光の
+// アニメーションが付かず、地図も直らなかった（チョロさんの指摘）。
 function grApplyLinksDiffToPanel(fv) {
   const 変化 = fv.link_changes || [];
   const 相手ごと = {};
   変化.forEach(c => { (相手ごと[c.other_id] = 相手ごと[c.other_id] || []).push(c); });
-  // 「相互」は受けた・与えたの両方の行がそろった状態
   const 広げる = dir => dir === 'mutual' ? ['in', 'out'] : [dir];
 
   Object.keys(相手ごと).forEach(相手 => {
     const 群 = 相手ごと[相手];
-    const 消える = 群.filter(c => c.change === 'removed');
-    const 増える = 群.filter(c => c.change === 'added');
+    const 消えた行 = 群.filter(c => c.change === 'removed');
+    const 増えた行 = 群.filter(c => c.change === 'added');
     const カード = grFindInfluenceCard(相手);
+    const 増えた向き = new Set(増えた行.flatMap(c => 広げる(c.direction)));
 
-    // 【関係の種類が変わるか】2026-09-16
-    // 以前は「消える行があればカードごと消える」扱いだったため、相互の関係の片方の行を
-    // 外して「受けた」だけにする直しでも、相互のカードが丸ごと消えるように見えた。
-    // また、片方向の関係に逆向きを足して相互にする直しでは、カードが「受けた」欄に
-    // 足されていた。いまは、今カードがある欄（受けた・与えた・相互）と、直した後の
-    // 向きを比べ、種類が変わるときは今のカードに赤、移る先の欄に緑のカードを出す。
-    const 箱 = (カード && カード.closest) ? カード.closest('#sp-in, #sp-out, #sp-mutual') : null;
-    const 前 = new Set(!カード ? []
-      : !箱 ? 消える.flatMap(c => 広げる(c.direction))
-      : 箱.id === 'sp-mutual' ? ['in', 'out'] : [箱.id === 'sp-out' ? 'out' : 'in']);
-    const 消向き = new Set(消える.flatMap(c => 広げる(c.direction)));
-    const 増向き = new Set(増える.flatMap(c => 広げる(c.direction)));
-    const 後 = new Set([...前].filter(x => !消向き.has(x) || 増向き.has(x)));
-    増向き.forEach(x => 後.add(x));
-    const 種類が同じ = 前.size === 後.size && [...前].every(x => 後.has(x));
-
-    if (種類が同じ) {
-      // 同じ向きが消えて増えている＝その向きの中身（軸や説明）を直しただけ
-      const 直した = 消える.filter(r => 増える.some(a => a.direction === r.direction));
-      直した.forEach(旧 => {
-        const 新 = 増える.find(a => a.direction === 旧.direction);
-        if (!カード || !旧.score || !新.score) return;
+    // 同じ向きが消えて増えている＝その向きの中身を直しただけ。いまのカードに印を付ける
+    const 直した = 消えた行.filter(r => 広げる(r.direction).some(d => 増えた向き.has(d)));
+    if (カード && 直した.length) {
+      const 旧 = 直した[0];
+      const 新 = 増えた行.find(a => 広げる(a.direction).some(d => 広げる(旧.direction).includes(d))) || 増えた行[0];
+      const 旧s = 旧.score || 旧.score_in || 旧.score_out;
+      const 新s = (新 && (新.score || 新.score_in || 新.score_out)) || null;
+      if (旧s && 新s) {
         カード.classList.add('gr-card-modified');
         const チップ = カード.querySelectorAll('.sp-score .sp-chip');
         SCORE_DIMS.forEach((d, i) => {
           const el = チップ[i];
           if (!el) return;
-          const 前軸 = !!旧.score[d.key], 後軸 = !!新.score[d.key];
-          if (前軸 && !後軸) el.classList.add('gr-chip-removed');
-          if (!前軸 && 後軸) el.classList.add('gr-chip-added');
+          if (旧s[d.key] && !新s[d.key]) el.classList.add('gr-chip-removed');
+          if (!旧s[d.key] && 新s[d.key]) el.classList.add('gr-chip-added');
         });
         const lv = カード.querySelector('.sp-influence-lv b');
-        const 前Lv = _scoreTotal(旧.score), 後Lv = _scoreTotal(新.score);
+        const 前Lv = _scoreTotal(旧s), 後Lv = _scoreTotal(新s);
         if (lv && 前Lv !== 後Lv) {
           lv.innerHTML = '<del class="gr-lv-old">' + 前Lv + '</del>'
             + '<span class="gr-lv-arrow">→</span><ins class="gr-lv-new">' + 後Lv + '</ins>';
         }
+      }
+    }
+
+    // 無くなる向き（消えたまま増えていない）は、元の姿のカードを赤で見せる
+    消えた行.filter(r => !広げる(r.direction).some(d => 増えた向き.has(d))).forEach(r => {
+      広げる(r.direction).forEach(向き => {
+        // その向きが直したあとにも残っているなら、無くなったことにはならない
+        if (カード && grCardDirections(カード).includes(向き)) return;
+        const 置き場 = document.getElementById(向き === 'out' ? 'sp-out' : 'sp-in');
+        if (!置き場) return;
+        const l = { s: 向き === 'out' ? '' : 相手, t: 向き === 'out' ? 相手 : '',
+                    score: r.score || r.score_in || r.score_out,
+                    desc: r.desc || r.desc_in || r.desc_out || '' };
+        if (!置き場.querySelector('.sp-card')) 置き場.innerHTML = '';
+        置き場.insertAdjacentHTML('beforeend', spInfluenceCardHtml(l, 向き, 相手, 'gr-card-removed'));
+        const 足した = 置き場.lastElementChild;
+        const 名 = 足した && 足した.querySelector('.sp-card-name');
+        if (名) 名.classList.add('gr-name-removed');
+        // 足したカードにも、ふつうのカードと同じアニメーションを効かせる
+        if (typeof _observeScrollAnim === 'function') _observeScrollAnim(置き場);
       });
-      return;
-    }
+    });
 
-    // 今のカードは、この形では無くなる
-    if (カード) {
-      カード.classList.add('gr-card-removed');
-      const 名 = カード.querySelector('.sp-card-name');
-      if (名) 名.classList.add('gr-name-removed');
-    }
-    if (!後.size) return;
+    // 直したあとに増えたカードは、緑の点滅で示す（中身はもう本物が描いている）
+    増えた行.forEach(() => { if (カード) カード.classList.add('gr-card-added'); });
 
-    // 直した後の欄に、カードを足す
-    const 置き場id = 後.size === 2 ? 'sp-mutual' : (後.has('out') ? 'sp-out' : 'sp-in');
-    const 置き場 = document.getElementById(置き場id);
-    if (!置き場) return;
-    const 向き = 置き場id === 'sp-mutual' ? 'mutual' : (置き場id === 'sp-out' ? 'out' : 'in');
-    const 元 = 増える.find(a => a.direction === 'mutual') || 増える.find(a => 広げる(a.direction).some(x => 後.has(x)));
-    let html;
-    if (元) {
-      const l = { s: 向き === 'out' ? '' : 相手, t: 向き === 'out' ? 相手 : '',
-                  score: 元.score || 元.score_in || 元.score_out, desc: 元.desc || 元.desc_in || 元.desc_out || '' };
-      html = '<div class="sp-card gr-card-added">'
-        + '<div class="sp-card-names-row">'
-        + '<a href="#" class="sp-genre-link sp-card-name" data-id="' + grEsc(相手) + '">'
-        + grEsc(元.other_label || 相手) + '</a>' + _influenceLvHtml(l)
-        + '</div>'
-        + '<div class="sp-card-score-row">' + _scoreMeterHtml(l, 向き) + '</div>'
-        + '<div class="sp-card-desc">' + grEsc(l.desc) + '</div>'
-        + '</div>';
-    } else if (カード && カード.cloneNode) {
-      // 行を外しただけで新しい中身が無いときは、今のカードを写して移す
-      const 写し = カード.cloneNode(true);
-      写し.classList.remove('gr-card-removed');
-      写し.classList.add('gr-card-added');
-      写し.querySelectorAll('.gr-name-removed').forEach(x => x.classList.remove('gr-name-removed'));
-      html = 写し.outerHTML;
+    grMarkMapLink(相手);
+  });
+}
+
+// そのカードが今どの欄にあるか（受けた・与えた・相互）
+function grCardDirections(カード) {
+  const 箱 = カード && カード.closest ? カード.closest('#sp-in, #sp-out, #sp-mutual') : null;
+  if (!箱) return [];
+  if (箱.id === 'sp-mutual') return ['in', 'out'];
+  return [箱.id === 'sp-out' ? 'out' : 'in'];
+}
+
+// 【地図の線と丸も点滅させる】2026-09-16
+// 影響関係が変わったら、その線を点滅させる。関係そのものが無くなった場合は線が
+// もう無いので、相手の丸を点滅させる。カテゴリーが変わったとき・ジャンルが新しく
+// 増えたときは、自分の丸を点滅させる（仕様書「どこを光らせるか」）。
+function grMarkMapLink(相手id) {
+  const 自分 = (window._currentNode || {}).id;
+  let 見つかった = false;
+  document.querySelectorAll('line.link').forEach(el => {
+    const d = el.__data__;
+    if (!d) return;
+    const s_ = (d.s && d.s.id) || d.s, t_ = (d.t && d.t.id) || d.t;
+    if ((s_ === 自分 && t_ === 相手id) || (s_ === 相手id && t_ === 自分)) {
+      el.classList.add('gr-map-changed');
+      見つかった = true;
     }
-    if (!html) return;
-    // 「なし」とだけ書かれていた場合は、それを置き換える
-    if (!置き場.querySelector('.sp-card')) 置き場.innerHTML = '';
-    置き場.insertAdjacentHTML('beforeend', html);
+  });
+  if (!見つかった) grMarkMapNode(相手id);
+}
+
+function grMarkMapNode(id) {
+  document.querySelectorAll('g.node').forEach(el => {
+    const d = el.__data__;
+    if (d && d.id === id) el.classList.add('gr-map-changed');
   });
 }
 
@@ -22305,15 +22326,7 @@ async function grApprovePendingCorrection(token, btn) {
       const data = await res.json();
       if (data.status === 'applied') {
         grBarMessage(bar, data.message || '直しを登録内容に入れました。', '#7ee0a0');
-        setTimeout(() => {
-          try {
-            if (window.parent !== window && window.parent.location.pathname.indexOf('/admin/preview/') === 0) {
-              window.parent.location.reload();
-              return;
-            }
-          } catch (e) { /* 親の画面に触れないときは、この画面だけ読み込み直す */ }
-          location.reload();
-        }, 1500);
+        setTimeout(grLeaveFixReview, 1500);
         return;
       }
       btn.textContent = '✓ 登録内容に入れる';
@@ -22374,6 +22387,21 @@ async function grStartRejectPendingCorrection(token, btn) {
       return;
     }
     grClearReviewMarks();
+    if (window.__grFixToken) {
+      // 直したあとの地図を見ている状態なので、理由を書いたあとに元の画面へ戻す
+      bar.innerHTML = `
+        <div class="gr-reject-box">
+          <div class="gr-reject-done">${grIsPrepublishNode() ? '✗ 入れませんでした' : '✗ 却下しました'}</div>
+          <div class="gr-reject-msg">${grEsc(data.message || '')}</div>
+          <textarea class="gr-reject-reason" placeholder="よければ理由を一言（任意）"></textarea>
+          <div class="gr-reject-row">
+            <button class="gr-corr-btn send" onclick="grSendRejectReason('${token}', this)">送る</button>
+            <button class="gr-corr-btn cancel" onclick="grLeaveFixReview()">閉じる</button>
+          </div>
+        </div>`;
+      grPositionCorrectionActionBar();
+      return;
+    }
     bar.innerHTML = `
       <div class="gr-reject-box">
         <div class="gr-reject-done">${grIsPrepublishNode() ? '✗ 入れませんでした' : '✗ 却下しました'}</div>
@@ -22396,7 +22424,11 @@ async function grSendRejectReason(token, btn) {
   const box = btn.closest('.gr-reject-box');
   const reason = (box.querySelector('.gr-reject-reason') || {}).value || '';
   const 入力を片付ける = () => box.querySelectorAll('.gr-reject-reason, .gr-reject-row').forEach(x => x.remove());
-  if (!reason.trim()) { 入力を片付ける(); return; }
+  if (!reason.trim()) {
+    入力を片付ける();
+    if (window.__grFixToken) grLeaveFixReview();
+    return;
+  }
   box.querySelectorAll('button, textarea').forEach(b => b.disabled = true);
   try {
     const res  = await fetch(API_BASE + '/admin/correction/reject/' + token + '/reason', {
@@ -22405,6 +22437,7 @@ async function grSendRejectReason(token, btn) {
     const data = await res.json();
     入力を片付ける();
     box.insertAdjacentHTML('beforeend', `<div class="gr-reject-sent" style="font-size:12px;margin-top:4px;color:#9aa;">${grEsc(data.message || '理由を記録しました')}</div>`);
+    if (window.__grFixToken) setTimeout(grLeaveFixReview, 1200);
   } catch (e) {
     box.querySelectorAll('button, textarea').forEach(b => b.disabled = false);
     box.insertAdjacentHTML('beforeend', '<div style="color:#f28b8b;font-size:12px;margin-top:4px;">理由を送れませんでした。却下そのものは済んでいます。</div>');
@@ -22419,7 +22452,8 @@ async function grSendRejectReason(token, btn) {
 // 無いので、今までと何も変わらない。仕様書「公開前にAIに直してもらう」を参照。
 function grIsPrepublishNode(d) {
   const n = d || window._currentNode;
-  return !!(window.__grPrepublishToken && n && n.id === '__preview__');
+  // 確認画面のプレビューは、登録されるIDそのままで差し込まれている（2026-09-16〜）
+  return !!(window.__grPrepublishToken && n && n.id === window.__grPrepublishGenreId);
 }
 function grPrepublishBase() {
   return API_BASE + '/admin/preview/' + encodeURIComponent(window.__grPrepublishToken) + '/fix';
@@ -22433,7 +22467,7 @@ function grOpenPrepublishForm() {
     spCorrText.focus();
   };
   if (grIsPrepublishNode()) { 出す(); return; }
-  const target = node.filter(n => n.id === '__preview__');
+  const target = node.filter(n => n.id === window.__grPrepublishGenreId);
   if (target.empty()) return;
   target.dispatch('click');
   setTimeout(出す, 700);
@@ -22493,24 +22527,29 @@ spCorrSend.onclick = async () => {
           spCorrResult.className = 'not-error';
           spCorrResult.innerHTML = logHtml + '<b style="font-size:13px;">△ 修正はできませんでした（現在の内容に問題はないと判断しました）</b><br>' + (result.reasoning || '').replace(/\n/g, '<br>');
         } else if (result.status === 'pending' && result.token) {
+          // 【直したあとの地図を開き直す】2026-09-16
+          // その場でパネルだけ書き換えると、地図の線は元のままで食い違う。
+          // サーバーに「直したあとのデータ」で地図を組み立て直してもらい、そこに印を乗せる。
           spCorrResult.className = 'ok';
-          spCorrResult.innerHTML = logHtml + (公開前
-            ? '<b style="font-size:13px;">✓ 直し案を作りました。内容をご確認のうえ、登録内容に入れるか決めてください</b><br>'
-            : '<b style="font-size:13px;">✓ 修正しました。内容をご確認のうえ承認してください</b><br>') + (result.reasoning || '').replace(/\n/g, '<br>') + '<div class="gr-corr-loading">確認内容を読み込んでいます…</div>';
-          spCorrText.value = '';
-          fetch(公開前 ? grPrepublishBase() + '/review/' + result.token
-                      : API_BASE + '/correction_request/review/' + result.token).then(r => r.json()).then(data => {
-            const loading = spCorrResult.querySelector('.gr-corr-loading');
-            if (loading) loading.remove();
-            data.token = result.token;
-            // パネル本文そのものに斜線・挿入を埋め込む（一覧はジャンプ用リンクのみ）
-            grApplyCorrectionDiffsToPanel(data.fix_views);
-            spCorrResult.insertAdjacentHTML('beforeend', grBuildCorrectionReviewHtml(data));
-            grPositionCorrectionActionBar();
-          }).catch(() => {
-            const loading = spCorrResult.querySelector('.gr-corr-loading');
-            if (loading) loading.textContent = '確認内容の読み込みに失敗しました。ページを開き直してお試しください。';
-          });
+          spCorrResult.innerHTML = logHtml + '<b style="font-size:13px;">✓ 直し案ができました。画面を開き直しています…</b>';
+          if (公開前) {
+            // 確認画面ごと開き直す（住所に直し案の番号を付けておくと、あとからも開ける）
+            const 住所 = '/admin/preview/' + encodeURIComponent(window.__grPrepublishToken)
+              + '?fix=' + encodeURIComponent(result.token);
+            setTimeout(() => {
+              try {
+                if (window.parent !== window) { window.parent.location.href = 住所; return; }
+              } catch (e) { /* 親に触れないときは自分だけ開き直す */ }
+              location.href = API_BASE + '/admin/preview_map/'
+                + encodeURIComponent(window.__grPrepublishToken) + '?fix=' + encodeURIComponent(result.token);
+            }, 900);
+          } else {
+            setTimeout(() => {
+              location.href = API_BASE + '/roots?fix=' + encodeURIComponent(result.token)
+                + '&_=' + Date.now();
+            }, 900);
+          }
+          return;
         } else {
           spCorrResult.className = 'err';
           spCorrResult.innerHTML = logHtml + 'エラー：' + (result.message || '処理に失敗しました。');
@@ -25129,33 +25168,70 @@ if (!window.__grReviewToken) {
     if (_r) window.__grReviewToken = _r;
   } catch (e) { /* 読めなくても無視する */ }
 }
-// 【公開前の直しを、あとから開き直す】2026-09-16
-// 出した直し案は、その場で閉じるともう開けなかった（登録した本人やチョロさんが
-// 見返せない）。確認画面のプレビューの住所に fix=（直し案の番号）が付いていたら、
-// 保存済みの内容をそのまま出し直す。新しくAIを呼ぶことはない。
-function _grOpenPrepublishReview(ctoken) {
+// 【直し案は、直したあとの地図の上で見せる】2026-09-16
+// レビューの画面は、直したあとのデータで組み立て直した地図そのもの（サーバーが作る）。
+// ここでやるのは、保存してある直し案を読み込んで、
+//   ・何を指摘したのか、AIが何と答えたのか、どこを直したのかの一覧
+//   ・「入れない」「登録内容に入れる（承認して反映する）」のボタン
+//   ・パネルと地図への赤と緑の印
+// を乗せることだけ。新しくAIを呼ぶことはない。
+// 仕様書「レビューは、直したあとのデータをそのまま見せる」を参照。
+// レビューを見ている画面は「直したあとのデータ」で組み立てた使い捨ての地図なので、
+// 入れた・入れなかったが決まったら、ふつうの画面へ戻す（印の消し忘れも起きない）。
+function grLeaveFixReview() {
+  const id = (window._currentNode || {}).id || '';
+  if (window.__grPrepublishToken) {
+    const 住所 = '/admin/preview/' + encodeURIComponent(window.__grPrepublishToken);
+    try {
+      if (window.parent !== window) { window.parent.location.href = 住所; return; }
+    } catch (e) { /* 親に触れないときは自分だけ戻す */ }
+    location.href = API_BASE + '/admin/preview_map/' + encodeURIComponent(window.__grPrepublishToken);
+    return;
+  }
+  location.href = API_BASE + '/roots' + (id ? '?genre=' + encodeURIComponent(id) + '&' : '?') + '_=' + Date.now();
+}
+
+function grFixReviewUrl(ctoken) {
+  return window.__grPrepublishToken
+    ? grPrepublishBase() + '/review/' + encodeURIComponent(ctoken)
+    : API_BASE + '/correction_request/review/' + encodeURIComponent(ctoken);
+}
+
+function grOpenFixReview(ctoken) {
   spCorrBtn.style.display = 'none';
   spCorrForm.style.display = 'block';
   spCorrResult.className = 'ok';
   spCorrResult.innerHTML = '<div class="gr-corr-loading">直し案を読み込んでいます…</div>';
-  fetch(grPrepublishBase() + '/review/' + encodeURIComponent(ctoken)).then(r => r.json()).then(data => {
+  fetch(grFixReviewUrl(ctoken)).then(r => r.json()).then(data => {
     if (data.status !== 'ok') {
-      spCorrResult.innerHTML = 'エラー：' + (data.message || '直し案が見つかりませんでした。');
+      spCorrResult.className = 'err';
+      spCorrResult.innerHTML = 'エラー：' + grEsc(data.message || '直し案が見つかりませんでした。');
       return;
     }
     data.token = ctoken;
+    const 公開前 = !!window.__grPrepublishToken;
     if (data.record_status && data.record_status !== 'pending') {
-      const 状態 = { rejected: '入れないことにしました', approved: '登録内容に入れました' }[data.record_status] || data.record_status;
+      const 状態 = 公開前
+        ? { rejected: '入れないことにしました', approved: '登録内容に入れました' }
+        : { rejected: '却下されています', approved: '反映されています' };
       spCorrResult.className = 'not-error';
-      spCorrResult.innerHTML = '<b style="font-size:13px;">この直しは、すでに' + grEsc(状態) + '</b>';
+      spCorrResult.innerHTML = '<b style="font-size:13px;">この直しは、すでに'
+        + grEsc(状態[data.record_status] || data.record_status) + '</b>';
       return;
     }
-    spCorrResult.innerHTML = '<b style="font-size:13px;">公開前の直し（保存済みの直し案の再表示）</b><br>'
+    // 何を指摘したのかを必ず出す（これが無いと、ただのファクトチェックに見える）
+    const 指摘 = (data.user_comment || '').trim();
+    spCorrResult.innerHTML =
+      (指摘 ? '<div class="gr-corr-said"><b>指摘</b>：' + grEsc(指摘).replace(/\n/g, '<br>') + '</div>' : '')
+      + '<b style="font-size:13px;">' + (公開前
+          ? '直し案の内容です。登録内容に入れるか決めてください'
+          : '直した内容です。ご確認のうえ承認してください') + '</b><br>'
       + grEsc(data.reasoning || '').replace(/\n/g, '<br>');
     grApplyCorrectionDiffsToPanel(data.fix_views);
     spCorrResult.insertAdjacentHTML('beforeend', grBuildCorrectionReviewHtml(data));
     grPositionCorrectionActionBar();
   }).catch(() => {
+    spCorrResult.className = 'err';
     spCorrResult.innerHTML = '直し案の読み込みに失敗しました。開き直してお試しください。';
   });
 }
@@ -25305,12 +25381,9 @@ if (window.__grAutoOpenGenre) {
       // パネルの中身が描画されるのを少し待ってから、確認画面を差し込む
       setTimeout(() => _grOpenReviewFromUrl(window.__grReviewToken), 400);
     }
-    // 公開前の直しを、あとから開き直す場合（住所に fix=… が付いている）
-    if (window.__grPrepublishToken) {
-      try {
-        const _f = new URLSearchParams(location.search).get('fix');
-        if (_f) setTimeout(() => _grOpenPrepublishReview(_f), 400);
-      } catch (e) { /* 住所が読めなくてもプレビューはふつうに開く */ }
+    // 直し案を開く（サーバーが「直したあとのデータ」で組み立てた地図に、印を乗せる）
+    if (window.__grFixToken) {
+      setTimeout(() => grOpenFixReview(window.__grFixToken), 400);
     }
   };
   let _grAutoOpenWaited = 0;
