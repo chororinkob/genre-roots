@@ -21827,8 +21827,19 @@ function grPreviewCorrectionVideo(field, newId, elId) {
 function grApplyCorrectionDiffsToPanel(fixViews) {
   // 用語集の直しは最後に回す（2026-09-15）。本文の差し替えより先に当てると、
   // あとから本文を差し替えたときに、付けたふきだしごと消えてしまうため。
-  const 並べ直し = (fixViews || []).filter(fv => fv.kind !== 'glossary')
-    .concat((fixViews || []).filter(fv => fv.kind === 'glossary'));
+  // 【影響関係は1つにまとめてから当てる】2026-09-16
+  // 影響関係の直しは、確認画面の一覧では「関係を変えました」「軸を外しました」のように
+  // 複数の項目に分かれて届く。別々に当てると、先の項目でカードを写して足したあとに、
+  // 後の項目がその写しへ軸の印を付ける形になり、説明文が古いままのカードが残っていた
+  // （Cuban Rumbaの試しで発見）。相手ごとの変化はまとめて見ないと正しく描けないので、
+  // 当てるときだけ1つに束ねる（一覧の文はサーバーが作った項目ごとのまま）。
+  const 影響 = (fixViews || []).filter(fv => fv.kind === 'links');
+  const まとめた影響 = 影響.length
+    ? [{ kind: 'links', link_changes: 影響.flatMap(fv => fv.link_changes || []) }] : [];
+  const その他 = (fixViews || []).filter(fv => fv.kind !== 'links');
+  const 並べ直し = その他.filter(fv => fv.kind !== 'glossary')
+    .concat(まとめた影響)
+    .concat(その他.filter(fv => fv.kind === 'glossary'));
   並べ直し.forEach(fv => {
     if (fv.kind === 'text' && fv.field) {
       // 【項目ごとの表をやめた】2026-09-15
@@ -25118,6 +25129,37 @@ if (!window.__grReviewToken) {
     if (_r) window.__grReviewToken = _r;
   } catch (e) { /* 読めなくても無視する */ }
 }
+// 【公開前の直しを、あとから開き直す】2026-09-16
+// 出した直し案は、その場で閉じるともう開けなかった（登録した本人やチョロさんが
+// 見返せない）。確認画面のプレビューの住所に fix=（直し案の番号）が付いていたら、
+// 保存済みの内容をそのまま出し直す。新しくAIを呼ぶことはない。
+function _grOpenPrepublishReview(ctoken) {
+  spCorrBtn.style.display = 'none';
+  spCorrForm.style.display = 'block';
+  spCorrResult.className = 'ok';
+  spCorrResult.innerHTML = '<div class="gr-corr-loading">直し案を読み込んでいます…</div>';
+  fetch(grPrepublishBase() + '/review/' + encodeURIComponent(ctoken)).then(r => r.json()).then(data => {
+    if (data.status !== 'ok') {
+      spCorrResult.innerHTML = 'エラー：' + (data.message || '直し案が見つかりませんでした。');
+      return;
+    }
+    data.token = ctoken;
+    if (data.record_status && data.record_status !== 'pending') {
+      const 状態 = { rejected: '入れないことにしました', approved: '登録内容に入れました' }[data.record_status] || data.record_status;
+      spCorrResult.className = 'not-error';
+      spCorrResult.innerHTML = '<b style="font-size:13px;">この直しは、すでに' + grEsc(状態) + '</b>';
+      return;
+    }
+    spCorrResult.innerHTML = '<b style="font-size:13px;">公開前の直し（保存済みの直し案の再表示）</b><br>'
+      + grEsc(data.reasoning || '').replace(/\n/g, '<br>');
+    grApplyCorrectionDiffsToPanel(data.fix_views);
+    spCorrResult.insertAdjacentHTML('beforeend', grBuildCorrectionReviewHtml(data));
+    grPositionCorrectionActionBar();
+  }).catch(() => {
+    spCorrResult.innerHTML = '直し案の読み込みに失敗しました。開き直してお試しください。';
+  });
+}
+
 function _grOpenReviewFromUrl(token) {
   spCorrBtn.style.display = 'none';
   spCorrForm.style.display = 'block';
@@ -25262,6 +25304,13 @@ if (window.__grAutoOpenGenre) {
     if (window.__grReviewToken) {
       // パネルの中身が描画されるのを少し待ってから、確認画面を差し込む
       setTimeout(() => _grOpenReviewFromUrl(window.__grReviewToken), 400);
+    }
+    // 公開前の直しを、あとから開き直す場合（住所に fix=… が付いている）
+    if (window.__grPrepublishToken) {
+      try {
+        const _f = new URLSearchParams(location.search).get('fix');
+        if (_f) setTimeout(() => _grOpenPrepublishReview(_f), 400);
+      } catch (e) { /* 住所が読めなくてもプレビューはふつうに開く */ }
     }
   };
   let _grAutoOpenWaited = 0;
