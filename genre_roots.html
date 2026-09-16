@@ -670,16 +670,6 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
                             45%,55% { box-shadow: 0 0 0 2px rgba(242,139,139,0); } }
 @keyframes gr-blink-green { 0%,100% { box-shadow: 0 0 0 2px rgba(126,224,160,1); }
                             45%,55% { box-shadow: 0 0 0 2px rgba(126,224,160,0); } }
-/* 地図の線と丸の点滅（変わったところを地図でも分かるように。2026-09-16） */
-@keyframes gr-map-node-blink { 0%,100% { opacity: 1; } 50% { opacity: 0.25; } }
-@keyframes gr-map-mark-blink { 0%,100% { opacity: 0.85; } 50% { opacity: 0; } }
-.gr-map-mark { stroke: #7ee0a0; fill: none; pointer-events: none;
-  animation: gr-map-mark-blink 1.1s ease-in-out infinite; }
-g.node.gr-map-changed    { animation: gr-map-node-blink 1.2s ease-in-out infinite; }
-@media (prefers-reduced-motion: reduce) {
-  .gr-map-mark { animation: none; opacity: 0.85; }
-  g.node.gr-map-changed { animation: none; }
-}
 .sp-card.gr-card-removed { border-radius: 8px; animation: gr-blink-red 1.4s ease-in-out infinite; }
 .sp-card.gr-card-added   { border-radius: 8px; animation: gr-blink-green 1.4s ease-in-out infinite; }
 .sp-card.gr-card-modified { border-radius: 8px; box-shadow: 0 0 0 1px rgba(126,224,160,0.45); }
@@ -19879,21 +19869,6 @@ function _drawLinkStaff() {
     // 画面に出ている線は、この五線譜の道（地図を動かすたびに描き直される）。
     // 描き直しのたびに印が消えないよう、ここで付け直す。印が要るのは
     // 修正更新・公開前の直しのレビューのときだけで、ふだんは何も起きない。
-    const _s = (d.s && d.s.id) || d.s, _t = (d.t && d.t.id) || d.t;
-    組.setAttribute('data-pair', _s + '|' + _t);
-    if (window.__grChangedPairs
-        && (window.__grChangedPairs.has(_s + '|' + _t) || window.__grChangedPairs.has(_t + '|' + _s))) {
-      組.classList.add('gr-map-changed');
-      // 道の上に、明るい帯をかぶせて点滅させる。道そのものの濃さを揺らすだけでは、
-      // 周りの光や音符が残るぶん変化が小さく、点滅していないように見えた
-      // （2026-09-16、チョロさんの指摘）。
-      const 印 = 作('line', 組);
-      印.setAttribute('class', 'gr-map-mark');
-      印.setAttribute('x1', x1); 印.setAttribute('y1', y1);
-      印.setAttribute('x2', x2); 印.setAttribute('y2', y2);
-      印.setAttribute('stroke-width', Math.max(高 * 1.8, 6 / 倍率));
-      印.setAttribute('stroke-linecap', 'round');
-    }
     const マスク = にじみ && にじみ.getAttribute('mask');  // 玉の中を隠す元々のもの
     if (マスク) 組.setAttribute('mask', マスク);
     const 記号組 = 作('g', 譜);   // 記号はマスクをかけない
@@ -21917,8 +21892,7 @@ function grApplyCorrectionDiffsToPanel(fixViews) {
         const 後の項目 = document.querySelector('.legend-item[data-cat="' + fv.new_value + '"]');
         if (前の項目) 前の項目.classList.add('gr-legend-removed');
         if (後の項目) 後の項目.classList.add('gr-legend-added');
-        // 丸の色と居場所が変わるので、地図の丸も点滅させる（2026-09-16）
-        if (window._currentNode) grMarkMapNode(window._currentNode.id);
+
         // カテゴリーを変えると何が起きるのかは、書かれていないと伝わらない。
         // 一言添える（2026-09-15、チョロさんの指示）。
         const 行 = document.getElementById('sp-era-cat-row');
@@ -22192,7 +22166,6 @@ function grApplyLinksDiffToPanel(fv) {
     // 直したあとに増えたカードは、緑の点滅で示す（中身はもう本物が描いている）
     増えた行.forEach(() => { if (カード) カード.classList.add('gr-card-added'); });
 
-    grMarkMapLink(相手);
   });
 }
 
@@ -22202,44 +22175,6 @@ function grCardDirections(カード) {
   if (!箱) return [];
   if (箱.id === 'sp-mutual') return ['in', 'out'];
   return [箱.id === 'sp-out' ? 'out' : 'in'];
-}
-
-// 【地図の線と丸も点滅させる】2026-09-16
-// 影響関係が変わったら、その線を点滅させる。関係そのものが無くなった場合は線が
-// もう無いので、相手の丸を点滅させる。カテゴリーが変わったとき・ジャンルが新しく
-// 増えたときは、自分の丸を点滅させる（仕様書「どこを光らせるか」）。
-function grMarkMapLink(相手id) {
-  const 自分 = (window._currentNode || {}).id;
-  if (!自分) return;
-  // 画面に出ている線は「五線譜の道」（#link-staff の中）で、地図を動かすたびに
-  // 描き直される。どの2ジャンルの線かを覚えておき、描き直しのたびに印が
-  // 付き直すようにしてある（2026-09-16、線が点滅しないというチョロさんの指摘で判明。
-  // line.link そのものは display:none で、画面には出ていなかった）。
-  window.__grChangedPairs = window.__grChangedPairs || new Set();
-  window.__grChangedPairs.add(自分 + '|' + 相手id);
-  // 道はいま描かれているものをそのまま使うので、印の帯を足すために描き直させる
-  // （描き直しの中で、印の付いた道にだけ明るい帯をかぶせている）
-  if (typeof _drawLinkStaff === 'function') {
-    _staffSig = '';
-    try { _drawLinkStaff(); } catch (e) { /* 描き直せなくても印だけは付ける */ }
-  }
-  let 見つかった = false;
-  document.querySelectorAll('#link-staff > g[data-pair]').forEach(g => {
-    const [s_, t_] = (g.getAttribute('data-pair') || '').split('|');
-    if ((s_ === 自分 && t_ === 相手id) || (s_ === 相手id && t_ === 自分)) {
-      g.classList.add('gr-map-changed');
-      見つかった = true;
-    }
-  });
-  // 関係そのものが無くなった場合は線がもう無いので、相手の丸を点滅させる
-  if (!見つかった) grMarkMapNode(相手id);
-}
-
-function grMarkMapNode(id) {
-  document.querySelectorAll('g.node').forEach(el => {
-    const d = el.__data__;
-    if (d && d.id === id) el.classList.add('gr-map-changed');
-  });
 }
 
 function grBookCardHtml(b, cls) {
