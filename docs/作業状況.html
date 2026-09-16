@@ -147,15 +147,49 @@
 <tr><td>使い方ガイド</td><td>v1.29</td><td>公開済み</td></tr>
 <tr><td>更新の記録</td><td>自動生成</td><td><code>docs/changes.html</code>（公開済み）</td></tr>
 <tr><td>いたずら対策 guard.py</td><td>v1.12</td><td>公開済み</td></tr>
-<tr><td>ジャンル追加 genre_adder.py</td><td>v2.74</td><td>公開済み</td></tr>
-<tr><td>登録確認画面 admin_preview.html</td><td>v3.10</td><td>公開済み</td></tr>
+<tr><td>ジャンル追加 genre_adder.py</td><td>v2.77</td><td>公開済み</td></tr>
+<tr><td>登録確認画面 admin_preview.html</td><td>v3.12</td><td>公開済み</td></tr>
 </table>
 
 <h2>🔶 進行中・次にやること <span class="h2-count">8件</span></h2>
 
 <div class="item">
   <div class="item-head">
-    <span class="status hold">着手待ち（修正更新が完成したので着手できる）</span>
+    <span class="status wait">実機での確認待ち</span>
+    <span class="item-title">レビューは「直したあとのデータ」をそのまま見せる（コピー方式）</span>
+  </div>
+  <div class="item-body">
+    <b>2026-09-16、チョロさんの指摘で作り直した。</b>
+    「登録する実物をそのまま見せるのがレビュー。違うものを2つ作らないこと」。
+    <div class="dim" style="margin-top:8px;">
+      <b>何が起きていたか：</b>レビューの絵は「この文字をこの文字に」というメモから組み立て、
+      承認のときは同じメモを本データに当て直していた。別々の道で作っていたため、
+      <b>説明パネルは直っているのに地図の線は元のまま</b>という食い違いが出た（Cuban Rumbaの試しで発覚）。
+      手作りのカードには軸の光のアニメーションも付かなかった。承認時に引用元の文字が見つからなければ、
+      その直しが黙って入らないという穴もあった。
+    </div>
+    <div class="dim" style="margin-top:8px;">
+      <b>直した形：</b>判定のときに「直したあとのそのジャンル1件ぶんのデータ」を1回だけ作り、
+      <b>レビューで見せるのも、承認で書き込むのも同じそれ</b>にした。レビューの画面は、そのデータを
+      差し込んだ地図ごと組み立て直して見せる（<code>/roots?fix=…</code>）。カードも線も承認後と同じ描画処理で描かれ、
+      その上に赤と緑の印と点滅を乗せるだけ。確認画面のプレビューの作りも1つに統一した
+      （以前はIDを「__preview__」に置き換える別の作りだった）。
+    </div>
+    <div class="dim" style="margin-top:8px;">
+      <b>あわせて直したもの：</b>点滅がはっきり消えるようにした／地図の線と丸も点滅する／
+      何を指摘したのかを画面に出す／横入り（承認までに内容が変わっていた）は止めて作り直しを促す。
+      <b>切り替えスイッチは作らない</b>（過剰品質というチョロさんの判断）。直す前のデータは残さない。
+    </div>
+    <div class="dim" style="margin-top:8px;">
+      <b>検証：</b>サーバー側33件・ブラウザでの通し16件、いずれも合格（AIもクレジットも使っていない）。
+      承認したあとの地図のファイルが、レビューで見たとおりの内容になっていることも確かめた。
+    </div>
+  </div>
+</div>
+
+<div class="item">
+  <div class="item-head">
+    <span class="status wait">実機での確認待ち</span>
     <span class="item-title">登録確認画面の「AIに修正依頼」を作り替える → 「公開前にAIに直してもらおう」</span>
   </div>
   <div class="item-body">
