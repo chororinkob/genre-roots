@@ -714,6 +714,19 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
                     border: 1px solid #444; border-radius: 6px; color: #eee; font-size: 12px;
                     resize: vertical; box-sizing: border-box; font-family: inherit; }
 .gr-reject-row { display: flex; gap: 8px; }
+/* 地図の上に重ねる札（レビューのときだけ出る。地図の絵には触らない） */
+#gr-map-note { position: fixed; top: 56px; left: 50%; transform: translateX(-50%);
+  z-index: 35; max-width: 460px; padding: 10px 34px 10px 14px; border-radius: 10px;
+  background: rgba(10,10,22,0.9); border: 1px solid rgba(255,255,255,0.16);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.45); color: #dfe3ea; font-size: 12.5px; line-height: 1.7; }
+#gr-map-note .gr-map-note-head { font-weight: 700; color: #f0d090; margin-bottom: 2px; }
+#gr-map-note .gr-map-note-line b { color: #fff; }
+#gr-map-note .gr-map-note-close { position: absolute; top: 4px; right: 6px; background: none;
+  border: none; color: #8a8fa0; font-size: 16px; line-height: 1; cursor: pointer; padding: 2px 4px; }
+#gr-map-note .gr-map-note-close:hover { color: #fff; }
+@media (max-width: 768px) {
+  #gr-map-note { top: 48px; left: 12px; right: 12px; transform: none; max-width: none; font-size: 12px; }
+}
 .gr-corr-said { background: rgba(255,255,255,0.05); border-left: 3px solid rgba(255,214,102,0.6);
   padding: 6px 10px; margin-bottom: 8px; border-radius: 0 6px 6px 0; font-size: 12px; line-height: 1.7; }
 .gr-reject-done { font-size: 13px; font-weight: 700; color: #f28b8b; }
@@ -25147,6 +25160,7 @@ if (!window.__grReviewToken) {
 // レビューを見ている画面は「直したあとのデータ」で組み立てた使い捨ての地図なので、
 // 入れた・入れなかったが決まったら、ふつうの画面へ戻す（印の消し忘れも起きない）。
 function grLeaveFixReview() {
+  grMapNoteRemove();
   const id = (window._currentNode || {}).id || '';
   if (window.__grPrepublishToken) {
     const 住所 = '/admin/preview/' + encodeURIComponent(window.__grPrepublishToken);
@@ -25157,6 +25171,57 @@ function grLeaveFixReview() {
     return;
   }
   location.href = API_BASE + '/roots' + (id ? '?genre=' + encodeURIComponent(id) + '&' : '?') + '_=' + Date.now();
+}
+
+// 【地図の上に、1枚だけ札を重ねる】2026-09-17
+// レビューの地図は「直したあとのデータ」で組み立ててあるので、線の向きも太さも
+// すでに直したあとの姿になっている。あとは「どこが変わったのか」を目で見つけられれば
+// よい。地図の絵（五線譜の道・ガラスの層・音符の粒）には一切触らず、その上に
+// 文字の札を1枚重ねるだけにする。
+// 2026-09-16に線そのものを点滅させようとしたが、地図の描画を触ったせいで
+// 地図がなかなか出てこなくなり、取りやめた（仕様書「地図での見せ方」を参照）。
+function grMapNoteRemove() {
+  const 札 = document.getElementById('gr-map-note');
+  if (札) 札.remove();
+}
+
+function grShowMapNote(fixViews) {
+  grMapNoteRemove();
+  const views = fixViews || [];
+  const 行 = [];
+
+  // 影響関係：線が変わった相手の名前を並べる
+  const 相手 = [];
+  views.filter(v => v.kind === 'links').forEach(v => {
+    (v.link_changes || []).forEach(c => {
+      const 名 = c.other_label || c.other_id;
+      if (名 && !相手.includes(名)) 相手.push(名);
+    });
+  });
+  if (相手.length) {
+    行.push('線が変わったジャンル：<b>' + 相手.map(grEsc).join('</b>、<b>') + '</b>');
+  }
+
+  // カテゴリー：丸の色と居場所が変わる
+  const cat = views.find(v => v.kind === 'text' && v.field === 'cat');
+  if (cat) {
+    const 名 = v => {
+      const li = document.querySelector('.legend-item[data-cat="' + v + '"] .legend-label');
+      return li ? li.textContent : v;
+    };
+    行.push('丸の色が変わります：<b>' + grEsc(名(cat.old_value)) + '</b> → <b>'
+            + grEsc(名(cat.new_value)) + '</b>');
+  }
+
+  if (!行.length) 行.push('地図の見た目は変わりません（直したのは説明パネルの中身です）');
+
+  const 札 = document.createElement('div');
+  札.id = 'gr-map-note';
+  札.innerHTML = '<button type="button" class="gr-map-note-close" title="閉じる">×</button>'
+    + '<div class="gr-map-note-head">この地図は、直したあとの姿です</div>'
+    + 行.map(x => '<div class="gr-map-note-line">' + x + '</div>').join('');
+  document.body.appendChild(札);
+  札.querySelector('.gr-map-note-close').onclick = grMapNoteRemove;
 }
 
 function grFixReviewUrl(ctoken) {
@@ -25196,6 +25261,7 @@ function grOpenFixReview(ctoken) {
           : '直した内容です。ご確認のうえ承認してください') + '</b><br>'
       + grEsc(data.reasoning || '').replace(/\n/g, '<br>');
     grApplyCorrectionDiffsToPanel(data.fix_views);
+    grShowMapNote(data.fix_views);
     spCorrResult.insertAdjacentHTML('beforeend', grBuildCorrectionReviewHtml(data));
     grPositionCorrectionActionBar();
   }).catch(() => {
