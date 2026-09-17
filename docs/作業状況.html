@@ -143,12 +143,12 @@
 
 <table class="verinfo">
 <tr><th>もの</th><th>版</th><th>どこ</th></tr>
-<tr><td>地図</td><td>v33.3</td><td><a href="https://genre-roots.com/" target="_blank" rel="noopener">公開済み</a></td></tr>
+<tr><td>地図</td><td>v34.5</td><td><a href="https://genre-roots.com/" target="_blank" rel="noopener">公開済み</a></td></tr>
 <tr><td>使い方ガイド</td><td>v1.29</td><td>公開済み</td></tr>
 <tr><td>更新の記録</td><td>自動生成</td><td><code>docs/changes.html</code>（公開済み）</td></tr>
-<tr><td>いたずら対策 guard.py</td><td>v1.12</td><td>公開済み</td></tr>
-<tr><td>ジャンル追加 genre_adder.py</td><td>v2.79</td><td>公開済み</td></tr>
-<tr><td>登録確認画面 admin_preview.html</td><td>v3.12</td><td>公開済み</td></tr>
+<tr><td>いたずら対策 guard.py</td><td>v1.13</td><td>公開済み</td></tr>
+<tr><td>ジャンル追加 genre_adder.py</td><td>v2.78</td><td>公開済み</td></tr>
+<tr><td>登録確認画面 admin_preview.html</td><td>v3.13</td><td>公開済み</td></tr>
 </table>
 
 <h2>🔶 進行中・次にやること <span class="h2-count">8件</span></h2>
@@ -546,6 +546,27 @@
 <details class="donebox">
   <summary>片づいた作業を見る（新しい順）</summary>
   <div class="done-list">
+
+    <div class="done-day">2026-09-17</div>
+    <div class="done-item">統計の「回線（IPアドレス）ごと」に、見ただけの人も出るようにした（いたずら対策 v1.12→v1.13）
+      <div class="dim">チョロさんが「説明16・再生14と出ているのに、回線ごとの表が『この日の記録はまだありません』になる」
+      と発見。回線の行は<b>新規登録・修正更新・曲判定・問い合わせを出したときにしか作っていなかった</b>のに、
+      表には「説明」「再生」の列があるという食い違いだった。説明を開いたとき・曲を聴いたときにも行を作るようにし、
+      並び順も「登録・修正を出した回線が上、そのあとは見ていた回数の多い順」にした。
+      <b>1日の上限の数え方は変えていない</b>（上限に数えるのは今までどおり新規登録と修正更新だけ）。<br>
+      テスト8件すべて合格。実機でも、地図でジャンルを開いたあとに表へ行が出ることを確認済み。<br>
+      <b>過去の分は戻せない</b>（行を作っていなかったため）。表が埋まるのはv1.13以降の記録から。</div>
+    </div>
+
+    <div class="done-day">2026-09-17</div>
+    <div class="done-item">登録確認画面で、管理者向けの「← 承認待ち一覧に戻る」を一般の人に出さないようにした（確認画面 v3.12→v3.13）
+      <div class="dim">地図から開いたとき（説明パネルの上に重ねて開いたとき）にもこのリンクが出ていて、
+      押すと管理画面のログインを求められ<b>行き止まりになっていた</b>（チョロさんの指摘）。
+      地図から開いているときは出さず、戻るのは右上の✕。承認・却下に失敗したときの案内文も同じ出し分けにした。
+      管理者が住所から直接開いたときは今までどおり。<br>
+      本番で両方の開き方を実測して確認（直接＝出る／地図から＝出ない）。
+      却下したときの戻り先は、もともと正しく作られていた。</div>
+    </div>
 
     <div class="done-day">2026-09-15</div>
     <div class="done-item">修正更新の作り直し ― 6種類に整理して作り込み、表示を実機で確認した（genre_adder.py v2.69→v2.73・地図 v33.3・確認画面 v3.10）
