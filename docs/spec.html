@@ -38,11 +38,11 @@
 <h1>音楽ジャンルルーツ辞典 — 仕様書</h1>
 <h2>この仕様書について</h2>
 <p class="note">この文書は <b>spec_dump.py が実物を読み直して自動で書き出したもの</b>です。手で書き足しても次の書き出しで消えます。決めた理由など人が書くことは <code>docs/decisions.md</code> に書いてください。この文書の末尾にそのまま入ります。</p>
-<p class="note">書き出した日時：<b>2026-09-17 04:41</b></p>
+<p class="note">書き出した日時：<b>2026-09-17 17:51</b></p>
 <h2>いまの版</h2>
 <table>
 <tr><th>項目</th><th>内容</th></tr>
-<tr><td>地図（genre_roots.html）</td><td>v34.2</td></tr>
+<tr><td>地図（genre_roots.html）</td><td>v34.3</td></tr>
 <tr><td>サーバー（genre_adder.py）</td><td>v2.78</td></tr>
 <tr><td>ジャンル数</td><td>582</td></tr>
 <tr><td>ジャンル間のつながり</td><td>1,725</td></tr>
@@ -1060,6 +1060,31 @@
 <p>どうしても目印に合わせられない書き方をするときは、</p>
 <p><b>数字を書かずに「全ジャンル580以上」のような固定の言い方</b>にしてください。</p>
 <p>手で直さないといけない数字は、必ずいつか古くなります。</p>
+<h4>トップページと地図の「重複」は、直さないと決めた（2026-09-17）</h4>
+<p>Search Console に「重複しています。ユーザーにより、正規ページとして選択されていません」が</p>
+<p>1件出ている。対象は <code>https://genre-roots.com/genre_roots.html</code>。<b>不具合ではないので直さない</b></p>
+<p>（2026-09-17、チョロさんの判断）。</p>
+<p><b>なぜそうなっているのか。</b></p>
+<table>
+<tr><th>住所</th><th>中身</th><th>何と名乗っているか</th></tr>
+<tr><td><code>https://genre-roots.com/</code></td><td><code>index.html</code>（地図へ転送するだけの小さなページ）</td><td>「正式な住所は <code>genre_roots.html</code>」</td></tr>
+<tr><td><code>https://genre-roots.com/genre_roots.html</code></td><td>地図の本体</td><td><b>何も名乗っていない</b></td></tr>
+<tr><td><code>https://genre-roots.com/genre_roots.html?genre=…</code></td><td>同じ地図（開くジャンルが違う）</td><td>それぞれ自分の住所（JSが書く）</td></tr>
+</table>
+<p>同じ中身が2つの住所で見られる状態で、<code>genre_roots.html</code> 自身は名乗っていないため、</p>
+<p>Googleが短い方（トップページ）を正式と決めた。**人はどちらの住所でも同じ地図にたどり着き、</p>
+<p>検索結果にはトップページが出る。ジャンルのページは今までどおり個別に扱われている。**</p>
+<p><b>そもそもなぜ2本あるのか（履歴を確認した）。</b> 2026-06-17の最初のコミットでは</p>
+<p><code>index.html</code> が地図そのものだった。2026-07-03に地図のファイル名が <code>genre_roots.html</code> に</p>
+<p>変わり、翌7-04の「Fix index.html - redirect to genre_roots.html」で転送用の</p>
+<p><code>index.html</code> を置いて辻褄を合わせた。<b>分ける必要があって分けたわけではない。</b></p>
+<p><b>1本にまとめない理由。</b> <code>genre_roots.html?genre=…</code> の形で573本の住所が</p>
+<p>サイトマップに載っており、ジャンルのページの canonical もその形で名乗っている。</p>
+<p>まとめると573本の住所をすべて付け替えることになり、Googleの登録もやり直しになる。</p>
+<p>いま574件が巡回待ちの最中で、損の方が大きい。</p>
+<p><b>名乗りを揃えるだけの直し（トップページは自分を、地図はトップページを名乗る）も見送った。</b></p>
+<p>消えるのは Search Console の指摘1件だけで、利用者にも検索結果にも違いが出ない。</p>
+<p>canonical は過去に事故を起こした場所なので、得るものが小さい変更で触らない。</p>
 <h4>canonicalを<code>&lt;head&gt;</code>に固定で書いてはいけない（2026-09-11）</h4>
 <p>以前は<code>&lt;head&gt;</code>に<code>canonical = …/genre_roots.html</code>（<code>?genre=</code>の付かない住所）を</p>
 <p>固定で書いており、JavaScriptで後から正しい住所に書き換えていました。</p>
