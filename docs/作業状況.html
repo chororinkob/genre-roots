@@ -127,13 +127,13 @@
 <div class="wrap">
 
 <h1>作業状況</h1>
-<div class="sub">音楽ジャンルルーツ辞典 ／ 2026-09-17 更新</div>
+<div class="sub">音楽ジャンルルーツ辞典 ／ 2026-09-18 更新</div>
 <div class="warn-note" style="background:var(--doing-soft);">
-  最新の変更：新規登録・修正更新の両方で、AIをClaude/ChatGPT/Geminiから
-  Gensparkへ置き換える作業を開始（目的：Claude等の課金APIへの依存を無くし、
-  Gensparkの月額クレジットに一本化する）。新規登録は生成からファクトチェックまで
-  Genspark(super_agent)のみで完結（v2.43）。修正更新も振り分け・文章判定・
-  動画判定の3か所をGenspark化した（v2.44・v2.45）。詳細は下の「進行中」参照。
+  最新の変更（2026-09-18）：<b>ふつうの利用で通るClaudeの課金APIが全部なくなった。</b>
+  最後まで残っていた書籍の判定と代表曲の選び直しをGensparkへ移し、残るのは
+  手動デバッグ用の入口だけになった。あわせて、書籍が1冊も見つからないときに
+  <b>自動で探し直す</b>ようにし（v2.80）、代表曲は<b>上限なし・確実な曲だけ</b>に方針を変えた。
+  室内楽を登録して<b>584ジャンル</b>。詳細は下の「完了」参照。
 </div>
 <div class="warn-note">
   セッションをまたぐとここの数字も古くなる。<b>着手する前に必ず実物を見て
@@ -143,12 +143,12 @@
 
 <table class="verinfo">
 <tr><th>もの</th><th>版</th><th>どこ</th></tr>
-<tr><td>地図</td><td>v34.5</td><td><a href="https://genre-roots.com/" target="_blank" rel="noopener">公開済み</a></td></tr>
+<tr><td>地図</td><td>v34.6</td><td><a href="https://genre-roots.com/" target="_blank" rel="noopener">公開済み</a></td></tr>
 <tr><td>使い方ガイド</td><td>v1.29</td><td>公開済み</td></tr>
 <tr><td>更新の記録</td><td>自動生成</td><td><code>docs/changes.html</code>（公開済み）</td></tr>
 <tr><td>いたずら対策 guard.py</td><td>v1.13</td><td>公開済み</td></tr>
-<tr><td>ジャンル追加 genre_adder.py</td><td>v2.78</td><td>公開済み</td></tr>
-<tr><td>登録確認画面 admin_preview.html</td><td>v3.13</td><td>公開済み</td></tr>
+<tr><td>ジャンル追加 genre_adder.py</td><td>v2.80</td><td>公開済み</td></tr>
+<tr><td>登録確認画面 admin_preview.html</td><td>v3.15</td><td>公開済み</td></tr>
 </table>
 
 <h2>🔶 進行中・次にやること <span class="h2-count">8件</span></h2>
@@ -296,22 +296,25 @@
       ファクトチェック・動画の一致判定（Claude/Gemini→Genspark、v2.44・v2.45）。
     </div>
     <div class="dim" style="margin-top:8px;">
-      <b>まだ残っている、生きているClaude呼び出し（洗い出し済み、2026-09-08。
-      <code>_classify_video_request</code>は2026-09-11に完了）：</b>
+      <b>2026-09-17〜18に、ふつうの利用で通るClaude呼び出しは全部なくなった。</b>
+      チョロさんの方針「Claudeのクレジットの追加はもうしない」に沿って片づけた。
       <ol style="margin:6px 0 0 20px;padding:0;">
-        <li><code>_judge_book_relevance</code> — 新規登録時、Amazon書籍の
-          候補が「ピンポイント／広い系統／無関係」かを1冊ずつ判定する。</li>
-        <li><code>_pick_alternative_tracks</code> — 代表曲が他ジャンルと
-          重複したときに、代わりの曲をAIに選ばせる。</li>
-        <li><code>revise_with_claude</code> — 承認前の登録内容を、画面を
-          開いている人がコメントで直させる画面（<code>/admin/revise</code>）。</li>
-        <li><code>generate_genre_info_claude</code> — <code>/admin/gentest</code>
-          という手動デバッグ専用の入口からのみ呼ばれる（通常のユーザーは
-          触れない）。Gensparkに差し替えるなら、実際の生成経路と同じものを
-          試せるよう<code>generate_genre_info_genspark</code>を呼ぶように直す。</li>
+        <li><b>済</b> <code>_judge_book_relevance</code>（Amazon書籍が
+          「ピンポイント／広い系統／無関係」かの判定）→ Genspark(super_agent)へ。
+          判定の基準は変えていない。</li>
+        <li><b>済</b> <code>_pick_alternative_tracks</code>（代表曲の選び直し）→
+          Genspark(super_agent)へ。あわせて、呼ぶ条件を
+          <b>「残りが3曲を下回ったときだけ」</b>に絞った。</li>
+        <li><b>済</b> <code>revise_with_claude</code>（承認前の直し）→
+          機能ごと廃止し、修正更新の仕組みを使う
+          <b>「公開前にAIに直してもらう」</b>に置き換え済み（2026-09-16）。</li>
+        <li><b>残り1つ（急がない）</b> <code>generate_genre_info_claude</code> —
+          <code>/admin/gentest</code> という<b>手動デバッグ専用の入口</b>からのみ
+          呼ばれる。通常のユーザーは触れないので、クレジットが減ることはない。</li>
       </ol>
-      いずれも1件ずつ実装後にテストしてから公開する方針（新規登録・修正更新の
-      Genspark化と同じ進め方）。
+      <code>claude_recheck_existence</code>・<code>factcheck_with_claude</code>・
+      <code>factcheck_with_genspark</code> は、どこからも呼ばれていない
+      （＝動いていない）ことを2026-09-18に確認済み。消すかどうかは別途相談。
     </div>
   </div>
 </div>
@@ -548,6 +551,42 @@
 <details class="donebox">
   <summary>片づいた作業を見る（新しい順）</summary>
   <div class="done-list">
+
+    <div class="done-day">2026-09-18</div>
+    <div class="done-item">書籍が1冊も見つからないとき、自動で探し直すようにした（ジャンル追加 v2.79→v2.80／確認画面 v3.14→v3.15）
+      <div class="dim">きっかけは室内楽の登録で<b>書籍が0冊</b>だったこと。調べると、候補5冊のうち4冊は本が無いのではなく、
+      Amazonが<b>「ロボットではありませんか」の短いページ</b>を返していて、それを「取れなかった」として捨てていた。
+      ①<b>携帯向けの見た目で読み直す</b>ようにして、実在する本が落ちないようにした。あわせてページの中に
+      そのASINが本当にあるかを必ず確かめる（でたらめなASINで別の本を掴んでいたため）。
+      ②それでも0冊のときは、<b>検索の言い方を3通り（「◯◯ 本」→「◯◯ 音楽 本」→「◯◯ 入門 書籍」）順に自動で試す</b>。
+      1冊でも採れたら止め、呼ぶ回数は6回まで（1回1クレジットのため）。2回目に入ったら登録中の画面に
+      「言い方を変えてもう一度探しています…（2回目）」と出す。<br>
+      チョロさんの指摘：「初めて見るユーザーは、ここにボタンがあると気付かない。1冊も本がなかったら、
+      自動でもう1回Amazonにアクセスしに行くようにはできないの？」。<b>「📚 もう一度探す」ボタンは最後の手段として残した</b>。<br>
+      テスト4通り（1回目で見つかる／3つ目の言い方で見つかる／最後まで0冊／広い系統だけ）すべて合格。
+      室内楽も探し直しで3冊そろい、そのまま登録された。</div>
+    </div>
+
+    <div class="done-item">室内楽（Chamber Music）を登録した — 584ジャンルになった（地図 v34.5→v34.6）
+      <div class="dim">代表曲25曲（候補35曲のうち10曲は見送り）、書籍3冊、関係の矢印7本、
+      用語集に「室内楽」「弦楽四重奏」「ピアノ五重奏」「弦楽八重奏」を追加、知名度3（68か国語／年間19万7,922回／再生48万8,735回）。
+      承認前に、曲名と動画IDが既存2,302曲と1件もかぶっていないこと、書籍3冊が今も実在することを確認済み。</div>
+    </div>
+
+    <div class="done-item">代表曲の数に上限を設けないようにした（「確実な曲だけを、できるだけ多く」）
+      <div class="dim">チョロさんの指摘：「『3曲』は『3曲ぐらいは挙げたいよね』という意味で、上限のつもりではなかった。
+      本当は何十曲でも並べたいくらい。単に一番少ないジャンルに全体の数を合わせていただけ」。
+      生成のときに曲数を指定せず、照合で落ちた曲は<b>そのまま見送る</b>（元の曲数まで埋め直さない）。
+      <b>残りが3曲を下回ったときだけ</b>AIに選び直させるので、AIを呼ぶ回数もむしろ減った。
+      確認画面の文言も「元より少なくなっています」をやめ、「動画まで確認できた◯曲を代表曲にしました」に変えた。<br>
+      既存583ジャンルの代表曲を増やすかどうかは、クレジットの見積もりを含めて<b>別途相談</b>（まだ手を付けていない）。</div>
+    </div>
+
+    <div class="done-item">書籍の判定と代表曲の選び直しを、ClaudeからGensparkへ移した
+      <div class="dim">ふつうの利用で通るClaudeの課金APIはこれで無くなった（残るのは手動デバッグ用の<code>/admin/gentest</code>だけ）。
+      判定の基準・渡す条件は変えていない。代表曲の動画が本当に合っているかの確認（曲名・投稿者・地域・カバー除外）は
+      もともとAIではなくプログラムが機械的に行っているので、<b>この移行で判定が甘くなることはない</b>。</div>
+    </div>
 
     <div class="done-day">2026-09-17</div>
     <div class="done-item">統計の「回線（IPアドレス）ごと」に、見ただけの人も出るようにした（いたずら対策 v1.12→v1.13）
