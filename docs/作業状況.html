@@ -147,7 +147,7 @@
 <tr><td>使い方ガイド</td><td>v1.30</td><td>公開済み</td></tr>
 <tr><td>更新の記録</td><td>自動生成</td><td><code>docs/changes.html</code>（公開済み）</td></tr>
 <tr><td>いたずら対策 guard.py</td><td>v1.13</td><td>公開済み</td></tr>
-<tr><td>ジャンル追加 genre_adder.py</td><td>v2.86</td><td>公開済み</td></tr>
+<tr><td>ジャンル追加 genre_adder.py</td><td>v2.87</td><td>公開済み</td></tr>
 <tr><td>登録確認画面 admin_preview.html</td><td>v3.17</td><td>公開済み</td></tr>
 </table>
 
@@ -571,6 +571,21 @@
 <details class="donebox">
   <summary>片づいた作業を見る（新しい順）</summary>
   <div class="done-list">
+
+    <div class="done-day">2026-09-19</div>
+    <div class="done-item">ホーミーの登録で見つかった4点を直した（v2.86→v2.87）
+      <div class="dim">ホーミーは代表曲が6曲中3曲、関係の矢印に事実の誤り、知名度が低く出た。チョロさんが却下。<br>
+      ①<b>YouTubeの検索が何も返さなかった曲は、その曲のまま、AIがウェブの別ルートから動画の番号（ID）を探す</b>
+      （The HU の Wolf Totem など5曲が、検索が返らず落ちていた。1日およそ100回の上限に達していた可能性が高い）。画面にも理由を文章で出す。<br>
+      ②<b>生成AIに既存ジャンルを「名札・名前・系統」で渡す</b>（以前は名札だけで、「minyo」を一般の民謡と取り違え、
+      「日本の民謡から影響を受けた」という誤った矢印を書いた）。<br>
+      ③ジャンルの名前に括弧の説明を付けないよう指示した（「Khoomei (Mongolian Throat Singing)」で出てきた）。<br>
+      ④<b>知名度</b>：英語版の題名が違っても、ほかの国の題名がジャンル名・別名と2か国以上で一致すれば自身の記事と認める／
+      singing・vocal も音楽の目印に。ホーミーは「Tuvan throat singing・26か国語」で数えられるようになった。既存55ジャンルで比べ、変わったのは Dembow の1件だけ。<br>
+      テスト：模擬8項目（YouTubeのエラー・0件・取れたとき・照合で落ちたとき）＋前の97項目を通し直し。本物のウィキペディアでも確認。<br>
+      <b>残り（相談）</b>：チョロさんの案「英語版で使える記事が見つからなければ、別名をその国のウィキペディアで調べる」
+      （英語版に記事が無いジャンルを拾える）。入れるかどうか確認中。</div>
+    </div>
 
     <div class="done-day">2026-09-18</div>
     <div class="done-item">民謡・伝承曲の代表曲が落ちすぎる件を直した（v2.85→v2.86）／スマホの確認画面で表がはみ出す件（確認画面 v3.16→v3.17）
