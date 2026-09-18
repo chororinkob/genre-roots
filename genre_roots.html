@@ -24944,6 +24944,15 @@ function initGlobe() {
   vertical-align:middle; margin-right:6px;
 }
 @keyframes grspin{to{transform:rotate(360deg)}}
+.gr-log-live { color:#cfe3f7 !important; }
+.gr-log-live::after {
+  content:'...'; display:inline-block; overflow:hidden; vertical-align:bottom;
+  width:0; animation:grdots 1.4s steps(4,end) infinite;
+}
+@keyframes grdots { to { width:1.3em; } }
+@media (prefers-reduced-motion: reduce) {
+  .gr-log-live::after { animation:none; width:auto; content:'…'; }
+}
 
 /* 【スマホ】キーボードが出ても「登録する」が押せるようにする。
    もとは画面の真ん中に置いていたので、キーボードが下半分を覆うと
@@ -24978,9 +24987,9 @@ function initGlobe() {
 
 <div id="genre-request-overlay">
   <div id="genre-request-card">
-    <h2>新ジャンル登録 <span class="gr-ver">v2.2</span></h2>
+    <h2>新ジャンル登録 <span class="gr-ver">v2.3</span></h2>
     <p class="gr-sub">載っていないジャンルをAIが自動で登録します。ジャンル名を入れて送信するだけ。<br>
-      作業時間の目安は5分ほどです。最後に内容の確認画面が出るので、間違いがなければ承認して完了です。</p>
+      作業時間の目安は5〜10分ほどです。最後に内容の確認画面が出るので、間違いがなければ承認して完了です。</p>
 
     <label for="gr-name">ジャンル名 <span style="color:#e06060">*</span></label>
     <input type="text" id="gr-name" placeholder="例: Arena Rock、ニュージャック・スウィング">
@@ -25093,7 +25102,7 @@ async function submitGenreRequest() {
   document.getElementById('gr-name').blur();
   document.getElementById('gr-note').blur();
   setTimeout(登録画面の高さを合わせる, 300);
-  grShowResult('<div class="gr-processing"><span class="gr-spinner"></span>AIが実在確認・情報生成中です。1〜2分かかります…</div>');
+  grShowResult('<div class="gr-processing"><span class="gr-spinner"></span>AIが実在確認・情報生成中です。代表曲の動画も1曲ずつ聴いて確かめるので、5〜10分ほどかかります</div>');
 
   try {
     const res  = await fetch(API_BASE + '/request_genre', {
@@ -25114,17 +25123,30 @@ async function submitGenreRequest() {
   }
 }
 
-function grRenderLog(log) {
+// live=true のときは、最後の行（いまやっていること）の後ろで「…」が増えていく。
+// 代表曲を1曲ずつAIに聴かせるようになり登録が長くなったので、
+// 止まっていないことが見て分かるようにした（2026-09-18、チョロさんの案）。
+function grRenderLog(log, live) {
   if (!log || log.length === 0) return '';
-  const lines = log.map(e => {
+  const last = log.length - 1;
+  const lines = log.map((e, i) => {
     const t = new Date(e.time).toLocaleTimeString('ja-JP');
-    return `<div style="padding:2px 0;color:#9db8d0;">[${t}] ${grEsc(e.message)}</div>`;
+    const cls = (live && i === last) ? ' class="gr-log-live"' : '';
+    return `<div${cls} style="padding:2px 0;color:#9db8d0;">[${t}] ${grEsc(e.message)}</div>`;
   }).join('');
-  return `<div style="max-height:160px;overflow-y:auto;background:#0d0d1a;border-radius:6px;padding:8px 10px;margin-bottom:8px;font-size:11px;">${lines}</div>`;
+  return `<div class="gr-log-box" style="max-height:160px;overflow-y:auto;background:#0d0d1a;border-radius:6px;padding:8px 10px;margin-bottom:8px;font-size:11px;">${lines}</div>`;
+}
+
+// 一覧を描き直したら、いちばん下（最新の行）が見えるようにする。
+// 行が増えると枠からはみ出し、最新の行が隠れてしまうため。
+function grScrollLogToEnd() {
+  const box = document.querySelector('#gr-status .gr-log-box');
+  if (box) box.scrollTop = box.scrollHeight;
 }
 
 let grPolling = null;
 let grPollFailCount = 0;
+let grLastLogCount = -1;   // 最後に描いた進捗の行数（変わったときだけ描き直す）
 
 // ジャンル追加の全処理（ChatGPT+Claude+YouTube+GitHub保存）は1〜2分かかり、
 // 1本のfetchで待ち続けるとRender/Cloudflare経由の接続がタイムアウトして
@@ -25138,6 +25160,7 @@ let grPollFailCount = 0;
 function grPollGenreRequest(name, requestId, submitBtn) {
   if (grPolling) { clearInterval(grPolling); grPolling = null; }
   grPollFailCount = 0;
+  grLastLogCount = -1;
   const poll = async () => {
     try {
       const sres = await fetch(API_BASE + '/request_genre/status/' + requestId);
@@ -25168,9 +25191,13 @@ function grPollGenreRequest(name, requestId, submitBtn) {
         return;
       }
       grPollFailCount = 0;
-      const logHtml = grRenderLog(sdata.log);
       if (!sdata.done) {
-        grShowResult(`<div class="gr-processing">${logHtml}<span class="gr-spinner"></span>処理中…</div>`);
+        const n = (sdata.log || []).length;
+        if (n !== grLastLogCount) {
+          grLastLogCount = n;
+          grShowResult(`<div class="gr-processing">${grRenderLog(sdata.log, true)}<span class="gr-spinner"></span>処理中</div>`);
+          grScrollLogToEnd();
+        }
         return;
       }
       clearInterval(grPolling); grPolling = null;
