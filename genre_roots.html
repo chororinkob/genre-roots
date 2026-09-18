@@ -25067,6 +25067,10 @@ function initGlobe() {
 }
 @keyframes grspin{to{transform:rotate(360deg)}}
 .gr-log-live { color:#cfe3f7 !important; }
+.gr-log-details { margin:0 14px 12px; font-size:12px; color:#8fa6bf; }
+.gr-log-details summary { cursor:pointer; padding:6px 0; }
+.gr-log-details summary:hover { color:#cfe3f7; }
+.gr-log-details .gr-log-box { margin-top:4px; }
 .gr-log-live::after {
   content:'...'; display:inline-block; overflow:hidden; vertical-align:bottom;
   width:0; animation:grdots 1.4s steps(4,end) infinite;
@@ -25109,7 +25113,7 @@ function initGlobe() {
 
 <div id="genre-request-overlay">
   <div id="genre-request-card">
-    <h2>新ジャンル登録 <span class="gr-ver">v2.3</span></h2>
+    <h2>新ジャンル登録 <span class="gr-ver">v2.4</span></h2>
     <p class="gr-sub">載っていないジャンルをAIが自動で登録します。ジャンル名を入れて送信するだけ。<br>
       作業時間の目安は5〜10分ほどです。最後に内容の確認画面が出るので、間違いがなければ承認して完了です。</p>
 
@@ -25256,14 +25260,35 @@ function grRenderLog(log, live) {
     const cls = (live && i === last) ? ' class="gr-log-live"' : '';
     return `<div${cls} style="padding:2px 0;color:#9db8d0;">[${t}] ${grEsc(e.message)}</div>`;
   }).join('');
-  return `<div class="gr-log-box" style="max-height:160px;overflow-y:auto;background:#0d0d1a;border-radius:6px;padding:8px 10px;margin-bottom:8px;font-size:11px;">${lines}</div>`;
+  // 枠は画面の高さの6割まで伸びる（以前は160px＝7行ほどで、1行しか見えない時間が長かった。
+  // チョロさんの指摘）。スマホでも登録の画面が押し出されないよう、上限は残す。
+  return `<div class="gr-log-box" style="max-height:60vh;overflow-y:auto;background:#0d0d1a;border-radius:6px;padding:8px 10px;margin-bottom:8px;font-size:11px;">${lines}</div>`;
+}
+
+// 処理が終わったあとも、ログを見返せるようにする（2026-09-18、チョロさんの要望：
+// 「動いているときしか見られなくて遡れないのは残念。どんな処理をしたのか見返したい」）。
+// 結果の画面の下に、畳んだ状態で置く。
+function grAppendLogDetails(log) {
+  if (!log || !log.length) return;
+  const el = document.getElementById('gr-status');
+  if (!el) return;
+  const d = document.createElement('details');
+  d.className = 'gr-log-details';
+  d.innerHTML = `<summary>処理の記録を見る（${log.length}行）</summary>${grRenderLog(log, false)}`;
+  el.appendChild(d);
 }
 
 // 一覧を描き直したら、いちばん下（最新の行）が見えるようにする。
 // 行が増えると枠からはみ出し、最新の行が隠れてしまうため。
 function grScrollLogToEnd() {
   const box = document.querySelector('#gr-status .gr-log-box');
-  if (box) box.scrollTop = box.scrollHeight;
+  if (!box) return;
+  box.scrollTop = box.scrollHeight;
+  // 枠そのものが登録の窓の下にはみ出していると、枠の中を送っても最新の行が見えない
+  // （スマホでは入力欄とボタンで画面の半分を使うため、必ずはみ出す）。
+  // 窓のほうも、処理中の表示のいちばん下（最新の行と「処理中」）が見える位置まで送る。
+  const st = document.getElementById('gr-status');
+  if (st && st.scrollIntoView) st.scrollIntoView({ block: 'end' });
 }
 
 let grPolling = null;
@@ -25324,6 +25349,7 @@ function grPollGenreRequest(name, requestId, submitBtn) {
       }
       clearInterval(grPolling); grPolling = null;
       grRenderResult(name, sdata.result || {}, submitBtn);
+      grAppendLogDetails(sdata.log);
     } catch (e) {
       // 一時的な通信エラーは既定回数までポーリング継続（サーバー再起動直後等を想定）
       grPollFailCount++;
