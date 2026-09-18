@@ -25113,7 +25113,7 @@ function initGlobe() {
 
 <div id="genre-request-overlay">
   <div id="genre-request-card">
-    <h2>新ジャンル登録 <span class="gr-ver">v2.4</span></h2>
+    <h2>新ジャンル登録 <span class="gr-ver">v2.5</span></h2>
     <p class="gr-sub">載っていないジャンルをAIが自動で登録します。ジャンル名を入れて送信するだけ。<br>
       作業時間の目安は5〜10分ほどです。最後に内容の確認画面が出るので、間違いがなければ承認して完了です。</p>
 
@@ -25278,17 +25278,48 @@ function grAppendLogDetails(log) {
   el.appendChild(d);
 }
 
-// 一覧を描き直したら、いちばん下（最新の行）が見えるようにする。
-// 行が増えると枠からはみ出し、最新の行が隠れてしまうため。
-function grScrollLogToEnd() {
+// 【スクロールの決まり】（2026-09-18、チョロさんの判断）
+//   ・いちばん下（最新の行）を見ているときは、新しい行が来たら追いかける
+//   ・上にさかのぼって読んでいるときは、その位置のまま動かさない
+//     （「上を確認しているのに下に戻されるのはすごくうざい。勝手に動いてほしくない」）
+// ログの枠の中と、登録の窓（スマホでは画面ごと）の両方で、それぞれ同じように判断する。
+function grScrollParent(el) {
+  let p = el && el.parentElement;
+  while (p && p !== document.body) {
+    const oy = getComputedStyle(p).overflowY;
+    if ((oy === 'auto' || oy === 'scroll') && p.scrollHeight > p.clientHeight) return p;
+    p = p.parentElement;
+  }
+  return null;
+}
+// 描き直す前に、いまどこを見ているかを覚えておく
+function grLogScrollState() {
+  // 「いちばん下を見ている」は2行ぶんほどのゆとりを持たせる。最新の行の後ろで「…」が
+  // 伸び縮みして折り返しが変わると、高さが1行ぶん揺れるため。
+  const near = el => el.scrollTop + el.clientHeight >= el.scrollHeight - 40;
+  const box = document.querySelector('#gr-status .gr-log-box');
+  const cont = grScrollParent(document.getElementById('gr-status'));
+  return {
+    box: box ? { top: box.scrollTop, bottom: near(box) } : null,
+    cont: cont ? { el: cont, top: cont.scrollTop, bottom: near(cont) } : null,
+  };
+}
+// 描き直したあと、いちばん下を見ていたなら最新の行まで送り、そうでなければ元の位置に戻す
+function grKeepOrFollow(前) {
   const box = document.querySelector('#gr-status .gr-log-box');
   if (!box) return;
-  box.scrollTop = box.scrollHeight;
-  // 枠そのものが登録の窓の下にはみ出していると、枠の中を送っても最新の行が見えない
-  // （スマホでは入力欄とボタンで画面の半分を使うため、必ずはみ出す）。
-  // 窓のほうも、処理中の表示のいちばん下（最新の行と「処理中」）が見える位置まで送る。
-  const st = document.getElementById('gr-status');
-  if (st && st.scrollIntoView) st.scrollIntoView({ block: 'end' });
+  前 = 前 || {};
+  box.scrollTop = (!前.box || 前.box.bottom) ? box.scrollHeight : 前.box.top;
+  if (!前.cont || 前.cont.bottom) {
+    // 窓の本当のいちばん下まで送る。scrollIntoView だと窓の下の余白のぶん手前で止まり、
+    // 次に「少し上を読んでいる」と誤って判定して追いかけるのをやめてしまった（パソコンで発覚）
+    const st = document.getElementById('gr-status');
+    const c = grScrollParent(st);
+    if (c) c.scrollTop = c.scrollHeight;
+    else if (st && st.scrollIntoView) st.scrollIntoView({ block: 'end' });
+  } else {
+    前.cont.el.scrollTop = 前.cont.top;
+  }
 }
 
 let grPolling = null;
@@ -25342,8 +25373,9 @@ function grPollGenreRequest(name, requestId, submitBtn) {
         const n = (sdata.log || []).length;
         if (n !== grLastLogCount) {
           grLastLogCount = n;
+          const 前 = grLogScrollState();
           grShowResult(`<div class="gr-processing">${grRenderLog(sdata.log, true)}<span class="gr-spinner"></span>処理中</div>`);
-          grScrollLogToEnd();
+          grKeepOrFollow(前);
         }
         return;
       }
