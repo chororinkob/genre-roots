@@ -147,7 +147,7 @@
 <tr><td>使い方ガイド</td><td>v1.30</td><td>公開済み</td></tr>
 <tr><td>更新の記録</td><td>自動生成</td><td><code>docs/changes.html</code>（公開済み）</td></tr>
 <tr><td>いたずら対策 guard.py</td><td>v1.13</td><td>公開済み</td></tr>
-<tr><td>ジャンル追加 genre_adder.py</td><td>v2.91</td><td>公開済み</td></tr>
+<tr><td>ジャンル追加 genre_adder.py</td><td>v2.92</td><td>公開済み</td></tr>
 <tr><td>登録確認画面 admin_preview.html</td><td>v3.19</td><td>公開済み</td></tr>
 </table>
 
@@ -611,6 +611,16 @@
   <div class="done-list">
 
     <div class="done-day">2026-09-20</div>
+    <div class="done-item">管理画面が開くまで2分以上かかっていたのを直した（v2.91→v2.92）
+      <div class="dim">チョロさん：「なんかいつも管理画面開くの遅いんだけど、2分以上かかるよ」。原因は2つ。
+      ①GitHubから取り直すとき<b>履歴を全部</b>持ってきていた。地図のリポジトリは1.2MBのファイルを1,600回以上
+      書き換えた履歴で<b>1.3GB</b>あり、Renderが入れ替わるたびに、最初に管理画面を開いた人がその取り直しを
+      丸ごと待たされていた → <code>--depth 1</code>（今の中身だけ・数MB）にした。
+      ②1つの画面を作るのに<b>7回も取り直していた</b>（6つの一覧＋動画の記録） → 読むだけの一覧は
+      直前30秒以内に取り直していれば使い回す（動画の記録は5分）。<b>書き込みの前は今までどおり毎回取り直す</b>。<br>
+      浅いクローンから commit・push できることは、仮のリポジトリを作って実際に確認済み。テスト10項目合格。</div>
+    </div>
+
     <div class="done-item">AORを「日本でいうAOR」に作り直した（地図 v35.7→v35.8）
       <div class="dim">チョロさんの指摘：「JourneyなどのアリーナロックとAORが同じジャンルなのは違和感がある」。
       調べると「AOR」には<b>3つの意味</b>があった。①アメリカのFMラジオの放送形式 Album-Oriented Rock（名前の由来）
