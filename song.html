@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>この曲なんてジャンル？曲を聴かせてジャンル判定 — 音楽ジャンルルーツ辞典</title>
+<meta name="description" content="喫茶店でかかっている曲、ふと耳にした曲の「これ何のジャンル？」が分かる。ブラウザでそのまま曲を聴かせるだけ。曲名・歌手・ジャンルを判定し、589ジャンルのルーツ地図で似た音楽をたどれます。">
+<link rel="canonical" href="https://genre-roots.com/song.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="音楽ジャンルルーツ辞典">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="この曲なんてジャンル？曲を聴かせてジャンル判定 — 音楽ジャンルルーツ辞典">
+<meta property="og:description" content="ふと耳にした曲の「これ何のジャンル？」が分かる。曲を聴かせるだけ。曲名・歌手・ジャンルを判定し、589ジャンルのルーツ地図で似た音楽をたどれます。">
+<meta property="og:url" content="https://genre-roots.com/song.html">
+<meta property="og:image" content="https://genre-roots.com/ogp.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="この曲なんてジャンル？曲を聴かせてジャンル判定">
+<meta name="twitter:description" content="曲を聴かせるだけ。曲名・歌手・ジャンルを判定し、589ジャンルのルーツ地図で似た音楽をたどれます。">
+<meta name="theme-color" content="#1a1a2e">
+<style>
+:root{--bg:#1a1a2e;--panel:#20203a;--line:rgba(255,255,255,.09);--txt:#e8e8f0;--sub:#a0a0b8;--acc:#7eb8f7;--brass:#d8b25e}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Segoe UI","Hiragino Kaku Gothic ProN",sans-serif;background:var(--bg);color:var(--txt);line-height:1.9;font-size:16px}
+a{color:var(--acc)}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 80px}
+header{padding:22px 0 14px;border-bottom:1px solid var(--line)}
+header .site{font-weight:700;font-size:15px;text-decoration:none;color:var(--txt)}
+.eyebrow{color:var(--brass);font-size:12px;letter-spacing:.18em;margin:42px 0 6px}
+h1{font-family:"Hiragino Mincho ProN","Yu Mincho",serif;font-weight:600;font-size:38px;line-height:1.35;letter-spacing:.02em}
+.lede{color:var(--sub);margin-top:12px;font-size:15px}
+.bigcta{display:block;width:100%;max-width:480px;margin:30px auto 10px;background:linear-gradient(135deg,#7eb8f7,#5a8fe0);color:#101024;font-weight:700;font-size:19px;text-decoration:none;text-align:center;padding:18px 26px;border-radius:14px;border:0;cursor:pointer;box-shadow:0 4px 18px rgba(126,184,247,.25)}
+.bigcta:hover{filter:brightness(1.08)}
+.note{text-align:center;font-size:12px;color:var(--sub)}
+.steps{margin:36px 0 10px;padding:0;list-style:none}
+.steps li{display:flex;gap:14px;padding:14px 0;border-bottom:1px dashed var(--line)}
+.steps .no{flex-shrink:0;width:30px;height:30px;border-radius:50%;background:var(--brass);color:#1a1a2e;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:14px}
+.steps b{color:#fff}
+section{margin-top:34px}
+h2{font-family:"Hiragino Mincho ProN","Yu Mincho",serif;font-weight:600;font-size:24px;border-left:4px solid var(--brass);padding-left:12px;margin-bottom:14px}
+p.body{margin-bottom:14px}
+.faq dt{font-weight:700;color:#fff;margin-top:18px}
+.faq dd{color:var(--sub);margin:6px 0 0 0;font-size:15px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.chip{display:inline-block;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:4px 14px;font-size:13px;text-decoration:none;color:var(--txt)}
+.chip:hover{border-color:var(--acc);color:var(--acc)}
+footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);color:var(--sub);font-size:13px}
+#appframe{position:fixed;inset:0;width:100vw;height:100vh;height:100dvh;border:0;background:#1a1a2e;display:none;z-index:100}
+#appframe.show{display:block}
+#framewait{position:fixed;inset:0;display:none;align-items:center;justify-content:center;color:var(--sub);z-index:99;font-size:14px}
+#framewait.show{display:flex}
+@media(max-width:600px){h1{font-size:28px}}
+</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"この曲なんてジャンル？どうやって調べる？","acceptedAnswer":{"@type":"Answer","text":"「曲を聴かせて調べる」ボタンを押して、聴いている曲をスマホやパソコンのマイクに聴かせるだけです。数十秒で曲名・歌手・ジャンルが分かり、そのジャンルのルーツ地図と代表曲が表示されます。音声ファイル(mp3/wav/m4a等)を指定して調べることもできます。"}},
+{"@type":"Question","name":"Shazamと何が違うの？","acceptedAnswer":{"@type":"Answer","text":"Shazamは曲名を教えるまでですが、このサービスは曲名・歌手に加えてジャンルを判定し、そのジャンルが「どの音楽から生まれたか」のルーツ地図、代表曲、似た系統の音楽までたどれます。「この曲が好きだから、似た音楽をもっと知りたい」人向けです。"}},
+{"@type":"Question","name":"アプリのインストールは必要？","acceptedAnswer":{"@type":"Answer","text":"必要ありません。ブラウザだけで動きます（iOS Safari / Android Chrome / PCの各ブラウザに対応）。初回のみマイクの許可を求められます。"}},
+{"@type":"Question","name":"ジャンルが合わなかったときは？","acceptedAnswer":{"@type":"Answer","text":"AIに聴き直してもらうボタンで、別の方法（AIによる直接判定）で再判定できます。判定結果から好みのジャンルを選び直すこともできます。"}}
+]}
+</script>
+</head>
+<body>
+<iframe id="appframe" src="/genre_roots.html" title="音楽ジャンルルーツ辞典 アプリ" allow="microphone; autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+<div id="framewait">地図を準備しています…（数秒かかります）</div>
+<div class="wrap">
+<header><a class="site" href="https://genre-roots.com/genre_roots.html">音楽ジャンルルーツ辞典</a></header>
+
+<p class="eyebrow">SONG TO GENRE</p>
+<h1>この曲なんてジャンル？<br>曲を聴かせるだけで分かります</h1>
+<p class="lede">喫茶店でかかっている曲。ラジオで流れてきた曲。「これ、何のジャンルだろう？」——マイクに聴かせるだけで、曲名・歌手・ジャンルが分かります。しかしそこからが本番。そのジャンルが<strong>どの音楽から生まれたのか</strong>、589ジャンルのルーツ地図でたどれます。</p>
+
+<button class="bigcta" id="cta">🎵 曲を聴かせて調べる</button>
+<p class="note">インストール不要・ブラウザだけで動作（スマホOK）。初回のみマイクの許可を求めます</p>
+
+<ol class="steps">
+<li><span class="no">1</span><div><b>聴かせる</b> — 「聴き取り開始」を押して、曲が流れているところにマイクを向ける（約10秒）。または手持ちの音声ファイル（mp3/wav/m4a等）を指定</div></li>
+<li><span class="no">2</span><div><b>曲名・歌手・ジャンルが分かる</b> — データベースとAIが照合。ジャンルが複数出るときは、当てはまるものを選べます</div></li>
+<li><span class="no">3</span><div><b>ルーツ地図で旅が始まる</b> — 判定ジャンルが地図上で光り、「影響を受けた音楽」「影響を与えた音楽」をたどりながら、代表曲を聴ける。そのまま曲名検索で似た音楽も探せます</div></li>
+</ol>
+
+<section>
+<h2>「曲名が分かる」だけで終わらせない</h2>
+<p class="body">一般的な音楽認識アプリは、曲名が分かったところで終わりです。このサイトは逆方向に進みます——「<strong>この曲のジャンルは、何から生まれたのか？</strong>」を地図でたどる。ジャズならブルースとラグタイム、テクノならクラウトロックとエレクトロ、というように、好きな曲の「親」を知ることで、<strong>次に聴くべき音楽</strong>が見つかります。「この曲好きなんだけど、他に似たような曲はないかな」という疑問への答えが、ここにあります。</p>
+</section>
+
+<section>
+<h2>よくある質問</h2>
+<dl class="faq">
+<dt>Shazamと何が違う？</dt><dd>曲名を教えるだけではなく、ジャンルのルーツ地図・代表曲・似た系統の音楽までたどれます。</dd>
+<dt>アプリのインストールは必要？</dt><dd>不要です。ブラウザだけで動きます（iPhone Safari / Android Chrome / PC対応）。</dd>
+<dt>判定したジャンルが違う気がする</dt><dd>「AIに聴き直してもらう」ボタンで再判定できます。ジャンルを自分で選び直すことも可能です。</dd>
+<dt>録音した音声は保存される？</dt><dd>ジャンル判定のために送信するだけで、音声そのものを長期保存する設計にはしていません。</dd>
+</dl>
+</section>
+
+<section>
+<h2>ジャンルから入るなら</h2>
+<p class="body">曲ではなく「ジャンルそのもの」から地図を歩き始めることもできます。</p>
+<div class="chips">
+<a class="chip" href="/genre/jazz.html">Jazz</a><a class="chip" href="/genre/techno.html">Techno</a><a class="chip" href="/genre/city_pop.html">City Pop</a><a class="chip" href="/genre/hiphop.html">Hip Hop</a><a class="chip" href="/genre/krautrock.html">Krautrock</a><a class="chip" href="/genre/rock.html">Rock</a><a class="chip" href="/genre_roots.html">589ジャンルの地図へ →</a>
+</div>
+</section>
+
+<footer><a href="https://genre-roots.com/genre_roots.html">← 音楽ジャンルルーツ辞典（地図トップ）</a>　<a href="https://genre-roots.com/docs/manual.html">使い方ガイド</a></footer>
+</div>
+<script>
+(function(){
+  var frame = document.getElementById('appframe');
+  var wait = document.getElementById('framewait');
+  var launched = false;
+  function tryOpenMic(tries){
+    if (tries <= 0) return;
+    try {
+      var w = frame.contentWindow;
+      if (w && typeof w.openMicPanel === 'function') { w.openMicPanel(); wait.classList.remove('show'); return; }
+    } catch(e){ /* 準備中は無視して再試行 */ }
+    setTimeout(function(){ tryOpenMic(tries - 1); }, 400);
+  }
+  document.getElementById('cta').addEventListener('click', function(){
+    if (launched) { tryOpenMic(30); return; }
+    launched = true;
+    frame.classList.add('show');
+    wait.classList.add('show');
+    frame.addEventListener('load', function(){ tryOpenMic(30); });
+  });
+})();
+</script>
+</body>
+</html>
