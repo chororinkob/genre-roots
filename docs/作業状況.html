@@ -630,6 +630,26 @@
   <summary>片づいた作業を見る（新しい順）</summary>
   <div class="done-list">
 
+    <div class="done-day">2026-09-23</div>
+    <div class="done-item">Genspark作業：Googleのインデックス登録が進まない問題への対応（ジャンル別ページ589件・song.html）
+      <div class="dim">Search Consoleで592URL中インデックス9・未登録581、ほぼ全URLが「検出-インデックス未登録」で滞留していた。
+      原因は全ジャンルが<code>genre_roots.html?genre=xxx</code>という同一ファイルへのクエリパラメータURLで、
+      title/description/canonicalが全URL共通のため、Googleが「同一ページの写し」とみなしていたこと。<br>
+      Gensparkが、ジャンルごとの固有ページ589個（<code>genre/jazz.html</code>等。固有title/description/canonical、
+      画面は<code>&lt;iframe&gt;</code>で今までの地図をそのまま全画面表示、<code>&lt;noscript&gt;</code>にジャンル解説の全文）と、
+      新しいsitemap.xml（?genre=形式から/genre/xxx.html形式へ差し替え）、song.html（「この曲なんてジャンル？」機能の
+      検索向けランディングページ、マイクパネル自動オープン付き）を追加。<b>地図アプリ本体（genre_roots.html）は
+      1バイトも変更していない。</b>クローディアが3コミットの中身を確認：アプリ未変更・noscriptの中身が実データと
+      一致（クローキングでない）・iframe化で既存の自動遷移コードと衝突しないこと・canonical/titleが競合しないこと・
+      song.htmlのマイク自動オープンが実機で動くことを、公開サイトで確認済み。<br>
+      <b>クローディアが直した点</b>：再生成ツール<code>tools/gen_stubs.js</code>が、Genspark作業環境だけの固定パス
+      （<code>/tmp/opencode/gsc/...</code>）で書かれていて、チョロさんやクローディアのPCでは実行できなかった。
+      <code>__dirname</code>基準の相対パスに直し、リポジトリのどこからでも実行でき、直接リポジトリ直下に
+      書き込む形に変更。日付（lastmod）も固定値だったのを実行日を使うように直した。実際に実行して、
+      ①589ページが1バイトも変わらず再生成できること ②sitemap.xmlのlastmod593件が正しく更新されることを確認。
+      Genspark向けの引き継ぎコメントも作成済み。</div>
+    </div>
+
     <div class="done-day">2026-09-22</div>
     <div class="done-item">送信失敗時の案内文を専門用語なしで書き直した（v2.92→v2.94）
       <div class="dim">チョロさん：「『手動でgit pushを実行してください』はProでない人には全く理解できない。
