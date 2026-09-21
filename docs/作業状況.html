@@ -127,7 +127,7 @@
 <div class="wrap">
 
 <h1>作業状況</h1>
-<div class="sub">音楽ジャンルルーツ辞典 ／ 2026-09-20 更新</div>
+<div class="sub">音楽ジャンルルーツ辞典 ／ 2026-09-22 更新</div>
 <div class="warn-note" style="background:var(--doing-soft);">
   最新の変更（2026-09-18）：<b>ふつうの利用で通るClaudeの課金APIが全部なくなった。</b>
   最後まで残っていた書籍の判定と代表曲の選び直しをGensparkへ移し、残るのは
@@ -143,12 +143,12 @@
 
 <table class="verinfo">
 <tr><th>もの</th><th>版</th><th>どこ</th></tr>
-<tr><td>地図</td><td>v35.8</td><td><a href="https://genre-roots.com/" target="_blank" rel="noopener">公開済み</a></td></tr>
+<tr><td>地図</td><td>v36.0</td><td><a href="https://genre-roots.com/" target="_blank" rel="noopener">公開済み</a></td></tr>
 <tr><td>使い方ガイド</td><td>v1.30</td><td>公開済み</td></tr>
 <tr><td>更新の記録</td><td>自動生成</td><td><code>docs/changes.html</code>（公開済み）</td></tr>
 <tr><td>いたずら対策 guard.py</td><td>v1.13</td><td>公開済み</td></tr>
-<tr><td>ジャンル追加 genre_adder.py</td><td>v2.92</td><td>公開済み</td></tr>
-<tr><td>登録確認画面 admin_preview.html</td><td>v3.19</td><td>公開済み</td></tr>
+<tr><td>ジャンル追加 genre_adder.py</td><td>v2.94</td><td>公開済み</td></tr>
+<tr><td>登録確認画面 admin_preview.html</td><td>v3.20</td><td>公開済み</td></tr>
 </table>
 
 <h2>🔶 進行中・次にやること <span class="h2-count">10件</span></h2>
@@ -164,9 +164,10 @@
     テストを兼ねられるし、数をこなせば動作も安定してくる」。
     <div class="dim" style="margin-top:8px;">
       まずテスト用に10件を選んである（どれも地図に未登録で、英語版ウィキペディアに記事がある）：
-      Merseybeat・Neue Deutsche Welle・Musical Theatre・Madrigal・Alternative Metal・Post-Grunge・
+      <s>Merseybeat</s>・Neue Deutsche Welle・Musical Theatre・Madrigal・Alternative Metal・Post-Grunge・
       Skiffle・Country Pop・Candombe・Yé-yé。コピーしやすい一覧はクローディアが別ページで渡してある。
-      おすすめの順は Merseybeat →  Neue Deutsche Welle → Musical Theatre（v2.91のAI判定をいちばん試せる）。
+      おすすめの順は <s>Merseybeat</s> → Neue Deutsche Welle → Musical Theatre（v2.91のAI判定をいちばん試せる）。<br>
+      <b>Merseybeat が2026-09-20に登録完了</b>（589ジャンル）。詳細は下の「完了」参照。次はNeue Deutsche Welleから。
     </div>
   </div>
 </div>
@@ -187,6 +188,25 @@
       検討すること：①候補の一覧をどこから取るか（ウィキペディアの一覧記事・Spotifyの分類など）
       ②1件あたりのクレジットを下げられるか（動画の中身チェックの本数など）
       ③承認をどうするか（今は1件ずつチョロさんが押す決まり）④地図の重さ（今でも1ファイル120万文字）。
+    </div>
+  </div>
+</div>
+
+<div class="item">
+  <div class="item-head">
+    <span class="status hold">今後の課題</span>
+    <span class="item-title">送信に失敗したまま「処理済み」になった記録を、あとから送り直す手段が無い</span>
+  </div>
+  <div class="item-body">
+    2026-09-20、Merseybeatの登録で、地図には書き込めたのにGitHubへの送信だけ失敗する事故が起きた
+    （原因の詳しい記録は下の「完了」を参照）。そのとき困ったのは、<b>承認が終わると記録が「処理済み」扱いになり、
+    もう一度送信し直すボタンや仕組みがプログラムの中に無かった</b>こと。今回はクローディアが手作業で
+    救出したが、次に同じことが起きたときのために、承認済みなのに送信できていない記録を見つけて、
+    <b>ボタン1つで送り直せる仕組み</b>を管理画面に足す必要がある。
+    <div class="dim" style="margin-top:8px;">
+      案内文（v2.94で「あなたが何かする必要はありません」に直した）と、rebase失敗時の
+      <code>rebase --abort</code>安全策（同じくv2.94）で、当面の被害は防げる状態にはなっている。
+      この項目は「そもそも人の手を借りずに直る」ようにするための、より根本的な改善。
     </div>
   </div>
 </div>
@@ -610,7 +630,36 @@
   <summary>片づいた作業を見る（新しい順）</summary>
   <div class="done-list">
 
+    <div class="done-day">2026-09-22</div>
+    <div class="done-item">送信失敗時の案内文を専門用語なしで書き直した（v2.92→v2.94）
+      <div class="dim">チョロさん：「『手動でgit pushを実行してください』はProでない人には全く理解できない。
+      ユーザーが『じゃあどうしたらいいんだろう』ってなっちゃう」。この画面は管理者だけでなく、
+      <b>登録した本人（一般の利用者）もその場で見る</b>（送信した本人がその場で承認する仕組みのため）。
+      「GitHubへのプッシュに失敗しました。手動でgit pushを実行してください」→
+      「情報はサーバーに正しく保存されています。あなたが何かする必要はありません。しばらくしてから
+      地図をもう一度開くと反映されていることが多いです。数分待っても出てこない場合はお問い合わせ
+      フォームへ」に変更。同じ理由で「存在しないジャンルID」「CAT_COLOR」など開発者向けの
+      言い回しだった、ほかの2つの警告文も書き直した（登録自体は成功していることを必ず添える）。<br>
+      あわせて、送信の立て直し（<code>pull --rebase</code>）が競合で失敗したときに
+      <code>rebase --abort</code>で必ず元の状態に戻す安全策を追加（Merseybeatの事故の再発防止。
+      放置すると次の同期処理が誤って送信前のデータごと消してしまうおそれがあった）。テスト17項目合格。</div>
+    </div>
+
     <div class="done-day">2026-09-20</div>
+    <div class="done-item">送信できずに残っていたMerseybeatのデータを救出し、公開した（地図 v35.9→v36.0・589ジャンル）
+      <div class="dim">承認は成功し、サーバー内では地図が正しく書き換わっていたが、GitHubへの送信だけ
+      3回とも失敗し、「公開サイトにはまだ反映されていません」という警告のまま止まっていた。
+      放置すると、サーバーの入れ替え・再起動のたびにディスクがまっさらになる仕組み上、
+      未送信のデータが消えるおそれがあった。<br>
+      サーバーの<code>/roots</code>入口（手元にある地図の中身をそのまま返す）からMerseybeatが
+      無事に残っていることを確認し、直前の公開内容と1行ずつ突き合わせて、差分がMerseybeat追加ぶん
+      （本体・矢印9本・用語集35語・知名度・版の更新）だけであることを確かめたうえで、手元経由で
+      GitHubに送信。ガイドのジャンル数（588→589）とサイトマップへの追加もあわせて手作業で行った。
+      公開ページで、確認画面と同じ知名度4（33か国語・144,023回・再生53,380,010回）・
+      別名「Beat music」を確認。データの消失は無かった。<br>
+      あわせて、地図の登録フォームの待ち時間の案内も実態に合わせた（v2.5→v2.6。「5〜10分」→
+      「ふつう5〜20分」、処理の記録に経過が出ることを案内）。</div>
+    </div>
     <div class="done-item">管理画面が開くまで2分以上かかっていたのを直した（v2.91→v2.92）
       <div class="dim">チョロさん：「なんかいつも管理画面開くの遅いんだけど、2分以上かかるよ」。原因は2つ。
       ①GitHubから取り直すとき<b>履歴を全部</b>持ってきていた。地図のリポジトリは1.2MBのファイルを1,600回以上
