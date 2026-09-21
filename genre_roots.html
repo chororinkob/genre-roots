@@ -25291,9 +25291,9 @@ function initGlobe() {
 
 <div id="genre-request-overlay">
   <div id="genre-request-card">
-    <h2>新ジャンル登録 <span class="gr-ver">v2.5</span></h2>
+    <h2>新ジャンル登録 <span class="gr-ver">v2.6</span></h2>
     <p class="gr-sub">載っていないジャンルをAIが自動で登録します。ジャンル名を入れて送信するだけ。<br>
-      作業時間の目安は5〜10分ほどです。最後に内容の確認画面が出るので、間違いがなければ承認して完了です。</p>
+      作業時間の目安はふつう5〜20分です。最後に内容の確認画面が出るので、間違いがなければ承認して完了です。</p>
 
     <label for="gr-name">ジャンル名 <span style="color:#e06060">*</span></label>
     <input type="text" id="gr-name" placeholder="例: Arena Rock、ニュージャック・スウィング">
@@ -25406,7 +25406,7 @@ async function submitGenreRequest() {
   document.getElementById('gr-name').blur();
   document.getElementById('gr-note').blur();
   setTimeout(登録画面の高さを合わせる, 300);
-  grShowResult('<div class="gr-processing"><span class="gr-spinner"></span>AIが実在確認・情報生成中です。代表曲の動画も1曲ずつ聴いて確かめるので、5〜10分ほどかかります</div>');
+  grShowResult('<div class="gr-processing"><span class="gr-spinner"></span>AIが実在確認・情報生成中です。代表曲の動画も1曲ずつ聴いて確かめるので、ふつう5〜20分かかります。下の「処理の記録」に、今どこまで進んでいるかと経過時間が出ます</div>');
 
   try {
     const res  = await fetch(API_BASE + '/request_genre', {
