@@ -108,20 +108,30 @@ footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);color:v
   var frame = document.getElementById('appframe');
   var wait = document.getElementById('framewait');
   var launched = false;
-  function tryOpenMic(tries){
-    if (tries <= 0) return;
+  // 【2026-09-22 修正】iframeは song.html 読み込み時に裏で load が済んでいることがあるため、
+  // loadイベント待ちは合図が永遠に飛ばない事故になる（実際に発生）。
+  // クリック時点からポーリングで合図を送り続け、開けたら待ち表示を消す。
+  function pollMic(tries){
+    if (tries <= 0) {
+      wait.innerHTML = 'うまく開かなかったようです。地図の左上にある赤い「この曲 なんてジャンル？」ボタンを押してください。';
+      return;
+    }
     try {
       var w = frame.contentWindow;
       if (w && typeof w.openMicPanel === 'function') { w.openMicPanel(); wait.classList.remove('show'); return; }
     } catch(e){ /* 準備中は無視して再試行 */ }
-    setTimeout(function(){ tryOpenMic(tries - 1); }, 400);
+    setTimeout(function(){ pollMic(tries - 1); }, 300);
   }
-  document.getElementById('cta').addEventListener('click', function(){
-    if (launched) { tryOpenMic(30); return; }
-    launched = true;
+  function launch(){
     frame.classList.add('show');
     wait.classList.add('show');
-    frame.addEventListener('load', function(){ tryOpenMic(30); });
+    wait.textContent = '地図とマイクを準備しています…（数秒〜数十秒かかります）';
+    pollMic(200); // 300ms x 200 = 最長60秒
+  }
+  document.getElementById('cta').addEventListener('click', function(){
+    if (launched) { pollMic(200); return; }
+    launched = true;
+    launch();
   });
 })();
 </script>
