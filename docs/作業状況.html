@@ -647,7 +647,23 @@
       <code>__dirname</code>基準の相対パスに直し、リポジトリのどこからでも実行でき、直接リポジトリ直下に
       書き込む形に変更。日付（lastmod）も固定値だったのを実行日を使うように直した。実際に実行して、
       ①589ページが1バイトも変わらず再生成できること ②sitemap.xmlのlastmod593件が正しく更新されることを確認。
-      Genspark向けの引き継ぎコメントも作成済み。</div>
+      Genspark向けの引き継ぎコメントも作成済み。<br>
+      <b>2026-09-02に一度ほぼ同じ発想（ジャンルごとに別ページ）を試作して却下していた</b>
+      （<code>tools/genre_pages/build.py</code>。理由：①地図が売りで説明文ではない
+      ②別ページだと用語の吹き出しが失われる ③読み物に見えるのは望ましくない）。
+      今回の方式は矛盾しない：訪問者が見るのは<code>&lt;iframe&gt;</code>で埋め込まれた
+      <b>本物の地図そのもの</b>で、書き下ろしの読み物ではない。用語の吹き出しが無いのは
+      <code>&lt;noscript&gt;</code>（JS無効環境・クローラー向けの控え）だけで、実際に見に来た人
+      （JSが動く大多数）は本物の地図をフル機能で見る。詳しい比較は
+      <code>music_genre_finder/docs/logic.md</code>「2026-09-02に却下した方式との違い」に記録。
+      旧道具<code>tools/sitemap/build.py</code>・<code>tools/genre_pages/build.py</code>は
+      今は呼ばれていないが、チョロさんの確認なしに削除はしていない。<br>
+      <b>仕様書を書くために見直したところ、サイトマップから2件漏れていた</b
+      （<code>docs/changes.html</code>＝更新の記録、<code>song.html</code>本体）。
+      どちらも「検索に出す」決まりのページなのに、新しいsitemap.xmlの生成コードに
+      含まれていなかった。<code>tools/gen_stubs.js</code>に追記し、件数の表示も
+      「4+件数」の決め打ちから実際のURL数を数える形に直して、今後同じ漏れが
+      起きにくいようにした。公開ページで反映を確認済み（sitemap urls: 595）。</div>
     </div>
 
     <div class="done-day">2026-09-22</div>

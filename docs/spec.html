@@ -38,11 +38,11 @@
 <h1>音楽ジャンルルーツ辞典 — 仕様書</h1>
 <h2>この仕様書について</h2>
 <p class="note">この文書は <b>spec_dump.py が実物を読み直して自動で書き出したもの</b>です。手で書き足しても次の書き出しで消えます。決めた理由など人が書くことは <code>docs/decisions.md</code> に書いてください。この文書の末尾にそのまま入ります。</p>
-<p class="note">書き出した日時：<b>2026-09-22 03:31</b></p>
+<p class="note">書き出した日時：<b>2026-09-22 04:07</b></p>
 <h2>いまの版</h2>
 <table>
 <tr><th>項目</th><th>内容</th></tr>
-<tr><td>地図（genre_roots.html）</td><td>v36.0</td></tr>
+<tr><td>地図（genre_roots.html）</td><td>v36.1</td></tr>
 <tr><td>サーバー（genre_adder.py）</td><td>v2.94</td></tr>
 <tr><td>ジャンル数</td><td>589</td></tr>
 <tr><td>ジャンル間のつながり</td><td>1,785</td></tr>
@@ -1587,13 +1587,93 @@
 </ul>
 <p>不明（文章生成・Web検索の話であり、音声・動画の視聴とは別の仕組み）。</p>
 <h3>検索エンジンへの見せ方（canonical・タイトル）</h3>
-<p>ジャンルごとのページは、実ファイルを573本置くのではなく、地図1枚</p>
-<p>（<code>genre_roots.html</code>）に<code>?genre=jazz</code>のような住所を付けて開く方式です。</p>
-<p><code>sitemap.xml</code>にはこの形の住所が581件並んでいます。</p>
-<p>タイトル・説明文・canonicalは、すべてJavaScriptがそのジャンルのものに</p>
-<p>書き換えます。タイトルは「Jazz（ジャズ）とは？Blues・Ragtimeから生まれた</p>
+<p><b>【2026-09-22〜、方式が変わった】</b> 以前は、ジャンルごとのページを実ファイルとして</p>
+<p>置かず、地図1枚（<code>genre_roots.html</code>）に<code>?genre=jazz</code>のような住所を付けて開く</p>
+<p>方式でした（<code>sitemap.xml</code>にはこの形の住所が581件並んでいた）。</p>
+<p>Googleのインデックス登録がほとんど進まない状態が続いたため（次の節「Googleに</p>
+<p>ほぼ登録されなかった問題」参照）、<b>ジャンルごとの実ファイル589本</b></p>
+<p>（<code>genre/jazz.html</code>など）を置く方式に切り替えました。ただし、これは</p>
+<p>2026-09-02に一度試して却下した「別ページに書き下ろす」方式とは中身が違います。</p>
+<p>**画面に映るのは今までどおり本物の地図で、住所とGoogle向けの情報だけがジャンルごとに</p>
+<p>別になった**という理解が正確です（詳しくは後述の「2026-09-02に却下した方式との違い」）。</p>
+<p>タイトル・説明文・canonicalは、<b>新方式では実ファイルの<code>&lt;head&gt;</code>に直接書かれています</b></p>
+<p>（生成は<code>tools/gen_stubs.js</code>）。旧方式（<code>?genre=</code>で直接開いたとき）は今までどおり</p>
+<p>JavaScriptがその場で書き換えます（<code>_grページの情報を書き換える</code>。地図の中から</p>
+<p>リンクをたどって移動したときなど、<code>?genre=</code>の住所が今でも使われる場面があるため、</p>
+<p>このJSはまだ現役です）。タイトルは「Jazz（ジャズ）とは？Blues・Ragtimeから生まれた</p>
 <p>音楽ジャンルの成り立ち」のように、そのジャンルが何から生まれたかを</p>
-<p>LINKSのデータから自動で織り込んだ形にしています（地図 v28.3〜）。</p>
+<p>LINKSのデータから自動で織り込んだ形にしています（地図 v28.3〜。新方式の</p>
+<p><code>tools/gen_stubs.js</code>も同じロジックを踏襲）。</p>
+<h4>Googleにほぼ登録されなかった問題と、その対応（2026-09-22〜23）</h4>
+<p>Search Consoleで**592URL中インデックス済みはわずか9件、581件が「検出 - インデックス</p>
+<p>未登録」で滞留**していた（前回クロール日が「1970-01-01」＝一度もクロールされていない</p>
+<p>扱いのものが大半）。原因は、全ジャンルが<code>genre_roots.html?genre=xxx</code>という</p>
+<p><b>同一ファイルへのクエリパラメータ違いのURL</b>で、生のHTML（JS実行前にGoogleが最初に見る</p>
+<p>状態）ではtitle・description・canonicalが全URL共通だったこと。Googleの一次クロールで</p>
+<p>「同一ページの写し（reserve/paginated duplicate）」とみなされ、クロールの優先順位が</p>
+<p>下げられ続けていたと考えられる。</p>
+<p><b>対応（Gensparkが実施、クローディアが検証）</b></p>
+<p class="num">1. <b>ジャンル別の実ファイル589本</b>（<code>genre/jazz.html</code>など）を新設。各ページは</p>
+<p>固有のtitle・description・canonical・og:系タグ・FAQPage構造化データではなく</p>
+<p>WebPage構造化データを持つ</p>
+<p class="num">2. ページの中身は<code>&lt;iframe src=&quot;/genre_roots.html?genre=xxx&quot;&gt;</code>で**本物の地図をそのまま</p>
+<p>全画面表示**（見た目・操作感は変わらない）。JavaScript無効環境／Googleの一次クロール</p>
+<p>向けに、<code>&lt;noscript&gt;</code>の中にそのジャンルの解説全文（desc・roots_story・代表曲・</p>
+<p>ルーツ／影響を与えたジャンルへのリンク）を静的テキストとして埋め込む</p>
+<p class="num">3. <code>sitemap.xml</code>を<code>?genre=</code>形式から<code>/genre/xxx.html</code>形式へ完全に差し替え（593URL）</p>
+<p class="num">4. <code>song.html</code>を新設（「この曲なんてジャンル？」機能の検索向けランディングページ。</p>
+<p>FAQPage構造化データ付き。ボタンを押すと地図をiframeで全画面表示し、</p>
+<p><code>openMicPanel()</code>を自動で呼んでマイクパネルを開く）</p>
+<p class="num">5. 再生成の道具<code>tools/gen_stubs.js</code>を新設。地図の<code>NODES</code>/<code>LINKS</code>から</p>
+<p>ジャンル別ページと<code>sitemap.xml</code>を機械的に組み立てる</p>
+<p><b>地図本体（<code>genre_roots.html</code>）は1バイトも変更していない。</b> クローディアが</p>
+<p>3コミット（<code>ae30331</code>・<code>56fd7e7</code>・<code>144a8da</code>）の中身を確認し、公開サイトでも</p>
+<p>以下を検証済み：①地図本体が無傷であること ②<code>&lt;noscript&gt;</code>の中身が地図の実データと</p>
+<p>一致していること（Googleに嘘を見せる「クローキング」に当たらない） ③iframeで</p>
+<p>包んだことで、地図の既存コード（管理者用の自動遷移・canonical書き換え）が</p>
+<p>一般の訪問者には影響しないこと ④589ページ・sitemap.xml・song.htmlが公開URLで</p>
+<p>実際に開けること ⑤song.htmlの「曲を聴かせて調べる」ボタンで、実機（ブラウザ自動操作）</p>
+<p>でもマイクパネルが実際に開くこと。</p>
+<p><b><code>tools/gen_stubs.js</code>の直し（2026-09-23、クローディア）。</b> 元の版は、Gensparkの</p>
+<p>作業環境だけにある道（<code>/tmp/opencode/gsc/...</code>）が固定で書かれていて、チョロさんの</p>
+<p>PCでもクローディアの手元でもそのままでは実行できなかった。スクリプト自身の場所</p>
+<p>（<code>__dirname</code>）を基準にした相対パスに直し、**リポジトリのどこからでも</p>
+<p><code>node tools/gen_stubs.js</code>で実行でき、出力もリポジトリ直下に直接書かれる**ように</p>
+<p>した（以前は「zipを展開して置き直す」手順が要った）。サイトマップの日付</p>
+<p>（<code>lastmod</code>）も固定値だったのを、実行した日を使うよう直した。実際に実行し、</p>
+<p>①589ページが1バイトも変わらず再生成できること（生成ロジック自体は無傷）</p>
+<p>②<code>sitemap.xml</code>のlastmod 593件が正しく更新されることを確認済み。</p>
+<p><b>まだやっていないこと（フェーズ2候補）。</b> 旧<code>?genre=</code>形式のURLで直接開いたときの</p>
+<p>canonicalを、新しい<code>/genre/xxx.html</code>形式へ向け直す1行修正。やらなくてもGoogleは</p>
+<p>徐々に統合していくが、やると統合が早まる。急がず様子を見る（2026-09-22、</p>
+<p>チョロさんの判断）。ほかに、song.htmlの高速化・判定結果の共有可能URL化・</p>
+<p>外部リンク獲得。2026-10上旬にSearch Consoleで効果測定の予定</p>
+<p>（<code>genre-roots-repo/docs/作業状況.html</code>参照）。</p>
+<h4>2026-09-02に却下した方式との違い</h4>
+<p>**2026-09-02、チョロさんは一度ほぼ同じ発想（ジャンルごとに別ページ）を試作して</p>
+<p>却下している**（<code>tools/genre_pages/build.py</code>。1枚だけ試作してKrautrockで確認）。</p>
+<p>今回の方式がこれと矛盾しないか、確認しておく必要がある。</p>
+<p>却下の理由は3つだった。</p>
+<p class="num">1. 「この辞典の売りは地図であって、説明文ではない」</p>
+<p class="num">2. 「別ページにすると用語の吹き出し（グロッサリー）が失われ、分からない言葉が</p>
+<p>分からないまま」（実測：クラウトロックの場合、吹き出しだけで6,467字を</p>
+<p>捨てていた。パネル本体は2,832字）</p>
+<p class="num">3. 「『たまたま地図の一部で引っかかった』という見え方にしたい」（読み物として</p>
+<p>独立したページに見えるのは望ましくない）</p>
+<p><b>今回の方式は、①③には当てはまらない。</b> 訪問者が実際に見るのは</p>
+<p><code>&lt;iframe&gt;</code>で埋め込まれた<b>本物の地図そのもの</b>であり、書き下ろしの読み物</p>
+<p>ページではない。押した瞬間から地図が動き、用語の吹き出しも代表曲の再生も</p>
+<p>今までどおりすべて使える。「別ページに書き下ろす」のではなく、**「同じ地図に、</p>
+<p>ジャンルごとの入口（住所とGoogle向けの情報）を増やす」**という違う設計。</p>
+<p><b>②（用語の吹き出しが失われる）は、<code>&lt;noscript&gt;</code>の中身に限れば今回も同じ</b>だが、</p>
+<p>実害はない。<code>&lt;noscript&gt;</code>はJavaScriptが動かない環境とGoogleの一次クロール</p>
+<p>だけが読む場所で、**実際に読みに来た人（JSが動く大多数）は<code>&lt;iframe&gt;</code>側の本物の</p>
+<p>地図を見る**ため、用語の吹き出しも含めてフル機能で見える。09-02の試作は</p>
+<p>「別ページ＝読み物」がそのまま最終形だったのに対し、今回は「別ページ＝</p>
+<p>入口。中身は常に本物」という構造の違いが、この差を生んでいる。</p>
+<p><b>旧い道具は使われなくなった。</b> <code>tools/sitemap/build.py</code>（<code>?genre=</code>形式の</p>
+<p>sitemap生成）と<code>tools/genre_pages/build.py</code>（却下済みの試作）は、</p>
+<p>どちらも今は呼ばれていない。削除はしていない（チョロさんの確認が必要なため）。</p>
 <h4>リンクを貼ったときに出る見出しと画像（OGP）</h4>
 <p>LINEやX、Slackなどに地図のURLを貼ると、見出し・説明文・画像が出ます。</p>
 <p>これを決めているのが<code>og:</code>で始まる指定です。画像は<code>ogp.jpg</code>（1200×630）で、</p>
@@ -1653,6 +1733,11 @@
 <p>サイトマップに載っており、ジャンルのページの canonical もその形で名乗っている。</p>
 <p>まとめると573本の住所をすべて付け替えることになり、Googleの登録もやり直しになる。</p>
 <p>いま574件が巡回待ちの最中で、損の方が大きい。</p>
+<p><b>【2026-09-22追記】この判断は<code>?genre=</code>形式が573本という前提で書かれた記録。</b></p>
+<p>その後ジャンルの住所は<code>/genre/xxx.html</code>形式・589本に切り替わったが（上の節</p>
+<p>「Googleにほぼ登録されなかった問題」参照）、ここで扱っている重複は</p>
+<p><b><code>/</code>（トップページ）と<code>genre_roots.html</code>（地図本体）の間</b>の話で、ジャンルの</p>
+<p>住所の形式とは別の問題。判断（まとめない）自体は今も変わっていない。</p>
 <p><b>名乗りを揃えるだけの直し（トップページは自分を、地図はトップページを名乗る）も見送った。</b></p>
 <p>消えるのは Search Console の指摘1件だけで、利用者にも検索結果にも違いが出ない。</p>
 <p>canonical は過去に事故を起こした場所なので、得るものが小さい変更で触らない。</p>
@@ -1695,7 +1780,7 @@
 <table>
 <tr><th>指示のしかた</th><th>「出す」とき</th><th>「出さない」とき</th></tr>
 <tr><td><code>&lt;meta name=&quot;robots&quot; content=&quot;noindex&quot;&gt;</code></td><td>書かない</td><td>書く</td></tr>
-<tr><td><code>sitemap.xml</code>（<code>tools/sitemap/build.py</code>）</td><td>載せる</td><td>載せない</td></tr>
+<tr><td><code>sitemap.xml</code>（生成元：<code>tools/gen_stubs.js</code>。2026-09-22〜。以前は<code>tools/sitemap/build.py</code>）</td><td>載せる</td><td>載せない</td></tr>
 </table>
 <p>2026-09-11に全ページを揃えました。</p>
 <ul>
