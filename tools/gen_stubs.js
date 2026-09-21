@@ -1,14 +1,26 @@
 // genre_roots.html の NODES/LINKS データから、ジャンル別の薄いページ(スタブ)589個と
-// 新しい sitemap.xml、README.md を生成する。
-// 使い方: node gen_stubs.js
-//   出力: /tmp/opencode/gsc/out/genre/*.html, /tmp/opencode/gsc/out/sitemap.xml, /tmp/opencode/gsc/out/README.md
+// 新しい sitemap.xml、tools/README.md を生成する。
+// 使い方: リポジトリのどこからでも `node tools/gen_stubs.js`（またはtools/の中から`node gen_stubs.js`）。
+//   出力先はこのファイル自身の場所から辿るので、Genspark・チョロさん・クローディア、
+//   誰のPCでも同じ結果になる（以前は Genspark の作業環境だけにある道 /tmp/opencode/... が
+//   固定で書き込まれていて、ほかの人のPCでは動かなかった。2026-09-23、クローディアが修正）。
+//   出力：<リポジトリ直下>/genre/*.html・sitemap.xml、tools/README.md（使い方の記録。
+//   リポジトリのトップページ扱いになる README.md を上書きしないよう、道具の隣に置く）。
 // アプリ本体 (genre_roots.html) は一切変更しない。
 const fs = require('fs');
 const path = require('path');
-const SRC = '/tmp/opencode/gsc/genre_roots.html';
-const OUT = '/tmp/opencode/gsc/out';
+const ROOT = path.join(__dirname, '..');           // このファイルは <リポジトリ>/tools/ にある
+const SRC = path.join(ROOT, 'genre_roots.html');
+const OUT = ROOT;                                   // 直接リポジトリ直下に書く（unzipして置き直す手間を無くす）
 const SITE = 'https://genre-roots.com';
-const TODAY = '2026-09-21';
+// 【2026-09-23、クローディアが修正】以前は日付が'2026-09-21'に固定されていて、
+// いつ実行しても同じ日付がsitemap.xmlに書かれてしまっていた（次に実行する人が気づきにくい）。
+// 実行した日をそのまま使う。
+const TODAY = (() => {
+  const d = new Date();
+  const z = n => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${z(d.getMonth() + 1)}-${z(d.getDate())}`;
+})();
 const src = fs.readFileSync(SRC, 'utf8');
 
 function extractArray(name) {
@@ -120,34 +132,38 @@ for (const n of NODES) sm += '\n' + url(SITE + '/genre/' + encodeURIComponent(n.
 sm += '\n</urlset>\n';
 fs.writeFileSync(path.join(OUT, 'sitemap.xml'), sm, 'utf8');
 
-// ---- README.md ----
-fs.writeFileSync(path.join(OUT, 'README.md'), `# ジャンル別ページ 589個の追加（${TODAY}）
+// ---- tools/README.md（道具の使い方の記録。リポジトリ直下のREADME.mdは上書きしない） ----
+fs.writeFileSync(path.join(__dirname, 'README.md'), `# ジャンル別ページ 589個の追加・再生成ツール（初版 2026-09-22、最終更新 ${TODAY}）
 
 ## これは何？
-- \`genre/\` フォルダ：ジャンルごとの独立ページ 589個（例: \`genre/jazz.html\`）
+- \`genre/\` フォルダ：ジャンルごとの独立ページ（例: \`genre/jazz.html\`）
   - 各ページは Google 用の固有タイトル・説明文・canonical を持つ
   - 画面は今までの地図アプリそのもの（全画面表示・操作感も同一）
   - JavaScript無効環境向けに、ジャンル解説の全文がページ内テキストとして入っている
 - \`sitemap.xml\`：\`?genre=\` URL から \`/genre/xxx.html\` URL への差し替え版（docs/changes.html は noindex のため除外）
-- \`tools/gen_stubs.js\`：再生成スクリプト。ジャンルを追加したら genre_roots.html を更新してから \`node tools/gen_stubs.js\` で再生成
+- \`tools/gen_stubs.js\`：再生成スクリプト。ジャンルを追加・修正したら genre_roots.html を更新してから、
+  リポジトリのどこからでも \`node tools/gen_stubs.js\` を実行すれば、genre/・sitemap.xml が
+  **リポジトリ直下に直接**書き直される（2026-09-23〜。それより前の版は Genspark の作業環境の
+  道が固定で書かれていて、ほかのPCでは動かなかった）
 
 ## 反映手順
-1. zip を展開し、リポジトリの直下に \`genre/\` と \`sitemap.xml\` を置く（\`genre_roots.html\` と同じ階層）
-2. いつも通りコミット＆push → Render が自動デプロイ
+1. \`node tools/gen_stubs.js\` を実行する（リポジトリ直下・tools/の中、どちらから実行してもよい）
+2. \`git status\` で genre/・sitemap.xml の差分を確かめてから、いつも通りコミット＆push → Render が自動デプロイ
 3. https://genre-roots.com/genre/jazz.html を開いて確認（タブ名が Jazz 専用になり、地図が開けばOK）
 4. Search Console の「サイトマップ」で sitemap.xml を再送信（任意だが推奨）
 
 ## ロールバック
 - \`git revert <コミット番号>\` で genre/ 追加前の状態に完全に戻る
-- アプリ本体（genre_roots.html / index.html / docs/）は本次では一切変更していない
+- アプリ本体（genre_roots.html / index.html / docs/）はこのツールでは一切変更しない
 
 ## 今回やっていないこと（フェーズ2候補）
 - 古い \`genre_roots.html?genre=xxx\` URL の canonical を新 URL に向ける1行修正（アプリ内JS）。
   やらないままでも Google は徐々に統合するが、やると統合が早くなる。様子を見てからでOK
 `, 'utf8');
 
-console.log('pages:', total, '| unique titles:', titles.size, '| total size:', (fs.statSync(OUT + '/genre').directory ? 0 : 0));
+console.log('pages:', total, '| unique titles:', titles.size);
 let bytes = 0;
 for (const f of fs.readdirSync(path.join(OUT, 'genre'))) bytes += fs.statSync(path.join(OUT, 'genre', f)).size;
 console.log('genre/ total bytes:', bytes);
 console.log('sitemap urls:', 4 + total);
+console.log('書き込み先:', ROOT);
