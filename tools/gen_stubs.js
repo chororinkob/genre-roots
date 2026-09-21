@@ -128,6 +128,12 @@ sm += url(SITE + '/', TODAY, '1.0', 'daily');
 sm += '\n' + url(SITE + '/genre_roots.html', TODAY, '1.0', 'daily');
 sm += '\n' + url(SITE + '/docs/manual.html', TODAY, '0.5', 'monthly');
 sm += '\n' + url(SITE + '/docs/about.html', TODAY, '0.3', 'monthly');
+// 【2026-09-23、クローディアが追加】旧版の tools/sitemap/build.py にはあった
+// docs/changes.html（更新の記録）が、この書き直しで漏れていた。noindexの無い
+// 検索に出すページなので、docs/logic.md「検索に出す／出さないの意思表示」の
+// 決まりどおり sitemap.xml にも載せる。
+sm += '\n' + url(SITE + '/docs/changes.html', TODAY, '0.3', 'weekly');
+sm += '\n' + url(SITE + '/song.html', TODAY, '0.8', 'monthly');
 for (const n of NODES) sm += '\n' + url(SITE + '/genre/' + encodeURIComponent(n.id) + '.html', TODAY, '0.8', 'weekly');
 sm += '\n</urlset>\n';
 fs.writeFileSync(path.join(OUT, 'sitemap.xml'), sm, 'utf8');
@@ -165,5 +171,5 @@ console.log('pages:', total, '| unique titles:', titles.size);
 let bytes = 0;
 for (const f of fs.readdirSync(path.join(OUT, 'genre'))) bytes += fs.statSync(path.join(OUT, 'genre', f)).size;
 console.log('genre/ total bytes:', bytes);
-console.log('sitemap urls:', 4 + total);
+console.log('sitemap urls:', (sm.match(/<url>/g) || []).length);
 console.log('書き込み先:', ROOT);

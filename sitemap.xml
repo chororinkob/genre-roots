@@ -25,6 +25,18 @@
   <priority>0.3</priority>
  </url>
  <url>
+  <loc>https://genre-roots.com/docs/changes.html</loc>
+  <lastmod>2026-09-22</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.3</priority>
+ </url>
+ <url>
+  <loc>https://genre-roots.com/song.html</loc>
+  <lastmod>2026-09-22</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+ </url>
+ <url>
   <loc>https://genre-roots.com/genre/jazz.html</loc>
   <lastmod>2026-09-22</lastmod>
   <changefreq>weekly</changefreq>
