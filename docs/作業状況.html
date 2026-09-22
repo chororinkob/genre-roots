@@ -151,7 +151,25 @@
 <tr><td>登録確認画面 admin_preview.html</td><td>v3.20</td><td>公開済み</td></tr>
 </table>
 
-<h2>🔶 進行中・次にやること <span class="h2-count">10件</span></h2>
+<h2>🔶 進行中・次にやること <span class="h2-count">11件</span></h2>
+
+<div class="item">
+  <div class="item-head">
+    <span class="status doing">進行中（2026-09-23〜）</span>
+    <span class="item-title">既存ジャンルの代表曲を、クローディア＋Genspark無料チャットでまとめて拡充していく</span>
+  </div>
+  <div class="item-body">
+    <code>genre_adder.py</code>のプログラムは使わず、クローディアが手作業で進める新しいやり方（工程A：クローディアが選曲／工程B：クローディアがYouTube動画を検索・文字情報で確認／工程C：Gensparkの<b>無料チャット</b>に実際の音声を聴いて判定してもらう。有料APIはここでは使わない）。
+    詳しい仕組みは <code>music_genre_finder/docs/logic.md</code>「既存ジャンルの代表曲を、あとからまとめて拡充するとき」、フロー図は <code>music_genre_finder/docs/flow_chart.html</code>「⑧」を参照。
+    <div class="dim" style="margin-top:8px;">
+      <b>バッチ1（2026-09-23完了）：</b>Jazz・Blues・Funk・Disco・Rock・Rock 'n' Roll・Progressive Rockの7ジャンルに69曲追加（v36.3で本番反映）。<br>
+      <b>バッチ2（2026-09-23完了）：</b>知名度上位20ジャンル＋知名度は高いが代表曲が少なかった25ジャンルの計45ジャンルに196曲追加（v36.4で本番反映）。<br>
+      判定対象415件のうちGensparkの却下は3件（逆再生の動画1件、歌唱の入っていないインストゥルメンタルの動画2件）。うち2件は別候補で救済、1件（Opera「Habanera (Bizet)」）は代替が見つからず見送り。<br>
+      代表曲を増やしても知名度（マップの丸の大きさ・★の数）は自動では上がらない（バッチ1・2とも知名度レベルの変化は0件）。<br>
+      <b>残り：</b>今回の52ジャンル（バッチ1の7＋バッチ2の45）以外の約537ジャンルが未着手。優先順位は知名度と既存代表曲数から機械的に決めており、次のバッチの対象選びからそのまま続けられる。
+    </div>
+  </div>
+</div>
 
 <div class="item">
   <div class="item-head">
@@ -664,6 +682,29 @@
       含まれていなかった。<code>tools/gen_stubs.js</code>に追記し、件数の表示も
       「4+件数」の決め打ちから実際のURL数を数える形に直して、今後同じ漏れが
       起きにくいようにした。公開ページで反映を確認済み（sitemap urls: 595）。</div>
+    </div>
+
+    <div class="done-item">既存ジャンルの代表曲の拡充を開始（クローディア＋Genspark無料チャット方式、バッチ1・バッチ2）
+      <div class="dim">これまで新規ジャンル登録時に代表曲を選ぶ仕組み（<code>genre_adder.py</code>）とは別に、
+      <b>すでに登録済みのジャンルを選んで代表曲を後から増やす</b>作業を新しく始めた。
+      工程A（クローディアが選曲）→工程B（クローディアがYouTube動画を検索し、タイトル・チャンネル名など文字情報だけで確認）
+      →工程C（Gensparkの<b>無料チャット</b>に実際の音声を聴いて判定してもらう。チョロさんが依頼文をコピー＆貼り付けで手渡す）
+      の3段階。工程A・Bはクローディアの無料の機能だけで完結するため、<b>Gensparkの有料クレジットは工程Cにしか使わない</b>。
+      詳しい仕組みは<code>music_genre_finder/docs/logic.md</code>「既存ジャンルの代表曲を、あとからまとめて拡充するとき」、
+      フロー図は<code>music_genre_finder/docs/flow_chart.html</code>「⑧」を参照。<br>
+      <b>バッチ1：</b>Jazz・Blues・Funk・Disco・Rock・Rock 'n' Roll・Progressive Rockの7ジャンルに69曲追加
+      （地図v36.3で本番反映、反映を公開URLで確認済み）。<br>
+      <b>バッチ2：</b>知名度上位20ジャンル＋知名度は高いが代表曲が3曲以下だった25ジャンルの計45ジャンルに196曲追加
+      （地図v36.4で本番反映、反映を公開URLで確認済み）。<br>
+      工程Cでの判定対象は計415件、Gensparkの却下は3件。King Crimson「21st Century Schizoid Man」の
+      候補動画1本が逆再生だった件と、Bizet「Habanera」・Édith Piaf「L'Hymne à l'amour」の候補動画が
+      歌唱の入っていないインストゥルメンタル演奏だった件。「L'Hymne à l'amour」は別候補（歌入り）で救済できたが、
+      「Habanera」は代わりが見つからず、この1曲だけ見送った（Operaは他に5曲追加できている）。
+      文字情報だけのチェック（工程A・B）ではすり抜ける問題を、実際に聴く工程Cが確実に拾えることを確認できた。<br>
+      なお、代表曲を増やしても<b>知名度（マップの丸の大きさ・★の数）は自動では上がらない</b>
+      （バッチ1・2とも知名度レベルの変化は0件。知名度は「言語ごとの検索のされやすさ」「総検索回数」「YouTube再生数」の
+      合計で決まり、代表曲の拡充で動くのは「YouTube再生数」の1項目だけのため）。<br>
+      残り約537ジャンルは未着手。優先順位は知名度と既存代表曲数から機械的に決めており、バッチ3以降も同じ方式で続ける。</div>
     </div>
 
     <div class="done-day">2026-09-22</div>
