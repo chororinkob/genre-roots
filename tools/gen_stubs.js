@@ -64,7 +64,7 @@ function page(m) {
   const tracks = (node.rep_tracks || []).map(t => '<li>' + esc(t) + '</li>').join('');
   const rlinks = roots.slice(0, 8).map(x => '<a href="/genre/' + encodeURIComponent(x.id) + '.html">' + esc(x.label) + '</a>').join('、 ');
   const ilinks = infl.slice(0, 8).map(x => '<a href="/genre/' + encodeURIComponent(x.id) + '.html">' + esc(x.label) + '</a>').join('、 ');
-  const ld = esc(JSON.stringify({ '@context': 'https://schema.org', '@type': 'WebPage', name: T, description: D, url: SITE + '/genre/' + id + '.html' }));
+  const ld = JSON.stringify({ '@context': 'https://schema.org', '@type': 'WebPage', name: T, description: D, url: SITE + '/genre/' + id + '.html' });
   return `<!DOCTYPE html>
 <html lang="ja">
 <head>
