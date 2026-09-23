@@ -694,6 +694,52 @@
       起きにくいようにした。公開ページで反映を確認済み（sitemap urls: 595）。</div>
     </div>
 
+    <div class="done-item">知名度上位24ジャンルの事実確認（Gensparkのcross_check、2026-09-23）
+      <div class="dim">
+      <b>きっかけ：</b>Gensparkの有料クレジット6,975が2026-09-24未明に失効するとチョロさんから相談があり、
+      使い道として「既存ジャンルのファクトチェックが未実施」（下記、2026-08-25〜保留の項目）に着手することにした。
+      知名度が高い（アクセスが多く見られている）順に24ジャンルを選び、1件あたり実測平均295クレジットの
+      <code>factcheck_with_genspark</code>（<code>genre_adder.py</code>にある既存の関数。新規登録時にも
+      使っているものと同じ）を回した。チョロさんが席を外す前に「質問で止めず最後までやり切ってほしい、
+      間違っていても後で直せばいい」という明示の指示があったため、指摘が見つかった場合は承認を待たず
+      その場で地図に反映・pushまで自動で行った。<br><br>
+      <b>どこを見れば分かるか：</b>この項目が一覧。もっと詳しい差分（実際にどの一文がどう変わったか）は、
+      GitHubのコミット履歴で「既存ジャンルの事実確認（○○）で見つかった誤りを修正」というコミットメッセージを
+      探すと、そのジャンル1件ぶんの変更点だけが1コミットに独立して残っている（<code>genre-roots-repo</code>の
+      <code>git log</code>）。<br><br>
+      <b>結果：24件中18件が正常に処理でき、うち17件で実際に誤りが見つかり修正、1件（Progressive Rock）は
+      「事実と一致」で問題なしだった。</b><br>
+      <table style="width:100%;border-collapse:collapse;font-size:12.5px;margin:8px 0;">
+        <tr style="border-bottom:1px solid var(--line);"><th style="text-align:left;padding:4px 8px;">ジャンル</th><th style="text-align:left;padding:4px 8px;">直した内容</th></tr>
+        <tr><td style="padding:3px 8px;">Punk Rock</td><td style="padding:3px 8px;">「三つのコードの押さえ方」の図の出典を誤って帰属していた（Mark Perryの『Sniffin' Glue』ではなく、実際はTony Moonの『Sideburns』創刊号）</td></tr>
+        <tr><td style="padding:3px 8px;">Alternative Rock</td><td style="padding:3px 8px;">Nirvanaの出身地を「シアトル」→結成地の「ワシントン州アバディーン」に訂正</td></tr>
+        <tr><td style="padding:3px 8px;">Hip Hop</td><td style="padding:3px 8px;">バックスピンの技法説明を訂正。スクラッチの発明者をGrand Wizzard Theodoreと明記</td></tr>
+        <tr><td style="padding:3px 8px;">Nu Metal</td><td style="padding:3px 8px;">Hybrid Theoryの売上数を訂正。ウッドストック'99の位置づけ（転落点→象徴的事件の一つ、衰退は2003年頃と明確化）を訂正</td></tr>
+        <tr><td style="padding:3px 8px;">Country</td><td style="padding:3px 8px;">Ralph Peerの肩書き訂正。Bakersfield soundの開拓者・年代を訂正（Wynn Stewartが先駆、1950年代中後半）</td></tr>
+        <tr><td style="padding:3px 8px;">Grunge</td><td style="padding:3px 8px;"><b>発祥年を「1991年」→「1984年」に訂正</b>（1991年はNirvanaが商業的にブレイクした年で、発祥はGreen River結成の1984年ごろ）。Sub Pop設立年を1986→1988年に訂正。Alice in ChainsのDirt発表年を訂正</td></tr>
+        <tr><td style="padding:3px 8px;">Blues</td><td style="padding:3px 8px;">「Crazy Blues」を「黒人歌手による初のブルース録音」と断定していたのを、諸説ある旨を明記する形に訂正</td></tr>
+        <tr><td style="padding:3px 8px;">Rock 'n' Roll</td><td style="padding:3px 8px;">Jerry Lee Lewisの結婚相手の続柄（従妹→はとこ）、Alan Freed失脚の年（1960→1959年）を訂正</td></tr>
+        <tr><td style="padding:3px 8px;">New Wave</td><td style="padding:3px 8px;">曲名の表記（Are Friends Electric?→Are 'Friends' Electric?）、「第二次ブリティッシュ・インヴェイジョン」の時期を訂正</td></tr>
+        <tr><td style="padding:3px 8px;">R&B</td><td style="padding:3px 8px;">Jerry Wexlerの肩書き、ニュー・ジャック・スウィング登場時期を訂正</td></tr>
+        <tr><td style="padding:3px 8px;">Progressive Rock</td><td style="padding:3px 8px;">問題なし（出典7件で事実と一致を確認）</td></tr>
+        <tr><td style="padding:3px 8px;">Emo</td><td style="padding:3px 8px;">Fugazi結成メンバー・時期を訂正（Ian MacKayeが1986年にJoe Lally・Colin Searsと結成、Guy Picciottoは後から加入）。The Get Up Kids/Sunny Day Real Estateの出身地を訂正</td></tr>
+        <tr><td style="padding:3px 8px;">Classical</td><td style="padding:3px 8px;">『春の祭典』初演時の客席の様子（「暴動」→「騒然・ブーイング」）を実態に近い表現に訂正</td></tr>
+        <tr><td style="padding:3px 8px;">Opera</td><td style="padding:3px 8px;">カメラータの活動年代（1590年代→1570年代）、『ダフネ』上演場所・楽譜の残存状況を訂正。『ナブッコ』合唱曲の「統一運動の象徴」という記述に、近年の研究では異論がある旨を追記</td></tr>
+        <tr><td style="padding:3px 8px;">Flamenco</td><td style="padding:3px 8px;">⚠️ダンサーのカルメン・アマジャの生年（1918→1913年）を訂正。<b>ただしGenspark側の処理が「Failed to cross_check_record_evidence」というエラーで正常に完了しておらず、出典の裏付けが無いままAIが自身の知識だけで直したもの。実際の生年には諸説あるとも言われており、要再確認。</b></td></tr>
+        <tr><td style="padding:3px 8px;">Motown</td><td style="padding:3px 8px;">タンバリン奏者Jack Ashfordの名を明記。Berry Gordy Jr.の経歴、Holland-Dozier-Hollandが去った経緯（印税訴訟→Motown側が提訴しHDHが反訴、という正確な経緯）を訂正</td></tr>
+        <tr><td style="padding:3px 8px;">Reggae</td><td style="padding:3px 8px;">ロッカーズ/ステッパーズのビートの説明を訂正。ロックステディへの移行の経緯（猛暑説を「諸説ある」に）を訂正。<b>代表曲「I Shot the Sheriff」の演奏者をEric Clapton（カバー）からBob Marley and the Wailers（原曲）に訂正</b></td></tr>
+        <tr><td style="padding:3px 8px;">Funk</td><td style="padding:3px 8px;">「Funky Drummer」の録音年（1970年）とリリース年（1969年録音・1970年リリース）を区別して訂正</td></tr>
+      </table>
+      <b>残り6件（Pop、Heavy Metal、K-POP、Rock、Baroque、Jazz）は、実装バグにより自動修正が反映されなかった。</b>
+      地図データから1ジャンルぶんの情報を取り出す処理に不具合があり、ジャンルの内部IDが常に空になった状態で
+      Gensparkに送ってしまい、「情報が壊れている」と判定されて修正がすべて握りつぶされていた（7件目のPunk Rock
+      以降は原因を見つけて修正済み）。このうちRock・Baroque・Jazzの3件は「何を指摘されたか」のレポートは
+      手元に残っている（まだ地図には反映していない）ので、後日読んで手動で直すか、改めて自動で流し直すか選べる。
+      Pop・Heavy Metal・K-POPの3件は、レポートを保存する仕組みを追加する前だったため、指摘内容も含めて
+      完全に失われている。この6件をやり直すかどうかは、クレジットの残り具合を見てチョロさんと相談する。
+      </div>
+    </div>
+
     <div class="done-item">既存ジャンルの代表曲の拡充を開始（クローディア＋Genspark無料チャット方式、バッチ1・バッチ2）
       <div class="dim">これまで新規ジャンル登録時に代表曲を選ぶ仕組み（<code>genre_adder.py</code>）とは別に、
       <b>すでに登録済みのジャンルを選んで代表曲を後から増やす</b>作業を新しく始めた。
