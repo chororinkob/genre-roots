@@ -127,7 +127,7 @@
 <div class="wrap">
 
 <h1>作業状況</h1>
-<div class="sub">音楽ジャンルルーツ辞典 ／ 2026-09-22 更新</div>
+<div class="sub">音楽ジャンルルーツ辞典 ／ 2026-09-25 更新</div>
 <div class="warn-note" style="background:var(--doing-soft);">
   最新の変更（2026-09-18）：<b>ふつうの利用で通るClaudeの課金APIが全部なくなった。</b>
   最後まで残っていた書籍の判定と代表曲の選び直しをGensparkへ移し、残るのは
@@ -171,7 +171,17 @@
       候補選び（工程A）は<b>1ジャンルあたり22曲を基本</b>にする（詳しいやり方は下の「候補を確実に22曲以上そろえる手順」参照）。<br>
       代表曲を増やしても知名度（マップの丸の大きさ・★の数）は自動では上がらない（バッチ1・2とも知名度レベルの変化は0件）。<br>
       <b>やり直しの進み具合（2026-09-24時点）：</b><br>
-      ・バッチ2（45ジャンル）：候補選び＋実在確認（工程A・B）が終わったのは21ジャンル（alt_rock・baroque・blue_eyed_soul・breakbeat・chanson・classical・contemporary_rnb・country・deep_house・drill・edm・emo・folk_rock・ghazal・gospel・grime・grunge・hard_rock・heavy_metal・hiphop・kpopの18＋heavy_metal/hiphop/kpop相当分含む）。313曲分のGenspark確認依頼文を作成し、<code>C:\Users\choro\Downloads\genspark依頼文_313曲.txt</code>としてチョロさんにお渡し済み（結果はまだ受け取っていない）。残り24ジャンルは未着手。<br>
+      ・バッチ2（45ジャンル）：候補選び＋実在確認（工程A・B）が終わったのは21ジャンル（alt_rock・baroque・blue_eyed_soul・breakbeat・chanson・classical・contemporary_rnb・country・deep_house・drill・edm・emo・folk_rock・ghazal・gospel・grime・grunge・hard_rock・heavy_metal・hiphop・kpopの18＋heavy_metal/hiphop/kpop相当分含む）。313曲分のGenspark確認依頼文を作成し、<code>C:\Users\choro\Downloads\genspark依頼文_313曲.txt</code>としてチョロさんにお渡し済み（結果はまだ受け取っていない）。<br>
+      <b>2026-09-25追記：残り24ジャンルのうち18ジャンルが完了。</b>hardcore_punk（既存6+新規15=21）・industrial（既存5+新規14=19）・mariachi（既存6+新規13=19）・motown（既存13+新規10=23）・new_wave（既存10+新規10=20）・kizomba（既存3+新規22=25）・nu_metal（既存12+新規15=27）・opera（既存10+新規14=24）・phonk（既存4+新規18=22）・post_hardcore（既存5+新規13=18）・post_punk（既存8+新規12=20）・qawwali（既存6+新規20=26）・rai（既存4+新規18=22）・pop_music（既存12+新規12=24）・psychedelic_rock（既存6+新規14=20）・punk（既存11+新規15=26）・reggae（既存12+新規10=22）・rnb（既存10+新規7=17）。
+      このうちpop_music・punk・reggae・rnbの4ジャンルは、週間クレジットの残量に配慮して途中で切り上げたため、候補が22曲ちょうどには届いていない（それぞれ20・21・21・21曲）。<b>チョロさんの確認・承認済み</b>（「ほぼ22だし、これでいいよ」「R&Bは17と少なめで…もうちょっと欲しかったけど仕方ないね。17でいいので、22にいってないけどこれは完了ということで」2026-09-25）。<br>
+      <b>kizombaで捏造事故が発生。</b>最初にドラフトした22曲のうち20曲が架空または演奏者の取り違えだった（実在確認できたのはわずか2曲）。誤った候補を検索していた際に検索結果へ映り込んだ「本物の曲名」を拾い集めて22曲を組み直し、全曲実在確認を取り直して解決した。この教訓から、<b>qawwali・raiは先にWeb検索で実在確認しながら候補を集める順に切り替え</b>、結果は重複で数曲弾かれただけで架空の曲の混入はゼロだった。詳しくは<code>music_genre_finder/docs/logic.md</code>を参照。<br>
+      新たに実在確認できた252曲分のGenspark確認依頼文を作成し、<code>C:\Users\choro\Downloads\genspark_request_batch2_18genres_252.txt</code>（同フォルダに<code>.csv</code>版も）としてチョロさんにお渡し済み（結果はまだ受け取っていない。最初の313曲分とは別便）。<br>
+      <b>バッチ2の残り6ジャンル（rockabilly・samba_genre・ska・soul・techno・trap）は次回（来週）に続きを行う。</b><br>
+      <b>2026-09-26追記：313曲分の依頼のうち、no.1〜10（alt_rockの先頭10曲）の判定結果が最初に返ってきた。</b>
+      Claude側の週間クレジット消費ペースを確かめるため、チョロさんの指示でこの10曲分だけ先に本番反映した
+      （no.2「Plush (Stone Temple Pilots)」のみ、動画の中身が別曲「Wicked Garden」だったためNG判定・除外。
+      残り9曲は合格）。alt_rockは11曲→20曲になり、v38.3で本番反映済み。
+      11〜60件目は追ってGensparkから届く予定。<br>
       ・バッチ3（92ジャンル）：候補選び＋実在確認（工程A・B）が終わったのは24ジャンル
       （hardstyle・dnb・doo_wop・dubstep・synth_pop・vaporwave・acid_jazz・adult_contemporary・afrobeat・ambient・art_rock・avant_garde・bachata・baroque_pop・bebop・black_metal・bluegrass・blues_rock・bossa_nova・britpop・calypso・celtic_music・choral・country_rock）。
       Gensparkへの確認依頼はまだ作成していない。残り68ジャンルは未着手。<br>
