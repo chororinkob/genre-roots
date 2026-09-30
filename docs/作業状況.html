@@ -127,7 +127,7 @@
 <div class="wrap">
 
 <h1>作業状況</h1>
-<div class="sub">音楽ジャンルルーツ辞典 ／ 2026-09-29 更新</div>
+<div class="sub">音楽ジャンルルーツ辞典 ／ 2026-10-01 更新</div>
 <div class="warn-note" style="background:var(--doing-soft);">
   最新の変更（2026-09-18）：<b>ふつうの利用で通るClaudeの課金APIが全部なくなった。</b>
   最後まで残っていた書籍の判定と代表曲の選び直しをGensparkへ移し、残るのは
@@ -212,10 +212,15 @@
       ・バッチ3（92ジャンル）：候補選び＋実在確認（工程A・B）が終わったのは24ジャンル
       （hardstyle・dnb・doo_wop・dubstep・synth_pop・vaporwave・acid_jazz・adult_contemporary・afrobeat・ambient・art_rock・avant_garde・bachata・baroque_pop・bebop・black_metal・bluegrass・blues_rock・bossa_nova・britpop・calypso・celtic_music・choral・country_rock）。
       Gensparkへの確認依頼はまだ作成していない。残り68ジャンルは未着手。<br>
-      <b style="color:#c0392b;">重要：バッチ3のやり直し分（24ジャンル）は、まだ<code>genre_roots.html</code>本体に一切反映していない。</b>
+      <b style="color:#c0392b;">【2026-10-01時点で一部更新】上の24ジャンルのうち18ジャンル
+      （dnb・doo_wop・dubstep・synth_pop・vaporwave・ambient＋他12ジャンル）は、その後
+      工程Cまで完了してv38.10で本番反映済み（下の2026-10-01の記録を参照）。残り6ジャンル
+      （hardstyle・acid_jazz・adult_contemporary・afrobeat・art_rock・avant_garde・bachata・
+      baroque_pop・bebop・black_metal・bluegrass・blues_rock・bossa_nova・britpop・calypso・
+      celtic_music・choral・country_rockのうち、上記18ジャンルに含まれない分）は、まだ
+      <code>genre_roots.html</code>本体に反映していない。</b>
       現在は候補選び・重複チェック・実在確認が済んだ曲を作業用ファイル（scratchpad内のJSON）に貯めている段階で、
-      Genspark確認（工程C）を経てから本番にまとめて書き込む予定。つまり<b>バッチ3の代表曲は、この作業が
-      始まる前のバッチ3 v38.2の内容のまま</b>で、今回のやり直し分はまだ利用者の目には見えていない。<br>
+      Genspark確認（工程C）を経てから本番にまとめて書き込む予定。<br>
       <b>残り：</b>下の一覧の通り53ジャンル終了・536ジャンルが未着手（バッチ1の7＋バッチ2の45に、バッチ1より前に単体で済ませていたFlamencoを加えた53件）。
       ただしバッチ2は上記21ジャンルのみ反映済みで残り24ジャンルが工程C待ち、バッチ3の92ジャンルは全体が工程C待ちで、いずれも「終了」の状態ではない。
     </div>
@@ -263,6 +268,62 @@
       実施した結果、⑤合計（既存＋新規）は16〜25曲の範囲に自然に収まり、チョロさんから合格をもらった。
       この品質（候補22件を必ず1回で出す・下限も上限も気にしない）を今後も保つこと。
     </div>
+    <div class="dim" style="margin-top:10px;padding:8px 10px;border-left:3px solid #c0392b;">
+      <b style="color:#c0392b;">2026-09-30訂正：上の「22件という候補提示のノルマは1回のドラフトで果たしたことになる」は、
+      実際には正しく機能していなかった。</b>
+      2026-09-29〜30、batch3の新規20ジャンルで実際に「既存＋新規」の合計を本番データと突き合わせて
+      数え直したところ、1回のドラフトで22件に届いていたのは20ジャンル中わずか4ジャンルのみで、
+      残り16ジャンルは架空タイトルの除外・重複除外によって22件を下回ったまま「完了」と報告していた
+      ことが判明した。<br>
+      <b>原因の訂正：</b>この2026-09-24の記録にある「候補が22件に届くまで、重複チェック→追加候補、を
+      繰り返す」という表現は、言葉としては<b>ループ</b>のように書かれていたが、実際にチョロさんが
+      当時見ていたのは<b>1回だけ追加して、それで終わり</b>という動き（本当の意味で「届くまで」
+      粘っていなかった）だった。そのため「下限を気にする発想に戻る」として却下されたのは、
+      <b>1回で終わる中途半端な追加を、ループと自称していたこと</b>であって、
+      「既存＋新規の合計を実際に数えて、届くまで正しく繰り返す」という今回の方式そのものではない。<br>
+      <b>訂正後の正しい手順（2026-09-30確立）：</b>①既存曲数を数える ②目標22件との差を出す
+      ③不足分だけ新規候補を選ぶ（架空率が高いと分かっているジャンルは、先に実在アルバム・公式
+      トラックリストを検索して確認が取れた曲から選ぶ「検証優先方式」に切り替える） ④重複チェック
+      ⑤実在確認 ⑥既存＋新規の合計を数えて書き出す（この関所を必ず通る） ⑦22件に届かなければ
+      ③へ戻り、届けば完了。<b>この方式で20ジャンル全てを処理した結果、18ジャンルが22件、
+      1ジャンルが28件（超過）に到達した。</b>eurobeat・vaporwaveは架空率が特に高く、実際には
+      5巡ループしてようやく22件に届いた（1巡目で止めていたら、eurobeatは8件、vaporwaveは
+      わずか1件のまま「これが上限」と誤って報告するところだった）。<br>
+      詳しい手順は<code>music_genre_finder/docs/logic.md</code>「代表曲を22件まで揃えるループ
+      （2026-09-30確立）」を参照。報告は「ジャンル・既存・新規・合計・何巡かかったか」の
+      5列表に統一する（旧・5列表から変更）。</div>
+    <div class="dim" style="margin-top:10px;padding:8px 10px;border-left:3px solid var(--ok);">
+      <b style="color:var(--ok);">2026-10-01完了：バッチ3の20ジャンル検証分のうち18ジャンル・220曲が、
+      工程A〜C・本番反映まですべて完了した（v38.10）。</b>
+      synth_pop・synthwave・thrash_metal・eurodance・indie_rock・newage・trance・electropop・
+      italo_disco・gothic_rock・ambient・city_pop・doo_wop・dubstep・dnb・eurobeat・shoegaze・
+      vaporwaveの18ジャンルに、既存129曲＋新規220曲＝合計349曲（1ジャンルあたり15〜27曲）が
+      入った。メイン動画の選び直し・並び順・知名度の再生回数も全ジャンル更新済み。知名度の
+      5段階自体は18ジャンルとも変化なし（もともと4だったジャンルばかりで、再生回数の上積みが
+      次の段階までは届かなかった）。<br>
+      <b style="color:#c0392b;">この過程で、辞典全体との重複チェック（ループの④）が実際には
+      「今回の18ジャンルの中だけ」しか見比べておらず、残り552ジャンルとは一度も照合して
+      いなかったことが発覚した。</b>工程C（Genspark音声確認）を通過した220曲を本番へ書き込む
+      直前の機械チェックで、25件が曲名一致し、うち18件が演奏者も一致する本物の重複（例：
+      dubstepの「Bangarang」がheavy_edmに、ambientの「Roygbiv」がidmに、既に代表曲として
+      登録済みだった）と判明。18曲を選び直し、辞典全体との重複チェック・実在確認・動画ID確認・
+      Genspark音声確認をすべてやり直してから反映した。この教訓を受けて、ループの④の説明を
+      「辞典全体（570件規模）との重複が本題」と明記し直した
+      （<code>music_genre_finder/docs/logic.md</code>「代表曲を22件まで揃えるループ」参照）。<br>
+      <b>さらに、①（既存代表曲の扱い）にも同じ抜けがあることが判明し、手順を追加した。</b>
+      これまでの①は「既存代表曲の数を数える」だけで、中身（他ジャンルとの重複）を一度も
+      見ていなかった。バッチ3の18ジャンルの既存曲129曲と、別の6ジャンル（progressive_trance・
+      balearic_beat・tango・neotango・punta・garifuna）を実際に照合したところ、18ジャンル側は
+      0件だったが、別の6ジャンル側でCafé Del Mar（progressive_trance/balearic_beat）・
+      Santa Maria del Buen Ayre（tango/neotango）・Watina（punta/garifuna）の3件が、
+      同じ演奏者・同じ曲のまま2ジャンルの代表曲として重複登録されていたことが判明した
+      （2026-07-04の最初の一括登録時・その後の重複修正時・新規ジャンル追加時、いずれも
+      辞典全体との照合をしていなかったことが原因）。古い方を残し、新しい方を削除したうえで
+      代わりの曲を1曲ずつ追加し、Genspark音声確認も経てv38.9として本番反映済み。①も
+      「既存曲を1曲ずつ辞典全体と照合する」に改訂した。<br>
+      <b>この照合は今回チェックが済んだ24ジャンル（バッチ3の18＋別の6）にしかまだ適用していない。
+      残る約546ジャンルの既存代表曲は、今後別ジャンルの代表曲を拡充する作業のたびに、
+      そのジャンル分だけ①を通すことで、少しずつ確認が進む見込み。</b></div>
     <div class="dim" style="margin-top:10px;padding:8px 10px;border-left:3px solid var(--dim);">
       <b>候補の選び方（中身の基準）：</b><br>
       <ol style="margin:6px 0 6px 20px;padding:0;">
