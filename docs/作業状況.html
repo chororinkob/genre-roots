@@ -127,13 +127,15 @@
 <div class="wrap">
 
 <h1>作業状況</h1>
-<div class="sub">音楽ジャンルルーツ辞典 ／ 2026-10-01 更新</div>
+<div class="sub">音楽ジャンルルーツ辞典 ／ 2026-10-02 更新</div>
 <div class="warn-note" style="background:var(--doing-soft);">
-  最新の変更（2026-09-18）：<b>ふつうの利用で通るClaudeの課金APIが全部なくなった。</b>
-  最後まで残っていた書籍の判定と代表曲の選び直しをGensparkへ移し、残るのは
-  手動デバッグ用の入口だけになった。あわせて、書籍が1冊も見つからないときに
-  <b>自動で探し直す</b>ようにし（v2.80）、代表曲は<b>上限なし・確実な曲だけ</b>に方針を変えた。
-  室内楽を登録して<b>584ジャンル</b>。詳細は下の「完了」参照。
+  最新の変更（2026-10-02）：<b>新規ジャンル登録の代表曲を、既存ジャンル拡充と同じ
+  「22件まで揃えるループ」に合わせた。</b>あわせて、新規登録の動画探しからYouTube公式の
+  検索（search.list）を完全に外し、Genspark検索だけを使うようにした（既存ジャンル拡充と
+  共有している1日実質100回の上限を取り合わない）。ミュージカルシアター・CCM・
+  エレクトロスウィングの3件で実地テスト済み（いずれも1〜2巡で22曲に到達）。
+  途中、確認画面(admin_preview.html)の中で本物のパネルだけスマホ版表示になる不具合も
+  発見・修正した。<b>592ジャンル。</b>詳細は下の「完了」参照。
 </div>
 <div class="warn-note">
   セッションをまたぐとここの数字も古くなる。<b>着手する前に必ず実物を見て
@@ -143,12 +145,12 @@
 
 <table class="verinfo">
 <tr><th>もの</th><th>版</th><th>どこ</th></tr>
-<tr><td>地図</td><td>v38.6</td><td><a href="https://genre-roots.com/" target="_blank" rel="noopener">公開済み</a></td></tr>
+<tr><td>地図</td><td>v39.2</td><td><a href="https://genre-roots.com/" target="_blank" rel="noopener">公開済み</a></td></tr>
 <tr><td>使い方ガイド</td><td>v1.30</td><td>公開済み</td></tr>
 <tr><td>更新の記録</td><td>自動生成</td><td><code>docs/changes.html</code>（公開済み）</td></tr>
 <tr><td>いたずら対策 guard.py</td><td>v1.13</td><td>公開済み</td></tr>
-<tr><td>ジャンル追加 genre_adder.py</td><td>v2.94</td><td>公開済み</td></tr>
-<tr><td>登録確認画面 admin_preview.html</td><td>v3.20</td><td>公開済み</td></tr>
+<tr><td>ジャンル追加 genre_adder.py</td><td>v2.97</td><td>公開済み</td></tr>
+<tr><td>登録確認画面 admin_preview.html</td><td>v3.21</td><td>公開済み</td></tr>
 </table>
 
 <h2>🔶 進行中・次にやること <span class="h2-count">11件</span></h2>
@@ -223,6 +225,26 @@
       Genspark確認（工程C）を経てから本番にまとめて書き込む予定。<br>
       <b>残り：</b>下の一覧の通り53ジャンル終了・536ジャンルが未着手（バッチ1の7＋バッチ2の45に、バッチ1より前に単体で済ませていたFlamencoを加えた53件）。
       ただしバッチ2は上記21ジャンルのみ反映済みで残り24ジャンルが工程C待ち、バッチ3の92ジャンルは全体が工程C待ちで、いずれも「終了」の状態ではない。
+    </div>
+    <div class="dim" style="margin-top:10px;padding:8px 10px;border-left:3px solid var(--wait);">
+      <b style="color:var(--wait);">2026-10-01着手・工程C待ちで中断中：バッチ4（20ジャンル・220曲）。</b>
+      jazz・blues・prog_rock・disco・rock_n_roll・funk（この6ジャンルはバッチ1で一度約11〜14曲まで
+      拡充済みだが22件には届いておらず、今回さらに上積みする2回目の拡充）・hardstyle（バッチ2で
+      一度候補5曲が全て架空と判明し0曲で見送った経緯があり、今回は検証優先方式でやり直し）・
+      reggaeton・death_metal・black_metal・doom_metal・power_metal・bluegrass・folk・salsa・
+      bossa_nova・tango・afrobeat・jpop・calypso（この13ジャンルは初めての拡充）の
+      候補選び・辞典全体との重複チェック・実在確認（工程A・B）まで完了し、220曲ぶんの
+      Genspark確認依頼文（<code>genspark_request_batch4_20genres.txt</code>／<code>.csv</code>）
+      まで作成済み。<b>チョロさんに渡す直前の、工程C（Gensparkの無料チャットでの音声確認）待ちの
+      状態で中断している。</b>2026-10-01にYouTube API誤用の発覚・是正と、新規登録の22件ループ
+      統一作業を優先したため、まだチョロさんに依頼文を渡していない。候補の内訳（1ジャンンルあたり
+      何曲の新規候補を用意したか）：jazz10・blues10・prog_rock10・disco11・rock_n_roll11・funk12・
+      hardstyle11・reggaeton16・death_metal14・black_metal14・doom_metal13・power_metal12・
+      bluegrass13・folk11・salsa10・bossa_nova3・tango8・afrobeat10・jpop10・calypso11。
+      <b>bossa_nova（新規候補3曲のみ）とtango（同8曲）は、動画IDの実在確認が難航した弱点として
+      残っており、工程Cを経ても22件には届かない見込み。</b>この2ジャンルは次回さらに1巡以上の
+      追加選定が必要になる可能性が高い。作業ファイルは<code>scratchpad</code>内に保存されている
+      （チョロさんのPC上の一時フォルダのため、別セッション・別PCでは引き継げない点に注意）。
     </div>
     <div class="dim" style="margin-top:10px;padding:8px 10px;border-left:3px solid var(--dim);">
       <b>2026-09-29追記：バッチ2の残り24ジャンル（252曲）＋6ジャンル（85曲）のGensparkの判定が返ってきて、反映した。</b>
@@ -374,10 +396,15 @@
     テストを兼ねられるし、数をこなせば動作も安定してくる」。
     <div class="dim" style="margin-top:8px;">
       まずテスト用に10件を選んである（どれも地図に未登録で、英語版ウィキペディアに記事がある）：
-      <s>Merseybeat</s>・Neue Deutsche Welle・Musical Theatre・Madrigal・Alternative Metal・Post-Grunge・
-      Skiffle・Country Pop・Candombe・Yé-yé。コピーしやすい一覧はクローディアが別ページで渡してある。
-      おすすめの順は <s>Merseybeat</s> → Neue Deutsche Welle → Musical Theatre（v2.91のAI判定をいちばん試せる）。<br>
-      <b>Merseybeat が2026-09-20に登録完了</b>（589ジャンル）。詳細は下の「完了」参照。次はNeue Deutsche Welleから。
+      <s>Merseybeat</s>・Neue Deutsche Welle・<s>Musical Theatre</s>・Madrigal・Alternative Metal・Post-Grunge・
+      Skiffle・Country Pop・Candombe・Yé-yé。コピーしやすい一覧はクローディアが別ページで渡してある。<br>
+      <b>Merseybeat が2026-09-20に登録完了</b>（589ジャンル）。詳細は下の「完了」参照。<br>
+      <b>2026-10-02追記：Musical Theatre・CCM（Contemporary Christian Music）・Electro Swingの3件を
+      新しく登録完了（592ジャンル）。</b>このうちCCM・Electro Swingは上のテスト10件リストには
+      入っておらず、「このルーツ辞典に無いメジャーなジャンルを3つ挙げて」とチョロさんに頼まれて
+      クローディアが別途調べて挙げたもの。3件とも、下の「新規登録の代表曲を22件ループに揃えた」
+      の実地テストを兼ねている。残るテスト対象はNeue Deutsche Welle・Madrigal・Alternative Metal・
+      Post-Grunge・Skiffle・Country Pop・Candombe・Yé-yéの8件。
     </div>
   </div>
 </div>
@@ -417,6 +444,52 @@
       案内文（v2.94で「あなたが何かする必要はありません」に直した）と、rebase失敗時の
       <code>rebase --abort</code>安全策（同じくv2.94）で、当面の被害は防げる状態にはなっている。
       この項目は「そもそも人の手を借りずに直る」ようにするための、より根本的な改善。
+    </div>
+  </div>
+</div>
+
+<div class="item">
+  <div class="item-head">
+    <span class="status ok">完了（2026-10-02）</span>
+    <span class="item-title">新規ジャンル登録の代表曲を、既存ジャンル拡充と同じ「22件まで揃えるループ」に合わせた</span>
+  </div>
+  <div class="item-body">
+    <b>チョロさんの指摘（2026-10-02）：</b>「代表曲を今22曲に揃うまでループさせるっていうのに
+    合わせてるでしょ、全体的に。新規でジャンルを追加したら、それだけ3曲になっちゃうのおかしくない？
+    同じプロトコルで回さないとおかしいよね」。以前（2026-09-17〜）の新規登録は、代表曲の数を
+    指定せず照合で落ちた曲は基本見送るだけ（埋め直しは残りが3曲未満のときだけ1回限り）という、
+    既存ジャンル拡充の「22件ループ」より弱いやり方だった。これだと、落選が多いジャンルは3曲のまま
+    確定し、逆に目標が無いジャンルは曲数が膨らみすぎる（R&Bが38曲になった例）ということが起きていた。
+    <div class="dim" style="margin-top:8px;">
+      <b>直した内容：</b>目標22件・最大5巡・2巡以上試して1曲も採れなければ打ち切り、という
+      既存ジャンル拡充と同じ土台に統一（<code>fetch_youtube_videos</code>）。生成プロンプトも
+      「数は指定しない」から「22曲を目安に（確実な曲だけ、水増しはしない）」に変更。
+      詳しい手順は<code>music_genre_finder/docs/logic.md</code>「新規登録の代表曲も、既存ジャンル
+      拡充と同じ『22件まで揃えるループ』に合わせる」を参照。コスト・時間が増える点はチョロさんに
+      確認済み（「1曲・1ジャンルを追加するくらいのクレジットなら、多少高くてもそんなに気にはならない」）。
+    </div>
+    <div class="dim" style="margin-top:8px;">
+      <b>あわせて直したもの：</b>①新規登録の動画探し（<code>_youtubeで探す</code>）から、
+      YouTube公式の検索（search.list）を完全に外し、Gensparkのウェブ検索だけを使うようにした
+      （既存ジャンル拡充の作業と共有している「1日実質100回」の上限を取り合い、2026-10-01に
+      両方同時に止まる事故が起きたため）。②進捗ログに実際のサービス名「Genspark」がそのまま
+      表示されていた文言を、サービス名を出さない表現に修正（CCMの登録中にチョロさんが発見）。
+      ③確認画面（admin_preview.html）が入れ子のiframeになっていることが原因で、ブラウザの
+      ウィンドウ幅が900〜1200pxくらいのとき、確認画面自体はパソコン表示のまま、中に埋め込んだ
+      本物のパネルだけスマホ版レイアウトになる不具合を発見・修正（縦積みへの切り替えしきい値を
+      900px→1200pxに引き上げ。genre_roots.html側のスマホ判定・CSSには手を入れていない）。
+    </div>
+    <div class="dim" style="margin-top:8px;">
+      <b>実地テスト：</b>Musical Theatre・CCM・Electro Swingの3件を新規登録し、いずれも1〜2巡で
+      22曲に到達することを確認（所要時間はそれぞれ約8分15秒・約14分49秒・約11分30秒）。
+      あわせて、代表曲の重複チェック（<code>_existing_track_owners</code>）が曲名だけを見て
+      演奏者名を見ていないため、別の曲なのに曲名が同じというだけで誤って重複扱いされるケースを
+      4件発見した（Musical Theatreの「One」とheavy_metalのMetallica「One」、CCMの「Alive」と
+      grungeのPearl Jam「Alive」、Electro Swingの「Midnight」とphonkのSoudiere「Midnight」、
+      同じく「Crazy in Love」とrnbのBeyoncé「Crazy in Love」）。いずれも差し替えループが
+      自動的に代わりの曲を見つけたため実害は無かったが、3件連続で同じパターンが出たため、
+      演奏者名の照合も加える改修は今後の課題として残しておく（下の「進行中・次にやること」には
+      未記載。優先度が決まったら追加する）。
     </div>
   </div>
 </div>
