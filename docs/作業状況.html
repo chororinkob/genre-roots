@@ -127,17 +127,16 @@
 <div class="wrap">
 
 <h1>作業状況</h1>
-<div class="sub">音楽ジャンルルーツ辞典 ／ 2026-10-02 更新</div>
+<div class="sub">音楽ジャンルルーツ辞典 ／ 2026-10-03 更新</div>
 <div class="warn-note" style="background:var(--doing-soft);">
-  最新の変更（2026-10-02）：<b>バッチ4（jazz・blues・prog_rock・disco・rock_n_roll・
-  funk・hardstyle・reggaeton・death_metal・black_metal・doom_metal・power_metal・
-  bluegrass・folk・salsa・bossa_nova・tango・afrobeat・jpop・calypsoの20ジャンル）の
-  代表曲拡充が完了し、本番反映済み（v39.4）。</b>途中、動画探しで詰まっていた
-  ボサノバ・タンゴ向けに「曲名中心の個別検索」という手順を新しく確立。
-  death_metalは1巡目で最低ライン(15件)を下回り、差し替え候補を探して18件まで到達。
-  あわせて、新規ジャンル登録の代表曲も既存ジャンル拡充と同じ「22件まで揃えるループ」に
-  合わせ、動画探しからYouTube公式の検索（search.list）を完全に外した。<b>592ジャンル。</b>
-  詳細は下の「完了」参照。
+  最新の変更（2026-10-03）：<b>バッチ5（britpop・glam_rock・pop_rock・soft_rock・
+  southern_rock・smooth_jazz・trip_hop・vocaloid_music・swing_jazz・krautrock・
+  classic_rock・baroque・metalcore・pop_punk・garage_rock・surf_rock・dixieland・
+  enka・cumbia・afrobeats_modernの20ジャンル）の代表曲拡充が完了し、本番反映済み
+  （v39.6）。</b>既存データの表記ゆれ重複3件（britpop・baroque×2・glam_rock）も
+  あわせて修正。工程Cの合格動画のうち書き込み時点で取得できなくなっていたものが
+  10件見つかり、差し替えて対応（詳細は下の「完了」参照）。これで15曲以上に到達した
+  ジャンルは111件、未着手は481件。<b>592ジャンル。</b>
 </div>
 <div class="warn-note">
   セッションをまたぐとここの数字も古くなる。<b>着手する前に必ず実物を見て
@@ -147,7 +146,7 @@
 
 <table class="verinfo">
 <tr><th>もの</th><th>版</th><th>どこ</th></tr>
-<tr><td>地図</td><td>v39.4</td><td><a href="https://genre-roots.com/" target="_blank" rel="noopener">公開済み</a></td></tr>
+<tr><td>地図</td><td>v39.6</td><td><a href="https://genre-roots.com/" target="_blank" rel="noopener">公開済み</a></td></tr>
 <tr><td>使い方ガイド</td><td>v1.30</td><td>公開済み</td></tr>
 <tr><td>更新の記録</td><td>自動生成</td><td><code>docs/changes.html</code>（公開済み）</td></tr>
 <tr><td>いたずら対策 guard.py</td><td>v1.13</td><td>公開済み</td></tr>
@@ -155,7 +154,7 @@
 <tr><td>登録確認画面 admin_preview.html</td><td>v3.21</td><td>公開済み</td></tr>
 </table>
 
-<h2>🔶 進行中・次にやること <span class="h2-count">11件</span></h2>
+<h2>🔶 進行中・次にやること <span class="h2-count">12件</span></h2>
 
 <div class="item">
   <div class="item-head">
@@ -225,7 +224,7 @@
       <code>genre_roots.html</code>本体に反映していない。</b>
       現在は候補選び・重複チェック・実在確認が済んだ曲を作業用ファイル（scratchpad内のJSON）に貯めている段階で、
       Genspark確認（工程C）を経てから本番にまとめて書き込む予定。<br>
-      <b>残り：</b>下の一覧の通り91ジャンルが15曲以上に到達済み・501ジャンルが未着手。
+      <b>残り：</b>下の一覧の通り111ジャンルが15曲以上に到達済み・481ジャンルが未着手（2026-10-03、バッチ5の20ジャンル分を済みへ移動）。
       <b style="color:#c0392b;">2026-10-03、この「やった／やっていない」リストが実データとずれていたことが発覚し、全592ジャンルの代表曲数を本番データから直接数え直して作り直した。</b>
       手作業でのクローディアの集計（バッチ1・2・4の67件）では、バッチ3の18ジャンル（synth_pop・synthwave・thrash_metal・eurodance・indie_rock・newage・trance・electropop・italo_disco・gothic_rock・ambient・city_pop・doo_wop・dubstep・dnb・eurobeat・shoegaze・vaporwave。dnbは「Drum and Bass」表記のまま未着手側に残っていた）が一度もこのリストに反映されておらず、さらに修正依頼など一括作業を介さずに15曲以上まで増えていたジャンルが13件（Marabi・Eurodance・Alternative Rock・Chamber Music・Arabic Pop・Anatolian Rock・Dembow・Chiptune・Polka・Gothic Rock・Musical theatre・Contemporary Christian Music・Electro Swing）あり、合計24件の抜けが見つかった。<br>
       <b style="color:#c0392b;">あわせて、kizombaだけ本番の代表曲が3曲のままになっていることも発覚した。</b>2026-09-24の記録では「kizomba（既存3+新規22=25）」として捏造事故から立て直し25曲に到達したはずだが、現在の本番データは3曲のまま。バッチ2の他の反映（rnb・techno・industrial・mariachi等）はすべて正しく反映されているため、kizombaだけ個別に書き込みが本番へ届いていない可能性が高い。要調査・要再対応。<br>
@@ -252,6 +251,29 @@
       <b>作業中の注意点：</b>工程Cの結果待ちをしている間に、本番側で別の操作（修正依頼など）が
       入ったと見られ、hardstyleの既存代表曲が作業途中で3曲→6曲に変わっていた。本番への
       書き込み直前には既存代表曲数を必ず取り直すことを徹底した（今回は実害なし）。
+    </div>
+    <div class="dim" style="margin-top:10px;padding:8px 10px;border-left:3px solid var(--ok);">
+      <b style="color:var(--ok);">2026-10-03完了：バッチ5（20ジャンル）が本番反映済み（v39.6）。</b>
+      britpop・glam_rock・pop_rock・soft_rock・southern_rock・smooth_jazz・trip_hop・
+      vocaloid_music・swing_jazz・krautrock・classic_rock・baroque・metalcore・pop_punk・
+      garage_rock・surf_rock・dixieland・enka・cumbia・afrobeats_modernの20ジャンルを対象に、
+      工程Cへ292曲を提出し279曲が合格（却下13件：動画選定ミス12件・曲とジャンルの不一致1件）。
+      既存→最終合計（各ジャンルの代表曲数）：
+      britpop 7(実質)→22・glam_rock 7(実質)→21・pop_rock 8→22・soft_rock 9→21・
+      southern_rock 8→20・smooth_jazz 8→22・trip_hop 8→22・vocaloid_music 8→22・
+      swing_jazz 8→22・krautrock 3→21・classic_rock 5→20・baroque 19(実質)→22・
+      metalcore 8→22・pop_punk 8→21・garage_rock 8→22・surf_rock 5→21・dixieland 5→20・
+      enka 5→22・cumbia 5→19・afrobeats_modern 5→22。
+      メイン動画（yt_mix）の選び直し・代表曲の並び替え・知名度(FAME)の再生回数再計算も
+      全ジャンルで実施済み（知名度の段階は20ジャンルとも変化なし。enkaのみ内訳の点数が
+      1段階上がったが合計では段階は変わらず）。<br>
+      <b>今回見つかった既存データの不具合3件（本番修正済み）：</b>
+      britpop「Girls & Boys」＝「Girls and Boys」、baroque「Canon in D」＝「Pachelbel's Canon」と
+      「Water Music」＝「Water Music Suite」、glam_rock「Get It On」＝「Get It On (Bang a Gong)」が、
+      それぞれ同一曲の表記ゆれによる重複登録だったため、各1件削除。<br>
+      <b>今回見つかったもう1つの事実：</b>工程CでGensparkが合格と判定した動画のうち10件が、
+      書き込み直前の実在確認で「取得できない（削除・非公開）」状態になっていた。
+      いずれも同じ曲の別の動画IDに差し替えて対応済み（対応方法の詳細は<code>logic.md</code>参照）。
     </div>
     <div class="dim" style="margin-top:10px;padding:8px 10px;border-left:3px solid var(--dim);">
       <b>2026-09-29追記：バッチ2の残り24ジャンル（252曲）＋6ジャンル（85曲）のGensparkの判定が返ってきて、反映した。</b>
@@ -381,14 +403,31 @@
     </div>
     <div class="item-body-extra">
       <details style="margin-top:10px;">
-        <summary style="cursor:pointer;font-size:12.5px;color:var(--dim);">✅ 15曲以上に達している91ジャンル（クリックで開く。2026-10-03に実データと突き合わせて全件取り直した）</summary>
-        <div class="dim" style="margin-top:6px;font-size:12.5px;line-height:1.9;">Afrobeat、Alternative Rock、Ambient、Anatolian Rock、Arabic Pop、Black Metal、Blue-Eyed Soul、Bluegrass、Blues、Bossa Nova、Breakbeat、Calypso、Chamber Music、Chanson、Chiptune、City Pop、Classical、Contemporary Christian Music、Country、Death Metal、Deep House、Dembow、Disco、Doo-Wop、Doom Metal、Drill、Drum and Bass、Dubstep、EDM、Electro Swing、Electropop、Emo、Eurobeat、Eurodance、Flamenco、Folk、Folk Rock、Funk、Ghazal、Gospel、Gothic Rock、Grime、Grunge、Hard Rock、Hardcore Punk、Heavy Metal、Hip Hop、Indie Rock、Industrial、Italo Disco、J-POP、Jazz、K-POP、Marabi、Mariachi、Motown、Musical theatre、New Age、New Wave、Nu Metal、Opera、Phonk、Polka、Pop、Post-Hardcore、Post-Punk、Power Metal、Progressive Rock、Psychedelic Rock、Punk Rock、Qawwali、R&B、Raï、Reggae、Reggaeton、Rock、Rock 'n' Roll、Rockabilly、Salsa、Samba、Shoegaze、Ska、Soul、Synth Pop、Synthwave、Tango、Techno、Thrash Metal、Trance、Trap、Vaporwave</div>
+        <summary style="cursor:pointer;font-size:12.5px;color:var(--dim);">✅ 15曲以上に達している111ジャンル（クリックで開く。2026-10-03に実データと突き合わせて全件取り直した）</summary>
+        <div class="dim" style="margin-top:6px;font-size:12.5px;line-height:1.9;">Afrobeat、Afrobeats、Alternative Rock、Ambient、Anatolian Rock、Arabic Pop、Baroque、Black Metal、Blue-Eyed Soul、Bluegrass、Blues、Bossa Nova、Breakbeat、Britpop、Calypso、Chamber Music、Chanson、Chiptune、City Pop、Classic Rock、Classical、Contemporary Christian Music、Country、Cumbia、Death Metal、Deep House、Dembow、Disco、Dixieland、Doo-Wop、Doom Metal、Drill、Drum and Bass、Dubstep、EDM、Electro Swing、Electropop、Emo、Enka、Eurobeat、Eurodance、Flamenco、Folk、Folk Rock、Funk、Garage Rock、Ghazal、Glam Rock、Gospel、Gothic Rock、Grime、Grunge、Hard Rock、Hardcore Punk、Heavy Metal、Hip Hop、Indie Rock、Industrial、Italo Disco、J-POP、Jazz、K-POP、Krautrock、Marabi、Mariachi、Metalcore、Motown、Musical theatre、New Age、New Wave、Nu Metal、Opera、Phonk、Polka、Pop、Pop Punk、Pop Rock、Post-Hardcore、Post-Punk、Power Metal、Progressive Rock、Psychedelic Rock、Punk Rock、Qawwali、R&B、Raï、Reggae、Reggaeton、Rock、Rock 'n' Roll、Rockabilly、Salsa、Samba、Shoegaze、Ska、Smooth Jazz、Soft Rock、Soul、Southern Rock、Surf Rock、Swing、Synth Pop、Synthwave、Tango、Techno、Thrash Metal、Trance、Trap、Trip Hop、Vaporwave、Vocaloid</div>
       </details>
       <details style="margin-top:6px;">
-        <summary style="cursor:pointer;font-size:12.5px;color:var(--dim);">🔲 やっていない501ジャンル（クリックで開く。次にやる優先順：知名度が高い順→代表曲が少ない順）</summary>
-        <div class="dim" style="margin-top:6px;font-size:12.5px;line-height:1.9;">2 Tone Ska、2-Step、A cappella、Abstract Hip Hop、Acid House、Acid Jazz、Acid Techno、Acid Trance、Acidcore、Adult Contemporary、Afro House、Afro-Fusion、Afrobeats、Afropop、Afroswing、Aggrotech、Alt-Country、Alternative R&B、Amapiano、Ambient House、Americana、Andean Music、Anison、Anti-Folk、AOR、Arena Rock、Art Pop、Art Rock、Asian Underground、Atmospheric Black Metal、Atmospheric Speedcore、Avant-Garde、Bachata、Baile Funk、Bakersfield Sound、Balearic Beat、Balkan Brass Band、Baltimore Club、Banda、Barbershop、Baroque、Baroque Pop、Bass House、Bebop、Bedroom Pop、Bhangra、Big Band、Big Beat、Big Room House、Blackgaze、Blues Rock、Bolero、Bollywood、Bongo Flava、Boogaloo、Boogie、Boogie-Woogie、Boom Bap、Bounce、Bouncy Techno、Brazilian Jazz、Breakbeat Hardcore、Breakcore、Britfunk、British Blues、Britpop、Bro-Country、Brostep、Brutal Death Metal、Cajun、Canterbury Scene、Cantopop、Carnatic Classical、Celtic Music、Cha-Cha-Cha、Chalga、Chicago Blues、Chicago House、Chicha、Chillwave、Chimurenga、Chinese Traditional、Chopped & Screwed、Choral、Choro、City Funk、City Pop Modern、Classic Rock、Cloud Rap、Coladeira、Coldwave、Conscious Rap、Contemporary R&B、Contemporary Blues、Contemporary Classical、Cool Jazz、Corrido、Country Rock、Cowpunk、Crossbreed、Crossover Thrash、Crunk、Crust Punk、Cuban Rumba、Cumbia、Cybergrind、Cyberpunk、D-beat、Dance Pop、Dance-Punk、Dancehall、Dangdut、Dark Ambient、Dark Country、Dark EDM、Darkcore、Darkstep、Darksynth、Darkwave、Deathcore、Deathrock、Deconstructed Club、Deep Dubstep、Delta Blues、Denpa Song、Detroit Techno、Digicore、Digital Hardcore、Dixieland、Djent、Doomcore、Doujin music、Downtempo、Dream Pop、Dreamcore、Drone、Drone Metal、Drumfunk、Drumstep、Dub、Dub Reggae、Dub Techno、Dubstyle、Dungeon Synth、Easy Listening、EBM、EDM Trap、Electro、Electro House、Electro-Funk、Electroclash、Emo Rap、Enka、Ethereal Wave、Ethio-Jazz、Euphoric Trance、Euphoric Hardstyle、Euro Trance、Europop、Experimental Electronic、Extratone、Fado、Festival EDM、Field Recording、Film Score、Flamenco Fusion、Flashcore、Folk Metal、Folktronica、Footwork / Juke、Forró、Freak Folk、Free Jazz、Freestyle、French House、Frenchcore、Fuji、Funaná、Funeral Doom、Funk Metal、Funky House、Future Bass、Future Funk、Future Garage、Futurepop、G-Funk、Gabber、Gagaku、Gamelan、Gangsta Rap、Garage Rock、Garage Rock Revival、Garifuna Music、Glam Metal、Glam Rock、Glitch、Gnawa、Go-Go、Goa Trance、Golden Age Hip Hop、Goregrind、Gothic Metal、Gqom、Gregorian chant、Grindcore、Groove Metal、Group Sounds、Gypsy Jazz、Hands Up、Happy Hardcore、Hard Bass、Hard Bop、Hard Dance、Hard Techno、Hard Trance、Hard Trap、Hard-Psy、Hardcore EDM、Hardcore Rave、Hardstyle、Hardtek、Hardvapour、Hardwave、Harmonica Blues、Harsh Noise、Hawaiian、Heartland Rock、Heavy EDM、Hi-NRG、Highlife、Hindustani Classical、Hip-Hop Soul、Hiplife、Honky Tonk、Horror Ambient、Horrorcore、Hyperpop、Illbient、Impressionism、Indian Pop、Indie Folk、Indie Pop、Industrial Metal、Industrial Techno、Instrumental Rock、Intelligent Dance Music、Intelligent Techno、Isicathamiya、J-Ballad、J-Core、J-Eurobeat、J-Fusion、J-POP アイドル、J-Rap、J-Rock、Jam Band、Jangle Pop、Jazz Funk、Jazz Fusion、Jazz Rap、Jersey Club、Jump Blues、Jumpstyle、Jungle、Jungle Terror、Jùjú、K-Hip Hop、K-R&B、Kayōkyoku、Khoomei、Kizomba、Klezmer、Kompa / Compas、Krautrock、Kuduro、Kwaito、Kwela、Latin Jazz、Latin Pop、Latin R&B、Latin Trap、Lento Violento、Liquid DnB、Lo-fi、Lo-fi Hip Hop、Lounge、Lovers Rock、Madchester、Mahraganat、Mainstream Hardcore、Mambo、Mandopop、Manele、Maracatu、Marrabenta、Mashcore、Math Rock、Mathcore、Mbalax、Mbube、Medieval、Melbourne Bounce、Melodic Death Metal、Melodic EDM、Melodic Techno、Melodic Hardcore、Melodic Speedcore、Memphis Rap、Mento、Merengue、Merseybeat、Metalcore、Miami Bass、Midwest Emo、Min'yō、Minimal House、Minimal Techno、Minimalism、Modal Jazz、Mood Kayō、Moombahcore、Moombahton、Mor Lam、Morna、MPB Música Popular Brasileira、Musique Concrète、Mákina、Ndombolo、Neo Soul、Neo-Psychedelia、Neo-Prog、Neoclassical Darkwave、Neoclassical Metal、Neoclassicism、Neofolk、Neotango、Neue Deutsche Härte、Neurofunk、New Beat、New Jack Swing、New Romantic、Nightcore、Nitzhonot、No Wave、Noise、Noise Pop、Noise Rock、Norteño、Northern Soul、NRG Trance、Nu Funk、Nu Jazz、Nu Style、Nu-Disco、Nueva Cancion、Oi!、Old School Hip Hop、Old-Time Music、Operatic Pop、Operetta、Outlaw Country、P-Funk、Pagode、Pansori、Parapara Eurobeat、Partyschlager、Philadelphia Soul、Piano Blues、Piep Kicks、Plugg、Pop EDM、Pop Punk、Pop Rap、Pop Rock、Post-Bop、Post-Disco、Post-Dubstep、Post-Metal、Post-Punk Revival、Post-Rock、Power Noise、Power Pop、Powerviolence、Progressive House、Progressive Metal、Progressive Techno、Progressive Trance、Proto-Punk、Psybient、Psychedelic Soul、Psychedelic Rap、Psychedelic Trance、Psychobilly、Punta、Quiet Storm、Raga、Rage / Rage Beat、Raggacore、Ragtime、Ranchera、Rave、Rawstyle、Rebetiko、Renaissance Music、Retrowave、Riddim、Riot Grrrl、Ritual Ambient、Rocksteady、Romantic、Roots Reggae、Roots Rock、Schlager、Schranz、Screamo、Sea shanty、Serialism、Sertanejo、Sevillanas、Shaabi、Shibuya-kei、Shidaiqu、Singer-Songwriter、Ska Punk、Skullstep、Slowcore、Sludge Metal、Smooth Jazz、Smooth Soul、Soca、Soft Rock、Son Cubano、Soukous、Soulful House、SoundCloud Rap、Southern Rock、Southern Hip Hop、Sovietwave、Space Ambient、Space Disco、Space Rock、Speed Garage、Speed Metal、Speedcore、Speednoise、Spiritual Jazz、Spirituals、Splittercore、Stoner Rock、Subground、Suizidcore、Surf Rock、Swamp Rock、Swing、Symphonic Black Metal、Symphonic Metal、Taarab、Tech House、Technical Death Metal、Techno Pop、Techstep、Tejano、Terrorcore、Texas Blues、Third Stream、Timba、Trap Metal、Trap Soul、Trip Hop、Tropical House、Tropicália、Trot、Turbo Folk、Turkish Pop、Twee Pop、UK Bass、UK Drill、UK Funky、UK Garage、UK Hardcore、UK Trap、Underwater Ambient、Uptempo、Urban Contemporary、Vallenato、Video Game Music、Viking Metal、Visual Kei、Vocal Jazz、Vocal Trance、Vocaloid、Waltz、War Metal、Western Swing、Witch House、Wobble Bass、Yacht Rock、Zeuhl、Zouglou、Zouk、Zydeco</div>
+        <summary style="cursor:pointer;font-size:12.5px;color:var(--dim);">🔲 やっていない481ジャンル（クリックで開く。次にやる優先順：知名度が高い順→代表曲が少ない順）</summary>
+        <div class="dim" style="margin-top:6px;font-size:12.5px;line-height:1.9;">2 Tone Ska、2-Step、A cappella、Abstract Hip Hop、Acid House、Acid Jazz、Acid Techno、Acid Trance、Acidcore、Adult Contemporary、Afro House、Afro-Fusion、Afropop、Afroswing、Aggrotech、Alt-Country、Alternative R&B、Amapiano、Ambient House、Americana、Andean Music、Anison、Anti-Folk、AOR、Arena Rock、Art Pop、Art Rock、Asian Underground、Atmospheric Black Metal、Atmospheric Speedcore、Avant-Garde、Bachata、Baile Funk、Bakersfield Sound、Balearic Beat、Balkan Brass Band、Baltimore Club、Banda、Barbershop、Baroque Pop、Bass House、Bebop、Bedroom Pop、Bhangra、Big Band、Big Beat、Big Room House、Blackgaze、Blues Rock、Bolero、Bollywood、Bongo Flava、Boogaloo、Boogie、Boogie-Woogie、Boom Bap、Bounce、Bouncy Techno、Brazilian Jazz、Breakbeat Hardcore、Breakcore、Britfunk、British Blues、Bro-Country、Brostep、Brutal Death Metal、Cajun、Canterbury Scene、Cantopop、Carnatic Classical、Celtic Music、Cha-Cha-Cha、Chalga、Chicago Blues、Chicago House、Chicha、Chillwave、Chimurenga、Chinese Traditional、Chopped & Screwed、Choral、Choro、City Funk、City Pop Modern、Cloud Rap、Coladeira、Coldwave、Conscious Rap、Contemporary R&B、Contemporary Blues、Contemporary Classical、Cool Jazz、Corrido、Country Rock、Cowpunk、Crossbreed、Crossover Thrash、Crunk、Crust Punk、Cuban Rumba、Cybergrind、Cyberpunk、D-beat、Dance Pop、Dance-Punk、Dancehall、Dangdut、Dark Ambient、Dark Country、Dark EDM、Darkcore、Darkstep、Darksynth、Darkwave、Deathcore、Deathrock、Deconstructed Club、Deep Dubstep、Delta Blues、Denpa Song、Detroit Techno、Digicore、Digital Hardcore、Djent、Doomcore、Doujin music、Downtempo、Dream Pop、Dreamcore、Drone、Drone Metal、Drumfunk、Drumstep、Dub、Dub Reggae、Dub Techno、Dubstyle、Dungeon Synth、Easy Listening、EBM、EDM Trap、Electro、Electro House、Electro-Funk、Electroclash、Emo Rap、Ethereal Wave、Ethio-Jazz、Euphoric Trance、Euphoric Hardstyle、Euro Trance、Europop、Experimental Electronic、Extratone、Fado、Festival EDM、Field Recording、Film Score、Flamenco Fusion、Flashcore、Folk Metal、Folktronica、Footwork / Juke、Forró、Freak Folk、Free Jazz、Freestyle、French House、Frenchcore、Fuji、Funaná、Funeral Doom、Funk Metal、Funky House、Future Bass、Future Funk、Future Garage、Futurepop、G-Funk、Gabber、Gagaku、Gamelan、Gangsta Rap、Garage Rock Revival、Garifuna Music、Glam Metal、Glitch、Gnawa、Go-Go、Goa Trance、Golden Age Hip Hop、Goregrind、Gothic Metal、Gqom、Gregorian chant、Grindcore、Groove Metal、Group Sounds、Gypsy Jazz、Hands Up、Happy Hardcore、Hard Bass、Hard Bop、Hard Dance、Hard Techno、Hard Trance、Hard Trap、Hard-Psy、Hardcore EDM、Hardcore Rave、Hardstyle、Hardtek、Hardvapour、Hardwave、Harmonica Blues、Harsh Noise、Hawaiian、Heartland Rock、Heavy EDM、Hi-NRG、Highlife、Hindustani Classical、Hip-Hop Soul、Hiplife、Honky Tonk、Horror Ambient、Horrorcore、Hyperpop、Illbient、Impressionism、Indian Pop、Indie Folk、Indie Pop、Industrial Metal、Industrial Techno、Instrumental Rock、Intelligent Dance Music、Intelligent Techno、Isicathamiya、J-Ballad、J-Core、J-Eurobeat、J-Fusion、J-POP アイドル、J-Rap、J-Rock、Jam Band、Jangle Pop、Jazz Funk、Jazz Fusion、Jazz Rap、Jersey Club、Jump Blues、Jumpstyle、Jungle、Jungle Terror、Jùjú、K-Hip Hop、K-R&B、Kayōkyoku、Khoomei、Kizomba、Klezmer、Kompa / Compas、Kuduro、Kwaito、Kwela、Latin Jazz、Latin Pop、Latin R&B、Latin Trap、Lento Violento、Liquid DnB、Lo-fi、Lo-fi Hip Hop、Lounge、Lovers Rock、Madchester、Mahraganat、Mainstream Hardcore、Mambo、Mandopop、Manele、Maracatu、Marrabenta、Mashcore、Math Rock、Mathcore、Mbalax、Mbube、Medieval、Melbourne Bounce、Melodic Death Metal、Melodic EDM、Melodic Techno、Melodic Hardcore、Melodic Speedcore、Memphis Rap、Mento、Merengue、Merseybeat、Miami Bass、Midwest Emo、Min'yō、Minimal House、Minimal Techno、Minimalism、Modal Jazz、Mood Kayō、Moombahcore、Moombahton、Mor Lam、Morna、MPB Música Popular Brasileira、Musique Concrète、Mákina、Ndombolo、Neo Soul、Neo-Psychedelia、Neo-Prog、Neoclassical Darkwave、Neoclassical Metal、Neoclassicism、Neofolk、Neotango、Neue Deutsche Härte、Neurofunk、New Beat、New Jack Swing、New Romantic、Nightcore、Nitzhonot、No Wave、Noise、Noise Pop、Noise Rock、Norteño、Northern Soul、NRG Trance、Nu Funk、Nu Jazz、Nu Style、Nu-Disco、Nueva Cancion、Oi!、Old School Hip Hop、Old-Time Music、Operatic Pop、Operetta、Outlaw Country、P-Funk、Pagode、Pansori、Parapara Eurobeat、Partyschlager、Philadelphia Soul、Piano Blues、Piep Kicks、Plugg、Pop EDM、Pop Rap、Post-Bop、Post-Disco、Post-Dubstep、Post-Metal、Post-Punk Revival、Post-Rock、Power Noise、Power Pop、Powerviolence、Progressive House、Progressive Metal、Progressive Techno、Progressive Trance、Proto-Punk、Psybient、Psychedelic Soul、Psychedelic Rap、Psychedelic Trance、Psychobilly、Punta、Quiet Storm、Raga、Rage / Rage Beat、Raggacore、Ragtime、Ranchera、Rave、Rawstyle、Rebetiko、Renaissance Music、Retrowave、Riddim、Riot Grrrl、Ritual Ambient、Rocksteady、Romantic、Roots Reggae、Roots Rock、Schlager、Schranz、Screamo、Sea shanty、Serialism、Sertanejo、Sevillanas、Shaabi、Shibuya-kei、Shidaiqu、Singer-Songwriter、Ska Punk、Skullstep、Slowcore、Sludge Metal、Smooth Soul、Soca、Son Cubano、Soukous、Soulful House、SoundCloud Rap、Southern Hip Hop、Sovietwave、Space Ambient、Space Disco、Space Rock、Speed Garage、Speed Metal、Speedcore、Speednoise、Spiritual Jazz、Spirituals、Splittercore、Stoner Rock、Subground、Suizidcore、Swamp Rock、Symphonic Black Metal、Symphonic Metal、Taarab、Tech House、Technical Death Metal、Techno Pop、Techstep、Tejano、Terrorcore、Texas Blues、Third Stream、Timba、Trap Metal、Trap Soul、Tropical House、Tropicália、Trot、Turbo Folk、Turkish Pop、Twee Pop、UK Bass、UK Drill、UK Funky、UK Garage、UK Hardcore、UK Trap、Underwater Ambient、Uptempo、Urban Contemporary、Vallenato、Video Game Music、Viking Metal、Visual Kei、Vocal Jazz、Vocal Trance、Waltz、War Metal、Western Swing、Witch House、Wobble Bass、Yacht Rock、Zeuhl、Zouglou、Zouk、Zydeco</div>
       </details>
     </div>
+  </div>
+</div>
+
+<div class="item">
+  <div class="item-head">
+    <span class="status hold">保留（2026-10-04）</span>
+    <span class="item-title">flow_chart.htmlを、本来のフローチャートの描き方で作り直す</span>
+  </div>
+  <div class="item-body">
+    今の<code>flow_chart.html</code>は、箱が縦に並んで中に長い文章が書かれた「番号付きの
+    説明文」になっており、チョロさんが求めている本来のフローチャート（箱・ひし形・矢印を使い、
+    実行する処理を1つずつ短い一言で書き、分岐はYes/Noの矢印で枝分かれさせる描き方）には
+    なっていない。また、仕様の中に書かれている具体的な処理（例：「動画の実在確認には
+    YouTube公式APIの<code>videos.list</code>窓口を使う」といった、実際に実行される手順）も、
+    今の文章中心の形だと図の中にきちんと表現されていない。これらを踏まえて、章ごとに
+    図を本格的に作り直す必要がある（2026-10-04、チョロさんの指示）。まとまった作業になるため、
+    着手は別の機会に行う。
   </div>
 </div>
 
