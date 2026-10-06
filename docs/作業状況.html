@@ -187,7 +187,7 @@
 <tr><td>登録確認画面 admin_preview.html</td><td>v3.21</td><td>公開済み</td></tr>
 </table>
 
-<h2>🔶 進行中・次にやること <span class="h2-count">12件</span></h2>
+<h2>🔶 進行中・次にやること <span class="h2-count">17件</span></h2>
 
 <div class="item">
   <div class="item-head">
@@ -770,6 +770,36 @@
       <code>factcheck_with_genspark</code> は、どこからも呼ばれていない
       （＝動いていない）ことを2026-09-18に確認済み。消すかどうかは別途相談。
     </div>
+  </div>
+</div>
+
+<div class="item">
+  <div class="item-head">
+    <span class="status hold">保留（2026-10-07、チョロさんの判断）</span>
+    <span class="item-title">管理者用「動画健全性チェック」（video_health_check.js）— 今はもう使っていない、中途半端な実装</span>
+  </div>
+  <div class="item-body">
+    <code>/admin</code>画面の「全件動画チェック」ボタンから起動する管理者用ツール
+    （<code>video_health_check.js</code>、flow_chart.htmlの④）。<b>チョロさんの
+    確認により、現在はもう使われていないことが判明（2026-10-07）。</b>
+    実装を見ると、生死・内容一致の判定にYouTubeの<code>oEmbed</code>だけを使っており、
+    2026-10-06に発覚した「日本だけ地域制限で再生できない」動画
+    （<code>regionRestriction</code>）は検出できない作りだった。<br>
+    <b>直さないことにした理由：</b>チョロさんの元々の構想は、YouTube動画チェック・
+    Amazon書籍チェックなど複数のチェック項目を網羅する、もっと包括的な健全性
+    チェック機能に作り直すことだった。今回見つかった地域制限の抜けだけを
+    単発で直すと、結局また中途半端なまま積み重なってしまう
+    （「それをやり出すとキリがない」とのご判断）。<b>そのため、この機能は
+    「全然そこはできていない」という前提のまま、今は一切手を入れず保留する。</b>
+    着手する際は、地域制限チェックの追加だけでなく、Amazon書籍チェック等も
+    含めた包括的な作り直しとして扱うこと。<br>
+    <b>なお、月初に自動実行される別の仕組み（<code>check_and_update.py</code>、
+    GitHub Actions「Monthly YouTube Link Check」）はこれとは別物で、現在も稼働中。</b>
+    こちらも生死確認はoEmbedのみで同じ盲点を持つが、設計上<b>新しい動画を
+    一切検索しない</b>（すでに登録済みの予備・他の代表曲動画に繰り上げるだけ）
+    ため、今回のような地域制限ずみの動画を新たに持ち込むことは無い。
+    既に登録されている地域制限動画を見逃す（直さない）だけで、悪化させる
+    方向には働かない。
   </div>
 </div>
 
