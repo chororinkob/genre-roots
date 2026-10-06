@@ -143,6 +143,34 @@
   うえで反映。どちらの手順も<code>docs/logic.md</code>に追記済み。これで15曲以上に
   到達したジャンルは139件、未着手は453件。<b>592ジャンル。</b>
 </div>
+<div class="warn-note" style="background:var(--doing-soft);">
+  <b>同日さらに（2026-10-06）：代表曲の動画リンク切れを全ジャンルで総点検し、
+  51本を日本で再生できる動画IDに差し替え済み（v39.9・v39.10）。</b>
+  チョロさんから「アニソンのCrossing Fieldがリンク切れ」と報告を受け、
+  まず今回拡充した28ジャンル608本を点検して6本を差し替え（v39.9）。
+  原因が「リンク切れ」ではなく<b>日本だけYouTubeの埋め込み再生が
+  許可されていない動画</b>（regionRestriction・embeddable=false）だと
+  判明したため、592ジャンル・7,079本（重複除く）全体をYouTube公式API
+  （<code>videos.list</code>、50本まとめて1ユニットの安い窓口）で点検し直し、
+  既存ジャンル側でも同種の不具合45本（うち削除・ID誤りで本当に
+  見つからないもの3本）を発見、すべて同じ曲の別の公式・Topicチャンネル
+  動画に差し替えて本番反映した（v39.10）。差し替え後、辞典全体を
+  再点検し問題0件を確認済み。<br>
+  <b>原因（手順の抜け）：</b>この「日本で再生できるか」のチェックは
+  以前から工程Bの標準手順（<code>_verify_track_video()</code>）に入っていたが、
+  2026-09-24に「1日の検索上限（<code>search.list</code>）にすぐ届く」という
+  理由でこの関数自体を丸ごと使わなくする決定がされた際、本来は上限と
+  無関係な「日本再生可否」の部分（<code>videos.list</code>を読むだけで
+  追加の検索を一切しない）まで一緒に外れてしまっていた。GenSparkに
+  一括で任せるやり方も元々この確認を持たない。両方の手順に、
+  この日本再生可否チェックを必須として復活させた（<code>docs/logic.md</code>
+  追記済み）。<br>
+  <b>あわせて発見・修正：</b><code>video_playable_in_jp()</code>
+  （genre_adder.py）自身も、2026-08-18の修正で「embeddable=falseの代表曲は
+  当時0本だったから無関係」と誤って判定条件を丸ごと外していたが、今回
+  実際に2本（Amapianoの「Nana Thula」・Afropopの「Karolina」）見つかった
+  ため、このチェックも復活させた（v2.98）。
+</div>
 <div class="warn-note">
   セッションをまたぐとここの数字も古くなる。<b>着手する前に必ず実物を見て
   確かめる</b>こと（このページ自体も例外ではない）。図の撮り直しは
@@ -151,11 +179,11 @@
 
 <table class="verinfo">
 <tr><th>もの</th><th>版</th><th>どこ</th></tr>
-<tr><td>地図</td><td>v39.8</td><td><a href="https://genre-roots.com/" target="_blank" rel="noopener">公開済み</a></td></tr>
+<tr><td>地図</td><td>v39.10</td><td><a href="https://genre-roots.com/" target="_blank" rel="noopener">公開済み</a></td></tr>
 <tr><td>使い方ガイド</td><td>v1.30</td><td>公開済み</td></tr>
 <tr><td>更新の記録</td><td>自動生成</td><td><code>docs/changes.html</code>（公開済み）</td></tr>
 <tr><td>いたずら対策 guard.py</td><td>v1.13</td><td>公開済み</td></tr>
-<tr><td>ジャンル追加 genre_adder.py</td><td>v2.97</td><td>公開済み</td></tr>
+<tr><td>ジャンル追加 genre_adder.py</td><td>v2.98</td><td>公開済み</td></tr>
 <tr><td>登録確認画面 admin_preview.html</td><td>v3.21</td><td>公開済み</td></tr>
 </table>
 
