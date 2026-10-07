@@ -127,7 +127,23 @@
 <div class="wrap">
 
 <h1>作業状況</h1>
-<div class="sub">音楽ジャンルルーツ辞典 ／ 2026-10-06 更新</div>
+<div class="sub">音楽ジャンルルーツ辞典 ／ 2026-10-08 更新</div>
+<div class="warn-note" style="background:var(--doing-soft);">
+  <b>最新の変更（2026-10-08）：AOR・Avant-Garde・Baltimore Club・Bachata・Banda・Baroque Pop・Bebop・
+  Bhangra・Big Band・Big Beat・Big Room House・Blackgaze・Bolero・Bollywood・Bongo Flava・Balearic Beat・
+  Barbershop・Bass House・Bedroom Pop・Baile Funk の20ジャンルの代表曲拡充が完了し、本番反映済み（v39.11）。</b>
+  既存112曲に283曲を追加して、合計395曲（20ジャンルとも15曲以上）。候補は329曲で、うち296曲が
+  「曲・演奏者・ジャンル・日本で再生できるか」の4基準に合格し、そこから辞典の他のジャンルとの重複13曲を
+  書き込み前に外した。今回はGenSparkの<b>無料枠が尽きていた</b>ため、工程Cを<b>有料API（analyze_media）</b>で
+  行った（チョロさんの許可あり）。<b>この回で手順と仕様をかなり変えた</b>：日本再生チェックをGenSparkに渡す前に先に済ませる／
+  GenSparkには曲名・演奏者名を渡し、辞典の説明文（desc）は絶対に渡さない／ローカルからYouTubeのAPIを呼ぶときは
+  Refererのなりすましが要る／括弧の中の演奏者は「動画で実際に演奏している人」にする（作曲者ではない）／
+  書き込み前に辞典全体との重複を「曲名＋先頭の演奏者」で照合する、など。すべて
+  <code>docs/logic.md</code>「GenSparkの有料API（analyze_media）で工程Cまで進めるやり方」と
+  <code>docs/flow_chart.html</code>「有料API版」に書いた。<b>22曲に届かなかったジャンルが18ジャンル（不足の合計45曲）あり</b>、
+  下の「進行中」の最初の項目に、ジャンルごとの内訳と原因を載せている。これで15曲以上に到達したジャンルは159件、
+  未着手は433件。<b>592ジャンル。</b>
+</div>
 <div class="warn-note" style="background:var(--doing-soft);">
   最新の変更（2026-10-06）：<b>28ジャンル（2 Tone Ska・2-Step・Amapiano・Ambient House・
   Americana・Andean Music・Anison・Anti-Folk・Arena Rock・Art Pop・Art Rock・
@@ -179,7 +195,7 @@
 
 <table class="verinfo">
 <tr><th>もの</th><th>版</th><th>どこ</th></tr>
-<tr><td>地図</td><td>v39.10</td><td><a href="https://genre-roots.com/" target="_blank" rel="noopener">公開済み</a></td></tr>
+<tr><td>地図</td><td>v39.11</td><td><a href="https://genre-roots.com/" target="_blank" rel="noopener">公開済み</a></td></tr>
 <tr><td>使い方ガイド</td><td>v1.30</td><td>公開済み</td></tr>
 <tr><td>更新の記録</td><td>自動生成</td><td><code>docs/changes.html</code>（公開済み）</td></tr>
 <tr><td>いたずら対策 guard.py</td><td>v1.13</td><td>公開済み</td></tr>
@@ -187,7 +203,7 @@
 <tr><td>登録確認画面 admin_preview.html</td><td>v3.21</td><td>公開済み</td></tr>
 </table>
 
-<h2>🔶 進行中・次にやること <span class="h2-count">17件</span></h2>
+<h2>🔶 進行中・次にやること <span class="h2-count">19件</span></h2>
 
 <div class="item">
   <div class="item-head">
@@ -342,6 +358,60 @@
       <b>これで今回対象の28ジャンルすべてが「代表曲15曲以上」の基準に到達し、本番に反映済み。</b>
       592ジャンル中、15曲以上に到達したジャンルは139件・未着手は453件（下の一覧に反映済み）。
     </div>
+    <div class="dim" style="margin-top:10px;padding:8px 10px;border-left:3px solid var(--ok);">
+      <b style="color:var(--ok);">2026-10-08完了：AOR〜Baile Funk の20ジャンルの代表曲拡充が本番反映済み（v39.11）。</b>
+      GenSparkの無料枠が尽きていたため、工程Cを<b>有料API（<code>analyze_media</code>）</b>で行った
+      （2 Tone Ska・2-Stepに続く2回目。チョロさんの許可あり）。公開URL（genre-roots.com）で取り直し、
+      手元のファイルと中身が完全に同じこと・バージョン表示がv39.11になっていること・JSとして正しく読めることを確認済み。<br>
+      <b>数字：</b>既存112曲＋追加283曲＝合計395曲。候補329曲（選んだ330曲のうちEl Columpioを帰属違いで除外）→
+      4基準の合格296曲→辞典の他ジャンルとの重複13曲を書き込み前に外す→追加283曲。
+      最初の判定で不合格になった曲のうち、同じ曲の別の動画に替えて合格にできたのは9曲
+      （Oleo・Scrapple from the Apple・Woody'n You・Woodchopper's Ball・Frankie Teardrop・Smack My Bitch Up・Lag Ja Gale・Sunbather・Opale）、
+      表記を直して合格にできたのは2曲（Heart of My Heart・Booyah）、Boleroは作曲者名で書いていた8曲を演奏者の名前に直して全曲合格にした。
+      直せなかった34曲（El Columpio 1曲＋33曲）は外した（330曲−合格296曲＝34曲）。
+      <b>22曲に届いたのは2ジャンル（AOR・Barbershop）だけ、届かなかったのは18ジャンル、不足の合計は45曲。</b>全20ジャンルが下限の15曲以上なので、
+      チョロさんに一覧を見せたうえで了承を得て、このまま反映した（15件を下回ったら差し替え候補を探しに戻る決まり）。<br>
+      <b>ジャンルごとの内訳と、22曲に届かなかった理由：</b>
+      <table style="font-size:12px;border-collapse:collapse;margin-top:6px;">
+        <tr><th style="padding:3px 8px;text-align:left;">ジャンル</th><th style="padding:3px 8px;">既存</th><th style="padding:3px 8px;">新規の候補</th><th style="padding:3px 8px;">新規で合格</th><th style="padding:3px 8px;">重複で外した</th><th style="padding:3px 8px;">最終の合計</th><th style="padding:3px 8px;">22まであと</th><th style="padding:3px 8px;text-align:left;">知名度(FAME)</th><th style="padding:3px 8px;text-align:left;">足りなくなった理由・特記</th></tr>
+        <tr><td style="padding:3px 8px;">AOR</td><td style="padding:3px 8px;text-align:right;">20</td><td style="padding:3px 8px;text-align:right;">2</td><td style="padding:3px 8px;text-align:right;">2</td><td style="padding:3px 8px;text-align:right;">0</td><td style="padding:3px 8px;text-align:right;"><b>22</b></td><td style="padding:3px 8px;text-align:right;">0</td><td style="padding:3px 8px;">★2のまま</td><td style="padding:3px 8px;">—（海外のAOR 2曲を追加。メイン動画が「Hold the Line (Toto)」約4億回に変わり、海外グループの先頭へ）</td></tr>
+        <tr><td style="padding:3px 8px;">Avant-Garde</td><td style="padding:3px 8px;text-align:right;">8</td><td style="padding:3px 8px;text-align:right;">14</td><td style="padding:3px 8px;text-align:right;">12</td><td style="padding:3px 8px;text-align:right;">0</td><td style="padding:3px 8px;text-align:right;"><b>20</b></td><td style="padding:3px 8px;text-align:right;">2</td><td style="padding:3px 8px;">★4のまま</td><td style="padding:3px 8px;">Warm Leatherette（The Normal）・Watermelon in Easter Hay（Zappa）が、曲も演奏者も本物だがジャンルの代表例として合わず外した</td></tr>
+        <tr><td style="padding:3px 8px;">Baltimore Club</td><td style="padding:3px 8px;text-align:right;">3</td><td style="padding:3px 8px;text-align:right;">19</td><td style="padding:3px 8px;text-align:right;">19</td><td style="padding:3px 8px;text-align:right;">1</td><td style="padding:3px 8px;text-align:right;"><b>21</b></td><td style="padding:3px 8px;text-align:right;">1</td><td style="padding:3px 8px;">★2のまま</td><td style="padding:3px 8px;">合格19曲のうち「Dance My Pain Away (Rod Lee)」はこのジャンルに既にあり重複で外した</td></tr>
+        <tr><td style="padding:3px 8px;">Bachata</td><td style="padding:3px 8px;text-align:right;">8</td><td style="padding:3px 8px;text-align:right;">14</td><td style="padding:3px 8px;text-align:right;">11</td><td style="padding:3px 8px;text-align:right;">1</td><td style="padding:3px 8px;text-align:right;"><b>18</b></td><td style="padding:3px 8px;text-align:right;">4</td><td style="padding:3px 8px;">★4のまま</td><td style="padding:3px 8px;">A Pedir Su Mano（Juan Luis Guerra。merengue系でジャンル不一致）／La Bachata（Manuel Turizo。マンボ調に加工された動画）／Imitadora（Romeo Santos。ピッチを上げた動画）が不合格。Burbujas de Amorはmerengueに既存で重複</td></tr>
+        <tr><td style="padding:3px 8px;">Banda</td><td style="padding:3px 8px;text-align:right;">5</td><td style="padding:3px 8px;text-align:right;">16</td><td style="padding:3px 8px;text-align:right;">14</td><td style="padding:3px 8px;text-align:right;">0</td><td style="padding:3px 8px;text-align:right;"><b>19</b></td><td style="padding:3px 8px;text-align:right;">3</td><td style="padding:3px 8px;">★3のまま</td><td style="padding:3px 8px;">El Columpioは別バンドの曲（帰属違い）で曲ごと除外。Me Gusta Todo De Ti（別のカバーの動画）・Seis Pies Abajo（中身は別の曲「Que Me Buscas」）が不合格。既存5曲の表記を「演奏者 - 曲名」から「曲名 (演奏者)」に直した</td></tr>
+        <tr><td style="padding:3px 8px;">Baroque Pop</td><td style="padding:3px 8px;text-align:right;">8</td><td style="padding:3px 8px;text-align:right;">14</td><td style="padding:3px 8px;text-align:right;">11</td><td style="padding:3px 8px;text-align:right;">0</td><td style="padding:3px 8px;text-align:right;"><b>19</b></td><td style="padding:3px 8px;text-align:right;">3</td><td style="padding:3px 8px;">★4のまま</td><td style="padding:3px 8px;">For Emily（カバー動画でジャンルも不一致）・Pale Blue Eyes・Winchester Cathedralが、曲は本物だがバロック・ポップの代表例として合わず外した</td></tr>
+        <tr><td style="padding:3px 8px;">Bebop</td><td style="padding:3px 8px;text-align:right;">8</td><td style="padding:3px 8px;text-align:right;">14</td><td style="padding:3px 8px;text-align:right;">13</td><td style="padding:3px 8px;text-align:right;">0</td><td style="padding:3px 8px;text-align:right;"><b>21</b></td><td style="padding:3px 8px;text-align:right;">1</td><td style="padding:3px 8px;">★4のまま</td><td style="padding:3px 8px;">Bouncing with Bud（Bud Powell）は、最初の動画が別の人の演奏、差し替えた2本もアルバム通し再生の冒頭の別の曲などになり不合格</td></tr>
+        <tr><td style="padding:3px 8px;">Bhangra</td><td style="padding:3px 8px;text-align:right;">5</td><td style="padding:3px 8px;text-align:right;">17</td><td style="padding:3px 8px;text-align:right;">13</td><td style="padding:3px 8px;text-align:right;">0</td><td style="padding:3px 8px;text-align:right;"><b>18</b></td><td style="padding:3px 8px;text-align:right;">4</td><td style="padding:3px 8px;">★3のまま</td><td style="padding:3px 8px;">Laembadgini・Tootak Tootak Tootiyan（会話・インタビューだけの動画）／Gur Nalo Ishq Mitha（インタビュー中の無伴奏）／Naah（遅く低く加工された動画）が不合格</td></tr>
+        <tr><td style="padding:3px 8px;">Big Band</td><td style="padding:3px 8px;text-align:right;">5</td><td style="padding:3px 8px;text-align:right;">17</td><td style="padding:3px 8px;text-align:right;">16</td><td style="padding:3px 8px;text-align:right;">3</td><td style="padding:3px 8px;text-align:right;"><b>18</b></td><td style="padding:3px 8px;text-align:right;">4</td><td style="padding:3px 8px;">★3のまま</td><td style="padding:3px 8px;">Don't Get Around Much Anymore（見つかった動画が3本とも日本で見られない）を外した。Song of India・Sentimental Journey・A-Tisket, A-Tasket はswing_jazz／vocal_jazzに既存で重複</td></tr>
+        <tr><td style="padding:3px 8px;">Big Beat</td><td style="padding:3px 8px;text-align:right;">3</td><td style="padding:3px 8px;text-align:right;">19</td><td style="padding:3px 8px;text-align:right;">18</td><td style="padding:3px 8px;text-align:right;">1</td><td style="padding:3px 8px;text-align:right;"><b>20</b></td><td style="padding:3px 8px;text-align:right;">2</td><td style="padding:3px 8px;">★3のまま</td><td style="padding:3px 8px;">Aisha（Death in Vegas）がジャンル不一致で外れた。History Repeatingはbreakbeatに既存で重複</td></tr>
+        <tr><td style="padding:3px 8px;">Big Room House</td><td style="padding:3px 8px;text-align:right;">5</td><td style="padding:3px 8px;text-align:right;">17</td><td style="padding:3px 8px;text-align:right;">16</td><td style="padding:3px 8px;text-align:right;">4</td><td style="padding:3px 8px;text-align:right;"><b>17</b></td><td style="padding:3px 8px;text-align:right;">5</td><td style="padding:3px 8px;">★3のまま</td><td style="padding:3px 8px;">United We Are（動画の中身がAviciiの「Levels」のリミックス）が不合格。Tremor・Spaceman・Reload・Take Over Controlの4曲はfestival_edm／edm／electropopに既存で重複。いちばん多く重複した</td></tr>
+        <tr><td style="padding:3px 8px;">Blackgaze</td><td style="padding:3px 8px;text-align:right;">5</td><td style="padding:3px 8px;text-align:right;">17</td><td style="padding:3px 8px;text-align:right;">12</td><td style="padding:3px 8px;text-align:right;">1</td><td style="padding:3px 8px;text-align:right;"><b>16</b></td><td style="padding:3px 8px;text-align:right;">6</td><td style="padding:3px 8px;">★2→3</td><td style="padding:3px 8px;">From the Kettle Onto the Coil（泣き声だけの動画）／10:56・Second Son of R.（冒頭が無伴奏の歌だけ）／Needles in Your Skin（逆再生）／Where I Live（中身は別の曲）の5曲が不合格。Dream Houseは同ジャンルに既存。22曲に最も遠い</td></tr>
+        <tr><td style="padding:3px 8px;">Bolero</td><td style="padding:3px 8px;text-align:right;">5</td><td style="padding:3px 8px;text-align:right;">17</td><td style="padding:3px 8px;text-align:right;">17</td><td style="padding:3px 8px;text-align:right;">1</td><td style="padding:3px 8px;text-align:right;"><b>21</b></td><td style="padding:3px 8px;text-align:right;">1</td><td style="padding:3px 8px;">★3のまま</td><td style="padding:3px 8px;">17曲中8曲が作曲者名で書かれて②で落ちたため、演奏者の名前に直して全曲合格。Lágrimas Negras（Miguel Matamoros）はson_cubanoのTrío Matamorosと同じ曲で重複</td></tr>
+        <tr><td style="padding:3px 8px;">Bollywood</td><td style="padding:3px 8px;text-align:right;">5</td><td style="padding:3px 8px;text-align:right;">17</td><td style="padding:3px 8px;text-align:right;">16</td><td style="padding:3px 8px;text-align:right;">0</td><td style="padding:3px 8px;text-align:right;"><b>21</b></td><td style="padding:3px 8px;text-align:right;">1</td><td style="padding:3px 8px;">★3のまま</td><td style="padding:3px 8px;">Deewangi Deewangi（映像は合っているが音が別の曲に差し替えられていた）が不合格</td></tr>
+        <tr><td style="padding:3px 8px;">Bongo Flava</td><td style="padding:3px 8px;text-align:right;">3</td><td style="padding:3px 8px;text-align:right;">19</td><td style="padding:3px 8px;text-align:right;">17</td><td style="padding:3px 8px;text-align:right;">0</td><td style="padding:3px 8px;text-align:right;"><b>20</b></td><td style="padding:3px 8px;text-align:right;">2</td><td style="padding:3px 8px;">★2のまま</td><td style="padding:3px 8px;">Waah（曲の発売ニュースのナレーション動画）／Dah!（早回しでピッチが上がった動画）が不合格</td></tr>
+        <tr><td style="padding:3px 8px;">Balearic Beat</td><td style="padding:3px 8px;text-align:right;">3</td><td style="padding:3px 8px;text-align:right;">19</td><td style="padding:3px 8px;text-align:right;">17</td><td style="padding:3px 8px;text-align:right;">1</td><td style="padding:3px 8px;text-align:right;"><b>19</b></td><td style="padding:3px 8px;text-align:right;">3</td><td style="padding:3px 8px;">★2のまま</td><td style="padding:3px 8px;">Kaw Liga（The Residents。シュールなシンセポップでジャンル不一致）／Papua New Guinea（ほぼ無音で曲が流れない動画）が不合格。LullabyはThe Cureの曲としてgothic_rockに既存で重複</td></tr>
+        <tr><td style="padding:3px 8px;">Barbershop</td><td style="padding:3px 8px;text-align:right;">2</td><td style="padding:3px 8px;text-align:right;">22</td><td style="padding:3px 8px;text-align:right;">20</td><td style="padding:3px 8px;text-align:right;">0</td><td style="padding:3px 8px;text-align:right;"><b>22</b></td><td style="padding:3px 8px;text-align:right;">0</td><td style="padding:3px 8px;">★2のまま</td><td style="padding:3px 8px;">Sweet and Lovely（括弧の中が歌詞の一節で、演奏した四重唱団の名前ではない）／Shine On Me（1人が多重録音で四重唱にした動画）が不合格。Heart of My Heartは動画の四重唱団「Up Front」に表記を直して合格</td></tr>
+        <tr><td style="padding:3px 8px;">Bass House</td><td style="padding:3px 8px;text-align:right;">5</td><td style="padding:3px 8px;text-align:right;">17</td><td style="padding:3px 8px;text-align:right;">16</td><td style="padding:3px 8px;text-align:right;">0</td><td style="padding:3px 8px;text-align:right;"><b>21</b></td><td style="padding:3px 8px;text-align:right;">1</td><td style="padding:3px 8px;">★2のまま</td><td style="padding:3px 8px;">I Dare You（Jauz & Axel Boy）は中身が別の曲だった</td></tr>
+        <tr><td style="padding:3px 8px;">Bedroom Pop</td><td style="padding:3px 8px;text-align:right;">3</td><td style="padding:3px 8px;text-align:right;">19</td><td style="padding:3px 8px;text-align:right;">18</td><td style="padding:3px 8px;text-align:right;">0</td><td style="padding:3px 8px;text-align:right;"><b>21</b></td><td style="padding:3px 8px;text-align:right;">1</td><td style="padding:3px 8px;">★2のまま（※）</td><td style="padding:3px 8px;">Care（beabadoobee）はアコースティックのライブ版でスタジオ版でないため不合格</td></tr>
+        <tr><td style="padding:3px 8px;">Baile Funk</td><td style="padding:3px 8px;text-align:right;">3</td><td style="padding:3px 8px;text-align:right;">19</td><td style="padding:3px 8px;text-align:right;">18</td><td style="padding:3px 8px;text-align:right;">0</td><td style="padding:3px 8px;text-align:right;"><b>21</b></td><td style="padding:3px 8px;text-align:right;">1</td><td style="padding:3px 8px;">★3のまま</td><td style="padding:3px 8px;">Agora Eu Sou Solteira（Valesca Popozuda）は電子ダンスのミックス版で原曲のリズムが消えていた</td></tr>
+      </table>
+      ※ Bedroom Popの知名度は、現在の記録が2、計算し直すと3で食い違っている（原因は未調査。借り物の記事名「Lo-fi music」が関係している可能性）。
+      段階は勝手に変えず2のままにし、再生回数の実数（1億7197万→2億1364万回）だけ更新した。Blackgazeだけ段階が2→3に上がった
+      （代表曲の最大再生回数が118万→364万回になり、点が2→3、合計が8になったため）。Barbershopは内訳の点が1→2に上がったが合計が6のままで段階は変わらない。<br>
+      <b>この回で手順と仕様を変えた点（詳細は<code>logic.md</code>と<code>flow_chart.html</code>）：</b>
+      ①日本再生チェックをGenSparkに渡す前に先に済ませる（330曲中27曲が日本不可→全部差し替え、再点検0件）。
+      ②GenSparkへは曲名・演奏者名・ジャンル名を渡し、辞典のdescは渡さない。聴かせる範囲は冒頭90秒に広げた。
+      ③ローカルからYouTubeのAPIを呼ぶときはRefererのなりすましが要る（付けないと403）。
+      ④括弧の中の演奏者は「動画で実際に演奏している人」（Boleroは17曲中8曲が作曲者名で②に落ちた）。
+      ⑤動画IDだけ差し替えて曲名表記が同じだと、再判定が静かに飛ばされる仕組みの落とし穴（結果ファイルのキーを先に消す）。
+      ⑥書き込み前に辞典全体と「曲名＋先頭の演奏者」で重複を照合する（27件が曲名一致、うち13曲が同じ曲）。
+      ⑦並びは各曲の最大再生回数の順、メイン動画は<code>pick_main_videos()</code>と同じ選び方、知名度は最大再生回数を取り直す。
+      ⑧AORは見出し付き（<code>rep_groups</code>）なので並べ替えず、新しい曲を見出しの中に入れる。
+      ⑨報告には、既存・候補・合格・重複・最終・不足の一覧表と理由を必ず付ける。<br>
+      <b>今回の作業中に見つかった既存データの不具合：</b>Banda既存5曲が「演奏者 - 曲名」の書き方だったので「曲名 (演奏者)」に直した
+      （動画IDは触っていない）。Baltimore Clubの既存曲「Feel My M.F. Bass (DJ Class)」は動画が1本も登録されておらず、
+      曲自体もDJ ClassでなくPaul Johnson（シカゴのゲットーハウス）の曲だった（下の残課題を参照）。
+    </div>
     <div class="dim" style="margin-top:10px;padding:8px 10px;border-left:3px solid var(--dim);">
       <b>2026-09-29追記：バッチ2の残り24ジャンル（252曲）＋6ジャンル（85曲）のGensparkの判定が返ってきて、反映した。</b>
       さらに、このうちrnb・techno・industrial・mariachi・samba_genreの5ジャンルは合格数が特に少なかったため、
@@ -470,12 +540,12 @@
     </div>
     <div class="item-body-extra">
       <details style="margin-top:10px;">
-        <summary style="cursor:pointer;font-size:12.5px;color:var(--dim);">✅ 15曲以上に達している139ジャンル（クリックで開く。2026-10-03に実データと突き合わせて全件取り直した）</summary>
-        <div class="dim" style="margin-top:6px;font-size:12.5px;line-height:1.9;">2 Tone Ska、2-Step、A cappella、Abstract Hip Hop、Acid House、Acid Jazz、Acid Techno、Acid Trance、Acidcore、Adult Contemporary、Afro House、Afro-Fusion、Afrobeat、Afrobeats、Afropop、Afroswing、Aggrotech、Alt-Country、Alternative R&B、Alternative Rock、Amapiano、Ambient、Ambient House、Americana、Anatolian Rock、Andean Music、Anison、Anti-Folk、Arabic Pop、Arena Rock、Art Pop、Art Rock、Asian Underground、Baroque、Black Metal、Blue-Eyed Soul、Bluegrass、Blues、Blues Rock、Bossa Nova、Breakbeat、Britpop、Calypso、Chamber Music、Chanson、Chiptune、City Pop、Classic Rock、Classical、Contemporary Christian Music、Country、Cumbia、Death Metal、Deep House、Dembow、Disco、Dixieland、Doo-Wop、Doom Metal、Drill、Drum and Bass、Dubstep、EDM、Electro Swing、Electropop、Emo、Enka、Eurobeat、Eurodance、Flamenco、Folk、Folk Rock、Funk、Garage Rock、Ghazal、Glam Rock、Gospel、Gothic Rock、Grime、Grunge、Hard Rock、Hardcore Punk、Heavy Metal、Hip Hop、Indie Rock、Industrial、Italo Disco、J-POP、Jazz、K-POP、Krautrock、Marabi、Mariachi、Metalcore、Motown、Musical theatre、New Age、New Wave、Nu Metal、Opera、Phonk、Polka、Pop、Pop Punk、Pop Rock、Post-Hardcore、Post-Punk、Power Metal、Progressive Rock、Psychedelic Rock、Punk Rock、Qawwali、R&B、Raï、Reggae、Reggaeton、Rock、Rock 'n' Roll、Rockabilly、Salsa、Samba、Shoegaze、Ska、Smooth Jazz、Soft Rock、Soul、Southern Rock、Surf Rock、Swing、Synth Pop、Synthwave、Tango、Techno、Thrash Metal、Trance、Trap、Trip Hop、Vaporwave、Vocaloid</div>
+        <summary style="cursor:pointer;font-size:12.5px;color:var(--dim);">✅ 15曲以上に達している159ジャンル（クリックで開く。2026-10-03に実データと突き合わせて全件取り直した）</summary>
+        <div class="dim" style="margin-top:6px;font-size:12.5px;line-height:1.9;">2 Tone Ska、2-Step、A cappella、Abstract Hip Hop、Acid House、Acid Jazz、Acid Techno、Acid Trance、Acidcore、Adult Contemporary、Afro House、Afro-Fusion、Afrobeat、Afrobeats、Afropop、Afroswing、Aggrotech、Alt-Country、Alternative R&B、Alternative Rock、Amapiano、Ambient、Ambient House、Americana、Anatolian Rock、Andean Music、Anison、Anti-Folk、AOR、Arabic Pop、Arena Rock、Art Pop、Art Rock、Asian Underground、Avant-Garde、Bachata、Baile Funk、Balearic Beat、Baltimore Club、Banda、Barbershop、Baroque、Baroque Pop、Bass House、Bebop、Bedroom Pop、Bhangra、Big Band、Big Beat、Big Room House、Black Metal、Blackgaze、Blue-Eyed Soul、Bluegrass、Blues、Blues Rock、Bolero、Bollywood、Bongo Flava、Bossa Nova、Breakbeat、Britpop、Calypso、Chamber Music、Chanson、Chiptune、City Pop、Classic Rock、Classical、Contemporary Christian Music、Country、Cumbia、Death Metal、Deep House、Dembow、Disco、Dixieland、Doo-Wop、Doom Metal、Drill、Drum and Bass、Dubstep、EDM、Electro Swing、Electropop、Emo、Enka、Eurobeat、Eurodance、Flamenco、Folk、Folk Rock、Funk、Garage Rock、Ghazal、Glam Rock、Gospel、Gothic Rock、Grime、Grunge、Hard Rock、Hardcore Punk、Heavy Metal、Hip Hop、Indie Rock、Industrial、Italo Disco、J-POP、Jazz、K-POP、Krautrock、Marabi、Mariachi、Metalcore、Motown、Musical theatre、New Age、New Wave、Nu Metal、Opera、Phonk、Polka、Pop、Pop Punk、Pop Rock、Post-Hardcore、Post-Punk、Power Metal、Progressive Rock、Psychedelic Rock、Punk Rock、Qawwali、R&B、Raï、Reggae、Reggaeton、Rock、Rock 'n' Roll、Rockabilly、Salsa、Samba、Shoegaze、Ska、Smooth Jazz、Soft Rock、Soul、Southern Rock、Surf Rock、Swing、Synth Pop、Synthwave、Tango、Techno、Thrash Metal、Trance、Trap、Trip Hop、Vaporwave、Vocaloid</div>
       </details>
       <details style="margin-top:6px;">
-        <summary style="cursor:pointer;font-size:12.5px;color:var(--dim);">🔲 やっていない453ジャンル（クリックで開く。次にやる優先順：知名度が高い順→代表曲が少ない順）</summary>
-        <div class="dim" style="margin-top:6px;font-size:12.5px;line-height:1.9;">AOR、Atmospheric Black Metal、Atmospheric Speedcore、Avant-Garde、Bachata、Baile Funk、Bakersfield Sound、Balearic Beat、Balkan Brass Band、Baltimore Club、Banda、Barbershop、Baroque Pop、Bass House、Bebop、Bedroom Pop、Bhangra、Big Band、Big Beat、Big Room House、Blackgaze、Bolero、Bollywood、Bongo Flava、Boogaloo、Boogie、Boogie-Woogie、Boom Bap、Bounce、Bouncy Techno、Brazilian Jazz、Breakbeat Hardcore、Breakcore、Britfunk、British Blues、Bro-Country、Brostep、Brutal Death Metal、Cajun、Canterbury Scene、Cantopop、Carnatic Classical、Celtic Music、Cha-Cha-Cha、Chalga、Chicago Blues、Chicago House、Chicha、Chillwave、Chimurenga、Chinese Traditional、Chopped & Screwed、Choral、Choro、City Funk、City Pop Modern、Cloud Rap、Coladeira、Coldwave、Conscious Rap、Contemporary R&B、Contemporary Blues、Contemporary Classical、Cool Jazz、Corrido、Country Rock、Cowpunk、Crossbreed、Crossover Thrash、Crunk、Crust Punk、Cuban Rumba、Cybergrind、Cyberpunk、D-beat、Dance Pop、Dance-Punk、Dancehall、Dangdut、Dark Ambient、Dark Country、Dark EDM、Darkcore、Darkstep、Darksynth、Darkwave、Deathcore、Deathrock、Deconstructed Club、Deep Dubstep、Delta Blues、Denpa Song、Detroit Techno、Digicore、Digital Hardcore、Djent、Doomcore、Doujin music、Downtempo、Dream Pop、Dreamcore、Drone、Drone Metal、Drumfunk、Drumstep、Dub、Dub Reggae、Dub Techno、Dubstyle、Dungeon Synth、Easy Listening、EBM、EDM Trap、Electro、Electro House、Electro-Funk、Electroclash、Emo Rap、Ethereal Wave、Ethio-Jazz、Euphoric Trance、Euphoric Hardstyle、Euro Trance、Europop、Experimental Electronic、Extratone、Fado、Festival EDM、Field Recording、Film Score、Flamenco Fusion、Flashcore、Folk Metal、Folktronica、Footwork / Juke、Forró、Freak Folk、Free Jazz、Freestyle、French House、Frenchcore、Fuji、Funaná、Funeral Doom、Funk Metal、Funky House、Future Bass、Future Funk、Future Garage、Futurepop、G-Funk、Gabber、Gagaku、Gamelan、Gangsta Rap、Garage Rock Revival、Garifuna Music、Glam Metal、Glitch、Gnawa、Go-Go、Goa Trance、Golden Age Hip Hop、Goregrind、Gothic Metal、Gqom、Gregorian chant、Grindcore、Groove Metal、Group Sounds、Gypsy Jazz、Hands Up、Happy Hardcore、Hard Bass、Hard Bop、Hard Dance、Hard Techno、Hard Trance、Hard Trap、Hard-Psy、Hardcore EDM、Hardcore Rave、Hardstyle、Hardtek、Hardvapour、Hardwave、Harmonica Blues、Harsh Noise、Hawaiian、Heartland Rock、Heavy EDM、Hi-NRG、Highlife、Hindustani Classical、Hip-Hop Soul、Hiplife、Honky Tonk、Horror Ambient、Horrorcore、Hyperpop、Illbient、Impressionism、Indian Pop、Indie Folk、Indie Pop、Industrial Metal、Industrial Techno、Instrumental Rock、Intelligent Dance Music、Intelligent Techno、Isicathamiya、J-Ballad、J-Core、J-Eurobeat、J-Fusion、J-POP アイドル、J-Rap、J-Rock、Jam Band、Jangle Pop、Jazz Funk、Jazz Fusion、Jazz Rap、Jersey Club、Jump Blues、Jumpstyle、Jungle、Jungle Terror、Jùjú、K-Hip Hop、K-R&B、Kayōkyoku、Khoomei、Kizomba、Klezmer、Kompa / Compas、Kuduro、Kwaito、Kwela、Latin Jazz、Latin Pop、Latin R&B、Latin Trap、Lento Violento、Liquid DnB、Lo-fi、Lo-fi Hip Hop、Lounge、Lovers Rock、Madchester、Mahraganat、Mainstream Hardcore、Mambo、Mandopop、Manele、Maracatu、Marrabenta、Mashcore、Math Rock、Mathcore、Mbalax、Mbube、Medieval、Melbourne Bounce、Melodic Death Metal、Melodic EDM、Melodic Techno、Melodic Hardcore、Melodic Speedcore、Memphis Rap、Mento、Merengue、Merseybeat、Miami Bass、Midwest Emo、Min'yō、Minimal House、Minimal Techno、Minimalism、Modal Jazz、Mood Kayō、Moombahcore、Moombahton、Mor Lam、Morna、MPB Música Popular Brasileira、Musique Concrète、Mákina、Ndombolo、Neo Soul、Neo-Psychedelia、Neo-Prog、Neoclassical Darkwave、Neoclassical Metal、Neoclassicism、Neofolk、Neotango、Neue Deutsche Härte、Neurofunk、New Beat、New Jack Swing、New Romantic、Nightcore、Nitzhonot、No Wave、Noise、Noise Pop、Noise Rock、Norteño、Northern Soul、NRG Trance、Nu Funk、Nu Jazz、Nu Style、Nu-Disco、Nueva Cancion、Oi!、Old School Hip Hop、Old-Time Music、Operatic Pop、Operetta、Outlaw Country、P-Funk、Pagode、Pansori、Parapara Eurobeat、Partyschlager、Philadelphia Soul、Piano Blues、Piep Kicks、Plugg、Pop EDM、Pop Rap、Post-Bop、Post-Disco、Post-Dubstep、Post-Metal、Post-Punk Revival、Post-Rock、Power Noise、Power Pop、Powerviolence、Progressive House、Progressive Metal、Progressive Techno、Progressive Trance、Proto-Punk、Psybient、Psychedelic Soul、Psychedelic Rap、Psychedelic Trance、Psychobilly、Punta、Quiet Storm、Raga、Rage / Rage Beat、Raggacore、Ragtime、Ranchera、Rave、Rawstyle、Rebetiko、Renaissance Music、Retrowave、Riddim、Riot Grrrl、Ritual Ambient、Rocksteady、Romantic、Roots Reggae、Roots Rock、Schlager、Schranz、Screamo、Sea shanty、Serialism、Sertanejo、Sevillanas、Shaabi、Shibuya-kei、Shidaiqu、Singer-Songwriter、Ska Punk、Skullstep、Slowcore、Sludge Metal、Smooth Soul、Soca、Son Cubano、Soukous、Soulful House、SoundCloud Rap、Southern Hip Hop、Sovietwave、Space Ambient、Space Disco、Space Rock、Speed Garage、Speed Metal、Speedcore、Speednoise、Spiritual Jazz、Spirituals、Splittercore、Stoner Rock、Subground、Suizidcore、Swamp Rock、Symphonic Black Metal、Symphonic Metal、Taarab、Tech House、Technical Death Metal、Techno Pop、Techstep、Tejano、Terrorcore、Texas Blues、Third Stream、Timba、Trap Metal、Trap Soul、Tropical House、Tropicália、Trot、Turbo Folk、Turkish Pop、Twee Pop、UK Bass、UK Drill、UK Funky、UK Garage、UK Hardcore、UK Trap、Underwater Ambient、Uptempo、Urban Contemporary、Vallenato、Video Game Music、Viking Metal、Visual Kei、Vocal Jazz、Vocal Trance、Waltz、War Metal、Western Swing、Witch House、Wobble Bass、Yacht Rock、Zeuhl、Zouglou、Zouk、Zydeco</div>
+        <summary style="cursor:pointer;font-size:12.5px;color:var(--dim);">🔲 やっていない433ジャンル（クリックで開く。次にやる優先順：知名度が高い順→代表曲が少ない順）</summary>
+        <div class="dim" style="margin-top:6px;font-size:12.5px;line-height:1.9;">Atmospheric Black Metal、Atmospheric Speedcore、Bakersfield Sound、Balkan Brass Band、Boogaloo、Boogie、Boogie-Woogie、Boom Bap、Bounce、Bouncy Techno、Brazilian Jazz、Breakbeat Hardcore、Breakcore、Britfunk、British Blues、Bro-Country、Brostep、Brutal Death Metal、Cajun、Canterbury Scene、Cantopop、Carnatic Classical、Celtic Music、Cha-Cha-Cha、Chalga、Chicago Blues、Chicago House、Chicha、Chillwave、Chimurenga、Chinese Traditional、Chopped & Screwed、Choral、Choro、City Funk、City Pop Modern、Cloud Rap、Coladeira、Coldwave、Conscious Rap、Contemporary R&B、Contemporary Blues、Contemporary Classical、Cool Jazz、Corrido、Country Rock、Cowpunk、Crossbreed、Crossover Thrash、Crunk、Crust Punk、Cuban Rumba、Cybergrind、Cyberpunk、D-beat、Dance Pop、Dance-Punk、Dancehall、Dangdut、Dark Ambient、Dark Country、Dark EDM、Darkcore、Darkstep、Darksynth、Darkwave、Deathcore、Deathrock、Deconstructed Club、Deep Dubstep、Delta Blues、Denpa Song、Detroit Techno、Digicore、Digital Hardcore、Djent、Doomcore、Doujin music、Downtempo、Dream Pop、Dreamcore、Drone、Drone Metal、Drumfunk、Drumstep、Dub、Dub Reggae、Dub Techno、Dubstyle、Dungeon Synth、Easy Listening、EBM、EDM Trap、Electro、Electro House、Electro-Funk、Electroclash、Emo Rap、Ethereal Wave、Ethio-Jazz、Euphoric Trance、Euphoric Hardstyle、Euro Trance、Europop、Experimental Electronic、Extratone、Fado、Festival EDM、Field Recording、Film Score、Flamenco Fusion、Flashcore、Folk Metal、Folktronica、Footwork / Juke、Forró、Freak Folk、Free Jazz、Freestyle、French House、Frenchcore、Fuji、Funaná、Funeral Doom、Funk Metal、Funky House、Future Bass、Future Funk、Future Garage、Futurepop、G-Funk、Gabber、Gagaku、Gamelan、Gangsta Rap、Garage Rock Revival、Garifuna Music、Glam Metal、Glitch、Gnawa、Go-Go、Goa Trance、Golden Age Hip Hop、Goregrind、Gothic Metal、Gqom、Gregorian chant、Grindcore、Groove Metal、Group Sounds、Gypsy Jazz、Hands Up、Happy Hardcore、Hard Bass、Hard Bop、Hard Dance、Hard Techno、Hard Trance、Hard Trap、Hard-Psy、Hardcore EDM、Hardcore Rave、Hardstyle、Hardtek、Hardvapour、Hardwave、Harmonica Blues、Harsh Noise、Hawaiian、Heartland Rock、Heavy EDM、Hi-NRG、Highlife、Hindustani Classical、Hip-Hop Soul、Hiplife、Honky Tonk、Horror Ambient、Horrorcore、Hyperpop、Illbient、Impressionism、Indian Pop、Indie Folk、Indie Pop、Industrial Metal、Industrial Techno、Instrumental Rock、Intelligent Dance Music、Intelligent Techno、Isicathamiya、J-Ballad、J-Core、J-Eurobeat、J-Fusion、J-POP アイドル、J-Rap、J-Rock、Jam Band、Jangle Pop、Jazz Funk、Jazz Fusion、Jazz Rap、Jersey Club、Jump Blues、Jumpstyle、Jungle、Jungle Terror、Jùjú、K-Hip Hop、K-R&B、Kayōkyoku、Khoomei、Kizomba、Klezmer、Kompa / Compas、Kuduro、Kwaito、Kwela、Latin Jazz、Latin Pop、Latin R&B、Latin Trap、Lento Violento、Liquid DnB、Lo-fi、Lo-fi Hip Hop、Lounge、Lovers Rock、Madchester、Mahraganat、Mainstream Hardcore、Mambo、Mandopop、Manele、Maracatu、Marrabenta、Mashcore、Math Rock、Mathcore、Mbalax、Mbube、Medieval、Melbourne Bounce、Melodic Death Metal、Melodic EDM、Melodic Techno、Melodic Hardcore、Melodic Speedcore、Memphis Rap、Mento、Merengue、Merseybeat、Miami Bass、Midwest Emo、Min'yō、Minimal House、Minimal Techno、Minimalism、Modal Jazz、Mood Kayō、Moombahcore、Moombahton、Mor Lam、Morna、MPB Música Popular Brasileira、Musique Concrète、Mákina、Ndombolo、Neo Soul、Neo-Psychedelia、Neo-Prog、Neoclassical Darkwave、Neoclassical Metal、Neoclassicism、Neofolk、Neotango、Neue Deutsche Härte、Neurofunk、New Beat、New Jack Swing、New Romantic、Nightcore、Nitzhonot、No Wave、Noise、Noise Pop、Noise Rock、Norteño、Northern Soul、NRG Trance、Nu Funk、Nu Jazz、Nu Style、Nu-Disco、Nueva Cancion、Oi!、Old School Hip Hop、Old-Time Music、Operatic Pop、Operetta、Outlaw Country、P-Funk、Pagode、Pansori、Parapara Eurobeat、Partyschlager、Philadelphia Soul、Piano Blues、Piep Kicks、Plugg、Pop EDM、Pop Rap、Post-Bop、Post-Disco、Post-Dubstep、Post-Metal、Post-Punk Revival、Post-Rock、Power Noise、Power Pop、Powerviolence、Progressive House、Progressive Metal、Progressive Techno、Progressive Trance、Proto-Punk、Psybient、Psychedelic Soul、Psychedelic Rap、Psychedelic Trance、Psychobilly、Punta、Quiet Storm、Raga、Rage / Rage Beat、Raggacore、Ragtime、Ranchera、Rave、Rawstyle、Rebetiko、Renaissance Music、Retrowave、Riddim、Riot Grrrl、Ritual Ambient、Rocksteady、Romantic、Roots Reggae、Roots Rock、Schlager、Schranz、Screamo、Sea shanty、Serialism、Sertanejo、Sevillanas、Shaabi、Shibuya-kei、Shidaiqu、Singer-Songwriter、Ska Punk、Skullstep、Slowcore、Sludge Metal、Smooth Soul、Soca、Son Cubano、Soukous、Soulful House、SoundCloud Rap、Southern Hip Hop、Sovietwave、Space Ambient、Space Disco、Space Rock、Speed Garage、Speed Metal、Speedcore、Speednoise、Spiritual Jazz、Spirituals、Splittercore、Stoner Rock、Subground、Suizidcore、Swamp Rock、Symphonic Black Metal、Symphonic Metal、Taarab、Tech House、Technical Death Metal、Techno Pop、Techstep、Tejano、Terrorcore、Texas Blues、Third Stream、Timba、Trap Metal、Trap Soul、Tropical House、Tropicália、Trot、Turbo Folk、Turkish Pop、Twee Pop、UK Bass、UK Drill、UK Funky、UK Garage、UK Hardcore、UK Trap、Underwater Ambient、Uptempo、Urban Contemporary、Vallenato、Video Game Music、Viking Metal、Visual Kei、Vocal Jazz、Vocal Trance、Waltz、War Metal、Western Swing、Witch House、Wobble Bass、Yacht Rock、Zeuhl、Zouglou、Zouk、Zydeco</div>
       </details>
     </div>
   </div>
@@ -538,6 +608,49 @@
       検討すること：①候補の一覧をどこから取るか（ウィキペディアの一覧記事・Spotifyの分類など）
       ②1件あたりのクレジットを下げられるか（動画の中身チェックの本数など）
       ③承認をどうするか（今は1件ずつチョロさんが押す決まり）④地図の重さ（今でも1ファイル120万文字）。
+    </div>
+  </div>
+</div>
+
+<div class="item">
+  <div class="item-head">
+    <span class="status doing">新規（2026-10-08）</span>
+    <span class="item-title">AOR〜Baile Funk の20ジャンルの残課題（22曲の穴埋め／Baltimore Clubの不具合／Bedroom Popの知名度）</span>
+  </div>
+  <div class="item-body">
+    上の「2026-10-08完了」の記録のとおり、反映は済んでいるが、次の5点が残っている。どれも自動では進まない。
+    <div class="dim" style="margin-top:8px;">
+      <b>①22曲に届かなかった18ジャンル、不足の合計45曲：</b>Blackgaze（あと6）・Big Room House（あと5）・Bachata（あと4）・
+      Bhangra（あと4）・Big Band（あと4）・Banda（あと3）・Baroque Pop（あと3）・Balearic Beat（あと3）・Avant-Garde（あと2）・
+      Big Beat（あと2）・Bongo Flava（あと2）・Baltimore Club／Bebop／Bolero／Bollywood／Bass House／Bedroom Pop／Baile Funk（各あと1）。
+      下限の15曲は全ジャンルで超えているので失敗ではない。穴埋めをするかどうか、するならGenSparkの無料枠が戻るのを待つか有料APIで進めるかは、
+      チョロさんの判断待ち。やるなら、外した曲の代わりに「有名な曲から」選び直す（上の手順どおり、日本再生チェック→GenSpark→重複照合の順）。<br>
+      <b>②Baltimore Clubの既存曲「Feel My M.F. Bass (DJ Class)」：</b>動画が1本も登録されていない（再生ボタンを押しても何も流れない）。
+      調べると、この曲はDJ ClassでなくPaul Johnson（1994年、Dance Mania Records。シカゴのゲットーハウス）の曲で、
+      そもそもBaltimore Clubの代表曲として合っているか疑わしい。<b>今回は触っていない。</b>曲ごと外すか、Baltimore Clubの本当の代表曲に差し替えるか、
+      チョロさんに決めてもらう。<br>
+      <b>③Bedroom Popの知名度の記録：</b>現在2、計算すると3で食い違っている。借り物の記事名（Lo-fi music）の扱いが関係しているのか、過去の手作業なのかは未調査。<br>
+      <b>④GenSparkの判定のぶれは測っていない：</b>同じ動画を2回聴かせて結果が食い違うか、未確認。今回、同じ動画を替えずに再判定した例はない。<br>
+      <b>⑤「辞典のdescを渡すと不合格が増える」の根拠はavant_gardeの14曲だけ：</b>他のジャンルで確かめていない（方針は変えないが、根拠の範囲は狭い）。
+    </div>
+  </div>
+</div>
+
+<div class="item">
+  <div class="item-head">
+    <span class="status hold">保留（2026-10-07、チョロさんの判断）</span>
+    <span class="item-title">代表曲の動画チェックは「ジャンルが合っているか」だけで、「曲名通りの中身か」は見ていない</span>
+  </div>
+  <div class="item-body">
+    新規ジャンル追加（<code>fetch_youtube_videos</code>）でも、修正依頼（<code>_judge_video_correction</code>）でも、
+    Gensparkの<code>analyze_media</code>に渡しているのは動画IDとジャンル名・説明文だけで、<b>曲名・演奏者名は渡していない</b>。
+    曲名の確認は別の関数（<code>_verify_track_video</code>）が担当しており、こちらはAIを使わず、YouTubeの題名・投稿者名の
+    文字列照合だけで行っている。つまり「題名には曲名が入っているが、実際の中身は別の音源」という動画がすり抜ける
+    可能性が、両方の経路に残ったままになっている。
+    <div class="dim" style="margin-top:8px;">
+      新規ジャンル追加の方は2026-09-18（v2.86）から、修正依頼の方は2026-09-08（v2.44）から、この作りのままGenspark
+      有料APIを自動で使い続けている。今回のバッチ拡充（既存ジャンルへの代表曲追加）とは別経路なので、今回の件の修正には
+      含めず、直すかどうか・直すならどちらの経路にAIでの中身確認を足すかは、あとで改めて相談する。
     </div>
   </div>
 </div>
