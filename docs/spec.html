@@ -38,7 +38,7 @@
 <h1>音楽ジャンルルーツ辞典 — 仕様書</h1>
 <h2>この仕様書について</h2>
 <p class="note">この文書は <b>spec_dump.py が実物を読み直して自動で書き出したもの</b>です。手で書き足しても次の書き出しで消えます。決めた理由など人が書くことは <code>docs/decisions.md</code> に書いてください。この文書の末尾にそのまま入ります。</p>
-<p class="note">書き出した日時：<b>2026-10-08 04:07</b></p>
+<p class="note">書き出した日時：<b>2026-10-08 04:13</b></p>
 <h2>いまの版</h2>
 <table>
 <tr><th>項目</th><th>内容</th></tr>
@@ -1313,7 +1313,79 @@
 <p><b>費用。</b> <code>analyze_media</code>は1本あたり約6クレジット・約7秒。1曲ずつ1回ずつ呼ぶ</p>
 <p>（まとめて渡せない）ので、330曲なら1周でおよそ2,000クレジット前後。やり直しが出るたびに</p>
 <p>その分がかかるため、<b>下の順番を守って「無駄に呼ばない」ことが費用の管理そのもの</b>になる。</p>
-<h4>全体の順番（誰が何をするか）</h4>
+<h4>手順（これだけ見れば実行できる。理由と実例は、この下の「補足」にある）</h4>
+<p><b>前提：</b> GenSparkの無料枠が尽きていて、チョロさんが有料APIの使用を許可している。</p>
+<p><b>A. 候補を作る</b></p>
+<p class="num">1. 対象ジャンルの今の代表曲数を、本番<code>genre_roots.html</code>で数える。</p>
+<p class="num">2. 22曲に足りない分だけ、有名な曲から候補を選ぶ。書き方は「曲名 (演奏者)」。<b>括弧の中は、選ぶ動画で実際に演奏している人。作曲者の名前は入れない。</b></p>
+<p class="num">3. 辞典全体（全ジャンルの<code>rep_tracks</code>）と照合し、同じ曲（曲名が同じで先頭の演奏者も同じ）は候補から外す。</p>
+<p class="num">4. Web検索で、その曲が実在するかを確認する。実在しないものは外す。</p>
+<p class="num">5. 曲ごとにYouTubeの動画IDをWeb検索で探す。検索語は「曲名 演奏者名 official audio」のように1曲に絞る。検索結果の動画タイトルが曲名と一致するものだけ採る。<code>search.list</code>は使わない。</p>
+<p><b>B. 日本再生チェック（GenSparkに渡す前にやる）</b></p>
+<p class="num">6. 動画ID全部を<code>videos.list</code>に通す（50件ずつ。<code>part=status,contentDetails</code>。<b>リクエストに<code>Referer: https://genre-roots-server.onrender.com/</code>を付ける</b>）。</p>
+<p class="num">7. 次のどれかに当たった動画は、同じ曲の別の動画に替えて、6からやり直す。全部通るまで繰り返す。</p>
+<ul>
+<li>動画が見つからない（削除・非公開）</li>
+<li><code>embeddable</code>が<code>false</code></li>
+<li><code>regionRestriction</code>で日本が外れている</li>
+</ul>
+<p><b>C. GenSparkに聴かせる</b></p>
+<p class="num">8. 結果ファイルの準備：動画IDか表記を替えた曲は、結果ファイルからその曲のキーを先に消す。</p>
+<p class="num">9. 1曲ずつ<code>analyze_media</code>を呼ぶ。</p>
+<ul>
+<li>宛先：<code>POST https://www.genspark.ai/api/tool_cli/analyze_media</code></li>
+<li>認証：ヘッダー<code>X-Api-Key</code>（<code>GENSPARK_API_KEY</code>、無ければ<code>~/.genspark-tool-cli/config.json</code>の<code>api_key</code>）</li>
+<li>聴かせる範囲：冒頭90秒（<code>start_offset:&quot;0s&quot;</code>・<code>end_offset:&quot;90s&quot;</code>・<code>fps:1</code>）、<code>analysis_model:&quot;gemini-3.1-pro-preview&quot;</code></li>
+<li>依頼文に入れるもの：ジャンル名、曲名、演奏者名、次の3つの質問。<b>辞典の説明文（desc）は入れない。</b></li>
+<li>① 流れているのは本当にその曲か</li>
+<li>② 演奏しているのは本当にその演奏者本人か</li>
+<li>③ そのジャンルの代表例としてふさわしいか（GenSpark自身の知識で判定）</li>
+<li>返事は<code>{&quot;matches&quot;:…, &quot;song_ok&quot;:…, &quot;performer_ok&quot;:…, &quot;genre_ok&quot;:…, &quot;detected_content&quot;:…, &quot;reasoning&quot;:…}</code>のJSONだけにさせる。</li>
+</ul>
+<p class="num">10. <code>matches</code>が<code>true</code>の曲を合格にする。</p>
+<p><b>D. 不合格の曲を片づける</b></p>
+<p class="num">11. 不合格の曲の<code>reasoning</code>を読み、次のどれかに分けて処理する。</p>
+<ul>
+<li>動画が悪い（冒頭が会話で曲が流れない／アルバム通し再生で冒頭が別の曲／本人でない人の演奏）→ 同じ曲の別の動画に替えて、6からやり直す。<b>やり直しは1〜2回まで。</b></li>
+<li>表記が悪い（演奏者名・客演名の間違い）→ 表記を直して、8からやり直す。</li>
+<li>それ以外（音が加工されている／音が別の曲／ジャンルの代表例として合わない／曲の帰属違い／動画がすべて日本で見られない）→ その曲を外す。</li>
+</ul>
+<p class="num">12. ジャンルごとに「既存の曲数＋合格した新規の曲数」を数える。<b>15曲未満のジャンルは、2に戻って不足分の候補を選び直す。</b> 15曲以上あれば、22曲に届かなくても次へ進む。</p>
+<p><b>E. 本番に書き込む</b></p>
+<p class="num">13. 書き込む曲を、本番<code>genre_roots.html</code>全体と、もう一度照合する。同じ曲（曲名が同じで、先頭の演奏者も同じ）は、書かずに外す。曲名が同じでも演奏者が違えば別の曲なので残す。</p>
+<p class="num">14. ジャンルごとに、代表曲全部（既存も新規も）を並べ直す。</p>
+<p class="num">1. 各曲の再生できる動画の最大再生回数を調べる。</p>
+<p class="num">2. 再生回数の多い順に並べる。</p>
+<p class="num">3. メイン動画（<code>yt_mix</code>）を選ぶ：演奏者名が動画の題名・投稿者名に合うものを先に、その中で再生回数が多い順に上位2本。</p>
+<p class="num">4. メイン動画の1本目を持つ曲を、先頭に移す。<code>yt_tracks</code>も同じ並びにする。</p>
+<p class="num">15. 知名度（FAME）を直す：全代表曲の動画の最大再生回数を取り直し、<code>yt_pt</code>と合計から段階を出す。記録の段階が計算と食い違うジャンルは、段階を変えず再生回数の数字だけ更新する。</p>
+<p class="num">16. 例外の処理：</p>
+<ul>
+<li>AORは、並べ替えずに新しい曲を見出し（海外のAOR）の中に入れる。メイン動画が変わるなら、その曲を見出しの先頭にする。</li>
+<li>既存の曲が「演奏者 - 曲名」の書き方なら、「曲名 (演奏者)」に直す（動画IDは触らない）。</li>
+</ul>
+<p class="num">17. テスト用のコピーに書き込み、次の9つを確かめる。1つでも違えば本番に進まない。</p>
+<p class="num">1. JSとして正しく読める（<code>_html_is_valid_js</code>）</p>
+<p class="num">2. <code>rep_tracks</code>と<code>yt_tracks</code>の件数が一致</p>
+<p class="num">3. 既存の曲が消えておらず、既存の動画IDも変わっていない</p>
+<p class="num">4. 追加したのは合格した曲だけ</p>
+<p class="num">5. 先頭の曲が、メイン動画の1本目を持っている</p>
+<p class="num">6. 曲名＋演奏者が完全に同じ重複が0件</p>
+<p class="num">7. 書いた動画IDの全件が日本で再生できる</p>
+<p class="num">8. 対象でないジャンルが1つも変わっていない</p>
+<p class="num">9. AORの見出しの曲＝<code>rep_tracks</code></p>
+<p class="num">18. <code>genre_roots.html</code>のバージョンを1つ上げ、テスト用コピーを本番ファイルにし、commitしてpushする。</p>
+<p class="num">19. 公開URL（<code>https://genre-roots.com/genre_roots.html</code>）を取り直し、手元のファイルと同じ中身か、バージョン表示が上がっているか、JSとして正しく読めるかを確認する。</p>
+<p><b>F. 報告して、記録を更新する</b></p>
+<p class="num">20. チョロさんに報告する。次の一覧表を必ず付ける。</p>
+<ul>
+<li>列：ジャンル／既存／新規の候補／新規で合格／重複で外した数／最終の合計／22曲まであと何曲／知名度の変化</li>
+<li>22曲に届かなかったジャンルは、何曲足りないか、不合格の原因（手順11の分類）を1ジャンルずつ書く。</li>
+</ul>
+<p class="num">21. チョロさんがOKしたら、仕様書（<code>logic.md</code>）・フロー（<code>flow_chart.html</code>）・作業状況（<code>作業状況.html</code>）の3つを更新する。更新したら<code>python docs/spec_dump.py</code>で<code>spec.html</code>を作り直し、push する。</p>
+<h4>補足：各手順の理由と、2026-10-08の実例</h4>
+<p>（以下は上の手順の理由と実例。各項目の番号は、補足の中だけの番号で、上の手順の番号とは別）</p>
+<h4>補足の本文（誰が何をするか）</h4>
 <p>チョロさんがやることは「許可を出す」「最後の報告を見て確認する」の2つだけ。それ以外は</p>
 <p>すべてクローディアがやる（無料チャット方式と違い、コピー・貼り付けの仲介は要らない）。</p>
 <p class="num">1. <b>【クローディア】工程A・B</b>（候補を選ぶ→辞典全体との重複を確認→Web検索で実在確認→</p>
