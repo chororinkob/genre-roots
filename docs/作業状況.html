@@ -469,7 +469,26 @@
       ③長い処理は<code>run_in_background</code>で直接起動する（<code>&amp;</code>で裏に回すと、4曲目で止まった）。
       これらを手順書（<code>flow_chart.html</code>）と仕様書（<code>logic.md</code>）に書いた。<br>
       <b>集計（v39.13時点、592ジャンル）：</b>17曲以上157、15曲以上178、10曲以上181、10〜14曲が3、5〜9曲が160、1〜4曲が251。10曲未満は411ジャンル。<br>
-      <b>次にやること：</b>次のバッチを始めるときは、着手前に「何ジャンルを、どのジャンルから」をチョロさんに確認する（手順の0）。
+      <b>次にやること：</b>次のバッチを始めるときは、着手前に「何ジャンルを、どのジャンルから」をチョロさんに確認する（手順の0）。→ 下の「★4完了」と「★3の依頼ファイル作成」へ。
+    </div>
+    <div class="dim" style="margin-top:10px;padding:8px 10px;border-left:3px solid var(--ok);">
+      <b style="color:var(--ok);">2026-10-09完了：★4で10曲未満だった20ジャンルが本番反映済み（v39.14）。これで★4の126ジャンルが全部10曲以上。</b>
+      対象：Romantic・Stoner Rock・Visual Kei・Symphonic Metal・Neo Soul・Speed Metal・New Jack Swing・Ragtime・Merengue・Waltz・Post-Rock・Math Rock・Power Pop・Madchester・Progressive Metal・Melodic Death Metal・New Romantic・Neue Deutsche Härte・Vallenato・Schlager（いずれも既存8曲）。
+      公開サイトを取り直し、手元のファイルと中身が完全に同じこと・v39.14になっていること・JSとして正しく読めること・辞典全体で重複0件であることを確認済み。<br>
+      <b>数字：</b>各ジャンルに新規3曲、計60曲をGenSparkの有料APIに送り（約8分・エラーなし）、<b>56曲が合格・4曲が不合格</b>。不合格の4曲（Kyuss の Gardenia＝動画が別の曲・LUNA SEA の Wish＝動画が別の曲・Agent Steel の Agents of Steel＝音が加工された版・Rammstein の Deutschland＝冒頭90秒が映像の効果音とイントロだけ）は再判定せず外した。
+      辞典全体との重複で入れ替えた候補が12曲、実在しない曲（the GazettE の Ruiner・Johnny Ventura の Capullito de Alelí）と日本で再生できない動画も除いた。
+      20ジャンルとも10〜11曲になり（10曲が4ジャンル：Stoner Rock・Visual Kei・Speed Metal・Neue Deutsche Härte、11曲が16ジャンル）、辞典全体は5,168曲→5,224曲。知名度は20ジャンルとも★4のまま。
+      クレジットは約635（約10.6/曲。前回の180曲は約17以上/曲で食い違う。理由は不明）。
+      <b>この回でわかったこと：</b>代表曲の項目と動画の項目の並び順がジャンルによって違う（Schlager）ため、書き込みプログラムを「項目ごとに場所を探す」形に直した。<br>
+      <b>集計（v39.14時点、592ジャンル）：</b>10曲以上が201、15曲以上が178。★ごとの未達は、★3が169ジャンル（不足1,031曲）、★2が180ジャンル（8曲まで778曲）、★1が42ジャンル（8曲まで197曲）。
+    </div>
+    <div class="dim" style="margin-top:10px;padding:8px 10px;border-left:3px solid var(--doing);">
+      <b>進行中（2026-10-09〜）：★3の「GenSpark依頼ファイル」を先にまとめて作る。</b>
+      チョロさんの判断：GenSparkの有料クレジットは使わず、無料枠が復活するたびに無料チャットで判定する。無料枠が約2日分ある間に、チョロさんが貼るだけのファイルを先に作っておく。
+      <b>段階ごとの目標／最低ライン：★5・★4は17／10、★3は10／10、★2・★1は8／8。</b>
+      やり方：10ジャンルを1ファイル（判定の依頼文＋曲の一覧）にまとめ、デスクトップの「GenSpark依頼ファイル」フォルダに「★3_01.txt」から順に保存する。新規候補は不足＋2曲。順番は、既存の曲が少ない順（同数なら総検索回数が多い順）。
+      1ファイルできるたびに「既存何件・新規何件」を報告して、止まらずに次のファイルへ進み、★3の169ジャンル（約17ファイル）が終わるまで続ける。結果が返ってきたら、書き込み・検証・本番反映を行う。
+      このあとは、★2（180ジャンル）、★1（42ジャンル）も同じ流れで進める。
     </div>
     <div class="dim" style="margin-top:10px;padding:8px 10px;border-left:3px solid var(--dim);">
       <b>2026-09-29追記：バッチ2の残り24ジャンル（252曲）＋6ジャンル（85曲）のGensparkの判定が返ってきて、反映した。</b>
