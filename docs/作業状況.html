@@ -135,7 +135,7 @@
   <b>やり方（ループ・日本再生チェック・GenSparkでの確認・重複照合）は変えない。変わるのは数字だけ。</b>
   2026-10-08時点の実物（<code>genre_roots.html</code>）：592ジャンル中、15曲以上が157、10〜14曲が3
   （singer_songwriter・sea_shanty・merseybeat）、5〜9曲が181、1〜4曲が251。
-  下限が10曲になったので、10曲以上のジャンルは160、10曲未満は432。15曲以上に揃っている157ジャンルはやり直さない。<b>Dream Pop反映後（v39.12）は、15曲以上が158、10曲以上が161、10曲未満が431。</b>
+  下限が10曲になったので、10曲以上のジャンルは160、10曲未満は432。15曲以上に揃っている157ジャンルはやり直さない。<b>Dream Pop反映後（v39.12）は、15曲以上が158、10曲以上が161、10曲未満が431。20ジャンル同時の反映後（v39.13）は、15曲以上が178、10曲以上が181、10曲未満が411。</b>
   新規ジャンル登録の自動フロー（<code>genre_adder.py</code>、目標22件）は今回の対象外で、数字は22のまま。
   仕様書（<code>logic.md</code>「代表曲を22件まで揃えるループ」の冒頭）とフロー図に反映済み。<br>
   <b>同日、手順も2点変えた</b>（有料API版。<code>logic.md</code>「手順（これだけ見れば実行できる）」とフロー図の「有料API版」に反映済み）：
@@ -436,14 +436,40 @@
       <b>数字：</b>既存8曲＋新規の候補9曲。GenSparkの判定は8曲が合格、1曲が不合格（Myth〔Beach House〕。動画は「OFFICIAL TRACK」の題名だったが、
       音は8ビット（チップチューン）に編曲した別バージョンだった）。最終の合計は<b>16曲</b>（目標17曲にあと1曲、最低ライン10曲は超えているため、手順どおり終了。落ちた分の代わりの候補は探さない）。
       日本再生チェックで落ちたのは、Chinatown（Wild Nothing）の公式動画1本（同じ曲の別の動画に差し替えて通った。曲は外れていない）。辞典全体との重複は0件。
-      GenSparkへ送ったのは9回（約54クレジット）。<br>
+      GenSparkへ送ったのは9回（当時は約54クレジットと見積もったが、1曲の単価が約18クレジットと後で分かったので、実際は約160だった可能性が高い）。<br>
       <b>書き込みの内容：</b>代表曲を再生回数の多い順に並べ直し、先頭をFade Into You（Mazzy Star）からApocalypse（Cigarettes After Sex、3億4,241万回）に変えた。
       メイン動画（yt_mix）はApocalypseとSpace Song（Beach House）の2本に選び直した。知名度（FAME）は★4のまま（最大再生回数が1億9,015万→3億4,241万回に増えたが、内訳の点は5点のままで合計12、段階は変わらない）。
       検証9項目はすべてOK。<br>
       <b>この回で確かめられたこと：</b>新しい手順（日本再生チェックをループの中に入れる／GenSparkの判定のあとは10曲以上なら終わり／各段階で★の確認を入れる）は、想定外の止まりや間違いなく、最後まで通った。
       GenSparkに渡す依頼文は、曲名・演奏者名・ジャンル名を渡し、辞典の説明文は渡さない形で、実物をチョロさんに見せてから送った。
       送る回数の上限（今回のみの安全装置、最大12回）には届かなかった。<br>
-      <b>次にやること：</b>複数ジャンルでの実施。着手前に「何ジャンルを、どのジャンルから」をチョロさんに確認する（手順の0）。
+      <b>次にやること：</b>複数ジャンルでの実施。着手前に「何ジャンルを、どのジャンルから」をチョロさんに確認する（手順の0）。→ 下の「2026-10-08完了：20ジャンル同時」で実施済み。
+    </div>
+    <div class="dim" style="margin-top:10px;padding:8px 10px;border-left:3px solid var(--ok);">
+      <b style="color:var(--ok);">2026-10-08完了：20ジャンル同時（新しい手順の、複数ジャンルでの最初の実施）が本番反映済み（v39.13）。</b>
+      対象：Celtic Music・Choral・Country Rock・Crunk・Cyberpunk・Dance Pop・Dancehall・Deathcore・Djent・Film Score・French House・G-Funk・Gangsta Rap・Glam Metal・Gothic Metal・Grindcore・Groove Metal・Indie Pop・Industrial Metal・Khoomei
+      （チョロさんの指示：基本は知名度の星が多いもので、既存の曲が少ない順。各ジャンルとも既存は8曲）。
+      GenSparkの無料枠は尽きていたので、工程Cは有料APIで行った（チョロさんの許可あり）。公開サイトを取り直し、手元のファイルと中身が完全に同じこと・バージョンがv39.13になっていること・
+      JSとして正しく読めること・辞典全体で「曲名＋演奏者」が同じ重複が0件であることを確認済み。<br>
+      <b>数字：</b>新規の候補は各9曲で計180曲。日本再生で落ちた曲は0（動画を選ぶ段階で済ませた）。GenSparkへは180曲を1曲ずつ送り（約25分・エラーなし）、
+      <b>167曲が合格・13曲が不合格</b>。不合格のうち2曲（It Wasn't Me の共演者がRikRok、Real Muthaphuckkin G's の共演者がDrestaとB.G. Knocc Out）は
+      曲も動画も正しく、名前の書き間違いだけだったので、表記を直して合格扱いにした（再判定なし。合格扱いは計169曲）。残る不合格の11曲
+      （The Gael・Shake That Monkey・Last Friday Night・Hold You・Doggy Dogg World・P.I.M.P.・My Immortal・Our Farewell・Halo・Mein Herz brennt・Shihi Hutu。
+      動画が別の演奏・カバー・冒頭がせりふ・アカペラ・替え歌・ピアノだけ・途中で別の曲に切り替わる、またはジャンル不適合）は、
+      クレジットの負担を踏まえたチョロさんの判断で、差し替えての再判定をせず外した。<br>
+      <b>辞典内の重複で2曲を外した：</b>Gangsta Rap の Mind Playing Tricks on Me（Geto Boys）はHorrorcoreに既存で書かずに外した。
+      Cyberpunk の既存曲「Perturbator - Future Club」は、書き方を「曲名 (演奏者)」に直したところSynthwaveの Future Club と同じ曲になったため、チョロさんの指示でCyberpunkから外した。
+      その結果、本番の曲の総数は5,001曲から5,168曲（167曲増）になった。<br>
+      <b>最終の曲数：</b>17曲に届いたのは9ジャンル（Choral・Country Rock・Deathcore・Djent・Film Score・French House・Glam Metal・Grindcore・Indie Pop）、
+      16曲が9ジャンル（Celtic Music・Crunk・Cyberpunk・Dance Pop・Dancehall・G-Funk・Groove Metal・Industrial Metal・Khoomei）、
+      15曲が2ジャンル（Gangsta Rap・Gothic Metal）。全ジャンルが最低ライン10曲を超えたので、手順どおり終了（落ちた分の代わりは探さない）。
+      知名度（FAME）の段階が変わったのはCyberpunkだけ（★4→★5。最大再生回数が約408万回→約1億1,979万回に増えたため）。<br>
+      <b>この回でわかったこと：</b>①GenSparkの<code>analyze_media</code>は、私が見積もっていた「1曲約6クレジット」ではなく<b>1曲約18クレジット</b>だった（チョロさんが残高の減りで実測。180曲で3,000以上）。
+      大量に送る前に1曲だけ試して実測する。②同じジャンルの中の重複確認は、曲名だけでなく「曲名＋先頭の演奏者」で行う（Choral の Ave Maria〔Chanticleer〕と Ave Maria〔Schubert〕は別の曲）。
+      ③長い処理は<code>run_in_background</code>で直接起動する（<code>&amp;</code>で裏に回すと、4曲目で止まった）。
+      これらを手順書（<code>flow_chart.html</code>）と仕様書（<code>logic.md</code>）に書いた。<br>
+      <b>集計（v39.13時点、592ジャンル）：</b>17曲以上157、15曲以上178、10曲以上181、10〜14曲が3、5〜9曲が160、1〜4曲が251。10曲未満は411ジャンル。<br>
+      <b>次にやること：</b>次のバッチを始めるときは、着手前に「何ジャンルを、どのジャンルから」をチョロさんに確認する（手順の0）。
     </div>
     <div class="dim" style="margin-top:10px;padding:8px 10px;border-left:3px solid var(--dim);">
       <b>2026-09-29追記：バッチ2の残り24ジャンル（252曲）＋6ジャンル（85曲）のGensparkの判定が返ってきて、反映した。</b>
@@ -590,6 +616,8 @@
     <span class="item-title">flow_chart.htmlを、本来のフローチャートの描き方で作り直す</span>
   </div>
   <div class="item-body">
+    <b>（2026-10-08、チョロさんの指摘：これまで「フロー」と呼んできた<code>flow_chart.html</code>の実体は、図ではなく
+    番号付きの<u>手順書</u>。今後は「手順書」と呼び、手順の更新は手順書に書く。図にするのはこの保留中の作業）</b><br>
     今の<code>flow_chart.html</code>は、箱が縦に並んで中に長い文章が書かれた「番号付きの
     説明文」になっており、チョロさんが求めている本来のフローチャート（箱・ひし形・矢印を使い、
     実行する処理を1つずつ短い一言で書き、分岐はYes/Noの矢印で枝分かれさせる描き方）には
