@@ -498,6 +498,19 @@
       検証：却下された実記録を再現（21曲→20曲、取り消し線は重複の1曲だけ）／断片・全配列・追加・別名・説明文の回帰など17項目すべてOK／本番のサーバーで同じ記録を取り直して同結果／チョロさんが実画面で確認（代表曲が全部残り、Deja Vu (Initial D) だけに取り消し線）。詳しくは仕様書<code>logic.md</code>「代表曲・別名の直しも、断片ではなく全文を復元して見せる」。<br>
       <b>残り：</b>ユーロビートの Deja Vu の重複そのものは、辞典にまだ2曲入っている（チョロさんが、直った画面で修正依頼を出して確認する予定）。
     </div>
+    <div class="dim" style="margin-top:10px;padding:8px 10px;border-left:3px solid var(--ok);">
+      <b style="color:var(--ok);">2026-10-10完了：ユーロビートの「Deja Vu」重複を、修正依頼で解消（チョロさんが直った画面で確認して承認）。</b>
+      公開版を取り直して、ユーロビート21→20曲、辞典全体7,248→7,247曲、ほかのジャンルは変わらないことを確認済み。承認のときにサーバーが版を進め、表示はv40.0になった（規則どおり）。
+    </div>
+    <div class="dim" style="margin-top:10px;padding:8px 10px;border-left:3px solid var(--doing);">
+      <b>進行中（2026-10-10）：GitHubのトークン <code>genre-roots-server-write</code>（Renderがジャンル追加・修正依頼の保存に使う合言葉）の期限が切れたので、再生成してRenderの環境変数 <code>GITHUB_TOKEN</code> に登録した。</b>
+      登録後、<code>/admin/health</code>で<code>GITHUB_TOKEN</code>が<code>ok: true</code>（93文字）と確認。同日のユーロビートの承認も通っており、書き込みは通っているとみられる。
+      <b>残り：</b>数時間後に<code>/admin/health</code>の<code>log_repo.last_push_ok</code>が<code>true</code>になっていること（記録の保管庫<code>genre-roots-logs</code>にも書き込めること）を確認する。次の期限切れのメールが来る日付も、チョロさんが再生成のときに選んだ期限で決まる。
+    </div>
+    <div class="dim" style="margin-top:10px;padding:8px 10px;border-left:3px solid var(--doing);">
+      <b>進行中（毎日の定型）：GSCの自動インデックス登録リクエスト。</b>
+      2026-10-10は朝に13件・昼に7件の合計20件が通り、Google側の1日の上限（「今日の割り当てが終わりました」）に達して終了。途中、一時的な送信エラーで再試行の上限に達したページが数件あり（次回の実行で自動的に再試行される）。<b>ボードの未登録の残りは170件。</b>明日以降、チョロさんが<code>2_run.bat</code>を始める合図で再開する。
+    </div>
     <div class="dim" style="margin-top:10px;padding:8px 10px;border-left:3px solid var(--doing);">
       <b>進行中（2026-10-10時点）：残るのは★3の判定と反映。</b>
       ★3の依頼ファイル（<code>GenSpark依頼ファイル</code>の★3_01〜17、1,369行）は作成済みで、判定は未着手。チョロさんの方針は「GenSparkの無料枠が復活したら無料チャットで判定→余りをGemini APIで」。Gemini APIの前払い残高は約700円で、★3の全部（約750〜820円）には少し足りない見込み。判定を始める前に、必ずチョロさんに本数と金額を伝えて「やって」をもらう。
