@@ -25776,7 +25776,10 @@ function grPollGenreRequest(name, requestId, submitBtn) {
       }
       grPollFailCount = 0;
       if (!sdata.done) {
-        const n = (sdata.log || []).length;
+        // 行数だけでなく最後の行の中身も見る。待ち時間の棒グラフは行を増やさず
+        // 同じ行の文面を書き換えるので、行数だけだと棒が動かない（2026-10-11）。
+        const 最後の行 = (sdata.log || []).slice(-1)[0];
+        const n = (sdata.log || []).length + ':' + (最後の行 ? 最後の行.message : '');
         if (n !== grLastLogCount) {
           grLastLogCount = n;
           const 前 = grLogScrollState();
