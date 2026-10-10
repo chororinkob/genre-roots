@@ -1842,8 +1842,27 @@ function grMakeUid() {
 // どのジャンルの説明が読まれ、どの曲が聴かれているかをサーバーへ送る。
 // 管理画面の統計（/admin/stats）に出る。あわせて、いたずらの見分けにも使う。
 // 送れなくても地図の動きには一切影響させない（失敗は黙って捨てる）。
+// どこから来たかを、読み込み時の document.referrer から決める（1回だけ）。
+// 検索エンジン・自サイト・よそのサイトの名前・参照元なし、の4つに分ける。
+// 「参照元なし」は、ブックマーク・URLの直接入力・SNSやメールのアプリ内・
+// ブラウザが参照元を隠している場合をまとめたもので、ここからは見分けられない。
+// 参照元はページのアドレスまでで、検索したキーワードは含まれない。
+const GR_SRC = (function () {
+  try {
+    const r = document.referrer || '';
+    if (!r) return { kind: 'direct', host: '' };
+    const h = new URL(r).hostname.replace(/^www\./, '').toLowerCase();
+    if (!h) return { kind: 'direct', host: '' };
+    if (h === location.hostname.replace(/^www\./, '').toLowerCase()) return { kind: 'self', host: h };
+    if (/(^|\.)(google|bing|yahoo|duckduckgo|baidu|ecosia|yandex|naver|brave)\./.test(h) ||
+        /(^|\.)search\.yahoo\./.test(h)) return { kind: 'search', host: h };
+    return { kind: 'other', host: h.slice(0, 80) };
+  } catch (e) { return { kind: 'direct', host: '' }; }
+})();
+
 function grLog(中身) {
   try {
+    中身 = Object.assign({ src: GR_SRC.kind, ref: GR_SRC.host }, 中身);
     fetch(API_BASE + '/api/log', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
