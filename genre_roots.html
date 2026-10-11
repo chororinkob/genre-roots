@@ -24606,7 +24606,11 @@ const CAT_DESC = {
   african:       "アフリカ大陸各地の音楽。複雑なポリリズム（複数のリズムの重ね合わせ）は世界的にも独特で、現代のほぼすべてのポピュラー音楽のリズムの源流でもある。アフロビートやハイライフが代表例。",
   middle_east:   "中東・アラブ・ペルシャ地域の音楽。マカーム（独自の音階体系）に基づく旋律と独特の音律が特徴。ウード（琵琶に似た弦楽器）やベリーダンス音楽など独自の文化を持つ。",
   south_asian:   "インド・パキスタンなど南アジアの音楽。ラーガ（音階）とターラ（リズム周期）による即興演奏が特徴。ボリウッドを通じて世界にも広まり、ビートルズなど西洋音楽にも影響を与えた。",
-  east_asian:    "日本・中国・韓国など東アジアの音楽。各国固有の楽器（三味線・二胡・伽耶琴等）と音階を持ち、西洋音楽とは異なる独自の美的感覚がある。K-POPやJ-POPは現代的なポップと融合した形。"
+  east_asian:    "日本・中国・韓国など東アジアの音楽。各国固有の楽器（三味線・二胡・伽耶琴等）と音階を持ち、西洋音楽とは異なる独自の美的感覚がある。K-POPやJ-POPは現代的なポップと融合した形。",
+  southeast_asian: "インドネシア・ラオス・タイなど東南アジアの音楽。ジャワ島やバリ島の青銅打楽器の合奏ガムランや、ラオスやタイ東北部で竹の楽器ケーンを核に歌われるモーラムなど、土地ごとに独自の伝統がある。",
+  sacred:       "宗教の礼拝や信仰と結びついた音楽。黒人教会のゴスペルやスピリチュアルズ、古くから伝わるグレゴリオ聖歌、声だけで歌うアカペラ、現代のキリスト教ポップ（CCM）、クリスマスの音楽などが入る。",
+  indie_pop:    "インディー（独立系）の感覚で作られたポップス。自室で一人が作り上げるベッドルーム・ポップのような、手作りの質感と親しみやすい旋律が特徴。",
+  ska:          "ジャマイカで生まれたスカと、その流れをくむ音楽。二拍目と四拍目に和音を刻む裏拍のリズムが特徴で、1970年代末のイギリスでは、パンクの速さと合わさった2トーン・スカが生まれた。"
 };
 
 // アコーディオン構築
@@ -24617,8 +24621,12 @@ document.body.appendChild(catTooltip);
 
 document.querySelectorAll('.legend-item[data-cat]').forEach(item => {
   const cat = item.dataset.cat;
-  const desc = CAT_DESC[cat];
-  if (!desc) return;
+  // 【説明文が無くても一覧は作る】2026-10-11
+  // 以前は説明文(CAT_DESC)が無いカテゴリーを飛ばしていたため、東南アジア系・宗教/ゴスペル系・
+  // インディーポップ系・スカ系は、凡例をクリックしても中のジャンルが開かなかった
+  // （カテゴリーを足したときに説明文を足し忘れたまま、ずっと放置されていた）。
+  // 説明文が無いときは、ホバーの吹き出しだけを出さず、一覧は今までどおり作る。
+  const desc = CAT_DESC[cat] || '';
 
   const dot = item.querySelector('.legend-dot');
   const catColor = dot ? dot.style.background : '#666';
@@ -24689,6 +24697,7 @@ document.querySelectorAll('.legend-item[data-cat]').forEach(item => {
 
   // ホバー：右側に吹き出しで説明のみ表示
   item.addEventListener('mouseenter', () => {
+    if (!desc) return;
     const rect = item.getBoundingClientRect();
     catTooltip.textContent = desc;
     catTooltip.style.top = Math.max(rect.top - 4, 60) + 'px';
