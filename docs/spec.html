@@ -38,12 +38,12 @@
 <h1>音楽ジャンルルーツ辞典 — 仕様書</h1>
 <h2>この仕様書について</h2>
 <p class="note">この文書は <b>spec_dump.py が実物を読み直して自動で書き出したもの</b>です。手で書き足しても次の書き出しで消えます。決めた理由など人が書くことは <code>docs/decisions.md</code> に書いてください。この文書の末尾にそのまま入ります。</p>
-<p class="note">書き出した日時：<b>2026-10-12 01:40</b></p>
+<p class="note">書き出した日時：<b>2026-10-12 02:40</b></p>
 <h2>いまの版</h2>
 <table>
 <tr><th>項目</th><th>内容</th></tr>
 <tr><td>地図（genre_roots.html）</td><td>v41.1</td></tr>
-<tr><td>サーバー（genre_adder.py）</td><td>v3.08</td></tr>
+<tr><td>サーバー（genre_adder.py）</td><td>v3.09</td></tr>
 <tr><td>ジャンル数</td><td>594</td></tr>
 <tr><td>ジャンル間のつながり</td><td>1,858</td></tr>
 <tr><td>用語集の語数</td><td>7,309</td></tr>
@@ -111,7 +111,7 @@
 <tr><td>v</td><td>歌唱法</td></tr>
 <tr><td>c</td><td>文化背景</td></tr>
 </table>
-<h2>カテゴリ（33種類）</h2>
+<h2>カテゴリ（38種類）</h2>
 <table>
 <tr><th>記号</th><th>名前</th><th>色</th></tr>
 <tr><td>soul_cat</td><td>R&amp;B/ソウル系</td><td>#E040FB</td></tr>
@@ -134,7 +134,12 @@
 <tr><td>chiptune</td><td>チップチューン系</td><td>#00695C</td></tr>
 <tr><td>rock</td><td>ロック系</td><td>#D84315</td></tr>
 <tr><td>metal</td><td>メタル系</td><td>#37474F</td></tr>
-<tr><td>country_folk</td><td>カントリー/フォーク系</td><td>#8D6E63</td></tr>
+<tr><td>country_cat</td><td>カントリー系</td><td>#8D6E63</td></tr>
+<tr><td>folk_cat</td><td>フォーク系</td><td>#BCAAA4</td></tr>
+<tr><td>punk_cat</td><td>パンク系</td><td>#FFEB3B</td></tr>
+<tr><td>iberian</td><td>イベリア系</td><td>#FFCA28</td></tr>
+<tr><td>balkan</td><td>バルカン・東欧系</td><td>#FF7043</td></tr>
+<tr><td>oceania</td><td>オセアニア系</td><td>#26C6DA</td></tr>
 <tr><td>latin</td><td>ラテン系</td><td>#E91E63</td></tr>
 <tr><td>african</td><td>アフリカ系</td><td>#FF8F00</td></tr>
 <tr><td>middle_east</td><td>中東/アラブ系</td><td>#BF360C</td></tr>
@@ -367,8 +372,8 @@
 <p>線の下は、最初の版（2026-07-03）から「地域の音楽をそろえる場所」として作られていた（仕様書に書かれていなかった当たり前の前提）。</p>
 <table>
 <tr><th></th><th>並び（上から）</th></tr>
-<tr><td>線の上（26個。2026-10-12に年代順へ修正）</td><td>宗教/ゴスペル系 → クラシック系 → ブルース系 → ジャズ系 → カントリー/フォーク系 → 初期電子音楽 → ポップス系 → ロック系 → R&amp;B/ソウル系 → ファンク系 → メタル系 → ディスコ系 → ヒップホップ系 → インダストリアル系 → アンビエント系 → シンセポップ系 → ハウス系 → チップチューン系 → テクノ系 → ハードコア系 → ユーロダンス系 → トランス系 → DnB/ジャングル系 → ダブステップ系 → シンセウェーブ系 → EDM系</td></tr>
-<tr><td>線の下（7個）</td><td>ラテン系 → カリブ系 → アフリカ系 → 中東/アラブ系 → 南アジア系 → 東アジア系 → 東南アジア系</td></tr>
+<tr><td>線の上（28個。2026-10-12に年代順へ修正・カテゴリーを見直し）</td><td>宗教/ゴスペル系 → クラシック系 → ブルース系 → ジャズ系 → カントリー系 → 初期電子音楽 → フォーク系 → ポップス系 → ロック系 → R&amp;B/ソウル系 → ファンク系 → メタル系 → ディスコ系 → ヒップホップ系 → パンク系 → インダストリアル系 → アンビエント系 → シンセポップ系 → ハウス系 → チップチューン系 → テクノ系 → ハードコア系 → ユーロダンス系 → トランス系 → DnB/ジャングル系 → ダブステップ系 → シンセウェーブ系 → EDM系</td></tr>
+<tr><td>線の下（10個）</td><td>イベリア系 → ラテン系 → カリブ系 → アフリカ系 → 中東/アラブ系 → バルカン・東欧系 → 南アジア系 → 東アジア系 → 東南アジア系 → オセアニア系</td></tr>
 </table>
 <p>宗教/ゴスペル系をクラシック系より先にしたのは、年代が古いため（宗教系は Christmas music の4世紀・Gregorian chant の800年代、</p>
 <p>クラシック系は Medieval の500年代）。ジャンルの<b>知名度順</b>は、凡例の並びではなく、<b>カテゴリーの中のジャンルの並び</b>。</p>
@@ -379,11 +384,11 @@
 <table>
 <tr><th>代表ジャンルの年代</th><th>カテゴリー（並びの順）</th></tr>
 <tr><td>1905</td><td>ブルース（Blues）・ジャズ（Jazz）</td></tr>
-<tr><td>1925</td><td>カントリー/フォーク（Country）</td></tr>
-<tr><td>1945</td><td>初期電子音楽（Electronic music）</td></tr>
+<tr><td>1925</td><td>カントリー（Country）</td></tr>
+<tr><td>1945</td><td>初期電子音楽（Electronic music）・フォーク（Folk）</td></tr>
 <tr><td>1955</td><td>ポップス（Pop）・ロック（Rock &#x27;n&#x27; Roll）</td></tr>
 <tr><td>1965</td><td>R&amp;B/ソウル（Soul）・ファンク（Funk）</td></tr>
-<tr><td>1975</td><td>メタル（Heavy Metal）・ディスコ（Disco）・ヒップホップ（Hip Hop）</td></tr>
+<tr><td>1975</td><td>メタル（Heavy Metal）・ディスコ（Disco）・ヒップホップ（Hip Hop）・パンク（Punk Rock）</td></tr>
 <tr><td>1977〜78</td><td>インダストリアル（1977）・アンビエント（1978）・シンセポップ（1978）</td></tr>
 <tr><td>1983〜90</td><td>ハウス（Chicago House 1983）・<b>チップチューン（1980年代）</b>・テクノ（1988）・ハードコア（Rave 1988）・ユーロダンス（1989）・トランス（1990）</td></tr>
 <tr><td>1994</td><td>DnB/ジャングル</td></tr>
@@ -394,15 +399,16 @@
 <p>（ヒップホップ系の中央は1995年で、トランス系より新しくなる。メタル系も1994年でユーロダンス系より新しくなる）ため。</p>
 <p><b>年代データの注意：</b> 代表ジャンル「Classical」の年代が「~1900」で、クラシック音楽の総称としては不正確（今回は直していない）。</p>
 <p>celtic_music と gnawa の年代は「trad」で、年が読み取れない（どちらも線の下の地域音楽）。</p>
-<p><b>新しいカテゴリーを足すときは、次の4か所をそろえる。</b></p>
+<p><b>新しいカテゴリーを足すときは、次の5か所をそろえる。</b></p>
 <p class="num">1. 地図の凡例（<code>genre_roots.html</code> の <code>legend-item</code>。上の決まりに合う側の、合う位置へ）</p>
 <p class="num">2. 色（<code>CAT_COLOR</code>）</p>
 <p class="num">3. 説明文（<code>CAT_DESC</code>。カテゴリーをクリックしたときの吹き出し）</p>
-<p class="num">4. サーバーの選択肢（<code>genre_adder.py</code> の <code>CATEGORIES</code>。新規登録でAIが選べる一覧）</p>
-<p>地図とサーバーの一覧がずれていると、新しく登録したジャンルが、凡例に無いカテゴリーに入ってしまう（2026-10-11現在、どちらも33個で一致）。</p>
+<p class="num">4. 地球儀（<code>CAT_ORIGINS</code>。カテゴリーの発祥地の緯度・経度。2026-10-12まで、宗教/ゴスペル系・東南アジア系が足し忘れで抜けていた）</p>
+<p class="num">5. サーバーの選択肢（<code>genre_adder.py</code> の <code>CATEGORIES</code>。新規登録でAIが選べる一覧。動画検索の補助語 <code>_CAT_QUERY_HINT</code> も）</p>
+<p>地図とサーバーの一覧がずれていると、新しく登録したジャンルが、凡例に無いカテゴリーに入ってしまう（2026-10-12現在、どちらも38個で一致）。</p>
 <p><b>新規登録のAIと、カテゴリー（2026-10-12に確認。この決まりは、これまで新規登録の仕様に入っていなかった）。</b></p>
 <ul>
-<li>新規登録のAIは、サーバーの選択肢（<code>CATEGORIES</code>、いま33個）から<b>選ぶだけ</b>。<b>新しいカテゴリーを作る仕組みは無い</b>。</li>
+<li>新規登録のAIは、サーバーの選択肢（<code>CATEGORIES</code>、いま38個）から<b>選ぶだけ</b>。<b>新しいカテゴリーを作る仕組みは無い</b>。</li>
 </ul>
 <p>2026-07-13に、AIが存在しない「punk」「rnb」というカテゴリー名を作ってしまい（選択肢が地図とずれていて、正しいカテゴリーが一覧に無かったため）、</p>
 <p>決まった一覧から選ばせる作りにした。</p>
@@ -417,10 +423,10 @@
 <p><b>新しいカテゴリーが必要になったときの手順（人が手でやる。チョロさんとクローディア）。</b> 「とりあえず末尾に足す」をしないための決まり。</p>
 <p class="num">1. <b>置き場所を決める。</b> 地域の音楽なら、線の下の、地域の並びの中。それ以外は、線の上の、<b>代表ジャンルの誕生年代</b>の位置（同じ年代は、既存の並びの後ろ）。</p>
 <p>とても古い音楽の系統なら、線の上の先頭（宗教/ゴスペル系・クラシック系の並び）。</p>
-<p class="num">2. <b>4か所を同時に直す。</b> 地図の凡例（<code>legend-item</code>）／色（<code>CAT_COLOR</code>）／説明文（<code>CAT_DESC</code>。無いと一覧が開かなかった不具合の原因）／サーバーの選択肢（<code>CATEGORIES</code>）。</p>
+<p class="num">2. <b>5か所を同時に直す。</b> 地図の凡例（<code>legend-item</code>）／色（<code>CAT_COLOR</code>）／説明文（<code>CAT_DESC</code>。無いと一覧が開かなかった不具合の原因）／地球儀（<code>CAT_ORIGINS</code>）／サーバーの選択肢（<code>CATEGORIES</code>・<code>_CAT_QUERY_HINT</code>）。</p>
 <p class="num">3. <b>点検プログラムに足す。</b> <code>music_genre_finder/check_categories.py</code> の <code>FLAGSHIP</code>（線の上：カテゴリー → 代表ジャンルのID）か <code>REGIONAL</code>（線の下）に、新しいカテゴリーを足す。</p>
 <p class="num">4. <b>点検を動かして、合格を確かめる。</b> <code>py check_categories.py</code>。</p>
-<p><b>点検プログラム（<code>check_categories.py</code>、2026-10-12）。</b> 読むだけで、何も書き換えない。確かめること：①4か所（凡例・色・説明文・サーバーの選択肢）が同じ顔ぶれか／</p>
+<p><b>点検プログラム（<code>check_categories.py</code>、2026-10-12）。</b> 読むだけで、何も書き換えない。確かめること：①5か所（凡例・色・説明文・地球儀・サーバーの選択肢）が同じ顔ぶれか／</p>
 <p>②すべてのジャンルのカテゴリーが凡例にあるか、中身が0個のカテゴリーが無いか／③凡例の線が1本で、線の下が地域だけか／</p>
 <p>④線の上が、代表ジャンルの誕生年代の古い順か（宗教/ゴスペル系・クラシック系は先頭に固定）。FLAGSHIP か REGIONAL に足していないカテゴリーがあると、落ちる</p>
 <p>（末尾に付けるだけにしないための歯止め）。地図かサーバーのカテゴリーを触ったら、送る前に必ず動かす。テストは、いまの地図で合格し、わざと壊した5通り</p>
@@ -452,11 +458,26 @@
 <p>スクロールする入れ物）のスクロールを一覧の高さぶん下げるため、「上に伸びた」ように見えていた（基準になる項目がスクロール位置で変わるので、再現条件が</p>
 <p>はっきりしなかった）。スクロール位置6通り×カテゴリー6つの36回のクリックで、14回、行が最大1,418px動いた。<code>#left-sidebar { overflow-anchor: none; }</code></p>
 <p>を足して0回になった（公開版でも確認。地図 v41.0）。</p>
-<p><b>見直しの候補（今回は見送り。必要になったら、ジャンルごとの移動の一覧を作って相談する）。</b> 地図の丸の色とカテゴリーが変わるので、影響が大きい。</p>
+<p><b>カテゴリーの見直し（2026-10-12、チョロさんの指示。実施済み）。</b> ぴったりのカテゴリーが無いまま、近いカテゴリーに押し込まれていたジャンルを直した。</p>
+<p>Wikipediaの分け方も参考にした（パンクは、ロックの下の独立した大きな枝で、専用の一覧がある／カントリーとフォークは別の見出し／R&amp;Bとソウルは1つの見出し／地域に「オセアニア」がある）。</p>
 <ul>
-<li>ロック系（69ジャンル）の中の、パンク系（Punk Rock・Pop Punk・Hardcore Punk・Crust Punk・Oi!・Riot Grrrl・Dance-Punk・Proto-Punk・D-beat など約15個）・エモ系（Emo・Screamo・Midwest Emo・Post-Hardcore など）・インディー/オルタナ系（Indie Rock・Shoegaze・Dream Pop・Jangle Pop・Twee Pop・Slowcore・Noise Pop など）。Post-Punk はインダストリアル系にある。</li>
-<li>中東/アラブ系の中の、バルカン・東欧系（Turbo Folk・Chalga・Manele・Balkan Brass Band・Rebetiko・Klezmer）。</li>
-<li>地域の食い違い：Dangdut（インドネシア）が南アジア系にある／Hawaiian がカリブ系にある／Flamenco・Fado・Sevillanas（イベリア）がラテン系にある。</li>
+<li><b>新設6：</b> パンク系（<code>punk_cat</code>、17個。ロック系・インダストリアル系〈Post-Punk〉・カントリー/フォーク系〈Cowpunk〉から）／フォーク系（<code>folk_cat</code>、11個）／</li>
+</ul>
+<p>カントリー系（<code>country_cat</code>、11個。旧カントリー/フォーク系 <code>country_folk</code> の後継で、色は同じ。旧IDは廃止）／イベリア系（<code>iberian</code>、4個。ラテン系から）／</p>
+<p>バルカン・東欧系（<code>balkan</code>、6個。中東/アラブ系から）／オセアニア系（<code>oceania</code>、1個。Hawaiian。カリブ系から）。</p>
+<ul>
+<li><b>Dangdut</b>（インドネシア）は、南アジア系から東南アジア系へ。</li>
+<li>カテゴリーが変わったジャンルは40個（カントリー系の名前変更11個は別）。ジャンル数の変化：ロック系69→54・インダストリアル系12→11・ラテン系39→35・中東/アラブ系13→7・カリブ系16→15・南アジア系9→8・東南アジア系2→3。総数は594のまま。</li>
+<li><b>並び：</b> 線の上は28個（カントリー系1925年、フォーク系1945年で初期電子音楽の次、パンク系1975年でヒップホップ系の次）、線の下は10個（イベリア系が先頭、バルカン・東欧系は中東/アラブ系の次、オセアニア系は末尾）。</li>
+<li><b>色（新しい5色）：</b> パンク #FFEB3B・フォーク #BCAAA4・イベリア #FFCA28・バルカン/東欧 #FF7043・オセアニア #26C6DA。既存33色と混み合っているので、見分けにくければ直す。</li>
+<li><b>地球儀</b>（<code>CAT_ORIGINS</code>）にも反映。この表は、宗教/ゴスペル系・東南アジア系が抜けていた（足し忘れ）ので、あわせて足した。点検プログラムが、この表も見るようにした（5か所）。</li>
+<li><b>サーバー：</b> <code>CATEGORIES</code>・動画検索の補助語（genre_adder v3.09）。</li>
+<li><b>境目の判断（チョロさんが了承）：</b> Polka・Cajun・Celtic Music はフォーク系／Post-Punk・Cowpunk はパンク系／Emo・Screamo・Midwest Emo はロック系のまま／オセアニア系は1個だけでも作る。</li>
+<li><b>確認：</b> 実際のブラウザで、凡例38個すべてで一覧が開く、並びが想定どおり、ジャンル数が「変更前＋入った−出た」と全カテゴリーで一致、色と地球儀の表が全カテゴリーにある、JSエラーなし。公開版でも同じ結果（地図 v41.2）。</li>
+</ul>
+<p><b>まだ見直していない候補。</b> 必要になったら、ジャンルごとの移動の一覧を作って相談する（地図の丸の色とカテゴリーが変わるので、影響が大きい）。</p>
+<ul>
+<li>ロック系（54個）の中の、エモ系（Emo・Screamo・Midwest Emo など）・インディー/オルタナ系（Indie Rock・Shoegaze・Dream Pop・Jangle Pop・Twee Pop・Slowcore・Noise Pop など）。</li>
 <li>ゲーム・ネット文化系（Chiptune・Video Game Music〈クラシック系〉・Vocaloid・Anison・Doujin music・Denpa Song〈東アジア系〉・Nightcore〈ハードコア系〉・Hyperpop〈ポップス系〉）が、別々のカテゴリーに散らばっている。</li>
 </ul>
 <h4>却下は1回押せば完了する（新規登録・修正更新で共通）</h4>
