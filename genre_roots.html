@@ -66,6 +66,13 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 #header-meta { display: contents; }
 #genre-count { font-size: 13px; font-weight: 700; color: #7eb8f7; margin-left: 8px; letter-spacing: 0.02em; }
 
+/* 【カテゴリーの一覧が、上に伸びることがあった不具合の修正】2026-10-12
+   ブラウザの「スクロール位置の自動調整」（スクロール・アンカリング）は、中身が伸びたとき、見えている部分が
+   ずれないよう、スクロール位置を勝手に動かす。カテゴリーをクリックして一覧が開くと、クリックした行より
+   下の項目を基準に、左の帯のスクロールが下がり、一覧が「上に伸びた」ように見えていた（どの項目を基準に
+   するかがスクロール位置で変わるため、再現条件がはっきりしなかった）。自動調整を止めて、いつも
+   クリックした行の下に伸びるようにする。 */
+#left-sidebar { overflow-anchor: none; }
 #left-sidebar { position: fixed; top: 50px; left: 14px; bottom: 10px; z-index: 20; width: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; direction: rtl; }
 #left-sidebar > * { direction: ltr; }
 #legend { background: rgba(0,0,0,0.3); border: none; border-radius: 8px; padding: 10px 12px; font-size: 12px; }
