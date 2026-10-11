@@ -38,16 +38,16 @@
 <h1>音楽ジャンルルーツ辞典 — 仕様書</h1>
 <h2>この仕様書について</h2>
 <p class="note">この文書は <b>spec_dump.py が実物を読み直して自動で書き出したもの</b>です。手で書き足しても次の書き出しで消えます。決めた理由など人が書くことは <code>docs/decisions.md</code> に書いてください。この文書の末尾にそのまま入ります。</p>
-<p class="note">書き出した日時：<b>2026-10-11 19:08</b></p>
+<p class="note">書き出した日時：<b>2026-10-11 23:11</b></p>
 <h2>いまの版</h2>
 <table>
 <tr><th>項目</th><th>内容</th></tr>
-<tr><td>地図（genre_roots.html）</td><td>v40.5</td></tr>
-<tr><td>サーバー（genre_adder.py）</td><td>v3.07</td></tr>
-<tr><td>ジャンル数</td><td>593</td></tr>
-<tr><td>ジャンル間のつながり</td><td>1,827</td></tr>
-<tr><td>用語集の語数</td><td>7,256</td></tr>
-<tr><td>知名度のデータ</td><td>593 件（2026-08-25 取得）</td></tr>
+<tr><td>地図（genre_roots.html）</td><td>v40.8</td></tr>
+<tr><td>サーバー（genre_adder.py）</td><td>v3.08</td></tr>
+<tr><td>ジャンル数</td><td>594</td></tr>
+<tr><td>ジャンル間のつながり</td><td>1,858</td></tr>
+<tr><td>用語集の語数</td><td>7,309</td></tr>
+<tr><td>知名度のデータ</td><td>594 件（2026-08-25 取得）</td></tr>
 </table>
 <h2>置き場所（消えたときに戻せるように）</h2>
 <table>
@@ -111,7 +111,7 @@
 <tr><td>v</td><td>歌唱法</td></tr>
 <tr><td>c</td><td>文化背景</td></tr>
 </table>
-<h2>カテゴリ（35種類）</h2>
+<h2>カテゴリ（33種類）</h2>
 <table>
 <tr><th>記号</th><th>名前</th><th>色</th></tr>
 <tr><td>soul_cat</td><td>R&amp;B/ソウル系</td><td>#E040FB</td></tr>
@@ -131,7 +131,7 @@
 <tr><td>edm</td><td>EDM系</td><td>#F57F17</td></tr>
 <tr><td>synthwave</td><td>シンセウェーブ系</td><td>#6A1B9A</td></tr>
 <tr><td>hiphop</td><td>ヒップホップ系</td><td>#2E7D32</td></tr>
-<tr><td>chiptune</td><td></td><td>#00695C</td></tr>
+<tr><td>chiptune</td><td>チップチューン系</td><td>#00695C</td></tr>
 <tr><td>rock</td><td>ロック系</td><td>#D84315</td></tr>
 <tr><td>metal</td><td>メタル系</td><td>#37474F</td></tr>
 <tr><td>country_folk</td><td>カントリー/フォーク系</td><td>#8D6E63</td></tr>
@@ -147,8 +147,6 @@
 <tr><td>classical_sub</td><td>クラシック系</td><td>#78909C</td></tr>
 <tr><td>blues_sub</td><td>ブルース系</td><td>#4FC3F7</td></tr>
 <tr><td>sacred</td><td>宗教/ゴスペル系</td><td>#C9A66B</td></tr>
-<tr><td>indie_pop</td><td>インディーポップ系</td><td>#F2967D</td></tr>
-<tr><td>ska</td><td>スカ系</td><td>#00BFA0</td></tr>
 </table>
 <h2>サーバーの入口（56個）</h2>
 <table>
@@ -363,6 +361,47 @@
 <p>読者が実際に目にするものと見分けがつきません。「次へ」で確認を後回しに</p>
 <p>した場合や、承認も却下もしないまま画面を閉じた場合は、そのデータが</p>
 <p>承認待ちのまま残ります（下の「管理画面」を参照）。</p>
+<h4>カテゴリー（地図の凡例）の決まり（2026-10-11）</h4>
+<p>地図の左にある「カテゴリ」の一覧（凡例）の、並び・線・足し方の決まり。</p>
+<p><b>並びと線の意味。</b> 凡例には1本の線があり、<b>線の上は「歴史の古い順」、線の下は「地域の音楽だけ」</b>。</p>
+<p>線の下は、最初の版（2026-07-03）から「地域の音楽をそろえる場所」として作られていた（仕様書に書かれていなかった当たり前の前提）。</p>
+<table>
+<tr><th></th><th>並び（上から）</th></tr>
+<tr><td>線の上（26個）</td><td>宗教/ゴスペル系 → クラシック系 → ブルース系 → ジャズ系 → カントリー/フォーク系 → ポップス系 → R&amp;B/ソウル系 → 初期電子音楽 → ロック系 → ファンク系 → メタル系 → ディスコ系 → ヒップホップ系 → アンビエント系 → インダストリアル系 → シンセポップ系 → ユーロダンス系 → ハウス系 → テクノ系 → トランス系 → ハードコア系 → DnB/ジャングル系 → ダブステップ系 → EDM系 → シンセウェーブ系 → チップチューン系</td></tr>
+<tr><td>線の下（7個）</td><td>ラテン系 → カリブ系 → アフリカ系 → 中東/アラブ系 → 南アジア系 → 東アジア系 → 東南アジア系</td></tr>
+</table>
+<p>宗教/ゴスペル系をクラシック系より先にしたのは、年代が古いため（宗教系は Christmas music の4世紀・Gregorian chant の800年代、</p>
+<p>クラシック系は Medieval の500年代）。ジャンルの<b>知名度順</b>は、凡例の並びではなく、<b>カテゴリーの中のジャンルの並び</b>。</p>
+<p>凡例のHTMLに、この決まりをコメントで残してある（足すときに末尾へ付けるだけにしない、ため）。</p>
+<p><b>新しいカテゴリーを足すときは、次の4か所をそろえる。</b></p>
+<p class="num">1. 地図の凡例（<code>genre_roots.html</code> の <code>legend-item</code>。上の決まりに合う側の、合う位置へ）</p>
+<p class="num">2. 色（<code>CAT_COLOR</code>）</p>
+<p class="num">3. 説明文（<code>CAT_DESC</code>。カテゴリーをクリックしたときの吹き出し）</p>
+<p class="num">4. サーバーの選択肢（<code>genre_adder.py</code> の <code>CATEGORIES</code>。新規登録でAIが選べる一覧）</p>
+<p>地図とサーバーの一覧がずれていると、新しく登録したジャンルが、凡例に無いカテゴリーに入ってしまう（2026-10-11現在、どちらも33個で一致）。</p>
+<p><b>この日に直した不具合と変更。</b></p>
+<ul>
+<li><b>カテゴリーをクリックしても、中のジャンルの一覧が開かない不具合（東南アジア系・宗教/ゴスペル系・インディーポップ系・スカ系）。</b></li>
+</ul>
+<p>一覧を作る部品が、<code>CAT_DESC</code> に説明文が無いカテゴリーを飛ばしていた（<code>if (!desc) return;</code>）。説明文の一覧は東アジア系で終わっており、</p>
+<p>あとから足したカテゴリーの説明文が足し忘れのまま、ずっと放置されていた。4つに説明文を足し、<b>説明文が無くても一覧は作る</b>ように部品を直した</p>
+<p>（説明文が無いときは、ホバーの吹き出しだけを出さない）。実際のブラウザで、凡例35個すべてで一覧が開くことを確認。</p>
+<ul>
+<li><b>Chiptune が凡例に無かった。</b> ジャンルは以前から <code>cat:&quot;chiptune&quot;</code> で、色も、サーバーの選択肢にも入っていたが、凡例の行と説明文だけが無かった</li>
+</ul>
+<p>（宗教/ゴスペル系・インディーポップ系・スカ系も、2026-07-10〜11に、同じ「凡例に無い」不具合の修正で、末尾に足されただけだった）。凡例と説明文を足した。</p>
+<ul>
+<li><b>並びの整理（チョロさんの指示）。</b> 上の決まりに合わせて並べ直した。<b>スカ系を廃止</b>（2 Tone Ska をカリブ系へ。カリブ系にはもともと Ska 本体がある）。</li>
+</ul>
+<p><b>インディーポップ系を廃止</b>（Bedroom Pop をポップス系へ。Indie Pop 本体はロック系にある）。所属が変わったジャンルは、この2つだけ。</p>
+<p>サーバーの選択肢からも <code>ska</code>・<code>indie_pop</code> を外した（genre_adder v3.08）。個別ページ（<code>genre/</code>）はカテゴリーを使っていないので、作り直しは不要。</p>
+<p><b>見直しの候補（今回は見送り。必要になったら、ジャンルごとの移動の一覧を作って相談する）。</b> 地図の丸の色とカテゴリーが変わるので、影響が大きい。</p>
+<ul>
+<li>ロック系（69ジャンル）の中の、パンク系（Punk Rock・Pop Punk・Hardcore Punk・Crust Punk・Oi!・Riot Grrrl・Dance-Punk・Proto-Punk・D-beat など約15個）・エモ系（Emo・Screamo・Midwest Emo・Post-Hardcore など）・インディー/オルタナ系（Indie Rock・Shoegaze・Dream Pop・Jangle Pop・Twee Pop・Slowcore・Noise Pop など）。Post-Punk はインダストリアル系にある。</li>
+<li>中東/アラブ系の中の、バルカン・東欧系（Turbo Folk・Chalga・Manele・Balkan Brass Band・Rebetiko・Klezmer）。</li>
+<li>地域の食い違い：Dangdut（インドネシア）が南アジア系にある／Hawaiian がカリブ系にある／Flamenco・Fado・Sevillanas（イベリア）がラテン系にある。</li>
+<li>ゲーム・ネット文化系（Chiptune・Video Game Music〈クラシック系〉・Vocaloid・Anison・Doujin music・Denpa Song〈東アジア系〉・Nightcore〈ハードコア系〉・Hyperpop〈ポップス系〉）が、別々のカテゴリーに散らばっている。</li>
+</ul>
 <h4>却下は1回押せば完了する（新規登録・修正更新で共通）</h4>
 <p><b>「✗ 却下」を1回押した時点で、却下は済みます。</b> そのあとに</p>
 <p>「よければ理由を一言（任意）」の欄と「送る」ボタンが出ます。</p>
