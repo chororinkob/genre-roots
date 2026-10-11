@@ -1625,6 +1625,12 @@ svg { width: 100vw; height: 100vh; }
 
 <div id="legend">
   <h3>カテゴリ</h3>
+  <!-- カテゴリの並び（2026-10-11、チョロさんの指示で整理）。
+       線の上：歴史の古い順（宗教/ゴスペル系→クラシック系→ブルース系→…→電子音楽の各系統）。
+       線の下：地域の音楽だけ（ラテン・カリブ・アフリカ・中東・南アジア・東アジア・東南アジア）。
+       新しいカテゴリーを足すときは、この決まりに合う側の、合う位置へ（末尾に付けるだけにしない）。 -->
+  <div class="legend-item" data-cat="sacred"><div class="legend-dot" style="background:#C9A66B"></div><span class="legend-label">宗教/ゴスペル系</span></div>
+  <div class="legend-item" data-cat="classical_sub"><div class="legend-dot" style="background:#78909C"></div><span class="legend-label">クラシック系</span></div>
   <div class="legend-item" data-cat="blues_sub"><div class="legend-dot" style="background:#4FC3F7"></div><span class="legend-label">ブルース系</span></div>
   <div class="legend-item" data-cat="jazz_sub"><div class="legend-dot" style="background:#CFB53B"></div><span class="legend-label">ジャズ系</span></div>
   <div class="legend-item" data-cat="country_folk"><div class="legend-dot" style="background:#8D6E63"></div><span class="legend-label">カントリー/フォーク系</span></div>
@@ -1650,7 +1656,6 @@ svg { width: 100vw; height: 100vh; }
   <div class="legend-item" data-cat="synthwave"><div class="legend-dot" style="background:#6A1B9A"></div><span class="legend-label">シンセウェーブ系</span></div>
   <div class="legend-item" data-cat="chiptune"><div class="legend-dot" style="background:#00695C"></div><span class="legend-label">チップチューン系</span></div>
   <div class="legend-sep"></div>
-  <div class="legend-item" data-cat="classical_sub"><div class="legend-dot" style="background:#78909C"></div><span class="legend-label">クラシック系</span></div>
   <div class="legend-item" data-cat="latin"><div class="legend-dot" style="background:#E91E63"></div><span class="legend-label">ラテン系</span></div>
   <div class="legend-item" data-cat="caribbean"><div class="legend-dot" style="background:#00BFA5"></div><span class="legend-label">カリブ系</span></div>
   <div class="legend-item" data-cat="african"><div class="legend-dot" style="background:#FF8F00"></div><span class="legend-label">アフリカ系</span></div>
@@ -1658,9 +1663,6 @@ svg { width: 100vw; height: 100vh; }
   <div class="legend-item" data-cat="south_asian"><div class="legend-dot" style="background:#311B92"></div><span class="legend-label">南アジア系</span></div>
   <div class="legend-item" data-cat="east_asian"><div class="legend-dot" style="background:#827717"></div><span class="legend-label">東アジア系</span></div>
   <div class="legend-item" data-cat="southeast_asian"><div class="legend-dot" style="background:#43A047"></div><span class="legend-label">東南アジア系</span></div>
-  <div class="legend-item" data-cat="sacred"><div class="legend-dot" style="background:#C9A66B"></div><span class="legend-label">宗教/ゴスペル系</span></div>
-  <div class="legend-item" data-cat="indie_pop"><div class="legend-dot" style="background:#F2967D"></div><span class="legend-label">インディーポップ系</span></div>
-  <div class="legend-item" data-cat="ska"><div class="legend-dot" style="background:#00BFA0"></div><span class="legend-label">スカ系</span></div>
 </div>
 </div>
 
@@ -8189,7 +8191,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
   
     aliases:["Jラップ", "日本語ラップ", "Japanese hip-hop", "J-Hip Hop", "日本のヒップホップ"],},
 
-  {id:"bedroom_pop", label:"Bedroom Pop", cat:"indie_pop", era:"2010s", suno:false,
+  {id:"bedroom_pop", label:"Bedroom Pop", cat:"pop", era:"2010s", suno:false,
     books:[
       {asin:"4866472502", title:"インディ・ポップ・レッスン ディスクガイド", img:"https://m.media-amazon.com/images/I/518FHHOnOAL._SY445_SX342_ML2_.jpg", pin:true}
     ],
@@ -8298,7 +8300,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks:[["Yqf10CmdiD0", "u2-tgeH4j78"], ["NSRcxdTqNiM", "ufpB5JvzgD8"], ["0oTRBRQrfu0"], ["KmlAzBbLuF8", "3BsSj9WBsd4"], ["wwMYLf5Ld_4"], ["RJw2Cp_wnkk"], ["1-fIHxzIGoc"], ["oARCLMdt3kI"], ["TkBOtkkZe0M"], ["VfkP2ITka3s"], ["0EpEc-i5feI"], ["Q2XdeSLk6h0"]],
     aliases:["ザディコ", "ザイデコ"],},
 
-  {id:"two_tone_ska", label:"2 Tone Ska", cat:"ska", era:"late 1970s–early 1980s", suno:false,
+  {id:"two_tone_ska", label:"2 Tone Ska", cat:"caribbean", era:"late 1970s–early 1980s", suno:false,
     desc:"1970年代末のイギリスで、ジャマイカのスカを、パンクの速度と怒りとともに演奏した音楽である。リズムの土台は完全にジャマイカのもので、ギターまたは鍵盤が二拍目と四拍目に鋭く和音を叩きつける裏拍の刻みが用いられる。しかしテンポは本場より明らかに速く、ドラムの叩き方はパンクに近い硬さを持つ。この、跳ねる骨格を性急な速度で演奏するという組み合わせが、独特の切迫した躍動を生む。低音は歩くように動き回り、旋律的な存在感を持つ。編成には管楽器が正式に加えられ、トランペット、トロンボーン、サックスが斉奏で覚えやすい音型を吹く。テンポは概ね140から180 BPM、曲は2分から3分と短い。和声は単純な三和音の循環が中心だが、短調の陰りを持つ楽曲も多い。歌唱は美しく歌い上げず、怒鳴る、語る、そしてジャマイカ由来の掛け声を交えるといった形が用いられ、複数の演者が交代する。歌詞は失業、都市の荒廃、暴力、人種差別、そして若者の行き場のなさを、抽象的な比喩ではなく具体的な情景として描く。視覚面では白と黒の市松模様が象徴として用いられ、これは音楽の姿勢そのものの表明でもあった。",
     roots_story:"舞台はイングランド中部の工業都市コヴェントリーである。この街は自動車産業に依存しており、1970年代末には大規模な失業に見舞われていた。同時期のイギリスでは、極右政党が移民排斥を掲げて勢力を伸ばし、街頭での人種差別的な暴力が日常的に起きていた。この状況において、白人と黒人が同じ舞台に立ち、同じ音楽を演奏するという事実そのものが、明確な政治的表明となる。1979年、The Specialsの中心人物Jerry Dammersが2 Toneというレーベルを設立した。名称は白と黒の二つの色を意味し、その意匠として白黒の市松模様が採用される。彼らは意識的に人種混成の編成を組み、ジャマイカ移民の第二世代と、地元の白人の若者が対等に演奏した。The Selecterでは黒人女性のPauline Blackが歌手を務め、The Beatにはジャマイカ出身の年配のサックス奏者が加わって、世代を超えた継承も実現している。Madnessはこのレーベルから最初の作品を出した後、独自の道を歩んで国民的な人気を得た。しかし彼らの公演は繰り返し妨害された。極右の思想を持つ集団が会場に押しかけ、ナチス式の敬礼をし、乱闘を起こしたのである。反人種差別を掲げた音楽が、まさにその標的となるという構図がそこにあった。1981年、The Specialsが発表した楽曲は、閉鎖された店と失われた仕事、そして街の廃墟を歌ったもので、発表と同時期にブリクストンやトクステスで大規模な暴動が発生した。この曲が全英一位にあった期間と暴動の時期が重なったことは、音楽が時代の空気を正確に捉えた稀有な例として記憶されている。皮肉なことに、その頂点においてバンドは内部の対立から分裂した。レーベルも1985年に活動を終えるが、その姿勢は現在まで参照され続けている。",
     rep_tracks:["One Step Beyond (Madness)", "Gangsters (The Specials)", "It Must Be Love (Madness)", "Our House (Madness)", "My Girl (Madness)", "Embarrassment (Madness)", "On My Radio (The Selecter)", "Mirror in the Bathroom (The Beat)", "Shut Up (Madness)", "Missing Words (The Selecter)", "Hands Off... She's Mine (The Beat)", "Save It for Later (The Beat)", "Three Minute Hero (The Selecter)", "Rat Race (The Specials)", "Ranking Full Stop (The Beat)", "Lip Up Fatty (Bad Manners)", "Monkey Man (The Specials)", "Let's Do Rock Steady (The Bodysnatchers)", "Can Can (Bad Manners)", "Train to Skaville (The Selecter)", "Tears of a Clown (The Beat)", "Special Brew (Bad Manners)"],
@@ -20046,8 +20048,6 @@ const CAT_COLOR = {
   classical_sub:"#78909C",
   blues_sub:  "#4FC3F7",
   sacred:     "#C9A66B",
-  indie_pop:  "#F2967D",
-  ska:        "#00BFA0",
 };
 
 // ===== GRAPH SETUP =====
@@ -24610,8 +24610,6 @@ const CAT_DESC = {
   east_asian:    "日本・中国・韓国など東アジアの音楽。各国固有の楽器（三味線・二胡・伽耶琴等）と音階を持ち、西洋音楽とは異なる独自の美的感覚がある。K-POPやJ-POPは現代的なポップと融合した形。",
   southeast_asian: "インドネシア・ラオス・タイなど東南アジアの音楽。ジャワ島やバリ島の青銅打楽器の合奏ガムランや、ラオスやタイ東北部で竹の楽器ケーンを核に歌われるモーラムなど、土地ごとに独自の伝統がある。",
   sacred:       "宗教の礼拝や信仰と結びついた音楽。黒人教会のゴスペルやスピリチュアルズ、古くから伝わるグレゴリオ聖歌、声だけで歌うアカペラ、現代のキリスト教ポップ（CCM）、クリスマスの音楽などが入る。",
-  indie_pop:    "インディー（独立系）の感覚で作られたポップス。自室で一人が作り上げるベッドルーム・ポップのような、手作りの質感と親しみやすい旋律が特徴。",
-  ska:          "ジャマイカで生まれたスカと、その流れをくむ音楽。二拍目と四拍目に和音を刻む裏拍のリズムが特徴で、1970年代末のイギリスでは、パンクの速さと合わさった2トーン・スカが生まれた。",
   chiptune:     "ファミコンなど、昔の家庭用ゲーム機やパソコンの音源チップで作る音楽。出せる音の数が極端に少ない制約の中で、和音や打楽器まで工夫して表すのが特徴。ゲーム音楽・ボカロ・同人音楽ともつながりが深い。"
 };
 
