@@ -1632,17 +1632,20 @@ svg { width: 100vw; height: 100vh; }
 
 <div id="legend">
   <h3>カテゴリ</h3>
-  <!-- カテゴリの並び（2026-10-11に整理、2026-10-12に年代順へ修正。チョロさんの指示）。
+  <!-- カテゴリの並び（2026-10-11に整理、2026-10-12に年代順へ修正・カテゴリーを見直し。チョロさんの指示）。
        線の上：歴史の古い順。物差しは「そのカテゴリーの代表ジャンル（名前が同じジャンル）の誕生年代」。
        同じ年代のものは、前の並びを保つ。宗教/ゴスペル系とクラシック系は、とても古い音楽を含むので、いちばん上。
-       線の下：地域の音楽だけ（ラテン・カリブ・アフリカ・中東・南アジア・東アジア・東南アジア）。
-       新しいカテゴリーを足すときは、この決まりに合う側の、合う位置へ（末尾に付けるだけにしない）。 -->
+       線の下：地域の音楽だけ（イベリア・ラテン・カリブ・アフリカ・中東・バルカン/東欧・南アジア・東アジア・東南アジア・オセアニア）。
+       新しいカテゴリーを足すときは、この決まりに合う側の、合う位置へ（末尾に付けるだけにしない）。
+       足したら、色（CAT_COLOR）・説明文（CAT_DESC）・地球儀（CAT_ORIGINS）・サーバーの選択肢（CATEGORIES）も
+       そろえ、check_categories.py で点検する。 -->
   <div class="legend-item" data-cat="sacred"><div class="legend-dot" style="background:#C9A66B"></div><span class="legend-label">宗教/ゴスペル系</span></div>
   <div class="legend-item" data-cat="classical_sub"><div class="legend-dot" style="background:#78909C"></div><span class="legend-label">クラシック系</span></div>
   <div class="legend-item" data-cat="blues_sub"><div class="legend-dot" style="background:#4FC3F7"></div><span class="legend-label">ブルース系</span></div>
   <div class="legend-item" data-cat="jazz_sub"><div class="legend-dot" style="background:#CFB53B"></div><span class="legend-label">ジャズ系</span></div>
-  <div class="legend-item" data-cat="country_folk"><div class="legend-dot" style="background:#8D6E63"></div><span class="legend-label">カントリー/フォーク系</span></div>
+  <div class="legend-item" data-cat="country_cat"><div class="legend-dot" style="background:#8D6E63"></div><span class="legend-label">カントリー系</span></div>
   <div class="legend-item" data-cat="early_elec"><div class="legend-dot" style="background:#5C7CFA"></div><span class="legend-label">初期電子音楽</span></div>
+  <div class="legend-item" data-cat="folk_cat"><div class="legend-dot" style="background:#BCAAA4"></div><span class="legend-label">フォーク系</span></div>
   <div class="legend-item" data-cat="pop"><div class="legend-dot" style="background:#7CB342"></div><span class="legend-label">ポップス系</span></div>
   <div class="legend-item" data-cat="rock"><div class="legend-dot" style="background:#D84315"></div><span class="legend-label">ロック系</span></div>
   <div class="legend-item" data-cat="soul_cat"><div class="legend-dot" style="background:#E040FB"></div><span class="legend-label">R&B/ソウル系</span></div>
@@ -1650,6 +1653,7 @@ svg { width: 100vw; height: 100vh; }
   <div class="legend-item" data-cat="metal"><div class="legend-dot" style="background:#37474F"></div><span class="legend-label">メタル系</span></div>
   <div class="legend-item" data-cat="disco_cat"><div class="legend-dot" style="background:#EC407A"></div><span class="legend-label">ディスコ系</span></div>
   <div class="legend-item" data-cat="hiphop"><div class="legend-dot" style="background:#2E7D32"></div><span class="legend-label">ヒップホップ系</span></div>
+  <div class="legend-item" data-cat="punk_cat"><div class="legend-dot" style="background:#FFEB3B"></div><span class="legend-label">パンク系</span></div>
   <div class="legend-item" data-cat="industrial"><div class="legend-dot" style="background:#495057"></div><span class="legend-label">インダストリアル系</span></div>
   <div class="legend-item" data-cat="ambient"><div class="legend-dot" style="background:#607D8B"></div><span class="legend-label">アンビエント系</span></div>
   <div class="legend-item" data-cat="synthpop"><div class="legend-dot" style="background:#845EF7"></div><span class="legend-label">シンセポップ系</span></div>
@@ -1664,13 +1668,16 @@ svg { width: 100vw; height: 100vh; }
   <div class="legend-item" data-cat="synthwave"><div class="legend-dot" style="background:#6A1B9A"></div><span class="legend-label">シンセウェーブ系</span></div>
   <div class="legend-item" data-cat="edm"><div class="legend-dot" style="background:#F9A825"></div><span class="legend-label">EDM系</span></div>
   <div class="legend-sep"></div>
+  <div class="legend-item" data-cat="iberian"><div class="legend-dot" style="background:#FFCA28"></div><span class="legend-label">イベリア系</span></div>
   <div class="legend-item" data-cat="latin"><div class="legend-dot" style="background:#E91E63"></div><span class="legend-label">ラテン系</span></div>
   <div class="legend-item" data-cat="caribbean"><div class="legend-dot" style="background:#00BFA5"></div><span class="legend-label">カリブ系</span></div>
   <div class="legend-item" data-cat="african"><div class="legend-dot" style="background:#FF8F00"></div><span class="legend-label">アフリカ系</span></div>
   <div class="legend-item" data-cat="middle_east"><div class="legend-dot" style="background:#BF360C"></div><span class="legend-label">中東/アラブ系</span></div>
+  <div class="legend-item" data-cat="balkan"><div class="legend-dot" style="background:#FF7043"></div><span class="legend-label">バルカン・東欧系</span></div>
   <div class="legend-item" data-cat="south_asian"><div class="legend-dot" style="background:#311B92"></div><span class="legend-label">南アジア系</span></div>
   <div class="legend-item" data-cat="east_asian"><div class="legend-dot" style="background:#827717"></div><span class="legend-label">東アジア系</span></div>
   <div class="legend-item" data-cat="southeast_asian"><div class="legend-dot" style="background:#43A047"></div><span class="legend-label">東南アジア系</span></div>
+  <div class="legend-item" data-cat="oceania"><div class="legend-dot" style="background:#26C6DA"></div><span class="legend-label">オセアニア系</span></div>
 </div>
 </div>
 
@@ -2156,7 +2163,7 @@ const NODES = [
     yt_tracks:[["zXt56MB-3vc"], ["69RdQFDuYPI"], ["mZ6VezKMoRY", "IT8XvzIfi4U"], ["HNBCVM4KbUM"], ["IN0KkGeEURw", "CCK3luJOHho"], ["68doo8Ovnf0"], ["oqVy6eRXc7Q"], ["APWhx97QvxE", "L0xLLPJ0bOw"], ["1hwL3S3Gtzs"], ["IhQEBAl3Gpk"], ["BXf1j8Hz2bU"], ["EsyUa63NM1E"], ["Vy7o4idTFoc"], ["fjW5f7i5EwE"], ["mxtfdH3-TQ4"], ["fchEBChUkck", "9eM3UlP4VNw"], ["DKVB_CtU8XQ", "uw66FA6OTqA"], ["UhH1Lxv-8sA"], ["OMrNDnU6PPk"], ["7EzvDmsl5U0"], ["F-RtNAk7kFU"], ["5Qe23LVs2O4"]],
     aliases:["レゲエ"],},
 
-  {id:"punk", label:"Punk Rock", cat:"rock", era:"1970s", suno:false,
+  {id:"punk", label:"Punk Rock", cat:"punk_cat", era:"1970s", suno:false,
     books:[
       {asin:"4401636007", title:"完全パンクマニュアル はじめてのセックス・ピストルズ", img:"https://m.media-amazon.com/images/I/81-lviPAjEL._AC_UY218_.jpg", pin:true},
       {asin:"4863856105", title:"パンクの系譜学", img:"https://m.media-amazon.com/images/I/41vzk53oy7L._AC_UY218_.jpg", pin:true}
@@ -2324,7 +2331,7 @@ const NODES = [
     yt_tracks:[["m1cRGVaJF7Y", "wXLyAzgX-ho"], ["n4oFcaVY8iQ"], ["3_2GlKk08xQ"], ["4EaAD1mByzQ"], ["x0HsjYtdAKM", "AGHMS_zh0zM"], ["DoOLBzBHPXM"], ["W0TZT6COdKQ"], ["6etM3FWwEZo", "iFyRsLbrFfA"], ["3fM6tNJo_50"], ["OJS847sh9RU"], ["bw9kDbOY9HM"], ["sh2VhXIu01M"]],
     aliases:["Electronic Body Music", "エレクトロニック・ボディ・ミュージック", "エレクトロニックボディミュージック"],},
 
-  {id:"post_punk", label:"Post-Punk", cat:"industrial", era:"1978", suno:false,
+  {id:"post_punk", label:"Post-Punk", cat:"punk_cat", era:"1978", suno:false,
     books:[
       {asin:"4908468982", title:"ポストパンク・ガイドブック 反抗・実験・耽美・ダンス", img:"https://m.media-amazon.com/images/I/81tViEWfvqL._AC_UY218_.jpg", pin:true},
       {asin:"4910511075", title:"ザ・レインコーツ", img:"https://m.media-amazon.com/images/I/91DB3SRU5GL._AC_UY218_.jpg"}
@@ -3569,7 +3576,7 @@ const NODES = [
     aliases:["パワーメタル"],},
 
   // カントリー/フォーク系
-  {id:"country", label:"Country", cat:"country_folk", era:"1920s", suno:true,
+  {id:"country", label:"Country", cat:"country_cat", era:"1920s", suno:true,
     books:[
       {asin:"4883642399", title:"アメリカンミュージックヒーローズ", img:"https://m.media-amazon.com/images/I/51H-0QvdDAL._AC_UY218_.jpg"}
     ],
@@ -3580,7 +3587,7 @@ const NODES = [
     yt_tracks:[["1vrEljMfXYo", "IUmnTfsY3hI"], ["Ixrje2rXLMA", "L0eeSoU35wM"], ["1WaV2x8GXj0", "1Osyw6Svv8U"], ["b7P97b64Q5E", "ZcQeocF56Ck"], ["UbxUSsFXYo4"], ["st22r2pDCKA"], ["YWKeuYcDAoo"], ["7hx4gdlfamo", "ImAO-I1cJnE"], ["R7f189Z0v0Y"], ["AM-b8P1yj9w"], ["WaSy8yy-mr8"], ["f9eHp7JJgq8"], ["lzuS1r0zFf0"], ["aIq1LvzSLsk"], ["JW5UEW2kYvc"], ["wtVeDaZxAXo"], ["DQYNM6SjD_o"], ["zplc4Ienkws"], ["xuzZBDh8U5w"], ["Up06CryWQpE"], ["e4ujS1er1r0"]],
     aliases:["カントリー", "カントリーミュージック"],},
 
-  {id:"bluegrass", label:"Bluegrass", cat:"country_folk", era:"1940s", suno:true,
+  {id:"bluegrass", label:"Bluegrass", cat:"country_cat", era:"1940s", suno:true,
     books:[
       {asin:"B000J93DHO", title:"ブルーグラス音楽 草の根のアメリカ白人音楽", img:"https://m.media-amazon.com/images/I/71lQUtCaVqL._AC_UY218_.jpg", pin:true},
       {asin:"4883642399", title:"アメリカンミュージックヒーローズ", img:"https://m.media-amazon.com/images/I/51H-0QvdDAL._AC_UY218_.jpg"}
@@ -3592,7 +3599,7 @@ const NODES = [
     yt_tracks:[["zHamgwlQ1yo", "YDDEqgmGIVg"], ["VFEZOjtrwls", "Y6CyQftidOw"], ["B4sqishGuYw"], ["z_Y3mnj-8lA", "i8wZ8U5wQi0"], ["4syA9aNnNa0", "xtpiqdN2lJk"], ["ehFINQKctq0"], ["1i4dvmKhuP8", "Ou-j46Nk7kg"], ["gcZN9x4q4kg"], ["LnI3b9aHV9Q"], ["w7-g34YYcnY"], ["Al2KhNTB1Po", ""], ["IrCtp_Zoz_E"], ["riHYkRKXydU"], ["PfNGgdHOahg"], ["rAKqFE86anI"], ["JKF10YQjRm0"], ["S6Kd0u8v8xg", ""], ["Rk0NbydUV04", ""], ["-leK_WaMj5U"]],
     aliases:["ブルーグラス"],},
 
-  {id:"folk", label:"Folk", cat:"country_folk", era:"1940s", suno:true,
+  {id:"folk", label:"Folk", cat:"folk_cat", era:"1940s", suno:true,
     books:[
       {asin:"4883642399", title:"アメリカンミュージックヒーローズ", img:"https://m.media-amazon.com/images/I/51H-0QvdDAL._AC_UY218_.jpg"}
     ],
@@ -3603,7 +3610,7 @@ const NODES = [
     yt_tracks:[["NAEppFUWLfc", "6ukmjBSQY-c"], ["MMFj8uDubsE", "vWwgrjjIMXA"], ["7cBf0olE9Yc", "yXr2EFomFkU"], ["TWUSM_KJF_E", "VO39e5Uznu4"], ["1ST9TZBb9v8", "IrVD0bP_ybg"], ["90WD_ats6eE", ""], ["-Jj4s9I-53g", ""], ["XaI5IRuS2aE", ""], ["Dzbw-v4w0dE"], ["i1SDTGq8jiY"], ["TvMS_ykiLiQ"], ["nrKha0alSf0"], ["lIA-QyYHcfQ"], ["jS_nLcVG_tg"], ["D85z4orAmMs"], ["EOnj8VcUiDU"], ["29886mE4OrI"], ["goAE7YyfZjc"], ["I8grIno58BM"], ["B34qwRrkSvQ"], ["gGpE02q1GpM"]],
     aliases:["フォーク", "フォークミュージック"],},
 
-  {id:"americana", label:"Americana", cat:"country_folk", era:"1990s", suno:true,
+  {id:"americana", label:"Americana", cat:"country_cat", era:"1990s", suno:true,
     books:[
       {asin:"4845629992", title:"ロスト・ミュージック・オブ・アメリカーナ", img:"https://m.media-amazon.com/images/I/91N-+3dg99L._AC_UY218_.jpg", pin:true},
       {asin:"4883642399", title:"アメリカンミュージックヒーローズ", img:"https://m.media-amazon.com/images/I/51H-0QvdDAL._AC_UY218_.jpg"}
@@ -4100,7 +4107,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     aliases:["ビジュアル系", "V系", "ヴィジュアル系"],},
 
   // パンク系追加
-  {id:"pop_punk", label:"Pop Punk", cat:"rock", era:"1990s", suno:true,
+  {id:"pop_punk", label:"Pop Punk", cat:"punk_cat", era:"1990s", suno:true,
     books:[
       {asin:"B00N2EW0JK", title:"ロックの歴史", img:"https://m.media-amazon.com/images/I/81kRekPUVqL._AC_UY218_.jpg"},
       {asin:"4865980873", title:"名曲200でわかるロックの歴史と精神", img:"https://m.media-amazon.com/images/I/81JvRJENzrL._AC_UY218_.jpg"}
@@ -4124,7 +4131,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks:[["vc6vs-l5dkc", "V3soG5njoNw"], ["RRKJiM9Njr8", "OW8X36HdujY"], ["uhG-vLZrb-g", "H_IEIG57FRc"], ["UCCyoocDxBA"], ["onzL0EM1pKY"], ["dhZTNgAs4Fc"], ["Yj6DS2yiaJg"], ["ap0mqwvf7H0", "idiSG4rTn9w"], ["6Ux6SlOE9Qk"], ["YU4hhNKsPog"], ["aJXRFcyWgdk", "qQ_RwzCXWSU"], ["X9fLbfzCqWw"], ["C6MOKXm8x50"], ["RUi54JTgL5s"], ["r0U0AlLVqpk"], ["8FhQhoh7XqA"], ["1Yzu-4kJg6g"], ["kaWIYE0n2dE"], ["z85tQFF6EvE"], ["desJKYvdq9A"], ["ROatPGGMvXg"], ["3Sls7vIPBUw"], ["qgtkPKZ2OPk"], ["RJLkcPhVi9w"], ["Rq797mhpZEE"], ["qpL3okWsieI"], ["K9uiF5e2E9k"], ["pHLhi9-KreY"]],
     aliases:["エモ", "エモコア"],},
 
-  {id:"psychobilly", label:"Psychobilly", cat:"rock", era:"1980s", suno:true,
+  {id:"psychobilly", label:"Psychobilly", cat:"punk_cat", era:"1980s", suno:true,
     books:[
       {asin:"B00N2EW0JK", title:"ロックの歴史", img:"https://m.media-amazon.com/images/I/81kRekPUVqL._AC_UY218_.jpg"},
       {asin:"4865980873", title:"名曲200でわかるロックの歴史と精神", img:"https://m.media-amazon.com/images/I/81JvRJENzrL._AC_UY218_.jpg"}
@@ -4136,7 +4143,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks: [["RVhdHAqoE_c", "ukXK7qJTcuY"], ["WK5Xe1SK0r8", "XTvrvIqzsZo"], ["5aK9Xq0Mr8c"], ["YURIawFji9Y", "SZXjblv1mn8"], ["E2u4gRMqvcg", "0cWMLA5hrp4"], ["BZwSHU-8G7Q"], ["O3ae6flEFrY"], ["0D3wsY-e4i4"], ["kryX3W6tsZ4"], ["hRQHfPCm4yg"], ["oUSzscljf1s"], ["ukoy9BZopsA"]],
     aliases:["サイコビリー"],},
 
-  {id:"deathrock", label:"Deathrock", cat:"rock", era:"1979", suno:true,
+  {id:"deathrock", label:"Deathrock", cat:"punk_cat", era:"1979", suno:true,
     books:[
       {asin:"B00N2EW0JK", title:"ロックの歴史", img:"https://m.media-amazon.com/images/I/81kRekPUVqL._AC_UY218_.jpg"},
       {asin:"4865980873", title:"名曲200でわかるロックの歴史と精神", img:"https://m.media-amazon.com/images/I/81JvRJENzrL._AC_UY218_.jpg"}
@@ -4148,7 +4155,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks:[["dlMbxmtcW8Y", "2dxJC6aIUi0"], ["y5ooHJtMsGY", "_uVuzf3q4Zs"], ["0Ly4611uL6Q", "PKAGYj3DX2o"], ["OpZJLjrb4vU", "MhPjU2KXZh0"], ["yJOpfb3H2C0"], ["vzYLV2nWyQ8"], ["5upRUNTgnx4"], ["Jvp__S4QJFo"], ["_EuAZCto7YI"], ["2Owp5u12rWI"], ["7EkY4WlRAWQ"], ["3abNrI_U_Cs", "KCz_nCHWJk4"]],
     aliases:["デスロック"],},
 
-  {id:"melodic_hardcore", label:"Melodic\nHardcore", cat:"rock", era:"1980s", suno:true,
+  {id:"melodic_hardcore", label:"Melodic\nHardcore", cat:"punk_cat", era:"1980s", suno:true,
     books:[
       {asin:"B00N2EW0JK", title:"ロックの歴史", img:"https://m.media-amazon.com/images/I/81kRekPUVqL._AC_UY218_.jpg"},
       {asin:"4865980873", title:"名曲200でわかるロックの歴史と精神", img:"https://m.media-amazon.com/images/I/81JvRJENzrL._AC_UY218_.jpg"}
@@ -4425,7 +4432,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks:[["A3PoAnXCcMw", "v7RMZep7_N4"], ["5eF8oOWtsk4", "5eF8oOWtsk4"], ["hxu8Kxuf-Sg"], ["LIP3JtTGtkM"], ["8C8cy1Kl16A", "r0fASE_bits"], ["d7Kr-yuYYZw"], ["qYYt2hBgo6g"], ["W7m5jhpKdjE"], ["79zF8rtPmIk", "6YvvBtxXsEE"], ["feLl4_RGStI"], ["dKC-IgjwIjU"], ["LugdH3m1p30"]],
     aliases:["時代曲", "上海ジャズ"],},
 
-  {id:"oi_punk", label:"Oi!", cat:"rock", era:"1977", suno:true,
+  {id:"oi_punk", label:"Oi!", cat:"punk_cat", era:"1977", suno:true,
     books:[
       {asin:"B00N2EW0JK", title:"ロックの歴史", img:"https://m.media-amazon.com/images/I/81kRekPUVqL._AC_UY218_.jpg"},
       {asin:"4865980873", title:"名曲200でわかるロックの歴史と精神", img:"https://m.media-amazon.com/images/I/81JvRJENzrL._AC_UY218_.jpg"}
@@ -4449,7 +4456,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks:[["soQN0sMU0Ck", "IJFSIX_uVPM"], ["sTAhkb31khY", "L7U1agzG8zw"], ["IlmZt0a6YOQ"], ["JKrdz3Tf9dA"], ["s6gUija5NBk"], ["Su3xTxH-JU8"], ["Bb7Jry8UOAQ"], ["URWxdCn0d5c", "IyHzY_nos3k"], ["wf7anBKiao0"], ["eTVgdfeEftY"], ["PMLDzIu3GFQ", "nVFsVbCGr7Q"]],
     aliases:["カンタベリーシーン"],},
 
-  {id:"balkan_brass", label:"Balkan Brass\nBand", cat:"middle_east", era:"1800s", suno:true,
+  {id:"balkan_brass", label:"Balkan Brass\nBand", cat:"balkan", era:"1800s", suno:true,
     books:[
       {asin:"4582853277", title:"ジプシー 歴史・社会・文化", img:"https://m.media-amazon.com/images/I/41VMMN2SG9L._SY445_SX342_ML2_.jpg"}
     ],
@@ -4577,7 +4584,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks:[["ToY6sjSV8h8", "SXMhL_UoVWw"], ["bnFa4Mq5PAM"], ["oCveByMXd_0", "RLYksQvr5zY"], ["REmZhFKmOmo", "FnD72g8urKI"], ["GRoa6w-wnT4", "eXm3ODioS80"], ["HRbgGQ7rHi0"], ["tkPoOvVnbRk"], ["mAxEIsWJ2xA"], ["tXTcBkNZz1Q"], ["odXROw5Jz3g", "IAeciloJDU4"], ["uwTITsSfaAg"]],
     aliases:["プラグ"],},
 
-  {id:"bro_country", label:"Bro-Country", cat:"country_folk", era:"2012", suno:true,
+  {id:"bro_country", label:"Bro-Country", cat:"country_cat", era:"2012", suno:true,
     books:[
       {asin:"4883642399", title:"アメリカンミュージックヒーローズ", img:"https://m.media-amazon.com/images/I/51H-0QvdDAL._AC_UY218_.jpg"}
     ],
@@ -4633,7 +4640,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks: [["GA8PPBn_s_Q", "B0GDZnUXRxs"], ["ssO9fHiDJrg", "b3DNcYXQnIA"], ["WLFGX_ojQLs"], ["-yLbrDXBEBg"], ["2LiEEPmuXN4"], ["OTKqphq6bXY"], ["Yo4hm55aZ8U"], ["KDsFIwkqSbE"], ["vBl_oG_4yIA", ""], ["e0Gr8zbTAx8"]],
     aliases:["ヒンドゥスターニー", "北インド古典音楽"],},
 
-  {id:"sevillanas", label:"Sevillanas", cat:"latin", era:"1800s", suno:true,
+  {id:"sevillanas", label:"Sevillanas", cat:"iberian", era:"1800s", suno:true,
     books:[
       {asin:"4062151715", title:"フラメンコのすべて", img:"https://m.media-amazon.com/images/I/51UPA+042NL._SY445_SX342_ML2_.jpg"}
     ],
@@ -4944,7 +4951,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks:[["cSTBio-SnRw"], ["mM2-iPAY2p4", "0D1E5Xqp-_k"], ["T3kJ53_9KCo"], ["EMZm_E0DRcU"], ["aDsItTww5FM"], ["3RMmIJn_4FA"], ["uUjTTVkwlY8"], ["iCyoFv20740"], ["KprQwqbi-OQ", "9hVzxwbbSvs"], ["L_7DXkW_w-Y"], ["eJiti_8Qw_c", "LRgZtx3opXU"], ["NrsJiRYfX10"]],
     aliases:["スラッジメタル"],},
 
-  {id:"crust_punk", label:"Crust Punk", cat:"rock", era:"1984", suno:true,
+  {id:"crust_punk", label:"Crust Punk", cat:"punk_cat", era:"1984", suno:true,
     books:[
       {asin:"B00N2EW0JK", title:"ロックの歴史", img:"https://m.media-amazon.com/images/I/81kRekPUVqL._AC_UY218_.jpg"},
       {asin:"4865980873", title:"名曲200でわかるロックの歴史と精神", img:"https://m.media-amazon.com/images/I/81JvRJENzrL._AC_UY218_.jpg"}
@@ -5130,7 +5137,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks:[["8kQZHYbZkLs"], ["QqJvqMeaDtU", "i6d3yVq1Xtw"], ["VAc0xuVa7jI"], ["k69DmYvUPD8", "2QEsz-jhEiM"], ["BoLZRaM2vfA"], ["3iMrKlVvkDI", "cK4aew-BgBU"], ["L5mSafuQXEU", "U0YZVuuviXA"], ["v3jFmddx3vM"], ["u9VUIsjB0so"], ["m7kpL5wk-XE"], ["3XKQ5LA09wY"], ["21CSKAutQmE"], ["eILiQLOqURs"], ["ar2MqZdIodk", "dAARnP5JfQ4"], ["bWGaYl5CR3M"], ["B0PrKbpxOlM"], ["SsWi7yt6oNE"]],
     aliases:["アンデス音楽"],},
 
-  {id:"hawaiian", label:"Hawaiian", cat:"caribbean", era:"1880s", suno:true,
+  {id:"hawaiian", label:"Hawaiian", cat:"oceania", era:"1880s", suno:true,
     books:[
       {asin:"447807108X", title:"ハワイアン・ミュージックの歩き方", img:"https://m.media-amazon.com/images/I/51wTpEQetKL._ML2_.jpg", pin:true}
     ],
@@ -5164,7 +5171,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks:[["e1xCOsgWG0M"], ["4dkRoZ4lzKU", "o1jAMSQyVPc"], ["vnw8zURAxkU", "DuTdmMsPa1o"], ["EqUNWSHAdQs", "shs0rAiwsGQ"], ["KushW6zvazM", "95IfTfvuZ2s"], ["HOz-9FzIDf0"], ["tczcAHLCyKM"], ["EMGyiiTC7sg"], ["9HrOqmiEsN8"], ["AS4q9yaWJkI"], ["DnLFVUi3oOU"], ["HYxWRTPn9vM"], ["oBgADhsOoog"], ["VWVtIg5cdDU"], ["xxFkW3PCT5M"], ["Xg-qfsKN2_E"], ["z_J95kljCng"], ["TA5OFS_xX0c"], ["7ZfOcMF4siI"], ["XogSflwXgpw"], ["Ey_NHZNYTeE"], ["PqJNc9KVIZE"]],
     aliases:["ボカロ", "ボーカロイド", "ボーカロイド音楽", "ヴォカロ", "ヴォーカロイド", "ヴォーカロイド音楽"],},
 
-  {id:"dangdut", label:"Dangdut", cat:"south_asian", era:"1970s", suno:true,
+  {id:"dangdut", label:"Dangdut", cat:"southeast_asian", era:"1970s", suno:true,
     books:[
       {asin:"4571310218", title:"インドネシアのポピュラー音楽 ダンドゥットの歴史", img:"https://m.media-amazon.com/images/I/51k5+qDgSVL._SY445_SX342_ML2_.jpg", pin:true}
     ],
@@ -5175,7 +5182,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks:[["8nA-apwq0aY", "NsoRxEV65lQ"], ["UtjFu8c_goE", "-bqmzmM2pJQ"], ["1opp3AiTGdU"], ["jlQVAlmXqoE"], ["fcDSgupZQ2E"], ["ZWz-0l-WwKU", "C6pNQfQZxm8"], ["2NyGDQItpSY"], ["dMypjX2kzpY", "BsBQoGxemc8"], ["HYAxuBQd1eM"], ["TAR2cP--0jI"], ["4VaNuprtasE"], ["awKj7K4pOXs", "WvK5jt0jEZk"]],
     aliases:["ダンドゥット"],},
 
-  {id:"flamenco_fusion", label:"Flamenco\nFusion", cat:"latin", era:"1970s", suno:true,
+  {id:"flamenco_fusion", label:"Flamenco\nFusion", cat:"iberian", era:"1970s", suno:true,
     books:[
       {asin:"4062151715", title:"フラメンコのすべて", img:"https://m.media-amazon.com/images/I/51UPA+042NL._SY445_SX342_ML2_.jpg"}
     ],
@@ -5186,7 +5193,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks: [["Rht7rBHuXW8", "4QGFNqzGtCE"], ["l-qgum7hFXk", "vyOSXRCJlIg"], ["3KZyy8Oc1QA", "kfW02l5QEcw"], ["0bLEzeW5CJQ"], ["g-cnWIeVGzY"], ["bhK_GFNq0N0", "dshrxsQfafA"], ["6aQIzE_nP34"], ["0F_ygcTl1OU"], ["EdcgIcEhSoE"], ["A-zxsX_xR-Q"], ["Mlm76Mne0G8", "yrhsQ40QKqc"], ["-ed7GN-WgmU"]],
     aliases:["フラメンコフュージョン"],},
 
-  {id:"turbo_folk", label:"Turbo Folk", cat:"middle_east", era:"1980s", suno:true,
+  {id:"turbo_folk", label:"Turbo Folk", cat:"balkan", era:"1980s", suno:true,
     desc:"1980年代末以降の旧ユーゴスラビア圏、とくにセルビアで発達した、民謡的な歌い回しと電子的なダンスビートを合体させたポピュラー音楽。旋律の骨格はバルカン半島とオスマン帝国由来の音階、とりわけ増二度を含むヒジャーズ系の旋法にあり、歌手は語尾を細かく揺らすメリスマと、鼻にかかった強い発声で歌う。伴奏にはかつてアコーディオンやフルラ(縦笛)、タンブリツァ(撥弦楽器)が使われたが、ターボフォークではそれらをシンセサイザーが模倣し、ドラムマシンが四つ打ちや高速の2拍子を刻む。テンポは110〜140BPM程度が中心で、途中で加速するコロ(輪舞)風の器楽間奏が挿入されることが多い。近年はハウス、レゲトン、トラップのビートを取り込み、ラップのパートを持つ曲も一般的になっている。歌詞は不倫、嫉妬、金、酒、復讐、都会での孤独といった通俗的で直截な主題を扱い、しばしば露骨な性的表現を含む。ミュージックビデオは高級車、ナイトクラブ、豪邸、露出の多い衣装といった記号で構成される。実際に鳴っている場所はカファナと呼ばれる酒場、屋外の巨大なクラブ、そして結婚式であり、隣国のチャルガ(ブルガリア)、マネレ(ルーマニア)、タリャヴァ(アルバニア)とは兄弟関係にある。",
     roots_story:"1980年代後半から1990年代にかけての、当時のユーゴスラビア(現在のセルビアを中心とする地域)で発展した。Lepa Brenaは、伝統的なフォーク歌謡にディスコ的なアレンジを施し、この様式の先駆者として広く知られる存在となった。Ceca(本名Svetlana Ražnatović)は、1990年代を代表するスーパースターとなり、後にセルビアの著名な犯罪組織のボスと結婚したことでも大きな話題を呼んだ。ユーゴスラビア紛争(1990年代)の時代には、ターボフォークが民族主義的な感情や戦時下の享楽主義と結びつけられ、政治的に強く物議を醸すジャンルとなった。「ターボフォーク」という名称自体、当時の風刺的なバンド、Rambo Amadeusが揶揄的に用いた呼び名が定着したものとされる。2000年代以降はそうした政治色が徐々に薄まり、セルビアだけでなくバルカン半島全域で楽しまれるパーティーミュージックとして定着している。Jelena Karleušaも、この潮流を代表する歌手の一人である。ターボフォークは、1970〜80年代にすでに存在していた「新作フォーク音楽(ノヴォコンポノヴァナ・ムジカ)」という、伝統フォークを現代的にアレンジする潮流を直接の下敷きとしている。セルビアのレーベルGrand Productionは、こうしたターボフォーク系アーティストの主要な発信拠点として機能し、歌手Dragana Mirkovićなど数多くのスターを輩出した。知識層からは政治指導者スロボダン・ミロシェヴィッチ政権時代の退廃・享楽主義を象徴する存在として批判的に語られることも多く、単なる音楽ジャンル以上の社会的・政治的な含みを持つ言葉として現在も議論の対象になり続けている。",
     rep_tracks:["Jugoslovenka (Lepa Brena)", "Gospodine... (Hurricane)", "Nisam ja za tebe (Brkovi)", "Ide maca oko tebe (Jelena Karleuša)", "Crni bombarder (Roki Vulović)", "Nisi u pravu (Jelena Karleuša)", "Kukavica (Ceca)", "Keš (Goga Sekulić)", "Tata (Baja Mali Knindža)", "Vrati mi se ti (Dragana Mirković)", "Maskarada (Ceca)", "Ornela (Brkovi)"],
@@ -5821,7 +5828,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     aliases:["ロックステディ"],},
 
   // カントリー系追加
-  {id:"honky_tonk", label:"Honky Tonk", cat:"country_folk", era:"1940s", suno:true,
+  {id:"honky_tonk", label:"Honky Tonk", cat:"country_cat", era:"1940s", suno:true,
     books:[
       {asin:"B008XCDHJ8", title:"Honky Tonk Angel: The Intimate Story of Patsy Cline", img:"https://m.media-amazon.com/images/I/81H0CH7R-qL._AC_UY218_.jpg", pin:true},
       {asin:"4883642399", title:"アメリカンミュージックヒーローズ", img:"https://m.media-amazon.com/images/I/51H-0QvdDAL._AC_UY218_.jpg"}
@@ -5833,7 +5840,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks:[["9DkcQ09h2Vo", "q6F7xMRWB10"], ["bjCoKslQOEs"], ["2tiGG45ge9g", "Jg2oR91_r5I"], ["gVG0-m9eYCQ"], ["5dnktss4Vow", "y-epaEV7gIE"], ["50k18gL76AU", "CyRgLcx_eYY"], ["Ry_-p-0stx4"], ["0graOj19ti0", "qFFMiItHJLw"], ["ZeNUqahfeAY"], ["B4XXq26OyOM"], ["PwDcmdI26jg"], ["evgSsgQ7vAU"]],
     aliases:["ホンキートンク"],},
 
-  {id:"dark_country", label:"Dark Country", cat:"country_folk", era:"2000s", suno:true,
+  {id:"dark_country", label:"Dark Country", cat:"country_cat", era:"2000s", suno:true,
     books:[
       {asin:"4883642399", title:"アメリカンミュージックヒーローズ", img:"https://m.media-amazon.com/images/I/51H-0QvdDAL._AC_UY218_.jpg"}
     ],
@@ -5844,7 +5851,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks:[["f-vpAn15-vE"], ["7DMCzSmkeHE"], ["FmbwU3J-2kk", "IHfo7oyDxVc"], ["KbODVOMDOew"], ["SDMsGpPzp2U", "ByvcOcIU0Ks"], ["53Qbb9F_GWQ"], ["ih13U8nk2ZI"], ["E5WJz2YptG8"], ["I66LoNjdVrw"], ["iqT2yvlewTA"], ["63yvxXlv978", "15MYKTlL9t4"], ["7mk-Wb5VLig"]],
     aliases:["ダークカントリー"],},
 
-  {id:"neofolk", label:"Neofolk", cat:"country_folk", era:"1980s", suno:true,
+  {id:"neofolk", label:"Neofolk", cat:"folk_cat", era:"1980s", suno:true,
     books:[
       {asin:"4883642399", title:"アメリカンミュージックヒーローズ", img:"https://m.media-amazon.com/images/I/51H-0QvdDAL._AC_UY218_.jpg"}
     ],
@@ -5855,7 +5862,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks:[["XkFyAUyQ89s"], ["xrQ7N_aW-sE", "mzKDgMiPt04"], ["D0-EzYWJtzw"], ["u_eDg_pFpfE"], ["f_TAxgf02VY"], ["0lH5buXUvxw", "WwwKfwFRqSA"], ["hmFDxCdCIKE"], ["U6he-dnCg7U", "miZGqfNKH4A"], ["21eRtv2Yick"], ["75udUXOlodw"], ["OyCqTqrYr2w"], ["Xt3O6mlqWgg"]],
     aliases:["ネオフォーク"],},
 
-  {id:"singer_songwriter", label:"Singer-\nSongwriter", cat:"country_folk", era:"1960s", suno:true,
+  {id:"singer_songwriter", label:"Singer-\nSongwriter", cat:"folk_cat", era:"1960s", suno:true,
     books:[
       {asin:"4883642399", title:"アメリカンミュージックヒーローズ", img:"https://m.media-amazon.com/images/I/51H-0QvdDAL._AC_UY218_.jpg"}
     ],
@@ -5866,7 +5873,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks:[["n2MtEsrcTTs"], ["9C1BCAgu2I8"], ["l3LFML_pxlY", ""], ["9sfYpolGCu8", "EgQQkQrPJ2I"], ["_1nKGVDhQ60", "EbD7lfrsY2s"], ["eAR_Ff5A8Rk", ""], ["p4cJv6s_Yjw", "IqwhTIYfFOQ"], ["ohk3DP5fMCg"], ["RtX5xDzaMro"], ["2595abcvh2M", ""], ["w5782PQO5is", "MvR7Dkg4NQU"], ["qAZp5JfDmz4", ""], ["xqe6TF2y8i4"], ["GBSu_ltDu1w"], ["Tc2NpNqDgPE"], ["SnEVnvWUJgM"], ["5NEkJhBHh54", "DGHjHU_Z8d8"], ["aR5TO2YdjeY", ""]],
     aliases:["シンガーソングライター"],},
 
-  {id:"indie_folk", label:"Indie Folk", cat:"country_folk", era:"2000s", suno:true,
+  {id:"indie_folk", label:"Indie Folk", cat:"folk_cat", era:"2000s", suno:true,
     books:[
       {asin:"4883642399", title:"アメリカンミュージックヒーローズ", img:"https://m.media-amazon.com/images/I/51H-0QvdDAL._AC_UY218_.jpg"}
     ],
@@ -6330,7 +6337,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks: [["kOnde5c7OG8", ""], ["-1pMMIe4hb4", "Fk-4lXLM34g"], ["LCJblaUkkfc", "qvjvNncbKzw"], ["AZKcl4-tcuo", "ft3b1-Cm-0M"], ["bpA_5a0miWk"], ["HyMm4rJemtI", ""], ["9-BMlq_zyko"], ["jlbunmCbTBA", "g4myghLPLZc"], ["BonWfTW7jKc", "jg9b2PnmgxY"], ["eUJ_ifjKopM"], ["LSniBxXjK_8", ""], ["yai4bier1oM"], ["I9OEdlU0eqo"], ["AiIlcew-GVM"], ["WfN1-YeBnA8"], ["jbfP0nxIVUA"], ["94hU26TTxpw"]],
     popularity:7,
     aliases:["アートロック"],},
-  {id:"proto_punk", label:"Proto-Punk", cat:"rock", era:"1960s", suno:true,
+  {id:"proto_punk", label:"Proto-Punk", cat:"punk_cat", era:"1960s", suno:true,
     books:[
       {asin:"B00N2EW0JK", title:"ロックの歴史", img:"https://m.media-amazon.com/images/I/81kRekPUVqL._AC_UY218_.jpg"},
       {asin:"4865980873", title:"名曲200でわかるロックの歴史と精神", img:"https://m.media-amazon.com/images/I/81JvRJENzrL._AC_UY218_.jpg"}
@@ -6638,7 +6645,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     popularity:7,
   
     aliases:["カントポップ", "広東語ポップ"],},
-  {id:"outlaw_country", label:"Outlaw Country", cat:"country_folk", era:"1970s", suno:true,
+  {id:"outlaw_country", label:"Outlaw Country", cat:"country_cat", era:"1970s", suno:true,
     books:[
       {asin:"4883642399", title:"アメリカンミュージックヒーローズ", img:"https://m.media-amazon.com/images/I/51H-0QvdDAL._AC_UY218_.jpg"}
     ],
@@ -6649,7 +6656,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks:[["4zAThXFOy2c", "IBLruNfUqUs"], ["3cQNkIrg-Tk"], ["5feWCmPYFeM", "68cbjlLFl4U"], ["AeZRYhLDLeU", "wG0fS4DoGUc"], ["dBN86y30Ufc", "M6Ggp3TJjuE"], ["qZTwjljm5qc", "Ufjv0SRZ-IY"], ["-Z1Ple-qYuU"], ["fJIFt9AsjqE"], ["aKw834trRWo"], ["RSTDgc7dbyc"], ["A7r0MiDeCEY"], ["jYkkGPDCILU"]],
     popularity:7,
     aliases:["アウトローカントリー"],},
-  {id:"alt_country", label:"Alt-Country", cat:"country_folk", era:"1990s", suno:true,
+  {id:"alt_country", label:"Alt-Country", cat:"country_cat", era:"1990s", suno:true,
     books:[
       {asin:"4883642399", title:"アメリカンミュージックヒーローズ", img:"https://m.media-amazon.com/images/I/51H-0QvdDAL._AC_UY218_.jpg"}
     ],
@@ -6660,7 +6667,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks:[["NaUCDqWzy1k", "S-s3vuXopS4"], ["4FIw7ERlVxU", "PmM2C6RHPwk"], ["3RQcPC8KY_g", "-yVj3Yhw8ys"], ["kx1ffuDoy6I"], ["7tUzhodl_rw", "SsO04VzOW2c"], ["KYFgGnMTrxM"], ["t7CGkuLEs5U"], ["IpcB2xsXRv4"], ["pzkSlj8VUfE"], ["LhUji_YKHJw"], ["LXWb88SRFN4"], ["c3qSlwMnLWw"], ["fzFndt3YPFI"], ["bu6nzpkoFyo", "wT1EbMTqYek"], ["SHWM5bG5Zhw"], ["qGPtNvx3nX4"], ["Mg36cre8DuY"]],
     popularity:6,
     aliases:["オルタナカントリー", "Alternative Country"],},
-  {id:"country_rock", label:"Country Rock", cat:"country_folk", era:"1968", suno:true,
+  {id:"country_rock", label:"Country Rock", cat:"country_cat", era:"1968", suno:true,
     books:[
       {asin:"4883642399", title:"アメリカンミュージックヒーローズ", img:"https://m.media-amazon.com/images/I/51H-0QvdDAL._AC_UY218_.jpg"}
     ],
@@ -6671,7 +6678,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks:[["zUQiUFZ5RDw", "tKJwvQfraY8"], ["AaBw37-nWaY", "5igDtWadYms"], ["c7eB7Wns1-M", "WZn9QZykx10"], ["1t2upIbBJw4", ""], ["zFFGkDmjRlo"], ["Avrv8t_nEI0"], ["QRMIgT3thFM"], ["KKm_EgDI_-E"], ["nY_GgPi5eCM"], ["IEhyOIwAlZw"], ["NkqUMG6uycM", ""], ["BITiY8M_oDo", "7f2g4IDxlEk"], ["ACQSs1sTFYc"], ["LUr9X3mic_U"], ["jBte_o5JpJA", ""], ["RCqxq6xqoXI"], ["ZJKRA1ZIeiM", "4D8-5w1gQHA"]],
     popularity:7,
     aliases:["カントリーロック"],},
-  {id:"celtic_music", label:"Celtic Music", cat:"country_folk", era:"trad", suno:true,
+  {id:"celtic_music", label:"Celtic Music", cat:"folk_cat", era:"trad", suno:true,
     books:[
       {asin:"4903951030", title:"聴いて学ぶ アイルランド音楽", img:"https://m.media-amazon.com/images/I/71wlQYJj37L._AC_UY218_.jpg", pin:true},
       {asin:"4883642399", title:"アメリカンミュージックヒーローズ", img:"https://m.media-amazon.com/images/I/51H-0QvdDAL._AC_UY218_.jpg"}
@@ -6683,7 +6690,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks: [["j9jbdgZidu8", "3-m2nmCSpzU"], ["wP8A9rtg0iI", "q9IYGku0CJ0"], ["pupVjQBwASo"], ["keWnPZOd2cw", "jrrO4I-E8oY"], ["p3nXku80y2Y", "5K6FwA7uAfw"], ["4zHTcxVjX0I", "p8KmzzYCyJk"], ["L__TrWhq4Uk"], ["1lHp-H3EOzA"], ["wjjh5EmkKCA", ""], ["wMQbcGNs9kg"], ["uwh3IP6q0v4"], ["OEIowCGDcbo"], ["igxl7iAl27U"], ["02c_09XztoA", ""], ["4MWo3lt7XrM"], ["zxH3ixp_7Vs"], ["eA4vzMyWk7w"], ["iOIH4WFPFUM", ""]],
     popularity:7,
     aliases:["ケルト音楽", "Celtic"],},
-  {id:"western_swing", label:"Western Swing", cat:"country_folk", era:"1930s", suno:true,
+  {id:"western_swing", label:"Western Swing", cat:"country_cat", era:"1930s", suno:true,
     books:[
       {asin:"4883642399", title:"アメリカンミュージックヒーローズ", img:"https://m.media-amazon.com/images/I/51H-0QvdDAL._AC_UY218_.jpg"}
     ],
@@ -7028,7 +7035,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks:[["YZe_8u-rGWE", "DCP_g7X31nI"], ["mvsYRAc-BWA", "XYDRxCjXhVc"], ["OUesbTObC9A"], ["njw2oB8oRTs"], ["sQL_Bv8nbDo", "ZWFlLYZm0tA"], ["M7mdU39HZzU"], ["NN2L84dvoag"], ["mbAyj1h9vI0"], ["QCK0N-kkDrU"], ["Hs4alO3Qtqc"], ["0sAX1ne9OAU"], ["AYmxPNenzqM"], ["G070J29uAvs"], ["HqdPYvxuI-c"], ["oywnWk5HXuc"], ["hA7XWdjbZXQ"], ["kY8jbnXq1eg"], ["4etvFlAncDo"], ["Nxt_7sD9znM"], ["oVnY0s2B63Y"], ["oMsnYlkMAas"], ["01bB6tCxpqI"]],
     popularity:8,
     aliases:["ロカビリー"],},
-  {id:"post_hardcore", label:"Post-Hardcore", cat:"rock", era:"1984", suno:true,
+  {id:"post_hardcore", label:"Post-Hardcore", cat:"punk_cat", era:"1984", suno:true,
     books:[
       {asin:"B00N2EW0JK", title:"ロックの歴史", img:"https://m.media-amazon.com/images/I/81kRekPUVqL._AC_UY218_.jpg"},
       {asin:"4865980873", title:"名曲200でわかるロックの歴史と精神", img:"https://m.media-amazon.com/images/I/81JvRJENzrL._AC_UY218_.jpg"}
@@ -7089,7 +7096,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks:[["QI8VrXkffcg"], ["j3i_-mTVkZk"], ["C1zMWc4ihUY"], ["zEmtfA8FETc"], ["i8Ubpz40MDE"], ["NFQ4nuUuwNo", "f963bYBS8L4"], ["mrUoK_TvVa8", "EbCF2OqZOfE"], ["FUFWkuMY6xM"], ["LfuNtC91C4E"], ["uhvBs3sn16A"], ["PmSPPYG9dp4", "Grubv86suXc"], ["cpTgC-ma-Nc"]],
     popularity:4,
     aliases:["スローコア", "サッドコア"],},
-  {id:"dance_punk", label:"Dance-Punk", cat:"rock", era:"1979", suno:true,
+  {id:"dance_punk", label:"Dance-Punk", cat:"punk_cat", era:"1979", suno:true,
     books:[
       {asin:"B00N2EW0JK", title:"ロックの歴史", img:"https://m.media-amazon.com/images/I/81kRekPUVqL._AC_UY218_.jpg"},
       {asin:"4865980873", title:"名曲200でわかるロックの歴史と精神", img:"https://m.media-amazon.com/images/I/81JvRJENzrL._AC_UY218_.jpg"}
@@ -7101,7 +7108,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks: [["2a4gyJsY0mc"], ["1OJRRUnY--A", "YZzbB4ta-YY"], ["Cj8JrQ9w5jY", "d7kqfeRb0KY"], ["bibXZUZVonw"], ["6xG4oFny2Pk"], ["6HP04nfUi4g", "mBsLKPmr95Q"], ["6Wnl9PpnTXI"], ["yaqQYetCH8U"], ["th2IQgi5d-Y"], ["iolb1Zx-05A"], ["__uymFDR38s"], ["JC8RczGLfwI"]],
     popularity:6,
     aliases:["ダンスパンク", "ダンスロック"],},
-  {id:"post_punk_revival", label:"Post-Punk\nRevival", cat:"rock", era:"2001", suno:true,
+  {id:"post_punk_revival", label:"Post-Punk\nRevival", cat:"punk_cat", era:"2001", suno:true,
     books:[
       {asin:"B00N2EW0JK", title:"ロックの歴史", img:"https://m.media-amazon.com/images/I/81kRekPUVqL._AC_UY218_.jpg"},
       {asin:"4865980873", title:"名曲200でわかるロックの歴史と精神", img:"https://m.media-amazon.com/images/I/81JvRJENzrL._AC_UY218_.jpg"}
@@ -7113,7 +7120,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks:[["dkpgz3uQ58U"], ["ixw_bLVUL34", "7HsaIZ-fF-M"], ["OC5zHACynR4", "NwYKAsbx8SU"], ["hamKl-su8PE"], ["UroPqMsr3UU"], ["r8k-iy_tWtQ"], ["3oL5QQ-6sQ0"], ["3KzK5d4jXKM"], ["ugWtuTmiGLM", "NXisq5jOrPk"], ["kkkA85hPtYw"], ["mphTplbiivM"], ["PpsTJSfm-jU"]],
     popularity:6,
     aliases:["ポストパンクリバイバル", "ポストパンクリヴァイヴァル"],},
-  {id:"riot_grrrl", label:"Riot Grrrl", cat:"rock", era:"1991", suno:true,
+  {id:"riot_grrrl", label:"Riot Grrrl", cat:"punk_cat", era:"1991", suno:true,
     books:[
       {asin:"B00N2EW0JK", title:"ロックの歴史", img:"https://m.media-amazon.com/images/I/81kRekPUVqL._AC_UY218_.jpg"},
       {asin:"4865980873", title:"名曲200でわかるロックの歴史と精神", img:"https://m.media-amazon.com/images/I/81JvRJENzrL._AC_UY218_.jpg"}
@@ -7125,7 +7132,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks:[["L0oeqAQ1qE8", "jfCqCKY5nUc"], ["vZA_7FtttRY"], ["0idmTWxFs1A"], ["w4hEbGlrxqw"], ["zug8C4KcGfQ", "KbXuooDcbic"], ["pVp6A0Ufots", "c620wBEOqLE"], ["D145PJta550"], ["e4Qlr2l8c7Q"], ["PDnV42VmleU"], ["-md75nYkUhw"], ["zybIlnw2tao"], ["Un2Wcg3hQhg"]],
     popularity:6,
     aliases:["ライオットガール"],},
-  {id:"ska_punk", label:"Ska Punk", cat:"rock", era:"1980s", suno:true,
+  {id:"ska_punk", label:"Ska Punk", cat:"punk_cat", era:"1980s", suno:true,
     books:[
       {asin:"B00N2EW0JK", title:"ロックの歴史", img:"https://m.media-amazon.com/images/I/81kRekPUVqL._AC_UY218_.jpg"},
       {asin:"4865980873", title:"名曲200でわかるロックの歴史と精神", img:"https://m.media-amazon.com/images/I/81JvRJENzrL._AC_UY218_.jpg"}
@@ -7548,7 +7555,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks:[["lGcPwGqPHO0", "skygudx8Rrs"], ["Qk59nz_RfjA", "-by8Vn7PG78"], ["rX47n5rDZEs"], ["dkOzkD7Dcvo", "gxvCBV7oj34"], ["RZL1V06Er1E"], ["eyZU93eZGpk"], ["7mk5g6F-wBA"], ["GEdA-rx-iRg"], ["PaOwIsXw8YA", "OjG1tjZrkrI"], ["rHf3M_QJRbk", "bMmGwZVWDYA"], ["nN1FcLOWRoE"], ["KT95gOlny5Y"]],
     popularity:4,
     aliases:["グリッチ", "グリッチ音楽"],},
-  {id:"bakersfield_sound", label:"Bakersfield\nSound", cat:"country_folk", era:"1950s", suno:true,
+  {id:"bakersfield_sound", label:"Bakersfield\nSound", cat:"country_cat", era:"1950s", suno:true,
     books:[
       {asin:"4883642399", title:"アメリカンミュージックヒーローズ", img:"https://m.media-amazon.com/images/I/51H-0QvdDAL._AC_UY218_.jpg"}
     ],
@@ -7559,7 +7566,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks: [["A2qo1x9rcCc"], ["ppEfGIGVteo", "loT_pYzi3Vw"], ["qItru7hZqzU", "A0PNW4DXwJ0"], ["__SMDtF_DsY", "fOpgL4mqEis"], ["jBeOddejiGw", "UGYE77y4qY4"], ["h6-wKFK4sQM", "2JFQd3CSiPw"], ["H8Yyxe20zGw"], ["xA5ckLJ79-4"], ["SLbOucSlX7M"], ["flNf3zQv1h8"], ["EVA35dI0MTk"], ["RhutJ4GFPEQ"]],
     popularity:6,
     aliases:["ベーカーズフィールドサウンド"],},
-  {id:"cowpunk", label:"Cowpunk", cat:"country_folk", era:"1980s", suno:true,
+  {id:"cowpunk", label:"Cowpunk", cat:"punk_cat", era:"1980s", suno:true,
     books:[
       {asin:"4883642399", title:"アメリカンミュージックヒーローズ", img:"https://m.media-amazon.com/images/I/51H-0QvdDAL._AC_UY218_.jpg"}
     ],
@@ -7570,7 +7577,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks:[["_NWjehpGSO0"], ["yotJ4IAp6qA"], ["bnIhXVQ-424", "uHbsdpg3rpg"], ["nNf-1DJCrPc"], ["u51H7gTAfLM", "nKusxsnL93U"], ["JpDK-YRpObU", "1z5NIg7mrnQ"], ["IUBF_vdpUDc"], ["WAyrFG6WzLQ"], ["QiVt8yWGGWY"], ["8rXp65G6ZpU", "ePIa9A0R2NM"], ["uK3nHArV7Yk", "Uc36Moo3G08"], ["L2GnPI4ylP8"]],
     popularity:4,
     aliases:["カウパンク"],},
-  {id:"anti_folk", label:"Anti-Folk", cat:"country_folk", era:"1980s", suno:true,
+  {id:"anti_folk", label:"Anti-Folk", cat:"folk_cat", era:"1980s", suno:true,
     books:[
       {asin:"4883642399", title:"アメリカンミュージックヒーローズ", img:"https://m.media-amazon.com/images/I/51H-0QvdDAL._AC_UY218_.jpg"}
     ],
@@ -7581,7 +7588,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks:[["YgSPaXgAdzE", "rhcJ7x44G48"], ["fczPlmz-Vug"], ["8Vl6H122VCE", "Esya2NwR6mE"], ["-N3BjVMWziE", "QsWFbMc5t84"], ["xqqt0vtYT5s"], ["5325RtmKpEQ"], ["tx9Ro0V5ydg"], ["GnSvrnoKiYA"], ["Lqr7l8lrqUg"], ["MsJRHGyyy4w", "MisUUm0-dz0"], ["qsubHmx2Pws"], ["iP1mkWDXcY8"], ["Xq0co7N_7Qw"], ["ZwGhPnsCjDg"], ["tKNXude-qqc", "k_WDbXnKODw"], ["n9yPRBau78A"], ["3KV6zmF9ZE0"]],
     popularity:4,
     aliases:["アンチフォーク"],},
-  {id:"freak_folk", label:"Freak Folk", cat:"country_folk", era:"2002", suno:true,
+  {id:"freak_folk", label:"Freak Folk", cat:"folk_cat", era:"2002", suno:true,
     books:[
       {asin:"4883642399", title:"アメリカンミュージックヒーローズ", img:"https://m.media-amazon.com/images/I/51H-0QvdDAL._AC_UY218_.jpg"}
     ],
@@ -7592,7 +7599,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks:[["tu3EcAHdHlE"], ["KcHjAUhtSrk", "dKrb9ydJY6M"], ["68E_JSCOD_I", "iYKG37Y-4hM"], ["TPJrTdugyTY"], ["VPWR98JCCRE", "ylrmS6ayKv8"], ["9YR_s99VB_k"], ["5Im1q7u_KPE"], ["RPnvkIYj4Po"], ["l9rGEtIydXI", "vyeEhgOsfzI"], ["Ir5lj_LmBOk"], ["4FTRbP9wGfQ"], ["dbVFanJmfck", "qgVVVKFzUQc"]],
     popularity:4,
     aliases:["フリークフォーク"],},
-  {id:"old_time", label:"Old-Time Music", cat:"country_folk", era:"1800s", suno:true,
+  {id:"old_time", label:"Old-Time Music", cat:"folk_cat", era:"1800s", suno:true,
     books:[
       {asin:"4883642399", title:"アメリカンミュージックヒーローズ", img:"https://m.media-amazon.com/images/I/51H-0QvdDAL._AC_UY218_.jpg"}
     ],
@@ -8250,7 +8257,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks:[["9sE5kEnitqE"], ["KJohGa66FJM", "PevFV3qAvQw"], ["ZJg5Op5W7yw", "AfoFCf5QU78"], ["QM8jQHE5AAk"], ["Sr1OTWIk4eA"], ["HahhNb7tudQ"], ["4HNZNvlhlN4", "6oVcgrbeByo"], ["9uBbBfG5tJU"], ["dgPjeBuDDKM"], ["Z8SPwT3nQZ8"], ["RGm3D8G49dM"], ["tYvTf4sNE4g"], ["Vv9-WlymKg0"], ["TWrGjzBheno"], ["5E-p6xlYCbM"], ["XvV9p-wU4hk"], ["0iA6IZUW38U"], ["JblG0WgX3dY"], ["8a3_5f3Yg6I"], ["rFNHmA9a2gI"], ["uO741IQbPPk"]],
     aliases:["ゴスペル", "ゴスペルミュージック", "Gospel Music", "ブラック・ゴスペル", "Black Gospel", "ブラックゴスペル"],},
 
-  {id:"klezmer", label:"Klezmer", cat:"middle_east", era:"17th–19th century", suno:false,
+  {id:"klezmer", label:"Klezmer", cat:"balkan", era:"17th–19th century", suno:false,
     books:[
       {asin:"4409100289", title:"クレズマーの文化史 東欧からアメリカに渡ったユダヤの音楽", img:"https://m.media-amazon.com/images/I/51sFU-Yl96L._ML2_.jpg", pin:true}
     ],
@@ -8316,7 +8323,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks:[["SOJSM46nWwo", "C9N8piRFVcU"], ["lgCZN1rU5co", "Sn4ntpOXE6w"], ["vmezIIrFQmY"], ["TyLMv_53v-w"], ["Pw-8AGRcyvk"], ["P23Gqn6y8AI"], ["NpF3LGgDoUE"], ["YKDDN58TzGU", "iFbwOhV137Q"], ["Ul_Kotlqi3k"], ["9v0-NPIXrtE"], ["ZWDjr9Yejpo"], ["aRjANj__r2s"], ["OrmBnrWpMIU"], ["kW4nALBr4Y0"], ["05JUMJrTwwg"], ["hL1m5qsM7kg"], ["79OuSzzBaps"], ["P3eomJhHxL4"], ["qk11N-DBP_k"], ["AE3TDC4gD4s"], ["eMODbPw-0uk"], ["2YtR39fdOAg"]],
     aliases:["ツートーンスカ", "2トーンスカ", "2トーン", "ツートーン", "Two Tone Ska", "Two Tone", "2 Tone"],},
 
-  {id:"hardcore_punk", label:"Hardcore Punk", cat:"rock", era:"1970s", suno:false,
+  {id:"hardcore_punk", label:"Hardcore Punk", cat:"punk_cat", era:"1970s", suno:false,
     books:[
       {asin:"4911484101", title:"異次元の常識 パンク／ハードコアの思想とメッセージ", img:"https://m.media-amazon.com/images/I/71GB3OfFEUL._AC_UY218_.jpg", pin:true},
       {asin:"4863856105", title:"パンクの系譜学", img:"https://m.media-amazon.com/images/I/41vzk53oy7L._AC_UY218_.jpg", pin:true}
@@ -8386,7 +8393,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks: [["3JWTaaS7LdU", "-aZXKvm32JI"], ["FrLequ6dUdM", "y4pjKc0ZRiE"], ["hqwieO9A9Kk", "ZDV9R3CFvrA"], ["sQgd6MccwZc"], ["uuCfwpDsWZI"], ["Ju8Hr50Ckwk"], ["Urdlvw0SSEc"], ["qSIOp_K5GMw"], ["uTMuqL0qx08"], ["5zgvecnJ7FI"], ["IxszlJppRQI"], ["tDa4LBOqWGU"], ["bMrHafgLlKY"], ["MSRcC626prw"], ["vBy7FaapGRo"], ["Z5ze4CUAkE8"], ["u_C4onVrr8U"], ["q4GJVOMjCC4"], ["6dvp6gVpA9A"], ["M6jRr8fpbyk"], ["aj9coPGuFkM"]],
     aliases:["コンテンポラリーR&B", "現代R&B", "コンテンポラリーアールアンドビー"],},
 
-  {id:"d_beat", label:"D-beat", cat:"rock", era:"1980s", suno:false,
+  {id:"d_beat", label:"D-beat", cat:"punk_cat", era:"1980s", suno:false,
     books:[
       {asin:"B00N2EW0JK", title:"ロックの歴史", img:"https://m.media-amazon.com/images/I/81kRekPUVqL._AC_UY218_.jpg"},
       {asin:"4865980873", title:"名曲200でわかるロックの歴史と精神", img:"https://m.media-amazon.com/images/I/81JvRJENzrL._AC_UY218_.jpg"}
@@ -8409,7 +8416,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks:[["0TFNGRYMz1U"], ["rzeLynj1GYM", "qPU8mENUBXk"], ["4r454dad7tc"], ["Vz6r0TP4FBI", "e0esAGxzP6Y"], ["fVfnEyLOkrM", "hWLc0J52b2I"], ["tDWeLlvYyYU"], ["BvJRyJuyOpo"], ["GlpDf6XX_j0"], ["bNaWzYWX-HE"], ["qjpRSREHX1Y"], ["fztkUuunI7g"], ["z-6V8PsgHuo"], ["nZcdI1u_9o8"], ["xXqLj7X1WDU"], ["vsra2Rj06hw"], ["ohOPRkllcmw"], ["PT7U_GzRIv0"], ["0OrKMaeQUx0"], ["SC06NyI6KKU"], ["-E_Hyn53acA"], ["9Hv6R2fEdfA"], ["WI5mld3uDz8"], ["4YdqdMOZndI"]],
     aliases:["シャンソン", "Chanson française", "French chanson"],},
 
-  {id:"fado", label:"Fado", cat:"latin", era:"1820s", suno:false,
+  {id:"fado", label:"Fado", cat:"iberian", era:"1820s", suno:false,
     desc:"ポルトガルの、宿命を意味する語を名とする歌である。伴奏の編成が厳密に定まっている点が特徴で、二種類の弦楽器が用いられる。ひとつはポルトガル・ギターと呼ばれる、洋梨のような丸い胴を持つ12弦の楽器で、六組の複弦を張り、扇形に広がる金属の糸巻き装置を持つ。奏者は指に爪を付けて弾き、細かく震える装飾音と、歌に絡みつく対旋律を担う。この楽器の泣くような高音が、この音楽の情感を決定づけている。もうひとつは伴奏用のギターで、和音とリズムを刻む。低音の弦楽器が加わることもある。拍子は四拍子か緩やかな二拍子で、テンポは遅い。調性は短調が圧倒的に多く、和声は基本的でありながら、切ない響きを持つ進行が選ばれる。歌唱がこの音楽の中心である。歌手は身振りをほとんど交えず、その場に立ち尽くし、しばしば目を閉じて歌う。声は喉を絞って絞り出され、語尾を長く伸ばし、装飾を凝らして震わせる。歌詞の主題は、失われたもの、あるいは決して手に入らなかったものへの、名づけがたい思慕である。この感情を指す固有の語があり、他の言語に正確には訳せないとされる。",
     roots_story:"この歌が生まれたのは1820年代から1840年代のリスボンの貧民街である。港に近いこれらの地区には、船乗り、娼婦、犯罪者、そして植民地から戻った者たちが暮らしており、その周縁的な生活の中からこの歌は現れた。伝説的な最初の歌い手とされるのがMaria Severa Onofrianaである。彼女は娼婦であり、貴族の伯爵と関係を持ったことで知られ、1846年に26歳で死去した。歌手が黒い肩掛けをまとうという慣習は、彼女の死を悼んだことに由来すると伝えられている。20世紀の中心はAmália Rodriguesである。彼女は貧しい家に生まれ、果物売りをしながら歌い、やがて国際的な名声を得て、この音楽を世界へ知らしめた。ただし彼女の評価には複雑さが伴う。20世紀のポルトガルは、1930年代から1974年まで長期の独裁体制下にあり、政権はこの歌を国民の統治に利用した。娯楽と信仰と競技によって民衆の政治的関心を逸らすという政策の中に、この歌が明確に位置づけられていたのである。歌詞は検閲を受け、社会批判は許されず、宿命を受け入れるという主題が奨励された。1974年に無血革命によって独裁が終わると、この歌は体制の象徴として左派から激しく拒絶され、一時的に演奏の場を失う。皮肉なことに、後年になってAmália Rodrigues自身が、密かに非合法の共産党へ資金を提供していたことが明らかになり、その立場は単純ではなかったことが判明した。1990年代以降、若い世代が政治的な負荷から解放されたこの歌を再び手に取り、Marizaをはじめとする歌手が国際的な成功を収めている。2011年には国際連合の機関によって無形文化遺産に登録された。",
     rep_tracks:["Canção do Mar (Dulce Pontes)", "Desfado (Ana Moura)", "Uma Casa Portuguesa (Amália Rodrigues)", "Lisboa Menina e Moça (Carlos do Carmo)", "Estranha Forma de Vida (Amália Rodrigues)", "Povo Que Lavas No Rio (Amália Rodrigues)", "Meu Fado Meu (Mariza)", "Coimbra (Amália Rodrigues)", "Canoas do Tejo (Carlos do Carmo)", "Ai Mouraria (Amália Rodrigues)", "Rosa Branca (Mariza)", "Barco Negro (Amália Rodrigues)"],
@@ -8463,7 +8470,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks:[["w67-hlaUSIs", "KIE979mDU2g"], ["XkXise2bHE0"], ["EIvmWTMIp3w", "O3B1TBdNW8o"], ["LzfKApZCMSM"], ["1q2_zOfuGcA", "4yOjnpVKsoQ"], ["jmUnNbAKPNE"], ["kTLrFjYt8tA"], ["IqxMGNOm4pk"], ["SwVNMZjobSw"], ["7fAmhWIUN5w"]],
     aliases:["ヌエバ・カンシオン", "Nueva Canción", "新しい歌", "ヌエヴァ・カンシオン", "ヌエバカンシオン", "ヌエヴァカンシオン"],},
 
-  {id:"cajun", label:"Cajun", cat:"country_folk", era:"1920s", suno:false,
+  {id:"cajun", label:"Cajun", cat:"folk_cat", era:"1920s", suno:false,
     books:[
       {asin:"4883642399", title:"アメリカンミュージックヒーローズ", img:"https://m.media-amazon.com/images/I/51H-0QvdDAL._AC_UY218_.jpg"}
     ],
@@ -8507,7 +8514,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks:[["bNmKjxr-f-Q", "zSgiULuonhU"], ["T-dh4p6Zgzo"], ["UnbERHGk3no", "Qym_z3zivCk"], ["KBT7lOa5B2w"], ["DJA2OO9Ttug", "7yo39dftUpY"], ["GWUhvHfxN00"], ["Upc9NYyYGmQ"], ["jjbMxCybqCg"], ["lUuAHJws0l8"], ["L_ZuRSXuBDI"]],
     aliases:["ガムラン", "ガムラン音楽", "Gamelan", "Gamelan Music"],},
 
-  {id:"rebetiko", label:"Rebetiko", cat:"middle_east", era:"1920s", suno:false,
+  {id:"rebetiko", label:"Rebetiko", cat:"balkan", era:"1920s", suno:false,
     books:[
       {asin:"4894893436", title:"ギリシャの音楽、レベティコ ある下層文化の履歴", img:"https://m.media-amazon.com/images/I/51HIndW-hwL._SY445_SX342_ML2_.jpg", pin:true}
     ],
@@ -8784,7 +8791,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks:[["3m3qOD-hhrQ", "nPN0HglAtsc"], ["ppJQKfqhFfE", "_QkGAaYtXA0"], ["unbgblfgsQI"], ["T5R3_SbE7XQ"], ["CsHtO_i4qzM"], ["Blg_vkaXSWI"], ["Ove38w3ztG4"], ["BL0xoVj5H44"], ["OmVgqCdgy4A", "JvPE6wPB5Sc"], ["LBVUg-7hKQI"], ["6wzq00ulzDs"], ["3F9pknk-p64"]],
     aliases:["ジャズ・ファンク", "Jazz-Funk", "ファンキー・ジャズ"],},
 
-  {id:"flamenco", label:"Flamenco", cat:"latin", era:"19th century", suno:false,
+  {id:"flamenco", label:"Flamenco", cat:"iberian", era:"19th century", suno:false,
     books:[
       {asin:"4062151715", title:"フラメンコのすべて", img:"https://m.media-amazon.com/images/I/51UPA+042NL._SY445_SX342_ML2_.jpg", pin:true}
     ],
@@ -8864,7 +8871,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks:[["IaHS1K3H66c"], ["2a3nkiidY74"], ["MctNlr56rsI", "zwS2qBudj2U"], ["AhvG7qK9fsA"], ["hfTja4Obbvc"], ["k-q3Opw3DDw"], ["10Eee5qT4P0"], ["T2gBmRuMbCw"], ["OnCWSrC_qG8", "-c3Ag4H3D1A"], ["52h4PZ6T-ZU"], ["t_FCRvPot4s"], ["zzTtINXMD2Y"], ["TLKw5LF3I9E"], ["Onhnefazibs"], ["S6KnqplL05w"], ["V6EPXwdPsIU"], ["OLG7fC1WWag"], ["K6Bek4SAiYs"], ["Q1ix9eXvdTE"], ["eduABCnb1aE"], ["-gpQGgSW2KE"], ["urLGrhTf-fw"]],
     aliases:["バーバーショップ", "バーバーショップ・ハーモニー", "Barbershop Harmony", "バーバーショップ・カルテット"],},
 
-  {id:"chalga", label:"Chalga", cat:"middle_east", era:"1990s", suno:false,
+  {id:"chalga", label:"Chalga", cat:"balkan", era:"1990s", suno:false,
     books:[
       {asin:"4865592725", title:"東欧演歌の地政学: ポップフォークが〈国民〉を創る", img:"https://m.media-amazon.com/images/I/81N1yzTiHxL._AC_UY218_.jpg", pin:true},
       {asin:"1041173849", title:"Subcultures as Active Agents of the Post-Communist Transition in Eastern Europe: The Bulgarian Case (Routledge Studies in Modern History)", img:"https://m.media-amazon.com/images/I/614tJeZ69lL._AC_UY218_.jpg"}
@@ -8889,7 +8896,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks:[["KyEuFpJuwfc", "G4uihF0bzMI"], ["WLT6AkL8U7U", "GZt79hU5Pig"], ["UWtmW7tejrI", "RBCi0GjH7vI"], ["Jy5Dl8GwC1w"], ["lofcKFrfAGw"], ["SbmXLrY1whk"], ["yLAh6-nxtk4"], ["Xe1MyLClxuM"], ["Ml-1tS_o9tM"], ["HaffqSKR_qI"], ["EzUn9fPk5n4"], ["H4gE7-COmQQ"]],
     aliases:["ショーロ", "Chorinho", "ショーリーニョ", "Brazilian Choro"],},
 
-  {id:"manele", label:"Manele", cat:"middle_east", era:"1980s", suno:false,
+  {id:"manele", label:"Manele", cat:"balkan", era:"1980s", suno:false,
     books:[
       {asin:"4865592725", title:"東欧演歌の地政学: ポップフォークが〈国民〉を創る", img:"https://m.media-amazon.com/images/I/81N1yzTiHxL._AC_UY218_.jpg"}
     ],
@@ -8996,7 +9003,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks:[["LRP8d7hhpoQ", "haFHrfmfHbc"], ["ifCWN5pJGIE", "cZVjXsf_7aI"], ["ojRj2JK5oCI"], ["a_XgQhMPeEQ"], ["qgDKtLPp46s"], ["2Fe11OlMiz8", "kdgYRVTd-5o"], ["oK9gLkXe0xw"], ["hi4XmAbA7JU"], ["ozYg8vDTmkc", "rMqfD2vInLo"], ["v-rjtMk3j4g", "vvvoJl_Zdes"], ["lWFOK3JQL2A"], ["tfHohRpcjo0", "tB7D9Hxwc20"], ["tE5qj7W5BIA"], ["V5oPtw4yWu8"], ["Uh9gApxcPHE"], ["71yQQRSFeC8", "kYGCMmty7rA"], ["9-vglm47jQo", ""]],
     aliases:["ア・カペラ", "アカペラ", "a cappella", "無伴奏合唱", "無伴奏声楽"],},
 
-  {id:"polka", label:"Polka", cat:"country_folk", era:"1830s", suno:false,
+  {id:"polka", label:"Polka", cat:"folk_cat", era:"1830s", suno:false,
     books:[
       {asin:"4276135672", title:"チェコ音楽の歴史―民族の音の表徴", img:"https://m.media-amazon.com/images/I/41aBCEoNN4L._AC_UY218_.jpg"},
       {asin:"4004319625", title:"「音楽の都」ウィーンの誕生 (岩波新書 新赤版 1962)", img:"https://m.media-amazon.com/images/I/31vAqR798xL._AC_UY218_.jpg"}
@@ -9008,7 +9015,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks:[["hqthspSKZV8", "BN4cLlIKnoA"], ["DJLhNg6RcWw", "iuONBz7boBc"], ["r7gFNaGYEs8", "qJcevebMrqU"], ["gZx1zl_sVTI", "AbgHzHrypmc"], ["zNgeibZw6SQ"], ["gDnmKpt_jMA", "6BkwKjvOD-I"], ["SjX1T6xXm2U"], ["bcKgo_VWcpM", "E429WuCImQQ"], ["P1oK7OI_63U", "JGxHAWz7K5A"], ["PU5n9RW5THM", "4TE-5VO7TjQ"], ["92rmDlhgPqk", "PjBd8O5LtKg"], ["9h-a9cvsbMM", "wypWaIq39r0"], ["34G4sEky-IQ", ""], ["E3iamRlfuQY"], ["RK-W9tBzSYA", "Tg6FhW220KM"], ["etlulo9AHuo", "YQ8Ieu6W09E"], ["ZIRsqg8ihzw", ""], ["YXlKTkkhwi4"], ["Ariia1YHnz4", "H3pcGzqIX7c"]],
     aliases:["ポルカ", "ポルカ舞曲", "ポルカ・ダンス", "Polka"],},
 
-  {id:"sea_shanty", label:"Sea shanty", cat:"country_folk", era:"1800s", suno:false,
+  {id:"sea_shanty", label:"Sea shanty", cat:"folk_cat", era:"1800s", suno:false,
     desc:"シーシャンティは、帆船の甲板で複数の人間が力を合わせてロープを引いたり巻き上げ機を回したりするために歌われる、無伴奏の労働歌である。最大の特徴はコール・アンド・レスポンス、すなわち独唱者シャンティマンが即興気味の長い呼びかけを歌い、全員が短い掛け声の合唱で応える掛け合い構造だ。合唱の掛け声には「引き」の瞬間が重ねられ、その一音にアクセントが集中する。旋律は長調が多く、音域は狭く、和声は主和音・下属和音・属和音の単純な循環をなぞるため、楽譜が読めない船員でも即座に声を合わせられる。拍子は4分の4拍子または2分の2拍子が基本で、テンポは作業の種類で決まり、巻き上げ機を回す連続作業では毎分60拍前後とゆったりし、短く強い引き寄せでは毎分110拍を超えることもある。楽器は原則として使われず、声そのものが唯一の楽器であり、甲板の風と波の音に混じって鳴る。歌詞は港町や船長や積み荷を揶揄する皮肉な内容、失恋、故郷との別れ、女性の名を織り込んだ物語などが定番で、あくまで労働の最中に歌われる実用歌である。酒場や船内の余暇で娯楽として歌うフォアビッター（船員が私的に楽しむ海の歌）とは、目的も歌い方も明確に区別される。作業の種類ごとにリズムの型が決まっており、長く引く引き綱作業、短く一気に引く綱作業、巻き上げ機、錨巻き、ポンプ排水など、それぞれ専用の曲が使い分けられた。",
     roots_story:"シーシャンティが他の労働歌とはっきり区別される固有のジャンルとして文献に現れるのは19世紀中頃であり、とくに南北戦争以前のアメリカ式商船の船上で発達した。大西洋横断の貿易帆船が大型化し、帆の操作や錨の巻き上げに多数の船員が同時に力を合わせる必要が生まれたことが背景にある。歌を仕切るのはシャンティマンと呼ばれる船員で、彼は即興の歌詞と力強い声で作業のタイミングを統率し、その技量は乗組員から高く評価された。伴奏楽器を持ち込めない船上という制約が、無伴奏のコール・アンド・レスポンスという形式を必然にした。19世紀末に蒸気船と機械式巻き上げ機が普及すると、人間の力でロープを引く場面そのものが減り、実用としてのシーシャンティは20世紀前半にほぼ消滅した。1900年代初頭にはリチャード・ランシマン・テリーやジョアンナ・コルコードらが採譜集を刊行し、1920年代には商業レコードとともに一般向けの復興が始まる。20世紀中頃には英語圏のフォーク・リバイバルのなかで、A.L.ロイドとユアン・マッコールが『Blow Boys Blow』などの録音でシーシャンティを再び世に広め、労働歌としての文脈を伴って紹介した。1970年代後半にはアメリカのミスティック・シーポート博物館などでシー・ミュージック・フェスティバルが定着し、船を降りた聴衆のための演奏ジャンルとして確立される。20世紀最大の集成は、実際の帆船船員だったスタン・ヒューギルが1961年に刊行した『Shanties from the Seven Seas』で、彼自身が航海で聴いた歌と文献上の記録を網羅した点で「最終結論」と評され、今日まで最も参照される基本資料となっている。2021年にはスコットランドの郵便配達員ネイサン・エヴァンスが歌った『Wellerman』がTikTokで爆発的に拡散し、世代を超えた世界的なブームを引き起こして、図書館や電子音楽ストリーミングでの再生が急増した。この再流行は伝承曲をデジタル合唱の素材に変え、遠く離れた人々が声を重ねる現在的なコール・アンド・レスポンスを生んだ点で画期的だった。",
     rep_tracks:["Wellerman (Nathan Evans)", "Drunken Sailor (Traditional / The Irish Rovers)", "Leave Her, Johnny (Traditional / Stan Hugill)", "Bully in the Alley (Traditional / Stan Hugill)", "South Australia (Traditional / The Dubliners)", "Haul Away Joe (Traditional / The Clancy Brothers)", "Rio Grande (Traditional / Stan Hugill)", "Paddy Doyle's Boots (Traditional / Stan Hugill)", "Roll the Old Chariot Along (Traditional / David Coffin)", "Fiddler's Green (The Longest Johns)", "Lowlands Away (Traditional / A.L. Lloyd)", "Rolling Down to Old Maui (Michael Kelly)", "Santiana (Jesse Ferguson)", "Spanish Ladies (Traditional / The Yetties)", "Tom's Gone to Hilo (Bob Davenport)", "Santy Anno (The Kingston Trio)", "Whiskey Johnny (Ewan MacColl)", "Johnny Come Down to Hilo (Traditional / Stan Hugill)", "Blow the Man Down (Traditional / Ewan MacColl & A.L. Lloyd)"],
@@ -20043,7 +20050,12 @@ const CAT_COLOR = {
   chiptune:   "#00695C",
   rock:       "#D84315",
   metal:      "#37474F",
-  country_folk:"#8D6E63",
+  country_cat: "#8D6E63",
+  folk_cat:    "#BCAAA4",
+  punk_cat:    "#FFEB3B",
+  iberian:     "#FFCA28",
+  balkan:      "#FF7043",
+  oceania:     "#26C6DA",
   latin:      "#E91E63",
   african:    "#FF8F00",
   middle_east:"#BF360C",
@@ -24588,7 +24600,6 @@ svg.on("click.unlock", () => {
 const CAT_DESC = {
   blues_sub:     "アメリカ南部の黒人音楽を起源とする、魂の叫びをそのまま音にしたような音楽。悲しみや喜びをコール&レスポンス（呼びかけと応答）で表現し、ロック・ジャズ・ソウルなどほぼすべての現代音楽のルーツにあたる。",
   jazz_sub:      "ブルースとアフリカ系アメリカ人の音楽が融合して生まれた即興音楽。スウィングするリズムと自由なアドリブが特徴で、クラシック以外の音楽に最も大きな影響を与えたジャンルの一つ。",
-  country_folk:  "アメリカの農村・開拓時代の生活や物語を歌う音楽。アコースティックギターやバンジョーの素朴な音が特徴。フォークはさらに社会的メッセージや自由への想いを込めた歌も多い。",
   pop:           "「大衆に受け入れられる」ことを目指したあらゆる時代の流行音楽。キャッチーなメロディー、シンプルな構成、洗練されたサウンドプロダクションが特徴で、時代ごとに姿を変えながら常にシーンの中心にある。",
   soul_cat:      "R&Bとゴスペルが合体した、感情豊かな歌声が中心の音楽。1950〜60年代の黒人音楽から生まれ、「魂（ソウル）」を込めた深い歌唱が最大の魅力。マーヴィン・ゲイやアレサ・フランクリンが代表格。",
   early_elec:    "1940〜70年代に誕生した電子楽器や音響実験を用いた音楽。シンセサイザーやテープ操作など、それまでになかった「人工的な音」を探求したジャンル。テクノ・シンセポップ・アンビエントの直接の祖先。",
@@ -24618,7 +24629,18 @@ const CAT_DESC = {
   east_asian:    "日本・中国・韓国など東アジアの音楽。各国固有の楽器（三味線・二胡・伽耶琴等）と音階を持ち、西洋音楽とは異なる独自の美的感覚がある。K-POPやJ-POPは現代的なポップと融合した形。",
   southeast_asian: "インドネシア・ラオス・タイなど東南アジアの音楽。ジャワ島やバリ島の青銅打楽器の合奏ガムランや、ラオスやタイ東北部で竹の楽器ケーンを核に歌われるモーラムなど、土地ごとに独自の伝統がある。",
   sacred:       "宗教の礼拝や信仰と結びついた音楽。黒人教会のゴスペルやスピリチュアルズ、古くから伝わるグレゴリオ聖歌、声だけで歌うアカペラ、現代のキリスト教ポップ（CCM）、クリスマスの音楽などが入る。",
-  chiptune:     "ファミコンなど、昔の家庭用ゲーム機やパソコンの音源チップで作る音楽。出せる音の数が極端に少ない制約の中で、和音や打楽器まで工夫して表すのが特徴。ゲーム音楽・ボカロ・同人音楽ともつながりが深い。"
+  chiptune:     "ファミコンなど、昔の家庭用ゲーム機やパソコンの音源チップで作る音楽。出せる音の数が極端に少ない制約の中で、和音や打楽器まで工夫して表すのが特徴。ゲーム音楽・ボカロ・同人音楽ともつながりが深い。",
+  country_cat:   "アメリカ南部・南西部の農村の暮らしから生まれた音楽。ブルーグラス・ホンキートンク・アウトロー・カントリーロックなどがある。",
+
+  folk_cat:      "民衆の間で歌い継がれてきた歌や、その流れをくむ弾き語りの音楽。アメリカのフォーク、ケルト音楽、ポルカ、船乗りの歌などが入る。",
+
+  punk_cat:      "1970年代に生まれた、短く速く荒々しい演奏が特徴の音楽。ハードコア・ポップパンク・ポストパンク・Oi!・クラストなど、多くの枝に広がった。",
+
+  iberian:       "スペインとポルトガルの音楽。アンダルシアのフラメンコ、セビジャーナス、ポルトガルのファドなど、イベリア半島の伝統から生まれた。",
+
+  balkan:        "バルカン半島や東欧の音楽。ブラスバンド、民俗音楽とポップスが混ざったターボフォーク、ギリシャのレベティコ、東欧のユダヤ音楽クレズマーなどが入る。",
+
+  oceania:       "ハワイやオーストラリア、ニュージーランドなど、太平洋の島々や大陸の音楽。今はハワイの音楽が入っている。"
 };
 
 // アコーディオン構築
@@ -25283,7 +25305,14 @@ let globeRAF = null;
 const CAT_ORIGINS = {
   blues_sub:     { lat: 33, lng: -90, name: 'ブルース系' },
   jazz_sub:      { lat: 30, lng: -90, name: 'ジャズ系' },
-  country_folk:  { lat: 36, lng: -86, name: 'カントリー/フォーク' },
+  country_cat:   { lat: 36, lng: -86, name: 'カントリー系' },
+  folk_cat:      { lat: 40, lng: -75, name: 'フォーク系' },
+  punk_cat:      { lat: 41, lng: -74, name: 'パンク系' },
+  iberian:       { lat: 37, lng: -6, name: 'イベリア系' },
+  balkan:        { lat: 45, lng: 21, name: 'バルカン・東欧系' },
+  oceania:       { lat: 21, lng: -158, name: 'オセアニア系' },
+  sacred:        { lat: 42, lng: 12, name: '宗教/ゴスペル系' },
+  southeast_asian: { lat: -7, lng: 110, name: '東南アジア系' },
   pop:           { lat: 40, lng: -74, name: 'ポップス系' },
   soul_cat:      { lat: 35, lng: -90, name: 'R&B/ソウル系' },
   early_elec:    { lat: 50, lng: 10, name: '初期電子音楽' },
