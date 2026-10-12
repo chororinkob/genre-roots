@@ -1567,7 +1567,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v41.8</span>
+  <span id="version-info">v41.9</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -24684,8 +24684,28 @@ document.querySelectorAll('.legend-item[data-cat]').forEach(item => {
   // 言語版の数と年間閲覧数は、そのジャンル自体がどれだけ読まれているかを
   // 表すので、同点のときの順番付けに使う。
   const _知 = id => (FAME[id] || [0, 0, 0, 0]);
+  // 【並び順を「誕生年代の古い順」に変更】2026-10-13（チョロさんの指示）
+  // カテゴリーの中のジャンルは、歴史の古い順に並べる（例：フォーク系は Folk → シンガーソングライター …）。
+  // 年代が同じ（同じ10年）ものは、これまでの知名度順。年代は era の文字から読む。
+  // 「trad」（伝統音楽）のように年代の数字が無いものは、いちばん古い扱いにする。
+  // 読み方は music_genre_finder/check_categories.py の year() と同じ。
+  const _年 = e => {
+    const t = String(e || '').trim();
+    if (/ancient|古代|trad/i.test(t)) return -500;
+    let m = t.match(/(\d{1,2})(?:st|nd|rd|th)\s+century/i);
+    if (m) return (+m[1] - 1) * 100 + 50;
+    m = t.match(/(\d{1,2})世紀/);
+    if (m) return (+m[1] - 1) * 100 + 50;
+    m = t.match(/(\d{4})\s*年代/);
+    if (m) return +m[1] + 5;
+    m = t.match(/(\d{3,4})s\b/);
+    if (m) return +m[1] + (/\blate\b/i.test(t) ? 7 : /\bearly\b/i.test(t) ? 2 : 5);
+    m = t.match(/(\d{3,4})/);
+    return m ? +m[1] : 99999;
+  };
   const genres = NODES.filter(n => n.cat === cat)
-    .sort((a, b) => (_知(b.id)[0] - _知(a.id)[0])
+    .sort((a, b) => (_年(a.era) - _年(b.era))
+                 || (_知(b.id)[0] - _知(a.id)[0])
                  || (_知(b.id)[1] - _知(a.id)[1])
                  || (_知(b.id)[2] - _知(a.id)[2])
                  || String(a.label).localeCompare(String(b.label)));
