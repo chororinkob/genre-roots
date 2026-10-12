@@ -38,11 +38,11 @@
 <h1>音楽ジャンルルーツ辞典 — 仕様書</h1>
 <h2>この仕様書について</h2>
 <p class="note">この文書は <b>spec_dump.py が実物を読み直して自動で書き出したもの</b>です。手で書き足しても次の書き出しで消えます。決めた理由など人が書くことは <code>docs/decisions.md</code> に書いてください。この文書の末尾にそのまま入ります。</p>
-<p class="note">書き出した日時：<b>2026-10-13 01:23</b></p>
+<p class="note">書き出した日時：<b>2026-10-13 03:44</b></p>
 <h2>いまの版</h2>
 <table>
 <tr><th>項目</th><th>内容</th></tr>
-<tr><td>地図（genre_roots.html）</td><td>v41.8</td></tr>
+<tr><td>地図（genre_roots.html）</td><td>v41.9</td></tr>
 <tr><td>サーバー（genre_adder.py）</td><td>v3.09</td></tr>
 <tr><td>ジャンル数</td><td>594</td></tr>
 <tr><td>ジャンル間のつながり</td><td>1,858</td></tr>
@@ -376,7 +376,10 @@
 <tr><td>線の下（10個）</td><td>イベリア系 → ラテン系 → カリブ系 → アフリカ系 → 中東/アラブ系 → バルカン・東欧系 → 南アジア系 → 東アジア系 → 東南アジア系 → オセアニア系</td></tr>
 </table>
 <p>宗教/ゴスペル系をクラシック系より先にしたのは、年代が古いため（宗教系は Christmas music の4世紀・Gregorian chant の800年代、</p>
-<p>クラシック系は Medieval の500年代）。ジャンルの<b>知名度順</b>は、凡例の並びではなく、<b>カテゴリーの中のジャンルの並び</b>。</p>
+<p>クラシック系は Medieval の500年代）。<b>カテゴリーの中のジャンルの並びは、誕生年代の古い順</b>（2026-10-13にチョロさんの指示で、知名度順から変更。v41.9）。同じ年代（同じ10年）のものは知名度順（★→言語版の数→年間閲覧数→名前）。</p>
+<p>年代は各ジャンルの <code>era</code> の文字から読む（読み方は <code>check_categories.py</code> の <code>year()</code> と同じ。「trad」＝伝統音楽・「ancient」＝古代は、いちばん古い扱い）。</p>
+<p>例：フォーク系は Celtic Music（trad）→ Sea shanty → Old-Time Music → Polka → Cajun → Folk → シンガーソングライター …、初期の電子音楽は Electronic music → Musique Concrète → Krautrock → Dub → New Beat → Glitch → IDM …。</p>
+<p>画面の並びは <code>genre_roots.html</code> の一覧を作る部分（<code>_年()</code> と <code>genres</code> の並べ替え）。検証は <code>test_order_by_era.py</code>（38カテゴリー全部で、期待の並びと一致・逆順の組が0）。</p>
 <p>凡例のHTMLに、この決まりをコメントで残してある（足すときに末尾へ付けるだけにしない、ため）。</p>
 <p><b>線の上の並べ方の物差し（2026-10-12に決定）。</b> 「そのカテゴリーの<b>代表ジャンル（名前が同じジャンル）の誕生年代</b>」の古い順。同じ年代のものは、前の並びを保つ。</p>
 <p>宗教/ゴスペル系とクラシック系は、とても古い音楽（Gregorian chant 800年代、Medieval 500年代、Choral は古代）を含むので、いちばん上に固定。</p>
