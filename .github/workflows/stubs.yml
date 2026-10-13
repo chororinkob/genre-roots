@@ -1,0 +1,69 @@
+name: Rebuild Genre Pages and Sitemap
+
+# 【何をするものか】
+# 地図(genre_roots.html)が変わるたびに、Googleに見せるジャンル別の専用ページ
+# (genre/○○.html)とサイトマップ(sitemap.xml)を、自動で作り直す。
+#
+# 【なぜ必要か】
+# 2026-09-22に、Googleに登録されない問題への対応で、ジャンルごとの専用ページを作り、
+# サイトマップもその形の住所に作り替えた。ところが、新規登録（承認）のときの自動追記は
+# 古い形の住所（genre_roots.html?genre=○○）のまま残り、専用ページも作られなかった。
+# そのため、2026-10-11に追加した Electronic music と Christmas music は、
+# 専用ページもサイトマップの正しい記載も無いまま、気づかれずに放置されていた（2026-10-13に発覚）。
+# 手で作り直す運用にすると必ず忘れるので、地図が変わるたびに機械が作り直す。
+#
+# 作り直しの道具は tools/gen_stubs.js（地図のデータだけから、ページとサイトマップを組み立てる）。
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'genre_roots.html'
+  # 手で流したいとき用のボタン
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  rebuild:
+    # 自分自身（自動処理）が押した変更では動かさない（無限に繰り返さないため）
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: リポジトリを取ってくる
+        uses: actions/checkout@v7
+
+      - name: Node.js を用意する
+        uses: actions/setup-node@v7
+        with:
+          node-version: '20'
+
+      - name: ジャンル別ページとサイトマップを作り直す
+        run: node tools/gen_stubs.js
+
+      - name: 変わっていたら記録に残す
+        run: |
+          git config user.name  'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add genre sitemap.xml tools/README.md
+          if git diff --cached --quiet; then
+            echo '変わっていないので、そのままにします'
+            exit 0
+          fi
+          # [skip-version-bump] は auto-version.yml が読む目印。
+          # これは中身の変更ではなく、ページの作り直しなので、地図の版を上げる対象から外す。
+          git commit -m 'ジャンル別ページとサイトマップを作り直す（自動）
+
+          [skip-version-bump]'
+          # 他の自動処理（版の更新など）と押すタイミングがぶつかることがあるので、数回やり直す
+          for i in 1 2 3 4 5; do
+            if git push; then
+              echo "✓ 押しました（${i}回目）"
+              exit 0
+            fi
+            git pull --rebase
+          done
+          echo '押せませんでした' >&2
+          exit 1

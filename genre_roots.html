@@ -24689,6 +24689,7 @@ document.querySelectorAll('.legend-item[data-cat]').forEach(item => {
   // 年代が同じ（同じ10年）ものは、これまでの知名度順。年代は era の文字から読む。
   // 「trad」（伝統音楽）のように年代の数字が読めないものは、いちばん古い扱いにする（今後もずっとこの扱い）。
   // 読み方は music_genre_finder/check_categories.py の year() と同じ。
+  // （ジャンル別ページとサイトマップは、この地図が変わるたびに GitHub の自動処理が作り直す。2026-10-13）
   const _年 = e => {
     const t = String(e || '').trim();
     if (/ancient|古代|trad/i.test(t)) return -500;
