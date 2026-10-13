@@ -1567,7 +1567,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v41.10</span>
+  <span id="version-info">v41.11</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -1867,7 +1867,14 @@ function grMakeUid() {
 // 参照元はページのアドレスまでで、検索したキーワードは含まれない。
 const GR_SRC = (function () {
   try {
-    const r = document.referrer || '';
+    // 【2026-10-13】専用ページ（genre/○○.html）の中では、この地図は枠（iframe）の中で動く。
+    // 枠の中の document.referrer は「枠を置いている専用ページ」になってしまい、検索から来た人まで
+    // 「自サイト内」と数えていた（本当の参照元が1件も取れていなかった原因）。
+    // 同じサイトの枠の中では、いちばん外側のページの参照元を使う。
+    let r = document.referrer || '';
+    try {
+      if (window.top !== window && window.top.location.hostname === location.hostname) r = window.top.document.referrer || '';
+    } catch (e) { /* 外側が別のサイトなら、取れない。そのまま枠の中の値を使う */ }
     if (!r) return { kind: 'direct', host: '' };
     const h = new URL(r).hostname.replace(/^www\./, '').toLowerCase();
     if (!h) return { kind: 'direct', host: '' };
