@@ -226,17 +226,6 @@
 <div class="item">
   <div class="item-head">
     <span class="status doing">相談待ち（2026-10-13）</span>
-    <span class="item-title">新規登録のあとに、ジャンル別ページ・サイトマップ・インデックス登録ボードを自動で更新する</span>
-  </div>
-  <div class="item-body">
-    新規登録（承認）しても、Googleに見せる専用ページ（genre/xxx.html）とサイトマップは自動では作り直されないことが分かった（Christmas music と Electronic music は、2026-10-13までページもサイトマップも無かった。今回は手で <code>node tools/gen_stubs.js</code> を実行して作り直した）。インデックス登録ボードにも自動では載らない（5ジャンルが漏れていたので、手で足した）。<br>
-    案：承認のたびに、GitHubの自動処理（Actions）で <code>gen_stubs.js</code> を動かしてページとサイトマップを作り直す。ボードへの追加は、毎回の申請の前に <code>make_todo.py</code> が地図とボードを突き合わせて足す。サーバー側の変更はなく、地図のリポジトリ側の変更だけ。
-  </div>
-</div>
-
-<div class="item">
-  <div class="item-head">
-    <span class="status doing">相談待ち（2026-10-13）</span>
     <span class="item-title">SEO対策と収益化の方針</span>
   </div>
   <div class="item-body">
@@ -1396,6 +1385,15 @@
   <div class="done-list">
 
     <div class="done-day">2026-10-13</div>
+    <div class="done-item">新規登録のあと、ジャンル別ページ・サイトマップ・インデックス登録ボードが更新されない問題を直した
+      <div class="dim"><b>原因：</b>2026-09-22に、Googleに見せる専用ページ（genre/○○.html）とサイトマップの形が変わったのに、承認時の自動追記（2026-09-04の仕組み）は古い形の住所（genre_roots.html?genre=○○）のまま残り、専用ページも作られなかった。
+      10月2日の3ジャンルは10月3日に手で作り直したため結果的に載ったが、10月11日の Electronic music・Christmas music は、専用ページもサイトマップの正しい記載も無いまま放置されていた。<br>
+      <b>直したこと：</b>①専用ページとサイトマップを全部作り直して反映（2ジャンル追加、代表曲の修正を552ページに反映）。②<b>地図が変わるたびにGitHubの自動処理（<code>.github/workflows/stubs.yml</code>）が <code>tools/gen_stubs.js</code> を動かして、ページとサイトマップを作り直す</b>ようにした（本物のGitHub上で、わざと消したページが自動で復元されることを確認）。
+      ③申請の前に毎回動く <code>make_todo.py</code> が、地図にあってボードに無いジャンルをボードに足すようにした（漏れていた5ジャンルを足した。全594ジャンルが突き合わせ済み）。<b>地図は、手元のコピーではなくGitHubの最新を読む</b>ので、訪問者が新規登録したジャンルも、承認されてGitHubに入れば拾える。新しく足したジャンルは、1日に通せる数に限りがあるため、申請の先頭に回す。<br>
+      <b>残っていること：</b>サーバーの承認処理（<code>_add_to_sitemap</code>）は、まだ古い形の住所をサイトマップに追記する。自動処理がそのあとサイトマップ全体を作り直して上書きするので実害はないが、サーバー側を直す機会（Renderの再起動を伴う）に合わせて直す。</div>
+    </div>
+
+
     <div class="done-item">カテゴリーの中のジャンルを、誕生年代の古い順に並べるように変更（地図v41.9）
       <div class="dim">これまでは知名度順で、隣り合う2つが「新しい→古い」の逆順だったのが235組あった。誕生年代（era）の古い順に並べ、同じ年代は知名度順にした。
       例：フォーク系は Celtic Music（trad）→ Sea shanty → Old-Time Music → Polka → Cajun → Folk → シンガーソングライター …。年代の数字が読めないもの（「trad」・「ancient」・空欄・不明など）は、いちばん古い扱い（v41.10でチョロさんの指示により、今後もこの扱い）。新規登録のジャンルも自動で年代順に入る。
