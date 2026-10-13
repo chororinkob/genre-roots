@@ -226,6 +226,17 @@
 <div class="item">
   <div class="item-head">
     <span class="status doing">相談待ち（2026-10-13）</span>
+    <span class="item-title">新規登録のあとに、ジャンル別ページ・サイトマップ・インデックス登録ボードを自動で更新する</span>
+  </div>
+  <div class="item-body">
+    新規登録（承認）しても、Googleに見せる専用ページ（genre/xxx.html）とサイトマップは自動では作り直されないことが分かった（Christmas music と Electronic music は、2026-10-13までページもサイトマップも無かった。今回は手で <code>node tools/gen_stubs.js</code> を実行して作り直した）。インデックス登録ボードにも自動では載らない（5ジャンルが漏れていたので、手で足した）。<br>
+    案：承認のたびに、GitHubの自動処理（Actions）で <code>gen_stubs.js</code> を動かしてページとサイトマップを作り直す。ボードへの追加は、毎回の申請の前に <code>make_todo.py</code> が地図とボードを突き合わせて足す。サーバー側の変更はなく、地図のリポジトリ側の変更だけ。
+  </div>
+</div>
+
+<div class="item">
+  <div class="item-head">
+    <span class="status doing">相談待ち（2026-10-13）</span>
     <span class="item-title">SEO対策と収益化の方針</span>
   </div>
   <div class="item-body">
