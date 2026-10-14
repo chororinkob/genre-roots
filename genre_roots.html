@@ -1567,7 +1567,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v41.11</span>
+  <span id="version-info">v41.12</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -19846,6 +19846,26 @@ function _applyGlossary(text) {
     if (/^[A-Za-z0-9&.\-' ]+$/.test(term)) {
       const 前 = 全文[位置 - 1] || '', 後 = 全文[位置 + term.length] || '';
       if (/[A-Za-z]/.test(前) || /[A-Za-z]/.test(後)) return term;
+    }
+    // 【カタカナの語の途中には当てない】2026-10-14
+    // カタカナで始まる語の直前、またはカタカナで終わる語の直後が、別のカタカナなら、
+    // 長い1語の一部なので当てない。これが無いと「イスラム」の中の「スラム」、
+    // 「クロマティック」の中の「ロマ」、「コントロール」の中の「トロール」に、
+    // 見当違いの説明が出ていた。漢字で始まる語（教皇グレゴリウス1世・未来派など）は、
+    // 前がカタカナでも正しい一致が多いので、この規則の対象にしない。
+    {
+      const 前 = 全文[位置 - 1] || '', 後 = 全文[位置 + term.length] || '';
+      const カナ = /[ァ-ヶー]/;
+      if ((カナ.test(term[0]) && カナ.test(前)) || (カナ.test(term[term.length - 1]) && カナ.test(後))) return term;
+    }
+    // 【英語の曲名・名前の一部には当てない】2026-10-14
+    // 英字1語だけの語が、空白かハイフンで、大文字で始まる別の英単語とつながっているときは、
+    // 2語以上の曲名・名前・用語の一部とみなして当てない。
+    // 例:「Silent Night」の Night、「Hair Metal」の Hair、「Why Can't You Love Me」の Can。
+    // （2語まるごとが用語集にあれば、長い語が先に一致するので、この規則には来ない）
+    if (/^[A-Za-z][A-Za-z']*$/.test(term)) {
+      const 手前 = 全文.slice(Math.max(0, 位置 - 24), 位置), 先 = 全文.slice(位置 + term.length, 位置 + term.length + 24);
+      if (/(^|[^A-Za-z'])[A-Z][A-Za-z']*[ \-]$/.test(手前) || /^[ \-][A-Z][A-Za-z']*/.test(先)) return term;
     }
     const def = GLOSSARY[term];
     return `<span class="gloss-term" tabindex="0">${term}<span class="gloss-tip">${_escapeHtml(def)}</span></span>`;
