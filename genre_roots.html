@@ -1567,7 +1567,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v41.111</span>
+  <span id="version-info">v41.112</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -3140,12 +3140,12 @@ const NODES = [
     yt_tracks:[["oOT2-OTebx0", "QqEuI2HBBWM"], ["ZdUINbi4wSY", "A-LEiOzXHWM"], ["nh8Yci9QEPU"], ["Os9DYRZyk-w", "Os9DYRZyk-w"], ["rpNbJWzxoZM", "2IJct-VJhEo"], ["pGvuw4s01TU"], ["tiyxPeuBf0M", "EYMAUYIFdAk"], ["aWbwGyAcMpE"], ["WB_KfEyAmmc"], ["OJ7qIqrot_o"], ["C9HdTK_1jvs"], ["cIfbILqhpiE"]],
     aliases:["ポストダブステップ"],},
 
-  {id:"future_bass", label:"Future Bass", cat:"dubstep", era:"2012", suno:true,
+  {id:"future_bass", label:"Future Bass", cat:"dubstep", era:"2010s", suno:true,
     books:[
       {asin:"4336055149", title:"ダブステップ・ディスクガイド", img:"https://m.media-amazon.com/images/I/81z+nZL+PXL._AC_UY218_.jpg"}
     ],
-    desc:"2010年代半ばに確立した、明るく甘い響きを前面に出したベース・ミュージック。最大の特徴は「サイドチェイン・ワブ」と呼ばれる主旋律の作り方で、鋸波系のシンセに重厚な和音を弾かせ、その音量をLFOで細かく上下させることで、和音全体が呼吸するように膨らんだり縮んだりする。この揺れが人の声のように子音を持って聴こえるため、旋律というより「歌っているシンセ」として機能する。和声はメジャー7thや9th、sus4など柔らかい響きの和音を多用し、R&Bやゴスペルに近い甘さがある。BPMは140〜160の表記が一般的だが、キックとスネアはその半分の速度で置かれるため、体感は70〜80のゆったりしたトラップに近い。ハイハットは32分音符の連打（ロール）で細かく刻まれ、この点はトラップから直接受け継いでいる。ボーカルは高くピッチシフトして子供のような声色にしたもの、切り刻んで楽器のように並べたものが多い。ドロップは低音で殴るのではなく、和音の厚みと高音のきらめきで感情を持ち上げる方向に働き、しばしば切なさと多幸感が同時に立ち上がる。ダブステップの攻撃性とEDMの高揚感の中間に、アニメ的とも評される甘い色彩を持ち込んだ点が独自性である。",
-    roots_story:"2013年から2015年頃にかけて、インターネット上のプロデューサー同士の交流から自然発生的に形成された。前史として、2011年前後にHudson Mohawke（グラスゴー）やRustie がWarp Records から発表した、極彩色のシンセと重い低音を組み合わせた「ウォンキー」「マキシマリズム」と呼ばれる作風があり、これが直接の土台となった。決定的だったのは日本のプロデューサーKawaii Future Bass 勢を含む若手と、米国シアトルのFlume（オーストラリアのHarley Streten）である。Flume は2012年のセルフタイトル作、そして2013年前後のリミックス群、とりわけLordeのTennis Court やDisclosure のYou & Me のリミックスで、和音全体を揺らす手法を広く知らしめた。同時期、カナダのRyan Hemsworth、米国のCashmere Cat（ノルウェーのMagnus August Høiberg）、Mr. Carmack らがSoundCloud上で相互にリミックスを投稿し合い、レーベルを介さずに様式が固まっていった。流通の中心となったのはSoundCloud と、Trap Nation、Chill Nation といったYouTubeのキュレーション・チャンネルで、これらの再生数がそのまま知名度を作るという新しい仕組みが働いた。2015年から2016年にかけては米国のMarshmello、San Holo、Illenium、Louis The Child らが登場し、フェスの大舞台でも通用する形へ拡張された。日本では2016年前後に「Kawaii Future Bass」としてSnail's House（Ujico*）、Yunomi らが独自の展開を見せ、アニメやボーカロイド文化と結び付いて独立した支流を形成した。批判としては、プリセット音源の普及により作品が均質化したこと、ドロップの型が数年で固定化したことが指摘され、2018年頃からは主流の座を後退させたが、その和声感覚とボーカル加工の手法は現在のポップスに広く残っている。",
+    desc:"2010年代半ばに確立した、明るく甘い響きを前面に出したベース・ミュージック。特徴的なのは主旋律の作り方で、鋸波系のシンセに重厚な和音を弾かせ、その音量をサイドチェイン（キックに合わせて音量を下げる処理）やLFOで細かく上下させることで、和音全体が呼吸するように膨らんだり縮んだりする。この揺れによって、旋律というより「歌っているシンセ」のように機能する。和声はメジャー7thや9th、sus4など柔らかい響きの和音を多用し、R&Bやゴスペルに近い甘さがある。BPMは130〜175と説明されることが多いが、キックとスネアはその半分の速度で置かれるため、体感はゆったりしたトラップに近い。ハイハットは32分音符の連打（ロール）で細かく刻まれることがあり、トラップの要素を取り入れた部分もある。ボーカルは高くピッチシフトして子供のような声色にしたもの、切り刻んで楽器のように並べたものが多い。ドロップは低音で殴るのではなく、和音の厚みと高音のきらめきで感情を持ち上げる方向に働き、しばしば切なさと多幸感が同時に立ち上がる。ダブステップの攻撃性とEDMの高揚感の中間に、アニメ的とも評される甘い色彩を持ち込んだ点が独自性である。",
+    roots_story:"2010年代前半に英国・米国・オーストラリアなどで並行して形成され、2013〜2016年に主流化した。インターネット上のプロデューサー同士の交流の中でも広がった。前史として、Hudson Mohawke（グラスゴー）やRustieらが2010年ごろから手がけ、2011年のRustieのアルバム『Glass Swords』（Warp Records）などで広まった、極彩色のシンセと重い低音を組み合わせた「ウォンキー」「マキシマリズム」と呼ばれる作風があり、これが直接の土台となった。決定的だったのは、若手のプロデューサーたちと、オーストラリア・シドニー出身のFlume（Harley Streten）である。Flume は2012年のセルフタイトル作、そして2013〜2014年のリミックス群、とりわけ2013年のDisclosure のYou & Me のリミックスや2014年のLordeのTennis Court のリミックスで、和音全体を揺らす手法を広く知らしめた。同時期、カナダのRyan Hemsworth、ノルウェーのCashmere Cat（Magnus August Høiberg）、Mr. Carmack らがSoundCloud上で相互にリミックスを投稿し合い、レーベルを介さずに様式が固まっていった。流通の中心となったのはSoundCloud と、Trap Nation、Chill Nation といったYouTubeのキュレーション・チャンネルで、これらの再生数がそのまま知名度を作るという新しい仕組みが働いた。2015年から2016年にかけては米国のMarshmello、Illenium、Louis The Childや、オランダのSan Holoらが登場し、フェスの大舞台でも通用する形へ拡張された。ジャンルの形成後には、派生ジャンルのKawaii Future Bassが日本で生まれ、Snail's House（Ujico*）は2015年のEP『Kirara』でその先駆者とされる。Yunomi らもこの流れで活動し、アニメ文化と結び付いて独立した支流を形成した。批判としては、プリセット音源の普及により作品が均質化したこと、ドロップの型が数年で固定化したことが指摘され、2018年頃からは主流の座を後退させたが、その和声感覚とボーカル加工の手法は現在のポップスに広く残っている。",
     rep_tracks:["Alone (Marshmello)", "Never Be Like You (Flume ft. Kai)", "Shelter (Porter Robinson)", "Fractures (Illenium ft. Nevve)", "Light (San Holo)", "Crawl Outta Love (Illenium)", "Say My Name (ODESZA)", "Worlds Apart (Seven Lions)", "Say It (Flume)", "Holdin On (Flume)", "It's Strange (Louis The Child ft. K.Flay)", "Love Is Alive (Louis The Child)"],
     yt_mix:["ALZHF5UqnU4", "Ly7uj0JwgKg"],
     yt_tracks:[["ALZHF5UqnU4", "nR5l-1lmkkI"], ["Ly7uj0JwgKg", "-KPnyf8vwXI"], ["fzQ6gRAEoy0"], ["ZCu2gwLj9ok", "38750lf-u5w"], ["ULHeRdgeT54", "uOFTqVi-qp4"], ["gbxxpSNE5o4"], ["QMssNXBCCl0"], ["ULqdjtDI-bs"], ["htNmT31AW9U"], ["aynV4UOU-As"], ["rhrqbcufZXo", "JNVXi3QpaMo"], ["hQyW1E7VJXo"]],
@@ -3157,8 +3157,8 @@ const NODES = [
       {asin:"4062584972", title:"アメリカ音楽史", img:"https://m.media-amazon.com/images/I/71tc0nmNL5L._AC_UY218_.jpg"},
       {asin:"4866472693", title:"ファンク超大全", img:"https://m.media-amazon.com/images/I/81DXqxrmCtL._AC_UY218_.jpg"}
     ],
-    desc:"1970年代末に生まれた、極端に速く硬いディスコ。BPMは128〜140、時に150に達し、当時のディスコの標準（110〜125）を大きく上回る。骨格は徹底した四つ打ちのバスドラムと、裏拍で開くオープンハイハットの往復で、この「ドッ・チッ・ドッ・チッ」が一切崩れないまま曲の最初から最後まで続く。最大の識別点はベースで、8分音符または16分音符でオクターブを行き来する「オクターブ・ベースライン」が休みなく走り、シンセベースの機械的な粒立ちが推進力を生む。使用機材はRoland のTR-808やTB-303を含む初期のリズムマシンとシーケンサー、Moog やOberheim の鍵盤シンセで、生バンドをほぼ排して打ち込みに置き換えた点が同時代のディスコと決定的に違う。旋律は分かりやすい長調で、歌唱は高音域を張り上げるパワフルな女性ボーカルか、ファルセットを多用する男性ボーカルが定番。歌詞は恋の高揚と誘惑を単純明快に歌い、繰り返しの多いフックで覚えやすくしてある。曲構成は延々と続くイントロと長いブレイクを持ち、DJが繋ぐことを前提とした12インチ・シングル向けの設計。ゲイ・クラブの熱狂的なフロアで、汗と照明の中で鳴らされる音として最適化されている。",
-    roots_story:"1970年代末、ディスコが商業的な飽和を迎え、1979年にシカゴで「ディスコ・デモリッション・ナイト」という反ディスコの焼き討ち騒動が起きるなど逆風が吹く中、ゲイ・コミュニティのクラブでは逆にテンポを上げた硬派な路線が支持を集めた。技術面の起点は1977年、ミュンヘンのプロデューサーGiorgio Moroder がDonna Summer のI Feel Love で、伴奏のほぼ全てをMoog のシンセサイザーによるシーケンスに置き換えたことである。この曲の反復するシンセベースが、ハイエナジーの原型そのものとなった。名称はニューヨークのプロデューサーPatrick Cowley が手がけ、1978年に発表されたSylvester のYou Make Me Feel (Mighty Real) およびそのアルバム収録曲の勢いを受けて、1979年のシングルの副題やレコード店の分類から広まったとされる。Cowley はサンフランシスコを拠点に、Sylvester（James Lee Hester、ファルセットで歌う黒人のドラァグ・パフォーマー）との協働で、この音を確立した中心人物である。1980年代前半にはイギリスに渡り、ロンドンのプロデューサー3人組Stock Aitken Waterman が、Dead or Alive のYou Spin Me Round (Like a Record)（1984年）やHazell Dean、Divine の作品でこの様式を量産し、後にKylie Minogue やRick Astley へと繋がるヒット工場を築いた。イタリアではイタロ・ディスコと相互に影響し合い、ヨーロッパ大陸に広く根を張った。悲劇的なのはエイズ危機で、Patrick Cowley は1982年に32歳で、Sylvester は1988年に41歳で、いずれもエイズ関連の合併症で死去している。シーンの中心にいた多くの音楽家と観客が失われたことは、このジャンルの歴史から切り離せない。ハイエナジーの反復するシンセベースと硬い四つ打ちは、その後シカゴのハウス、デトロイトのテクノ、そして1990年代のユーロダンスへ直接受け継がれた。",
+    desc:"1970年代末に生まれた、極端に速く硬いディスコ。BPMはおおむね120〜140で、当時のディスコの標準（110〜130程度）を上回る。骨格は徹底した四つ打ちのバスドラムと、裏拍で開くオープンハイハットの往復で、この「ドッ・チッ・ドッ・チッ」が一切崩れないまま曲の最初から最後まで続く。最大の識別点はベースで、8分音符または16分音符でオクターブを行き来する「オクターブ・ベースライン」が休みなく走り、シンセベースの機械的な粒立ちが推進力を生む。使用機材はシーケンサーとシンセサイザーが中心で、起点とされる『I Feel Love』では借り物のモジュラー・Moogが使われ、キックだけが生ドラムだった。Patrick CowleyはProphet-5やE-mu系のモジュラーなどを使ったとされる。生バンドをほぼ排して打ち込みに置き換えた点が同時代のディスコと決定的に違う。旋律は分かりやすい長調で、歌唱は高音域を張り上げるパワフルな女性ボーカルか、ファルセットを多用する男性ボーカルが定番。歌詞は恋の高揚と誘惑を単純明快に歌い、繰り返しの多いフックで覚えやすくしてある。曲構成は延々と続くイントロと長いブレイクを持ち、DJが繋ぐことを前提とした12インチ・シングル向けの設計。ゲイ・クラブの熱狂的なフロアで、汗と照明の中で鳴らされる音として最適化されている。",
+    roots_story:"1970年代末、ディスコが商業的な飽和を迎え、1979年7月にシカゴの球場で、ディスコのレコードが入った箱を爆破する「ディスコ・デモリッション・ナイト」という反ディスコの催しが開かれ、観客がなだれ込んで暴動になるなど逆風が吹く中、ゲイ・コミュニティのクラブでは逆にテンポを上げた硬派な路線が支持を集めた。技術面の起点は1977年、ミュンヘンのプロデューサーGiorgio Moroder がDonna Summer のI Feel Love で、伴奏のほぼ全てをMoog のシンセサイザーによるシーケンスに置き換えたことである。この曲の反復するシンセベースが、ハイエナジーの原型とされる（1979年のBiddu作品やPatrick Hernandezの「Born to Be Alive」も初期の例に挙げられる）。名称は、Donna Summerが『I Feel Love』を「high-energyな雰囲気がある」と語ったことから、「high energy」が高速ディスコの呼び名として広まったとする説が通説で、1980年代に「Hi-NRG」と表記されるようになった。Patrick Cowley（ニューヨーク州バッファロー生まれで、1971年からサンフランシスコに在住）は、1978年に発表されたSylvester のYou Make Me Feel (Mighty Real) を電子的にリミックスするなど、Sylvester（Sylvester James Jr.、ファルセットで歌う黒人のドラァグ・パフォーマー）との協働で、この音を確立した中心人物である。1980年代半ばにはイギリスに渡り、ロンドンのプロデューサー3人組Stock Aitken Waterman が、Dead or Alive のYou Spin Me Round (Like a Record)（1984年）やHazell Dean、Divine の作品でこの様式を量産し、後にKylie Minogue やRick Astley へと繋がるヒット工場を築いた。イタリアではイタロ・ディスコと相互に影響し合い、ヨーロッパ大陸に広く根を張った。悲劇的なのはエイズ危機で、Patrick Cowley は1982年に32歳で、Sylvester は1988年に41歳で、いずれもエイズ関連の合併症で死去している。シーンの中心にいた多くの音楽家と観客が失われたことは、このジャンルの歴史から切り離せない。ハイエナジーの反復するシンセベースと硬い四つ打ちは、その後シカゴのハウス、デトロイトのテクノ、そして1990年代のユーロダンスへ直接受け継がれた。",
     rep_tracks:["You Spin Me Round (Dead or Alive)", "Your Love (Lime)", "You Make Me Feel (Mighty Real) (Sylvester)", "I Feel Love (Donna Summer)", "Do You Wanna Funk (Sylvester & Patrick Cowley)", "Menergy (Patrick Cowley)", "You Think You're a Man (Divine)", "Love Reaction (Divine)", "I'm So Hot for You (Bobby O)", "High Energy (Evelyn Thomas)", "Searchin' (I Gotta Find a Man) (Hazell Dean)", "So Many Men, So Little Time (Miquel Brown)"],
     yt_mix:["PGNiXGX2nLU", "o5QbB3-p4pw"],
     yt_tracks:[["PGNiXGX2nLU"], ["o5QbB3-p4pw"], ["gD6cPE2BHic", "c3vtOEiO6TY"], ["mXX7qSCLvWU", "bHfrdQ8h2Pw"], ["PeYUTbU_iTw", "IMye20N4yuI"], ["bPny1esdZrk"], ["69ADxaSqRNY"], ["Cwi1gnx-Ag4", "NfkN1j1DsM8"], ["L5zZWJSzfkw", "w-qOWGTvJ58"], ["a45ilB2wLiw"], ["GzKeP-cgo5s"], ["nP4KgCcpm4k"]],
@@ -3283,7 +3283,7 @@ const NODES = [
       {asin:"4909483276", title:"ハウス・ミュージック その真実の物語", img:"https://m.media-amazon.com/images/I/81qaDDBokqL._AC_UY218_.jpg"}
     ],
     desc:"南部ヒップホップのトラップのリズム構造を、フェス向けのEDMの音圧と構成に接続した様式。BPMは表記上140〜150だが、キックとスネアはその半分の速度で置かれるため、体感は70〜75のゆったりした揺れになる。中核はリズムの三層構造で、深く沈む808系のキックが不規則な位置で長く伸び、スネアあるいはクラップが必ず3拍目に着地し、その隙間をハイハットが16分音符から32分音符、さらに三連符のロールへと目まぐるしく変速しながら埋める。この変速するハイハットが、トラップの最も分かりやすい指紋である。上物には、金管を模した咆哮のようなシンセ（いわゆるブラス・スタブ）、東洋的な音階を用いた笛や琴の音色、そして教会の鐘が定番で、これらが短い動機を反復する。和声は短調、とりわけハーモニック・マイナーが好まれ、異国的で不穏な色を出す。構成はEDMの型に従い、ビルドアップと無音を経てドロップへ入るが、ドロップの中身は四つ打ちではなくハーフタイムであるため、体を跳ねさせるのではなく重く沈み込ませる効果を持つ。ヒップホップのラップが乗ることもあるが、器楽曲として完結する場合も多い。",
-    roots_story:"2012年前後の米国で、アトランタ発祥のトラップがクラブとフェスの文脈に持ち込まれたことで成立した。原型を作ったのは2000年代前半のアトランタで、T.I.、Gucci Mane、Young Jeezy らのラップと、Shawty Redd、Zaytoven、Lex Luger といったプロデューサーによる、Roland TR-808の伸びるキックと高速ハイハットを核とする制作様式である。これをダンス音楽側から捉え直した最初期の作家として、ロサンゼルスのFlosstradamus（Curt Cameruci とJosh Young）、UZ（正体を伏せたフランスの作家）、Baauer（Harry Rodrigues）、RL Grime（Henry Steinway）、Carnage らが挙げられる。決定的な事件は2012年末から2013年初頭、Baauer のHarlem Shake がインターネット上の投稿動画の流行と結び付き、米国のビルボード首位を五週にわたって獲得したことである。この曲の成功は、動画の再生回数をチャートに算入する規則変更の初期の事例としても記録され、ジャンルの認知を一気に押し上げた。同時に、原曲に使われた声のサンプルの権利処理が事後的に問題化し、無断使用を巡る訴訟へ発展した点も、この時代の制作環境を象徴している。舞台面では、ロサンゼルスのSkrillex が主宰したレーベルOWSLA、そしてFools Gold Records が主要な発信源となり、Mad Decent（Diplo 主宰）が主催する移動型フェスMad Decent Block Party がこの音を全米に運んだ。批判としては、アトランタの黒人コミュニティの音楽的発明が、その社会的文脈を切り離した形で白人中心のフェス市場に流用されたという文化的横領の指摘が繰り返しなされた。2015年前後には流行の頂点を過ぎたが、ハーフタイムのドロップという発想はEDM全体に定着し、フューチャー・ベースやハードウェイヴなど後続の様式に直接受け継がれている。",
+    roots_story:"2012年前後の米国で、アトランタ発祥のトラップがクラブとフェスの文脈に持ち込まれたことで成立した。原型は1990年代後半から2000年代のアトランタで形づくられ、2010年前後にLex Lugerが現在の音を広げた。その土台は、T.I.、Gucci Mane、Young Jeezy らのラップと、Shawty Redd、Zaytoven、Lex Luger といったプロデューサーによる、Roland TR-808の伸びるキックと高速ハイハットを核とする制作様式である。これをダンス音楽側から捉え直した最初期の作家として、シカゴのFlosstradamus（Curt Cameruci とJosh Young）、UZ（2017年に素顔を公表したフランス出身の作家）、Baauer（Harry Rodrigues）、RL Grime（Henry Steinway）、Carnage らが挙げられる。決定的な事件は2012年末から2013年初頭、Baauer のHarlem Shake がインターネット上の投稿動画の流行と結び付き、米国のビルボード首位を五週にわたって獲得したことである。この曲の成功は、動画の再生回数をチャートに算入する規則変更の初期の事例としても記録され、ジャンルの認知を一気に押し上げた。同時に、原曲に使われた声のサンプルの権利処理が事後的に問題化し、補償の交渉を経て、Diploが2013年4月に権利処理で合意した点も、この時代の制作環境を象徴している。舞台面では、ロサンゼルスのSkrillex が主宰したレーベルOWSLA、そしてFool's Gold Records が主要な発信源となり、Mad Decent（Diplo 主宰）が主催する移動型フェスMad Decent Block Party がこの音を全米に運んだ。批判としては、アトランタの黒人コミュニティの音楽的発明が、その社会的文脈を切り離した形で白人中心のフェス市場に流用されたという文化的横領の指摘が繰り返しなされた。2015年前後には流行の頂点を過ぎたが、ハーフタイムのドロップという発想はEDM全体に定着し、フューチャー・ベースやハードウェイヴなど後続の様式に直接受け継がれている。",
     rep_tracks:["Shotgun (Yellow Claw)", "DJ Turn It Up (Yellow Claw)", "Harlem Shake (Baauer)", "Do You? (TroyBoi)", "Higher Ground (TNGHT)", "Core (RL Grime)", "Original Don (Flosstradamus)", "Boy Oh Boy (Diplo)", "One Touch (Baauer)", "Tell Me (RL Grime)", "Reminder (RL Grime)", "Michael Jordan (Carnage)"],
     yt_mix:["oIwFJNguQgY", "rX4g0sxDCEw"],
     yt_tracks:[["oIwFJNguQgY"], ["rX4g0sxDCEw", "uEKCD-zo8Fo"], ["qV0LHCHf-pE", "C48JQ3goa58"], ["ku3JbhWUwsg"], ["6HzyUHxmkg0", "TtgZb0uGUGI"], ["04ufimjXEbA", "eDbcsGvQ2Rg"], ["mnsgDTGIQN4", "Pv9akZKzR0o"], ["_LmnkRzP3oM"], ["jXKV-QZsl10"], ["Ss2EOQB4C5o"], ["xcT_WtqRHxw"], ["8jyiRAUMrtg"]],
@@ -15212,22 +15212,22 @@ const GLOSSARY = {
   "Mr. Carmack": "米国のプロデューサー。SoundCloudを主戦場として大量の楽曲を無料公開し、フューチャー・ベースやビート・ミュージックの拡散に寄与した。",
   "Trap Nation": "米国発のYouTubeキュレーション・チャンネル。トラップやフューチャー・ベースの新曲を紹介し、無名の制作者を発掘する経路として機能した。",
   "Chill Nation": "Trap Nationの姉妹チャンネル。落ち着いた質感の電子音楽を紹介し、2010年代の楽曲発見の仕組みを担った。",
-  "Marshmello": "米国のプロデューサー、Christopher Comstock。白い覆面を被った姿で知られ、フューチャー・ベース寄りのEDMで世界的な人気を得た。",
+  "Marshmello": "米国のプロデューサー、Christopher Comstock。白いヘルメット（マシュマロ型）をかぶった姿で知られ、フューチャー・ベース寄りのEDMで世界的な人気を得た。",
   "San Holo": "オランダのプロデューサー。ギターを取り入れたフューチャー・ベースで知られ、レーベルbitbirdを運営している。",
   "Illenium": "米国コロラド州のプロデューサー、Nicholas Miller。感情的な旋律と重い低音を組み合わせた作風で、メロディック系の代表格となった。",
   "Louis The Child": "米国シカゴのプロデューサー2人組。明るく軽やかなフューチャー・ベースで2010年代半ばに人気を得た。",
   "Snail's House": "日本のプロデューサーUjico*の名義。Kawaii Future Bassを代表する作家として国内外に知られる。",
   "Ujico": "日本の音楽プロデューサー。Ujico*およびSnail's House名義で、アニメ的な音色を用いた電子音楽を制作している。",
-  "Yunomi": "日本の音楽プロデューサー。和風の音階とKawaii Future Bassを組み合わせた作風で知られる。",
-  "サイドチェイン・ワブ": "和音を鳴らすシンセの音量をLFOで細かく上下させ、和音全体が呼吸するように膨らみ縮む効果を作る手法。フューチャー・ベースの最大の識別点。",
+  "Yunomi": "日本の音楽プロデューサー。和風や自然の要素を取り入れたKawaii Future Bassの作風で知られる。",
+  "サイドチェイン・ワブ": "和音を鳴らすシンセの音量を、サイドチェイン（キックに合わせて音量を下げる処理）やLFOで上下させ、和音全体が呼吸するように膨らみ縮む効果を作る手法。定まった呼び名はない。",
   "ウォンキー": "2000年代末に用いられた呼称で、音程やリズムをわざと歪ませ、よろけたような感触を作る電子音楽の傾向を指す。",
   "マキシマリズム": "音数と情報量を最大限に詰め込む美学。ミニマリズムの対義語で、2010年前後のRustieらの作風を説明する際に使われた。",
   "Oberheim": "米国の電子楽器メーカー。1970年代から1980年代にかけてポリフォニック・シンセサイザーで一時代を築き、太く厚い音色で知られる。",
   "I Feel Love": "Donna Summerが1977年に発表した楽曲。Giorgio Moroderが伴奏のほぼ全てをシンセサイザーの反復に置き換え（キックだけは生ドラム）、のちのハウスやユーロダンスなどの下地となった。",
   "Patrick Cowley": "米国サンフランシスコの音楽プロデューサー。Sylvesterとの協働でハイエナジーを確立したが、1982年に32歳でエイズ関連の合併症により死去した。",
-  "Sylvester": "米国の歌手、James Lee Hester。ファルセットで歌う黒人のドラァグ・パフォーマーとして知られ、1978年のYou Make Me Feel (Mighty Real)でディスコ史に名を刻んだ。1988年にエイズ関連の合併症で死去。",
+  "Sylvester": "米国の歌手、Sylvester James Jr.。ファルセットで歌う黒人のドラァグ・パフォーマーとして知られ、1978年のYou Make Me Feel (Mighty Real)でディスコ史に名を刻んだ。1988年にエイズ関連の合併症で死去。",
   "You Make Me Feel": "Sylvesterが1978年に発表したYou Make Me Feel (Mighty Real)のこと。Patrick Cowleyの編曲によりハイエナジーの原型を示した楽曲。",
-  "James Lee Hester": "米国の歌手Sylvesterの本名。ゴスペルで歌い始め、後にディスコとゲイ文化の象徴的存在となった。",
+  "James Lee Hester": "米国の歌手Sylvesterの本名は、Sylvester James Jr.。ゴスペルで歌い始め、後にディスコとゲイ文化の象徴的存在となった。",
   "Stock Aitken Waterman": "Mike Stock、Matt Aitken、Pete Watermanによるイギリスの制作チーム。1980年代にハイエナジー由来の型でヒット曲を量産し、Kylie MinogueやRick Astleyを世に出した。",
   "Dead or Alive": "イギリスのバンド。1984年のYou Spin Me Round (Like a Record)がStock Aitken Watermanの手による初期の代表作となった。",
   "Hazell Dean": "イギリスの歌手。1980年代前半にハイエナジーの代表的な歌い手として活躍し、ゲイ・クラブで絶大な支持を得た。",
@@ -15339,12 +15339,12 @@ const GLOSSARY = {
   "Lex Luger": "米国バージニア州のプロデューサー、Lexus Lewis。2010年前後に劇的な管弦楽風のシンセと高速ハイハットを組み合わせ、トラップの音を一新した。",
   "Curt Cameruci": "米国シカゴの音楽家。Josh YoungとともにFlosstradamusを結成し、トラップをクラブとフェスの文脈に持ち込んだ。",
   "Josh Young": "米国の音楽家。Flosstradamusの一員としてEDMトラップの初期を牽引した。",
-  "UZ": "正体を伏せて活動するフランスの音楽プロデューサー。金色の覆面姿で知られ、EDMトラップの様式を早くから提示した。",
+  "UZ": "2017年に素顔を公表したフランス出身の音楽プロデューサー。金色の覆面姿で知られ、EDMトラップの様式を早くから提示した。",
   "Baauer": "米国ニューヨークのプロデューサー、Harry Rodrigues。2012年のHarlem Shakeが世界的な現象となり、EDMトラップの認知を決定づけた。",
   "Harry Rodrigues": "米国の音楽プロデューサー。Baauer名義で活動し、インターネット文化と結び付いた成功例として知られる。",
   "RL Grime": "米国のプロデューサー、Henry Steinway。暗く映画的なEDMトラップを確立し、毎年恒例のハロウィン向けミックスでも知られる。",
   "Henry Steinway": "米国の音楽プロデューサー。RL Grime名義でEDMトラップの美学を決定づけた一人。",
-  "Carnage": "グアテマラ系米国人のプロデューサー、Diamanté Blackmon。攻撃的なEDMトラップでフェスの舞台を沸かせた。",
+  "Carnage": "ニカラグア系米国人（ワシントンD.C.生まれ、グアテマラ育ち）のプロデューサー、Diamanté Blackmon。攻撃的なEDMトラップでフェスの舞台を沸かせた。",
   "Harlem Shake": "Baauerが2012年に発表した楽曲。投稿動画の流行と結び付いて米国で五週にわたり首位を獲得し、動画再生をチャートに算入する規則変更の初期事例となった。",
   "Fools Gold Records": "米国ニューヨークのレーベル。A-Trakらが設立し、ヒップホップとダンス音楽の境界にある作品を発表した。",
   "Mad Decent Block Party": "Diploが主宰するレーベルMad Decentが開催した移動型フェス。EDMトラップやムーンバートンを全米に広めた。",
@@ -17980,7 +17980,7 @@ const GLOSSARY = {
   "Sonny Boy Williamson I": "John Lee Curtis Williamsonの通称。1930〜40年代に活躍し、ハーモニカをブルースの主役級の楽器へ押し上げた先駆者である。",
   "Sonny Boy Williamson II": "Rice Millerが名乗った芸名。先人の名を借りたことでブルース史上有名な名前の混乱を生んだが、実力は本物で、シカゴブルースを代表するハーモニカ奏者となった。",
   "Juke": "Little Walterが1952年に発表した器楽曲。歌のないハーモニカ演奏曲でありながらR&Bチャート1位を獲得し、ハーモニカがサックスに匹敵するリード楽器であることを証明した。",
-  "R&B": "二つの意味がある。①リズム・アンド・ブルースの略。1940年代以降、アメリカでアフリカ系アメリカ人向けの大衆音楽を指す言葉として使われ、ブルース、ジャズ、ゴスペルが混じり合った幅広い音楽を含む。②現代R&B（contemporary R&B）。1980年代後半に形成され、起源は1970年代に遡る。",
+  "R&B": "二つの意味がある。①リズム・アンド・ブルースの略。1940年代以降、アメリカでアフリカ系アメリカ人向けの大衆音楽を指す言葉として使われ、ブルース、ジャズ、ゴスペルが混じり合った幅広い音楽を含む。②現代R&B（contemporary R&B）。1970年代にアフリカ系米国人の音楽家から生まれ、文化的な起源は1970年代末〜1980年代初頭とされる。",
   "Junior Wells": "アメリカのハーモニカ奏者・歌手(1934-1998)。Buddy Guyとの共演で知られ、鋭いハーモニカとファンキーな感覚でシカゴのシーンを支えた名手。",
   "James Cotton": "アメリカのハーモニカ奏者(1935-2017)。Muddy Watersのバンドで長く演奏したのち独立し、力強い音量と豪快な吹き方でシカゴブルースを代表する存在となった。",
   "Paul Butterfield": "アメリカのハーモニカ奏者(1942-1987)。シカゴで黒人の名手たちに学んだ白人青年で、人種混成のバンドを率いてブルースをロックの聴衆に届けた。",
@@ -19944,6 +19944,10 @@ const GLOSSARY = {
   "ヒッピー・トレイル": "1960〜70年代に欧米の若者がインドへ向かった陸路のこと。",
   "Spirit Zone Recordings": "1990年代のドイツのレコードレーベル。ゴアトランスとサイケデリック・トランスをヨーロッパ大陸で流通させる中心となった。",
   "UKハードコア": "ハッピーハードコアが2000年代前半以降に呼ばれるようになった名称。イギリスで発展した系統。",
+  "Ujico*": "日本の音楽プロデューサー。Ujico*およびSnail's House名義で、アニメ的な音色を用いた電子音楽を制作している。",
+  "Sylvester James Jr.": "米国の歌手Sylvesterの本名（Sylvester James Jr.）。ゴスペルで歌い始め、後にディスコとゲイ文化の象徴的存在となった。",
+  "Fool's Gold Records": "米国ニューヨーク・ブルックリンのレーベル。2007年にA-TrakとNick Catchdubsが設立し、ヒップホップとダンス音楽の境界にある作品を発表した。",
+  "ブラス・スタブ": "金管楽器のように鋭く短く鳴らすシンセの和音や音色。トラップやEDMで多用される。",
 };
 // 用語集のキーを、長い語から先に一致するよう並べ替えて正規表現を作る
 // （例:「オープンハイハット」を先に判定しないと「ハイハット」にだけ
