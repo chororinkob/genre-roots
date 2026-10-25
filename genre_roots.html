@@ -1567,7 +1567,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v119.2</span>
+  <span id="version-info">v119.3</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -2208,7 +2208,7 @@ const NODES = [
     yt_tracks:[["7maJOI3QMu0"], ["LTrk4X9ACtw", "JSwQ-b3zE1M"], ["LiBwr4U59EI"], ["TJ6Mzvh3XCc", "FZe3mXlnfNc"], ["g4w4aKsWzkI"], ["eStCSUBJXAM", ""], ["oU7JWTtJaL4", "BddSN2jNS9E"], ["JKmqyQUDehs", "ViWM_Bbqv1w"], ["bPCdsa7hS7M", ""], ["9wxrB41PMhw"], ["GCsQZSB1gZg"], ["CQ8zglIXZi8"], ["Mc6vedDCclQ"], ["ZwgBwu_-hKQ"], ["Cxpe8VpeVmU"], ["SOJBWEPrPdY"], ["oBC-VILfUCg"], ["2JRG_2ZZYQQ"]],
     aliases:["ニューエイジ", "New Age Music", "ニューエイジミュージック"],},
 
-  {id:"classical", label:"Classical", cat:"classical_sub", era:"9th century", suno:false,
+  {id:"classical", label:"Classical", cat:"classical_sub", era:"9th century（記譜された伝統が確認できる最古の時期）", suno:false,
     books:[
       {asin:"4044002614", title:"クラシック音楽の歴史", img:"https://m.media-amazon.com/images/I/41Rd3WlscVL._SY445_SX342_ML2_.jpg", pin:true}
     ],
@@ -3415,7 +3415,7 @@ const NODES = [
     yt_tracks: [["9TTnTu3ql_g"], ["9oDZ2vN9XF0"], ["vc3JWo2iiGc"], ["aTBSQKh8teE"], ["wD3j1O1XHQY"], ["euTyRhnqFtA"], ["87l9IhZkUuw", "ttJdr01bHr0"], ["3L3ykittTvs"], ["ByZzz-sxV_c"], ["HNYsO25n-MQ"], ["GELlqsEC9eo"], ["SAg3HTBo9Eg"]],
     aliases:["チップチューン", "8ビット音楽"],},
   // ロック系
-  {id:"rock", label:"Rock", cat:"rock", era:"1960s", suno:true,
+  {id:"rock", label:"Rock", cat:"rock", era:"1940s-1950s", suno:true,
     books:[
       {asin:"B00N2EW0JK", title:"ロックの歴史", img:"https://m.media-amazon.com/images/I/81kRekPUVqL._AC_UY218_.jpg", pin:true},
       {asin:"4865980873", title:"名曲200でわかるロックの歴史と精神", img:"https://m.media-amazon.com/images/I/81JvRJENzrL._AC_UY218_.jpg", pin:true}
@@ -4659,7 +4659,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     aliases:["セビジャーナス", "セヴィジャーナス"],},
 
   // 追加バッチ3
-  {id:"cyberpunk_music", label:"Cyberpunk", cat:"synthwave", era:"1980s", suno:true,
+  {id:"cyberpunk_music", label:"Cyberpunk", cat:"synthwave", era:"1970s-1980s", suno:true,
     books:[
       {asin:"4799801007", title:"シンセサイザーがわかる本", img:"https://m.media-amazon.com/images/I/71fw7SS9EIL._AC_UY218_.jpg"},
       {asin:"4401639502", title:"CROSSBEAT Presents テクノポップ・ディスク・ガイド", img:"https://m.media-amazon.com/images/I/717P9LSsLKL._AC_UY218_.jpg"}
@@ -6248,7 +6248,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks:[["1w7OgIMMRc4", "qoflJn7zkFM"], ["pAgnJDJN4VA", "rrim6_9VSeM"], ["l482T0yNkeo"], ["HQmmM_qwG4k", "HibBnC6SVk8"], ["7nqcL0mjMjw"], ["tMDFv5m18Pw", "8lD5bfqzr6E"], ["UAKCR7kQMTQ", "Wr9ie2J2690"], ["U1lTNjooUYE"], ["qDPqRE_uRzE"], ["Lo2qQmj0_h4"], ["ww9484EM2OQ"], ["lMGaiSqOp58"], ["SwYN7mTi6HM"], ["fuKDBPw8wQA"], ["9VVFNgbsDC4"], ["6yP1tcy9a10"], ["n4RjJKxsamQ"], ["RSL3dwfEx3I"], ["Ff9efKdyz84"], ["PeMvMNpvB5M"], ["VQI9Df546l8"], ["DIGcEDAK1Nc"], ["kLJO-gAp8fc"], ["5BWJOETwIGc"]],
     popularity:9,
     aliases:["ハードロック"],},
-  {id:"post_rock", label:"Post-Rock", cat:"rock", era:"1990s", suno:true,
+  {id:"post_rock", label:"Post-Rock", cat:"rock", era:"1980s-1990s", suno:true,
     books:[
       {asin:"4401641434", title:"ポストロック・ディスク・ガイド", img:"https://m.media-amazon.com/images/I/71cbxh4QRpL._AC_UY218_.jpg", pin:true},
       {asin:"490395188X", title:"ex-music〈L〉ポスト・ロックの系譜", img:"https://m.media-amazon.com/images/I/51xBKRHm8OL._AC_UY218_.jpg", pin:true}
@@ -6392,7 +6392,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks:[["nspxAG12Cpc"], ["MM62wjLrgmA", "80RtBeB61LE"], ["GIuZUCpm9hc"], ["Y7JG63IuaWs", ""], ["rHcmnowjfrQ"], ["SGRgAULYgWE", "mipc-JxrhRk"], ["v-Su1YXQYek", "TsdIO8RHMTc"], ["cs8rkoouPSU"], ["eYCYGpu0OxM"], ["WqSXhynkz7g"], ["pEkWYrmk7OA", ""], ["C5sg8heGdyk"], ["j4xCb_OU_lM", "hSaNBSKOcag"], ["3NttJB0DfiQ"], ["jaJUEMdiHkY"], ["ITc2qlJT5tE", "-2Y2A_Qlo8k"], ["RTSbcPeV5yA"], ["WwA7KW-uSIE"], ["CAmFgWnC8l0", ""]],
     popularity:7,
     aliases:["プログレッシブメタル", "プログメタル", "プログレッシヴメタル"],},
-  {id:"groove_metal", label:"Groove Metal", cat:"metal", era:"1990s", suno:true,
+  {id:"groove_metal", label:"Groove Metal", cat:"metal", era:"1980s-1990s", suno:true,
     books:[
       {asin:"B00NZJ9UVS", title:"叙事詩的なヘヴィメタルの歴史", img:"https://m.media-amazon.com/images/I/81aBnoxssCL._AC_UY218_.jpg"},
       {asin:"B0BTTX94H2", title:"音楽の歴史にメタルあり", img:"https://m.media-amazon.com/images/I/810UHdNGs6L._AC_UY218_.jpg"}
@@ -6404,7 +6404,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks:[["AkFqg5wAuFk", "XNjKN0_wx3s"], ["yPNFVj-pISU"], ["i97OkCXwotE", ""], ["2-V8kYT1pvE"], ["7m7njvwB-Ks", ""], ["F_6IjeprfEs", "nUCodt4zVw4"], ["E0E0ynyIUsg", "d85hvAKXy_o"], ["tymWpEU8wpM", ""], ["Q_WHGV5bejk"], ["oqdZpxkzNvc"], ["HL9kaJZw8iw", "-oVW8gcse4g"], ["a3JSbOt7CLo"], ["iFm9v0wvEnw"], ["Qf0yWQzz0gM", "rCJ2HXi8FMc"], ["zPFPRSZDXp0"], ["oZzXzXx-xng"], ["i8XOCwVXlS4"], ["caL4E0Ix38U"], ["3gox0YYHkrw"]],
     popularity:7,
     aliases:["グルーブメタル", "グルーヴメタル"],},
-  {id:"metalcore", label:"Metalcore", cat:"metal", era:"1990s", suno:true,
+  {id:"metalcore", label:"Metalcore", cat:"metal", era:"1980s-1990s", suno:true,
     books:[
       {asin:"B00NZJ9UVS", title:"叙事詩的なヘヴィメタルの歴史", img:"https://m.media-amazon.com/images/I/81aBnoxssCL._AC_UY218_.jpg"},
       {asin:"B0BTTX94H2", title:"音楽の歴史にメタルあり", img:"https://m.media-amazon.com/images/I/810UHdNGs6L._AC_UY218_.jpg"}
@@ -8423,7 +8423,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks:[["0TFNGRYMz1U"], ["rzeLynj1GYM", "qPU8mENUBXk"], ["4r454dad7tc"], ["Vz6r0TP4FBI", "e0esAGxzP6Y"], ["fVfnEyLOkrM", "hWLc0J52b2I"], ["tDWeLlvYyYU"], ["BvJRyJuyOpo"], ["GlpDf6XX_j0"], ["bNaWzYWX-HE"], ["qjpRSREHX1Y"], ["fztkUuunI7g"], ["z-6V8PsgHuo"], ["nZcdI1u_9o8"], ["xXqLj7X1WDU"], ["vsra2Rj06hw"], ["ohOPRkllcmw"], ["PT7U_GzRIv0"], ["0OrKMaeQUx0"], ["SC06NyI6KKU"], ["-E_Hyn53acA"], ["9Hv6R2fEdfA"], ["WI5mld3uDz8"], ["4YdqdMOZndI"]],
     aliases:["シャンソン", "Chanson française", "French chanson"],},
 
-  {id:"fado", label:"Fado", cat:"iberian", era:"1820s", suno:false,
+  {id:"fado", label:"Fado", cat:"iberian", era:"1820s（確認できる最古の時期）", suno:false,
     desc:"ファドは、ポルトガルの歌だ。名前は、宿命を意味する語に由来する。\n\n伴奏の基本は、2種類の弦楽器である（近年は、ポルトガル・ギターが2本になる編成や、低音楽器が加わる編成もある）。ひとつはポルトガル・ギターで、洋梨のような丸い胴を持つ12弦の楽器だ。六組の複弦を張り、扇形に広がる金属の糸巻き装置を持つ。奏者は指に爪を付けて弾き、細かく震える装飾音と、歌に絡みつく対旋律（歌とは別に重ねる旋律）を担う。ポルトガル・ギターは、この音楽を特徴づける楽器で、歌に対旋律を添える。もうひとつは伴奏用のギターで、和音とリズムを刻む。低音の弦楽器が加わることもある。\n\n拍子は、伝統的なファド（ファド・カスティーソ）では4拍子が基本だ。短調の「ファド・メノール」は、遅いテンポで歌われることが多い。一方、長調の「ファド・コルリード」は速く、モウラリアは速い〜中庸とされる。和声（コードの響き）は基本的でありながら、切ない響きを持つ進行が選ばれる。\n\n歌唱がこの音楽の中心である。歌手は派手な動きを避け、その場に立って、しばしば目を閉じて歌う。ただし、身振りや言葉の即興も、主に伝統的・アマチュアの場では表現の一部である。声は喉を絞って絞り出され、語尾を長く伸ばし、装飾を凝らして震わせるとされる。\n\n歌詞の主要な主題の一つはsaudadeで、失われたもの、あるいは決して手に入らなかったものへの、名づけがたい思慕である。ほかに日常や街を歌う曲もある。この感情を指す固有の語があり、他の言語に正確には訳せないとされる。",
     roots_story:"舞台は、リスボンの貧民街だ。この歌は、少なくとも1820年代のリスボンまでたどれるとされる。起源には諸説がある（18世紀半ばにブラジルから持ち込まれたとする説や、アフロ・ブラジルの歌舞と地元の歌が融合したとする説など）。\n\n1820年代から1840年代には、リスボンの貧民街で歌われていた。港に近いこれらの地区は、船乗り、娼婦、馬車の御者らが出入りする場所だった。その周縁的な生活の中から、この歌は現れた。\n\n名声を得た最初の歌い手とされるのが、Maria Severa Onofrianaである。彼女は娼婦だったとされ、貴族の伯爵と関係を持ったことで知られ、1846年に26歳で死去した。女性の歌手が黒い肩掛けをまとう慣習は、彼女の死を悼んだことに由来するとも、彼女が失恋後に自らまとった喪の肩掛けに由来するとも伝えられている。\n\n20世紀の中心は、Amália Rodriguesである。彼女は貧しい家に生まれ、果物売りをしながら歌った。やがて国際的な名声を得て、この音楽を世界へ知らしめた。ただし彼女の評価には複雑さが伴う。\n\n20世紀のポルトガルでは、1926年のクーデターに始まる独裁（国民独裁）が、1933年にEstado Novo（新国家）体制となり、1974年に終わった。その政権は、この歌を検閲のもとに置いた。\n\n「3つのF（フットボール、ファティマ、ファド）」という言い方で、ファドは、娯楽と信仰と競技によって民衆の政治的関心を逸らす政策の一部だったと語られる。だが、研究者の評価は分かれる。ファド史研究者のMichael Colvinは、政権がファドを宣伝の道具として使ったわけではないと述べている（Colvinは、検閲によって政権の「進歩」観と明確に矛盾しないようにし、「貧しくても陽気」（pobrete mas alegrete）という像を広めて、体制を揺るがしかねない歌を抑え込んだと述べる。一方、Lila Ellen Grayは、1950年代以降に国家が観光産業・国営ラジオでファドを動員したと論じている）。検閲により、体制の「進歩」観と矛盾する歌や左派的な歌は大きく抑え込まれた。Colvinはさらに、「貧しくても陽気」の像の推進を指摘する。\n\n1974年、ほぼ無血の革命（カーネーション革命）によって独裁が終わった。すると、この歌は体制の代名詞として左派から批判・敵視され、コンテストの中断やラジオ・テレビでの露出の急減を招いた。1976年ごろから回復に向かった。\n\n皮肉なことに、後年になってAmália Rodrigues自身が、密かに非合法の共産党へ資金を提供していたことが明らかになった。1999年にサラマーゴ（ノーベル賞作家）が証言し、共産党書記長も、寄付が数年にわたり党の資金として記録されたと確認している（金額は非公開。政治犯の家族支援への寄付とする別の解説もある）。\n\n1980〜90年代に復興が始まったとされる（20世紀末は人気が低迷し、21世紀初頭に関心が再燃したともされる）。若い世代が、政治的な負荷から解放されたこの歌を再び手に取った。Mísiaらが先に活躍したのち、デビュー作『Fado em Mim』を2001年にポルトガルで発売し、2002年に国際発売したMarizaをはじめとする歌手が、国際的な成功を収めている。2011年には、国際連合の機関によって無形文化遺産に登録された。",
     rep_tracks:["Canção do Mar (Dulce Pontes)", "Desfado (Ana Moura)", "Uma Casa Portuguesa (Amália Rodrigues)", "Povo Que Lavas No Rio (Amália Rodrigues)", "Lisboa Menina e Moça (Carlos do Carmo)", "Estranha Forma de Vida (Amália Rodrigues)", "Meu Fado Meu (Mariza)", "Coimbra (Amália Rodrigues)", "Canoas do Tejo (Carlos do Carmo)", "Ai Mouraria (Amália Rodrigues)", "Rosa Branca (Mariza)", "Barco Negro (Amália Rodrigues)"],
@@ -8985,7 +8985,7 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
     yt_tracks:[["YzaBmhMeqI0"], ["FaIBY-HnGu8"], ["qtgyOFZeExE"], ["5mPowSsMa0I", "-gHNZA3V5K8"], ["KRx0ykYz8Bs", "-Mzcyv9TEWw"], ["GKDo2qCKKT4"], ["yAHcw03NLeM"], ["NXgvBMOkZUk"], ["mCAf39Ee3-Q"], ["ZPxBXEYaSdc"], ["JpMDYbWIs5M"], ["jeSaumFLDpY"]],
     aliases:["Rumba", "Cuban Rumba", "Rumba Cubana", "ルンバ", "ルンバ・クバーナ"],},
 
-  {id:"chamber_music", label:"Chamber Music", cat:"classical_sub", era:"1600s", suno:false,
+  {id:"chamber_music", label:"Chamber Music", cat:"classical_sub", era:"16th century", suno:false,
     books:[
       {asin:"448779160X", title:"室内楽の歴史―音による対話の可能性を求めて", img:"https://m.media-amazon.com/images/I/51rfiCN1XAL._AC_UY218_.jpg", pin:true},
       {asin:"4393935144", title:"名盤鑑定百科 室内楽曲篇", img:"https://m.media-amazon.com/images/I/51ceo18evdL._AC_UY218_.jpg", pin:true},
