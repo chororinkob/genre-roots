@@ -280,6 +280,13 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   padding: 9px 11px 10px;
   margin-bottom: 0;
 }
+/* 【総合ランキング（試作）】2026-10-26 チョロさんの希望。今は Heavy Metal だけ。
+   代表曲の並びはそのまま、番号を付け、1〜3位を金・銀・銅にする。 */
+.rk-row { display: flex; align-items: center; gap: 6px; margin: 2px 0; }
+.rk { flex: 0 0 auto; min-width: 20px; height: 20px; padding: 0 3px; box-sizing: border-box; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #aaa; border-radius: 10px; }
+.rk1 { background: linear-gradient(135deg,#ffe27a,#d9a21b); color: #3a2a00; }
+.rk2 { background: linear-gradient(135deg,#f1f4f8,#aab3be); color: #2a2f36; }
+.rk3 { background: linear-gradient(135deg,#e6a46a,#a8642a); color: #2f1a08; }
 #sp-tracks-sec h4 { border-bottom-color: rgba(255,255,255,0.15); }
 /* 枠のすぐ下に区切り線を引いて、「ここから説明が始まる」ことを示す。
    代表曲が無いジャンルでは線も出さない（JS側で枠と一緒に出し入れする）。 */
@@ -1567,7 +1574,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v123.3</span>
+  <span id="version-info">v123.4</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -1718,7 +1725,7 @@ svg { width: 100vw; height: 100vh; }
       <button id="sp-yt-unmute" style="display:none;"></button>
     </div>
     <div class="sp-section" id="sp-tracks-sec" style="display:none;">
-      <h4>代表曲・アーティスト</h4>
+      <h4 id="sp-tracks-h">代表曲・アーティスト</h4>
       <div id="sp-tracks" data-field="rep_tracks"></div>
       <a href="#" id="sp-spotify-link" target="_blank" rel="noopener" class="sp-spotify-link"></a>
     </div>
@@ -7108,8 +7115,8 @@ rep_tracks:["Despacito（Luis Fonsi ft. Daddy Yankee）", "Gasolina（Daddy Yank
       {asin:"B00N2EW0JK", title:"ロックの歴史", img:"https://m.media-amazon.com/images/I/81kRekPUVqL._AC_UY218_.jpg"},
       {asin:"4865980873", title:"名曲200でわかるロックの歴史と精神", img:"https://m.media-amazon.com/images/I/81JvRJENzrL._AC_UY218_.jpg"}
     ],
-    desc:"パンクとポストパンクの尖った演奏を、踊るための機能に接続した音楽である。決定的な要素はベースで、低音を支えるだけの役割を離れ、旋律的で跳ねる音型を延々と反復し、曲の推進力を一手に引き受ける。この、ファンクとディスコから借りた歩き回るベースが、パンクの硬直したリズムを解きほぐす。ギターはこれと対照的で、和音を厚く鳴らさず、極めて高い音域で短く切った音を、拍の裏や隙間に鋭く差し込む。歪みよりも金属的な硬さが求められ、この引っ掻くようなギターと転がるベースの対比が、この分野の音を決定づけている。ドラムは四つ打ちの大太鼓か、ディスコ由来の細かく開閉するハイハット（シンバルを重ねた装置）を用い、そこにカウベルやコンガといった打楽器が加えられる。曲の構造は反復を基調とし、和音進行はほとんど動かず、同じ数小節の輪の上で要素の出入りだけが変化する。歌唱は歌い上げず、叫ぶ、繰り返す、うわ言のように呟くといった形が選ばれる。歌詞は消費社会への批判、労働、身体、皮肉といった主題を扱い、快楽と批評が同居している点が特徴である。",
-    roots_story:"起源は1979年前後のイギリスとアメリカにある。パンクが一巡した後、その担い手たちは黒人音楽、とりわけファンク、ディスコ、レゲエへ関心を向けた。イギリスのリーズで結成されたGang of Fourは、1979年の作品で、マルクス主義的な歌詞と、切り刻まれたギター、そして踊れる強靭なベースを結合させ、この分野の原型を作った一組とされる(ダンスパンクの第1波の中心は、ESG、Liquid Liquid、James Chance and the Contortionsなどニューヨークの勢力とされる)。マンチェスターのA Certain RatioやブリストルのThe Pop Groupも同じ方向を追求している。ニューヨークではさらに直接的な融合が起きた。ブロンクスの姉妹によるESGは、独学で、ドラム、ベース、控えめなギター、ボーカル、打楽器による極めて簡素な楽曲を作り、それが後にヒップホップで最も多くサンプリングされる音源のひとつとなった。同じく99 Recordsから作品を出したLiquid Liquidの楽曲『Cavern』は、Sugar Hillのハウスバンド（レーベル専属の演奏団）に無許可・無クレジットで演奏し直され(インターポレーション)、99 Recordsが提訴した。Talking Headsは1980年の作品で、西アフリカのリズムの循環をロックに導入し、この方向の到達点を示した。この系譜は1980年代初頭にニューポップの台頭で衰える。復活したのは2001年前後のニューヨークである。James MurphyがTim Goldsworthy、Jonathan Galkinとともに設立したDFA Recordsが拠点となり、The Raptureが2002年にDFAから発表した楽曲『House of Jealous Lovers』は、金切り声とカウベルと転がるベースで注目を集め、英国では2003年に27位に入った。James Murphy自身もLCD Soundsystemとして、音楽的な教養と自嘲を織り交ぜた作品を発表する。!!!やOut Hudといったバンドが続き、イギリスではグラスゴーのFranz Ferdinandが2004年に、女の子たちを踊らせる音楽を作りたいという明快な動機を掲げて成功を収め、ロンドンのBloc Partyがより緊張感のある形を提示した。この復興は2000年代半ばに商業的な頂点を迎え、その後急速に飽きられる。しかし、ロックバンドがダンス音楽の機能を真剣に引き受けるという発想は、以後のインディーロックに定着した。",
+    desc:"ダンスパンクは、パンクとポストパンクの尖った演奏を、踊るための音楽に結びつけたものだ。\n\n決め手になるのはベースである。低音を支えるだけの役割を離れ、旋律的で跳ねる音の並びを延々と繰り返し、曲を前へ進める力を一手に引き受ける。ファンクとディスコから借りた、歩き回るようなこのベースが、パンクの硬直したリズムを解きほぐす。\n\nギターはこれと対照的だ。和音を厚く鳴らさず、角張って、乾いてもろい質感で、旋律ではなく質感として鳴らされる。この引っ掻くようなギターと転がるベースの対比が、この分野の音を決定づけている。\n\nドラムは、ディスコ由来の四つ打ちやハイハットを多用する例が多い。そこにカウベルやコンガといった打楽器が加えられる。\n\n曲の組み立ては、繰り返しが土台になることが多い。和音の進行はほとんど動かず、同じ数の小節の輪の上で、楽器の出入りだけが変化する。\n\n歌い方は、歌い上げない。叫ぶ、繰り返す、うわ言のように呟く、といった形が選ばれる。歌詞は知的・自意識的なものが多い（Gang of Fourなどは政治・社会批評色が強い）。",
+    roots_story:"起源は、1979年前後のイギリスとアメリカにある。\n\nパンクが一巡したあと、その担い手たちは、黒人音楽へ関心を向けた。とりわけ、ファンク、ディスコ、レゲエである。イギリスのリーズで結成されたGang of Fourは、1979年の作品で、マルクス主義やシチュアシオニスムの影響を受けた政治的な歌詞と、切り刻まれたギター、そして踊れる強靭なベースを結びつけた。同時期に影響力を持った英国の代表格とされる(ダンスパンクの第1波の中心は、ESG、Liquid Liquid、James Chance and the Contortionsなどニューヨークの勢力とされる)。マンチェスターのA Certain RatioやブリストルのThe Pop Groupは、ポストパンクとファンクの接点にいた。\n\nニューヨークでは、さらに直接的な融合が起きた。ブロンクスの姉妹によるESGは、母親が買い与えた楽器を、姉妹が実践で覚えた。ドラム、ベース、控えめなギター、ボーカル、打楽器による極めて簡素な楽曲を作り、代表曲『UFO』が史上最もサンプリングされた曲の一つとされる。同じく99 Recordsから作品を出したLiquid Liquidの楽曲『Cavern』は、Sugar Hillのハウスバンド（レーベル専属の演奏団）に、無許可・無クレジットで演奏し直された(インターポレーション)。99 Recordsは提訴した。Talking Headsは1980年の作品『Remain in Light』で、西アフリカのリズムの循環をロックに取り入れ、この方向の代表作の一つとなった。\n\nしかし、この流れは1980年代初頭、ニューポップが人気を集めて衰える。\n\n復活したのは、1990年代末から2000年代初頭にかけてで、ニューヨークを中心に英米などへ広がった。James MurphyがTim Goldsworthy、Jonathan Galkinとともに設立したDFA Recordsが拠点となる。The Raptureが2002年にDFAから発表した楽曲『House of Jealous Lovers』は、金切り声とカウベルと転がるベースで注目を集め、英国では2003年に27位に入った。James Murphy自身も、LCD Soundsystemとして、音楽的な教養と自嘲を織り交ぜた作品を発表する。同時期のシーンには、!!!やOut Hudなども加わった。\n\nイギリスでは、グラスゴーのFranz Ferdinandが2004年に成功を収めた。Kapranosは初期に「music for girls to dance to」と語った。ロンドンのBloc Partyは、より緊張感のある形を示した。ポストパンク・リヴァイヴァル全体は、2000年代半ばに頂点を迎え、2008年ごろから勢いが衰えた。それでも、ロックバンドがダンス音楽の機能を真剣に引き受けるという発想は、以後のインディーロックに定着した。",
     rep_tracks: ["Danger! High Voltage (Electric Six)", "Do You Want To (Franz Ferdinand)", "Daft Punk Is Playing at My House (LCD Soundsystem)", "Echoes (The Rapture)", "Losing My Edge (LCD Soundsystem)", "House of Jealous Lovers (The Rapture)", "Romantic Rights (Death from Above 1979)", "Me and Giuliani Down by the School Yard (!!!)", "Give It Up (LCD Soundsystem)", "Gay Bar (Electric Six)", "Dance to the Underground (Radio 4)", "Olio (The Rapture)"],
     yt_mix:["2a4gyJsY0mc", "1OJRRUnY--A"],
     yt_tracks: [["2a4gyJsY0mc"], ["1OJRRUnY--A", "YZzbB4ta-YY"], ["Cj8JrQ9w5jY", "d7kqfeRb0KY"], ["bibXZUZVonw"], ["6xG4oFny2Pk"], ["6HP04nfUi4g", "mBsLKPmr95Q"], ["6Wnl9PpnTXI"], ["yaqQYetCH8U"], ["th2IQgi5d-Y"], ["iolb1Zx-05A"], ["__uymFDR38s"], ["JC8RczGLfwI"]],
@@ -16976,7 +16983,7 @@ const GLOSSARY = {
   "Bedhead": "1991年にアメリカのテキサス州ダラスで結成されたバンド。3本のギターによる繊細な絡み合いで、スローコアを代表した。",
   "Red House Painters": "1988年にアメリカのジョージア州アトランタで結成され、のちサンフランシスコへ移ったバンド。Mark Kozelekを中心に、長大で内省的な作品を残した。",
   "Duster": "1996年にアメリカのカリフォルニア州で結成されたバンド。当時ほぼ無名だったが、2010年代にインターネット上で再発見され熱狂的な支持を得た。",
-  "Gang of Four": "1976年にイギリスのリーズで結成されたバンド。マルクス主義的な歌詞と切り刻まれたギター、踊れるベースを結合させ、ダンスパンクの原型を作った一組とされる。",
+  "Gang of Four": "1976年にイギリスのリーズで結成されたバンド。ポストパンクを代表するバンドで、ファンクの影響を受けた鋭いギターと政治的な歌詞で知られ、ダンスパンクにも影響を与えた。",
   "A Certain Ratio": "1977年にマンチェスターで結成されたバンド。ファンクとポストパンクを融合させ、イギリスの踊れる実験的ロックを代表した。",
   "The Pop Group": "1977年にイギリスのブリストルで結成されたバンド。フリージャズ、ダブ、ファンクを政治的な怒りと結合させた過激な作風で知られる。",
   "ESG": "1977年にニューヨークのブロンクスで姉妹によって結成されたバンド。ドラム、ベース、控えめなギター、ボーカル、打楽器による最小限の編成の楽曲が、後にヒップホップで多くサンプリングされ、代表曲「UFO」は、史上最もサンプリングされた曲の一つとされる。",
@@ -22603,6 +22610,10 @@ node.on("click", (e, d) => {
   const spTracks = document.getElementById("sp-tracks");
   const spTracksSec = document.getElementById("sp-tracks-sec");
   let tracksHtml = '';
+  // 【総合ランキング（試作）】2026-10-26。今は Heavy Metal だけ。他のジャンルは今までどおり。
+  const 順位表示 = (d.id === 'heavy_metal');
+  const spTracksH = document.getElementById('sp-tracks-h');
+  if (spTracksH) spTracksH.textContent = 順位表示 ? '総合ランキング' : '代表曲・アーティスト';
   if (d.rep_tracks && d.rep_tracks.length > 0) {
     // 【代表曲の見出し】2026-09-19（AORの作り直しで、チョロさんの希望）
     // rep_groups:[{cat:"見出し", items:["曲名 (演奏者)", …]}] を持つジャンルだけ、
@@ -22630,7 +22641,12 @@ node.on("click", (e, d) => {
       //  ・見える文字だけを差し替える。用語説明の span は <a> の内側に入るが、
       //    クリック処理は closest('.yt-music-link') で親をたどるため、
       //    span の上を押しても再生は従来どおり動く。
+      if (順位表示) {
+        const 位 = tidx + 1;
+        tracksHtml += `<div class="rk-row"><span class="rk${位 <= 3 ? ' rk' + 位 : ''}">${位}</span><a href="#" class="yt-music-link" data-query="${escaped}" data-track-idx="${tidx}" style="color:#7ecfff;text-decoration:none;cursor:pointer;font-size:12px;">▶ ${_applyGlossary(item)}</a></div>`;
+      } else {
       tracksHtml += `<div style="margin:2px 0;"><a href="#" class="yt-music-link" data-query="${escaped}" data-track-idx="${tidx}" style="color:#7ecfff;text-decoration:none;cursor:pointer;font-size:12px;">▶ ${_applyGlossary(item)}</a></div>`;
+      }
     });
   }
   if (d.tracks && d.tracks.length > 0) {
