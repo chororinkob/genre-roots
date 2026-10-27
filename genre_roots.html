@@ -1572,7 +1572,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v129.2</span>
+  <span id="version-info">v129.3</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -2242,8 +2242,8 @@ const NODES = [
       {asin:"4907276966", title:"IDM definitive 1958-2018", img:"https://m.media-amazon.com/images/I/81H6HcP5z0L._AC_UY218_.jpg"},
       {asin:"4651820549", title:"200CDテクノ/エレクトロニカ", img:"https://m.media-amazon.com/images/I/51WUvLYvqwL._AC_UY218_.jpg"}
     ],
-    desc:"既存の音楽形式に収まることを目的とせず、電気・電子の音そのものの可能性を試すことを目的にした音楽のまとめた呼び名。発振器が出す正弦波・矩形波・鋸歯状波、雑音発生器のホワイトノイズ、テープの回転速度の操作、フィードバックの暴走、自作の回路や壊れた機材の誤動作を利用するサーキットベンディングまで、音源も方法も限定されない。拍を持たない曲が多く、代わりに音の詰まり具合、音の高さの範囲、空間の広がり、鳴らす時間の長さの作り込みで曲が組み立てられる。調性の代わりに、近い二つの周波数が干渉して生じる周期的な揺れ（うなり）や倍音の重なりが和音の役割を果たす。作曲家が細部まで指定する場合もあれば、乱数や環境の変化に委ねる偶然や自動生成に任せる場合もあり、コンピュータでは音を数値として合成するMax/MSP、SuperCollider、Pure Dataといった環境が使われる。再生装置も作品の一部で、多数のスピーカーへの音の配分や会場自体の反響を計算に入れることが多い。ポップスやテクノと違い、踊らせることも覚えやすさも目的にせず、聴くという行為そのものをあらためて問い直す姿勢が共通している。",
-    roots_story:"きちんとした制度としての電子音楽は、1950年代に放送局と大学に設けられた研究スタジオで本格化した（John Cageの1939年の作品を最初期の電子音響音楽とする見方もある）。1951年に放送局（当時はNWDR、のちのWDR）のケルン・スタジオの創設が決まり（公式の開設は1953年）、Herbert Eimertを中心に、録音された現実音を素材とするパリのミュジック・コンクレートに対抗して、発振器が生む純粋な電子音だけで音楽を構成するElektronische Musikが掲げられた。Karlheinz Stockhausenが1954年に発表した「Studie II」は、正弦波の重ね合わせだけで作られ、電子音楽として史上初めて楽譜が出版された作品である。イタリアではミラノのRAIにStudio di Fonologia Musicaleが1955年に設けられ、Luciano BerioとBruno Madernaが人声の加工を進めた。アメリカでは、コロンビア大学とプリンストン大学の電子音楽スタジオが1959年にColumbia-Princeton Electronic Music Centerとして正式に設立され、1957年に納入された部屋一つを占める巨大な合成装置RCA Mark II Sound Synthesizerを擁し、Milton Babbittが音高・音価・音色まで完全にコントロールする作品を作った。ベル研究所のMax Mathewsは1957年、コンピュータに音を計算させるプログラムMUSIC Iを書き、デジタル音響合成の起点を作る。制度の外側にも系譜がある。John Cageは1939年の「Imaginary Landscape No. 1」で可変速レコードプレーヤーを楽器として使い、1952年の「Williams Mix」では約600種の録音を易経による偶然操作に従って磁気テープに切り貼りし、8本の独立したテープを同時に再生する作品にした。Louis and Bebe Barron夫妻は1956年の映画「Forbidden Planet」に、自作の電子回路を過負荷で焼き切れさせて作った電子音だけで全編の音楽を付けている。イギリスではBBC Radiophonic Workshopが1958年に設立され、Daphne OramとDelia Derbyshireがテープ加工でドラマの音響を作り、Ron Grainerが作曲した1963年の「Doctor Who」の主題曲を、Derbyshireが電子音で実現し、電子音を大衆の耳に届けた。1964年にRobert Moogが、1960年代半ばにDon Buchlaがそれぞれモジュラー・シンセサイザーを発表すると、機材は研究所から個人の手に移る。Iannis Xenakisは確率論と建築の知識を作曲へ持ち込み、1977年にパリで開設された研究機関IRCAMはPierre Boulezのもとでコンピュータ音楽の中心となった。1990年代以降は安価なパソコンとソフトウェアがスタジオを不要にし、Autechre、Aphex Twin、CDの読み取りエラーを意図的に素材にしたOvalらが、ダンス音楽やノイズの側からこの伝統に合流する。ウィーンのMegoやイギリスのWarp Recordsといったレーベルが受け皿となり、実験的電子音楽は学術と大衆文化の両方にまたがる分野になっている。",
+    desc:"実験的電子音楽は、決まった音楽の形に収まることを目指さず、電気や電子の音そのものに何ができるかを試す音楽をまとめた呼び名だ。\n\n使う音にも方法にも、限りはない。発振器が出す正弦波・矩形波・鋸歯状波、雑音発生器のホワイトノイズ、テープの回転速度の操作、フィードバックの暴走などが使われる。電池で動く玩具などの既製の機器を改造し、ショートさせて、予期しない音を得るサーキットベンディングという手法まである。\n\n一部の持続音・ドローン系の作品では、調性の代わりに、別のものが和声の役割を担う。近い二つの周波数が干渉して生まれる周期的な揺れ（うなり）や、倍音の重なりである。\n\n拍を重視しない作品が多い。その代わりに、音の詰まり具合、音の高さの範囲、空間の広がり、鳴らす時間の長さを作り込んで、曲を組み立てる。\n\n作り方もさまざまだ。作曲家が細部まで指定する場合もあれば、乱数や環境の変化に委ねて、偶然や自動生成に任せる場合もある。コンピュータでは、音を数値として合成するMax/MSP、SuperCollider、Pure Dataといった環境が使われる。\n\n再生装置も作品の一部である。多数のスピーカーに音をどう振り分けるかや、会場そのものの響きを、計算に入れることが多い。ポップスやテクノと違い、踊りやすさも覚えやすさも重視しない作品が多い。そこには、聴くという行為そのものを、あらためて問い直す姿勢がある。",
+    roots_story:"制度としてきちんと形になった電子音楽は、1950年代に、放送局と大学に置かれた研究スタジオで本格的に始まった（John Cageの1939年の作品を最初期の電子音響的作品とする見方もある）。\n\nドイツでは1951年、放送局（当時はNWDR、のちのWDR）のケルン・スタジオの創設が決まった（公式の開設は1953年）。中心になったのはHerbert Eimertである。ケルンは、録音した現実の音を素材にするパリのミュジック・コンクレートに対抗して、発振器が生む純粋な電子音だけで音楽を組み立てるElektronische Musikを掲げた。Karlheinz Stockhausenが1954年に作曲した「Studie II」は、正弦波の重ね合わせだけで作られた。1956年に楽譜が出版され、電子音楽で最初に出版された楽譜とされる。\n\nイタリアでは1955年、ミラノのRAIにStudio di Fonologia Musicaleが置かれ、Luciano BerioとBruno Madernaが人の声の加工を進めた。アメリカでは、コロンビア大学とプリンストン大学の電子音楽スタジオが、1959年にColumbia-Princeton Electronic Music Centerとして正式に設立された。ここには、1957年に納入された、部屋一つを占める巨大な合成装置RCA Mark II Sound Synthesizerがあった。Milton Babbittはここで、音高・リズム・強弱などを音列的に組織した（総音列主義的な）作品を作った。ベル研究所のMax Mathewsは1957年、コンピュータに音を計算させるプログラムMUSIC Iを書き、デジタルで音を合成する出発点を作った。\n\n一方で、制度の外側にも流れがある。John Cageは1939年の「Imaginary Landscape No. 1」で、回転速度を変えられるレコードプレーヤーを楽器として使った。1952年の「Williams Mix」では、約600種の録音を、易経による偶然の操作に従って磁気テープに切り貼りした。そして8本の独立したテープを同時に再生する作品にした。Louis and Bebe Barron夫妻は、1956年の映画「Forbidden Planet」の音楽を、全編電子音だけで付けている。その音は、自作の電子回路に負荷をかけすぎて焼き切れさせて作ったものだった。\n\nイギリスでは、BBC Radiophonic Workshopが1958年に設立された。開設時はDaphne Oramが中心だったが、彼女は短い期間で去った。1960年代にはDelia Derbyshireが活躍し、テープ加工でドラマの音響を作った。Ron Grainerが作曲した1963年の「Doctor Who」の主題曲を、Derbyshireが電子音で形にし、電子音を一般の人々の耳に届けた。\n\nやがて機材は、研究所から個人の手に移っていく。1964年にRobert Moogが、1960年代半ばにDon Buchlaが、それぞれモジュラー・シンセサイザーを発表したからだ。Iannis Xenakisは、確率論と建築の知識を作曲に持ち込んだ。1977年にパリで開設された研究機関IRCAMは、Pierre Boulezのもとで、コンピュータ音楽の中心になった。\n\n1990年代以降は、Autechre、Aphex Twinらが、この伝統に合流する。彼らはハードウェア中心のダンス／テクノ系から出発し、のちにソフトウェア（Max など）を取り入れた。CDの読み取りエラーをわざと素材にしたOvalは、グリッチと位置づけられる。ウィーンのMegoや、イギリスのWarp Recordsといったレーベルがその受け皿になった。こうして実験的電子音楽は、学術と大衆文化の両方にまたがる分野になっている。",
     rep_tracks:["Switched-On Bach (Wendy Carlos)", "Chorus (Holly Herndon)", "Ziwzih Ziwzih OO-OO-OO (Delia Derbyshire)", "Silver Apples of the Moon (Morton Subotnick)", "Replica (Oneohtrix Point Never)", "Hymnen (Karlheinz Stockhausen)", "Persepolis (Iannis Xenakis)", "Do While (Oval)", "Studie I (Karlheinz Stockhausen)", "I of IV (Pauline Oliveros)", "Apocalypse (Tod Dockstader)", "Forbidden Planet (Bebe and Louis Barron)"],
     yt_mix:["4SBDH5uhs4Q", "nHujh3yA3BE"],
     yt_tracks:[["4SBDH5uhs4Q"], ["nHujh3yA3BE"], ["jetzY-W78gg"], ["EelvKqhu1M4", "9HoljsO22qA"], ["WEGp4YQP_Ck"], ["SV4Uy-3b0c8"], ["O1j43m3D9-Q"], ["RYSTR9bA9wQ"], ["Ovz6it26iSw", "1Phx-EjtrH4"], ["2kJD0dbE9Ow"], ["DEEVv1__1is"], ["ovHb3la080U"]],
@@ -13311,7 +13311,7 @@ const GLOSSARY = {
   "Max/MSP": "Miller Pucketteらが開発し1990年代から市販されている音楽用のビジュアルプログラミング環境。箱と線を繋いで音響処理や作曲の仕組みを組み立てる。",
   "SuperCollider": "1996年にJames McCartneyが公開した音響合成用のプログラミング言語。演奏中に音の記述を書き換えられるため、実験音楽やライブコーディングで広く使われる。",
   "Pure Data": "Miller Pucketteが1996年に公開した無償のビジュアルプログラミング環境。Max/MSPと同系統で、音響と映像の処理に使われる。",
-  "Herbert Eimert": "ドイツの作曲家・理論家(1897-1972)。1951年に西ドイツ放送ケルン・スタジオを設立し、電子音楽の理論的な旗振り役となった。",
+  "Herbert Eimert": "ドイツの作曲家・理論家(1897-1972)。1951年にNWDRでMeyer-Epplerらとスタジオ設立を働きかけ、初代所長を1962年まで務めた。電子音楽の理論的な旗振り役となった。",
   "Studie II": "Karlheinz Stockhausenが1954年に発表した電子音楽作品。正弦波の重ね合わせだけで作られ、電子音楽として初めて楽譜が出版された。",
   "RAI": "イタリアの公共放送協会。1955年にミラノで電子音楽スタジオStudio di Fonologia Musicaleを開設した。",
   "Studio di Fonologia Musicale": "1955年にミラノのRAI内に設立された電子音楽スタジオ。Luciano BerioとBruno Madernaが中心となり、人声の加工を進めた。",
@@ -13319,7 +13319,7 @@ const GLOSSARY = {
   "Bruno Maderna": "イタリアの作曲家・指揮者(1920-1973)。Luciano Berioとともにミラノの電子音楽スタジオを率いた。",
   "RCA Mark II Sound Synthesizer": "1957年にRCAが開発した巨大な音響合成装置。紙テープに穴を開けて音高や音色を指定する方式で、コロンビア・プリンストン電子音楽センターに設置された。",
   "Max Mathews": "アメリカの技術者(1926-2011)。1957年にベル研究所でコンピュータに音を計算させるプログラムMUSIC Iを書き、デジタル音響合成の父と呼ばれる。",
-  "MUSIC I": "Max Mathewsが1957年に開発した最初のコンピュータ音響合成プログラム。以後のあらゆるデジタル音楽ソフトの源流にあたる。",
+  "MUSIC I": "Max Mathewsが1957年に開発した最初のコンピュータ音響合成プログラム。後のMUSIC-N系列をはじめ、多くの音楽ソフトに影響を与えた。",
   "Imaginary Landscape No. 1": "John Cageが1939年に発表した作品。可変速のレコードプレーヤーと発振音のレコードを楽器として使い、電子音楽の先駆けとされる。",
   "Williams Mix": "John Cageが1952年に完成させたテープ作品。約600の録音を易経による偶然操作に従って切り貼りし、8本の独立したテープを同時に再生する。",
   "Forbidden Planet": "1956年のアメリカのSF映画（邦題「禁断の惑星」）。Louis and Bebe Barron夫妻による自作回路の音だけで全編の音楽が作られた最初の劇映画。",
@@ -13636,7 +13636,7 @@ const GLOSSARY = {
   "Anarchy in the U.K.": "Sex Pistolsが1976年に発表したデビューシングル。反キリスト・無政府主義を掲げる挑発的な歌詞でイギリス社会に大きな衝撃を与え、パンクを一気に社会現象へと押し上げた。",
   "ギャングスタ・ラップ": "1985年のSchoolly Dに始まり、1980年代末に西海岸で確立した、ストリートの暴力や貧困、警察との対立を赤裸々に描くラップの様式。N.W.A.の『Straight Outta Compton』(1989)が代表例で、激しい賛否を呼びながらヒップホップを全米の主流へ押し上げた。",
   "RTF": "Radiodiffusion-Télévision Françaiseの略で、1949年から1964年まで存在したフランスの国営放送局。その前身にあたるRDF時代のスタジオ(Studio d'Essai、のちClub d'Essai)でPierre Schaefferらがミュジック・コンクレートを生み出し、電子音楽研究の拠点として機能した。",
-  "WDR": "Westdeutscher Rundfunk(西ドイツ放送)の略。ケルンにある公共放送局で、1951年に創設が決まり1953年に公式に開設されたその電子音楽スタジオはStockhausenらが活動した戦後電子音楽の中心拠点となった。",
+  "WDR": "Westdeutscher Rundfunk(西ドイツ放送)の略。ケルンにある公共放送局。前身のNWDR時代の1951年に創設が決まり1953年に公式に開設されたその電子音楽スタジオは、Stockhausenらが活動した戦後電子音楽の中心拠点となった。",
   "Columbia-Princeton Electronic Music Center": "1959年にコロンビア大学とプリンストン大学が共同でニューヨークに設立した電子音楽研究施設。RCA Mark IIシンセサイザーを擁し、アメリカにおける電子音楽研究の中心となった。",
   "Milton Babbitt": "アメリカの作曲家・音楽理論家(1916-2011)。音を厳格に数理的に組織する音列技法の研究で知られ、Columbia-Princeton Electronic Music CenterでRCA Mark IIを用いた電子音楽作品を制作した。",
   "Switched-On Bach": "Wendy Carlosが1968年に発表したアルバム。バッハの楽曲をモーグ・シンセサイザーだけで演奏し、クラシック部門のグラミー賞を受賞する大ヒットとなって、電子楽器を一般のリスナーに一気に認知させた。",
@@ -16691,7 +16691,7 @@ const GLOSSARY = {
   "R&S Records": "二つの意味がある。①1983年にベルギーのゲントで設立されたレーベル。ニュービートの終焉後、ヨーロッパのテクノとレイヴ音楽の最重要拠点のひとつとなった。②2000年に休止したのち、2008年にロンドン拠点で再始動し、James Blake、Untold、Pariahなどの作品を送り出した。",
   "Alex Paterson": "イギリスの音楽家。クラブの休息の部屋の選曲を担当しながらThe Orbを始動させ、Jimmy Cautyらとともにアンビエント・ハウスを形づくった。",
   "Jimmy Cauty": "イギリスの音楽家・美術家。The KLFの一員で、The Orbの共同創設者。1990年にThe Orbを脱退した。",
-  "Aphex Twin": "アイルランド生まれイギリス育ちの音楽家Richard D. Jamesの名義。1992年11月のデビュー作『Selected Ambient Works 85–92』などで知られ、IDMやアンビエント・テクノに大きな影響を与えた。",
+  "Aphex Twin": "アイルランド生まれイギリス育ちの音楽家Richard D. Jamesの名義。1992年11月のデビュー・アルバム『Selected Ambient Works 85–92』などで知られ、IDMやアンビエント・テクノに大きな影響を与えた。",
   "The Future Sound of London": "イギリスのデュオ。映像的で精緻な音響設計により、アンビエント・ハウスとエレクトロニカの境界を押し広げた。",
   "IDM": "インテリジェント・ダンス・ミュージックの略。1990年代前半に、踊るためではなく聴くために作られた実験的な電子音楽を指して用いられた呼称で、当事者の多くはこの語を嫌っている。",
   "Markus Popp": "ドイツの音楽家。Oval名義でCDを意図的に破損させて得た音を素材とし、グリッチの代表的な先駆者となった。",
