@@ -3600,10 +3600,10 @@
   <changefreq>weekly</changefreq>
   <priority>0.8</priority>
  </url>
-  <url>
-    <loc>https://genre-roots.com/genre_roots.html?genre=post_grunge</loc>
-    <lastmod>2026-10-29</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
+ <url>
+  <loc>https://genre-roots.com/genre/post_grunge.html</loc>
+  <lastmod>2026-10-28</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.8</priority>
+ </url>
 </urlset>
