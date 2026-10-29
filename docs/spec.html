@@ -38,16 +38,16 @@
 <h1>音楽ジャンルルーツ辞典 — 仕様書</h1>
 <h2>この仕様書について</h2>
 <p class="note">この文書は <b>spec_dump.py が実物を読み直して自動で書き出したもの</b>です。手で書き足しても次の書き出しで消えます。決めた理由など人が書くことは <code>docs/decisions.md</code> に書いてください。この文書の末尾にそのまま入ります。</p>
-<p class="note">書き出した日時：<b>2026-10-28 14:42</b></p>
+<p class="note">書き出した日時：<b>2026-10-29 14:04</b></p>
 <h2>いまの版</h2>
 <table>
 <tr><th>項目</th><th>内容</th></tr>
-<tr><td>地図（genre_roots.html）</td><td>v134.2</td></tr>
-<tr><td>サーバー（genre_adder.py）</td><td>v3.10</td></tr>
-<tr><td>ジャンル数</td><td>594</td></tr>
-<tr><td>ジャンル間のつながり</td><td>1,858</td></tr>
-<tr><td>用語集の語数</td><td>7,775</td></tr>
-<tr><td>知名度のデータ</td><td>594 件（2026-08-25 取得）</td></tr>
+<tr><td>地図（genre_roots.html）</td><td>v134.4</td></tr>
+<tr><td>サーバー（genre_adder.py）</td><td>v3.12</td></tr>
+<tr><td>ジャンル数</td><td>595</td></tr>
+<tr><td>ジャンル間のつながり</td><td>1,863</td></tr>
+<tr><td>用語集の語数</td><td>7,806</td></tr>
+<tr><td>知名度のデータ</td><td>595 件（2026-08-25 取得）</td></tr>
 </table>
 <h2>置き場所（消えたときに戻せるように）</h2>
 <table>
@@ -3257,9 +3257,32 @@
 <h3>用語集（説明文のツールチップ）</h3>
 <p>（担当は地図の<code>GLOSSARY</code>と<code>_applyGlossary</code>。2026-07-24に「わからない専門用語に</p>
 <p>カーソルを合わせると説明が出てほしい」という指摘を受けて作った）</p>
-<p><b>ジャンルごとではなく、全ジャンル共通の用語集を1つ持ちます。</b></p>
-<p>説明文の中にその語が出てきたら、自動でツールチップ付きに</p>
-<p>置き換えます。人名・曲名はジャンルごとに毎回違うので用語集には入れず、</p>
+<p><b>全ジャンル共通の用語集（<code>GLOSSARY</code>）と、ジャンルごとの説明（<code>GLOSSARY_GENRE</code>）の2段で持ちます。</b>（2026-10-28 チョロさんの指示で変更）</p>
+<p>説明文の中にその語が出てきたら、自動でツールチップ付きに置き換えます。</p>
+<ul>
+<li><b>共通の説明は、その語のいちばんふつうの意味1つだけ</b>を書きます（例：ロンドン →「イギリスの首都。」）。</li>
+</ul>
+<p>「二つの意味がある。①…②…」のように、各ジャンルの事情を共通の説明に書き足すことはしません。</p>
+<p>書き足し続けた結果、【ロンドン】が「十の意味がある」となり、どのページでも話に合わない説明が出ていたためです。</p>
+<ul>
+<li><b>同じ書き方でも意味が違う語</b>（例：レゲエの【ヴァージョン】＝B面の伴奏トラック）や、そのジャンルならではの補足は、</li>
+</ul>
+<p><code>GLOSSARY_GENRE[ジャンルid][語]</code> に書きます。そのページでは共通の説明の代わりにこれが出ます。</p>
+<ul>
+<li><b>説明がそのページの話と合わない語</b>（別人・別の曲など）は、<code>GLOSSARY_GENRE[ジャンルid][語] = null</code> とし、そのページでは印を付けません。</li>
+<li>2026-10-28 に149語・646か所をこの形に整理しました（地図 v134.2）。</li>
+</ul>
+<p><b>新しいジャンルを足すとき（genre_adder.py v3.11〜）も同じ決まりで作ります。</b></p>
+<table>
+<tr><th>本文に出てくる語</th><th>どうするか</th></tr>
+<tr><td>用語集に無い語</td><td>共通の用語集（<code>GLOSSARY</code>）に、いちばんふつうの意味で足す</td></tr>
+<tr><td>用語集にあり、このジャンルでも同じ意味</td><td>何も足さない（今の共通の説明が出る）</td></tr>
+<tr><td>用語集にあるが、このジャンルでは意味が違う</td><td>このジャンルだけの説明を <code>GLOSSARY_GENRE</code> に足す</td></tr>
+<tr><td>用語集にあるが、説明が別のものを指している</td><td><code>GLOSSARY_GENRE</code> に null を書き、このジャンルでは印を付けない</td></tr>
+</table>
+<p>2〜4行目の判定は、Step 2 で Claude に1回だけまとめて聞きます（<code>judge_existing_glossary</code>）。失敗したときは共通の説明のまま進めます。</p>
+<p>あわせて、テンポの「毎分〜拍」「一分間に〜拍」は機械で「〇〇 BPM」にそろえます（<code>normalize_common_notation</code>。辞典全体をBPMで統一しているため）。</p>
+<p><b>文体も、ほかのジャンルと同じにそろえます（v3.12〜）。</b> 594ジャンルを読みやすく書き直したときの決まり（factcheck-bot/stage2/文体の決まり.md）を、生成の指示に入れました。一文は短め（平均60字以下）、硬い語は日常の言葉に、括弧の補足や根拠のない形容を足さない、音楽性は「一言でいうと」→楽器→和音→リズム→歌い方→歌詞→曲の組み立ての順、成り立ちは時間の順の物語、です。人名・曲名はジャンルごとに毎回違うので用語集には入れず、</p>
 <p><b>繰り返し出てくる音楽用語だけ</b>を入れます。語数はこの仕様書の上のほうに</p>
 <p>自動で書き出されます。</p>
 <p><b>説明する語を「一般の読者に難しそうなもの」で絞り込みません。</b> 何であれ</p>
@@ -3973,6 +3996,7 @@
 <p><b>fresh_batch379 の10ジャンル（2026-10-28、地図v134.0）：</b> Atmospheric Black Metal、Funeral Doom、Ethio-Jazz、Marrabenta、Fuji、Funaná、Kwela、Garifuna Music、Field Recording。説明42か所・成り立ち59か所、用語集62か所（うち語全体の項目の追加3）を直し、直さなかった27件を理由つきで記録。累計（594ジャンル）：説明5282・成り立ち6640・用語集4491（直した4028＋語全体の項目の追加463）、直さなかった1462件。未確認は残り0ジャンル。無料枠 99% → 99%、所要16.6分。新しい流れ: atmospheric_bm・funeral_doom・ethio_jazz・marrabenta・fuji_music・funana・kwela・garifuna・field_recording</p>
 <p><b>fresh_batch380 の10ジャンル（2026-10-28、地図v134.1）：</b> A cappella、Acid Jazz、Acid Techno、Acid Trance、Adult Contemporary、Afropop、Alt-Country、Alternative Rock、Alternative R&amp;B、Americana、Anison、Arena Rock、Art Pop、Art Rock、Atmospheric Speedcore、Baile Funk、Banda、Bhangra、Big Band、Black Metal、Blackgaze、Blue-Eyed Soul、Bolero、Boogie-Woogie、Bossa Nova、Britpop、Bro-Country、Canterbury Scene、Chamber Music、Chicago House、Chillwave、Choral、Christmas music、City Pop、Coldwave、Contemporary R&amp;B、Country Rock、Cowpunk、Crunk、Cyberpunk、Dance Pop、Dancehall、Dark Ambient、Dark EDM、Darkwave、Deathcore、Deep House、Disco、Djent、Doujin music、Dream Pop、Drone Metal、Drone、Dub、Easy Listening、EDM、EDM Trap、Electro House、Electroclash、Enka、Ethereal Wave、Euro Trance、Eurobeat、Eurodance、Europop、Free Jazz、Freestyle、Frenchcore、Funky House、G-Funk、Gabber、Glam Metal、Glam Rock、Goregrind、Gothic Metal、Gothic Rock、Grindcore、Gypsy Jazz、Hands Up、Hard Bop、Hardcore EDM、Hardcore Punk、Hardcore Rave、Hardtek、Hi-NRG、Hip Hop、Horrorcore、Indian Pop、Indie Folk、Indie Rock、Industrial、Italo Disco、J-Core、J-Rock、Jazz、Jazz Rap、Jungle、Jungle Terror、Khoomei、K-POP、Krautrock、Kuduro、Lounge、Mainstream Hardcore、Mandopop、Marrabenta、Melodic Death Metal、Merengue、Minimal Techno、Mor Lam、Neo- Psychedelia、Neo Soul、Neoclassical Darkwave、Neofolk、Neurofunk、New Jack Swing、New Romantic、Nightcore、Noise Rock、Nu-Disco、Opera、Operetta、Partyschlager、Polka、Pop Rap、Pop Rock、Post-Hardcore、Progressive House、Progressive Trance、Proto-Punk、Psychedelic Rap、Psychedelic Trance、Rave、Rebetiko、Reggae、Riot Grrrl、Rock、Rock &#x27;n&#x27; Roll、Rockabilly、Rocksteady、Roots Rock、Schlager、Schranz、Shibuya-kei、Shoegaze、Singer- Songwriter、Smooth Jazz、Soca、Son Cubano、Soul、Space Ambient、Space Rock、Speed Metal、Speednoise、Splittercore、Stoner Rock、Surf Rock、Swamp Rock、Symphonic Black Metal、Symphonic Metal、Synth Pop、Techstep、Trap、2-Step、2 Tone Ska、UK Trap、Video Game Music、Visual Kei、Vocaloid、Waltz、War Metal、Witch House。説明1762か所・成り立ち2262か所、用語集1445か所（うち語全体の項目の追加124）を直し、直さなかった463件を理由つきで記録。累計（594ジャンル）：説明5395・成り立ち6711・用語集4542（直した4070＋語全体の項目の追加472）、直さなかった1462件。未確認は残り0ジャンル。無料枠 100% → 100%、所要0.0分。1回目の指摘の直し漏れ（594ジャンルを突き合わせて見つけた225件）と、区切りの誤り9件を直した。Gensparkには送っていない。</p>
 <p><b>fresh_batch381 の10ジャンル（2026-10-28、地図v134.2）：</b> Darkwave、Ambient、Horror Ambient。説明22か所・成り立ち34か所、用語集49か所（うち語全体の項目の追加4）を直し、直さなかった15件を理由つきで記録。累計（594ジャンル）：説明5395・成り立ち6712・用語集4681（直した4209＋語全体の項目の追加472）、直さなかった1462件。未確認は残り0ジャンル。無料枠 100% → 100%、所要0.0分。用語集を整理した（チョロさんの指示）。意味が1つの語は共通の説明を1つにまとめ、意味が違う語はジャンルごとに説明を分けて出す仕組み（GLOSSARY_GENRE）を地図に足した。149語・646か所。合わないページでは印を外した（9か所）。要相談のうち用語集以外の3件（darkwave・ambient・Heresy）も直した。</p>
+<p><b>fresh_new_20261029 の10ジャンル（2026-10-29、地図v134.4）：</b> Post-Grunge。説明1か所・成り立ち3か所、用語集7か所（うち語全体の項目の追加2）を直し、直さなかった0件を理由つきで記録。累計（595ジャンル）：説明5396・成り立ち6715・用語集4688（直した4214＋語全体の項目の追加474）、直さなかった1462件。未確認は残り0ジャンル。無料枠 100% → 100%、所要13.9分。新規登録ジャンル Post-Grunge のファクトチェック（パソコン起動時の自動処理で届いた答え）の直し。指摘11件・用語7件。</p>
 <p><b>ファクトチェックボード</b>（デスクトップの <code>ファクトチェックボード.html</code>、道具は <code>build_board.py</code>・<code>parse_answers.py</code>・<code>board_data.json</code>）：594行。状態（未・確認済み・修正済み・9/23にAPIで確認）、直した件数、行を開くと</p>
 <p>「直した内容（直す前と後を並べ、違う所に色）」「直さなかったもの（理由）」「Gensparkの指摘（原文）」。上に、無料枠と測定の表。</p>
 <h3>既存の代表曲の動画を聴いて調べ直した（2026-10-12）</h3>
