@@ -1,107 +1,100 @@
 {
-  "実行日": "2026-10-01 08:42",
-  "件数": 14,
+  "実行日": "2026-11-01 09:11",
+  "件数": 13,
   "内容": [
     {
       "種類": "代表曲の削除",
-      "ジャンル": "Hip Hop",
-      "id": "hiphop",
-      "曲名": "Stronger (Kanye West)",
-      "消えた動画": "EXsB5nWCVMI"
+      "ジャンル": "Vaporwave",
+      "id": "vaporwave",
+      "曲名": "真実の恋/True Love (2814)",
+      "消えた動画": "tyhmVW9zNW8"
     },
     {
       "種類": "代表曲の削除",
-      "ジャンル": "Industrial",
-      "id": "industrial",
-      "曲名": "Worlock (Skinny Puppy)",
-      "消えた動画": "l1z4R4DNSx4"
-    },
-    {
-      "種類": "代表曲の削除",
-      "ジャンル": "Italo Disco",
-      "id": "italo_disco",
-      "曲名": "Bad Boy (Den Harrow)",
-      "消えた動画": "y-5DNJyJA4k"
-    },
-    {
-      "種類": "代表曲の削除",
-      "ジャンル": "Grunge",
-      "id": "grunge",
-      "曲名": "Jeremy (Pearl Jam)",
-      "消えた動画": "MS91knuzoOA"
-    },
-    {
-      "種類": "代表曲の削除",
-      "ジャンル": "Country",
-      "id": "country",
-      "曲名": "Forever and Ever, Amen (Randy Travis)",
-      "消えた動画": "sgJXbIP83A8"
-    },
-    {
-      "種類": "代表曲の削除",
-      "ジャンル": "Drill",
-      "id": "drill",
-      "曲名": "Shake the Room (Pop Smoke feat. Quavo)",
-      "消えた動画": "WoHaaOpOjqo"
-    },
-    {
-      "種類": "予備の削除",
-      "ジャンル": "Speednoise",
-      "id": "speednoise",
-      "曲名": "Noise Rave (Passenger of Shit)",
-      "消えた動画": "1MqgNv-RySg"
-    },
-    {
-      "種類": "メイン動画の繰り上げ",
-      "ジャンル": "Speednoise",
-      "id": "speednoise",
-      "曲名": "",
-      "消えた動画": "1MqgNv-RySg",
-      "新しい動画": "XVON0vP8k4s"
-    },
-    {
-      "種類": "代表曲の削除",
-      "ジャンル": "Samba",
-      "id": "samba_genre",
-      "曲名": "Congada (Clara Nunes)",
-      "消えた動画": "Q4qaPB37R1E"
-    },
-    {
-      "種類": "代表曲の削除",
-      "ジャンル": "Blue-Eyed Soul",
-      "id": "blue_eyed_soul",
-      "曲名": "I Only Want to Be with You (Dusty Springfield)",
-      "消えた動画": "M8agr-i4sl4"
+      "ジャンル": "Vaporwave",
+      "id": "vaporwave",
+      "曲名": "新しい日の誕生/Birth of a New Day (2814)",
+      "消えた動画": "awnqBWmOkYc"
     },
     {
       "種類": "代表曲の繰り上げ",
-      "ジャンル": "Tejano",
-      "id": "tejano",
-      "曲名": "Las Nubes (Little Joe y La Familia)",
-      "消えた動画": "FUzlnhbeKXY",
-      "新しい動画": "w-cFY_GRUzI"
-    },
-    {
-      "種類": "予備の削除",
-      "ジャンル": "Flamenco",
-      "id": "flamenco",
-      "曲名": "Almoraima (Paco de Lucía)",
-      "消えた動画": "uz2ARr6Chu4"
+      "ジャンル": "Country",
+      "id": "country",
+      "曲名": "Friends in Low Places (Garth Brooks)",
+      "消えた動画": "b7P97b64Q5E",
+      "新しい動画": "ZcQeocF56Ck"
     },
     {
       "種類": "代表曲の削除",
-      "ジャンル": "Flamenco",
-      "id": "flamenco",
-      "曲名": "Al Mariyya (Tomatito)",
-      "消えた動画": "LDGSb73IZPE"
+      "ジャンル": "Enka",
+      "id": "enka",
+      "曲名": "よこはま・たそがれ (五木ひろし)",
+      "消えた動画": "JETSKHiVa1Y"
+    },
+    {
+      "種類": "代表曲の繰り上げ",
+      "ジャンル": "Minimalism",
+      "id": "minimalism_classical",
+      "曲名": "Drift Study (La Monte Young)",
+      "消えた動画": "5e8QKh3LOQY",
+      "新しい動画": "s0mccTHySzo"
     },
     {
       "種類": "予備の削除",
-      "ジャンル": "Flamenco",
-      "id": "flamenco",
-      "曲名": "El Camino de Jerez (Antonio Mairena)",
-      "消えた動画": "4gXHmJX5yp4"
+      "ジャンル": "Melodic Hardcore",
+      "id": "melodic_hardcore",
+      "曲名": "Stay Gold (Hi-STANDARD)",
+      "消えた動画": "ZTAlikhlm0A"
+    },
+    {
+      "種類": "代表曲の削除",
+      "ジャンル": "UK Bass",
+      "id": "uk_bass",
+      "曲名": "Ultra Thizz (Rustie)",
+      "消えた動画": "s4AqCrR_nAU"
+    },
+    {
+      "種類": "代表曲の削除",
+      "ジャンル": "Hard Bass",
+      "id": "hard_bass_genre",
+      "曲名": "Vixa (Clubbasse)",
+      "消えた動画": "-qsm0ppA4kM"
+    },
+    {
+      "種類": "代表曲の削除",
+      "ジャンル": "Horrorcore",
+      "id": "horrorcore",
+      "曲名": "1-800-Suicide (Gravediggaz)",
+      "消えた動画": "pJmkDbwGqpM"
+    },
+    {
+      "種類": "予備の削除",
+      "ジャンル": "Ska Punk",
+      "id": "ska_punk",
+      "曲名": "Sell Out（Reel Big Fish）",
+      "消えた動画": "QL3Rj9IT4Mc"
+    },
+    {
+      "種類": "予備の削除",
+      "ジャンル": "Spiritual Jazz",
+      "id": "spiritual_jazz",
+      "曲名": "Space Is the Place (Sun Ra)",
+      "消えた動画": "owCPrIEliZc"
+    },
+    {
+      "種類": "代表曲の削除",
+      "ジャンル": "Pop Rock",
+      "id": "pop_rock",
+      "曲名": "Don't Stop Me Now (Queen)",
+      "消えた動画": "arooMdELBQ4"
+    },
+    {
+      "種類": "代表曲の削除",
+      "ジャンル": "Europop",
+      "id": "europop",
+      "曲名": "Take a Chance on Me (ABBA)",
+      "消えた動画": "_elEO3pkASg"
     }
   ],
-  "コミットの題名": "feat: 代表曲の削除9件・予備の削除3件・メイン動画の繰り上げ1件・代表曲の繰り上げ1件 を追加 (2026年10月1日)"
+  "コミットの題名": "feat: 代表曲の削除8件・代表曲の繰り上げ2件・予備の削除3件 を追加 (2026年11月1日)"
 }
