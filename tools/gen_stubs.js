@@ -49,12 +49,15 @@ function metaFor(n) {
   const 読み = (n.aliases || []).find(a => /^[ァ-ヴー・\s]+$/.test(a)) || '';
   const roots = LINKS.filter(l => l.t === id).map(l => ({ id: l.s, label: label(l.s) })).filter(x => x.label);
   const infl = LINKS.filter(l => l.s === id).map(l => ({ id: l.t, label: label(l.t) })).filter(x => x.label);
-  let 差 = '';
-  if (roots.length) 差 = roots.slice(0, 2).map(x => x.label).join('・') + 'から生まれた';
-  else if (infl.length) 差 = infl.slice(0, 2).map(x => x.label).join('・') + 'に影響を与えた';
   const 名読み = 名 + (読み ? '（' + 読み + '）' : '');
-  const T = (差 ? 名読み + 'とは？' + 差 + '音楽ジャンルの成り立ち' : 名読み + ' とは') + ' — 音楽ジャンルルーツ辞典';
-  const D = String(n.desc || '').replace(/\s+/g, ' ').slice(0, 115);
+  // 【2026-11-01】題名・説明文を「開くと何が分かるか」が伝わる形に変更（検索で1ページ目に出てもクリックされないため）。
+  // 以前は題名に「(つながりの線の元)から生まれた」を自動で入れていたが、線には影響関係も含まれるため
+  // 「Pop Rock…Alternative Rockから生まれた」のような誤りになっていた。題名には事実を自動で組み立てない。
+  const N = (n.rep_tracks || []).length;
+  const T = 名読み + 'とは？特徴・歴史' + (N ? '・代表曲' + N + '選' : '') + ' | 音楽ジャンルルーツ辞典';
+  // 説明文は本文の最初の1文＋このページで何ができるか（本文を途中で切らない）
+  const first = String(n.desc || '').replace(/\s+/g, ' ').trim().split('。')[0];
+  const D = (first ? first + '。' : '') + (N ? '代表曲' + N + '曲を動画で聴け、' : '') + 'ルーツと影響のつながりを地図でたどれる。';
   return { id, 名, 名読み, T, D, roots, infl, node: n };
 }
 
