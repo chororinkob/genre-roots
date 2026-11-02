@@ -1,3 +1,4 @@
 
 # ヘルプの図を撮ったときの、途中の書き出し（JPGだけをdocs/imgへ入れる）
 tools/figs/_out/
+tools/figs/_out_panel/

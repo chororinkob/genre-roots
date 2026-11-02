@@ -51,7 +51,8 @@ node tools/figs/all.js
 | `pc_figs.js` | パソコンのリクエスト・修正依頼 `pcadd1` `pcfix1` `pcfix2` |
 | `mic_figs.js` | 「これなんて曲？」`pcmic1`〜`4` `spmic1`〜`4` |
 | `sp_figs.js` / `sp_figs2.js` | スマホ `sp01`〜`sp14` |
-| `kakunin_figs.js` | 申請の確認画面 `kakunin1`〜`4` |
+| `kakunin_figs.js` | 申請の確認画面 `kakunin1`〜`4`（承認待ちの登録があるときだけ撮れる。`docs/図の宿題.md` 参照） |
+| `panel_figs_all.js` / `.py` | 説明パネルの図 `pnl1_top`〜`pnl5_correction`（`all.js` とは別に流す：`node tools/figs/panel_figs_all.js && py tools/figs/panel_figs_all.py`） |
 | `chuu.js` | 図に枠・矢印・札を重ねる道具 |
 | `mic_response.json` | 曲判定の返事の控え。撮り直すたびに外部サービスを叩かないため |
 | `_out/` | 撮れた PNG の置き場（git には入れない） |

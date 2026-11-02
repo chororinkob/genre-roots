@@ -8,7 +8,10 @@ const { chromium, devices } = require('playwright');
 const fs = require('fs');
 const { 仕込む } = require('./chuu.js');
 const 公開 = 設定.地図;
-const 音源 = 'C:/Users/choro/AppData/Local/Temp/claude/c--Users-choro-OneDrive-Desktop-claudeTMP/7e48fb9a-c233-49ec-87a6-20c25cd26eb0/scratchpad/take_on_me.mp3';
+// 【2026-11-03】音源は環境変数 MIC_SAMPLE で渡せるようにした（前のセッションの一時フォルダにあった
+// take_on_me.mp3 が消えていて撮れなかったため）。返事を mic_response.json から使い回すときは、
+// 音源の中身は使われないので、どんな音声ファイルでもよい。
+const 音源 = process.env.MIC_SAMPLE || 'C:/Users/choro/AppData/Local/Temp/claude/c--Users-choro-OneDrive-Desktop-claudeTMP/7e48fb9a-c233-49ec-87a6-20c25cd26eb0/scratchpad/take_on_me.mp3';
 const 保存先 = require('path').join(__dirname, 'mic_response.json');
 
 async function 用意(b, 端末) {
@@ -20,7 +23,9 @@ async function 用意(b, 端末) {
   if (fs.existsSync(保存先)) {
     // 保存してある返事を使う（外へは出ない）
     const 返事 = fs.readFileSync(保存先, 'utf8');
-    await p.route('**/recognize', route =>
+    // 【2026-11-03】地図は送り先の住所の後ろに「?u=閲覧者の札」を付けるようになったので、それが付いていても
+    // 付いていなくても捕まえる（'**/recognize' のままだと素通りして、本物のサーバーに問い合わせていた）。
+    await p.route(/\/recognize(\?|$)/, route =>
       route.fulfill({
         status: 200, contentType: 'application/json',
         headers: {
@@ -32,7 +37,7 @@ async function 用意(b, 端末) {
     console.log('  （保存してある結果を使います。外へは問い合わせません）');
   } else {
     p.on('response', async r => {
-      if (/\/recognize$/.test(r.url()) && r.request().method() === 'POST') {
+      if (/\/recognize(\?|$)/.test(r.url()) && r.request().method() === 'POST') {
         try { fs.writeFileSync(保存先, await r.text(), 'utf8');
               console.log('  （返事を保存しました。次からは外へ出ません）'); } catch (e) {}
       }
@@ -139,7 +144,7 @@ async function 撮る(端末, 接頭) {
         { x: タグ.x + タグ.w + 8, y: タグ.y + 20 }, { 出口: '左', 字: 13, 幅: 230 });
     }
   }, [曲, 人, タグ, 台2, 端末 === 'スマホ']);
-  await p.screenshot({ path: 接頭 + '2_result.png', clip: await パネルを切る(p, 端末 === 'スマホ' ? 600 : 585, 端末 === 'スマホ' ? 390 : 1400) });
+  await p.screenshot({ path: 接頭 + '2_result.png', clip: await パネルを切る(p, 端末 === 'スマホ' ? 650 : 585, 端末 === 'スマホ' ? 390 : 1400) });  // 【2026-11-03】スマホは600だと下の札が切れていたので650に
 
   // ── 3枚目：ジャンルを選ぶ ──
   await p.evaluate(() => {
@@ -172,7 +177,7 @@ async function 撮る(端末, 接頭) {
       else 注.札と矢(ボタン.x + ボタン.w + 40, ボタン.中y - 14, '選び終わったら、これを押す',
         { x: ボタン.x + ボタン.w + 8, y: ボタン.中y }, { 出口: '左', 字: 13 }); }
   }, [選んだ, ボタン, 台3, 端末 === 'スマホ']);
-  await p.screenshot({ path: 接頭 + '3_select.png', clip: await パネルを切る(p, 端末 === 'スマホ' ? 600 : 585, 端末 === 'スマホ' ? 390 : 1400) });
+  await p.screenshot({ path: 接頭 + '3_select.png', clip: await パネルを切る(p, 端末 === 'スマホ' ? 650 : 585, 端末 === 'スマホ' ? 390 : 1400) });  // 【2026-11-03】スマホは600だと下の札が切れていたので650に
   console.log('  選んだジャンル:', 選んだ && 選んだ.名);
 
   // ── 4枚目：マップで確認 ──

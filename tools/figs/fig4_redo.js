@@ -119,7 +119,10 @@ async function 注釈(p, items) {
       候補.push({ lv: lv, other: other, otherLabel: otherLabel, jazz: jazz, 距: 距 });
     });
     候補.sort(function (a, b) { return b.lv - a.lv; });
-    var 弱い候補 = 候補.slice().sort(function (a, b) { return a.lv - b.lv; });
+    // 【2026-11-03】弱い道は、札を置く右側に近い道（ジャズより右）から選ぶ。左下の道を選ぶと、
+    // 右上の札から画面を斜めに横切る長い矢印になり、どの道を指しているか分からなかった。
+    var 右側 = 候補.filter(function (c) { return c.other.x > c.jazz.x + 40; });
+    var 弱い候補 = (右側.length ? 右側 : 候補).slice().sort(function (a, b) { return a.lv - b.lv; });
     return { 太: 候補[0], 細: 弱い候補[0], 総数: 候補.length };
   });
   console.log('選んだ道:', JSON.stringify(測));
@@ -151,9 +154,12 @@ async function 注釈(p, items) {
   }
 
   if (測.細 && (!測.太 || 測.細.otherLabel !== 測.太.otherLabel)) {
-    const o = 測.細.other;
-    it.push({ type: 'tag', text: '影響が弱い道は\n線が少なく、道が細い', x: 1000, y: 200 });
-    it.push({ type: 'arrow', pts: [1040, 260, o.x, o.y + 8] });
+    // 矢印は、相手の玉ではなく道のまんなかを指す（「道が細い」の説明なので）
+    const o = 測.細.other, j = 測.細.jazz;
+    const 中 = { x: (j.x + o.x) / 2, y: (j.y + o.y) / 2 };
+    const 札x = Math.min(中.x + 40, 860), 札y = Math.max(中.y - 140, 90);
+    it.push({ type: 'tag', text: '影響が弱い道は\n線が少なく、道が細い', x: 札x, y: 札y });
+    it.push({ type: 'arrow', pts: [札x + 20, 札y + 60, 中.x, 中.y] });
   }
 
   await 注釈(p, it);

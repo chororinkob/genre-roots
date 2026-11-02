@@ -145,13 +145,15 @@ const 撮る = async (p, 名) => {
     const it = [];
     if (大) {
       it.push({ type: 'ring', rect: { x: 大.x - 10, y: 大.y - 10, w: 大.w + 20, h: 大.h + 20 } });
-      it.push({ type: 'tag', text: '知名度 ★5\n大きい丸', x: 大.cx + 80, y: 大.cy - 100 });
-      it.push({ type: 'arrow', pts: [大.cx + 76, 大.cy - 66, 大.cx + 14, 大.cy - 22] });
+      // 【2026-11-03】札は丸の左側に置く。右側に置いていたら、Acid Jazz が Jazz の真上に来たときに
+      // 2枚の札と矢印が入れ違い、★5の札が小さい丸を指して見えた。
+      it.push({ type: 'tag', text: '知名度 ★5\n大きい丸', x: 大.cx - 250, y: 大.cy + 40 });
+      it.push({ type: 'arrow', pts: [大.cx - 116, 大.cy + 70, 大.cx - 30, 大.cy + 22] });
     }
     if (小) {
       it.push({ type: 'ring', rect: { x: 小.x - 10, y: 小.y - 10, w: 小.w + 20, h: 小.h + 20 } });
-      it.push({ type: 'tag', text: '知名度 ★4\n小さい丸', x: 小.cx + 60, y: 小.cy + 40 });
-      it.push({ type: 'arrow', pts: [小.cx + 56, 小.cy + 52, 小.cx + 12, 小.cy + 14] });
+      it.push({ type: 'tag', text: '知名度 ★4\n小さい丸', x: 小.cx - 250, y: 小.cy - 130 });
+      it.push({ type: 'arrow', pts: [小.cx - 116, 小.cy - 90, 小.cx - 16, 小.cy - 12] });
     }
     it.push({ type: 'tag', text: '丸が大きいほど、世界でよく知られているジャンル', x: 700, y: 830, blue: true });
     await 注釈(p, it);
@@ -249,7 +251,7 @@ const 撮る = async (p, 名) => {
       { type: 'box', rect: { x: 凡.x - 6, y: 凡.y - 4, w: 凡.w + 12, h: 凡.h + 8 } },
       { type: 'tag', text: 'クリックすると', x: 凡.x + 凡.w + 20, y: 凡.y - 6 },
       { type: 'arrow', pts: [凡.x + 凡.w + 16, 凡.cy, 凡.x + 凡.w + 2, 凡.cy] },
-      { type: 'tag', text: 'そのカテゴリのジャンルが\n知名度の高い順に並ぶ', x: 340, y: 560 },
+      { type: 'tag', text: 'そのカテゴリのジャンルが\n生まれた年代の古い順に並ぶ', x: 340, y: 560 },
       { type: 'arrow', pts: [335, 590, 300, 590] },
     ]);
     await 撮る(p, 'fig06_categorylist');
