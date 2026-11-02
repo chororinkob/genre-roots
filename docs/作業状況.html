@@ -212,8 +212,8 @@
 
 <table class="verinfo">
 <tr><th>もの</th><th>版</th><th>どこ</th></tr>
-<tr><td>地図</td><td>v41.2</td><td><a href="https://genre-roots.com/" target="_blank" rel="noopener">公開済み</a></td></tr>
-<tr><td>使い方ガイド</td><td>v1.30</td><td>公開済み</td></tr>
+<tr><td>地図</td><td>v134.5</td><td><a href="https://genre-roots.com/" target="_blank" rel="noopener">公開済み</a></td></tr>
+<tr><td>使い方ガイド</td><td>v1.31</td><td>公開済み（2026-11-03）</td></tr>
 <tr><td>更新の記録</td><td>自動生成</td><td><code>docs/changes.html</code>（公開済み）</td></tr>
 <tr><td>いたずら対策 guard.py</td><td>v1.16</td><td>公開済み</td></tr>
 <tr><td>ジャンル追加 genre_adder.py</td><td>v3.09</td><td>公開済み</td></tr>
@@ -221,7 +221,31 @@
 <tr><td>登録確認画面 admin_preview.html</td><td>v3.21</td><td>公開済み</td></tr>
 </table>
 
-<h2>🔶 進行中・次にやること <span class="h2-count">21件</span></h2>
+<h2>🔶 進行中・次にやること <span class="h2-count">23件</span></h2>
+
+<div class="item">
+  <div class="item-head">
+    <span class="status wait">次の新規登録のとき（2026-11-03〜）</span>
+    <span class="item-title">使い方ガイドの「登録の確認画面」の図4枚を撮り直す</span>
+  </div>
+  <div class="item-body">
+    ガイド v1.31 で図はほぼ全部撮り直したが、確認画面の4枚（<code>kakunin1_top</code>・<code>kakunin2_supplement</code>・<code>sp_kakunin1_panel</code>・<code>sp_kakunin2_supplement</code>）だけは古い（9月初めの画面で、呼び方も旧「申請確認」のまま）。
+    確認画面は、承認待ちの登録があるときしか正しく開かない（承認済みだと「プレビューの生成に失敗しました」になる）ため。<br>
+    <b>次：</b>チョロさんが新しいジャンルを登録したら、<b>承認を押す前に</b>、その確認画面の住所を <code>tools/figs/kakunin_figs.js</code> の <code>URL0</code> に入れて撮る。あわせて、ガイドの「補足3項目」の説明が今の画面と合っているかも確かめる。詳しくは <code>docs/図の宿題.md</code>。
+  </div>
+</div>
+
+<div class="item">
+  <div class="item-head">
+    <span class="status doing">自動で進行中（2026-11-02〜）</span>
+    <span class="item-title">題名を変えた専用ページの「見直しの申請」（残り362件）と、効果の測定</span>
+  </div>
+  <div class="item-body">
+    2026-11-01に専用ページの題名を「〇〇とは？特徴・歴史・代表曲N選」に変えた。Googleに読み直してもらう申請は、パソコンをつけて「はい」を押すと自動で続きから進む（11/2は101件が通り、1日の上限で終了。残り362件）。<br>
+    11/3の確認（<code>gsc-indexer/check_snippets.py</code>）：申請したページは178件中172件が新しい題名で出ていた。申請していないページは61件中0件。<br>
+    <b>次：</b>①見直しの申請は全部終わるまで自動（終われば自動で飛ぶ）。②2〜3週間後に <code>fetch_performance.py</code> で、前の期間とクリック率を比べる。
+  </div>
+</div>
 
 <div class="item">
   <div class="item-head">
@@ -1409,6 +1433,20 @@
 <details class="donebox">
   <summary>片づいた作業を見る（新しい順）</summary>
   <div class="done-list">
+
+    <div class="done-day">2026-11-03</div>
+    <div class="done-item">使い方ガイドを今の辞典に合わせて書き直し、図をほぼ全部撮り直した（ガイド v1.30→v1.31）
+      <div class="dim"><b>文章：</b>系統一覧の並び順（生まれた年代の古い順）、登録の待ち時間（5〜20分）、作る項目の数（10）、用語のふきだしが出る場所（成り立ち・代表曲にも）を直した。「代表曲について」「説明文の事実確認について」「検索から来たときは」の3節を新設し、登録のあとに別のAIが事実確認することを書き足した。「更新のあゆみ」に9/22〜11/3を追加。<br>
+      <b>図：</b>確認画面の4枚以外を撮り直し、1枚ずつ目で確認。撮る道具の不具合も直した（丸の大きさの図の札の向き、五線譜の道の矢印が交差していた、図の中の古い文言、マイクの図が本物のサーバーに問い合わせて「不明」と写っていた）。<br>
+      <b>確認：</b>公開版をパソコン・スマホの両方で開き、v1.31・新しい文言9つの表示・読めない画像0枚・プログラムの誤り0件。チョロさん確認済み。</div>
+    </div>
+
+    <div class="done-item">Heavy Metal の代表曲を、試しに出していた「総合ランキング」表示から普通の「代表曲」に戻した（地図 v134.5）</div>
+
+    <div class="done-day">2026-11-02</div>
+    <div class="done-item">パソコンをつけたときの自動処理に「見直しの申請」を追加し、経過と結果を見えるようにした
+      <div class="dim">「はい」のあと、Googleへの申請（いつもの申請→見直しの申請の順）と、新規ジャンルの事実確認を並行して進める。見直しは、残り0件・安全に止めるで止めた・1日の上限を使い切った、のどれかなら飛ばす。「安全に止める」の窓に「○件目／○件（申請が通った○件）」を表示し、終わったら結果の窓（2つのボードを開くボタン付き）を出す。仕様書・手順書（⑪）に記載。</div>
+    </div>
 
     <div class="done-day">2026-10-21</div>
     <div class="done-item">代表曲11曲を、説明文が代表・起点として紹介しているジャンルへ移した（地図v99.3）
