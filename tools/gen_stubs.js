@@ -105,6 +105,7 @@ ${node.roots_story ? '<h2>成り立ち</h2><p>' + esc(String(node.roots_story)) 
 ${tracks ? '<h2>代表曲</h2><ul>' + tracks + '</ul>' : ''}
 ${rlinks ? '<h2>ルーツ（影響を受けたジャンル）</h2><p>' + rlinks + '</p>' : ''}
 ${ilinks ? '<h2>影響を与えたジャンル</h2><p>' + ilinks + '</p>' : ''}
+<p><a href="/song.html">曲のジャンルを調べる（この曲なんてジャンル？）</a> — 流れている曲を聴かせるだけで、曲名・歌手・ジャンルをAIが判定します。</p>
 <p>地図で${esc(名読み)}のルーツをたどるには、JavaScriptを有効にして <a href="/genre_roots.html?genre=${encodeURIComponent(id)}">音楽ジャンルルーツ辞典</a> を開いてください。</p>
 </div></noscript>
 </body>
@@ -121,6 +122,15 @@ for (const n of NODES) {
   titles.add(m.T);
   fs.writeFileSync(path.join(OUT, 'genre', m.id + '.html'), page(m), 'utf8');
   total++;
+}
+
+// 【2026-11-04】song.html の「○○ジャンル」の数を、地図のジャンル数に合わせる（手で直すと古いまま残るため。
+// 2026-11-03に「589ジャンル」のまま6ジャンル古くなっていたのが見つかった）。
+{
+  const sp = path.join(OUT, 'song.html');
+  const s0 = fs.readFileSync(sp, 'utf8');
+  const s1 = s0.replace(/\d+ジャンル/g, NODES.length + 'ジャンル');
+  if (s1 !== s0) fs.writeFileSync(sp, s1, 'utf8');
 }
 
 // ---- sitemap.xml ----
