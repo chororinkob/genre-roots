@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>（試作）曲名で、曲のジャンルを調べる — 音楽ジャンルルーツ辞典</title>
+<style>
+:root{--bg:#1a1a2e;--panel:#20203a;--line:rgba(255,255,255,.09);--txt:#e8e8f0;--sub:#a0a0b8;--acc:#7eb8f7;--brass:#d8b25e}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Segoe UI","Hiragino Kaku Gothic ProN",sans-serif;background:var(--bg);color:var(--txt);line-height:1.9;font-size:16px}
+a{color:var(--acc)}
+.proto{background:#f0b429;color:#1a1206;font-size:12px;font-weight:700;padding:4px 10px;text-align:center}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px 80px}
+header{padding:22px 0 14px;border-bottom:1px solid var(--line)}
+header a{font-weight:700;font-size:15px;text-decoration:none;color:var(--txt)}
+.eyebrow{color:var(--brass);font-size:12px;letter-spacing:.18em;margin:36px 0 6px}
+h1{font-family:"Hiragino Mincho ProN","Yu Mincho",serif;font-weight:600;font-size:34px;line-height:1.35}
+.lede{color:var(--sub);margin-top:12px;font-size:15px}
+.tabs{display:flex;gap:8px;margin-top:28px}
+.tab{flex:1;text-align:center;padding:10px;border:1px solid var(--line);border-radius:10px 10px 0 0;color:var(--sub);text-decoration:none;font-size:14px}
+.tab.on{background:var(--panel);color:var(--txt);border-bottom-color:var(--panel);font-weight:700}
+form{background:var(--panel);border:1px solid var(--line);border-top:0;border-radius:0 0 12px 12px;padding:20px}
+label{display:block;font-size:13px;color:var(--sub);margin-top:10px}
+input{width:100%;font:inherit;font-size:17px;padding:10px 12px;border-radius:8px;border:1px solid rgba(255,255,255,.18);background:#14142a;color:var(--txt)}
+button{margin-top:16px;width:100%;font:inherit;font-weight:700;font-size:17px;padding:12px;border:0;border-radius:10px;background:var(--acc);color:#0e1a2c;cursor:pointer}
+.ex{margin-top:14px;font-size:13px;color:var(--sub)}
+.ex a{display:inline-block;margin:4px 6px 0 0;padding:2px 10px;border:1px solid var(--line);border-radius:999px;text-decoration:none;color:var(--txt)}
+#msg{margin-top:16px;font-size:14px;min-height:1.9em}
+#msg.ng{color:#f0b429}
+h2{font-size:18px;margin:40px 0 8px}
+p.s{font-size:14.5px;color:var(--sub)}
+</style>
+</head>
+<body>
+<div class="proto">試作（本番には出していません）</div>
+<div class="wrap">
+<header><a href="/genre_roots.html">音楽ジャンルルーツ辞典</a></header>
+<p class="eyebrow">SONG TO GENRE</p>
+<h1>この曲なんてジャンル？<br>曲のジャンルを調べる</h1>
+<p class="lede">曲名が分かっているなら、文字で入れるだけ。曲名が分からないなら、聴かせるだけ。答えは、595ジャンルのルーツ地図の上に出ます。</p>
+
+<div class="tabs">
+  <a class="tab on" href="song_name.html">✏️ 曲名で調べる</a>
+  <a class="tab" href="/song.html">🎵 曲を聴かせて調べる</a>
+</div>
+<form id="f">
+  <label for="t">曲名</label><input id="t" placeholder="例：Lemon" required>
+  <label for="a">歌手名</label><input id="a" placeholder="例：米津玄師" required>
+  <button type="submit">ジャンルを調べる</button>
+  <div class="ex">試す：<a href="#" data-t="Lemon" data-a="米津玄師">Lemon／米津玄師</a><a href="#" data-t="夜に駆ける" data-a="YOASOBI">夜に駆ける／YOASOBI</a><a href="#" data-t="Smells Like Teen Spirit" data-a="Nirvana">Smells Like Teen Spirit／Nirvana</a><a href="#" data-t="怪獣の花唄" data-a="Vaundy">怪獣の花唄／Vaundy</a></div>
+  <div id="msg"></div>
+</form>
+
+<h2>しくみ</h2>
+<p class="s">① Wikidata（人が確認した音楽データ）で、その曲のジャンルを探します。② 見つかったら、辞典のそのジャンルの地図を開いて、答えを地図の上に出します。③ Wikidataに無い曲は、本番ではAIが曲名・歌手名から判定します（この試作ではまだ動きません）。</p>
+</div>
+<script>
+var G = null;
+fetch('genres.json').then(function(r){return r.json()}).then(function(x){G = x});
+function norm(s){return String(s||'').toLowerCase().replace(/[\s\-_'’.&・]/g,'')}
+function q(s){return '"' + String(s).replace(/\\/g,'\\\\').replace(/"/g,'\\"') + '"'}
+function find(wgs){
+  for (var i = 0; i < wgs.length; i++) {
+    var w = norm(wgs[i].en), wj = norm(wgs[i].ja);
+    var hit = G.find(function(n){
+      var names = [n.name].concat(n.aliases || []).map(norm);
+      return names.indexOf(w) >= 0 || (wj && names.indexOf(wj) >= 0);
+    });
+    if (hit) return {id: hit.id, wg: wgs[i].en || wgs[i].ja};
+  }
+  return null;
+}
+document.querySelectorAll('.ex a').forEach(function(x){x.onclick = function(e){
+  e.preventDefault(); document.getElementById('t').value = x.dataset.t; document.getElementById('a').value = x.dataset.a;
+  document.getElementById('f').requestSubmit();
+}});
+document.getElementById('f').onsubmit = function(e){
+  e.preventDefault();
+  var t = document.getElementById('t').value.trim(), a = document.getElementById('a').value.trim();
+  var m = document.getElementById('msg'); m.className = ''; m.textContent = 'Wikidataで「' + t + '」（' + a + '）のジャンルを探しています…';
+  var sp = 'SELECT DISTINCT ?en ?ja WHERE { {?s rdfs:label ' + q(t) + '@ja} UNION {?s rdfs:label ' + q(t) + '@en} ' +
+    '?s wdt:P175 ?p . {?p rdfs:label ' + q(a) + '@ja} UNION {?p rdfs:label ' + q(a) + '@en} ' +
+    '?s wdt:P136 ?g . OPTIONAL{?g rdfs:label ?en FILTER(lang(?en)="en")} OPTIONAL{?g rdfs:label ?ja FILTER(lang(?ja)="ja")} } LIMIT 20';
+  fetch('https://query.wikidata.org/sparql?format=json&query=' + encodeURIComponent(sp))
+    .then(function(r){return r.json()})
+    .then(function(d){
+      var wgs = d.results.bindings.map(function(b){return {en: (b.en||{}).value, ja: (b.ja||{}).value}});
+      if (!wgs.length) { m.className = 'ng'; m.textContent = 'Wikidataに、この曲のジャンルの登録がありませんでした。本番では、ここでAIが曲名・歌手名から判定します（試作では未対応）。'; return; }
+      var hit = find(wgs);
+      if (!hit) { m.className = 'ng'; m.textContent = 'Wikidataでは「' + wgs.map(function(w){return w.en||w.ja}).join('、') + '」でしたが、辞典にそのジャンルがまだありません。'; return; }
+      location.href = 'answer.html?' + new URLSearchParams({t: t, a: a, g: hit.id, src: 'wikidata', wg: hit.wg});
+    })
+    .catch(function(){ m.className = 'ng'; m.textContent = 'Wikidataにつながりませんでした。少し待ってからもう一度お試しください。'; });
+};
+</script>
+</body>
+</html>

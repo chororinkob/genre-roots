@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>（試作）この曲は何ジャンル？ — 音楽ジャンルルーツ辞典</title>
+<style>
+:root{--bg:#1a1a2e;--card:rgba(24,24,44,.96);--line:rgba(255,255,255,.12);--txt:#e8e8f0;--sub:#a0a0b8;--acc:#7eb8f7;--brass:#d8b25e}
+html,body{margin:0;padding:0;height:100%;background:var(--bg);overflow:hidden;font-family:"Segoe UI","Hiragino Kaku Gothic ProN",sans-serif}
+#app{position:fixed;inset:0;width:100%;height:100vh;height:100dvh;border:0}
+.proto{position:fixed;top:8px;left:50%;transform:translateX(-50%);z-index:30;background:#f0b429;color:#1a1206;font-size:12px;font-weight:700;padding:3px 10px;border-radius:6px;pointer-events:none}
+#ans{position:fixed;left:16px;bottom:16px;z-index:20;width:380px;max-width:calc(100vw - 32px);box-sizing:border-box;background:var(--card);color:var(--txt);
+  border:1px solid var(--line);border-radius:14px;padding:16px 18px 14px;box-shadow:0 10px 40px rgba(0,0,0,.6);line-height:1.7}
+#ans .eye{color:var(--brass);font-size:11px;letter-spacing:.16em}
+#ans .q{font-size:15px;margin-top:2px}
+#ans .g{font-family:"Hiragino Mincho ProN","Yu Mincho",serif;font-size:30px;font-weight:700;color:#fff;line-height:1.3;margin:2px 0 6px}
+#ans .why{font-size:12px;color:var(--sub)}
+#ans .go{font-size:13.5px;margin-top:8px}
+#ans .go b{color:var(--acc)}
+#ans .btns{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+#ans button,#ans a.btn{font:inherit;font-size:13px;border-radius:8px;padding:7px 12px;cursor:pointer;text-decoration:none}
+#ans .main{background:var(--acc);color:#0e1a2c;border:0;font-weight:700}
+#ans .sub{background:none;color:var(--txt);border:1px solid var(--line)}
+#pill{position:fixed;left:16px;bottom:16px;z-index:20;display:none;background:var(--card);color:var(--txt);border:1px solid var(--line);border-radius:999px;padding:7px 14px;font-size:13px;cursor:pointer;box-shadow:0 6px 24px rgba(0,0,0,.5)}
+#pill b{color:var(--acc)}
+.closed #ans{display:none}.closed #pill{display:block}
+@media (max-width:768px){
+  #ans{left:8px;right:8px;bottom:8px;width:auto;max-width:none;padding:12px 14px}
+  #ans .g{font-size:24px}
+  #pill{left:8px;bottom:8px}
+}
+</style>
+</head>
+<body>
+<div class="proto">試作（本番には出していません）</div>
+<iframe id="app" title="音楽ジャンルルーツ辞典" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+
+<div id="ans" role="dialog" aria-label="判定の結果">
+  <div class="eye">SONG → GENRE</div>
+  <div class="q"><span id="qt"></span>は</div>
+  <div class="g" id="gn"></div>
+  <div class="why" id="why"></div>
+  <div class="go" id="go"></div>
+  <div class="btns">
+    <button class="main" id="close">地図で見る</button>
+    <a class="btn sub" href="song_name.html">ほかの曲も調べる</a>
+  </div>
+</div>
+<div id="pill" title="判定の結果をもう一度見る"></div>
+
+<script>
+// 試作：?t=曲名&a=歌手名&g=辞典のジャンル番号&src=wikidata|ai&wg=Wikidataのジャンル名
+// 「答え」は地図の上に小さく出し、地図そのもの（そのジャンルの説明パネル）を開いておく。
+// 答えを見た人が、そのまま辞典の中にいる状態にするのがねらい。
+var P = new URLSearchParams(location.search);
+var t = P.get('t') || 'Lemon', a = P.get('a') || '米津玄師', g = P.get('g') || 'jpop';
+var src = P.get('src') || 'wikidata', wg = P.get('wg') || 'J-pop';
+document.getElementById('app').src = '/genre_roots.html?genre=' + encodeURIComponent(g);
+document.title = '（試作）' + t + '（' + a + '）は何ジャンル？ — 音楽ジャンルルーツ辞典';
+document.getElementById('qt').textContent = '「' + t + '」（' + a + '）';
+
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+fetch('genres.json').then(function(r){return r.json()}).then(function(G){
+  var n = G.find(function(x){return x.id === g}) || {name: g};
+  var name = n.name, kana = (n.aliases || []).find(function(x){return /[ァ-ン]/.test(x)}) || '';
+  document.getElementById('gn').textContent = name;
+  document.getElementById('why').textContent = src === 'wikidata'
+    ? '根拠：Wikidata（人が確認した音楽データ）に「' + wg + '」と登録されています'
+    : '根拠：AIが曲名・歌手名から判定しました（人の確認ではありません）';
+  document.getElementById('pill').innerHTML = esc(t) + ' → <b>' + esc(name) + '</b> ▲';
+  // 辞典の代表曲にその曲が入っているか（専用ページの一覧から探す）
+  return fetch('/genre/' + encodeURIComponent(g) + '.html').then(function(r){return r.text()}).then(function(h){
+    var li = (h.match(/<li>[^<]*<\/li>/g) || []).map(function(x){return x.replace(/<\/?li>/g,'')});
+    var i = li.findIndex(function(x){return x.toLowerCase().indexOf(t.toLowerCase()) === 0});
+    var 曲 = i >= 0 ? '「' + esc(t) + '」は、その代表曲の' + (i === 0 ? '<b>1曲目</b>（再生ボタンで、すぐ流れます）' : '<b>' + (i + 1) + '曲目</b>') + 'です。'
+                    : '同じ ' + esc(name) + ' の代表曲を、その場で聴けます。';
+    document.getElementById('go').innerHTML =
+      '地図の<b>説明パネル</b>で、' + esc(name) + 'の特徴と成り立ちが読めます。' + 曲 +
+      '<br>パネルの「ルーツ」や地図の<b>線</b>をたどると、' + esc(name) + 'が<b>どの音楽から生まれたか</b>が分かります。';
+  });
+});
+document.getElementById('close').onclick = function(){document.body.classList.add('closed')};
+document.getElementById('pill').onclick = function(){document.body.classList.remove('closed')};
+</script>
+</body>
+</html>
