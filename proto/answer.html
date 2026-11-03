@@ -26,7 +26,7 @@ F.src = '/genre_roots.html?genre=' + encodeURIComponent(g);
 
 var CSS = [
   '#gr-ans{margin:0 0 10px;padding:10px 12px 9px;border:1px solid rgba(126,184,247,.35);border-radius:10px;',
-  '  background:linear-gradient(180deg,rgba(126,184,247,.13),rgba(126,184,247,.05));line-height:1.6;font-size:13px;color:#e8e8f0}',
+  '  background:linear-gradient(180deg,rgba(126,184,247,.13),rgba(126,184,247,.05)),#1d1d36;line-height:1.6;font-size:13px;color:#e8e8f0}',
   '#gr-ans .r1{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}',
   '#gr-ans .eye{font-size:10.5px;letter-spacing:.14em;color:#d8b25e;white-space:nowrap}',
   '#gr-ans .proto{font-size:10px;font-weight:700;color:#1a1206;background:#f0b429;border-radius:4px;padding:0 6px}',
@@ -67,7 +67,7 @@ function put(d, nd, body){
     '<div class="r1"><span class="eye">曲名で調べた結果</span><span class="proto">試作</span></div>' +
     '<div class="q">「' + esc(t) + '」（' + esc(a) + '）は <b>' + esc(n.name) + '</b></div>' +
     '<div class="why">' + (src === 'wikidata' ? '根拠：Wikidata（人が確認した音楽データ）に「' + esc(wg) + '」と登録' : '根拠：AIが曲名・歌手名から判定（人の確認ではありません）') + '</div>' +
-    '<div class="now">' + (i >= 0 ? '▶ 下の代表曲の<b>' + (i + 1) + '曲目</b>にあります。いま、その曲を流しています。'
+    '<div class="now">' + (i >= 0 ? '▶ 下の代表曲の<b>' + (i + 1) + '曲目</b>にあります。動画をその曲に切り替えました（鳴らないときは ▶ を押してください）。'
                                    : '下の代表曲で、同じ ' + esc(n.name) + ' の曲を聴けます。') + '</div>' +
     '<div class="more">この下で ' + esc(n.name) + ' の特徴と成り立ち、地図の線で「どの音楽から生まれたか」をたどれます。 ' +
     '<a href="song_name.html" target="_top">ほかの曲も調べる →</a></div>';
