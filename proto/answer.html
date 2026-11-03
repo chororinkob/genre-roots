@@ -66,7 +66,7 @@ function put(d, nd, body){
   box.innerHTML =
     '<div class="r1"><span class="eye">曲名で調べた結果</span><span class="proto">試作</span></div>' +
     '<div class="q">「' + esc(t) + '」（' + esc(a) + '）は <b>' + esc(n.name) + '</b></div>' +
-    '<div class="why">' + (src === 'wikidata' ? '根拠：Wikidata（人が確認した音楽データ）に「' + esc(wg) + '」と登録' : '根拠：AIが曲名・歌手名から判定（人の確認ではありません）') + '</div>' +
+    '<div class="why">' + (src === 'wikidata' ? '根拠：ウィキデータ（ウィキペディアの姉妹サイト。曲や歌手の情報を集めたデータベース）に「' + esc(wg) + '」と登録' : '根拠：AIが曲名・歌手名から判定（人の確認ではありません）') + '</div>' +
     '<div class="now">' + (i >= 0 ? '▶ 下の代表曲の<b>' + (i + 1) + '曲目</b>にあります。動画をその曲に切り替えました（鳴らないときは ▶ を押してください）。'
                                    : '下の代表曲で、同じ ' + esc(n.name) + ' の曲を聴けます。') + '</div>' +
     '<div class="more">この下で ' + esc(n.name) + ' の特徴と成り立ち、地図の線で「どの音楽から生まれたか」をたどれます。 ' +
