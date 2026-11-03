@@ -6,82 +6,78 @@
 <meta name="robots" content="noindex, nofollow">
 <title>（試作）この曲は何ジャンル？ — 音楽ジャンルルーツ辞典</title>
 <style>
-:root{--bg:#1a1a2e;--card:rgba(24,24,44,.96);--line:rgba(255,255,255,.12);--txt:#e8e8f0;--sub:#a0a0b8;--acc:#7eb8f7;--brass:#d8b25e}
-html,body{margin:0;padding:0;height:100%;background:var(--bg);overflow:hidden;font-family:"Segoe UI","Hiragino Kaku Gothic ProN",sans-serif}
+html,body{margin:0;padding:0;height:100%;background:#1a1a2e;overflow:hidden}
 #app{position:fixed;inset:0;width:100%;height:100vh;height:100dvh;border:0}
-.proto{position:fixed;top:8px;left:50%;transform:translateX(-50%);z-index:30;background:#f0b429;color:#1a1206;font-size:12px;font-weight:700;padding:3px 10px;border-radius:6px;pointer-events:none}
-#ans{position:fixed;left:16px;bottom:16px;z-index:20;width:380px;max-width:calc(100vw - 32px);box-sizing:border-box;background:var(--card);color:var(--txt);
-  border:1px solid var(--line);border-radius:14px;padding:16px 18px 14px;box-shadow:0 10px 40px rgba(0,0,0,.6);line-height:1.7}
-#ans .eye{color:var(--brass);font-size:11px;letter-spacing:.16em}
-#ans .q{font-size:15px;margin-top:2px}
-#ans .g{font-family:"Hiragino Mincho ProN","Yu Mincho",serif;font-size:30px;font-weight:700;color:#fff;line-height:1.3;margin:2px 0 6px}
-#ans .why{font-size:12px;color:var(--sub)}
-#ans .go{font-size:13.5px;margin-top:8px}
-#ans .go b{color:var(--acc)}
-#ans .btns{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
-#ans button,#ans a.btn{font:inherit;font-size:13px;border-radius:8px;padding:7px 12px;cursor:pointer;text-decoration:none}
-#ans .main{background:var(--acc);color:#0e1a2c;border:0;font-weight:700}
-#ans .sub{background:none;color:var(--txt);border:1px solid var(--line)}
-#pill{position:fixed;left:16px;bottom:16px;z-index:20;display:none;background:var(--card);color:var(--txt);border:1px solid var(--line);border-radius:999px;padding:7px 14px;font-size:13px;cursor:pointer;box-shadow:0 6px 24px rgba(0,0,0,.5)}
-#pill b{color:var(--acc)}
-.closed #ans{display:none}.closed #pill{display:block}
-@media (max-width:768px){
-  #ans{left:8px;right:8px;bottom:8px;width:auto;max-width:none;padding:12px 14px}
-  #ans .g{font-size:24px}
-  #pill{left:8px;bottom:8px}
-}
 </style>
 </head>
 <body>
-<div class="proto">試作（本番には出していません）</div>
 <iframe id="app" title="音楽ジャンルルーツ辞典" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen></iframe>
-
-<div id="ans" role="dialog" aria-label="判定の結果">
-  <div class="eye">SONG → GENRE</div>
-  <div class="q"><span id="qt"></span>は</div>
-  <div class="g" id="gn"></div>
-  <div class="why" id="why"></div>
-  <div class="go" id="go"></div>
-  <div class="btns">
-    <button class="main" id="close">地図で見る</button>
-    <a class="btn sub" href="song_name.html">ほかの曲も調べる</a>
-  </div>
-</div>
-<div id="pill" title="判定の結果をもう一度見る"></div>
-
 <script>
-// 試作：?t=曲名&a=歌手名&g=辞典のジャンル番号&src=wikidata|ai&wg=Wikidataのジャンル名
-// 「答え」は地図の上に小さく出し、地図そのもの（そのジャンルの説明パネル）を開いておく。
-// 答えを見た人が、そのまま辞典の中にいる状態にするのがねらい。
+// 試作（2026-11-04 2版）：?t=曲名&a=歌手名&g=辞典のジャンル番号&src=wikidata|ai&wg=Wikidataのジャンル名
+// 答えは、地図の「説明パネル」の中、動画のすぐ上に1枚の帯として差し込む（地図の上に別の窓を重ねない）。
+// 検索した曲がそのジャンルの代表曲にあれば、その曲を再生する。
+// 地図本体（genre_roots.html）は変えず、同じサイトの枠（iframe）の中に外から差し込んでいる。
 var P = new URLSearchParams(location.search);
 var t = P.get('t') || 'Lemon', a = P.get('a') || '米津玄師', g = P.get('g') || 'jpop';
 var src = P.get('src') || 'wikidata', wg = P.get('wg') || 'J-pop';
-document.getElementById('app').src = '/genre_roots.html?genre=' + encodeURIComponent(g);
 document.title = '（試作）' + t + '（' + a + '）は何ジャンル？ — 音楽ジャンルルーツ辞典';
-document.getElementById('qt').textContent = '「' + t + '」（' + a + '）';
+var F = document.getElementById('app');
+F.src = '/genre_roots.html?genre=' + encodeURIComponent(g);
+
+var CSS = [
+  '#gr-ans{margin:0 0 10px;padding:10px 12px 9px;border:1px solid rgba(126,184,247,.35);border-radius:10px;',
+  '  background:linear-gradient(180deg,rgba(126,184,247,.13),rgba(126,184,247,.05));line-height:1.6;font-size:13px;color:#e8e8f0}',
+  '#gr-ans .r1{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}',
+  '#gr-ans .eye{font-size:10.5px;letter-spacing:.14em;color:#d8b25e;white-space:nowrap}',
+  '#gr-ans .proto{font-size:10px;font-weight:700;color:#1a1206;background:#f0b429;border-radius:4px;padding:0 6px}',
+  '#gr-ans .q{font-size:14.5px;font-weight:700;margin-top:2px}',
+  '#gr-ans .q b{color:#7eb8f7}',
+  '#gr-ans .why{font-size:11.5px;color:#a0a0b8;margin-top:2px}',
+  '#gr-ans .now{font-size:12.5px;margin-top:4px}',
+  '#gr-ans .more{font-size:12px;margin-top:4px;color:#a0a0b8}',
+  '#gr-ans a{color:#7eb8f7}',
+  '.yt-music-link.gr-hit{outline:2px solid #7eb8f7;outline-offset:1px;border-radius:4px}'
+].join('\n');
 
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
-fetch('genres.json').then(function(r){return r.json()}).then(function(G){
+function norm(s){return String(s||'').toLowerCase().replace(/[\s\-_'’.&・()（）「」]/g,'')}
+
+var G = null;
+fetch('genres.json').then(function(r){return r.json()}).then(function(x){G = x});
+
+var tries = 0;
+var timer = setInterval(function(){
+  if (++tries > 120) { clearInterval(timer); return; }          // 60秒であきらめる
+  var d; try { d = F.contentDocument; } catch(e) { return; }
+  if (!d || !G) return;
+  var nd = F.contentWindow._currentNode;
+  var body = d.getElementById('sp-body');
+  if (!nd || nd.id !== g || !body || !d.querySelector('.yt-music-link')) return;
+  clearInterval(timer);
+  put(d, nd, body);
+}, 500);
+
+function put(d, nd, body){
+  if (!d.getElementById('gr-ans-css')) { var st = d.createElement('style'); st.id = 'gr-ans-css'; st.textContent = CSS; d.head.appendChild(st); }
   var n = G.find(function(x){return x.id === g}) || {name: g};
-  var name = n.name, kana = (n.aliases || []).find(function(x){return /[ァ-ン]/.test(x)}) || '';
-  document.getElementById('gn').textContent = name;
-  document.getElementById('why').textContent = src === 'wikidata'
-    ? '根拠：Wikidata（人が確認した音楽データ）に「' + wg + '」と登録されています'
-    : '根拠：AIが曲名・歌手名から判定しました（人の確認ではありません）';
-  document.getElementById('pill').innerHTML = esc(t) + ' → <b>' + esc(name) + '</b> ▲';
-  // 辞典の代表曲にその曲が入っているか（専用ページの一覧から探す）
-  return fetch('/genre/' + encodeURIComponent(g) + '.html').then(function(r){return r.text()}).then(function(h){
-    var li = (h.match(/<li>[^<]*<\/li>/g) || []).map(function(x){return x.replace(/<\/?li>/g,'')});
-    var i = li.findIndex(function(x){return x.toLowerCase().indexOf(t.toLowerCase()) === 0});
-    var 曲 = i >= 0 ? '「' + esc(t) + '」は、その代表曲の' + (i === 0 ? '<b>1曲目</b>（再生ボタンで、すぐ流れます）' : '<b>' + (i + 1) + '曲目</b>') + 'です。'
-                    : '同じ ' + esc(name) + ' の代表曲を、その場で聴けます。';
-    document.getElementById('go').innerHTML =
-      '地図の<b>説明パネル</b>で、' + esc(name) + 'の特徴と成り立ちが読めます。' + 曲 +
-      '<br>パネルの「ルーツ」や地図の<b>線</b>をたどると、' + esc(name) + 'が<b>どの音楽から生まれたか</b>が分かります。';
-  });
-});
-document.getElementById('close').onclick = function(){document.body.classList.add('closed')};
-document.getElementById('pill').onclick = function(){document.body.classList.remove('closed')};
+  // 検索した曲が代表曲にあるか（曲名の頭が合うもの）
+  var i = (nd.rep_tracks || []).findIndex(function(x){ return norm(x).indexOf(norm(t)) === 0; });
+  var box = d.createElement('div'); box.id = 'gr-ans';
+  box.innerHTML =
+    '<div class="r1"><span class="eye">曲名で調べた結果</span><span class="proto">試作</span></div>' +
+    '<div class="q">「' + esc(t) + '」（' + esc(a) + '）は <b>' + esc(n.name) + '</b></div>' +
+    '<div class="why">' + (src === 'wikidata' ? '根拠：Wikidata（人が確認した音楽データ）に「' + esc(wg) + '」と登録' : '根拠：AIが曲名・歌手名から判定（人の確認ではありません）') + '</div>' +
+    '<div class="now">' + (i >= 0 ? '▶ 下の代表曲の<b>' + (i + 1) + '曲目</b>にあります。いま、その曲を流しています。'
+                                   : '下の代表曲で、同じ ' + esc(n.name) + ' の曲を聴けます。') + '</div>' +
+    '<div class="more">この下で ' + esc(n.name) + ' の特徴と成り立ち、地図の線で「どの音楽から生まれたか」をたどれます。 ' +
+    '<a href="song_name.html" target="_top">ほかの曲も調べる →</a></div>';
+  var w = d.getElementById('sp-yt-wrap');
+  body.insertBefore(box, w && w.parentNode === body ? w : body.firstChild);
+  if (i >= 0) {
+    var link = d.querySelector('.yt-music-link[data-track-idx="' + i + '"]');
+    if (link) { link.classList.add('gr-hit'); link.click(); }
+  }
+}
 </script>
 </body>
 </html>
