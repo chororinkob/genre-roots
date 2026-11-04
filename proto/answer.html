@@ -13,7 +13,7 @@ html,body{margin:0;padding:0;height:100%;background:#1a1a2e;overflow:hidden}
 <body>
 <iframe id="app" title="音楽ジャンルルーツ辞典" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen></iframe>
 <script>
-// 試作（2026-11-04 2版）：?t=曲名&a=歌手名&g=辞典のジャンル番号&src=wikidata|ai&wg=Wikidataのジャンル名
+// 試作（2026-11-05 3版。2版は2026-11-04）：?t=曲名&a=歌手名&g=辞典のジャンル番号&src=wikidata|ai&wg=Wikidataのジャンル名
 // 答えは、地図の「説明パネル」の中、動画のすぐ上に1枚の帯として差し込む（地図の上に別の窓を重ねない）。
 // 検索した曲がそのジャンルの代表曲にあれば、その曲を再生する。
 // 地図本体（genre_roots.html）は変えず、同じサイトの枠（iframe）の中に外から差し込んでいる。
@@ -75,8 +75,31 @@ function put(d, nd, body){
   body.insertBefore(box, w && w.parentNode === body ? w : body.firstChild);
   if (i >= 0) {
     var link = d.querySelector('.yt-music-link[data-track-idx="' + i + '"]');
-    if (link) { link.classList.add('gr-hit'); link.click(); }
+    if (link) link.classList.add('gr-hit');
+    playHit(d, i);
   }
+}
+
+// 【3版 2026-11-05】検索した曲の動画に、確実に切り替える。
+// 2版は代表曲の行を「押して」いた。地図は、動画の枠がもう用意されていると、枠はそのままで
+// 中身だけ差し替える（loadVideoById）。メイン動画（Lemon）の枠が読み込み途中だと、その頼みが
+// 届かずに捨てられ、Lemon が流れたままになった（チョロさんの画面で発生。回線を少し遅くすると再現）。
+// そこで、押すのではなく、地図の再生の入口（playByVideoId）に「押されていない」として渡し、
+// 枠ごと入れ替えてもらう。そのあと1秒ごとに10回、枠がその曲の動画になっているかを確かめ、
+// メイン動画に戻されていたら、もう一度入れ替える。利用者が自分で何かを押したら、確かめるのをやめる。
+function playHit(d, i) {
+  var w = F.contentWindow;
+  var row = (w._spTrackList && w._spTrackList[i]) || ((w._currentNode && w._currentNode.yt_tracks) || [])[i];
+  if (!row || !row[0] || typeof w.playByVideoId !== 'function') return;
+  var want = row[0], stop = false, n = 0;
+  d.addEventListener('click', function(e){ if (e.isTrusted) stop = true; }, true);
+  var go = function(){ w.playByVideoId(want, row[1] || '', i, false); };
+  go();
+  var chk = setInterval(function(){
+    if (stop || ++n > 10) { clearInterval(chk); return; }
+    var pl = d.getElementById('sp-yt-player');
+    if (pl && (pl.src || '').indexOf('/embed/' + want) < 0) go();
+  }, 1000);
 }
 </script>
 </body>
