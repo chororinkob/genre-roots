@@ -85,21 +85,22 @@ function put(d, nd, body){
 // 中身だけ差し替える（loadVideoById）。メイン動画（Lemon）の枠が読み込み途中だと、その頼みが
 // 届かずに捨てられ、Lemon が流れたままになった（チョロさんの画面で発生。回線を少し遅くすると再現）。
 // そこで、押すのではなく、地図の再生の入口（playByVideoId）に「押されていない」として渡し、
-// 枠ごと入れ替えてもらう。そのあと1秒ごとに10回、枠がその曲の動画になっているかを確かめ、
-// メイン動画に戻されていたら、もう一度入れ替える。利用者が自分で何かを押したら、確かめるのをやめる。
+// 枠ごと入れ替えてもらう。
+// ただし、メイン動画の枠がまだ読み込み中のうちに住所を書き換えると、ブラウザが書き換えを捨てて、
+// 読み込み中だった Lemon をそのまま出すことがある（住所の欄は「夜に駆ける」なのに中身は Lemon。
+// 回線を少し遅くして再現し、1秒ごとの記録で確かめた）。そこで、枠の読み込みが終わった合図（load）を
+// 最初の1回だけ待ち、そこでもう一度入れ替える。読み込みが終わった枠への書き換えは捨てられない。
+// 利用者が自分で何かを押したら、それ以上は触らない。
 function playHit(d, i) {
   var w = F.contentWindow;
-  var row = (w._spTrackList && w._spTrackList[i]) || ((w._currentNode && w._currentNode.yt_tracks) || [])[i];
+  var row = ((w._currentNode && w._currentNode.yt_tracks) || [])[i];
   if (!row || !row[0] || typeof w.playByVideoId !== 'function') return;
-  var want = row[0], stop = false, n = 0;
+  var want = row[0], stop = false;
   d.addEventListener('click', function(e){ if (e.isTrusted) stop = true; }, true);
-  var go = function(){ w.playByVideoId(want, row[1] || '', i, false); };
+  var go = function(){ if (!stop) w.playByVideoId(want, row[1] || '', i, false); };
+  var pl = d.getElementById('sp-yt-player');
+  if (pl) pl.addEventListener('load', function(){ go(); }, { once: true });
   go();
-  var chk = setInterval(function(){
-    if (stop || ++n > 10) { clearInterval(chk); return; }
-    var pl = d.getElementById('sp-yt-player');
-    if (pl && (pl.src || '').indexOf('/embed/' + want) < 0) go();
-  }, 1000);
 }
 </script>
 </body>
