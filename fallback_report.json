@@ -1,100 +1,399 @@
 {
-  "実行日": "2026-11-01 09:11",
-  "件数": 13,
-  "内容": [
-    {
-      "種類": "代表曲の削除",
-      "ジャンル": "Vaporwave",
-      "id": "vaporwave",
-      "曲名": "真実の恋/True Love (2814)",
-      "消えた動画": "tyhmVW9zNW8"
-    },
-    {
-      "種類": "代表曲の削除",
-      "ジャンル": "Vaporwave",
-      "id": "vaporwave",
-      "曲名": "新しい日の誕生/Birth of a New Day (2814)",
-      "消えた動画": "awnqBWmOkYc"
-    },
-    {
-      "種類": "代表曲の繰り上げ",
-      "ジャンル": "Country",
-      "id": "country",
-      "曲名": "Friends in Low Places (Garth Brooks)",
-      "消えた動画": "b7P97b64Q5E",
-      "新しい動画": "ZcQeocF56Ck"
-    },
-    {
-      "種類": "代表曲の削除",
-      "ジャンル": "Enka",
-      "id": "enka",
-      "曲名": "よこはま・たそがれ (五木ひろし)",
-      "消えた動画": "JETSKHiVa1Y"
-    },
-    {
-      "種類": "代表曲の繰り上げ",
-      "ジャンル": "Minimalism",
-      "id": "minimalism_classical",
-      "曲名": "Drift Study (La Monte Young)",
-      "消えた動画": "5e8QKh3LOQY",
-      "新しい動画": "s0mccTHySzo"
-    },
-    {
-      "種類": "予備の削除",
-      "ジャンル": "Melodic Hardcore",
-      "id": "melodic_hardcore",
-      "曲名": "Stay Gold (Hi-STANDARD)",
-      "消えた動画": "ZTAlikhlm0A"
-    },
-    {
-      "種類": "代表曲の削除",
-      "ジャンル": "UK Bass",
-      "id": "uk_bass",
-      "曲名": "Ultra Thizz (Rustie)",
-      "消えた動画": "s4AqCrR_nAU"
-    },
-    {
-      "種類": "代表曲の削除",
-      "ジャンル": "Hard Bass",
-      "id": "hard_bass_genre",
-      "曲名": "Vixa (Clubbasse)",
-      "消えた動画": "-qsm0ppA4kM"
-    },
-    {
-      "種類": "代表曲の削除",
-      "ジャンル": "Horrorcore",
-      "id": "horrorcore",
-      "曲名": "1-800-Suicide (Gravediggaz)",
-      "消えた動画": "pJmkDbwGqpM"
-    },
-    {
-      "種類": "予備の削除",
-      "ジャンル": "Ska Punk",
-      "id": "ska_punk",
-      "曲名": "Sell Out（Reel Big Fish）",
-      "消えた動画": "QL3Rj9IT4Mc"
-    },
-    {
-      "種類": "予備の削除",
-      "ジャンル": "Spiritual Jazz",
-      "id": "spiritual_jazz",
-      "曲名": "Space Is the Place (Sun Ra)",
-      "消えた動画": "owCPrIEliZc"
-    },
-    {
-      "種類": "代表曲の削除",
-      "ジャンル": "Pop Rock",
-      "id": "pop_rock",
-      "曲名": "Don't Stop Me Now (Queen)",
-      "消えた動画": "arooMdELBQ4"
-    },
-    {
-      "種類": "代表曲の削除",
-      "ジャンル": "Europop",
-      "id": "europop",
-      "曲名": "Take a Chance on Me (ABBA)",
-      "消えた動画": "_elEO3pkASg"
-    }
-  ],
-  "コミットの題名": "feat: 代表曲の削除8件・代表曲の繰り上げ2件・予備の削除3件 を追加 (2026年11月1日)"
+ "実行日": "2026-11-04 19:59",
+ "件数": 49,
+ "内容": [
+  {
+   "種類": "予備の削除",
+   "ジャンル": "EBM",
+   "id": "ebm",
+   "曲名": "Headhunter (Front 242)",
+   "消えた動画": "m1cRGVaJF7Y",
+   "新しい動画": "wXLyAzgX-ho"
+  },
+  {
+   "種類": "予備の削除",
+   "ジャンル": "Psychedelic Trance",
+   "id": "psytrance",
+   "曲名": "Psychedelic Experience (GMS)",
+   "消えた動画": "QwV3qXeLfzM",
+   "新しい動画": "i3gmj5vILWw"
+  },
+  {
+   "種類": "予備の削除",
+   "ジャンル": "Americana",
+   "id": "americana",
+   "曲名": "Oh My Sweet Carolina (Ryan Adams)",
+   "消えた動画": "19CFwwJnTOo",
+   "新しい動画": "rE4ISDUT4RM"
+  },
+  {
+   "種類": "予備の削除",
+   "ジャンル": "J-POP",
+   "id": "jpop",
+   "曲名": "夜に駆ける (YOASOBI)",
+   "消えた動画": "x8VYWazR5mE",
+   "新しい動画": "by4SYYWlhEs"
+  },
+  {
+   "種類": "代表曲の繰り上げ",
+   "ジャンル": "Turbo Folk",
+   "id": "turbo_folk",
+   "曲名": "Kukavica (Ceca)",
+   "消えた動画": "uhsP1qBo_Ok",
+   "新しい動画": "aYDtVXqC7IM"
+  },
+  {
+   "種類": "予備の削除",
+   "ジャンル": "Terrorcore",
+   "id": "terrorcore",
+   "曲名": "Fuckin Hostile（DJ Skinhead）",
+   "消えた動画": "0TjtkUD7OU4",
+   "新しい動画": "9iospCPwZbg"
+  },
+  {
+   "種類": "予備の削除",
+   "ジャンル": "Aggrotech",
+   "id": "aggrotech",
+   "曲名": "What the F**k Is Wrong with You People? (Combichrist)",
+   "消えた動画": "msAV9ep2Jo8",
+   "新しい動画": "nuw-cxKhW5A"
+  },
+  {
+   "種類": "予備の削除",
+   "ジャンル": "Alt-Country",
+   "id": "alt_country",
+   "曲名": "Come Pick Me Up (Ryan Adams)",
+   "消えた動画": "PmM2C6RHPwk",
+   "新しい動画": "4FIw7ERlVxU"
+  },
+  {
+   "種類": "予備の削除",
+   "ジャンル": "Electroclash",
+   "id": "electroclash",
+   "曲名": "Fuck the Pain Away (Peaches)",
+   "消えた動画": "DgYSM91vJko",
+   "新しい動画": "3cV6pnvCVM4"
+  },
+  {
+   "種類": "予備の削除",
+   "ジャンル": "Space Disco",
+   "id": "space_disco",
+   "曲名": "Supernature (Cerrone)",
+   "消えた動画": "QgGK4qBTwpw",
+   "新しい動画": "OPsPmi35OeY"
+  },
+  {
+   "種類": "予備の削除",
+   "ジャンル": "Hardcore Punk",
+   "id": "hardcore_punk",
+   "曲名": "Holiday in Cambodia (Dead Kennedys)",
+   "消えた動画": "Qr6NOsluHYg",
+   "新しい動画": "v0Uc6ZWDF3c"
+  },
+  {
+   "種類": "予備の削除",
+   "ジャンル": "Intelligent Dance Music",
+   "id": "idm",
+   "曲名": "Windowlicker (Aphex Twin)",
+   "消えた動画": "5ZT3gTu4Sjw",
+   "新しい動画": "FATTzbm78cc"
+  },
+  {
+   "種類": "予備の削除",
+   "ジャンル": "Deconstructed Club",
+   "id": "deconstructed_club",
+   "曲名": "Thievery (Arca)",
+   "消えた動画": "XQXKelbB9wk",
+   "新しい動画": "kKTsYyzC62w"
+  },
+  {
+   "種類": "予備の削除",
+   "ジャンル": "Post-Grunge",
+   "id": "post_grunge",
+   "曲名": "Blurry (Puddle of Mudd)",
+   "消えた動画": "ui-TR4U9WOs",
+   "新しい動画": "xJJsoquu70o"
+  },
+  {
+   "種類": "同じ曲の別の動画に差し替え",
+   "ジャンル": "EDM Trap",
+   "id": "edm_trap",
+   "曲名": "Michael Jordan (Carnage)",
+   "消えた動画": "8jyiRAUMrtg",
+   "新しい動画": "mTPeofsgDaA"
+  },
+  {
+   "種類": "別の代表曲に差し替え",
+   "ジャンル": "Baile Funk",
+   "id": "baile_funk",
+   "曲名": "Show das Poderosas (Anitta)",
+   "消えた動画": "Zpvs904uxhU",
+   "新しい動画": "YWFCcltlH4U"
+  },
+  {
+   "種類": "同じ曲の別の動画に差し替え",
+   "ジャンル": "Visual Kei",
+   "id": "visual_kei",
+   "曲名": "Obscure (Dir en grey)",
+   "消えた動画": "knTCepRTS7E",
+   "新しい動画": "0idEdzkI43I"
+  },
+  {
+   "種類": "同じ曲の別の動画に差し替え",
+   "ジャンル": "Trip Hop",
+   "id": "trip_hop",
+   "曲名": "Numb (Portishead)",
+   "消えた動画": "Z7If6GODLFc",
+   "新しい動画": "r8Zuek09YYA"
+  },
+  {
+   "種類": "同じ曲の別の動画に差し替え",
+   "ジャンル": "Easy Listening",
+   "id": "easy_listening",
+   "曲名": "A Man and a Woman (Francis Lai)",
+   "消えた動画": "J00jr868okc",
+   "新しい動画": "Ain88a_-Xsk"
+  },
+  {
+   "種類": "同じ曲の別の動画に差し替え",
+   "ジャンル": "Deathcore",
+   "id": "deathcore",
+   "曲名": "You Only Live Once (Suicide Silence)",
+   "消えた動画": "312Sb-2PovA",
+   "新しい動画": "P5hImIVSIKM"
+  },
+  {
+   "種類": "別の代表曲に差し替え",
+   "ジャンル": "Footwork / Juke",
+   "id": "footwork",
+   "曲名": "Pass That Shit (DJ Rashad feat. DJ Spinn & Taso)",
+   "消えた動画": "7NsrnIp73qY",
+   "新しい動画": "u_GEvmq3Nr8"
+  },
+  {
+   "種類": "別の代表曲に差し替え",
+   "ジャンル": "Glam Metal",
+   "id": "glam_metal",
+   "曲名": "Dr. Feelgood (Mötley Crüe)",
+   "消えた動画": "ZxgMGk9JPVA",
+   "新しい動画": "trGX3ET3jTQ"
+  },
+  {
+   "種類": "別の代表曲に差し替え",
+   "ジャンル": "New Beat",
+   "id": "new_beat",
+   "曲名": "Don't Miss the Party Line (Bizz Nizz)",
+   "消えた動画": "8slBVzWKvcc",
+   "新しい動画": "D9QRNeegzSo"
+  },
+  {
+   "種類": "同じ曲の別の動画に差し替え",
+   "ジャンル": "Vocal Jazz",
+   "id": "vocal_jazz",
+   "曲名": "Misty (Sarah Vaughan)",
+   "消えた動画": "TZdNaYgbqcY",
+   "新しい動画": "lJXLqAutql4"
+  },
+  {
+   "種類": "同じ曲の別の動画に差し替え",
+   "ジャンル": "Goregrind",
+   "id": "goregrind",
+   "曲名": "A Divine Proclamation of Finishing the Present Existence (Last Days of Humanity)",
+   "消えた動画": "ZW6lnrUpX1o",
+   "新しい動画": "QBP8imm03Mo"
+  },
+  {
+   "種類": "別の代表曲に差し替え",
+   "ジャンル": "Goregrind",
+   "id": "goregrind",
+   "曲名": "Open The Abscess (Exhumed)",
+   "消えた動画": "6RrirTcKlsc",
+   "新しい動画": "BknO_lq9gKs"
+  },
+  {
+   "種類": "同じ曲の別の動画に差し替え",
+   "ジャンル": "Goregrind",
+   "id": "goregrind",
+   "曲名": "Covered with Faeces as Decoration (Last Days of Humanity)",
+   "消えた動画": "kZYUBNnSX-w",
+   "新しい動画": "foCRsxaHb6Q"
+  },
+  {
+   "種類": "別の代表曲に差し替え",
+   "ジャンル": "Baltimore Club",
+   "id": "baltimore_club",
+   "曲名": "Bring in the Katz (feat. Pork Chop) (KW Griff)",
+   "消えた動画": "",
+   "新しい動画": "X0rrNcZp0CQ"
+  },
+  {
+   "種類": "別の代表曲に差し替え",
+   "ジャンル": "Hardcore Punk",
+   "id": "hardcore_punk",
+   "曲名": "Nazi Punks Fuck Off (Dead Kennedys)",
+   "消えた動画": "Wy0pXvi1Z0o",
+   "新しい動画": "PzHLPnGuVSQ"
+  },
+  {
+   "種類": "消えた代表曲を戻した",
+   "ジャンル": "Hip Hop",
+   "id": "hiphop",
+   "曲名": "Stronger (Kanye West)",
+   "消えた動画": "EXsB5nWCVMI",
+   "新しい動画": "PsO6ZnUZI0g"
+  },
+  {
+   "種類": "消えた代表曲を戻した",
+   "ジャンル": "Industrial",
+   "id": "industrial",
+   "曲名": "Worlock (Skinny Puppy)",
+   "消えた動画": "l1z4R4DNSx4",
+   "新しい動画": "axsrOmLZOUA"
+  },
+  {
+   "種類": "消えた代表曲を戻した",
+   "ジャンル": "Italo Disco",
+   "id": "italo_disco",
+   "曲名": "Bad Boy (Den Harrow)",
+   "消えた動画": "y-5DNJyJA4k",
+   "新しい動画": "I6gIfZ27pCY"
+  },
+  {
+   "種類": "消えた代表曲を戻した",
+   "ジャンル": "Grunge",
+   "id": "grunge",
+   "曲名": "Jeremy (Pearl Jam)",
+   "消えた動画": "MS91knuzoOA",
+   "新しい動画": "bQtPzo-7AHs"
+  },
+  {
+   "種類": "消えた代表曲を戻した",
+   "ジャンル": "Country",
+   "id": "country",
+   "曲名": "Forever and Ever, Amen (Randy Travis)",
+   "消えた動画": "sgJXbIP83A8",
+   "新しい動画": "k1Tiz9-V8iM"
+  },
+  {
+   "種類": "消えた代表曲を戻した",
+   "ジャンル": "Drill",
+   "id": "drill",
+   "曲名": "Shake the Room (Pop Smoke feat. Quavo)",
+   "消えた動画": "WoHaaOpOjqo",
+   "新しい動画": "EPWiBzR8YmQ"
+  },
+  {
+   "種類": "消えた代表曲を戻した",
+   "ジャンル": "Samba",
+   "id": "samba_genre",
+   "曲名": "Congada (Clara Nunes)",
+   "消えた動画": "Q4qaPB37R1E",
+   "新しい動画": "JZc4ecnmf6Y"
+  },
+  {
+   "種類": "消えた代表曲を戻した",
+   "ジャンル": "Blue-Eyed Soul",
+   "id": "blue_eyed_soul",
+   "曲名": "I Only Want to Be with You (Dusty Springfield)",
+   "消えた動画": "M8agr-i4sl4",
+   "新しい動画": "osVaF4t-zFc"
+  },
+  {
+   "種類": "消えた代表曲を戻した",
+   "ジャンル": "Flamenco",
+   "id": "flamenco",
+   "曲名": "Al Mariyya (Tomatito)",
+   "消えた動画": "LDGSb73IZPE",
+   "新しい動画": "2eyTayfIFvE"
+  },
+  {
+   "種類": "別の代表曲に差し替え",
+   "ジャンル": "Vaporwave",
+   "id": "vaporwave",
+   "曲名": "Summer Night (ESPRIT 空想)",
+   "消えた動画": "tyhmVW9zNW8",
+   "新しい動画": "qs7kjvhwHlw"
+  },
+  {
+   "種類": "別の代表曲に差し替え",
+   "ジャンル": "Vaporwave",
+   "id": "vaporwave",
+   "曲名": "Deep Swim (Windows96)",
+   "消えた動画": "awnqBWmOkYc",
+   "新しい動画": "45xL2ftmd2Q"
+  },
+  {
+   "種類": "消えた代表曲を戻した",
+   "ジャンル": "Enka",
+   "id": "enka",
+   "曲名": "よこはま・たそがれ (五木ひろし)",
+   "消えた動画": "JETSKHiVa1Y",
+   "新しい動画": "kytYHCx-hhM"
+  },
+  {
+   "種類": "消えた代表曲を戻した",
+   "ジャンル": "UK Bass",
+   "id": "uk_bass",
+   "曲名": "Ultra Thizz (Rustie)",
+   "消えた動画": "s4AqCrR_nAU",
+   "新しい動画": "P5fkBoLG-Oc"
+  },
+  {
+   "種類": "別の代表曲に差し替え",
+   "ジャンル": "Hard Bass",
+   "id": "hard_bass_genre",
+   "曲名": "CYKA BLYAT (DJ Blyatman & Russian Village Boys)",
+   "消えた動画": "-qsm0ppA4kM",
+   "新しい動画": "NqM032dnPtk"
+  },
+  {
+   "種類": "消えた代表曲を戻した",
+   "ジャンル": "Horrorcore",
+   "id": "horrorcore",
+   "曲名": "1-800-Suicide (Gravediggaz)",
+   "消えた動画": "pJmkDbwGqpM",
+   "新しい動画": "zxFYhG7VprY"
+  },
+  {
+   "種類": "消えた代表曲を戻した",
+   "ジャンル": "Pop Rock",
+   "id": "pop_rock",
+   "曲名": "Don't Stop Me Now (Queen)",
+   "消えた動画": "arooMdELBQ4",
+   "新しい動画": "HgzGwKwLmgM"
+  },
+  {
+   "種類": "消えた代表曲を戻した",
+   "ジャンル": "Europop",
+   "id": "europop",
+   "曲名": "Take a Chance on Me (ABBA)",
+   "消えた動画": "_elEO3pkASg",
+   "新しい動画": "-crgQGdpZR0"
+  },
+  {
+   "種類": "メイン動画の選び直し",
+   "ジャンル": "Goregrind",
+   "id": "goregrind",
+   "曲名": "A Divine Proclamation of Finishing the Present Existence (Last Days of Humanity)",
+   "消えた動画": "S_XuKgw8PkA, ZW6lnrUpX1o",
+   "新しい動画": "QBP8imm03Mo, S_XuKgw8PkA"
+  },
+  {
+   "種類": "メイン動画の選び直し",
+   "ジャンル": "Hard Bass",
+   "id": "hard_bass_genre",
+   "曲名": "Narkotik Kal (Hard Bass School)",
+   "消えた動画": "fro6je9L5kg, 2tch4J_pP9o",
+   "新しい動画": "fro6je9L5kg, NqM032dnPtk"
+  },
+  {
+   "種類": "メイン動画の選び直し",
+   "ジャンル": "New Beat",
+   "id": "new_beat",
+   "曲名": "I Sit on Acid (Lords of Acid)",
+   "消えた動画": "4YdtxmzUwqQ, -FDy-RVeI-A",
+   "新しい動画": "K64SQFa8hHk, D9QRNeegzSo"
+  }
+ ],
+ "コミットの題名": "feat: 予備の削除13件・代表曲の繰り上げ1件・同じ曲の別の動画に差し替え8件・別の代表曲に差し替え10件・消えた代表曲を戻した14件・メイン動画の選び直し3件 を追加 (2026年11月4日)"
 }
