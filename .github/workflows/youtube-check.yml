@@ -1,9 +1,12 @@
 name: Monthly YouTube Link Check
 
+# 【2026-11-04 停止】毎月1日の自動実行を止めた。
+# この古い点検は「本命も予備も見られない代表曲を曲ごと消す」作りで、10月に9曲・11月に8曲を消していた。
+# チョロさんの決定で、パソコン起動時に動く新しい点検（claudeTMP/monthly_video_check/monthly_video_check.py）に移した。
+# 新しい点検は、消さずに「同じ曲の別の動画→ふさわしい別の曲」に差し替え、メイン動画と知名度も直す。
+# 手動の実行ボタンだけ残しているが、押すと古い規則で動くので押さないこと。
 on:
-  schedule:
-    - cron: '0 2 1 * *'   # 毎月1日 午前2時（UTC）に実行
-  workflow_dispatch:        # 手動実行ボタン（テスト用）
+  workflow_dispatch:        # 手動実行ボタン（古い規則のまま。使わない）
 
 permissions:
   contents: write           # HTMLを更新してpushするために必要
