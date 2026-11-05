@@ -42,7 +42,7 @@ var CSS = [
 // 【2026-11-05】多数決の内訳（v=辞典:enka|MusicBrainz:mood_kayo|Wikidata:none|iTunes:enka|Deezer:nogenre）を文章にする。
 // 割れたときは「どこが何と言ったか」と、辞典がどれに決めたかを書く（チョロさんの決定）。
 function voteText(){
-  var nm = function(id){ var n = G.find(function(x){return x.id === id}); return n ? n.name : id; };
+  var nm = function(id){ return disp(id); };
   var said = [], none = [], cnt = {};
   (P.get('v') || '').split('|').forEach(function(p){
     var k = p.split(':'), s = k[0], v = k[1]; if (!s) return;
@@ -64,6 +64,9 @@ function voteText(){
   if (none.length) out += '<br>ジャンルが分からなかった所：' + none.map(esc).join('・');
   return out;
 }
+// 日本のジャンルは漢字で出す（チョロさんの指示 2026-11-05：演歌・歌謡曲・ムード歌謡）
+var JA = {enka: '演歌', kayokyoku: '歌謡曲', mood_kayo: 'ムード歌謡'};
+function disp(id){ if (JA[id]) return JA[id]; var n = (G || []).find(function(x){return x.id === id}); return n ? n.name : id; }
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 function norm(s){return String(s||'').toLowerCase().replace(/[\s\-_'’.&・()（）「」]/g,'')}
 
@@ -90,11 +93,11 @@ function put(d, nd, body){
   var box = d.createElement('div'); box.id = 'gr-ans';
   box.innerHTML =
     '<div class="r1"><span class="eye">曲名で調べた結果</span><span class="proto">試作</span></div>' +
-    '<div class="q">「' + esc(t) + '」（' + esc(a) + '）は <b>' + esc(n.name) + '</b></div>' +
+    '<div class="q">「' + esc(t) + '」（' + esc(a) + '）は <b>' + esc(disp(g)) + '</b></div>' +
     '<div class="why">' + (src === 'vote' ? voteText() : src === 'wikidata' ? '根拠：ウィキデータ（ウィキペディアの姉妹サイト。曲や歌手の情報を集めたデータベース）に「' + esc(wg) + '」と登録' : '根拠：AIが曲名・歌手名から判定（人の確認ではありません）') + '</div>' +
     '<div class="now">' + (i >= 0 ? '▶ 下の代表曲の<b>' + (i + 1) + '曲目</b>にあります。動画をその曲に切り替えました（鳴らないときは ▶ を押してください）。'
-                                   : '下の代表曲で、同じ ' + esc(n.name) + ' の曲を聴けます。') + '</div>' +
-    '<div class="more">この下で ' + esc(n.name) + ' の特徴と成り立ち、地図の線で「どの音楽から生まれたか」をたどれます。 ' +
+                                   : '下の代表曲で、同じ ' + esc(disp(g)) + ' の曲を聴けます。') + '</div>' +
+    '<div class="more">この下で ' + esc(disp(g)) + ' の特徴と成り立ち、地図の線で「どの音楽から生まれたか」をたどれます。 ' +
     '<a href="song_name.html" target="_top">ほかの曲も調べる →</a></div>';
   var w = d.getElementById('sp-yt-wrap');
   body.insertBefore(box, w && w.parentNode === body ? w : body.firstChild);
