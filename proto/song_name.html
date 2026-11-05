@@ -79,14 +79,24 @@ document.getElementById('f').onsubmit = function(e){
   e.preventDefault();
   var t = document.getElementById('t').value.trim(), a = document.getElementById('a').value.trim();
   var m = document.getElementById('msg'); m.className = ''; m.textContent = 'Wikidataで「' + t + '」（' + a + '）のジャンルを探しています…';
-  var sp = 'SELECT DISTINCT ?en ?ja WHERE { {?s rdfs:label ' + q(t) + '@ja} UNION {?s rdfs:label ' + q(t) + '@en} ' +
-    '?s wdt:P175 ?p . {?p rdfs:label ' + q(a) + '@ja} UNION {?p rdfs:label ' + q(a) + '@en} ' +
-    '?s wdt:P136 ?g . OPTIONAL{?g rdfs:label ?en FILTER(lang(?en)="en")} OPTIONAL{?g rdfs:label ?ja FILTER(lang(?ja)="ja")} } LIMIT 20';
+  // 【2026-11-05】歌手名は、入れた文字が名前に含まれていればよい（「米津」→米津玄師、「サザン」→サザンオールスターズ）。
+  // 曲名・歌手名とも、Wikidataに登録された別名（略称など）も見る。大文字・小文字・空白・記号の違いは無視する。
+  // 辞書は用意しない。以前は曲名・歌手名とも1文字残らず同じでないと見つからなかった（チョロさんの指摘）。
+  var sp = 'SELECT DISTINCT ?s ?pl ?pn ?en ?ja WHERE { VALUES ?lab { ' + q(t) + '@ja ' + q(t) + '@en } ' +
+    '{?s rdfs:label ?lab} UNION {?s skos:altLabel ?lab} ' +
+    '?s wdt:P175 ?p . {?p rdfs:label ?pl} UNION {?p skos:altLabel ?pl} FILTER(lang(?pl)="ja"||lang(?pl)="en") ' +
+    'OPTIONAL{?p rdfs:label ?pn FILTER(lang(?pn)="ja")} ' +
+    'OPTIONAL{?s wdt:P136 ?g . OPTIONAL{?g rdfs:label ?en FILTER(lang(?en)="en")} OPTIONAL{?g rdfs:label ?ja FILTER(lang(?ja)="ja")}} } LIMIT 300';
   fetch('https://query.wikidata.org/sparql?format=json&query=' + encodeURIComponent(sp))
     .then(function(r){return r.json()})
     .then(function(d){
-      var wgs = d.results.bindings.map(function(b){return {en: (b.en||{}).value, ja: (b.ja||{}).value}});
-      if (!wgs.length) { m.className = 'ng'; m.textContent = 'Wikidataに、この曲のジャンルの登録がありませんでした。本番では、ここでAIが曲名・歌手名から判定します（試作では未対応）。'; return; }
+      var na = norm(a);
+      var rows = d.results.bindings.filter(function(b){ return !na || norm(b.pl.value).indexOf(na) >= 0; });
+      if (!rows.length) { m.className = 'ng'; m.textContent = 'Wikidataに「' + t + '」（' + a + '）が見つかりませんでした。本番では、ここでAIが曲名・歌手名から判定します（試作では未対応）。'; return; }
+      var withG = rows.filter(function(b){ return b.en || b.ja; });
+      if (!withG.length) { m.className = 'ng'; m.textContent = 'Wikidataに「' + t + '」はありましたが、ジャンルが書かれていませんでした。本番では、ここでAIが曲名・歌手名から判定します（試作では未対応）。'; return; }
+      a = (withG[0].pn || withG[0].pl).value;   // 答えには正式な名前を出す（「米津」→「米津玄師」）
+      var wgs = withG.map(function(b){return {en: (b.en||{}).value, ja: (b.ja||{}).value}});
       var hit = find(wgs);
       if (!hit) { m.className = 'ng'; m.textContent = 'Wikidataでは「' + wgs.map(function(w){return w.en||w.ja}).join('、') + '」でしたが、辞典にそのジャンルがまだありません。'; return; }
       location.href = 'answer.html?' + new URLSearchParams({t: t, a: a, g: hit.id, src: 'wikidata', wg: hit.wg});
