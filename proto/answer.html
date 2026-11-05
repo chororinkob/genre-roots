@@ -49,14 +49,17 @@ function voteText(){
     if (v === 'none' || v === 'err' || v === 'nogenre') none.push(s);
     else { said.push({s: s, v: v}); cnt[v] = (cnt[v] || 0) + 1; }
   });
+  // 【2026-11-05 チョロさんの指示】本番でも通用する書き方にする：
+  //  ・「辞典」だけでは伝わらないので正式な名前で書く ・テスト向けの括弧の補足（同票の決め方・票数）は書かない
+  //  ・この辞典は代表曲しか持たないのが当たり前なので、「分からなかった所」に辞典は入れない（外の取り先だけ書く）
+  var label = function(s){ return s === '辞典' ? '音楽ジャンルルーツ辞典の代表曲' : s; };
+  none = none.filter(function(s){ return s !== '辞典'; });
   var kinds = Object.keys(cnt), out;
   if (kinds.length === 1) {
-    out = '根拠：' + said.map(function(x){return x.s}).join('・') + ' の' + said.length + 'か所がそろって「' + esc(nm(said[0].v)) + '」';
+    out = '根拠：' + said.map(function(x){return esc(label(x.s))}).join('・') + ' の' + said.length + 'か所がそろって「' + esc(nm(said[0].v)) + '」';
   } else {
-    var mx = Math.max.apply(null, kinds.map(function(k){return cnt[k]}));
-    var tie = kinds.filter(function(k){return cnt[k] === mx}).length > 1;
-    out = said.map(function(x){ return esc(x.s) + ' が「' + esc(nm(x.v)) + '」'; }).join('、') + 'と分かれました。' +
-          '辞典は「' + esc(nm(g)) + '」と判定します（' + (tie ? '同じ数だったので、テストで当たりが多かった ' + esc(said.find(function(x){return x.v === g}).s) + ' を優先' : 'いちばん多かった ' + cnt[g] + '票') + '）。';
+    out = said.map(function(x){ return esc(label(x.s)) + 'が「' + esc(nm(x.v)) + '」'; }).join('、') + 'と分かれました。' +
+          'この音楽ジャンルルーツ辞典は「' + esc(nm(g)) + '」と判定します。';
   }
   if (none.length) out += '<br>ジャンルが分からなかった所：' + none.map(esc).join('・');
   return out;
