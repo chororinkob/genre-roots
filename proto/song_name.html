@@ -53,7 +53,7 @@ p.s{font-size:14.5px;color:var(--sub)}
 </form>
 
 <h2>しくみ</h2>
-<p class="s">① ウィキデータ（ウィキペディアの姉妹サイト。曲や歌手の情報を集めたデータベース）で、その曲のジャンルを探します。② 見つかったら、辞典のそのジャンルの地図を開いて、答えを地図の上に出します。③ Wikidataに無い曲は、本番ではAIが曲名・歌手名から判定します（この試作ではまだ動きません）。</p>
+<p class="s">① 5か所に同時に問い合わせます：この辞典の代表曲、MusicBrainz（だれでも書き込める音楽のデータベース）、ウィキデータ（ウィキペディアの姉妹サイト）、iTunes（Appleの音楽ストア）、Deezer（海外の音楽配信）。② それぞれが言ったジャンルを1票として数え、いちばん多かったジャンルに決めます。同じ数のときは、日本の曲45曲のテストで当たりが多かった順（辞典→MusicBrainz→ウィキデータ→iTunes→Deezer）に優先します。③ 意見が分かれたときは、どこが何と言ったかを答えにそのまま書きます。</p>
 </div>
 <script>
 var G = null;
@@ -75,33 +75,162 @@ document.querySelectorAll('.ex a').forEach(function(x){x.onclick = function(e){
   e.preventDefault(); document.getElementById('t').value = x.dataset.t; document.getElementById('a').value = x.dataset.a;
   document.getElementById('f').requestSubmit();
 }});
+// ───────── 【2026-11-05 2版】5か所に同時に聞いて、多数決でジャンルを決める ─────────
+// チョロさんの決定：どこか1か所を信じるのではなく、全部に聞いて「いちばん多かったジャンル」にする。
+// 割れたときは、どこが何と言ったかを答えにそのまま書く。
+// 聞く先（それぞれ1票）：辞典自身の代表曲／MusicBrainz／Wikidata／iTunes／Deezer。
+// 同じ数のときは、日本の曲45曲のテスト（2026-11-05）で当たりが多かった順に優先する（この並び順）。
+// Last.fm は曲ごとのタグが日本の曲にほぼ付いていない（Lemonでもゼロ）うえ、鍵が要るので、この試作では聞かない。
+var ORDER = ['辞典', 'MusicBrainz', 'Wikidata', 'iTunes', 'Deezer'];
+// 外の取り先が使う呼び名 → 辞典のジャンル（辞典の名前・別名で引けないものだけ）
+var EXTRA = {'演歌':'enka','歌謡曲':'kayokyoku','ムード歌謡':'mood_kayo','ポップス':'jpop','japanesepop':'jpop','jballad':'j_ballad','jrock':'j_rock'};
+var REP = null;
+fetch('rep_index.json').then(function(r){return r.json()}).then(function(x){REP = x});
+function toId(name){
+  var k = norm(name); if (!k || !G) return null;
+  if (EXTRA[k]) return EXTRA[k];
+  var hit = G.find(function(n){ return [n.name].concat(n.aliases || []).map(norm).indexOf(k) >= 0; });
+  return hit ? hit.id : null;
+}
+// 同じ曲か：曲名が同じ（または頭が同じ）で、歌手名がどちらかに含まれる
+function same(t, a, rt, ra){
+  var nt = norm(t), nrt = norm(rt), na = norm(a), nra = norm(ra);
+  return (nrt === nt || nrt.indexOf(nt) === 0) && (!na || nra.indexOf(na) >= 0 || (nra && na.indexOf(nra) >= 0));
+}
+// 1か所の答え（名前の並び）から、その取り先の1票を決める（いちばん多く出た辞典のジャンル）
+function oneVote(names){
+  var c = {}, first = {};
+  names.forEach(function(x, i){ var id = toId(x); if (id) { c[id] = (c[id] || 0) + 1; if (!(id in first)) first[id] = i; } });
+  var ids = Object.keys(c); if (!ids.length) return null;
+  ids.sort(function(p, q2){ return c[q2] - c[p] || first[p] - first[q2]; });
+  return ids[0];
+}
+function getJ(u){ return fetch(u).then(function(r){ if (!r.ok) throw r.status; return r.json(); }); }
+// MusicBrainzは問い合わせが続くと「少し待って」（503）と断ることがあるので、2秒あけて2回まで聞き直す
+function getMB(u, n){
+  n = n || 0;
+  return getJ(u).catch(function(e){ if (n >= 2) throw e; return wait(2000).then(function(){ return getMB(u, n + 1); }); });
+}
+function jsonp(u){
+  return new Promise(function(ok, ng){
+    var cb = 'jp' + Date.now() + Math.floor(Math.random() * 1e6), s = document.createElement('script');
+    var to = setTimeout(function(){ ng('timeout'); }, 15000);
+    window[cb] = function(d){ clearTimeout(to); delete window[cb]; s.remove(); ok(d); };
+    s.onerror = function(){ clearTimeout(to); ng('error'); };
+    s.src = u + (u.indexOf('?') >= 0 ? '&' : '?') + 'output=jsonp&callback=' + cb; document.head.appendChild(s);
+  });
+}
+function wait(ms){ return new Promise(function(ok){ setTimeout(ok, ms); }); }
+
+// 各取り先：{found: 曲が見つかったか, vote: 辞典のジャンル番号 or null, raw: 取り先の言い方, name: 正式な歌手名}
+var ASK = {
+  '辞典': function(t, a){
+    var h = (REP || []).find(function(x){ return same(t, a, x[0], x[1]); });
+    return Promise.resolve(h ? {found: true, vote: h[2], raw: [], name: h[1]} : {found: false});
+  },
+  'Wikidata': function(t, a){
+    var sp = 'SELECT DISTINCT ?s ?pl ?pn ?en ?ja WHERE { VALUES ?lab { ' + q(t) + '@ja ' + q(t) + '@en } ' +
+      '{?s rdfs:label ?lab} UNION {?s skos:altLabel ?lab} ' +
+      '?s wdt:P175 ?p . {?p rdfs:label ?pl} UNION {?p skos:altLabel ?pl} FILTER(lang(?pl)="ja"||lang(?pl)="en") ' +
+      'OPTIONAL{?p rdfs:label ?pn FILTER(lang(?pn)="ja")} ' +
+      'OPTIONAL{?s wdt:P136 ?g . OPTIONAL{?g rdfs:label ?en FILTER(lang(?en)="en")} OPTIONAL{?g rdfs:label ?ja FILTER(lang(?ja)="ja")}} } LIMIT 300';
+    return getJ('https://query.wikidata.org/sparql?format=json&query=' + encodeURIComponent(sp)).then(function(d){
+      var na = norm(a);
+      // 歌手名は、どちらかがどちらかに含まれていればよい（「米津」→米津玄師、長い表記→短い登録名）
+      var rows = d.results.bindings.filter(function(b){ var np = norm(b.pl.value); return !na || np.indexOf(na) >= 0 || (np && na.indexOf(np) >= 0); });
+      if (!rows.length) return {found: false};
+      var raw = [];
+      rows.forEach(function(b){ ['en', 'ja'].forEach(function(k){ if (b[k] && raw.indexOf(b[k].value) < 0) raw.push(b[k].value); }); });
+      return {found: true, vote: oneVote(raw), raw: raw, name: (rows[0].pn || rows[0].pl).value};
+    });
+  },
+  'MusicBrainz': function(t, a){
+    // MusicBrainzは「1秒に1回まで」の決まりがあるので、間を空けて順番に聞く
+    var base = 'https://musicbrainz.org/ws/2/';
+    return getMB(base + 'recording/?fmt=json&limit=10&query=' + encodeURIComponent('recording:"' + t + '" AND artist:"' + a + '"')).then(function(d){
+      var recs = (d.recordings || []).filter(function(r){
+        var ra = (r['artist-credit'] || []).map(function(c){ return (c.name || '') + ' ' + ((c.artist || {}).name || ''); }).join(' ');
+        return same(t, a, r.title, ra) || (same(t, '', r.title, '') && norm(ra).indexOf(norm(a)) >= 0);
+      }).slice(0, 2);
+      if (!recs.length) return {found: false};
+      var raw = [], chain = Promise.resolve();
+      recs.forEach(function(r){
+        chain = chain.then(function(){ return wait(1100); })
+          .then(function(){ return getMB(base + 'recording/' + r.id + '?fmt=json&inc=genres+tags'); })
+          .then(function(x){ (x.genres || []).concat(x.tags || []).forEach(function(g){ raw.push(g.name); }); });
+      });
+      return chain.then(function(){
+        if (raw.length) return {found: true, vote: oneVote(raw), raw: raw, by: '曲'};
+        // 曲にジャンルが無ければ、歌手のジャンルを使う
+        var aid = recs[0]['artist-credit'][0].artist.id;
+        return wait(1100).then(function(){ return getMB(base + 'artist/' + aid + '?fmt=json&inc=genres+tags'); }).then(function(x){
+          var ar = (x.genres || []).concat(x.tags || []).map(function(g){ return g.name; });
+          return {found: true, vote: oneVote(ar), raw: ar, by: '歌手'};
+        });
+      });
+    });
+  },
+  'iTunes': function(t, a){
+    return getJ('https://itunes.apple.com/search?country=JP&lang=ja_jp&media=music&entity=song&limit=25&term=' + encodeURIComponent(t + ' ' + a)).then(function(d){
+      var rs = (d.results || []).filter(function(r){ return same(t, a, r.trackName, r.artistName); });
+      if (!rs.length) return {found: false};
+      var raw = rs.map(function(r){ return r.primaryGenreName; });
+      return {found: true, vote: oneVote(raw), raw: raw};
+    });
+  },
+  'Deezer': function(t, a){
+    var pick = function(d){ return (d.data || []).filter(function(r){ return same(t, a, r.title, (r.artist || {}).name); }); };
+    return jsonp('https://api.deezer.com/search?limit=25&q=' + encodeURIComponent('track:"' + t + '" artist:"' + a + '"')).then(function(d){
+      var rs = pick(d);
+      return rs.length ? rs : jsonp('https://api.deezer.com/search?limit=25&q=' + encodeURIComponent(t + ' ' + a)).then(pick);
+    }).then(function(rs){
+      if (!rs.length) return {found: false};
+      var raw = [];
+      return Promise.all(rs.slice(0, 3).map(function(r){ return jsonp('https://api.deezer.com/album/' + r.album.id); })).then(function(al){
+        al.forEach(function(x){ ((x.genres || {}).data || []).forEach(function(g){ raw.push(g.name); }); });
+        return {found: true, vote: oneVote(raw), raw: raw};
+      });
+    });
+  }
+};
+
+// 5か所の答えから多数決。同じ数なら ORDER の順に優先。
+function decide(res){
+  var cnt = {};
+  ORDER.forEach(function(s){ var v = res[s] && res[s].vote; if (v) cnt[v] = (cnt[v] || 0) + 1; });
+  var ids = Object.keys(cnt); if (!ids.length) return null;
+  var mx = Math.max.apply(null, ids.map(function(k){ return cnt[k]; }));
+  var best = ORDER.map(function(s){ return res[s] && res[s].vote; }).find(function(v){ return v && cnt[v] === mx; });
+  return {id: best, n: mx, tie: ids.filter(function(k){ return cnt[k] === mx; }).length > 1};
+}
+
 document.getElementById('f').onsubmit = function(e){
   e.preventDefault();
   var t = document.getElementById('t').value.trim(), a = document.getElementById('a').value.trim();
-  var m = document.getElementById('msg'); m.className = ''; m.textContent = 'Wikidataで「' + t + '」（' + a + '）のジャンルを探しています…';
-  // 【2026-11-05】歌手名は、入れた文字が名前に含まれていればよい（「米津」→米津玄師、「サザン」→サザンオールスターズ）。
-  // 曲名・歌手名とも、Wikidataに登録された別名（略称など）も見る。大文字・小文字・空白・記号の違いは無視する。
-  // 辞書は用意しない。以前は曲名・歌手名とも1文字残らず同じでないと見つからなかった（チョロさんの指摘）。
-  var sp = 'SELECT DISTINCT ?s ?pl ?pn ?en ?ja WHERE { VALUES ?lab { ' + q(t) + '@ja ' + q(t) + '@en } ' +
-    '{?s rdfs:label ?lab} UNION {?s skos:altLabel ?lab} ' +
-    '?s wdt:P175 ?p . {?p rdfs:label ?pl} UNION {?p skos:altLabel ?pl} FILTER(lang(?pl)="ja"||lang(?pl)="en") ' +
-    'OPTIONAL{?p rdfs:label ?pn FILTER(lang(?pn)="ja")} ' +
-    'OPTIONAL{?s wdt:P136 ?g . OPTIONAL{?g rdfs:label ?en FILTER(lang(?en)="en")} OPTIONAL{?g rdfs:label ?ja FILTER(lang(?ja)="ja")}} } LIMIT 300';
-  fetch('https://query.wikidata.org/sparql?format=json&query=' + encodeURIComponent(sp))
-    .then(function(r){return r.json()})
-    .then(function(d){
-      var na = norm(a);
-      var rows = d.results.bindings.filter(function(b){ return !na || norm(b.pl.value).indexOf(na) >= 0; });
-      if (!rows.length) { m.className = 'ng'; m.textContent = 'Wikidataに「' + t + '」（' + a + '）が見つかりませんでした。本番では、ここでAIが曲名・歌手名から判定します（試作では未対応）。'; return; }
-      var withG = rows.filter(function(b){ return b.en || b.ja; });
-      if (!withG.length) { m.className = 'ng'; m.textContent = 'Wikidataに「' + t + '」はありましたが、ジャンルが書かれていませんでした。本番では、ここでAIが曲名・歌手名から判定します（試作では未対応）。'; return; }
-      a = (withG[0].pn || withG[0].pl).value;   // 答えには正式な名前を出す（「米津」→「米津玄師」）
-      var wgs = withG.map(function(b){return {en: (b.en||{}).value, ja: (b.ja||{}).value}});
-      var hit = find(wgs);
-      if (!hit) { m.className = 'ng'; m.textContent = 'Wikidataでは「' + wgs.map(function(w){return w.en||w.ja}).join('、') + '」でしたが、辞典にそのジャンルがまだありません。'; return; }
-      location.href = 'answer.html?' + new URLSearchParams({t: t, a: a, g: hit.id, src: 'wikidata', wg: hit.wg});
-    })
-    .catch(function(){ m.className = 'ng'; m.textContent = 'Wikidataにつながりませんでした。少し待ってからもう一度お試しください。'; });
+  var m = document.getElementById('msg'); m.className = '';
+  if (!G || !REP) { m.textContent = '準備中です。1〜2秒待ってからもう一度押してください。'; return; }
+  var left = ORDER.slice();
+  var show = function(){ m.textContent = '「' + t + '」（' + a + '）のジャンルを、辞典・MusicBrainz・Wikidata・iTunes・Deezer の5か所に同時に問い合わせています。返事待ち：' + (left.join('・') || 'なし'); };
+  show();
+  var res = {};
+  Promise.all(ORDER.map(function(s){
+    return ASK[s](t, a).catch(function(){ return {found: false, err: true}; }).then(function(r){
+      res[s] = r; left.splice(left.indexOf(s), 1); show();
+    });
+  })).then(function(){
+    var d = decide(res);
+    if (!d) {
+      var any = ORDER.some(function(s){ return res[s].found; });
+      m.className = 'ng';
+      m.textContent = any ? '「' + t + '」は見つかりましたが、どこにもジャンルが書かれていませんでした（または辞典にまだ無いジャンルでした）。'
+                          : '5か所のどこにも「' + t + '」（' + a + '）が見つかりませんでした。曲名・歌手名の書き方を変えて試してください。';
+      return;
+    }
+    // 答えには正式な歌手名を出す（「米津」→「米津玄師」）。辞典かWikidataで分かったものを使う。
+    var nm = (res['辞典'].found && res['辞典'].name) || (res['Wikidata'].found && res['Wikidata'].name) || a;
+    var votes = ORDER.map(function(s){ var r = res[s]; return s + ':' + (r.err ? 'err' : !r.found ? 'none' : (r.vote || 'nogenre')); }).join('|');
+    location.href = 'answer.html?' + new URLSearchParams({t: t, a: nm, g: d.id, src: 'vote', v: votes});
+  });
 };
 </script>
 </body>
