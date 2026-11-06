@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>（試作）この曲は何ジャンル？ — 音楽ジャンルルーツ辞典</title>
+<title>この曲は何ジャンル？ — 音楽ジャンルルーツ辞典</title>
 <style>
 html,body{margin:0;padding:0;height:100%;background:#1a1a2e;overflow:hidden}
 #app{position:fixed;inset:0;width:100%;height:100vh;height:100dvh;border:0}
@@ -20,7 +20,7 @@ html,body{margin:0;padding:0;height:100%;background:#1a1a2e;overflow:hidden}
 var P = new URLSearchParams(location.search);
 var t = P.get('t') || 'Lemon', a = P.get('a') || '米津玄師', g = P.get('g') || 'jpop';
 var src = P.get('src') || 'wikidata', wg = P.get('wg') || 'J-pop';
-document.title = '（試作）' + t + '（' + a + '）は何ジャンル？ — 音楽ジャンルルーツ辞典';
+document.title = t + '（' + a + '）は何ジャンル？ — 音楽ジャンルルーツ辞典';
 var F = document.getElementById('app');
 F.src = '/genre_roots.html?genre=' + encodeURIComponent(g);
 
@@ -92,7 +92,7 @@ function put(d, nd, body){
   var i = (nd.rep_tracks || []).findIndex(function(x){ return norm(x).indexOf(norm(t)) === 0; });
   var box = d.createElement('div'); box.id = 'gr-ans';
   box.innerHTML =
-    '<div class="r1"><span class="eye">曲名で調べた結果</span><span class="proto">試作</span></div>' +
+    '<div class="r1"><span class="eye">曲名で調べた結果</span></div>' +
     '<div class="q">「' + esc(t) + '」（' + esc(a) + '）は <b>' + esc(disp(g)) + '</b></div>' +
     '<div class="why">' + (src === 'db' ? '根拠：音楽ジャンルルーツ辞典の判定。日本の曲は、世間では「歌手ごと」にジャンルを決めることが多いのですが、この辞典は<b>曲ごと</b>に、その曲そのものの曲調・メロディーで判定しています。' +
       // 演歌歌手の曲を歌謡曲・ムード歌謡と答えるときの注意書き（チョロさんの指示 2026-11-06）
@@ -101,7 +101,7 @@ function put(d, nd, body){
     '<div class="now">' + (i >= 0 ? '▶ 下の代表曲の<b>' + (i + 1) + '曲目</b>にあります。動画をその曲に切り替えました（鳴らないときは ▶ を押してください）。'
                                    : '下の代表曲で、同じ ' + esc(disp(g)) + ' の曲を聴けます。') + '</div>' +
     '<div class="more">この下で ' + esc(disp(g)) + ' の特徴と成り立ち、地図の線で「どの音楽から生まれたか」をたどれます。 ' +
-    '<a href="song_name.html" target="_top">ほかの曲も調べる →</a></div>';
+    '<a href="/song_name.html" target="_top">ほかの曲も調べる →</a></div>';
   var w = d.getElementById('sp-yt-wrap');
   body.insertBefore(box, w && w.parentNode === body ? w : body.firstChild);
   if (i >= 0) {
