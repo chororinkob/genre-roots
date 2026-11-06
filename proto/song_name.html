@@ -53,7 +53,8 @@ p.s{font-size:14.5px;color:var(--sub)}
 </form>
 
 <h2>しくみ</h2>
-<p class="s">① 5か所に同時に問い合わせます：この辞典の代表曲、MusicBrainz（だれでも書き込める音楽のデータベース）、ウィキデータ（ウィキペディアの姉妹サイト）、iTunes（Appleの音楽ストア）、Deezer（海外の音楽配信）。② それぞれが言ったジャンルを1票として数え、いちばん多かったジャンルに決めます。同じ数のときは、日本の曲45曲のテストで当たりが多かった順（辞典→MusicBrainz→ウィキデータ→iTunes→Deezer）に優先します。③ 意見が分かれたときは、どこが何と言ったかを答えにそのまま書きます。</p>
+<p class="s">まず、この辞典が<b>曲ごとに判定したデータベース</b>（約4,200曲。お店の棚のような「歌手ごと」の分類ではなく、その曲そのものの曲調・メロディーで分けたもの）を探します。見つかれば、その判定で答えます。</p>
+<p class="s">データベースに無い曲は、次のように外の情報の多数決で答えます。① 5か所に同時に問い合わせます：この辞典の代表曲、MusicBrainz（だれでも書き込める音楽のデータベース）、ウィキデータ（ウィキペディアの姉妹サイト）、iTunes（Appleの音楽ストア）、Deezer（海外の音楽配信）。② それぞれが言ったジャンルを1票として数え、いちばん多かったジャンルに決めます。同じ数のときは、日本の曲45曲のテストで当たりが多かった順（辞典→MusicBrainz→ウィキデータ→iTunes→Deezer）に優先します。③ 意見が分かれたときは、どこが何と言ったかを答えにそのまま書きます。</p>
 </div>
 <script>
 var G = null;
@@ -86,6 +87,18 @@ var ORDER = ['辞典', 'MusicBrainz', 'Wikidata', 'iTunes', 'Deezer'];
 var EXTRA = {'演歌':'enka','歌謡曲':'kayokyoku','ムード歌謡':'mood_kayo','ポップス':'jpop','japanesepop':'jpop','jballad':'j_ballad','jrock':'j_rock'};
 var REP = null;
 fetch('rep_index.json').then(function(r){return r.json()}).then(function(x){REP = x});
+// 【2026-11-06】曲ごとのジャンルのデータベース（song_db.json：[曲名, 歌手, ジャンル番号, 判定者 c=チョロさん/k=クローディア]）。
+// 歌手ごとの「お店の棚の分類」ではなく、曲そのもので判定したもの。ここに見つかれば、多数決はせずにこの判定で答える。
+// 見つからない曲だけ、下の5か所の多数決で答える（チョロさんの決定 2026-11-06）。
+var SDB = null;
+fetch('song_db.json').then(function(r){return r.json()}).then(function(x){SDB = x});
+function findDB(t, a){
+  if (!SDB) return null;
+  var nt = norm(t), na = norm(a);
+  // まず曲名がぴったり同じもの、次に頭が同じもの。歌手名はどちらかに含まれていればよい
+  var ok = function(x){ var nra = norm(x[1]); return !na || nra.indexOf(na) >= 0 || (nra && na.indexOf(nra) >= 0); };
+  return SDB.find(function(x){ return norm(x[0]) === nt && ok(x); }) || SDB.find(function(x){ return norm(x[0]).indexOf(nt) === 0 && ok(x); }) || null;
+}
 function toId(name){
   var k = norm(name); if (!k || !G) return null;
   if (EXTRA[k]) return EXTRA[k];
@@ -208,7 +221,13 @@ document.getElementById('f').onsubmit = function(e){
   e.preventDefault();
   var t = document.getElementById('t').value.trim(), a = document.getElementById('a').value.trim();
   var m = document.getElementById('msg'); m.className = '';
-  if (!G || !REP) { m.textContent = '準備中です。1〜2秒待ってからもう一度押してください。'; return; }
+  if (!G || !REP || !SDB) { m.textContent = '準備中です。1〜2秒待ってからもう一度押してください。'; return; }
+  var hit = findDB(t, a);
+  if (hit) {
+    m.textContent = '「' + t + '」は、音楽ジャンルルーツ辞典が曲ごとに判定したデータベースにありました。答えを表示します。';
+    location.href = 'answer.html?' + new URLSearchParams({t: hit[0], a: hit[1], g: hit[2], src: 'db'});
+    return;
+  }
   var left = ORDER.slice();
   var show = function(){ m.textContent = '「' + t + '」（' + a + '）のジャンルを、辞典・MusicBrainz・Wikidata・iTunes・Deezer の5か所に同時に問い合わせています。返事待ち：' + (left.join('・') || 'なし'); };
   show();
