@@ -42,7 +42,7 @@ p.s{font-size:14.5px;color:var(--sub)}
 <header><a href="/genre_roots.html">音楽ジャンルルーツ辞典</a></header>
 <p class="eyebrow">SONG TO GENRE</p>
 <h1>この曲なんてジャンル？<br>曲を聴かせて調べる</h1>
-<p class="lede">流れている曲にスマホやパソコンを向けて、ボタンを押すだけ。10秒聴いて曲名を当て、その曲のジャンルを答えます。</p>
+<p class="lede">流れている曲にスマホやパソコンを向けて、ボタンを押すだけ。20秒聴いて曲名を当て、その曲のジャンルを答えます。</p>
 
 <div class="tabs">
   <a class="tab" href="song_name.html">✏️ 曲名で調べる</a>
@@ -56,7 +56,7 @@ p.s{font-size:14.5px;color:var(--sub)}
 </div>
 
 <h2>しくみ</h2>
-<p class="s">① 10秒の音を、曲を当てる専門のサービス（Shazam）に聴かせて、曲名と歌手名を調べます。日本の曲がローマ字で返ってきたとき（例：舟唄 → Funa-Uta）は、Appleの音楽ストアで日本語の曲名に直します。Shazamで分からなかったときは、マイナーな曲に強い別の聴き取りサービス（ACRCloud）にもう一度聴かせます。</p>
+<p class="s">① 20秒の音を、曲を当てる専門のサービス（Shazam）に聴かせて、曲名と歌手名を調べます。日本の曲がローマ字で返ってきたとき（例：舟唄 → Funa-Uta）は、Appleの音楽ストアで日本語の曲名に直します。Shazamで分からなかったときは、マイナーな曲に強い別の聴き取りサービス（ACRCloud）にもう一度聴かせます。</p>
 <p class="s">② 分かった曲名で、「曲名で調べる」と同じ方法でジャンルを答えます。この辞典が<b>曲ごとに判定したデータベース</b>（約4,200曲）→ この辞典の<b>代表曲</b>（約8,600曲）→ 外の音楽データベース（MusicBrainz → ウィキデータ → iTunes → Deezer の順）の順に探します。</p>
 <p class="s">曲が分からなかったときは、AIに当てずっぽうで答えさせることはしません。「曲名で調べる」をお使いください。</p>
 </div>
@@ -65,7 +65,9 @@ p.s{font-size:14.5px;color:var(--sub)}
 // → song_name.html に渡して、曲名で調べるのと同じ道（データベース → 多数決）でジャンルを決める。
 // Geminiは使わない（テストで曲名当て20曲中7、昭和のジャンル推定8曲中1しか当たらなかったため）。
 var API = (location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? 'http://localhost:5000' : 'https://genre-roots-server.onrender.com';
-var SEC = 10;   // Shazam・ACRCloudとも、10秒でも5秒でも当たる数は20秒と変わらなかった（2026-11-06〜07のテスト）
+// 【2026-11-07 訂正】20秒のまま。59曲で比べると、Shazamは20秒で58曲・10秒で45曲が分かった（曲のどこを取っても10秒では駄目な曲が13曲）。
+// ACRCloudは10秒でも当たるが、1番手のShazamに合わせて20秒にする（チョロさんの指摘で実測）。
+var SEC = 20;
 var btn = document.getElementById('rec'), cnt = document.getElementById('count'), msg = document.getElementById('msg');
 var stream = null, rec = null, chunks = [], tick = null, maxVol = 0, actx = null, an = null;
 function say(s, ng){ msg.className = ng ? 'ng' : ''; msg.innerHTML = s; }
