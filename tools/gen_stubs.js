@@ -106,6 +106,7 @@ ${tracks ? '<h2>代表曲</h2><ul>' + tracks + '</ul>' : ''}
 ${rlinks ? '<h2>ルーツ（影響を受けたジャンル）</h2><p>' + rlinks + '</p>' : ''}
 ${ilinks ? '<h2>影響を与えたジャンル</h2><p>' + ilinks + '</p>' : ''}
 <p><a href="/song.html">曲のジャンルを調べる（この曲なんてジャンル？）</a> — 流れている曲を聴かせるだけで、曲名・歌手・ジャンルをAIが判定します。</p>
+<p><a href="/song_name.html">曲名で曲のジャンルを調べる</a> — 曲名と歌手名を入れるだけ。日本の曲は歌手ごとではなく、曲ごとに判定します。</p>
 <p>地図で${esc(名読み)}のルーツをたどるには、JavaScriptを有効にして <a href="/genre_roots.html?genre=${encodeURIComponent(id)}">音楽ジャンルルーツ辞典</a> を開いてください。</p>
 </div></noscript>
 </body>
@@ -147,6 +148,8 @@ sm += '\n' + url(SITE + '/docs/about.html', TODAY, '0.3', 'monthly');
 // 決まりどおり sitemap.xml にも載せる。
 sm += '\n' + url(SITE + '/docs/changes.html', TODAY, '0.3', 'weekly');
 sm += '\n' + url(SITE + '/song.html', TODAY, '0.8', 'monthly');
+// 【2026-11-06】曲名で調べるページ（song_name.html）も検索に出すページなので載せる（チョロさんの指示で公開）
+sm += '\n' + url(SITE + '/song_name.html', TODAY, '0.8', 'monthly');
 for (const n of NODES) sm += '\n' + url(SITE + '/genre/' + encodeURIComponent(n.id) + '.html', TODAY, '0.8', 'weekly');
 sm += '\n</urlset>\n';
 fs.writeFileSync(path.join(OUT, 'sitemap.xml'), sm, 'utf8');
