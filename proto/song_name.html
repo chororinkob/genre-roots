@@ -92,6 +92,12 @@ fetch('rep_index.json').then(function(r){return r.json()}).then(function(x){REP 
 // 見つからない曲だけ、下の5か所の多数決で答える（チョロさんの決定 2026-11-06）。
 var SDB = null;
 fetch('song_db.json').then(function(r){return r.json()}).then(function(x){SDB = x});
+// 演歌も歌う歌手（データベースに演歌の曲が1曲でもある歌手）。この人の曲を歌謡曲・ムード歌謡と答えるときは、
+// 「歌手で決めず、曲調で判定した」という注意書きを答えに添える（チョロさんの指示 2026-11-06）。
+function enkaSinger(name){
+  var k = norm(String(name).split(/[・&＆]/)[0]);
+  return !!(SDB || []).find(function(x){ return x[2] === 'enka' && norm(String(x[1]).split(/[・&＆]/)[0]) === k; });
+}
 function findDB(t, a){
   if (!SDB) return null;
   var nt = norm(t), na = norm(a);
@@ -225,7 +231,9 @@ document.getElementById('f').onsubmit = function(e){
   var hit = findDB(t, a);
   if (hit) {
     m.textContent = '「' + t + '」は、音楽ジャンルルーツ辞典が曲ごとに判定したデータベースにありました。答えを表示します。';
-    location.href = 'answer.html?' + new URLSearchParams({t: hit[0], a: hit[1], g: hit[2], src: 'db'});
+    var q = {t: hit[0], a: hit[1], g: hit[2], src: 'db'};
+    if ((hit[2] === 'kayokyoku' || hit[2] === 'mood_kayo') && enkaSinger(hit[1])) q.en = '1';
+    location.href = 'answer.html?' + new URLSearchParams(q);
     return;
   }
   var left = ORDER.slice();
