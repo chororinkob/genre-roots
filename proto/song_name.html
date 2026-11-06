@@ -54,7 +54,8 @@ p.s{font-size:14.5px;color:var(--sub)}
 
 <h2>しくみ</h2>
 <p class="s">まず、この辞典が<b>曲ごとに判定したデータベース</b>（約4,200曲。お店の棚のような「歌手ごと」の分類ではなく、その曲そのものの曲調・メロディーで分けたもの）を探します。見つかれば、その判定で答えます。</p>
-<p class="s">データベースに無い曲は、次のように外の情報の多数決で答えます。① 5か所に同時に問い合わせます：この辞典の代表曲、MusicBrainz（だれでも書き込める音楽のデータベース）、ウィキデータ（ウィキペディアの姉妹サイト）、iTunes（Appleの音楽ストア）、Deezer（海外の音楽配信）。② それぞれが言ったジャンルを1票として数え、いちばん多かったジャンルに決めます。同じ数のときは、日本の曲45曲のテストで当たりが多かった順（辞典→MusicBrainz→ウィキデータ→iTunes→Deezer）に優先します。③ 意見が分かれたときは、どこが何と言ったかを答えにそのまま書きます。</p>
+<p class="s">データベースに無い曲は、次に、この辞典の<b>代表曲</b>（595ジャンルの約8,600曲）を探します。入っていれば、辞典が登録しているジャンルで答えます。</p>
+<p class="s">どちらにも無い曲は、外の5か所に同時に問い合わせます：MusicBrainz（音楽好きが投票で細かいジャンルを付けるデータベース）、Discogs（レコード収集家が1枚ずつ細かいスタイルを付けるデータベース）、ウィキデータ（ウィキペディアの姉妹サイト）、iTunes（Appleの音楽ストア）、Deezer（海外の音楽配信）。答えは、ジャンルの細かさと正確さの順（MusicBrainz → Discogs → ウィキデータ → iTunes → Deezer）に見て、最初にジャンルが書かれていたものを使います。iTunesとDeezerは、お店の棚のような大まかな分け方なので後ろにしています。ほかの所が違うことを言っていたら、それも答えに書きます。</p>
 </div>
 <script>
 var G = null;
@@ -82,9 +83,15 @@ document.querySelectorAll('.ex a').forEach(function(x){x.onclick = function(e){
 // 聞く先（それぞれ1票）：辞典自身の代表曲／MusicBrainz／Wikidata／iTunes／Deezer。
 // 同じ数のときは、日本の曲45曲のテスト（2026-11-05）で当たりが多かった順に優先する（この並び順）。
 // Last.fm は曲ごとのタグが日本の曲にほぼ付いていない（Lemonでもゼロ）うえ、鍵が要るので、この試作では聞かない。
-var ORDER = ['辞典', 'MusicBrainz', 'Wikidata', 'iTunes', 'Deezer'];
+// 【2026-11-07】辞典の代表曲は先に findRep で調べるので、外に聞くのは4か所。並びは答えを採る優先順（PRIO と同じ）。
+var ORDER = ['MusicBrainz', 'Discogs', 'Wikidata', 'iTunes', 'Deezer'];
+// Discogsは合言葉（トークン）が要るので、ブラウザから直接ではなく、辞典のサーバーの中継（/genre/discogs）を通す。
+// トークンはサーバーの中だけにあり、このページにも返事にも出てこない（2026-11-07）。
+var API = (location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? 'http://localhost:5000' : 'https://genre-roots-server.onrender.com';
 // 外の取り先が使う呼び名 → 辞典のジャンル（辞典の名前・別名で引けないものだけ）
-var EXTRA = {'演歌':'enka','歌謡曲':'kayokyoku','ムード歌謡':'mood_kayo','ポップス':'jpop','japanesepop':'jpop','jballad':'j_ballad','jrock':'j_rock'};
+var EXTRA = {'演歌':'enka','歌謡曲':'kayokyoku','ムード歌謡':'mood_kayo','ポップス':'jpop','japanesepop':'jpop','jballad':'j_ballad','jrock':'j_rock',
+  // Discogsの呼び名（2026-11-07）
+  'kayōkyoku':'kayokyoku','kayokyoku':'kayokyoku','anison':'anime_music','bossanova':'bossa_nova'};
 var REP = null;
 fetch('rep_index.json').then(function(r){return r.json()}).then(function(x){REP = x});
 // 【2026-11-06】曲ごとのジャンルのデータベース（song_db.json：[曲名, 歌手, ジャンル番号, 判定者 c=チョロさん/k=クローディア]）。
@@ -98,12 +105,38 @@ function enkaSinger(name){
   var k = norm(String(name).split(/[・&＆]/)[0]);
   return !!(SDB || []).find(function(x){ return x[2] === 'enka' && norm(String(x[1]).split(/[・&＆]/)[0]) === k; });
 }
+// 【2026-11-07】聴き取りサービス（Shazam等）が返す曲名は、後ろに版の名前が付いていたり（「怪獣の花唄 - replica -」
+// 「不可逆リプレイス （re:rec）」「CHA-LA HEAD-CHA-LA (ドラゴンボールZ)」）、全角・半角が違ったり（ウィーアー！）する。
+// データベースと照らし合わせる前に、後ろの（ ）と「 - ○○ - 」を外し、全角・半角をそろえる。
+function dbNorm(s){ return norm(String(s || '').normalize('NFKC')).replace(/[!?！？…]/g, ''); }
+function coreTitle(t){
+  t = String(t || '').normalize('NFKC');
+  t = t.replace(/\s*[\(\[（【][^\)\]）】]*[\)\]）】]\s*$/, '');
+  t = t.replace(/\s+[-–]\s+.*$/, '');
+  return t;
+}
+// 1文字だけ違う（中国の字が混ざった「宇宙戦舰ヤマト」など）。短い曲名は別の曲と取り違えやすいので4文字以上だけ
+function oneOff(p, q){
+  if (p.length !== q.length || p.length < 4) return false;
+  var d = 0; for (var i = 0; i < p.length; i++) if (p[i] !== q[i] && ++d > 1) return false;
+  return d === 1;
+}
 function findDB(t, a){
   if (!SDB) return null;
-  var nt = norm(t), na = norm(a);
-  // まず曲名がぴったり同じもの、次に頭が同じもの。歌手名はどちらかに含まれていればよい
-  var ok = function(x){ var nra = norm(x[1]); return !na || nra.indexOf(na) >= 0 || (nra && na.indexOf(nra) >= 0); };
-  return SDB.find(function(x){ return norm(x[0]) === nt && ok(x); }) || SDB.find(function(x){ return norm(x[0]).indexOf(nt) === 0 && ok(x); }) || null;
+  var nt = dbNorm(coreTitle(t)), na = dbNorm(a);
+  if (!nt) return null;
+  // ① 曲名がぴったり同じもの、② 頭が同じもの。歌手名はどちらかに含まれていればよい
+  var ok = function(x){ var nra = dbNorm(x[1]); return !na || nra.indexOf(na) >= 0 || (nra && na.indexOf(nra) >= 0); };
+  var hit = SDB.find(function(x){ return dbNorm(x[0]) === nt && ok(x); }) || SDB.find(function(x){ return dbNorm(x[0]).indexOf(nt) === 0 && ok(x); });
+  if (hit) return hit;
+  // ③ 歌手名の表記が違う（ささきいさお／佐々木功 のような本名・英語表記）とき：曲名が同じか1文字違いで、
+  //    データベースにその曲名が1曲しかなければ同じ曲とみなす（2曲以上あると、どの歌手の曲か決められないので見送る）
+  //    【2026-11-07 直し】英語などの曲名には使わない。「September / Earth, Wind & Fire」が、データベースにある
+  //    竹内まりやの「SEPTEMBER」に結びついて「歌謡曲」と答えてしまった。日本の字（ひらがな・カタカナ・漢字）が
+  //    入っている曲名だけにする（宇宙戦舰ヤマト／佐々木功 のような、日本の曲の表記ゆれのための決まりなので）。
+  if (!/[぀-ヿ一-鿿]/.test(coreTitle(t))) return null;
+  var c = SDB.filter(function(x){ var k = dbNorm(x[0]); return k === nt || oneOff(k, nt); });
+  return c.length === 1 ? c[0] : null;
 }
 function toId(name){
   var k = norm(name); if (!k || !G) return null;
@@ -189,6 +222,14 @@ var ASK = {
       });
     });
   },
+  'Discogs': function(t, a){
+    return getJ(API + '/genre/discogs?' + new URLSearchParams({t: t, a: a})).then(function(d){
+      if (!d.found) return {found: false, err: !!d.error};
+      // 細かいスタイル（Viking Metal など）を先に、無ければ大分類（Rock など）で1票を決める
+      var raw = (d.styles || []).concat(d.genres || []);
+      return {found: true, vote: oneVote(d.styles || []) || oneVote(d.genres || []), raw: raw};
+    });
+  },
   'iTunes': function(t, a){
     return getJ('https://itunes.apple.com/search?country=JP&lang=ja_jp&media=music&entity=song&limit=25&term=' + encodeURIComponent(t + ' ' + a)).then(function(d){
       var rs = (d.results || []).filter(function(r){ return same(t, a, r.trackName, r.artistName); });
@@ -213,14 +254,35 @@ var ASK = {
   }
 };
 
-// 5か所の答えから多数決。同じ数なら ORDER の順に優先。
+// 【2026-11-07 チョロさんの決定】多数決をやめ、正確さの順に見て、最初にジャンルが書かれていた所の答えを使う。
+// 順番：MusicBrainz（利用者の投票で細かいジャンルが付く。59曲のテストで曲を見つけた数が最多）→ Wikidata（載っていれば正確だが少ない）
+//       → iTunes → Deezer（どちらもお店の棚の大まかな分類）。
+// 多数決だと、細かいジャンル（バイキングメタル）が、大まかな答え2つ（ヘヴィメタル）に負けてしまっていた。
+// 辞典の代表曲は、ここに来る前に別に調べて、入っていればそれで答える（findRep）。
+// 【2026-11-07】Discogsを2番目に入れた（59曲で、MusicBrainzが外した細かいジャンル＝オペラ・サンバ・バイキングメタル・テキサスブルース・フナナ等をDiscogsが当てた）。
+var PRIO = ['MusicBrainz', 'Discogs', 'Wikidata', 'iTunes', 'Deezer'];
 function decide(res){
-  var cnt = {};
-  ORDER.forEach(function(s){ var v = res[s] && res[s].vote; if (v) cnt[v] = (cnt[v] || 0) + 1; });
-  var ids = Object.keys(cnt); if (!ids.length) return null;
-  var mx = Math.max.apply(null, ids.map(function(k){ return cnt[k]; }));
-  var best = ORDER.map(function(s){ return res[s] && res[s].vote; }).find(function(v){ return v && cnt[v] === mx; });
-  return {id: best, n: mx, tie: ids.filter(function(k){ return cnt[k] === mx; }).length > 1};
+  for (var i = 0; i < PRIO.length; i++) { var r = res[PRIO[i]]; if (r && r.vote) return {id: r.vote, by: PRIO[i]}; }
+  return null;
+}
+// 【2026-11-07 チョロさんの決定】辞典の代表曲に入っている曲は、外に聞かずに、辞典が登録したジャンルで答える。
+// 代表曲は知名度・メジャーさの順に並べてあるので、万一2つのジャンルに入っていたら、より前（上位）に置かれている方を使う。
+function findRep(t, a){
+  if (!REP) return null;
+  var nt = dbNorm(coreTitle(t)), na = dbNorm(a); if (!nt || !na) return null;
+  var pos = {}, best = null;
+  REP.forEach(function(x){
+    var g = x[2]; pos[g] = (pos[g] || 0) + 1;
+    var rt = dbNorm(coreTitle(x[0])), ra = dbNorm(x[1]);
+    // 曲名は、同じか、どちらかがどちらかを含んでいればよい（歌手名も合っていることが条件）。
+    // 例：「Trem Das Onze」と代表曲の「O Trem das Onze」、「Rigoletto: "La Donna è Mobile"」と「La donna è mobile」、
+    //     「DON'T STOP THE MUSIC」と「Don't Stop the Music 2006」（どれも59曲の通しテストで取りこぼしたもの）。
+    //     短い曲名（4文字未満）は別の曲を含んでしまいやすいので、ぴったり同じときだけにする。
+    if (rt !== nt && !(Math.min(rt.length, nt.length) >= 4 && (rt.indexOf(nt) >= 0 || nt.indexOf(rt) >= 0))) return;
+    if (!(ra.indexOf(na) >= 0 || na.indexOf(ra) >= 0)) return;
+    if (!best || pos[g] < best.n) best = {row: x, n: pos[g]};
+  });
+  return best ? best.row : null;
 }
 
 document.getElementById('f').onsubmit = function(e){
@@ -233,11 +295,25 @@ document.getElementById('f').onsubmit = function(e){
     m.textContent = '「' + t + '」は、音楽ジャンルルーツ辞典が曲ごとに判定したデータベースにありました。答えを表示します。';
     var q = {t: hit[0], a: hit[1], g: hit[2], src: 'db'};
     if ((hit[2] === 'kayokyoku' || hit[2] === 'mood_kayo') && enkaSinger(hit[1])) q.en = '1';
+    if (VIA) q.via = VIA;
     location.href = 'answer.html?' + new URLSearchParams(q);
     return;
   }
+  // 【2026-11-07】多数決の前に、曲名の後ろの版の名前「(Re-Recorded)」「(Club Mix)」「 - replica -」と、
+  // 歌手名の共演者「& Neville Staple」「, Cody Carpenter」「feat. ○○」を外して探す。
+  // 聴き取りサービスが返す正式な表記には、こうした付け足しが多く、そのままだと5か所が曲を見つけられない（59曲の通しテストで発覚）。
+  t = coreTitle(t).trim() || t;
+  a = String(a).split(/\s*(?:&|＆|,|、|\/|\bfeat\.?|\bft\.|\bfeaturing\b|\bwith\b|×)\s*/i)[0].trim() || a;
+  var rep = findRep(t, a);
+  if (rep) {
+    m.textContent = '「' + t + '」は、音楽ジャンルルーツ辞典の代表曲にありました。辞典が登録しているジャンルで答えます。';
+    var rq = {t: rep[0], a: rep[1], g: rep[2], src: 'rep'};
+    if (VIA) rq.via = VIA;
+    location.href = 'answer.html?' + new URLSearchParams(rq);
+    return;
+  }
   var left = ORDER.slice();
-  var show = function(){ m.textContent = '「' + t + '」（' + a + '）のジャンルを、辞典・MusicBrainz・Wikidata・iTunes・Deezer の5か所に同時に問い合わせています。返事待ち：' + (left.join('・') || 'なし'); };
+  var show = function(){ m.textContent = '「' + t + '」（' + a + '）のジャンルを、外の5か所（MusicBrainz・Discogs・Wikidata・iTunes・Deezer）に同時に問い合わせています。答えは、ジャンルの細かさと正確さの順（MusicBrainz → Discogs → Wikidata → iTunes → Deezer）に見て、最初に書かれていたものを使います。返事待ち：' + (left.join('・') || 'なし'); };
   show();
   var res = {};
   Promise.all(ORDER.map(function(s){
@@ -254,11 +330,25 @@ document.getElementById('f').onsubmit = function(e){
       return;
     }
     // 答えには正式な歌手名を出す（「米津」→「米津玄師」）。辞典かWikidataで分かったものを使う。
-    var nm = (res['辞典'].found && res['辞典'].name) || (res['Wikidata'].found && res['Wikidata'].name) || a;
+    var nm = (res['Wikidata'].found && res['Wikidata'].name) || a;
     var votes = ORDER.map(function(s){ var r = res[s]; return s + ':' + (r.err ? 'err' : !r.found ? 'none' : (r.vote || 'nogenre')); }).join('|');
-    location.href = 'answer.html?' + new URLSearchParams({t: t, a: nm, g: d.id, src: 'vote', v: votes});
+    var p = {t: t, a: nm, g: d.id, src: 'vote', v: votes, by: d.by};
+    if (VIA) p.via = VIA;
+    location.href = 'answer.html?' + new URLSearchParams(p);
   });
 };
+// 【2026-11-07】マイク（mic.html）で聴き取った曲名・歌手名を受け取ったときは、入力欄に入れて自動で調べ始める。
+// via=mic を答えのページまで引き継ぎ、「マイクで聴き取った曲」と分かるようにする。
+var P0 = new URLSearchParams(location.search), VIA = P0.get('via') || '';
+if (P0.get('t') && P0.get('auto') === '1') {
+  document.getElementById('t').value = P0.get('t');
+  document.getElementById('a').value = P0.get('a') || '';
+  var tries = 0;
+  (function go(){
+    if ((!G || !REP || !SDB) && tries++ < 50) { setTimeout(go, 200); return; }
+    document.getElementById('f').requestSubmit();
+  })();
+}
 </script>
 </body>
 </html>
