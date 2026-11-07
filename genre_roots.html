@@ -1567,7 +1567,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v135.5</span>
+  <span id="version-info">v135.6</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -27602,11 +27602,14 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 @keyframes micModeGlow { 0%,100% { filter: brightness(1); } 50% { filter: brightness(1.15) drop-shadow(0 0 6px rgba(255,120,150,0.6)); } }
 @media (prefers-reduced-motion: reduce) { .mic-mode-btn[aria-selected="true"] { animation: none; } }
 .mic-mode-btn:focus-visible { outline: 2px solid #fff; outline-offset: 1px; }
-.mic-pane { display: none; }
-#mic-panel[data-mode="listen"] .mic-pane-listen, #mic-panel[data-mode="file"] .mic-pane-file, #mic-panel[data-mode="name"] .mic-pane-name { display: block; }
+/* 【v2.49】3つの中身を同じ1マスに重ねて置き、選んでいないものは「見えないけれど場所は取る」にする。
+   こうすると、いちばん背の高い中身に合わせて土台の大きさが決まり、ボタンを押してもパネルの大きさが変わらない（チョロさんの指摘）。 */
+.mic-panes { display: grid; }
+.mic-pane { grid-area: 1 / 1; align-self: center; visibility: hidden; }
+#mic-panel[data-mode="listen"] .mic-pane-listen, #mic-panel[data-mode="file"] .mic-pane-file, #mic-panel[data-mode="name"] .mic-pane-name { visibility: visible; }
 .mic-panel-recording #mic-modes, .mic-panel-processing #mic-modes { visibility: hidden; }
-.mic-panel-processing .mic-pane-name, .mic-panel-processing .mic-pane-file { display: none !important; }
-#mic-status:empty { display: none; }
+.mic-panel-processing .mic-pane-name, .mic-panel-processing .mic-pane-file { visibility: hidden !important; }
+#mic-status:empty { visibility: hidden; }  /* v2.49：消さずに場所だけ残す（タブを替えても土台の大きさが変わらないように） */
 .mic-pane-file .mic-file-label { display: block; padding: 26px 12px; font-size: 13px; }
 .mic-pane-file .mic-file-note, .mic-pane-name .mic-file-note { font-size: 11px; color: #666; margin-top: 8px; }
 #mic-name-form { display: flex; flex-direction: column; gap: 8px; margin-bottom: 6px; }
@@ -27745,7 +27748,7 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 <div id="mic-overlay">
   <div id="mic-panel" data-mode="listen">
     <button id="mic-panel-close" onclick="closeMicPanel()">✕</button>
-    <div id="mic-panel-version">v2.48</div>
+    <div id="mic-panel-version">v2.49</div>
     <div id="mic-panel-title">🎵 この曲なんてジャンル？</div>
     <div id="mic-panel-sub">3つの方法のうち、どれか1つで調べられます</div>
     <div id="mic-modes" role="tablist" aria-label="調べ方">
@@ -27753,6 +27756,7 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
       <button class="mic-mode-btn" role="tab" aria-selected="false" data-mode="file" onclick="micSetMode('file')">📁 ファイル</button>
       <button class="mic-mode-btn" role="tab" aria-selected="false" data-mode="name" onclick="micSetMode('name')">✏️ 曲名</button>
     </div>
+    <div class="mic-panes">
     <div class="mic-pane mic-pane-listen">
 
     <div class="mic-btn-zone">
@@ -27782,6 +27786,7 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
         <input id="mic-name-a" placeholder="歌手名（例：細川たかし）" autocomplete="off">
         <button type="submit">調べる</button>
       </form>
+    </div>
     </div>
 
     <!-- 録音中・解析中の波形と案内は、3つの調べ方どれでも出すので、切り替えの外に置く -->
