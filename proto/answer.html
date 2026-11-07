@@ -60,7 +60,7 @@ function voteText(){
   said.forEach(function(x){ groups[idx[x.v]].s.push(x.s); });
   groups = groups.filter(function(gr){ return gr.s.length; });
   var out = '根拠：いくつかの音楽データベースの判定から割り出しています。';
-  if (groups.length) out += '<br>' + groups.map(function(gr){ return esc(gr.s.join('・')) + 'が「' + esc(nm(gr.v)) + '」と判定'; }).join('／') + '（確からしい順）';
+  if (groups.length) out += '<br>' + groups.map(function(gr){ return esc(gr.s.join('と')) + 'が「' + esc(nm(gr.v)) + '」と判定'; }).join('／') + '（確からしい順）';
   return out;
 }
 // 日本のジャンルは漢字で出す（チョロさんの指示 2026-11-05：演歌・歌謡曲・ムード歌謡）
