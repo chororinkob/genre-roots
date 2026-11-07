@@ -299,7 +299,7 @@ function artistSongs(ar){
     return out;
   });
 }
-// 辞典にある曲か（「辞典の判定あり」の印を付けるため）
+// 辞典にある曲か（ジャンル名の印を付けるため）
 function inDict(t, a){
   var kt = nz(t), ka = nz(a);
   var f = function(x){ var xa = nz(x[1]); return nz(x[0]) === kt && (xa.indexOf(ka) >= 0 || ka.indexOf(xa) >= 0); };
@@ -312,7 +312,8 @@ function songRow(s, mark){
   return '<div class="row song" tabindex="0" data-t="' + esc(s.t) + '" data-a="' + esc(s.a) + '">' +
     (s.img ? '<img src="' + esc(s.img) + '" alt="" loading="lazy">' : '<span class="noimg"></span>') +
     '<div class="tx"><div class="t">' + esc(s.t) + '</div><div class="a">' + esc(sub) + '</div></div>' +
-    (g ? '<span class="badge">辞典の判定あり：' + esc(gname(g)) + '</span>' : '') + '</div>';
+    // 【2026-11-08】印はジャンル名だけ（「辞典の判定あり：」は付けない。ジャンル名が出ていること自体が、辞典で判定済みの目印。チョロさんの指摘）
+    (g ? '<span class="badge" title="この辞典の判定">' + esc(gname(g)) + '</span>' : '') + '</div>';
 }
 
 // ───── 候補の一覧を出す（以前の srRun・pick と同じ動き） ─────
