@@ -1567,7 +1567,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v135.3</span>
+  <span id="version-info">v135.4</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -27540,7 +27540,7 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 #mic-panel-close:hover { color: #fff; }
 
 #mic-panel-title { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 5px; }
-#mic-panel-sub { font-size: 12px; color: #666; margin-bottom: 20px; line-height: 1.5; }
+#mic-panel-sub { font-size: 14px; font-weight: 600; color: #e8e8f0; margin-bottom: 10px; line-height: 1.5; }
 
 .mic-btn-zone {
   position: relative; width: 110px; height: 110px;
@@ -27591,6 +27591,29 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
   border-radius: 8px; color: #777; font-size: 12px; cursor: pointer;
 }
 .mic-file-label:hover { border-color: rgba(255,255,255,0.3); color: #ccc; }
+/* 【2026-11-07 v2.43】調べ方を3つ（聴かせる／ファイル／曲名）の切り替えボタンにした。
+   v2.42で3つを縦に並べたら「全部入れるの？」と見えてしまった（チョロさんの指摘）。
+   選んだ1つの中身だけを下に出すので、「どれか1つを選ぶ」とひと目で分かる。最初は「聴かせる」。 */
+#mic-modes { display: flex; gap: 8px; margin: 0 0 20px; padding-bottom: 4px; }
+.mic-mode-btn { flex: 1; padding: 10px 4px; font-size: 13.5px; font-weight: 700; color: #f0f0f8; background: linear-gradient(180deg, #4a4a6a 0%, #33334d 100%); border: 1px solid #5c5c80; border-bottom-color: #22223a; border-radius: 10px; cursor: pointer; white-space: nowrap; box-shadow: inset 0 1px 0 rgba(255,255,255,0.22), 0 4px 0 #151526, 0 6px 10px rgba(0,0,0,0.45); text-shadow: 0 1px 0 rgba(0,0,0,0.4); transform: translateY(0); transition: transform .08s, box-shadow .08s, background .15s; }
+.mic-mode-btn:hover { background: linear-gradient(180deg, #56567a 0%, #3c3c5a 100%); }
+.mic-mode-btn:active { transform: translateY(3px); box-shadow: inset 0 1px 0 rgba(255,255,255,0.15), 0 1px 0 #151526, 0 2px 4px rgba(0,0,0,0.4); }
+.mic-mode-btn[aria-selected="true"], .mic-mode-btn[aria-selected="true"]:hover, .mic-mode-btn[aria-selected="true"]:active { background: radial-gradient(75% 85% at 50% 55%, #c22d48 0%, #e0405c 45%, #ff6f8a 85%, #ff9aae 100%); border-color: #ffb3c1; border-bottom-color: #ffb3c1; color: #fff; text-shadow: 0 0 6px rgba(255,220,228,0.9), 0 1px 1px rgba(90,0,20,0.6); transform: translateY(0); box-shadow: inset 0 0 12px 3px rgba(110,10,35,0.75), inset 0 2px 3px rgba(80,0,20,0.6), 0 4px 0 #6e1426, 0 0 16px 4px rgba(255,90,125,0.55), 0 0 32px 8px rgba(255,90,125,0.25); animation: micModeGlow 2.4s ease-in-out infinite; }
+@keyframes micModeGlow { 0%,100% { filter: brightness(1); } 50% { filter: brightness(1.15) drop-shadow(0 0 6px rgba(255,120,150,0.6)); } }
+@media (prefers-reduced-motion: reduce) { .mic-mode-btn[aria-selected="true"] { animation: none; } }
+.mic-mode-btn:focus-visible { outline: 2px solid #fff; outline-offset: 1px; }
+.mic-pane { display: none; }
+#mic-panel[data-mode="listen"] .mic-pane-listen, #mic-panel[data-mode="file"] .mic-pane-file, #mic-panel[data-mode="name"] .mic-pane-name { display: block; }
+.mic-panel-recording #mic-modes, .mic-panel-processing #mic-modes { visibility: hidden; }
+.mic-panel-processing .mic-pane-name, .mic-panel-processing .mic-pane-file { display: none !important; }
+#mic-status:empty { display: none; }
+.mic-pane-file .mic-file-label { display: block; padding: 26px 12px; font-size: 13px; }
+.mic-pane-file .mic-file-note, .mic-pane-name .mic-file-note { font-size: 11px; color: #666; margin-top: 8px; }
+#mic-name-form { display: flex; flex-direction: column; gap: 8px; margin-bottom: 6px; }
+#mic-name-form input { padding: 10px 11px; font-size: 14px; color: #eee; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; outline: none; }
+#mic-name-form input:focus { border-color: rgba(233,69,96,0.7); }
+#mic-name-form button { padding: 10px; font-size: 14px; font-weight: 700; color: #fff; background: #e94560; border: none; border-radius: 8px; cursor: pointer; }
+#mic-name-form button:hover { background: #ff5470; }
 
 #mic-result { display: none; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.09); border-radius: 10px; padding: 14px 15px; text-align: left; margin-top: 10px; }
 #mic-result.visible { display: block; }
@@ -27720,11 +27743,17 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 
 <!-- ===== Music Recognition Panel ===== -->
 <div id="mic-overlay">
-  <div id="mic-panel">
+  <div id="mic-panel" data-mode="listen">
     <button id="mic-panel-close" onclick="closeMicPanel()">✕</button>
-    <div id="mic-panel-version">v2.41</div>
-    <div id="mic-panel-title">🎵 音楽を聴かせてください</div>
-    <div id="mic-panel-sub">ジャンルを調べてマップに表示します</div>
+    <div id="mic-panel-version">v2.47</div>
+    <div id="mic-panel-title">🎵 この曲なんてジャンル？</div>
+    <div id="mic-panel-sub">3つの方法のうち、どれか1つで調べられます</div>
+    <div id="mic-modes" role="tablist" aria-label="調べ方">
+      <button class="mic-mode-btn" role="tab" aria-selected="true" data-mode="listen" onclick="micSetMode('listen')">🎤 聴かせる</button>
+      <button class="mic-mode-btn" role="tab" aria-selected="false" data-mode="file" onclick="micSetMode('file')">📁 ファイル</button>
+      <button class="mic-mode-btn" role="tab" aria-selected="false" data-mode="name" onclick="micSetMode('name')">✏️ 曲名</button>
+    </div>
+    <div class="mic-pane mic-pane-listen">
 
     <div class="mic-btn-zone">
       <div class="mic-ring mic-ring-1"></div>
@@ -27739,15 +27768,26 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
         </svg>
       </button>
     </div>
-
-    <canvas id="mic-eq-canvas"></canvas>
-    <div id="mic-status">タップして音楽を聴かせてください</div>
-    <div id="mic-countdown"></div>
-
-    <div class="mic-file-row" id="mic-file-row">
-      <label class="mic-file-label" for="micAudioFile">🎵 ファイルを選ぶ</label>
-      <input type="file" id="micAudioFile" accept=".mp3,.wav,.ogg,.m4a,.webm" style="display:none" onchange="micOnFileSelect(this)">
     </div>
+    <div class="mic-pane mic-pane-file">
+      <div class="mic-file-row" id="mic-file-row">
+        <label class="mic-file-label" for="micAudioFile">📁 音楽ファイルを選ぶ</label>
+        <input type="file" id="micAudioFile" accept=".mp3,.wav,.ogg,.m4a,.webm" style="display:none" onchange="micOnFileSelect(this)">
+      </div>
+      <div class="mic-file-note">mp3・wav・m4a などの音楽ファイル</div>
+    </div>
+    <div class="mic-pane mic-pane-name">
+      <form id="mic-name-form" onsubmit="micNameSubmit(event)">
+        <input id="mic-name-t" placeholder="曲名（例：北酒場）" autocomplete="off">
+        <input id="mic-name-a" placeholder="歌手名（例：細川たかし）" autocomplete="off">
+        <button type="submit">調べる</button>
+      </form>
+    </div>
+
+    <!-- 録音中・解析中の波形と案内は、3つの調べ方どれでも出すので、切り替えの外に置く -->
+    <canvas id="mic-eq-canvas"></canvas>
+    <div id="mic-status">マイクを押すと、20秒聴いて曲を当てます</div>
+    <div id="mic-countdown"></div>
 
     <div id="mic-error"></div>
 
@@ -27787,6 +27827,7 @@ const MIC_RECORD_SEC = 20;
 
 function openMicPanel() {
   document.getElementById('mic-overlay').classList.add('open');
+  if (typeof micSetMode === 'function') micSetMode('listen');   // 開くたびに「聴かせる」から（v2.43）
 }
 function closeMicPanel() {
   if (micState === 'recording') micStopListening(true);
@@ -27803,7 +27844,7 @@ function micSetState(s) {
   if (s === 'recording') panel.classList.add('mic-panel-recording');
   if (s === 'processing') panel.classList.add('mic-panel-processing');
   const statusMap = {
-    idle: 'タップして音楽を聴かせてください',
+    idle: micMode === 'listen' ? 'マイクを押すと、20秒聴いて曲を当てます' : '',
     recording: '聴き取り中 — もう一度タップでキャンセル',
     processing: '解析中...',
     result: '見つかりました！'
@@ -27901,7 +27942,64 @@ async function micOnFileSelect(input) {
   await micDoRecognize(fd);
 }
 
+// 【2026-11-07 v2.42】聴き取りは「曲名と歌手名を当てるだけ」の入口（/recognize/identify：Shazam → 分からなければ ACRCloud）に替えた。
+// 曲が分かったら、「曲名で調べる」と同じ道（曲ごとのデータベース → 辞典の代表曲 → MusicBrainz → Discogs → Wikidata → iTunes → Deezer）
+// でジャンルを決め、地図の説明パネルに答えの帯を出す（/song_name.html → /proto/answer.html）。
+// 以前の Wikidata・Gemini でジャンルを推測する道（/recognize）は使わない（Geminiの推測は昭和の曲8曲中1曲しか合わなかった）。
+function micGoAnswer(t, a, via) {
+  const q = new URLSearchParams({ t: t, a: a || '', auto: '1' });
+  if (via) q.set('via', via);
+  (window.top || window).location.href = '/song_name.html?' + q.toString();
+}
+let micMode = 'listen';
+function micSetMode(m) {
+  if (micState === 'recording' || micState === 'processing') return;
+  micMode = m;
+  document.getElementById('mic-panel').dataset.mode = m;
+  document.querySelectorAll('.mic-mode-btn').forEach(b => b.setAttribute('aria-selected', b.dataset.mode === m ? 'true' : 'false'));
+  micHideError();
+  if (micState === 'idle') micSetState('idle');
+  if (m === 'name') setTimeout(() => document.getElementById('mic-name-t').focus(), 0);
+}
+function micNameSubmit(e) {
+  e.preventDefault();
+  micHideError();
+  const t = document.getElementById('mic-name-t').value.trim();
+  const a = document.getElementById('mic-name-a').value.trim();
+  if (!t) { micShowError('曲名を入れてください。歌手名も入れると、同じ名前の別の曲と取り違えにくくなります。'); return; }
+  micGoAnswer(t, a, '');
+}
 async function micDoRecognize(formData) {
+  try {
+    const res  = await fetch((window.API_BASE || '') + '/recognize/identify', { method: 'POST', body: formData });
+    const d = await res.json();
+    cancelAnimationFrame(micAnimId);
+    micClearCanvas();
+    document.getElementById('mic-countdown').textContent = '';
+    if (d.error) { micShowError(d.error); micSetState('idle'); return; }
+    if (!d.found) {
+      const why = d.acr === 'limit'
+        ? '曲を特定できませんでした。1つ目の聴き取りサービス（Shazam）では見つからず、2つ目のサービス（ACRCloud）は今日の無料で使える回数（1日100回）に達していたため使えませんでした。明日になれば、また2つ目のサービスも使えます。'
+        : d.acr === 'error'
+        ? '曲を特定できませんでした。1つ目の聴き取りサービス（Shazam）では見つからず、2つ目のサービス（ACRCloud）にはつながりませんでした。'
+        : '曲を特定できませんでした（2つの聴き取りサービス、ShazamとACRCloudのどちらにも見つかりませんでした）。';
+      micShowError(why + ' あまり知られていない曲や、まわりの音が大きいときは、聴き取れないことがあります。曲名が分かっていれば、下の欄に入れて調べてください。');
+      micSetState('idle');
+      return;
+    }
+    document.getElementById('mic-status').textContent = '曲が分かりました：「' + d.title + '」（' + d.artist + '）。ジャンルを調べています…';
+    micGoAnswer(d.title, d.artist, 'mic');
+    return;
+  } catch (err) {
+    cancelAnimationFrame(micAnimId);
+    micClearCanvas();
+    micShowError('サーバーに届きませんでした。通信が切れていないか確かめて、もう一度押してください。');
+    micSetState('idle');
+    return;
+  }
+}
+// ↓ 以前の答え方（Wikidata・Geminiでジャンルの札を出す）。2026-11-07から使っていない。残しているのは履歴の表示などが同じ部品を使うため。
+async function micDoRecognizeOld(formData) {
   try {
     const res  = await fetch((window.API_BASE || '') + '/recognize', { method: 'POST', body: formData });
     const data = await res.json();
