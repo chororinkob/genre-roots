@@ -77,6 +77,37 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 #left-sidebar > * { direction: ltr; }
 #legend { background: rgba(0,0,0,0.3); border: none; border-radius: 8px; padding: 10px 12px; font-size: 12px; }
 #legend h3 { font-size: 11px; color: #aaa; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+/* ===== 折りたたみ（2026-11-07・チョロさんの指示。ウィキペディアのように最初は閉じておく） =====
+   左：「カテゴリ」の見出しを押すと一覧ごと開く・閉じる。
+   右：ジャンル名・別名・発祥時期・動画はそのまま。代表曲・音楽性・成り立ち・影響の3つは最初は閉じる。
+   6つとも同じ箱・同じ見出しの帯にそろえ、帯は押せると分かるよう少し明るくして、右端に「開く ▾／閉じる ▴」を出す。
+   見出しには中身の量（12曲・984字・9 など）を添える（数えるのは下の grFoldCount）。 */
+.fold-h{cursor:pointer;user-select:none;display:flex !important;align-items:center;gap:6px;margin:0 !important;padding:10px 12px !important;
+  background:linear-gradient(180deg,#36365c,#2a2a48) !important;border:0 !important;border-radius:0;font-size:13px !important;letter-spacing:.3px;color:#fff !important;text-transform:none !important}
+.fold-h:hover{background:linear-gradient(180deg,#42426e,#323256) !important}
+.fold-h:focus-visible{outline:2px solid #7eb8f7;outline-offset:-2px}
+.fold-mark{display:inline-block;width:1em;font-size:.8em;color:#7eb8f7;transition:transform .2s}
+.fold-open > .fold-h .fold-mark{transform:rotate(90deg)}
+.fold-n{font-weight:400;color:#a8a8c4;font-size:.9em}
+.fold-act{margin-left:auto;font-size:11px;font-weight:400;color:#9fc3f5;white-space:nowrap}
+.fold-act::after{content:"開く ▾"}
+.fold-open > .fold-h .fold-act::after{content:"閉じる ▴"}
+#side-panel .sp-section.fold,#legend.fold-box{background:rgba(255,255,255,.035) !important;border:1px solid rgba(255,255,255,.15) !important;border-radius:9px !important;padding:0 !important;margin:0 0 8px !important;overflow:hidden}
+#side-panel .sp-section.fold.fold-open{padding-bottom:12px !important}
+#side-panel .sp-section.fold.fold-open > :not(h4){margin-left:12px;margin-right:12px}
+#side-panel .sp-section.fold.fold-open > h4 + *{margin-top:10px}
+#side-panel .sp-section.fold.fold-open > .fold-h{border-bottom:1px solid rgba(255,255,255,.12) !important}
+#side-panel .sp-section.fold:not(.fold-open) > :not(h4){display:none !important}
+/* もとの枠（代表曲の囲み・影響の3つをまとめる囲み・区切り線）は外して、6つとも同じ箱にそろえる */
+#side-panel .sp-influence-group{border:0 !important;padding:0 !important;margin:0 !important}
+#side-panel .sp-explain-divider{display:none !important}
+#side-panel #sp-yt-wrap{margin-bottom:10px !important}
+#legend.fold-box{margin:0 !important}
+#legend.fold-box.fold-open{padding-bottom:8px !important}
+#legend.fold-box.fold-open > :not(h3){margin-left:10px;margin-right:10px}
+#legend.fold-box.fold-open > h3{margin-bottom:8px !important}
+#legend:not(.fold-open) .legend-item,#legend:not(.fold-open) .legend-sep,#legend:not(.fold-open) .cat-accordion{display:none !important}
+
 .legend-item { display: flex; align-items: center; gap: 7px; margin-bottom: 5px; }
 .legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
 .legend-label { color: #ccc; font-size: 11px; }
@@ -1567,7 +1598,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v135.6</span>
+  <span id="version-info">v135.7</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -1630,8 +1661,8 @@ svg { width: 100vw; height: 100vh; }
   <div id="gr-queue-panel" style="display:none;margin-top:8px;background:#0a1a0a;border:1px solid #2a4a2a;border-radius:7px;padding:10px 12px;"></div>
 </div>
 
-<div id="legend">
-  <h3>カテゴリ</h3>
+<div id="legend" class="fold-box">
+  <h3 class="fold-h" tabindex="0"><span class="fold-mark">▶</span>カテゴリ<span class="fold-n">（38）</span><span class="fold-act"></span></h3>
   <!-- カテゴリの並び（2026-10-11に整理、2026-10-12に年代順へ修正・カテゴリーを見直し。チョロさんの指示）。
        線の上：歴史の古い順。物差しは「そのカテゴリーの代表ジャンル（名前が同じジャンル）の誕生年代」。
        同じ年代のものは、前の並びを保つ。宗教/ゴスペル系とクラシック系は、とても古い音楽を含むので、いちばん上。
@@ -1717,19 +1748,19 @@ svg { width: 100vw; height: 100vh; }
       <iframe id="sp-yt-player" width="100%" height="180" style="border:none;border-radius:8px;" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" sandbox="allow-scripts allow-same-origin allow-presentation" allowfullscreen></iframe>
       <button id="sp-yt-unmute" style="display:none;"></button>
     </div>
-    <div class="sp-section" id="sp-tracks-sec" style="display:none;">
-      <h4 id="sp-tracks-h">代表曲・アーティスト</h4>
+    <div class="sp-section fold" id="sp-tracks-sec" style="display:none;">
+      <h4 id="sp-tracks-h" class="fold-h" tabindex="0"><span class="fold-mark">▶</span>代表曲・アーティスト<span class="fold-n"></span><span class="fold-act"></span></h4>
       <div id="sp-tracks" data-field="rep_tracks"></div>
       <a href="#" id="sp-spotify-link" target="_blank" rel="noopener" class="sp-spotify-link"></a>
     </div>
     <div class="sp-explain-divider" id="sp-explain-divider" style="display:none;"></div>
     <div id="sp-suno-wrap"></div>
-    <div class="sp-section" id="sp-desc-sec">
-      <h4>音楽性・特徴</h4>
+    <div class="sp-section fold" id="sp-desc-sec">
+      <h4 class="fold-h" tabindex="0"><span class="fold-mark">▶</span>音楽性・特徴<span class="fold-n"></span><span class="fold-act"></span></h4>
       <p id="sp-desc" data-field="desc"></p>
     </div>
-    <div class="sp-section" id="sp-roots-story-sec">
-      <h4>成り立ち</h4>
+    <div class="sp-section fold" id="sp-roots-story-sec">
+      <h4 class="fold-h" tabindex="0"><span class="fold-mark">▶</span>成り立ち<span class="fold-n"></span><span class="fold-act"></span></h4>
       <p id="sp-roots-story" data-field="roots_story"></p>
       <div id="sp-books-wrap" style="display:none;">
         <div class="sp-books-title">関連する書籍</div>
@@ -1737,16 +1768,16 @@ svg { width: 100vw; height: 100vh; }
       </div>
     </div>
     <div id="sp-influence-group" class="sp-influence-group">
-    <div class="sp-section" id="sp-in-sec">
-      <h4>影響を<span class="sp-h4-em in">受けた</span>ジャンル（ルーツ）</h4>
+    <div class="sp-section fold" id="sp-in-sec">
+      <h4 class="fold-h" tabindex="0"><span class="fold-mark">▶</span>影響を<span class="sp-h4-em in">受けた</span>ジャンル（ルーツ）<span class="fold-n"></span><span class="fold-act"></span></h4>
       <div id="sp-in"></div>
     </div>
-    <div class="sp-section" id="sp-out-sec">
-      <h4>影響を<span class="sp-h4-em out">与えた</span>ジャンル</h4>
+    <div class="sp-section fold" id="sp-out-sec">
+      <h4 class="fold-h" tabindex="0"><span class="fold-mark">▶</span>影響を<span class="sp-h4-em out">与えた</span>ジャンル<span class="fold-n"></span><span class="fold-act"></span></h4>
       <div id="sp-out"></div>
     </div>
-    <div class="sp-section" id="sp-mutual-sec">
-      <h4><span class="sp-h4-em mutual">相互に</span>影響し合ったジャンル</h4>
+    <div class="sp-section fold" id="sp-mutual-sec">
+      <h4 class="fold-h" tabindex="0"><span class="fold-mark">▶</span><span class="sp-h4-em mutual">相互に</span>影響し合ったジャンル<span class="fold-n"></span><span class="fold-act"></span></h4>
       <div id="sp-mutual"></div>
     </div>
     </div>
@@ -25500,6 +25531,13 @@ document.querySelectorAll('.legend-item[data-cat]').forEach(item => {
   });
   item.addEventListener('click', (e) => {
     e.stopPropagation();
+    // 【パネルを消さない】2026-11-07（チョロさんの指摘）
+    // 説明パネルを開いているあいだにカテゴリー名を押したら、パネルは閉じず、中のジャンル一覧を開く・閉じるだけにする
+    // （一覧の開け閉めは、下のアコーディオンの方の処理がやる）。以前は、選んでいるジャンルを解除してパネルを閉じ、
+    // そのカテゴリーを地図で光らせていたため、「カテゴリーをいじっていたら右のパネルが消えた」となっていた。
+    // パネルが閉じているときは、今までどおりカテゴリーを地図で光らせる。
+    const _sp = document.getElementById('side-panel');
+    if (_sp && getComputedStyle(_sp).display !== 'none') return;
     // 検索中ならまず検索をクリア
     if (window._searchActive) {
       window._searchActive = false;
@@ -25704,6 +25742,35 @@ document.querySelectorAll('.legend-item[data-cat]').forEach(item => {
     acc.classList.toggle('open');
   });
 });
+
+// ===== 折りたたみの動き（2026-11-07）。見た目は上の CSS「折りたたみ」 =====
+(function(){
+  const 開閉 = (box, h) => {
+    h.addEventListener('click', () => box.classList.toggle('fold-open'));
+    h.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); h.click(); } });
+  };
+  const lg = document.getElementById('legend');
+  if (lg) 開閉(lg, lg.querySelector('h3.fold-h'));
+  document.querySelectorAll('#side-panel .sp-section.fold').forEach(sec => 開閉(sec, sec.querySelector('h4.fold-h')));
+  // 見出しに添える中身の量。パネルの中身が書き換わるたびに数え直す
+  const 字数 = el => ((el && el.textContent) || '').replace(/\s/g, '').length;
+  const 置く = (id, txt) => { const e = document.querySelector('#' + id + ' .fold-n'); if (e && e.textContent !== txt) e.textContent = txt; };
+  const 数える = () => {
+    置く('sp-tracks-sec', '（' + document.querySelectorAll('#sp-tracks .yt-music-link').length + '曲）');
+    置く('sp-desc-sec', '（' + 字数(document.getElementById('sp-desc')) + '字）');
+    置く('sp-roots-story-sec', '（' + 字数(document.getElementById('sp-roots-story')) + '字）');
+    ['sp-in', 'sp-out', 'sp-mutual'].forEach(id => {
+      const b = document.getElementById(id);
+      // カード1枚＝1ジャンル。何も無いときは「なし」の1行だけなので 0
+      const n = !b ? 0 : (b.children.length === 1 && b.textContent.trim() === 'なし') ? 0 : b.children.length;
+      置く(id + '-sec', '（' + n + '）');
+    });
+  };
+  let 待ち = 0;
+  const body = document.getElementById('sp-body');
+  if (body) new MutationObserver(() => { clearTimeout(待ち); 待ち = setTimeout(数える, 80); })
+    .observe(body, { childList: true, subtree: true, characterData: true });
+})();
 
 // Filter
 document.querySelectorAll(".filter-btn").forEach(btn => {
