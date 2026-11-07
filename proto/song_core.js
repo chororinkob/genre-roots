@@ -328,7 +328,7 @@ function search(q, out, st, onSong){
     if (my !== seq) return;
     var loc = localHits(q);
     var html = '';
-    if (loc.length) html += '<div class="sec"><h3>この辞典で判定済みの曲<small>' + loc.length + '件</small></h3>' + loc.map(function(s){ return songRow(s, true); }).join('') + '</div>';
+    if (loc.length) html += '<div class="sec"><h3>音楽ジャンルルーツ辞典で判定済みの曲<small>' + loc.length + '件</small></h3>' + loc.map(function(s){ return songRow(s, true); }).join('') + '</div>';
     out.innerHTML = html + '<div class="sec gr-rm"></div>';
     st.textContent = 'ほかの音楽データベースからも探しています…';
     Promise.all([remoteSongs(q), remoteArtists(q)]).then(function(r){
@@ -398,7 +398,7 @@ function judge(t, a, say){
       var d = decide(res);
       if (!d) {
         var any = ORDER.some(function(s){ return res[s].found; });
-        return {ok: false, msg: any ? '「' + t + '」は見つかりましたが、どこにもジャンルが書かれていませんでした（または辞典にまだ無いジャンルでした）。'
+        return {ok: false, msg: any ? '「' + t + '」は見つかりましたが、どこにもジャンルが書かれていませんでした（または、音楽ジャンルルーツ辞典にまだ無いジャンルでした）。'
                                     : 'どの音楽データベースにも「' + t + '」（' + a + '）が見つかりませんでした。曲名・歌手名の書き方を変えて試してください。'};
       }
       // 答えには正式な歌手名を出す（「米津」→「米津玄師」）
