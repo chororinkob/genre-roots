@@ -3,8 +3,8 @@
    マイクパネルからも同じものを出せるように、このファイルに移した。
    GRBand.put(地図のwindow, {t, a, g, src, v?, by?, en?, via?})
      … 地図の説明パネルがそのジャンルを開き終わるのを待って、パネルの上に帯を差し込み、その曲の動画を右の動画の場所で流す。
-   帯に出すのは「「曲名」（歌手名）は ○○」の1行と「？」だけ（チョロさんの指示 2026-11-07）。
-   「？」を押すと、なぜそのジャンルにしたかの説明が開く（知名度の「？」と同じ考え方。2026-11-08 くわしく書き直した）。
+   帯に出すのは「「曲名」（歌手名）は ○○」の1行と「なぜ ○○ ？」のボタンだけ（チョロさんの指示 2026-11-07・11-08）。
+   ボタンを押すと、なぜそのジャンルにしたかの説明が開く。知りたい人だけが読めばよいので、最初は閉じておく。
    使っているデータベースの名前は出さない（まねされないため）。どんな種類のデータベースかだけを書く。 */
 (function(){
 var BASE_DIR = (document.currentScript && document.currentScript.src || '/proto/answer_band.js').replace(/[^\/]*$/, '');
@@ -16,14 +16,16 @@ function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&
 function norm(s){ return String(s || '').toLowerCase().replace(/[\s\-_'’.&・()（）「」]/g, ''); }
 
 var CSS = [
-  '#gr-ans{position:relative;margin:0 0 10px;padding:10px 40px 8px 12px;border:1px solid rgba(126,184,247,.35);border-radius:10px;',
+  '#gr-ans{position:relative;margin:0 0 10px;padding:10px 12px 8px;border:1px solid rgba(126,184,247,.35);border-radius:10px;',
   '  background:linear-gradient(180deg,rgba(126,184,247,.13),rgba(126,184,247,.05)),#1d1d36;line-height:1.6;font-size:13px;color:#e8e8f0}',
   '#gr-ans .q{font-size:14.5px;font-weight:700}',
   '#gr-ans .q b{color:#7eb8f7}',
-  /* 「？」は帯の右上に固定。曲名やジャンル名が長くても、文の途中で折り返して1つだけ下に落ちることがない */
-  '#gr-ans .qi{position:absolute;top:9px;right:10px;width:22px;height:22px;border-radius:50%;border:1px solid rgba(126,184,247,.6);background:none;color:#9fc3f5;font:700 12px/20px sans-serif;cursor:pointer;padding:0}',
+  /* 【2026-11-08】「？」だけでは押してもらえないので、何が見られるかを書いたボタンにした（チョロさんの指示）。
+     ジャンル名の下の行に置くので、曲名やジャンル名が長くても並びは崩れない */
+  '#gr-ans .r2{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:6px}',
+  '#gr-ans .qi{border:1px solid rgba(126,184,247,.6);border-radius:999px;background:rgba(126,184,247,.1);color:#cfe3ff;font:700 12px/1.4 inherit;padding:4px 12px;cursor:pointer}',
   '#gr-ans .qi:hover,#gr-ans .qi[aria-expanded=true]{background:rgba(126,184,247,.3);color:#fff}',
-  '#gr-ans .why{display:none;font-size:12px;color:#d0d0e2;margin:8px -28px 2px 0;padding:9px 11px;border-radius:7px;background:rgba(0,0,0,.28);line-height:1.7}',
+  '#gr-ans .why{display:none;font-size:12px;color:#d0d0e2;margin:8px 0 2px;padding:9px 11px;border-radius:7px;background:rgba(0,0,0,.28);line-height:1.7}',
   '#gr-ans.why-open .why{display:block}',
   '#gr-ans .why p{margin:0 0 6px}',
   '#gr-ans .why table{border-collapse:collapse;width:100%;font-size:11.5px;margin:2px 0 6px}',
@@ -31,7 +33,7 @@ var CSS = [
   '#gr-ans .why td.v{white-space:nowrap;text-align:right;color:#fff}',
   '#gr-ans .why tr.use td{color:#9fd0ff;font-weight:700}',
   '#gr-ans .why .note{color:#a0a0b8;font-size:11px}',
-  '#gr-ans .more{font-size:11.5px;margin-top:2px;text-align:right}',
+  '#gr-ans .more{font-size:11.5px}',
   '#gr-ans .more a{color:#7eb8f7;cursor:pointer}',
   '.yt-music-link.gr-hit{outline:2px solid #7eb8f7;outline-offset:1px;border-radius:4px}'
 ].join('\n');
@@ -124,11 +126,12 @@ function put(w, p){
       var box = d.createElement('div'); box.id = 'gr-ans';
       box.innerHTML =
         '<div class="q">「' + esc(p.t) + '」（' + esc(p.a) + '）は <b>' + esc(disp(p.g)) + '</b></div>' +
-        '<button type="button" class="qi" aria-expanded="false" aria-label="このジャンルにした理由を見る">?</button>' +
-        '<div class="why">' + whyHtml(p) + '</div>' +
-        '<div class="more"><a role="button" tabindex="0">' + (p.via === 'mic' ? 'ほかの曲も聴かせる →' : 'ほかの曲も調べる →') + '</a></div>';
+        '<div class="r2"><button type="button" class="qi" aria-expanded="false">なぜ ' + esc(disp(p.g)) + ' ？ ▾</button>' +
+        '<span class="more"><a role="button" tabindex="0">' + (p.via === 'mic' ? 'ほかの曲も聴かせる →' : 'ほかの曲も調べる →') + '</a></span></div>' +
+        '<div class="why">' + whyHtml(p) + '</div>';
       box.querySelector('.qi').addEventListener('click', function(e){
         e.stopPropagation(); var o = box.classList.toggle('why-open'); this.setAttribute('aria-expanded', o ? 'true' : 'false');
+        this.textContent = o ? '理由を閉じる ▴' : 'なぜ ' + disp(p.g) + ' ？ ▾';
       });
       // 「ほかの曲も…」は、地図の「この曲なんてジャンル？」のパネルを開く（ページは移らない）
       box.querySelector('.more a').addEventListener('click', function(){

@@ -80,14 +80,13 @@ function findDB(t, a){
   var ok = function(x){ var nra = dbNorm(x[1]); return !na || nra.indexOf(na) >= 0 || (nra && na.indexOf(nra) >= 0); };
   var hit = SDB.find(function(x){ return dbNorm(x[0]) === nt && ok(x); }) || SDB.find(function(x){ return dbNorm(x[0]).indexOf(nt) === 0 && ok(x); });
   if (hit) return hit;
-  // ③ 歌手名の表記が違う（ささきいさお／佐々木功 のような本名・英語表記）とき：曲名が同じか1文字違いで、
-  //    データベースにその曲名が1曲しかなければ同じ曲とみなす（2曲以上あると、どの歌手の曲か決められないので見送る）
-  //    【2026-11-07 直し】英語などの曲名には使わない。「September / Earth, Wind & Fire」が、データベースにある
-  //    竹内まりやの「SEPTEMBER」に結びついて「歌謡曲」と答えてしまった。日本の字（ひらがな・カタカナ・漢字）が
-  //    入っている曲名だけにする（宇宙戦舰ヤマト／佐々木功 のような、日本の曲の表記ゆれのための決まりなので）。
-  if (!/[぀-ヿ一-鿿]/.test(coreTitle(t))) return null;
-  var c = SDB.filter(function(x){ var k = dbNorm(x[0]); return k === nt || oneOff(k, nt); });
-  return c.length === 1 ? c[0] : null;
+  // ③ 曲名が1文字違い（「心を凍らせて」→「心凍らせて」）で、歌手名が合うもの。
+  // 【2026-11-08 チョロさんの決定】以前は「日本語の曲名で、データベースにその曲名が1曲しかなければ、歌手名が違っても同じ曲とみなす」
+  // 決まりがあった（ささきいさお／佐々木功 のような別名のため）。しかし「茜空／ちょろりんこぶ」が、データベースにある
+  // 「茜空／レミオロメン」と同じ曲にされ、答えも動画もレミオロメンになった。同じ曲名の別の曲は世の中にとても多いので、
+  // 歌手名が合わないものは同じ曲とみなさない。別名で返ってきた曲は、ここで見つからなくても、世界の音楽データベースで答えが出る。
+  var c = SDB.filter(function(x){ var k = dbNorm(x[0]); return (k === nt || oneOff(k, nt)) && ok(x); });
+  return c.length ? c[0] : null;
 }
 function toId(name){
   var k = norm(name); if (!k || !G) return null;
