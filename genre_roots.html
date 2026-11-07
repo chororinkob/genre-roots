@@ -1605,7 +1605,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v135.9</span>
+  <span id="version-info">v136.0</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -27816,6 +27816,10 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 #mic-history-list { display: none; margin-bottom: 8px; max-height: 170px; overflow-y: auto; }
 #mic-history-list.visible { display: block; }
 .mic-history-item { padding: 6px 8px; border-radius: 7px; background: rgba(255,255,255,0.03); margin-bottom: 5px; }
+/* 【v2.52】新しい履歴は1件まるごと押せる（押すと、その答えをもう一度開く） */
+.mic-history-item.gr-hist { cursor: pointer; border: 1px solid transparent; }
+.mic-history-item.gr-hist:hover, .mic-history-item.gr-hist:focus-visible { background: rgba(126,184,247,0.12); border-color: rgba(126,184,247,0.35); outline: none; }
+.mic-history-item.gr-hist:hover .mic-history-item-title { color: #fff; }
 .mic-history-item-head { display: flex; align-items: center; gap: 6px; }
 .mic-history-item-title { color: #ccc; font-weight: 600; font-size: 11px; }
 .mic-history-item-artist { color: #666; font-size: 10.5px; margin-top: 1px; }
@@ -27842,7 +27846,7 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 <div id="mic-overlay">
   <div id="mic-panel" data-mode="listen">
     <button id="mic-panel-close" onclick="closeMicPanel()">✕</button>
-    <div id="mic-panel-version">v2.51</div>
+    <div id="mic-panel-version">v2.52</div>
     <div id="mic-panel-title">🎵 この曲なんてジャンル？</div>
     <div id="mic-panel-sub">3つの方法のうち、どれか1つで調べられます</div>
     <div id="mic-modes" role="tablist" aria-label="調べ方">
@@ -28594,6 +28598,12 @@ function micRenderHistory() {
     return;
   }
   listEl.innerHTML = hist.map((h, i) => {
+    // 【v2.52 2026-11-08】新しい答え方の記録（h.p あり）：1件まるごと押せる。押すと、地図でそのジャンルを開き、答えの帯と動画をもう一度出す
+    if (h.p) return `<div class="mic-history-item gr-hist" role="button" tabindex="0" data-idx="${i}" title="この答えをもう一度開く">
+      <div class="mic-history-item-title">${micEsc(h.title)}</div>
+      ${h.artist ? `<div class="mic-history-item-artist">${micEsc(h.artist)}</div>` : ''}
+      <div class="mic-history-tags"><span class="mic-history-tag gr-hist-g">${micEsc((h.genres || [])[0] || h.g)}</span></div>
+    </div>`;
     const tags = h.genres.map(g => `<span class="mic-history-tag" data-genre="${micEsc(g)}">${micEsc(g)}</span>`).join('');
     const playBtn = h.videoId
       ? `<button class="mic-history-play" data-idx="${i}" data-vid="${micEsc(h.videoId)}" title="YouTubeで見る">▶</button>`
@@ -28642,7 +28652,23 @@ function micToggleHistory() {
 
 // 履歴のジャンルタグをクリックしたら、そのジャンルの説明パネルへジャンプする。
 // ▶ボタンをクリックしたら、その項目内で小さいYouTubeプレイヤーを開閉する。
+function grOpenHistory(el) {
+  const h = micLoadHistory()[+el.dataset.idx];
+  if (!h || !h.p) return;
+  grSongLoad().then(() => {
+    if (isMobile() && typeof 引き出し === 'function') 引き出し(false);   // スマホは左の引き出しを閉じて、答えが見えるようにする
+    const target = node.filter(n => n.id === h.p.g);
+    if (!target.empty()) target.dispatch('click');
+    GRBand.put(window, h.p);
+  }).catch(() => {});
+}
+document.addEventListener('keydown', function(e) {
+  const it = e.key === 'Enter' && e.target.closest && e.target.closest('.gr-hist');
+  if (it) grOpenHistory(it);
+});
 document.addEventListener('click', function(e) {
+  const hi = e.target.closest('.gr-hist');
+  if (hi) { grOpenHistory(hi); return; }
   const playBtn = e.target.closest('.mic-history-play');
   if (playBtn) {
     micToggleHistoryVideo(playBtn);

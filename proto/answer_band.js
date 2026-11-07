@@ -96,11 +96,25 @@ function playHit(w, d, want){
   go();
 }
 
+// 【2026-11-08】「この曲なんてジャンル？」の履歴に1件残す（地図の左の「履歴」に出る）。
+// 残すのは答えを開き直すのに要るもの（曲名・歌手・ジャンル・答えの中身）。動画は開き直したときに探し直す（同じ曲はこのブラウザが覚えているので、検索は使わない）。
+// 同じ曲をもう一度調べたら、前の記録を消して先頭に置く。最大15件（以前の履歴と同じ）。
+function saveHist(w, p){
+  try {
+    var ls = w.localStorage, K = 'micHistory';
+    var h = JSON.parse(ls.getItem(K) || '[]').filter(function(e){ return !(e.p && norm(e.title) === norm(p.t) && norm(e.artist) === norm(p.a)); });
+    var keep = {}; ['t', 'a', 'g', 'src', 'v', 'by', 'en', 'via'].forEach(function(k){ if (p[k]) keep[k] = p[k]; });
+    h.unshift({title: p.t, artist: p.a, genres: [disp(p.g)], g: p.g, p: keep, ts: Date.now()});
+    ls.setItem(K, JSON.stringify(h.slice(0, 15)));
+    if (typeof w.micRenderHistory === 'function') w.micRenderHistory();
+  } catch(e) {}
+}
 var cur = 0;
 function put(w, p){
   var my = ++cur, d = w.document, tries = 0;
   var old = d.getElementById('gr-ans'); if (old) old.remove();
   gReady.then(function(){
+    saveHist(w, p);
     var timer = setInterval(function(){
       if (my !== cur || ++tries > 120) { clearInterval(timer); return; }    // 60秒であきらめる
       var nd = w._currentNode, body = d.getElementById('sp-body');
