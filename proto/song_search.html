@@ -71,7 +71,8 @@ function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp
 function nz(s){
   return String(s || '').normalize('NFKC').toLowerCase()
     .replace(/[ァ-ヶ]/g, function(c){ return String.fromCharCode(c.charCodeAt(0) - 0x60); })
-    .replace(/[\s\-_'’.&・!?！？…()（）「」]/g, '');
+    .replace(/[\s\-_'’.&・!?！？…()（）「」]/g, '')
+    .replace(/×/g, 'x');   // 「DAOKO×米津玄師」と「DAOKO x 米津玄師」を同じにする
 }
 function oneOff(p, q){
   if (Math.min(p.length, q.length) < 4 || Math.abs(p.length - q.length) > 1) return false;

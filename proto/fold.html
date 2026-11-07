@@ -23,33 +23,64 @@ var P = new URLSearchParams(location.search);
 var F = document.getElementById('app');
 F.src = '/genre_roots.html?genre=' + encodeURIComponent(P.get('g') || 'jpop');
 var CSS = [
-  '#legend h3.fold-h{cursor:pointer;user-select:none;display:flex;align-items:center;gap:6px;margin-bottom:0;padding:2px 0}',
-  '#legend h3.fold-h:hover{color:#fff}',
-  '#legend.fold-open h3.fold-h{margin-bottom:8px}',
-  '#legend:not(.fold-open) .legend-item,#legend:not(.fold-open) .legend-sep,#legend:not(.fold-open) .cat-accordion{display:none !important}',
-  '.fold-mark{display:inline-block;width:1em;font-size:.85em;color:#7eb8f7;transition:transform .2s}',
+  // 見出しの帯（左のカテゴリ・右の6つで共通）：押せることが分かるよう、少し明るい帯にして右端に「開く ▾／閉じる ▴」
+  '.fold-h{cursor:pointer;user-select:none;display:flex !important;align-items:center;gap:6px;margin:0 !important;padding:10px 12px !important;',
+  '  background:linear-gradient(180deg,#36365c,#2a2a48) !important;border:0 !important;border-radius:0;font-size:13px !important;letter-spacing:.3px;color:#fff !important;text-transform:none !important}',
+  '.fold-h:hover{background:linear-gradient(180deg,#42426e,#323256) !important}',
+  '.fold-h:focus-visible{outline:2px solid #7eb8f7;outline-offset:-2px}',
+  '.fold-mark{display:inline-block;width:1em;font-size:.8em;color:#7eb8f7;transition:transform .2s}',
   '.fold-open > .fold-h .fold-mark{transform:rotate(90deg)}',
-  '.fold-n{font-weight:400;color:#9a9ab4;font-size:.92em;margin-left:4px}',
-  '.sp-section.fold > h4.fold-h{cursor:pointer;user-select:none;display:flex;align-items:baseline;gap:4px;margin-bottom:0;padding:6px 2px}',
-  '.sp-section.fold > h4.fold-h:hover{background:rgba(255,255,255,.05);border-radius:4px}',
-  '.sp-section.fold.fold-open > h4.fold-h{margin-bottom:6px}',
-  '.sp-section.fold:not(.fold-open) > :not(h4){display:none !important}',
-  '.sp-section.fold{margin-bottom:4px}'
+  '.fold-n{font-weight:400;color:#a8a8c4;font-size:.9em}',
+  '.fold-act{margin-left:auto;font-size:11px;font-weight:400;color:#9fc3f5;white-space:nowrap}',
+  '.fold-act::after{content:"開く ▾"}',
+  '.fold-open > .fold-h .fold-act::after{content:"閉じる ▴"}',
+  // 箱（共通）
+  '#side-panel .sp-section.fold,#legend.fold-box{background:rgba(255,255,255,.035) !important;border:1px solid rgba(255,255,255,.15) !important;border-radius:9px !important;padding:0 !important;margin:0 0 8px !important;overflow:hidden}',
+  '#side-panel .sp-section.fold.fold-open{padding-bottom:12px !important}',
+  '#side-panel .sp-section.fold.fold-open > :not(h4){margin-left:12px;margin-right:12px}',
+  '#side-panel .sp-section.fold.fold-open > h4 + *{margin-top:10px}',
+  '#side-panel .sp-section.fold.fold-open > .fold-h{border-bottom:1px solid rgba(255,255,255,.12) !important}',
+  '#side-panel .sp-section.fold:not(.fold-open) > :not(h4){display:none !important}',
+  // もとの枠（代表曲の囲み・影響の3つをまとめる囲み・区切り線）は外して、6つとも同じ箱にそろえる
+  '#side-panel .sp-influence-group{border:0 !important;padding:0 !important;margin:0 !important}',
+  '#side-panel .sp-explain-divider{display:none !important}',
+  '#side-panel #sp-yt-wrap{margin-bottom:10px !important}',
+  // 左のカテゴリ
+  '#legend.fold-box{margin:0 !important}',
+  '#legend.fold-box.fold-open{padding-bottom:8px !important}',
+  '#legend.fold-box.fold-open > :not(h3){margin-left:10px;margin-right:10px}',
+  '#legend.fold-box.fold-open > h3{margin-bottom:8px !important}',
+  '#legend:not(.fold-open) .legend-item,#legend:not(.fold-open) .legend-sep,#legend:not(.fold-open) .cat-accordion{display:none !important}'
 ].join('\n');
 var SECS = ['sp-tracks-sec', 'sp-desc-sec', 'sp-roots-story-sec', 'sp-in-sec', 'sp-out-sec', 'sp-mutual-sec'];
 function setup(d){
   if (d.getElementById('fold-css')) return;
   var st = d.createElement('style'); st.id = 'fold-css'; st.textContent = CSS; d.head.appendChild(st);
   var mark = function(){ var m = d.createElement('span'); m.className = 'fold-mark'; m.textContent = '▶'; return m; };
+  var act = function(){ var x = d.createElement('span'); x.className = 'fold-act'; return x; };
   var lg = d.getElementById('legend'), h3 = lg.querySelector('h3');
-  h3.classList.add('fold-h'); h3.prepend(mark());
+  lg.classList.add('fold-box'); h3.classList.add('fold-h'); h3.prepend(mark()); h3.tabIndex = 0;
   var n = d.createElement('span'); n.className = 'fold-n'; n.textContent = '（' + lg.querySelectorAll('.legend-item').length + '）'; h3.appendChild(n);
+  h3.appendChild(act());
   h3.addEventListener('click', function(){ lg.classList.toggle('fold-open'); });
+  h3.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); h3.click(); } });
+  // 【パネルを消さない】右の説明パネルを開いているあいだにカテゴリー名を押したら、パネルは閉じず、
+  // 中のジャンル一覧を開く・閉じるだけにする（地図のもとの動きは「選んでいるジャンルを解除してパネルを閉じ、
+  // そのカテゴリーを地図で光らせる」。チョロさんの試験で「パネルが消えた」と分かった。2026-11-07）。
+  // パネルが閉じているときは、もとの動き（カテゴリーを光らせる）のまま。
+  lg.addEventListener('click', function(e){
+    var it = e.target.closest('.legend-item[data-cat]'); if (!it) return;
+    var sp = d.getElementById('side-panel');
+    if (!sp || d.defaultView.getComputedStyle(sp).display === 'none') return;
+    e.stopPropagation();
+    var acc = lg.querySelector('.cat-accordion[data-cat="' + it.dataset.cat + '"]'); if (acc) acc.classList.toggle('open');
+  }, true);
   SECS.forEach(function(id){
     var s = d.getElementById(id); if (!s) return;
     var h = s.querySelector('h4'); s.classList.add('fold'); h.classList.add('fold-h'); h.prepend(mark());
-    var c = d.createElement('span'); c.className = 'fold-n'; h.appendChild(c);
+    var c = d.createElement('span'); c.className = 'fold-n'; h.appendChild(c); h.appendChild(act()); h.tabIndex = 0;
     h.addEventListener('click', function(){ s.classList.toggle('fold-open'); });
+    h.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); h.click(); } });
   });
   // 見出しの数は、ジャンルが変わるたびに数え直す
   setInterval(function(){

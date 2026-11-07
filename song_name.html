@@ -36,6 +36,20 @@ button{margin-top:16px;width:100%;font:inherit;font-weight:700;font-size:17px;pa
 #msg{margin-top:16px;font-size:14px;min-height:1.9em}
 #msg.ng{color:#f0b429}
 h2{font-size:18px;margin:40px 0 8px}
+/* 【2026-11-07】あいまい検索の候補の一覧 */
+#st{margin-top:12px;font-size:13px;color:var(--sub);min-height:1.7em}
+.sec{margin-top:16px}
+.sec h3{font-size:15px;color:var(--brass);margin-bottom:6px}
+.sec h3 small{color:var(--sub);font-weight:400;font-size:12px;margin-left:6px}
+.row{display:flex;gap:10px;align-items:center;padding:7px 8px;border-radius:8px;cursor:pointer;border:1px solid transparent;line-height:1.6}
+.row:hover,.row:focus{background:#2a2a4a;border-color:rgba(126,184,247,.35);outline:none}
+.row img,.row .noimg{width:44px;height:44px;border-radius:6px;flex:none;background:#2c2c48;object-fit:cover}
+.row .tx{min-width:0;flex:1}
+.row .t{font-weight:700;font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row .a{font-size:13px;color:var(--sub);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.badge{flex:none;font-size:11px;font-weight:700;padding:1px 8px;border-radius:999px;background:rgba(216,178,94,.18);color:var(--brass);border:1px solid rgba(216,178,94,.4)}
+.row.artist .noimg{border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px}
+@media (max-width:480px){.badge{font-size:10px;padding:1px 6px;max-width:42%;white-space:normal;text-align:center}}
 p.s{font-size:14.5px;color:var(--sub)}
 </style>
 </head>
@@ -44,24 +58,21 @@ p.s{font-size:14.5px;color:var(--sub)}
 <header><a href="/genre_roots.html">音楽ジャンルルーツ辞典</a></header>
 <p class="eyebrow">SONG TO GENRE</p>
 <h1>この曲なんてジャンル？<br>曲のジャンルを調べる</h1>
-<p class="lede">曲名が分かっているなら、文字で入れるだけ。曲名が分からないなら、聴かせるだけ。答えは、595ジャンルのルーツ地図の上に出ます。</p>
+<p class="lede">曲名でも歌手名でも、うろ覚えでも、ひらがなでも大丈夫。打つと候補が出るので、曲を選ぶだけ。答えは、595ジャンルのルーツ地図の上に出ます。</p>
 
 <div class="tabs">
   <a class="tab on" href="song_name.html">✏️ 曲名で調べる</a>
   <a class="tab" href="/song.html">🎵 曲を聴かせて調べる</a>
 </div>
 <form id="f">
-  <label for="t">曲名</label><input id="t" placeholder="例：Lemon" required>
-  <label for="a">歌手名</label><input id="a" placeholder="例：米津玄師" required>
-  <button type="submit">ジャンルを調べる</button>
-  <div class="ex">試す：<a href="#" data-t="Lemon" data-a="米津玄師">Lemon／米津玄師</a><a href="#" data-t="夜に駆ける" data-a="YOASOBI">夜に駆ける／YOASOBI</a><a href="#" data-t="Smells Like Teen Spirit" data-a="Nirvana">Smells Like Teen Spirit／Nirvana</a><a href="#" data-t="怪獣の花唄" data-a="Vaundy">怪獣の花唄／Vaundy</a></div>
+  <label for="q">曲名・歌手名</label><input id="q" type="search" autocomplete="off" placeholder="例：Lemon／米津玄師／こころこおらせて">
+  <input id="t" type="hidden"><input id="a" type="hidden">
+  <button type="submit">探す</button>
+  <div class="ex">試す：<a href="#">Lemon</a><a href="#">米津</a><a href="#">こころこおらせて</a><a href="#">北酒場</a><a href="#">Nirvana</a></div>
+  <div id="st"></div>
+  <div id="out"></div>
   <div id="msg"></div>
 </form>
-
-<h2>しくみ</h2>
-<p class="s">まず、この辞典が<b>曲ごとに判定したデータベース</b>（約4,200曲。お店の棚のような「歌手ごと」の分類ではなく、その曲そのものの曲調・メロディーで分けたもの）を探します。見つかれば、その判定で答えます。</p>
-<p class="s">データベースに無い曲は、次に、この辞典の<b>代表曲</b>（595ジャンルの約8,600曲）を探します。入っていれば、辞典が登録しているジャンルで答えます。</p>
-<p class="s">どちらにも無い曲は、いくつかの音楽データベースに同時に問い合わせ、その判定から割り出します。確からしいものから順に見て、最初にジャンルが書かれていた答えを使います。ほかのデータベースが違うことを言っていたら、それも答えに書きます。</p>
 <h2>よくある質問</h2>
 <p class="s"><b>この曲は何ジャンル？曲名から調べるには？</b><br>曲名と歌手名を入れて「ジャンルを調べる」を押すだけです。答えは、595ジャンルのルーツ地図の上に、そのジャンルの特徴・成り立ち・代表曲と一緒に表示されます。曲名が分からないときは「曲を聴かせて調べる」を使ってください。</p>
 <p class="s"><b>ほかのサイトとジャンルの答えが違うのはなぜ？</b><br>日本の曲は、世間では「歌手ごと」にジャンルを決めることが多く、演歌歌手が歌えば何でも演歌とされがちです。音楽ジャンルルーツ辞典は「曲ごと」に、その曲そのものの曲調・メロディーで判定しています。たとえば石川さゆり「天城越え」は、曲調として演歌ではないため歌謡曲としています。</p>
@@ -83,10 +94,6 @@ function find(wgs){
   }
   return null;
 }
-document.querySelectorAll('.ex a').forEach(function(x){x.onclick = function(e){
-  e.preventDefault(); document.getElementById('t').value = x.dataset.t; document.getElementById('a').value = x.dataset.a;
-  document.getElementById('f').requestSubmit();
-}});
 // ───────── 【2026-11-05 2版】5か所に同時に聞いて、多数決でジャンルを決める ─────────
 // チョロさんの決定：どこか1か所を信じるのではなく、全部に聞いて「いちばん多かったジャンル」にする。
 // 割れたときは、どこが何と言ったかを答えにそのまま書く。
@@ -304,6 +311,7 @@ function findRep(t, a){
 
 document.getElementById('f').onsubmit = function(e){
   e.preventDefault();
+  if (!document.getElementById('t').value.trim()) { srRun(document.getElementById('q').value); return; }
   var t = document.getElementById('t').value.trim(), a = document.getElementById('a').value.trim();
   var m = document.getElementById('msg'); m.className = '';
   if (!G || !REP || !SDB) { m.textContent = '準備中です。1〜2秒待ってからもう一度押してください。'; return; }
@@ -360,12 +368,165 @@ var P0 = new URLSearchParams(location.search), VIA = P0.get('via') || '';
 if (P0.get('t') && P0.get('auto') === '1') {
   document.getElementById('t').value = P0.get('t');
   document.getElementById('a').value = P0.get('a') || '';
+  document.getElementById('q').value = P0.get('t') + (P0.get('a') ? ' ' + P0.get('a') : '');
   var tries = 0;
   (function go(){
     if ((!G || !REP || !SDB) && tries++ < 50) { setTimeout(go, 200); return; }
     document.getElementById('f').requestSubmit();
   })();
 }
+</script>
+<script>
+// ───────── 【2026-11-07】あいまい検索（チョロさんの依頼。試作 proto/song_search.html から移植） ─────────
+// 欄は1つ。曲名でも歌手名でも、ひらがなでも、1文字違いでもよい。打ち終わって0.6秒待ってから探す。
+// ① この辞典の曲（曲ごとのデータベース＋代表曲）から探し、「辞典の判定あり：ジャンル」の印を付けて先に出す。
+// ② 外の音楽データベース（iTunes 日本版の検索。無料・登録不要。1分に20回くらいが目安なので、同じ言葉は覚えておく）で、
+//    同じ名前の曲を歌っている人ごとに並べる（カラオケの検索のような一覧）。人の名前で探したときは「この人ですか？」も出す。
+// 曲を押すと、上の欄（隠し欄）に曲名と歌手名を入れて、今までと同じ順番でジャンルを調べる。
+// 画面には、使っているデータベースの名前を出さない（まねされないため）。
+function gname(id){ return disp0(id); }
+function disp0(id){ var JA = {enka:'演歌', kayokyoku:'歌謡曲', mood_kayo:'ムード歌謡'}; if (JA[id]) return JA[id]; var n = (G || []).find(function(x){return x.id === id}); return n ? n.name : id; }
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+var ready = new Promise(function(ok){ (function w(){ if (G && REP && SDB) ok(); else setTimeout(w, 150); })(); });
+function nz(s){
+  return String(s || '').normalize('NFKC').toLowerCase()
+    .replace(/[ァ-ヶ]/g, function(c){ return String.fromCharCode(c.charCodeAt(0) - 0x60); })
+    .replace(/[\s\-_'’.&・!?！？…()（）「」]/g, '')
+    .replace(/×/g, 'x');   // 「DAOKO×米津玄師」と「DAOKO x 米津玄師」を同じにする
+}
+// ① 辞典の曲から探す（曲名が同じ・頭が同じ・含む・1文字違い、または歌手名が含む）
+function localHits(q){
+  var k = nz(q); if (k.length < 2) return [];
+  var seen = {}, out = [];
+  [[SDB || [], 'db'], [REP || [], 'rep']].forEach(function(src){
+    src[0].forEach(function(x){
+      var t = nz(x[0]), a = nz(x[1]), sc = 0;
+      if (t === k) sc = 100; else if (t.indexOf(k) === 0) sc = 80; else if (oneOff(t, k)) sc = 70;
+      else if (k.length >= 2 && t.indexOf(k) > 0) sc = 50; else if (a === k) sc = 60; else if (k.length >= 2 && a.indexOf(k) >= 0) sc = 40;
+      if (!sc) return;
+      var key = t + '|' + a; if (seen[key]) return; seen[key] = 1;
+      out.push({t: x[0], a: x[1], g: x[2], sc: sc + (src[1] === 'db' ? 1 : 0)});
+    });
+  });
+  out.sort(function(p, q2){ return q2.sc - p.sc; });
+  return out.slice(0, 8);
+}
+// ② 外の音楽データベースに聞く（同じ言葉は覚えておく）
+var CACHE = {};
+function ask(url){
+  if (CACHE[url]) return CACHE[url];
+  return CACHE[url] = fetch(url).then(function(r){ if (!r.ok) throw r.status; return r.json(); })
+    .catch(function(e){ delete CACHE[url]; throw e; });
+}
+var BASE = 'https://itunes.apple.com/search?country=JP&lang=ja_jp&media=music';
+function remoteSongs(q){
+  return ask(BASE + '&entity=song&limit=40&term=' + encodeURIComponent(q)).then(function(d){
+    var seen = {}, out = [];
+    (d.results || []).forEach(function(r){
+      var key = nz(r.trackName) + '|' + nz(r.artistName); if (seen[key]) return; seen[key] = 1;
+      out.push({t: r.trackName, a: r.artistName, aid: r.artistId, img: r.artworkUrl60, y: (r.releaseDate || '').slice(0, 4), al: r.collectionName, g: r.primaryGenreName});
+    });
+    return out;
+  });
+}
+function remoteArtists(q){
+  return ask(BASE + '&entity=musicArtist&limit=6&term=' + encodeURIComponent(q)).then(function(d){
+    return (d.results || []).map(function(r){ return {id: r.artistId, name: r.artistName, genre: r.primaryGenreName}; });
+  });
+}
+function artistSongs(ar){
+  // 人の番号で、その人の曲を取る（名前で探すと、同じ名前の別の人や共演の曲が混ざるため）
+  return ask('https://itunes.apple.com/lookup?country=JP&lang=ja_jp&entity=song&limit=60&id=' + ar.id).then(function(d){
+    var seen = {}, out = [];
+    (d.results || []).forEach(function(r){
+      if (r.wrapperType !== 'track' || r.artistId !== ar.id) return;
+      var key = nz(r.trackName); if (seen[key]) return; seen[key] = 1;
+      out.push({t: r.trackName, a: r.artistName, img: r.artworkUrl60, y: (r.releaseDate || '').slice(0, 4), al: r.collectionName});
+    });
+    return out;
+  });
+}
+// 辞典にある曲か（「辞典の判定あり」の印を付けるため）
+function inDict(t, a){
+  var kt = nz(t), ka = nz(a);
+  var f = function(x){ var xa = nz(x[1]); return nz(x[0]) === kt && (xa.indexOf(ka) >= 0 || ka.indexOf(xa) >= 0); };
+  return (SDB || []).find(f) || (REP || []).find(f);
+}
+function songRow(s, mark){
+  var d = mark ? null : inDict(s.t, s.a);
+  var g = mark ? s.g : (d && d[2]);
+  var sub = s.a + (s.y ? '・' + s.y + '年' : '');
+  return '<div class="row song" tabindex="0" data-t="' + esc(s.t) + '" data-a="' + esc(s.a) + '">' +
+    (s.img ? '<img src="' + esc(s.img) + '" alt="" loading="lazy">' : '<span class="noimg"></span>') +
+    '<div class="tx"><div class="t">' + esc(s.t) + '</div><div class="a">' + esc(sub) + '</div></div>' +
+    (g ? '<span class="badge">辞典の判定あり：' + esc(gname(g)) + '</span>' : '') + '</div>';
+}
+var st = document.getElementById('st'), out = document.getElementById('out'), qEl = document.getElementById('q');
+var seq = 0, timer = null;
+function srRun(q){
+  var my = ++seq;
+  q = q.trim();
+  if (nz(q).length < 2) { out.innerHTML = ''; st.textContent = '2文字以上入れてください。'; return; }
+  ready.then(function(){
+    var loc = localHits(q);
+    var html = '';
+    if (loc.length) html += '<div class="sec"><h3>この辞典で判定済みの曲<small>' + loc.length + '件</small></h3>' + loc.map(function(s){ return songRow(s, true); }).join('') + '</div>';
+    out.innerHTML = html + '<div class="sec" id="rm"></div>';
+    st.textContent = 'ほかの音楽データベースからも探しています…';
+    Promise.all([remoteSongs(q), remoteArtists(q)]).then(function(r){
+      if (my !== seq) return;
+      var all = r[0], songs = all.slice(0, 15), k = nz(q);
+      // 人の候補：歌手の検索結果に、曲の検索結果に出てきた歌手（名前に入れた言葉を含む人）を足す。
+      // 歌手の検索だけだと「高山厳」で共演名義の人しか出ないことがあったため（2026-11-07 試験で発覚）。
+      // 歌手の検索は、日本の歌手も英語の綴りで返すことがある（高山厳 → Takayama Gen）。曲の検索に同じ人（同じ番号）が
+      // 日本語名で出ていれば、その名前に置き換える。
+      var jp = {}; all.forEach(function(s){ if (!jp[s.aid] || nz(s.a) === k) jp[s.aid] = s.a; });
+      var ars = r[1].map(function(x){ return {id: x.id, name: jp[x.id] || x.name, genre: x.genre}; }), ids = {};
+      ars.forEach(function(x){ ids[x.id] = 1; });
+      all.forEach(function(s){ if (!ids[s.aid]) { ids[s.aid] = 1; ars.push({id: s.aid, name: jp[s.aid], genre: s.g}); } });
+      // 入れた言葉とぴったり同じ曲名が無ければ「これのことですか？」、あれば「どの曲をお探しですか？」
+      var exact = songs.some(function(s){ return nz(s.t) === k; }) || loc.some(function(s){ return nz(s.t) === k; });
+      var h = '';
+      var arHit = ars.filter(function(x){ var n = nz(x.name); return n.indexOf(k) >= 0 || (n.length >= 2 && k.indexOf(n) >= 0); })
+        .sort(function(p, q2){ return (nz(q2.name) === k) - (nz(p.name) === k); }).slice(0, 5);
+      if (arHit.length) h += '<div class="sec"><h3>この人ですか？<small>押すと、その人の曲が出ます</small></h3>' + arHit.map(function(x, i){
+        return '<div class="row artist" tabindex="0" data-i="' + ars.indexOf(x) + '"><span class="noimg">🎤</span><div class="tx"><div class="t">' + esc(x.name) + '</div><div class="a">' + esc(x.genre || '') + '</div></div></div>';
+      }).join('') + '</div>';
+      if (songs.length) h += '<div class="sec"><h3>' + (exact ? 'どの曲をお探しですか？' : arHit.some(function(x){ return nz(x.name) === k; }) ? esc(q) + ' の曲など' : 'これのことですか？') + '<small>同じ名前の曲は、歌っている人ごとに並べています</small></h3>' + songs.map(function(s){ return songRow(s); }).join('') + '</div>';
+      document.getElementById('rm').outerHTML = h || '<div class="sec"></div>';
+      st.textContent = (loc.length || songs.length || arHit.length) ? '曲を選ぶと、ジャンルを調べます。' : '見つかりませんでした。書き方を少し変えて試してください（ひらがな・カタカナ・英語など）。';
+      out._ars = ars;
+    }).catch(function(e){
+      if (my !== seq) return;
+      document.getElementById('rm').remove();
+      st.textContent = e === 403 || e === 429 ? '外の音楽データベースへの問い合わせが混み合っています。1分ほど待ってから、もう一度入れてください。' : '外の音楽データベースにつながりませんでした。少し待ってから、もう一度入れてください。';
+    });
+  });
+}
+qEl.addEventListener('input', function(){
+  document.getElementById('t').value = ''; document.getElementById('a').value = ''; document.getElementById('msg').textContent = '';
+  clearTimeout(timer); timer = setTimeout(function(){ srRun(qEl.value); }, 600);
+});
+document.querySelectorAll('.ex a').forEach(function(x){ x.onclick = function(e){ e.preventDefault(); qEl.value = x.textContent; document.getElementById('t').value = ''; srRun(qEl.value); }; });
+function pick(el){
+  if (el.classList.contains('song')) {
+    // 選んだ曲で、今までと同じ順番（辞典のデータベース → 代表曲 → 外の音楽データベース）でジャンルを調べる
+    document.getElementById('t').value = el.dataset.t; document.getElementById('a').value = el.dataset.a;
+    out.innerHTML = ''; st.textContent = '「' + el.dataset.t + '」（' + el.dataset.a + '）のジャンルを調べます…';
+    document.getElementById('f').requestSubmit();
+  } else if (el.classList.contains('artist')) {
+    var ar = out._ars[+el.dataset.i], my = ++seq;
+    st.textContent = '「' + ar.name + '」の曲を探しています…';
+    artistSongs(ar).then(function(ss){
+      if (my !== seq) return;
+      out.innerHTML = '<div class="sec"><h3>' + esc(ar.name) + ' の曲<small>' + ss.length + '曲。どの曲をお探しですか？</small></h3>' + ss.map(function(s){ return songRow(s); }).join('') + '</div>';
+      st.innerHTML = '<a href="#" class="back" id="back">← 候補の一覧に戻る</a>';
+      document.getElementById('back').onclick = function(e){ e.preventDefault(); srRun(qEl.value); };
+    }).catch(function(){ st.textContent = '曲の一覧を取れませんでした。少し待ってから、もう一度押してください。'; });
+  }
+}
+out.addEventListener('click', function(e){ var r = e.target.closest('.row'); if (r) pick(r); });
+out.addEventListener('keydown', function(e){ if (e.key === 'Enter') { var r = e.target.closest('.row'); if (r) pick(r); } });
 </script>
 </body>
 </html>

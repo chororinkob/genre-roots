@@ -59,8 +59,9 @@ function voteText(){
   [g].concat(said.map(function(x){ return x.v; })).forEach(function(v){ if (!(v in idx)) { idx[v] = groups.length; groups.push({v: v, s: []}); } });
   said.forEach(function(x){ groups[idx[x.v]].s.push(x.s); });
   groups = groups.filter(function(gr){ return gr.s.length; });
-  var out = '根拠：いくつかの音楽データベースの判定から割り出しています。';
-  if (groups.length) out += '<br>' + groups.map(function(gr){ return esc(gr.s.join('と')) + 'が「' + esc(nm(gr.v)) + '」と判定'; }).join('／') + '（確からしい順）';
+  // 【2026-11-07 短くした】「根拠：音楽データベースの判定（MとDが『X』／Iが『Y』）」の1行だけ
+  var out = '根拠：音楽データベースの判定';
+  if (groups.length) out += '（' + groups.map(function(gr){ return esc(gr.s.join('と')) + 'が「' + esc(nm(gr.v)) + '」'; }).join('／') + '）';
   return out;
 }
 // 日本のジャンルは漢字で出す（チョロさんの指示 2026-11-05：演歌・歌謡曲・ムード歌謡）
@@ -87,49 +88,57 @@ var timer = setInterval(function(){
 function put(d, nd, body){
   if (!d.getElementById('gr-ans-css')) { var st = d.createElement('style'); st.id = 'gr-ans-css'; st.textContent = CSS; d.head.appendChild(st); }
   var n = G.find(function(x){return x.id === g}) || {name: g};
-  // 検索した曲が代表曲にあるか（曲名の頭が合うもの）
-  var i = (nd.rep_tracks || []).findIndex(function(x){ return norm(x).indexOf(norm(t)) === 0; });
   var box = d.createElement('div'); box.id = 'gr-ans';
   box.innerHTML =
     // 【2026-11-07】マイク（mic.html）から来たときは「聴き取った結果」と書く（via=mic）
     '<div class="r1"><span class="eye">' + (P.get('via') === 'mic' ? '音を聴き取った結果' : '曲名で調べた結果') + '</span></div>' +
     '<div class="q">「' + esc(t) + '」（' + esc(a) + '）は <b>' + esc(disp(g)) + '</b></div>' +
-    '<div class="why">' + (src === 'db' ? '根拠：音楽ジャンルルーツ辞典の判定。日本の曲は、世間では「歌手ごと」にジャンルを決めることが多いのですが、この辞典は<b>曲ごと</b>に、その曲そのものの曲調・メロディーで判定しています。' +
-      // 演歌歌手の曲を歌謡曲・ムード歌謡と答えるときの注意書き（チョロさんの指示 2026-11-06）
-      (P.get('en') === '1' ? '<br>※一般には演歌と呼ばれることもある曲です。この辞典は、演歌歌手が歌っているから演歌、とはしていません。曲調として演歌ではないため「' + esc(disp(g)) + '」としています。' : '')
-      : src === 'rep' ? '根拠：この曲は、音楽ジャンルルーツ辞典の「' + esc(disp(g)) + '」の代表曲として登録されています（辞典の判定）。'
-      : src === 'vote' ? voteText() : src === 'wikidata' ? '根拠：音楽データベースに「' + esc(wg) + '」と登録' : '根拠：AIが曲名・歌手名から判定（人の確認ではありません）') + '</div>' +
-    '<div class="now">' + (i >= 0 ? '▶ 下の代表曲の<b>' + (i + 1) + '曲目</b>にあります。動画をその曲に切り替えました（鳴らないときは ▶ を押してください）。'
-                                   : '下の代表曲で、同じ ' + esc(disp(g)) + ' の曲を聴けます。') + '</div>' +
-    '<div class="more">この下で ' + esc(disp(g)) + ' の特徴と成り立ち、地図の線で「どの音楽から生まれたか」をたどれます。 ' +
+    // 【2026-11-07 短くした】根拠は1行。演歌歌手の曲の注意書きも短く（チョロさんの指示）
+    '<div class="why">' + (src === 'db' ? '根拠：この辞典が曲ごとに、曲調で判定' +
+      (P.get('en') === '1' ? '（演歌歌手の曲ですが、曲調は「' + esc(disp(g)) + '」）' : '')
+      : src === 'rep' ? '根拠：この辞典の「' + esc(disp(g)) + '」の代表曲'
+      : src === 'vote' ? voteText() : src === 'wikidata' ? '根拠：音楽データベースの登録' : '根拠：AIの推定') + '</div>' +
+    '<div class="now" id="gr-ans-now">この曲の動画を探しています…</div>' +
+    '<div class="more">この下で ' + esc(disp(g)) + ' の特徴・成り立ち・ルーツをたどれます。 ' +
     (P.get('via') === 'mic' ? '<a href="/song.html?mic=1" target="_top">ほかの曲も聴かせる →</a>' : '<a href="/song_name.html" target="_top">ほかの曲も調べる →</a>') + '</div>';
   var w = d.getElementById('sp-yt-wrap');
   body.insertBefore(box, w && w.parentNode === body ? w : body.firstChild);
-  if (i >= 0) {
-    var link = d.querySelector('.yt-music-link[data-track-idx="' + i + '"]');
-    if (link) link.classList.add('gr-hit');
-    playHit(d, i);
-  }
+  findVideo(t, a).then(function(v){
+    var now = d.getElementById('gr-ans-now');
+    if (!v) { if (now) now.textContent = 'この曲の動画は見つかりませんでした。下の代表曲で、同じ ' + disp(g) + ' の曲を聴けます。'; return; }
+    if (now) now.textContent = '▶ この曲の動画を流しています。終わると、' + disp(g) + ' の代表曲が1曲目から続きます（鳴らないときは ▶ を押してください）。';
+    playHit(d, v);
+  });
 }
 
-// 【3版 2026-11-05】検索した曲の動画に、確実に切り替える。
-// 2版は代表曲の行を「押して」いた。地図は、動画の枠がもう用意されていると、枠はそのままで
-// 中身だけ差し替える（loadVideoById）。メイン動画（Lemon）の枠が読み込み途中だと、その頼みが
-// 届かずに捨てられ、Lemon が流れたままになった（チョロさんの画面で発生。回線を少し遅くすると再現）。
-// そこで、押すのではなく、地図の再生の入口（playByVideoId）に「押されていない」として渡し、
-// 枠ごと入れ替えてもらう。
-// ただし、メイン動画の枠がまだ読み込み中のうちに住所を書き換えると、ブラウザが書き換えを捨てて、
-// 読み込み中だった Lemon をそのまま出すことがある（住所の欄は「夜に駆ける」なのに中身は Lemon。
-// 回線を少し遅くして再現し、1秒ごとの記録で確かめた）。そこで、枠の読み込みが終わった合図（load）を
-// 最初の1回だけ待ち、そこでもう一度入れ替える。読み込みが終わった枠への書き換えは捨てられない。
-// 利用者が自分で何かを押したら、それ以上は触らない。
-function playHit(d, i) {
+// 【2026-11-07 チョロさんの決定】選んだ曲（曲名で調べた曲・音を聴かせて分かった曲）は、代表曲に入っているかに関係なく、
+// YouTube で探して、右の動画の場所で流す。中身の確認はしない（以前のマイクの動画と同じ扱い）。
+// 終わったら、地図のいつもの流れで、そのジャンルの代表曲の1曲目（メイン動画）から続けて流れる。
+// 選び方（サーバー側）：「曲名 歌手名」で検索して上位5本を取り、歌手の公式チャンネル（チャンネル名に歌手名が入る・「歌手名 - Topic」）で、
+// 題名に曲名が入っている動画を優先する。どれも当てはまらなければ1番目。
+// （曲の番号で動画を照らし合わせる仕組みは、今は使えるものが無かった：Appleの検索結果に曲の国際番号が無く、
+//   番号から動画を教えてくれる無料のサービスも、鍵なしの窓口を廃止していた。2026-11-07 試験）
+// YouTube の検索は回数に限りがあるので、同じ曲はサーバーとこのブラウザの両方で覚えておき、2回目からは検索しない。
+var API = (location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? 'http://localhost:5000' : 'https://genre-roots-server.onrender.com';
+function findVideo(t, a){
+  // 探すのは辞典のサーバー（/video/find）。YouTubeの鍵はサーバーの中だけにあり、ページにも返事にも出ない。
+  var key = 'gr-ansvid:' + norm(t) + '|' + norm(a);
+  try { var c = localStorage.getItem(key); if (c) return Promise.resolve(c === '-' ? null : c); } catch(e) {}
+  return fetch(API + '/video/find?' + new URLSearchParams({t: t, a: a || ''})).then(function(r){ return r.json(); }).then(function(dt){
+    if (dt.found && dt.id) { try { localStorage.setItem(key, dt.id); } catch(e) {} return dt.id; }
+    if (!dt.reason) { try { localStorage.setItem(key, '-'); } catch(e) {} }   // 上限・つながらないときは覚えない（明日また探す）
+    return null;
+  }).catch(function(){ return null; });
+}
+
+// 【2026-11-07】代表曲の何曲目かではなく、見つけた動画の番号を渡す。代表曲の番号は -1（どれでもない）にしておくと、
+// 終わったときに地図が「次の代表曲」＝1曲目から流してくれる。
+function playHit(d, want) {
   var w = F.contentWindow;
-  var row = ((w._currentNode && w._currentNode.yt_tracks) || [])[i];
-  if (!row || !row[0] || typeof w.playByVideoId !== 'function') return;
-  var want = row[0], stop = false;
+  if (!want || typeof w.playByVideoId !== 'function') return;
+  var stop = false;
   d.addEventListener('click', function(e){ if (e.isTrusted) stop = true; }, true);
-  var go = function(){ if (!stop) w.playByVideoId(want, row[1] || '', i, false); };
+  var go = function(){ if (!stop) w.playByVideoId(want, '', -1, false); };
   var pl = d.getElementById('sp-yt-player');
   if (pl) pl.addEventListener('load', function(){ go(); }, { once: true });
   go();
