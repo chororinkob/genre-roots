@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>（試作）曲名・歌手名から曲を探す — 音楽ジャンルルーツ辞典</title>
+<style>
+:root{--bg:#1a1a2e;--panel:#20203a;--line:rgba(255,255,255,.09);--txt:#e8e8f0;--sub:#a0a0b8;--acc:#7eb8f7;--brass:#d8b25e;--hit:#2a2a4a}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Segoe UI","Hiragino Kaku Gothic ProN",sans-serif;background:var(--bg);color:var(--txt);line-height:1.7;font-size:16px}
+a{color:var(--acc)}
+.proto{background:#f0b429;color:#1a1206;font-size:12px;font-weight:700;padding:4px 10px;text-align:center}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px 80px}
+header{padding:20px 0 12px;border-bottom:1px solid var(--line)}
+header a{font-weight:700;font-size:15px;text-decoration:none;color:var(--txt)}
+h1{font-size:26px;margin:28px 0 6px}
+.lede{color:var(--sub);font-size:14px}
+.box{position:relative;margin-top:20px}
+#q{width:100%;font:inherit;font-size:18px;padding:12px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.22);background:#14142a;color:var(--txt)}
+#q:focus{outline:2px solid var(--acc);outline-offset:1px}
+.ex{margin-top:10px;font-size:13px;color:var(--sub)}
+.ex a{display:inline-block;margin:4px 6px 0 0;padding:1px 10px;border:1px solid var(--line);border-radius:999px;text-decoration:none;color:var(--txt)}
+#st{margin-top:14px;font-size:13px;color:var(--sub);min-height:1.7em}
+.sec{margin-top:18px}
+.sec h2{font-size:15px;color:var(--brass);margin-bottom:6px}
+.sec h2 small{color:var(--sub);font-weight:400;font-size:12px;margin-left:6px}
+.row{display:flex;gap:10px;align-items:center;padding:7px 8px;border-radius:8px;cursor:pointer;border:1px solid transparent}
+.row:hover,.row:focus{background:var(--hit);border-color:rgba(126,184,247,.35);outline:none}
+.row img,.row .noimg{width:44px;height:44px;border-radius:6px;flex:none;background:#2c2c48;object-fit:cover}
+.row .tx{min-width:0;flex:1}
+.row .t{font-weight:700;font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row .a{font-size:13px;color:var(--sub);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.badge{flex:none;font-size:11px;font-weight:700;padding:1px 8px;border-radius:999px;background:rgba(216,178,94,.18);color:var(--brass);border:1px solid rgba(216,178,94,.4)}
+.row.artist .noimg{border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px}
+.back{font-size:13px;margin-top:14px;display:inline-block}
+.note{margin-top:30px;font-size:12.5px;color:var(--sub)}
+</style>
+</head>
+<body>
+<div class="proto">試作（本番には出していません）</div>
+<div class="wrap">
+<header><a href="/genre_roots.html">音楽ジャンルルーツ辞典</a></header>
+<h1>曲名・歌手名から曲を探す</h1>
+<p class="lede">曲名でも歌手名でも、うろ覚えでも、ひらがなでも大丈夫です。打つと、下に候補が出ます。選ぶと、その曲のジャンルを調べます。</p>
+<div class="box"><input id="q" type="search" autocomplete="off" placeholder="例：こころこおらせて／高山厳／北酒場" aria-label="曲名か歌手名"></div>
+<div class="ex">試す：<a href="#">こころこおらせて</a><a href="#">心を凍らせて</a><a href="#">高山厳</a><a href="#">北酒場</a><a href="#">いとしのエリー</a><a href="#">lemon</a></div>
+<div id="st"></div>
+<div id="out"></div>
+<p class="note">しくみ：まず、この辞典が曲ごとにジャンルを判定した曲（約1万3千曲）から探し、「辞典の判定あり」の印を付けて先に出します。そのあとに、外の音楽データベースから見つかった曲と歌手を並べます。</p>
+</div>
+<script>
+// 【試作 2026-11-07】あいまい検索（チョロさんの依頼）。
+// ・入力は1つの欄だけ。曲名でも歌手名でもよい。
+// ・① この辞典の曲（song_db.json＋rep_index.json）から探して「辞典の判定あり」で先に出す。
+//   ② 外の音楽データベース（iTunes 日本版の検索。無料・登録不要）で、曲と歌手を探して並べる。
+//   iTunes の検索は、ひらがな・1文字違い・余計な1文字にも強い（「こころこおらせて」→「心凍らせて／高山厳」）。
+// ・画面には、使っているデータベースの名前を出さない（まねされないため。チョロさんの指示）。
+// ・iTunes の検索は1分に20回くらいが目安なので、打ち終わって0.6秒待ってから問い合わせ、同じ言葉は覚えておく。
+// ・本番では、問い合わせをサーバー経由にして、ブラウザから外のサービスの名前が見えないようにする予定。
+var SDB = [], REP = [], G = [];
+var ready = Promise.all([
+  fetch('song_db.json').then(function(r){return r.json()}).then(function(x){SDB = x}),
+  fetch('rep_index.json').then(function(r){return r.json()}).then(function(x){REP = x}),
+  fetch('genres.json').then(function(r){return r.json()}).then(function(x){G = x})
+]);
+var JA = {enka:'演歌', kayokyoku:'歌謡曲', mood_kayo:'ムード歌謡'};
+function gname(id){ if (JA[id]) return JA[id]; var n = G.find(function(x){return x.id === id}); return n ? n.name : id; }
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+// 比べるための形：全角半角・大文字小文字・空白や記号をそろえ、カタカナはひらがなにする
+function nz(s){
+  return String(s || '').normalize('NFKC').toLowerCase()
+    .replace(/[ァ-ヶ]/g, function(c){ return String.fromCharCode(c.charCodeAt(0) - 0x60); })
+    .replace(/[\s\-_'’.&・!?！？…()（）「」]/g, '');
+}
+function oneOff(p, q){
+  if (Math.min(p.length, q.length) < 4 || Math.abs(p.length - q.length) > 1) return false;
+  if (p.length === q.length) { var d = 0; for (var i = 0; i < p.length; i++) if (p[i] !== q[i] && ++d > 1) return false; return d === 1; }
+  var L = p.length > q.length ? p : q, S = p.length > q.length ? q : p;
+  for (var k = 0; k < L.length; k++) if (L.slice(0, k) + L.slice(k + 1) === S) return true;
+  return false;
+}
+// ① 辞典の曲から探す（曲名が同じ・頭が同じ・含む・1文字違い、または歌手名が含む）
+function localHits(q){
+  var k = nz(q); if (k.length < 2) return [];
+  var seen = {}, out = [];
+  [[SDB, 'db'], [REP, 'rep']].forEach(function(src){
+    src[0].forEach(function(x){
+      var t = nz(x[0]), a = nz(x[1]), sc = 0;
+      if (t === k) sc = 100; else if (t.indexOf(k) === 0) sc = 80; else if (oneOff(t, k)) sc = 70;
+      else if (k.length >= 2 && t.indexOf(k) > 0) sc = 50; else if (a === k) sc = 60; else if (k.length >= 2 && a.indexOf(k) >= 0) sc = 40;
+      if (!sc) return;
+      var key = t + '|' + a; if (seen[key]) return; seen[key] = 1;
+      out.push({t: x[0], a: x[1], g: x[2], sc: sc + (src[1] === 'db' ? 1 : 0)});
+    });
+  });
+  out.sort(function(p, q2){ return q2.sc - p.sc; });
+  return out.slice(0, 8);
+}
+// ② 外の音楽データベースに聞く（同じ言葉は覚えておく）
+var CACHE = {};
+function ask(url){
+  if (CACHE[url]) return CACHE[url];
+  return CACHE[url] = fetch(url).then(function(r){ if (!r.ok) throw r.status; return r.json(); })
+    .catch(function(e){ delete CACHE[url]; throw e; });
+}
+var BASE = 'https://itunes.apple.com/search?country=JP&lang=ja_jp&media=music';
+function remoteSongs(q){
+  return ask(BASE + '&entity=song&limit=40&term=' + encodeURIComponent(q)).then(function(d){
+    var seen = {}, out = [];
+    (d.results || []).forEach(function(r){
+      var key = nz(r.trackName) + '|' + nz(r.artistName); if (seen[key]) return; seen[key] = 1;
+      out.push({t: r.trackName, a: r.artistName, aid: r.artistId, img: r.artworkUrl60, y: (r.releaseDate || '').slice(0, 4), al: r.collectionName, g: r.primaryGenreName});
+    });
+    return out;
+  });
+}
+function remoteArtists(q){
+  return ask(BASE + '&entity=musicArtist&limit=6&term=' + encodeURIComponent(q)).then(function(d){
+    return (d.results || []).map(function(r){ return {id: r.artistId, name: r.artistName, genre: r.primaryGenreName}; });
+  });
+}
+function artistSongs(ar){
+  // 人の番号で、その人の曲を取る（名前で探すと、同じ名前の別の人や共演の曲が混ざるため）
+  return ask('https://itunes.apple.com/lookup?country=JP&lang=ja_jp&entity=song&limit=60&id=' + ar.id).then(function(d){
+    var seen = {}, out = [];
+    (d.results || []).forEach(function(r){
+      if (r.wrapperType !== 'track' || r.artistId !== ar.id) return;
+      var key = nz(r.trackName); if (seen[key]) return; seen[key] = 1;
+      out.push({t: r.trackName, a: r.artistName, img: r.artworkUrl60, y: (r.releaseDate || '').slice(0, 4), al: r.collectionName});
+    });
+    return out;
+  });
+}
+// 辞典にある曲か（「辞典の判定あり」の印を付けるため）
+function inDict(t, a){
+  var kt = nz(t), ka = nz(a);
+  var f = function(x){ var xa = nz(x[1]); return nz(x[0]) === kt && (xa.indexOf(ka) >= 0 || ka.indexOf(xa) >= 0); };
+  return SDB.find(f) || REP.find(f);
+}
+function songRow(s, mark){
+  var d = mark ? null : inDict(s.t, s.a);
+  var g = mark ? s.g : (d && d[2]);
+  var sub = s.a + (s.y ? '・' + s.y + '年' : '');
+  return '<div class="row song" tabindex="0" data-t="' + esc(s.t) + '" data-a="' + esc(s.a) + '">' +
+    (s.img ? '<img src="' + esc(s.img) + '" alt="" loading="lazy">' : '<span class="noimg"></span>') +
+    '<div class="tx"><div class="t">' + esc(s.t) + '</div><div class="a">' + esc(sub) + '</div></div>' +
+    (g ? '<span class="badge">辞典の判定あり：' + esc(gname(g)) + '</span>' : '') + '</div>';
+}
+var st = document.getElementById('st'), out = document.getElementById('out'), qEl = document.getElementById('q');
+var seq = 0, timer = null;
+function run(q){
+  var my = ++seq;
+  q = q.trim();
+  if (nz(q).length < 2) { out.innerHTML = ''; st.textContent = '2文字以上入れてください。'; return; }
+  ready.then(function(){
+    var loc = localHits(q);
+    var html = '';
+    if (loc.length) html += '<div class="sec"><h2>この辞典で判定済みの曲<small>' + loc.length + '件</small></h2>' + loc.map(function(s){ return songRow(s, true); }).join('') + '</div>';
+    out.innerHTML = html + '<div class="sec" id="rm"></div>';
+    st.textContent = 'ほかの音楽データベースからも探しています…';
+    Promise.all([remoteSongs(q), remoteArtists(q)]).then(function(r){
+      if (my !== seq) return;
+      var all = r[0], songs = all.slice(0, 15), k = nz(q);
+      // 人の候補：歌手の検索結果に、曲の検索結果に出てきた歌手（名前に入れた言葉を含む人）を足す。
+      // 歌手の検索だけだと「高山厳」で共演名義の人しか出ないことがあったため（2026-11-07 試験で発覚）。
+      // 歌手の検索は、日本の歌手も英語の綴りで返すことがある（高山厳 → Takayama Gen）。曲の検索に同じ人（同じ番号）が
+      // 日本語名で出ていれば、その名前に置き換える。
+      var jp = {}; all.forEach(function(s){ if (!jp[s.aid] || nz(s.a) === k) jp[s.aid] = s.a; });
+      var ars = r[1].map(function(x){ return {id: x.id, name: jp[x.id] || x.name, genre: x.genre}; }), ids = {};
+      ars.forEach(function(x){ ids[x.id] = 1; });
+      all.forEach(function(s){ if (!ids[s.aid]) { ids[s.aid] = 1; ars.push({id: s.aid, name: jp[s.aid], genre: s.g}); } });
+      // 入れた言葉とぴったり同じ曲名が無ければ「これのことですか？」、あれば「どの曲をお探しですか？」
+      var exact = songs.some(function(s){ return nz(s.t) === k; }) || loc.some(function(s){ return nz(s.t) === k; });
+      var h = '';
+      var arHit = ars.filter(function(x){ var n = nz(x.name); return n.indexOf(k) >= 0 || (n.length >= 2 && k.indexOf(n) >= 0); })
+        .sort(function(p, q2){ return (nz(q2.name) === k) - (nz(p.name) === k); }).slice(0, 5);
+      if (arHit.length) h += '<div class="sec"><h2>この人ですか？<small>押すと、その人の曲が出ます</small></h2>' + arHit.map(function(x, i){
+        return '<div class="row artist" tabindex="0" data-i="' + ars.indexOf(x) + '"><span class="noimg">🎤</span><div class="tx"><div class="t">' + esc(x.name) + '</div><div class="a">' + esc(x.genre || '') + '</div></div></div>';
+      }).join('') + '</div>';
+      if (songs.length) h += '<div class="sec"><h2>' + (exact ? 'どの曲をお探しですか？' : arHit.some(function(x){ return nz(x.name) === k; }) ? esc(q) + ' の曲など' : 'これのことですか？') + '<small>同じ名前の曲は、歌っている人ごとに並べています</small></h2>' + songs.map(function(s){ return songRow(s); }).join('') + '</div>';
+      document.getElementById('rm').outerHTML = h || '<div class="sec"></div>';
+      st.textContent = (loc.length || songs.length || arHit.length) ? '曲を選ぶと、ジャンルを調べます。' : '見つかりませんでした。書き方を少し変えて試してください（ひらがな・カタカナ・英語など）。';
+      out._ars = ars;
+    }).catch(function(e){
+      if (my !== seq) return;
+      document.getElementById('rm').remove();
+      st.textContent = e === 403 || e === 429 ? '外の音楽データベースへの問い合わせが混み合っています。1分ほど待ってから、もう一度入れてください。' : '外の音楽データベースにつながりませんでした。少し待ってから、もう一度入れてください。';
+    });
+  });
+}
+qEl.addEventListener('input', function(){ clearTimeout(timer); timer = setTimeout(function(){ run(qEl.value); }, 600); });
+document.querySelectorAll('.ex a').forEach(function(x){ x.onclick = function(e){ e.preventDefault(); qEl.value = x.textContent; run(qEl.value); }; });
+function pick(el){
+  if (el.classList.contains('song')) {
+    location.href = 'song_name.html?' + new URLSearchParams({t: el.dataset.t, a: el.dataset.a, auto: '1'});
+  } else if (el.classList.contains('artist')) {
+    var ar = out._ars[+el.dataset.i], my = ++seq;
+    st.textContent = '「' + ar.name + '」の曲を探しています…';
+    artistSongs(ar).then(function(ss){
+      if (my !== seq) return;
+      out.innerHTML = '<div class="sec"><h2>' + esc(ar.name) + ' の曲<small>' + ss.length + '曲。どの曲をお探しですか？</small></h2>' + ss.map(function(s){ return songRow(s); }).join('') + '</div>';
+      st.innerHTML = '<a href="#" class="back" id="back">← 候補の一覧に戻る</a>';
+      document.getElementById('back').onclick = function(e){ e.preventDefault(); run(qEl.value); };
+    }).catch(function(){ st.textContent = '曲の一覧を取れませんでした。少し待ってから、もう一度押してください。'; });
+  }
+}
+out.addEventListener('click', function(e){ var r = e.target.closest('.row'); if (r) pick(r); });
+out.addEventListener('keydown', function(e){ if (e.key === 'Enter') { var r = e.target.closest('.row'); if (r) pick(r); } });
+</script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>（試作）折りたたみ — 音楽ジャンルルーツ辞典</title>
+<style>
+html,body{margin:0;padding:0;height:100%;background:#1a1a2e;overflow:hidden}
+#app{position:fixed;inset:0;width:100%;height:100vh;height:100dvh;border:0}
+</style>
+</head>
+<body>
+<iframe id="app" title="音楽ジャンルルーツ辞典"></iframe>
+<script>
+// 【試作 2026-11-07】ウィキペディアのような折りたたみ（チョロさんの依頼）。地図本体（genre_roots.html）は変えず、
+// 同じサイトの枠の中に外から見た目と動きを差し込んで、全体のイメージを見てもらうためのもの。
+// ・左：「カテゴリ」の見出しを押すと、カテゴリーの一覧ごと開く・閉じる。最初は閉じている。
+// ・右：ジャンル名・別名・発祥時期・動画はそのまま。その下の
+//   代表曲・音楽性・成り立ち・影響を受けた／与えた／影響し合ったジャンル を、最初は閉じておく。
+//   見出しに数（17曲・5ジャンルなど）を添えて、閉じていても中身の量が分かるようにする。
+var P = new URLSearchParams(location.search);
+var F = document.getElementById('app');
+F.src = '/genre_roots.html?genre=' + encodeURIComponent(P.get('g') || 'jpop');
+var CSS = [
+  '#legend h3.fold-h{cursor:pointer;user-select:none;display:flex;align-items:center;gap:6px;margin-bottom:0;padding:2px 0}',
+  '#legend h3.fold-h:hover{color:#fff}',
+  '#legend.fold-open h3.fold-h{margin-bottom:8px}',
+  '#legend:not(.fold-open) .legend-item,#legend:not(.fold-open) .legend-sep,#legend:not(.fold-open) .cat-accordion{display:none !important}',
+  '.fold-mark{display:inline-block;width:1em;font-size:.85em;color:#7eb8f7;transition:transform .2s}',
+  '.fold-open > .fold-h .fold-mark{transform:rotate(90deg)}',
+  '.fold-n{font-weight:400;color:#9a9ab4;font-size:.92em;margin-left:4px}',
+  '.sp-section.fold > h4.fold-h{cursor:pointer;user-select:none;display:flex;align-items:baseline;gap:4px;margin-bottom:0;padding:6px 2px}',
+  '.sp-section.fold > h4.fold-h:hover{background:rgba(255,255,255,.05);border-radius:4px}',
+  '.sp-section.fold.fold-open > h4.fold-h{margin-bottom:6px}',
+  '.sp-section.fold:not(.fold-open) > :not(h4){display:none !important}',
+  '.sp-section.fold{margin-bottom:4px}'
+].join('\n');
+var SECS = ['sp-tracks-sec', 'sp-desc-sec', 'sp-roots-story-sec', 'sp-in-sec', 'sp-out-sec', 'sp-mutual-sec'];
+function setup(d){
+  if (d.getElementById('fold-css')) return;
+  var st = d.createElement('style'); st.id = 'fold-css'; st.textContent = CSS; d.head.appendChild(st);
+  var mark = function(){ var m = d.createElement('span'); m.className = 'fold-mark'; m.textContent = '▶'; return m; };
+  var lg = d.getElementById('legend'), h3 = lg.querySelector('h3');
+  h3.classList.add('fold-h'); h3.prepend(mark());
+  var n = d.createElement('span'); n.className = 'fold-n'; n.textContent = '（' + lg.querySelectorAll('.legend-item').length + '）'; h3.appendChild(n);
+  h3.addEventListener('click', function(){ lg.classList.toggle('fold-open'); });
+  SECS.forEach(function(id){
+    var s = d.getElementById(id); if (!s) return;
+    var h = s.querySelector('h4'); s.classList.add('fold'); h.classList.add('fold-h'); h.prepend(mark());
+    var c = d.createElement('span'); c.className = 'fold-n'; h.appendChild(c);
+    h.addEventListener('click', function(){ s.classList.toggle('fold-open'); });
+  });
+  // 見出しの数は、ジャンルが変わるたびに数え直す
+  setInterval(function(){
+    var cnt = function(sel){ return d.querySelectorAll(sel).length; };
+    var txt = function(el){ return ((el && el.textContent) || '').replace(/\s/g, '').length; };
+    var put = function(id, s){ var e = d.querySelector('#' + id + ' .fold-n'); if (e && e.textContent !== s) e.textContent = s; };
+    put('sp-tracks-sec', '（' + cnt('#sp-tracks .yt-music-link') + '曲）');
+    put('sp-desc-sec', '（' + txt(d.getElementById('sp-desc')) + '字）');
+    put('sp-roots-story-sec', '（' + txt(d.getElementById('sp-roots-story')) + '字）');
+    ['sp-in', 'sp-out', 'sp-mutual'].forEach(function(id){ var b = d.getElementById(id); put(id + '-sec', '（' + (b ? b.children.length : 0) + '）'); });
+  }, 400);
+}
+var tries = 0, timer = setInterval(function(){
+  if (++tries > 120) { clearInterval(timer); return; }
+  var d; try { d = F.contentDocument; } catch(e) { return; }
+  if (!d || !d.getElementById('legend') || !d.getElementById('sp-tracks-sec')) return;
+  clearInterval(timer); setup(d);
+}, 300);
+</script>
+</body>
+</html>
