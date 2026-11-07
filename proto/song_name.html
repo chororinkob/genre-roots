@@ -105,7 +105,7 @@ function enkaSinger(name){
   var k = norm(String(name).split(/[・&＆]/)[0]);
   return !!(SDB || []).find(function(x){ return x[2] === 'enka' && norm(String(x[1]).split(/[・&＆]/)[0]) === k; });
 }
-// 【2026-11-07】聴き取りサービス（Shazam等）が返す曲名は、後ろに版の名前が付いていたり（「怪獣の花唄 - replica -」
+// 【2026-11-07】聴き取り（音紋照合）で返ってくる曲名は、後ろに版の名前が付いていたり（「怪獣の花唄 - replica -」
 // 「不可逆リプレイス （re:rec）」「CHA-LA HEAD-CHA-LA (ドラゴンボールZ)」）、全角・半角が違ったり（ウィーアー！）する。
 // データベースと照らし合わせる前に、後ろの（ ）と「 - ○○ - 」を外し、全角・半角をそろえる。
 function dbNorm(s){ return norm(String(s || '').normalize('NFKC')).replace(/[!?！？…]/g, ''); }

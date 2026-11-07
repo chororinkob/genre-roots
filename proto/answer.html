@@ -118,7 +118,7 @@ function put(d, nd, body){
     '<div class="now">' + (i >= 0 ? '▶ 下の代表曲の<b>' + (i + 1) + '曲目</b>にあります。動画をその曲に切り替えました（鳴らないときは ▶ を押してください）。'
                                    : '下の代表曲で、同じ ' + esc(disp(g)) + ' の曲を聴けます。') + '</div>' +
     '<div class="more">この下で ' + esc(disp(g)) + ' の特徴と成り立ち、地図の線で「どの音楽から生まれたか」をたどれます。 ' +
-    (P.get('via') === 'mic' ? '<a href="/proto/mic.html" target="_top">ほかの曲も聴かせる →</a>' : '<a href="/song_name.html" target="_top">ほかの曲も調べる →</a>') + '</div>';
+    (P.get('via') === 'mic' ? '<a href="/song.html?mic=1" target="_top">ほかの曲も聴かせる →</a>' : '<a href="/song_name.html" target="_top">ほかの曲も調べる →</a>') + '</div>';
   var w = d.getElementById('sp-yt-wrap');
   body.insertBefore(box, w && w.parentNode === body ? w : body.firstChild);
   if (i >= 0) {

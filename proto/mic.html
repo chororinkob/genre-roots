@@ -56,17 +56,16 @@ p.s{font-size:14.5px;color:var(--sub)}
 </div>
 
 <h2>しくみ</h2>
-<p class="s">① 20秒の音を、曲を当てる専門のサービス（Shazam）に聴かせて、曲名と歌手名を調べます。日本の曲がローマ字で返ってきたとき（例：舟唄 → Funa-Uta）は、Appleの音楽ストアで日本語の曲名に直します。Shazamで分からなかったときは、マイナーな曲に強い別の聴き取りサービス（ACRCloud）にもう一度聴かせます。</p>
+<p class="s">① 聴き取った音の特徴（音紋＝曲ごとに違う、音の指紋のようなもの）を、2つの照合先（音紋照合S → 見つからなければ音紋照合A）で曲のデータベースと照らし合わせ、曲名と歌手名を調べます。日本の曲がローマ字で返ってきたとき（例：舟唄 → Funa-Uta）は、日本語の曲名に直します。</p>
 <p class="s">② 分かった曲名で、「曲名で調べる」と同じ方法でジャンルを答えます。この辞典が<b>曲ごとに判定したデータベース</b>（約4,200曲）→ この辞典の<b>代表曲</b>（約8,600曲）→ 外の音楽データベース（MusicBrainz → ウィキデータ → iTunes → Deezer の順）の順に探します。</p>
 <p class="s">曲が分からなかったときは、AIに当てずっぽうで答えさせることはしません。「曲名で調べる」をお使いください。</p>
 </div>
 <script>
-// 【2026-11-07 試作】マイクで10秒聴く → サーバーの /recognize/identify（Shazam＋日本語名への直し）で曲名・歌手名だけ受け取る
+// 【2026-11-07 試作】マイクで20秒聴く → サーバーの /recognize/identify（音紋照合S → 音紋照合A ＋日本語名への直し）で曲名・歌手名だけ受け取る
 // → song_name.html に渡して、曲名で調べるのと同じ道（データベース → 多数決）でジャンルを決める。
 // Geminiは使わない（テストで曲名当て20曲中7、昭和のジャンル推定8曲中1しか当たらなかったため）。
 var API = (location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? 'http://localhost:5000' : 'https://genre-roots-server.onrender.com';
-// 【2026-11-07 訂正】20秒のまま。59曲で比べると、Shazamは20秒で58曲・10秒で45曲が分かった（曲のどこを取っても10秒では駄目な曲が13曲）。
-// ACRCloudは10秒でも当たるが、1番手のShazamに合わせて20秒にする（チョロさんの指摘で実測）。
+// 【2026-11-07 訂正】20秒のまま。59曲で比べると、音紋照合Sは20秒で58曲・10秒で45曲が分かった。
 var SEC = 20;
 var btn = document.getElementById('rec'), cnt = document.getElementById('count'), msg = document.getElementById('msg');
 var stream = null, rec = null, chunks = [], tick = null, maxVol = 0, actx = null, an = null;
@@ -121,7 +120,7 @@ document.getElementById('file').onchange = function(){
 };
 function send(blob, name){
   btn.disabled = true;
-  say('聴き取った音を、曲を当てる専門のサービス（Shazam）に送って、曲名と歌手名を調べています。日本の曲がローマ字で返ってきたときは、日本語の曲名に直します。Shazamで分からなかったときは、マイナーな曲に強い別のサービス（ACRCloud）にもう一度聴かせます（ふだんは数秒〜10秒ほどで終わります。サーバーが休んでいたときは、起きるまで30秒ほどかかることがあります）。');
+  say('音紋照合中… 聴き取った音の特徴（音紋）を、1つ目の照合先（音紋照合S）で曲のデータベースと照らし合わせています。見つからなければ、2つ目の照合先（音紋照合A）でも探します。日本の曲がローマ字で返ってきたときは、日本語の曲名に直します（ふだんは数秒〜10秒ほどで終わります）。');
   var fd = new FormData(); fd.append('audio', blob, name); fd.append('source', 'mic');
   fetch(API + '/recognize/identify', {method: 'POST', body: fd, credentials: 'include'})
     .then(function(r){ return r.json(); })
@@ -129,12 +128,12 @@ function send(blob, name){
       btn.disabled = false;
       if (d.error) { say(esc(d.error), true); return; }
       if (!d.found) {
-        // 2番手（ACRCloud）が使えなかった理由で、文を書き分ける（2026-11-07）
-        var why = d.acr === 'limit'
-          ? '曲を特定できませんでした。1つ目の聴き取りサービス（Shazam）では見つからず、マイナーな曲に強い2つ目のサービス（ACRCloud）は、今日の無料で使える回数（1日100回）に達していたため使えませんでした。明日になれば、また2つ目のサービスも使えます。'
-          : d.acr === 'error'
-          ? '曲を特定できませんでした。1つ目の聴き取りサービス（Shazam）では見つからず、2つ目のサービス（ACRCloud）にはつながりませんでした。'
-          : '曲を特定できませんでした（2つの聴き取りサービス、ShazamとACRCloudのどちらにも見つかりませんでした）。';
+        // 2番手（音紋照合A）が使えなかった理由で、文を書き分ける（2026-11-07）
+        var why = d.second === 'limit'
+          ? '曲を特定できませんでした。1つ目の照合先（音紋照合S）では見つからず、2つ目の照合先（音紋照合A）は、今日使える回数の上限に達していたため使えませんでした。明日になれば、また2つ目の照合先も使えます。'
+          : d.second === 'error'
+          ? '曲を特定できませんでした。1つ目の照合先（音紋照合S）では見つからず、2つ目の照合先（音紋照合A）にはつながりませんでした。'
+          : '曲を特定できませんでした。2つの照合先（音紋照合S・音紋照合A）のどちらにも、この音に合う曲が見つかりませんでした。';
         say(why + 'あまり知られていない曲や、まわりの音が大きいときは、聴き取れないことがあります。' +
             'もう一度、音に近づけて試すか、曲名が分かっていれば <a href="song_name.html">曲名で調べる</a> をお使いください。', true);
         return;
