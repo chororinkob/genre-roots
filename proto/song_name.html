@@ -517,6 +517,8 @@ function pick(el){
 }
 out.addEventListener('click', function(e){ var r = e.target.closest('.row'); if (r) pick(r); });
 out.addEventListener('keydown', function(e){ if (e.key === 'Enter') { var r = e.target.closest('.row'); if (r) pick(r); } });
+// 地図のマイクパネル「✏️ 曲名」から来たとき（?q=）は、入れた言葉で候補を出す
+if (P0.get('q') && !P0.get('t')) { qEl.value = P0.get('q'); srRun(qEl.value); }
 </script>
 </body>
 </html>

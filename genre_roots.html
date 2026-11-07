@@ -88,7 +88,12 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 .fold-h:focus-visible{outline:2px solid #7eb8f7;outline-offset:-2px}
 .fold-mark{display:inline-block;width:1em;font-size:.8em;color:#7eb8f7;transition:transform .2s}
 .fold-open > .fold-h .fold-mark{transform:rotate(90deg)}
-.fold-n{font-weight:400;color:#a8a8c4;font-size:.9em}
+.fold-t{flex:1 1 auto;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fold-mark,.fold-act{flex:none}
+.fold-n{font-weight:400;color:#a8a8c4;font-size:.9em;margin-left:2px}
+/* 左の欄は縦に並べる箱（flex）なので、はみ出しを隠す指定を付けると、欄の高さまで縮められて中が切れる。縮ませない（2026-11-07 スマホで一覧が10件ほどで切れた不具合） */
+#legend.fold-box{flex-shrink:0}
+@media (max-width:768px){.fold-h{padding:9px 8px !important;gap:4px;font-size:12px !important}#legend .fold-act{display:none}#legend .fold-h{font-size:11px !important}}
 .fold-act{margin-left:auto;font-size:11px;font-weight:400;color:#9fc3f5;white-space:nowrap}
 .fold-act::after{content:"開く ▾"}
 .fold-open > .fold-h .fold-act::after{content:"閉じる ▴"}
@@ -1598,7 +1603,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v135.7</span>
+  <span id="version-info">v135.8</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -1662,7 +1667,7 @@ svg { width: 100vw; height: 100vh; }
 </div>
 
 <div id="legend" class="fold-box">
-  <h3 class="fold-h" tabindex="0"><span class="fold-mark">▶</span>カテゴリ<span class="fold-n">（38）</span><span class="fold-act"></span></h3>
+  <h3 class="fold-h" tabindex="0"><span class="fold-mark">▶</span><span class="fold-t">カテゴリ<span class="fold-n">（38）</span></span><span class="fold-act"></span></h3>
   <!-- カテゴリの並び（2026-10-11に整理、2026-10-12に年代順へ修正・カテゴリーを見直し。チョロさんの指示）。
        線の上：歴史の古い順。物差しは「そのカテゴリーの代表ジャンル（名前が同じジャンル）の誕生年代」。
        同じ年代のものは、前の並びを保つ。宗教/ゴスペル系とクラシック系は、とても古い音楽を含むので、いちばん上。
@@ -1749,18 +1754,18 @@ svg { width: 100vw; height: 100vh; }
       <button id="sp-yt-unmute" style="display:none;"></button>
     </div>
     <div class="sp-section fold" id="sp-tracks-sec" style="display:none;">
-      <h4 id="sp-tracks-h" class="fold-h" tabindex="0"><span class="fold-mark">▶</span>代表曲・アーティスト<span class="fold-n"></span><span class="fold-act"></span></h4>
+      <h4 id="sp-tracks-h" class="fold-h" tabindex="0"><span class="fold-mark">▶</span><span class="fold-t">代表曲・アーティスト<span class="fold-n"></span></span><span class="fold-act"></span></h4>
       <div id="sp-tracks" data-field="rep_tracks"></div>
       <a href="#" id="sp-spotify-link" target="_blank" rel="noopener" class="sp-spotify-link"></a>
     </div>
     <div class="sp-explain-divider" id="sp-explain-divider" style="display:none;"></div>
     <div id="sp-suno-wrap"></div>
     <div class="sp-section fold" id="sp-desc-sec">
-      <h4 class="fold-h" tabindex="0"><span class="fold-mark">▶</span>音楽性・特徴<span class="fold-n"></span><span class="fold-act"></span></h4>
+      <h4 class="fold-h" tabindex="0"><span class="fold-mark">▶</span><span class="fold-t">音楽性・特徴<span class="fold-n"></span></span><span class="fold-act"></span></h4>
       <p id="sp-desc" data-field="desc"></p>
     </div>
     <div class="sp-section fold" id="sp-roots-story-sec">
-      <h4 class="fold-h" tabindex="0"><span class="fold-mark">▶</span>成り立ち<span class="fold-n"></span><span class="fold-act"></span></h4>
+      <h4 class="fold-h" tabindex="0"><span class="fold-mark">▶</span><span class="fold-t">成り立ち<span class="fold-n"></span></span><span class="fold-act"></span></h4>
       <p id="sp-roots-story" data-field="roots_story"></p>
       <div id="sp-books-wrap" style="display:none;">
         <div class="sp-books-title">関連する書籍</div>
@@ -1769,15 +1774,15 @@ svg { width: 100vw; height: 100vh; }
     </div>
     <div id="sp-influence-group" class="sp-influence-group">
     <div class="sp-section fold" id="sp-in-sec">
-      <h4 class="fold-h" tabindex="0"><span class="fold-mark">▶</span>影響を<span class="sp-h4-em in">受けた</span>ジャンル（ルーツ）<span class="fold-n"></span><span class="fold-act"></span></h4>
+      <h4 class="fold-h" tabindex="0"><span class="fold-mark">▶</span><span class="fold-t">影響を<span class="sp-h4-em in">受けた</span>ジャンル<span class="fold-n"></span></span><span class="fold-act"></span></h4>
       <div id="sp-in"></div>
     </div>
     <div class="sp-section fold" id="sp-out-sec">
-      <h4 class="fold-h" tabindex="0"><span class="fold-mark">▶</span>影響を<span class="sp-h4-em out">与えた</span>ジャンル<span class="fold-n"></span><span class="fold-act"></span></h4>
+      <h4 class="fold-h" tabindex="0"><span class="fold-mark">▶</span><span class="fold-t">影響を<span class="sp-h4-em out">与えた</span>ジャンル<span class="fold-n"></span></span><span class="fold-act"></span></h4>
       <div id="sp-out"></div>
     </div>
     <div class="sp-section fold" id="sp-mutual-sec">
-      <h4 class="fold-h" tabindex="0"><span class="fold-mark">▶</span><span class="sp-h4-em mutual">相互に</span>影響し合ったジャンル<span class="fold-n"></span><span class="fold-act"></span></h4>
+      <h4 class="fold-h" tabindex="0"><span class="fold-mark">▶</span><span class="fold-t"><span class="sp-h4-em mutual">相互に</span>影響し合ったジャンル<span class="fold-n"></span></span><span class="fold-act"></span></h4>
       <div id="sp-mutual"></div>
     </div>
     </div>
@@ -27815,7 +27820,7 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 <div id="mic-overlay">
   <div id="mic-panel" data-mode="listen">
     <button id="mic-panel-close" onclick="closeMicPanel()">✕</button>
-    <div id="mic-panel-version">v2.49</div>
+    <div id="mic-panel-version">v2.50</div>
     <div id="mic-panel-title">🎵 この曲なんてジャンル？</div>
     <div id="mic-panel-sub">3つの方法のうち、どれか1つで調べられます</div>
     <div id="mic-modes" role="tablist" aria-label="調べ方">
@@ -27849,9 +27854,8 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
     </div>
     <div class="mic-pane mic-pane-name">
       <form id="mic-name-form" onsubmit="micNameSubmit(event)">
-        <input id="mic-name-t" placeholder="曲名（例：北酒場）" autocomplete="off">
-        <input id="mic-name-a" placeholder="歌手名（例：細川たかし）" autocomplete="off">
-        <button type="submit">調べる</button>
+        <input id="mic-name-t" type="search" placeholder="曲名か歌手名（例：北酒場／米津）" autocomplete="off">
+        <button type="submit">探す</button>
       </form>
     </div>
     </div>
@@ -28037,10 +28041,11 @@ function micSetMode(m) {
 function micNameSubmit(e) {
   e.preventDefault();
   micHideError();
-  const t = document.getElementById('mic-name-t').value.trim();
-  const a = document.getElementById('mic-name-a').value.trim();
-  if (!t) { micShowError('曲名を入れてください。歌手名も入れると、同じ名前の別の曲と取り違えにくくなります。'); return; }
-  micGoAnswer(t, a, '');
+  // 【2026-11-07 v2.50】欄は1つ。曲名でも歌手名でも、うろ覚えでもよい。
+  // 「曲名で調べる」ページ（song_name.html）で候補を出し、曲を選ぶとジャンルを調べる
+  const q = document.getElementById('mic-name-t').value.trim();
+  if (!q) { micShowError('曲名か歌手名を入れてください。ひらがなや、うろ覚えでも探せます。'); return; }
+  (window.top || window).location.href = '/song_name.html?' + new URLSearchParams({ q: q }).toString();
 }
 async function micDoRecognize(formData) {
   try {

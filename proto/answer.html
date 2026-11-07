@@ -32,9 +32,11 @@ var CSS = [
   '#gr-ans .proto{font-size:10px;font-weight:700;color:#1a1206;background:#f0b429;border-radius:4px;padding:0 6px}',
   '#gr-ans .q{font-size:14.5px;font-weight:700;margin-top:2px}',
   '#gr-ans .q b{color:#7eb8f7}',
-  '#gr-ans .why{font-size:11.5px;color:#a0a0b8;margin-top:2px}',
-  '#gr-ans .now{font-size:12.5px;margin-top:4px}',
-  '#gr-ans .more{font-size:12px;margin-top:4px;color:#a0a0b8}',
+  '#gr-ans .qi{display:inline-block;vertical-align:2px;margin-left:6px;width:20px;height:20px;border-radius:50%;border:1px solid rgba(126,184,247,.6);background:none;color:#9fc3f5;font:700 12px/18px sans-serif;cursor:pointer;padding:0}',
+  '#gr-ans .qi[aria-expanded=true]{background:rgba(126,184,247,.3);color:#fff}',
+  '#gr-ans .why{display:none;font-size:12px;color:#c8c8dc;margin-top:6px;padding:7px 9px;border-radius:7px;background:rgba(0,0,0,.25)}',
+  '#gr-ans.why-open .why{display:block}',
+  '#gr-ans .more{font-size:11.5px;margin-top:3px;text-align:right}',
   '#gr-ans a{color:#7eb8f7}',
   '.yt-music-link.gr-hit{outline:2px solid #7eb8f7;outline-offset:1px;border-radius:4px}'
 ].join('\n');
@@ -59,9 +61,12 @@ function voteText(){
   [g].concat(said.map(function(x){ return x.v; })).forEach(function(v){ if (!(v in idx)) { idx[v] = groups.length; groups.push({v: v, s: []}); } });
   said.forEach(function(x){ groups[idx[x.v]].s.push(x.s); });
   groups = groups.filter(function(gr){ return gr.s.length; });
-  // 【2026-11-07 短くした】「根拠：音楽データベースの判定（MとDが『X』／Iが『Y』）」の1行だけ
-  var out = '根拠：音楽データベースの判定';
-  if (groups.length) out += '（' + groups.map(function(gr){ return esc(gr.s.join('と')) + 'が「' + esc(nm(gr.v)) + '」'; }).join('／') + '）';
+  // 【2026-11-07 チョロさんの指示】記号（M・D など）は利用者には意味が分からないので出さない。
+  // 「いくつのデータベースが同じ答えだったか」と、ほかの答えがあればその名前だけ
+  var hit = groups.length && groups[0].v === g ? groups[0].s.length : 0;
+  var out = '音楽データベースの登録を照らし合わせて決めました' + (hit > 1 ? '（' + hit + 'つが「' + esc(nm(g)) + '」）' : '') + '。';
+  var other = groups.filter(function(gr){ return gr.v !== g; }).map(function(gr){ return '「' + esc(nm(gr.v)) + '」'; });
+  if (other.length) out += 'ほかに' + other.join('・') + 'とするものもありました。';
   return out;
 }
 // 日本のジャンルは漢字で出す（チョロさんの指示 2026-11-05：演歌・歌謡曲・ムード歌謡）
@@ -91,23 +96,22 @@ function put(d, nd, body){
   var box = d.createElement('div'); box.id = 'gr-ans';
   box.innerHTML =
     // 【2026-11-07】マイク（mic.html）から来たときは「聴き取った結果」と書く（via=mic）
-    '<div class="r1"><span class="eye">' + (P.get('via') === 'mic' ? '音を聴き取った結果' : '曲名で調べた結果') + '</span></div>' +
-    '<div class="q">「' + esc(t) + '」（' + esc(a) + '）は <b>' + esc(disp(g)) + '</b></div>' +
-    // 【2026-11-07 短くした】根拠は1行。演歌歌手の曲の注意書きも短く（チョロさんの指示）
-    '<div class="why">' + (src === 'db' ? '根拠：この辞典が曲ごとに、曲調で判定' +
-      (P.get('en') === '1' ? '（演歌歌手の曲ですが、曲調は「' + esc(disp(g)) + '」）' : '')
-      : src === 'rep' ? '根拠：この辞典の「' + esc(disp(g)) + '」の代表曲'
-      : src === 'vote' ? voteText() : src === 'wikidata' ? '根拠：音楽データベースの登録' : '根拠：AIの推定') + '</div>' +
-    '<div class="now" id="gr-ans-now">この曲の動画を探しています…</div>' +
-    '<div class="more">この下で ' + esc(disp(g)) + ' の特徴・成り立ち・ルーツをたどれます。 ' +
-    (P.get('via') === 'mic' ? '<a href="/song.html?mic=1" target="_top">ほかの曲も聴かせる →</a>' : '<a href="/song_name.html" target="_top">ほかの曲も調べる →</a>') + '</div>';
+    // 【2026-11-07 チョロさんの指示で簡潔に】出すのは「この曲は○○」の1行だけ。
+    // 動画の案内（流れています・終わると代表曲へ）は出さない。根拠は「？」を押したときだけ（知名度の「？」と同じ考え方）
+    '<div class="q">「' + esc(t) + '」（' + esc(a) + '）は <b>' + esc(disp(g)) + '</b>' +
+    '<button type="button" class="qi" aria-expanded="false" aria-label="このジャンルにした理由を見る">?</button></div>' +
+    '<div class="why">' + (src === 'db' ? 'この辞典が、曲ごとに曲調を聴いて決めたジャンルです。' +
+      (P.get('en') === '1' ? '歌っているのは演歌の歌手ですが、この曲は曲調で「' + esc(disp(g)) + '」にしています。' : '')
+      : src === 'rep' ? 'この辞典で「' + esc(disp(g)) + '」の代表曲として載せている曲です。'
+      : src === 'vote' ? voteText() : src === 'wikidata' ? '音楽データベースに登録されているジャンルです。' : 'データベースに見つからなかったため、AIが推しはかったジャンルです。') + '</div>' +
+    '<div class="more">' + (P.get('via') === 'mic' ? '<a href="/song.html?mic=1" target="_top">ほかの曲も聴かせる →</a>' : '<a href="/song_name.html" target="_top">ほかの曲も調べる →</a>') + '</div>';
+  box.querySelector('.qi').addEventListener('click', function(e){
+    e.stopPropagation(); var o = box.classList.toggle('why-open'); this.setAttribute('aria-expanded', o ? 'true' : 'false');
+  });
   var w = d.getElementById('sp-yt-wrap');
   body.insertBefore(box, w && w.parentNode === body ? w : body.firstChild);
   findVideo(t, a).then(function(v){
-    var now = d.getElementById('gr-ans-now');
-    if (!v) { if (now) now.textContent = 'この曲の動画は見つかりませんでした。下の代表曲で、同じ ' + disp(g) + ' の曲を聴けます。'; return; }
-    if (now) now.textContent = '▶ この曲の動画を流しています。終わると、' + disp(g) + ' の代表曲が1曲目から続きます（鳴らないときは ▶ を押してください）。';
-    playHit(d, v);
+    if (v) playHit(d, v);
   });
 }
 
@@ -137,7 +141,7 @@ function playHit(d, want) {
   var w = F.contentWindow;
   if (!want || typeof w.playByVideoId !== 'function') return;
   var stop = false;
-  d.addEventListener('click', function(e){ if (e.isTrusted) stop = true; }, true);
+  d.addEventListener('click', function(e){ if (e.isTrusted && !(e.target.closest && e.target.closest('#gr-ans'))) stop = true; }, true);
   var go = function(){ if (!stop) w.playByVideoId(want, '', -1, false); };
   var pl = d.getElementById('sp-yt-player');
   if (pl) pl.addEventListener('load', function(){ go(); }, { once: true });
