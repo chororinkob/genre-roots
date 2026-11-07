@@ -55,7 +55,7 @@ p.s{font-size:14.5px;color:var(--sub)}
 <h2>しくみ</h2>
 <p class="s">まず、この辞典が<b>曲ごとに判定したデータベース</b>（約4,200曲。お店の棚のような「歌手ごと」の分類ではなく、その曲そのものの曲調・メロディーで分けたもの）を探します。見つかれば、その判定で答えます。</p>
 <p class="s">データベースに無い曲は、次に、この辞典の<b>代表曲</b>（595ジャンルの約8,600曲）を探します。入っていれば、辞典が登録しているジャンルで答えます。</p>
-<p class="s">どちらにも無い曲は、外の5か所に同時に問い合わせます：MusicBrainz（音楽好きが投票で細かいジャンルを付けるデータベース）、Discogs（レコード収集家が1枚ずつ細かいスタイルを付けるデータベース）、ウィキデータ（ウィキペディアの姉妹サイト）、iTunes（Appleの音楽ストア）、Deezer（海外の音楽配信）。答えは、ジャンルの細かさと正確さの順（MusicBrainz → Discogs → ウィキデータ → iTunes → Deezer）に見て、最初にジャンルが書かれていたものを使います。iTunesとDeezerは、お店の棚のような大まかな分け方なので後ろにしています。ほかの所が違うことを言っていたら、それも答えに書きます。</p>
+<p class="s">どちらにも無い曲は、いくつかの音楽データベースに同時に問い合わせ、その判定から割り出します。確からしいものから順に見て、最初にジャンルが書かれていた答えを使います。ほかのデータベースが違うことを言っていたら、それも答えに書きます。</p>
 </div>
 <script>
 var G = null;
@@ -85,6 +85,9 @@ document.querySelectorAll('.ex a').forEach(function(x){x.onclick = function(e){
 // Last.fm は曲ごとのタグが日本の曲にほぼ付いていない（Lemonでもゼロ）うえ、鍵が要るので、この試作では聞かない。
 // 【2026-11-07】辞典の代表曲は先に findRep で調べるので、外に聞くのは4か所。並びは答えを採る優先順（PRIO と同じ）。
 var ORDER = ['MusicBrainz', 'Discogs', 'Wikidata', 'iTunes', 'Deezer'];
+// 【2026-11-07 チョロさん】画面・アドレス欄には、使っているデータベースの名前を出さない（まねされないため）。
+// 頭文字の記号だけを出す：M=MusicBrainz・D=Discogs・W=Wikidata・I=iTunes・Z=Deezer（答えのページも同じ記号で書く）。
+var CODE = {MusicBrainz: 'M', Discogs: 'D', Wikidata: 'W', iTunes: 'I', Deezer: 'Z'};
 // Discogsは合言葉（トークン）が要るので、ブラウザから直接ではなく、辞典のサーバーの中継（/genre/discogs）を通す。
 // トークンはサーバーの中だけにあり、このページにも返事にも出てこない（2026-11-07）。
 var API = (location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? 'http://localhost:5000' : 'https://genre-roots-server.onrender.com';
@@ -116,10 +119,14 @@ function coreTitle(t){
   return t;
 }
 // 1文字だけ違う（中国の字が混ざった「宇宙戦舰ヤマト」など）。短い曲名は別の曲と取り違えやすいので4文字以上だけ
+// 【2026-11-07 直し】1文字ちがい・1文字多い・1文字少ない、のどれかなら「1文字違い」とみなす。
+// 「心を凍らせて」（正しくは「心凍らせて」）のように、1文字多く入れても見つかるようにする（チョロさんの試験で発覚）。
 function oneOff(p, q){
-  if (p.length !== q.length || p.length < 4) return false;
-  var d = 0; for (var i = 0; i < p.length; i++) if (p[i] !== q[i] && ++d > 1) return false;
-  return d === 1;
+  if (Math.min(p.length, q.length) < 4 || Math.abs(p.length - q.length) > 1) return false;
+  if (p.length === q.length) { var d = 0; for (var i = 0; i < p.length; i++) if (p[i] !== q[i] && ++d > 1) return false; return d === 1; }
+  var L = p.length > q.length ? p : q, S = p.length > q.length ? q : p;
+  for (var k = 0; k < L.length; k++) if (L.slice(0, k) + L.slice(k + 1) === S) return true;
+  return false;
 }
 function findDB(t, a){
   if (!SDB) return null;
@@ -313,7 +320,7 @@ document.getElementById('f').onsubmit = function(e){
     return;
   }
   var left = ORDER.slice();
-  var show = function(){ m.textContent = '「' + t + '」（' + a + '）のジャンルを、外の5か所（MusicBrainz・Discogs・Wikidata・iTunes・Deezer）に同時に問い合わせています。答えは、ジャンルの細かさと正確さの順（MusicBrainz → Discogs → Wikidata → iTunes → Deezer）に見て、最初に書かれていたものを使います。返事待ち：' + (left.join('・') || 'なし'); };
+  var show = function(){ m.textContent = '「' + t + '」（' + a + '）は、この辞典のデータベースと代表曲にはありませんでした。いま、いくつかの音楽データベースに同時に問い合わせて、その判定からジャンルを割り出しています。返事待ち：' + (left.map(function(s){ return CODE[s]; }).join('・') || 'なし'); };
   show();
   var res = {};
   Promise.all(ORDER.map(function(s){
@@ -326,13 +333,13 @@ document.getElementById('f').onsubmit = function(e){
       var any = ORDER.some(function(s){ return res[s].found; });
       m.className = 'ng';
       m.textContent = any ? '「' + t + '」は見つかりましたが、どこにもジャンルが書かれていませんでした（または辞典にまだ無いジャンルでした）。'
-                          : '5か所のどこにも「' + t + '」（' + a + '）が見つかりませんでした。曲名・歌手名の書き方を変えて試してください。';
+                          : 'どの音楽データベースにも「' + t + '」（' + a + '）が見つかりませんでした。曲名・歌手名の書き方を変えて試してください。';
       return;
     }
     // 答えには正式な歌手名を出す（「米津」→「米津玄師」）。辞典かWikidataで分かったものを使う。
     var nm = (res['Wikidata'].found && res['Wikidata'].name) || a;
-    var votes = ORDER.map(function(s){ var r = res[s]; return s + ':' + (r.err ? 'err' : !r.found ? 'none' : (r.vote || 'nogenre')); }).join('|');
-    var p = {t: t, a: nm, g: d.id, src: 'vote', v: votes, by: d.by};
+    var votes = ORDER.map(function(s){ var r = res[s]; return CODE[s] + ':' + (r.err ? 'err' : !r.found ? 'none' : (r.vote || 'nogenre')); }).join('|');
+    var p = {t: t, a: nm, g: d.id, src: 'vote', v: votes, by: CODE[d.by]};
     if (VIA) p.via = VIA;
     location.href = 'answer.html?' + new URLSearchParams(p);
   });

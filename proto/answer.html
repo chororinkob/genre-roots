@@ -39,44 +39,28 @@ var CSS = [
   '.yt-music-link.gr-hit{outline:2px solid #7eb8f7;outline-offset:1px;border-radius:4px}'
 ].join('\n');
 
-// 【2026-11-05】多数決の内訳（v=辞典:enka|MusicBrainz:mood_kayo|Wikidata:none|iTunes:enka|Deezer:nogenre）を文章にする。
-// 割れたときは「どこが何と言ったか」と、辞典がどれに決めたかを書く（チョロさんの決定）。
+// 【2026-11-07 チョロさんの指示で作り直し】外の音楽データベースで答えたときの根拠。
+// ・使っているデータベースの名前は出さない（まねされないため）。頭文字の記号だけ出す：
+//   M・D・W・I・Z（どれが何かは song_name.html の CODE に書いてある。画面・アドレス欄には記号しか出ない）
+// ・ごちゃごちゃ書かない。「いくつかの音楽データベースの判定から割り出しています」の一言＋
+//   「M・Dが『J-POP』と判定／Iが『歌謡曲』と判定」を、確からしい順（採用した答えが先頭）に並べるだけ。
+// ・ジャンルが分からなかったデータベースは書かない。
+var SRC_ORDER = ['M', 'D', 'W', 'I', 'Z'];
 function voteText(){
   var nm = function(id){ return disp(id); };
-  var said = [], none = [], cnt = {};
+  var said = [];
   (P.get('v') || '').split('|').forEach(function(p){
-    var k = p.split(':'), s = k[0], v = k[1]; if (!s) return;
-    if (v === 'none' || v === 'err' || v === 'nogenre') none.push(s);
-    else { said.push({s: s, v: v}); cnt[v] = (cnt[v] || 0) + 1; }
+    var k = p.split(':'), s = k[0], v = k[1]; if (!s || SRC_ORDER.indexOf(s) < 0) return;
+    if (v && v !== 'none' && v !== 'err' && v !== 'nogenre') said.push({s: s, v: v});
   });
-  // 【2026-11-05 チョロさんの指示】本番でも通用する書き方にする：
-  //  ・「辞典」だけでは伝わらないので正式な名前で書く ・テスト向けの括弧の補足（同票の決め方・票数）は書かない
-  //  ・この辞典は代表曲しか持たないのが当たり前なので、「分からなかった所」に辞典は入れない（外の取り先だけ書く）
-  var label = function(s){ return s === '辞典' ? '音楽ジャンルルーツ辞典の代表曲' : s; };
-  none = none.filter(function(s){ return s !== '辞典'; });
-  var kinds = Object.keys(cnt), out;
-  // 【2026-11-07】多数決をやめ、正確さの順（MusicBrainz→Wikidata→iTunes→Deezer）で最初に書かれていた答えを使う形にした。
-  // by= に採用した所が入っている。ほかの所が違うことを言っていたら、それも書く。
-  var by = P.get('by');
-  if (by) {
-    var others = said.filter(function(x){ return x.s !== by && x.v !== g; });
-    var same = said.filter(function(x){ return x.s !== by && x.v === g; });
-    out = '根拠：' + esc(label(by)) + '（音楽好きが投票でジャンルを付けるデータベース）が「' + esc(nm(g)) + '」';
-    if (by === 'Discogs') out = '根拠：Discogs（レコード収集家が1枚ずつ細かいスタイルを付けるデータベース）が「' + esc(nm(g)) + '」';
-    else if (by !== 'MusicBrainz') out = '根拠：' + esc(label(by)) + 'が「' + esc(nm(g)) + '」';
-    if (same.length) out += '（' + same.map(function(x){ return esc(label(x.s)); }).join('・') + 'も同じ）';
-    out += '。この辞典は、ジャンルの細かさと正確さの順（MusicBrainz → Discogs → Wikidata → iTunes → Deezer）に見て、最初に書かれていた答えを使っています。';
-    if (others.length) out += '<br>ほかの答え：' + others.map(function(x){ return esc(label(x.s)) + 'は「' + esc(nm(x.v)) + '」'; }).join('、');
-    if (none.length) out += '<br>ジャンルが分からなかった所：' + none.map(esc).join('・');
-    return out;
-  }
-  if (kinds.length === 1) {
-    out = '根拠：' + said.map(function(x){return esc(label(x.s))}).join('・') + ' の' + said.length + 'か所がそろって「' + esc(nm(said[0].v)) + '」';
-  } else {
-    out = said.map(function(x){ return esc(label(x.s)) + 'が「' + esc(nm(x.v)) + '」'; }).join('、') + 'と分かれました。' +
-          'この音楽ジャンルルーツ辞典は「' + esc(nm(g)) + '」と判定します。';
-  }
-  if (none.length) out += '<br>ジャンルが分からなかった所：' + none.map(esc).join('・');
+  said.sort(function(x, y){ return SRC_ORDER.indexOf(x.s) - SRC_ORDER.indexOf(y.s); });
+  // 判定ごとにまとめる。並びは、採用した答え（g）が先頭、あとは確からしい順に最初に出てきた順
+  var groups = [], idx = {};
+  [g].concat(said.map(function(x){ return x.v; })).forEach(function(v){ if (!(v in idx)) { idx[v] = groups.length; groups.push({v: v, s: []}); } });
+  said.forEach(function(x){ groups[idx[x.v]].s.push(x.s); });
+  groups = groups.filter(function(gr){ return gr.s.length; });
+  var out = '根拠：いくつかの音楽データベースの判定から割り出しています。';
+  if (groups.length) out += '<br>' + groups.map(function(gr){ return esc(gr.s.join('・')) + 'が「' + esc(nm(gr.v)) + '」と判定'; }).join('／') + '（確からしい順）';
   return out;
 }
 // 日本のジャンルは漢字で出す（チョロさんの指示 2026-11-05：演歌・歌謡曲・ムード歌謡）
@@ -114,7 +98,7 @@ function put(d, nd, body){
       // 演歌歌手の曲を歌謡曲・ムード歌謡と答えるときの注意書き（チョロさんの指示 2026-11-06）
       (P.get('en') === '1' ? '<br>※一般には演歌と呼ばれることもある曲です。この辞典は、演歌歌手が歌っているから演歌、とはしていません。曲調として演歌ではないため「' + esc(disp(g)) + '」としています。' : '')
       : src === 'rep' ? '根拠：この曲は、音楽ジャンルルーツ辞典の「' + esc(disp(g)) + '」の代表曲として登録されています（辞典の判定）。'
-      : src === 'vote' ? voteText() : src === 'wikidata' ? '根拠：ウィキデータ（ウィキペディアの姉妹サイト。曲や歌手の情報を集めたデータベース）に「' + esc(wg) + '」と登録' : '根拠：AIが曲名・歌手名から判定（人の確認ではありません）') + '</div>' +
+      : src === 'vote' ? voteText() : src === 'wikidata' ? '根拠：音楽データベースに「' + esc(wg) + '」と登録' : '根拠：AIが曲名・歌手名から判定（人の確認ではありません）') + '</div>' +
     '<div class="now">' + (i >= 0 ? '▶ 下の代表曲の<b>' + (i + 1) + '曲目</b>にあります。動画をその曲に切り替えました（鳴らないときは ▶ を押してください）。'
                                    : '下の代表曲で、同じ ' + esc(disp(g)) + ' の曲を聴けます。') + '</div>' +
     '<div class="more">この下で ' + esc(disp(g)) + ' の特徴と成り立ち、地図の線で「どの音楽から生まれたか」をたどれます。 ' +
