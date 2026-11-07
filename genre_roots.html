@@ -82,8 +82,8 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
    右：ジャンル名・別名・発祥時期・動画はそのまま。代表曲・音楽性・成り立ち・影響の3つは最初は閉じる。
    6つとも同じ箱・同じ見出しの帯にそろえ、帯は押せると分かるよう少し明るくして、右端に「開く ▾／閉じる ▴」を出す。
    見出しには中身の量（12曲・984字・9 など）を添える（数えるのは下の grFoldCount）。 */
-.fold-h{cursor:pointer;user-select:none;display:flex !important;align-items:center;gap:6px;margin:0 !important;padding:10px 12px !important;
-  background:linear-gradient(180deg,#36365c,#2a2a48) !important;border:0 !important;border-radius:0;font-size:13px !important;letter-spacing:.3px;color:#fff !important;text-transform:none !important}
+.fold-h{cursor:pointer;user-select:none;display:flex !important;align-items:center;gap:4px;margin:0 !important;padding:10px 10px !important;
+  background:linear-gradient(180deg,#36365c,#2a2a48) !important;border:0 !important;border-radius:0;font-size:13px !important;letter-spacing:0;color:#fff !important;text-transform:none !important}
 .fold-h:hover{background:linear-gradient(180deg,#42426e,#323256) !important}
 .fold-h:focus-visible{outline:2px solid #7eb8f7;outline-offset:-2px}
 .fold-mark{display:inline-block;width:1em;font-size:.8em;color:#7eb8f7;transition:transform .2s}
@@ -93,6 +93,8 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 .fold-n{font-weight:400;color:#a8a8c4;font-size:.9em;margin-left:2px}
 /* 左の欄は縦に並べる箱（flex）なので、はみ出しを隠す指定を付けると、欄の高さまで縮められて中が切れる。縮ませない（2026-11-07 スマホで一覧が10件ほどで切れた不具合） */
 #legend.fold-box{flex-shrink:0}
+/* パソコンの説明パネルは、中身の高さで止める（下端を画面の底に固定すると、見出しを全部閉じたとき、修正更新ボタンの下に空の黒い帯が残った。2026-11-08 チョロさんの指摘）。スマホは別の作りなので触らない */
+@media (min-width:769px){#side-panel{bottom:auto !important;max-height:calc(100vh - var(--header-h,50px));border-bottom-left-radius:10px}}
 @media (max-width:768px){.fold-h{padding:9px 8px !important;gap:4px;font-size:12px !important}#legend .fold-act{display:none}#legend .fold-h{font-size:11px !important}}
 .fold-act{margin-left:auto;font-size:11px;font-weight:400;color:#9fc3f5;white-space:nowrap}
 .fold-act::after{content:"開く ▾"}
@@ -1603,7 +1605,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v135.8</span>
+  <span id="version-info">v135.9</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -27689,6 +27691,26 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 #mic-name-form input:focus { border-color: rgba(233,69,96,0.7); }
 #mic-name-form button { padding: 10px; font-size: 14px; font-weight: 700; color: #fff; background: #e94560; border: none; border-radius: 8px; cursor: pointer; }
 #mic-name-form button:hover { background: #ff5470; }
+/* 【v2.51 2026-11-08】曲名・歌手名の候補は、パネルの中に出す（以前は別のページへ移っていた。チョロさんの指摘） */
+#mic-name-res { display: none; text-align: left; }
+#mic-panel[data-mode="name"] #mic-name-res { display: block; }
+.mic-panel-processing #mic-name-out { display: none; }
+#mic-name-st { font-size: 12px; color: #a0a0b8; min-height: 1.5em; margin: 2px 0 4px; }
+#mic-name-st:empty { display: none; }
+#mic-name-st a { color: #7eb8f7; }
+#mic-name-out { max-height: 46vh; overflow-y: auto; margin: 0 -8px; padding: 0 4px; }
+#mic-name-out:empty { display: none; }
+#mic-name-out .sec { margin-top: 10px; }
+#mic-name-out .sec h3 { font-size: 13px; color: #d8b25e; margin: 0 0 4px 4px; }
+#mic-name-out .sec h3 small { color: #8f8fa8; font-weight: 400; font-size: 11px; margin-left: 6px; }
+#mic-name-out .row { display: flex; gap: 9px; align-items: center; padding: 6px; border-radius: 8px; cursor: pointer; border: 1px solid transparent; line-height: 1.5; }
+#mic-name-out .row:hover, #mic-name-out .row:focus { background: #2a2a4a; border-color: rgba(126,184,247,.35); outline: none; }
+#mic-name-out .row img, #mic-name-out .row .noimg { width: 38px; height: 38px; border-radius: 6px; flex: none; background: #2c2c48; object-fit: cover; }
+#mic-name-out .row.artist .noimg { border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 17px; }
+#mic-name-out .row .tx { min-width: 0; flex: 1; }
+#mic-name-out .row .t { font-weight: 700; font-size: 13.5px; color: #eee; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#mic-name-out .row .a { font-size: 11.5px; color: #8f8fa8; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#mic-name-out .badge { flex: none; max-width: 40%; font-size: 10px; font-weight: 700; padding: 1px 7px; border-radius: 999px; background: rgba(216,178,94,.18); color: #d8b25e; border: 1px solid rgba(216,178,94,.4); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 #mic-result { display: none; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.09); border-radius: 10px; padding: 14px 15px; text-align: left; margin-top: 10px; }
 #mic-result.visible { display: block; }
@@ -27820,7 +27842,7 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 <div id="mic-overlay">
   <div id="mic-panel" data-mode="listen">
     <button id="mic-panel-close" onclick="closeMicPanel()">✕</button>
-    <div id="mic-panel-version">v2.50</div>
+    <div id="mic-panel-version">v2.51</div>
     <div id="mic-panel-title">🎵 この曲なんてジャンル？</div>
     <div id="mic-panel-sub">3つの方法のうち、どれか1つで調べられます</div>
     <div id="mic-modes" role="tablist" aria-label="調べ方">
@@ -27854,11 +27876,13 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
     </div>
     <div class="mic-pane mic-pane-name">
       <form id="mic-name-form" onsubmit="micNameSubmit(event)">
-        <input id="mic-name-t" type="search" placeholder="曲名か歌手名（例：北酒場／米津）" autocomplete="off">
+        <input id="mic-name-t" type="search" placeholder="曲名か歌手名（例：Lemon　または　米津玄師）" autocomplete="off">
         <button type="submit">探す</button>
       </form>
     </div>
     </div>
+    <!-- 【v2.51】曲名・歌手名で探した候補は、このパネルの中に出す（別のページへ移らない） -->
+    <div id="mic-name-res"><div id="mic-name-st"></div><div id="mic-name-out"></div></div>
 
     <!-- 録音中・解析中の波形と案内は、3つの調べ方どれでも出すので、切り替えの外に置く -->
     <canvas id="mic-eq-canvas"></canvas>
@@ -28023,11 +28047,45 @@ async function micOnFileSelect(input) {
 // 曲が分かったら、「曲名で調べる」と同じ道（曲ごとのデータベース → 辞典の代表曲 → MusicBrainz → Discogs → Wikidata → iTunes → Deezer）
 // でジャンルを決め、地図の説明パネルに答えの帯を出す（/song_name.html → /proto/answer.html）。
 // 以前の Wikidata・Gemini でジャンルを推測する道（/recognize）は使わない（Geminiの推測は昭和の曲8曲中1曲しか合わなかった）。
-function micGoAnswer(t, a, via) {
-  const q = new URLSearchParams({ t: t, a: a || '', auto: '1' });
-  if (via) q.set('via', via);
-  (window.top || window).location.href = '/song_name.html?' + q.toString();
+// 【v2.51 2026-11-08】曲が決まったら、この地図の上でジャンルを調べて、そのジャンルのパネルを開き、上に答えの帯を出す。
+// 以前は「曲名で調べる」ページへ移ってから答えのページへ移っていた（地図が消えて別の所へ行く、とチョロさんの指摘）。
+// 調べる処理（GRSong）と帯（GRBand）は、曲名ページ・答えのページと同じ共通部品を使う（proto/song_core.js・proto/answer_band.js）。
+// 部品のデータ（曲ごとの判定・代表曲の一覧）は大きいので、「この曲なんてジャンル？」を使うときに初めて読み込む。
+let _grSongLoading = null;
+function grSongLoad() {
+  if (_grSongLoading) return _grSongLoading;
+  const add = src => new Promise((ok, ng) => { const sc = document.createElement('script'); sc.src = src; sc.onload = ok; sc.onerror = ng; document.head.appendChild(sc); });
+  _grSongLoading = Promise.all([add('/proto/song_core.js'), add('/proto/answer_band.js')]).then(() => window.GRSong.ready)
+    .catch(e => { _grSongLoading = null; throw e; });
+  return _grSongLoading;
 }
+let micNameTimer = null;
+function micNameSearch(q) {
+  const st = document.getElementById('mic-name-st'), out = document.getElementById('mic-name-out');
+  st.textContent = '探しています…';
+  grSongLoad().then(() => GRSong.search(q, out, st, (t, a) => micGoAnswer(t, a, '')))
+    .catch(() => { st.textContent = '読み込めませんでした。通信を確かめて、もう一度押してください。'; });
+}
+function micGoAnswer(t, a, via) {
+  const say = via === 'mic' ? document.getElementById('mic-status') : document.getElementById('mic-name-st');
+  say.textContent = '「' + t + '」のジャンルを調べています…';
+  if (via !== 'mic') document.getElementById('mic-name-out').innerHTML = '';
+  grSongLoad().then(() => GRSong.judge(t, a, x => { say.textContent = x; })).then(r => {
+    if (!r.ok) { say.textContent = ''; micShowError(r.msg); if (via === 'mic') micSetState('idle'); return; }
+    if (via) r.p.via = via;
+    closeMicPanel();
+    const target = node.filter(n => n.id === r.p.g);
+    if (!target.empty()) target.dispatch('click');
+    GRBand.put(window, r.p);
+  }).catch(() => { say.textContent = ''; micShowError('サーバーや音楽データベースにつながりませんでした。少し待ってから、もう一度試してください。'); if (via === 'mic') micSetState('idle'); });
+}
+document.addEventListener('input', e => {
+  if (e.target && e.target.id === 'mic-name-t') {
+    clearTimeout(micNameTimer);
+    const q = e.target.value;
+    micNameTimer = setTimeout(() => micNameSearch(q), 600);
+  }
+});
 let micMode = 'listen';
 function micSetMode(m) {
   if (micState === 'recording' || micState === 'processing') return;
@@ -28036,16 +28094,16 @@ function micSetMode(m) {
   document.querySelectorAll('.mic-mode-btn').forEach(b => b.setAttribute('aria-selected', b.dataset.mode === m ? 'true' : 'false'));
   micHideError();
   if (micState === 'idle') micSetState('idle');
-  if (m === 'name') setTimeout(() => document.getElementById('mic-name-t').focus(), 0);
+  if (m === 'name') { setTimeout(() => document.getElementById('mic-name-t').focus(), 0); grSongLoad().catch(() => {}); }
 }
 function micNameSubmit(e) {
   e.preventDefault();
   micHideError();
-  // 【2026-11-07 v2.50】欄は1つ。曲名でも歌手名でも、うろ覚えでもよい。
-  // 「曲名で調べる」ページ（song_name.html）で候補を出し、曲を選ぶとジャンルを調べる
+  // 【v2.51】欄は1つ。曲名でも歌手名でも、うろ覚えでもよい。候補はこのパネルの中に出す（ページは移らない）
   const q = document.getElementById('mic-name-t').value.trim();
   if (!q) { micShowError('曲名か歌手名を入れてください。ひらがなや、うろ覚えでも探せます。'); return; }
-  (window.top || window).location.href = '/song_name.html?' + new URLSearchParams({ q: q }).toString();
+  clearTimeout(micNameTimer);
+  micNameSearch(q);
 }
 async function micDoRecognize(formData) {
   try {

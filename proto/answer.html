@@ -12,141 +12,18 @@ html,body{margin:0;padding:0;height:100%;background:#1a1a2e;overflow:hidden}
 </head>
 <body>
 <iframe id="app" title="音楽ジャンルルーツ辞典" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+<script src="/proto/answer_band.js"></script>
 <script>
-// 試作（2026-11-05 3版。2版は2026-11-04）：?t=曲名&a=歌手名&g=辞典のジャンル番号&src=wikidata|ai&wg=Wikidataのジャンル名
-// 答えは、地図の「説明パネル」の中、動画のすぐ上に1枚の帯として差し込む（地図の上に別の窓を重ねない）。
-// 検索した曲がそのジャンルの代表曲にあれば、その曲を再生する。
-// 地図本体（genre_roots.html）は変えず、同じサイトの枠（iframe）の中に外から差し込んでいる。
+// 答えのページ：?t=曲名&a=歌手名&g=ジャンル番号&src=db|rep|vote&v=…&by=…&en=1&via=mic
+// 地図（genre_roots.html）をそのまま枠（iframe）で開き、説明パネルの上に答えの帯を差し込む。
+// 【2026-11-08】帯の中身・動画の探し方・流し方は共通部品（answer_band.js の GRBand.put）に移した。地図のマイクパネルから調べたときも同じものを使う。
 var P = new URLSearchParams(location.search);
-var t = P.get('t') || 'Lemon', a = P.get('a') || '米津玄師', g = P.get('g') || 'jpop';
-var src = P.get('src') || 'wikidata', wg = P.get('wg') || 'J-pop';
-document.title = t + '（' + a + '）は何ジャンル？ — 音楽ジャンルルーツ辞典';
+var p = {}; ['t', 'a', 'g', 'src', 'v', 'by', 'en', 'via'].forEach(function(k){ if (P.get(k)) p[k] = P.get(k); });
+p.t = p.t || 'Lemon'; p.a = p.a || '米津玄師'; p.g = p.g || 'jpop'; p.src = p.src || 'wikidata';
+document.title = p.t + '（' + p.a + '）は何ジャンル？ — 音楽ジャンルルーツ辞典';
 var F = document.getElementById('app');
-F.src = '/genre_roots.html?genre=' + encodeURIComponent(g);
-
-var CSS = [
-  '#gr-ans{margin:0 0 10px;padding:10px 12px 9px;border:1px solid rgba(126,184,247,.35);border-radius:10px;',
-  '  background:linear-gradient(180deg,rgba(126,184,247,.13),rgba(126,184,247,.05)),#1d1d36;line-height:1.6;font-size:13px;color:#e8e8f0}',
-  '#gr-ans .r1{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}',
-  '#gr-ans .eye{font-size:10.5px;letter-spacing:.14em;color:#d8b25e;white-space:nowrap}',
-  '#gr-ans .proto{font-size:10px;font-weight:700;color:#1a1206;background:#f0b429;border-radius:4px;padding:0 6px}',
-  '#gr-ans .q{font-size:14.5px;font-weight:700;margin-top:2px}',
-  '#gr-ans .q b{color:#7eb8f7}',
-  '#gr-ans .qi{display:inline-block;vertical-align:2px;margin-left:6px;width:20px;height:20px;border-radius:50%;border:1px solid rgba(126,184,247,.6);background:none;color:#9fc3f5;font:700 12px/18px sans-serif;cursor:pointer;padding:0}',
-  '#gr-ans .qi[aria-expanded=true]{background:rgba(126,184,247,.3);color:#fff}',
-  '#gr-ans .why{display:none;font-size:12px;color:#c8c8dc;margin-top:6px;padding:7px 9px;border-radius:7px;background:rgba(0,0,0,.25)}',
-  '#gr-ans.why-open .why{display:block}',
-  '#gr-ans .more{font-size:11.5px;margin-top:3px;text-align:right}',
-  '#gr-ans a{color:#7eb8f7}',
-  '.yt-music-link.gr-hit{outline:2px solid #7eb8f7;outline-offset:1px;border-radius:4px}'
-].join('\n');
-
-// 【2026-11-07 チョロさんの指示で作り直し】外の音楽データベースで答えたときの根拠。
-// ・使っているデータベースの名前は出さない（まねされないため）。頭文字の記号だけ出す：
-//   M・D・W・I・Z（どれが何かは song_name.html の CODE に書いてある。画面・アドレス欄には記号しか出ない）
-// ・ごちゃごちゃ書かない。「いくつかの音楽データベースの判定から割り出しています」の一言＋
-//   「M・Dが『J-POP』と判定／Iが『歌謡曲』と判定」を、確からしい順（採用した答えが先頭）に並べるだけ。
-// ・ジャンルが分からなかったデータベースは書かない。
-var SRC_ORDER = ['M', 'D', 'W', 'I', 'Z'];
-function voteText(){
-  var nm = function(id){ return disp(id); };
-  var said = [];
-  (P.get('v') || '').split('|').forEach(function(p){
-    var k = p.split(':'), s = k[0], v = k[1]; if (!s || SRC_ORDER.indexOf(s) < 0) return;
-    if (v && v !== 'none' && v !== 'err' && v !== 'nogenre') said.push({s: s, v: v});
-  });
-  said.sort(function(x, y){ return SRC_ORDER.indexOf(x.s) - SRC_ORDER.indexOf(y.s); });
-  // 判定ごとにまとめる。並びは、採用した答え（g）が先頭、あとは確からしい順に最初に出てきた順
-  var groups = [], idx = {};
-  [g].concat(said.map(function(x){ return x.v; })).forEach(function(v){ if (!(v in idx)) { idx[v] = groups.length; groups.push({v: v, s: []}); } });
-  said.forEach(function(x){ groups[idx[x.v]].s.push(x.s); });
-  groups = groups.filter(function(gr){ return gr.s.length; });
-  // 【2026-11-07 チョロさんの指示】記号（M・D など）は利用者には意味が分からないので出さない。
-  // 「いくつのデータベースが同じ答えだったか」と、ほかの答えがあればその名前だけ
-  var hit = groups.length && groups[0].v === g ? groups[0].s.length : 0;
-  var out = '音楽データベースの登録を照らし合わせて決めました' + (hit > 1 ? '（' + hit + 'つが「' + esc(nm(g)) + '」）' : '') + '。';
-  var other = groups.filter(function(gr){ return gr.v !== g; }).map(function(gr){ return '「' + esc(nm(gr.v)) + '」'; });
-  if (other.length) out += 'ほかに' + other.join('・') + 'とするものもありました。';
-  return out;
-}
-// 日本のジャンルは漢字で出す（チョロさんの指示 2026-11-05：演歌・歌謡曲・ムード歌謡）
-var JA = {enka: '演歌', kayokyoku: '歌謡曲', mood_kayo: 'ムード歌謡'};
-function disp(id){ if (JA[id]) return JA[id]; var n = (G || []).find(function(x){return x.id === id}); return n ? n.name : id; }
-function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
-function norm(s){return String(s||'').toLowerCase().replace(/[\s\-_'’.&・()（）「」]/g,'')}
-
-var G = null;
-fetch('genres.json').then(function(r){return r.json()}).then(function(x){G = x});
-
-var tries = 0;
-var timer = setInterval(function(){
-  if (++tries > 120) { clearInterval(timer); return; }          // 60秒であきらめる
-  var d; try { d = F.contentDocument; } catch(e) { return; }
-  if (!d || !G) return;
-  var nd = F.contentWindow._currentNode;
-  var body = d.getElementById('sp-body');
-  if (!nd || nd.id !== g || !body || !d.querySelector('.yt-music-link')) return;
-  clearInterval(timer);
-  put(d, nd, body);
-}, 500);
-
-function put(d, nd, body){
-  if (!d.getElementById('gr-ans-css')) { var st = d.createElement('style'); st.id = 'gr-ans-css'; st.textContent = CSS; d.head.appendChild(st); }
-  var n = G.find(function(x){return x.id === g}) || {name: g};
-  var box = d.createElement('div'); box.id = 'gr-ans';
-  box.innerHTML =
-    // 【2026-11-07】マイク（mic.html）から来たときは「聴き取った結果」と書く（via=mic）
-    // 【2026-11-07 チョロさんの指示で簡潔に】出すのは「この曲は○○」の1行だけ。
-    // 動画の案内（流れています・終わると代表曲へ）は出さない。根拠は「？」を押したときだけ（知名度の「？」と同じ考え方）
-    '<div class="q">「' + esc(t) + '」（' + esc(a) + '）は <b>' + esc(disp(g)) + '</b>' +
-    '<button type="button" class="qi" aria-expanded="false" aria-label="このジャンルにした理由を見る">?</button></div>' +
-    '<div class="why">' + (src === 'db' ? 'この辞典が、曲ごとに曲調を聴いて決めたジャンルです。' +
-      (P.get('en') === '1' ? '歌っているのは演歌の歌手ですが、この曲は曲調で「' + esc(disp(g)) + '」にしています。' : '')
-      : src === 'rep' ? 'この辞典で「' + esc(disp(g)) + '」の代表曲として載せている曲です。'
-      : src === 'vote' ? voteText() : src === 'wikidata' ? '音楽データベースに登録されているジャンルです。' : 'データベースに見つからなかったため、AIが推しはかったジャンルです。') + '</div>' +
-    '<div class="more">' + (P.get('via') === 'mic' ? '<a href="/song.html?mic=1" target="_top">ほかの曲も聴かせる →</a>' : '<a href="/song_name.html" target="_top">ほかの曲も調べる →</a>') + '</div>';
-  box.querySelector('.qi').addEventListener('click', function(e){
-    e.stopPropagation(); var o = box.classList.toggle('why-open'); this.setAttribute('aria-expanded', o ? 'true' : 'false');
-  });
-  var w = d.getElementById('sp-yt-wrap');
-  body.insertBefore(box, w && w.parentNode === body ? w : body.firstChild);
-  findVideo(t, a).then(function(v){
-    if (v) playHit(d, v);
-  });
-}
-
-// 【2026-11-07 チョロさんの決定】選んだ曲（曲名で調べた曲・音を聴かせて分かった曲）は、代表曲に入っているかに関係なく、
-// YouTube で探して、右の動画の場所で流す。中身の確認はしない（以前のマイクの動画と同じ扱い）。
-// 終わったら、地図のいつもの流れで、そのジャンルの代表曲の1曲目（メイン動画）から続けて流れる。
-// 選び方（サーバー側）：「曲名 歌手名」で検索して上位5本を取り、歌手の公式チャンネル（チャンネル名に歌手名が入る・「歌手名 - Topic」）で、
-// 題名に曲名が入っている動画を優先する。どれも当てはまらなければ1番目。
-// （曲の番号で動画を照らし合わせる仕組みは、今は使えるものが無かった：Appleの検索結果に曲の国際番号が無く、
-//   番号から動画を教えてくれる無料のサービスも、鍵なしの窓口を廃止していた。2026-11-07 試験）
-// YouTube の検索は回数に限りがあるので、同じ曲はサーバーとこのブラウザの両方で覚えておき、2回目からは検索しない。
-var API = (location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? 'http://localhost:5000' : 'https://genre-roots-server.onrender.com';
-function findVideo(t, a){
-  // 探すのは辞典のサーバー（/video/find）。YouTubeの鍵はサーバーの中だけにあり、ページにも返事にも出ない。
-  var key = 'gr-ansvid:' + norm(t) + '|' + norm(a);
-  try { var c = localStorage.getItem(key); if (c) return Promise.resolve(c === '-' ? null : c); } catch(e) {}
-  return fetch(API + '/video/find?' + new URLSearchParams({t: t, a: a || ''})).then(function(r){ return r.json(); }).then(function(dt){
-    if (dt.found && dt.id) { try { localStorage.setItem(key, dt.id); } catch(e) {} return dt.id; }
-    if (!dt.reason) { try { localStorage.setItem(key, '-'); } catch(e) {} }   // 上限・つながらないときは覚えない（明日また探す）
-    return null;
-  }).catch(function(){ return null; });
-}
-
-// 【2026-11-07】代表曲の何曲目かではなく、見つけた動画の番号を渡す。代表曲の番号は -1（どれでもない）にしておくと、
-// 終わったときに地図が「次の代表曲」＝1曲目から流してくれる。
-function playHit(d, want) {
-  var w = F.contentWindow;
-  if (!want || typeof w.playByVideoId !== 'function') return;
-  var stop = false;
-  d.addEventListener('click', function(e){ if (e.isTrusted && !(e.target.closest && e.target.closest('#gr-ans'))) stop = true; }, true);
-  var go = function(){ if (!stop) w.playByVideoId(want, '', -1, false); };
-  var pl = d.getElementById('sp-yt-player');
-  if (pl) pl.addEventListener('load', function(){ go(); }, { once: true });
-  go();
-}
+F.addEventListener('load', function(){ GRBand.put(F.contentWindow, p); }, { once: true });
+F.src = '/genre_roots.html?genre=' + encodeURIComponent(p.g);
 </script>
 </body>
 </html>
