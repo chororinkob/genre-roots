@@ -58,10 +58,14 @@ var CSS = [
   '#gr-ans .why{display:none;font-size:12px;color:#d0d0e2;margin:10px 0 0;padding:10px 12px;border-radius:9px;background:rgba(0,0,0,.3);line-height:1.7}',
   '#gr-ans.why-open .why{display:block}',
   '#gr-ans .why p{margin:0 0 6px}',
-  '#gr-ans .why table{border-collapse:collapse;width:100%;font-size:11.5px;margin:2px 0 6px}',
-  '#gr-ans .why td{padding:3px 4px;border-top:1px solid rgba(255,255,255,.08);vertical-align:top}',
-  '#gr-ans .why td.v{white-space:nowrap;text-align:right;color:#fff}',
-  '#gr-ans .why tr.use td{color:#9fd0ff;font-weight:700}',
+  // 【2026-11-08】6つのデータベースを同じ並びで見せる。説明（と曲数）を横長に1行、その下に答え（チョロさんの指示：右横だと見にくい・縦に長くなる）
+  '#gr-ans .why .srcs{margin:2px 0 6px}',
+  '#gr-ans .why .src{padding:5px 2px;border-top:1px solid rgba(255,255,255,.08)}',
+  '#gr-ans .why .src .d{font-size:11px;color:#a0a0b8;line-height:1.5}',
+  '#gr-ans .why .src .n{color:#d8b25e;white-space:nowrap;margin-left:4px}',
+  '#gr-ans .why .src .r{font-size:12.5px;color:#fff;font-weight:600;line-height:1.5}',
+  '#gr-ans .why .src.use .r{color:#9fd0ff}',
+  '#gr-ans .why .src.off .r{color:#6e6e88;font-weight:400}',
   '#gr-ans .why .note{color:#a0a0b8;font-size:11px}',
   '@media (prefers-reduced-motion:reduce){#gr-ans,#gr-ans .disc{animation:none}}',
   '.yt-music-link.gr-hit{outline:2px solid #7eb8f7;outline-offset:1px;border-radius:4px}'
@@ -71,36 +75,45 @@ var ICON_MIC = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strok
 
 // 外の音楽データベース。記号（M・D・W・I・Z）は答えの住所にだけ入る。画面には「どんな種類のデータベースか」だけを書く。
 // 並びは、ジャンルの付け方が細かい順（＝答えに採る順番）。
+// 【2026-11-08】それぞれの曲数も書く（分かるものだけ。チョロさんの指示：辞典だけの数を書くと、全体でその数しか使っていないように見える）。
+//   辞典 = 曲ごとの判定4,166曲 ＋ 代表曲8,595曲（重なりを除いて12,586曲・2026-11-08に数えた）
+//   M = 公式の統計ページの録音数 40,876,279（2026-11-08）／I = 2022年10月の公式発表「1億曲」／Z = 公式ニュースの「1億2,000万曲以上」
+//   D・W は、曲の数の公式な数字が見つからなかったので書かない。
 var SRC = [
-  ['M', '音楽ファンが投票でジャンルを付けていく、世界最大級の音楽データベース'],
-  ['D', 'レコード・CDの目録として作られた、世界中の盤を集めたデータベース'],
-  ['W', 'ウィキペディアと同じ仲間の、だれでも編集できる知識のデータベース'],
-  ['I', '大手の音楽配信ストアの売り場の分類'],
-  ['Z', 'もう1つの音楽配信ストアの売り場の分類']
+  ['R', '音楽ジャンルルーツ辞典（歌手ではなく1曲ずつ、曲調で判定）', '約1万2,500曲'],
+  ['M', '音楽ファンが投票でジャンルを付けていく、世界最大級の音楽データベース', '約4,000万曲'],
+  ['D', 'レコード・CDの目録として作られた、世界中の盤を集めたデータベース', ''],
+  ['W', 'ウィキペディアと同じ仲間の、だれでも編集できる知識のデータベース', ''],
+  ['I', '大手の音楽配信ストアの売り場の分類', '1億曲以上'],
+  ['Z', 'もう1つの音楽配信ストアの売り場の分類', '1億2,000万曲以上']
 ];
+// 6つを同じ並びで出す。use = 採った答えの記号、ans = 記号ごとの答えの文（無いものは「ー」＝そこまで調べていない）
+function srcList(use, ans){
+  return '<div class="srcs">' + SRC.map(function(s){
+    var a = ans[s[0]], on = s[0] === use;
+    return '<div class="src' + (on ? ' use' : '') + (a ? '' : ' off') + '"><div class="d">' + esc(s[1]) + (s[2] ? '<span class="n">' + s[2] + '</span>' : '') + '</div>' +
+      '<div class="r">' + (a || 'ー') + (on ? '　← これを採用' : '') + '</div></div>';
+  }).join('') + '</div>';
+}
 function whyHtml(p){
   var g = p.g, gn = esc(disp(g));
+  var HEAD = '<p>6つのデータベースを上から順に見て、最初にジャンルが分かったものを答えにしています。</p>';
   if (p.src === 'db') {
-    return '<p>音楽ジャンルルーツ辞典では、曲のジャンルを<b>歌手ではなく1曲ずつ、曲調やメロディーで</b>判定して登録しています。' +
-      '「' + esc(p.t) + '」もその1曲で、判定は「' + gn + '」です。</p>' +
-      (p.en === '1' ? '<p>歌っているのは演歌の歌手ですが、この曲は曲調で判定して「' + gn + '」にしています（演歌は、浪曲や民謡につながる節回しで決めています）。</p>' : '') +
-      // 【2026-11-08 チョロさん】辞典だけの曲数（約4,000曲）は少なく見えるので出さない。書くなら、外の音楽データベースと合わせた全体の数
-      '<p class="note">ここにない曲も、世界の音楽データベース（合わせて1億曲以上）から答えます。</p>';
+    return HEAD + srcList('R', {R: '「' + gn + '」'}) +
+      (p.en === '1' ? '<p class="note">歌っているのは演歌の歌手ですが、この曲は曲調で判定して「' + gn + '」にしています。</p>' : '');
   }
   if (p.src === 'rep') {
-    return '<p>この曲は、音楽ジャンルルーツ辞典の「' + gn + '」のページで<b>代表曲</b>として紹介している曲です。そのため、ジャンルは「' + gn + '」と答えています。</p>' +
-      '<p class="note">代表曲は、そのジャンルを代表する曲として音楽ジャンルルーツ辞典が選び、1曲ずつ確かめて載せたものです。下の「代表曲・アーティスト」から、同じジャンルのほかの曲も聴けます。</p>';
+    return HEAD + srcList('R', {R: '「' + gn + '」の代表曲'});
   }
   if (p.src === 'vote') {
-    var said = {};
+    var said = {}, ans = {R: '登録なし'};
     (p.v || '').split('|').forEach(function(x){ var k = x.split(':'); if (k[0]) said[k[0]] = k[1]; });
-    var rows = SRC.map(function(s){
-      var v = said[s[0]], txt = !v ? 'ー' : v === 'none' ? '登録なし' : v === 'err' ? 'つながらず' : v === 'nogenre' ? 'ジャンルの記載なし' : '「' + esc(disp(v)) + '」';
-      return '<tr' + (s[0] === p.by ? ' class="use"' : '') + '><td>' + esc(s[1]) + '</td><td class="v">' + txt + (s[0] === p.by ? '<br>← これを採用' : '') + '</td></tr>';
-    }).join('');
-    return '<p>この曲はまだ音楽ジャンルルーツ辞典に登録がないため、<b>世界の音楽データベース5つ</b>に問い合わせました。それぞれの答えは次のとおりです。</p>' +
-      '<table>' + rows + '</table>' +
-      '<p class="note">ジャンルの付け方が細かいデータベースから順に見て、最初にジャンルが書かれていた答えを採っています（大まかな「ポップス」より、細かい「' + gn + '」を優先するため）。</p>';
+    SRC.forEach(function(s){
+      var v = said[s[0]]; if (s[0] === 'R' || !v) return;
+      ans[s[0]] = v === 'none' ? '登録なし' : v === 'err' ? 'つながらず' : v === 'nogenre' ? 'ジャンルの記載なし' : '「' + esc(disp(v)) + '」';
+    });
+    return HEAD + srcList(p.by, ans) +
+      '<p class="note">大まかな「ポップス」より細かいジャンルを優先するため、ジャンルの付け方が細かい順に並べています。</p>';
   }
   if (p.src === 'wikidata') return '<p>音楽データベースに登録されているジャンルで答えています。</p>';
   return '<p>どの音楽データベースにも見つからなかったため、AIが曲の情報から推しはかったジャンルです。</p>';
