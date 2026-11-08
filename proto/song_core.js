@@ -304,7 +304,47 @@ function remoteArtists(q){
     return (d.results || []).map(function(r){ return {id: r.artistId, name: r.artistName, genre: r.primaryGenreName}; });
   });
 }
+// 【2026-11-08 チョロさんの決定】Appleの音楽ストアの検索に断られたとき（同じWi-Fiの iPhone 1台だけで「人間椅子」が出なかった）は、
+// もう1つの音楽ストア（Deezer）の検索で候補を出す。ジャンルを答えるときにもう使っているところで、鍵は要らない。
+// Deezer の歌手の番号は、Apple の番号と混ざらないよう頭に「z」を付ける。発売年は検索の返事に入っていないので出さない。
+function zSong(r){
+  return {t: r.title, a: (r.artist || {}).name || '', aid: 'z' + (r.artist || {}).id, img: (r.album || {}).cover_small, y: '', al: (r.album || {}).title, g: ''};
+}
+function zSongs(q){
+  return jsonp('https://api.deezer.com/search?limit=40&q=' + encodeURIComponent(q)).then(function(d){
+    if (d.error) throw d.error;
+    var seen = {}, out = [];
+    (d.data || []).forEach(function(r){ var s = zSong(r), key = nz(s.t) + '|' + nz(s.a); if (seen[key]) return; seen[key] = 1; out.push(s); });
+    return out;
+  });
+}
+function zArtists(q){
+  return jsonp('https://api.deezer.com/search/artist?limit=6&q=' + encodeURIComponent(q)).then(function(d){
+    if (d.error) throw d.error;
+    return (d.data || []).map(function(r){ return {id: 'z' + r.id, name: r.name, genre: ''}; });
+  });
+}
 function artistSongs(ar){
+  if (String(ar.id).charAt(0) === 'z') {
+    // Deezer は同じ人が複数の番号に分かれて登録されていることがある（人間椅子は「人間椅子」と「Ningen Isu」の2つ）。
+    // 「人気の曲」（artist/番号/top）は1曲しか返さないこともあったので、歌手名そのままでも曲を探し、名前か番号が合う曲を集める。
+    // （「artist:"人間椅子"」の形の探し方は、日本語の名前だと0件になるので使わない）
+    var zid = String(ar.id).slice(1), kn = nz(ar.name);
+    return Promise.all([
+      jsonp('https://api.deezer.com/artist/' + zid + '/top?limit=50').catch(function(){ return {}; }),
+      jsonp('https://api.deezer.com/search?limit=100&q=' + encodeURIComponent(ar.name))
+    ]).then(function(two){
+      var d = {data: (two[0].data || []).concat(two[1].data || [])};
+      if (!d.data.length && two[1].error) throw two[1].error;
+      var seen = {}, out = [];
+      (d.data || []).forEach(function(r){
+        var A = r.artist || {};
+        if (String(A.id) !== zid && nz(A.name) !== kn) return;
+        var s = zSong(r), key = nz(s.t); if (seen[key]) return; seen[key] = 1; out.push(s);
+      });
+      return out;
+    });
+  }
   // 人の番号で、その人の曲を取る（名前で探すと、同じ名前の別の人や共演の曲が混ざるため）
   return ask('https://itunes.apple.com/lookup?country=JP&lang=ja_jp&entity=song&limit=60&id=' + ar.id).then(function(d){
     var seen = {}, out = [];
@@ -352,7 +392,10 @@ function search(q, out, st, onSong){
     // 【2026-11-08】外の音楽データベースは、短い時間に何度も聞くと、しばらく返事をしなくなる（1分に20回ほどが目安）。
     // 返事がなかったときは、3秒待ってから1回だけ聞き直す。
     var askBoth = function(){ return Promise.all([remoteSongs(q), remoteArtists(q)]); };
-    askBoth().catch(function(){ return new Promise(function(ok){ setTimeout(ok, 3000); }).then(function(){ if (my !== seq) throw 'old'; return askBoth(); }); }).then(function(r){
+    // 【2026-11-08】Appleに断られたら、すぐに Deezer で探す。Deezer もだめなら、3秒待って Apple にもう1回だけ聞く。
+    var askZ = function(){ return Promise.all([zSongs(q), zArtists(q)]); };
+    askBoth().catch(function(){ if (my !== seq) throw 'old'; return askZ(); })
+      .catch(function(){ return new Promise(function(ok){ setTimeout(ok, 3000); }).then(function(){ if (my !== seq) throw 'old'; return askBoth(); }); }).then(function(r){
       if (my !== seq) return;
       var all = r[0], songs = all.slice(0, 15), k = nz(q);
       // 人の候補：歌手の検索結果に、曲の検索結果に出てきた歌手（名前に入れた言葉を含む人）を足す。
@@ -362,6 +405,8 @@ function search(q, out, st, onSong){
       var ars = r[1].map(function(x){ return {id: x.id, name: jp[x.id] || x.name, genre: x.genre}; }), ids = {};
       ars.forEach(function(x){ ids[x.id] = 1; });
       all.forEach(function(s){ if (!ids[s.aid]) { ids[s.aid] = 1; ars.push({id: s.aid, name: jp[s.aid], genre: s.g}); } });
+      // Deezer で探したときは、同じ名前の人は1人にまとめる（同じ人が複数の番号に分かれて登録されているため）
+      var zn = {}; ars = ars.filter(function(x){ if (String(x.id).charAt(0) !== 'z') return true; var k2 = nz(x.name); if (zn[k2]) return false; zn[k2] = 1; return true; });
       var exact = songs.some(function(s){ return nz(s.t) === k; }) || loc.some(function(s){ return nz(s.t) === k; });
       var h = '';
       var arHit = ars.filter(function(x){ var n = nz(x.name); return n.indexOf(k) >= 0 || (n.length >= 2 && k.indexOf(n) >= 0); })
