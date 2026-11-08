@@ -20,7 +20,7 @@
 import io, json, os
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-VERSION = 'v1.1'   # 入り口ページの版（3ページ共通。パネルの右下に出る）
+VERSION = 'v1.2'   # 入り口ページの版（3ページ共通。パネルの右下に出る）
 # ジャンルの数は地図（genre_roots.html）から数える。地図が変わるたびに tools/gen_stubs.js も同じ数え方で3ページの数字を直す（自動）
 import re
 N = len(re.findall(r'\n  \{id:"', io.open(os.path.join(ROOT, 'genre_roots.html'), encoding='utf-8').read()))
@@ -207,7 +207,7 @@ a{color:#7eb8f7}
     <div id="mic-countdown"></div>
     <div id="mic-error"></div>
   </div>
-  <p class="foot">ジャンルのルーツは、<a href="/genre_roots.html">__N__ジャンルの地図</a>でたどれます</p>
+  <p class="foot">回答とその詳細は<a href="/genre_roots.html">音楽ジャンルルーツ辞典</a>へ</p>
 </main>
 <script>window.SONG_PAGES = __PAGES_JS__;</script>
 <script src="/proto/song_core.js" defer></script>
