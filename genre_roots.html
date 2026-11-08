@@ -1609,13 +1609,16 @@ svg { width: 100vw; height: 100vh; }
      それがカクついて見える原因だったのでやめた。 */
 }
 </style>
+<style>/* 【2026-11-09】ジャンルを指定して来たときは、開くまで地図を見せない（_grShowMapNow で戻す） */
+html.gr-arrive #graph{visibility:hidden}</style>
+<script>/* 地図を描き始める前に印を付ける（後ろで付けると、全体の地図が一瞬見えてしまった） */try{if(new URLSearchParams(location.search).get('genre'))document.documentElement.classList.add('gr-arrive');}catch(e){}</script>
 </head>
 <body>
 
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v137.1</span>
+  <span id="version-info">v137.2</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -25936,7 +25939,9 @@ document.getElementById('fit-view').addEventListener('click', () => {
 // 配置をあらかじめ埋め込んであるので、並び終わるのを待つ必要がない。
 // 待っている間は地図が拡大されたまま画面の外にあり、何も見えない状態だった。
 const _位置なし = REBAKE_POS || NODES.some(n => !BAKED_POS[n.id]);
-setTimeout(fitToView, _位置なし ? 3000 : 120);
+// 【2026-11-09】ジャンルを指定して来たとき、そのジャンルをもう開いていたら、全体に合わせ直さない。
+// 開くのを早めたため、この全体合わせがあとから割り込んで、寄った画面を引き戻していた（スマホで畳むと地図が小さく遠くなった）。
+setTimeout(() => { if (window.__grAutoOpenDone) return; fitToView(); }, _位置なし ? 3000 : 120);
 
 // 地図を開いた直後だけ、埋め込んだ配置から軽く力の計算を回して、
 // 玉がゆらいでから落ち着くようにする（2026-08-19、「うにょうにょ動く
@@ -25955,8 +25960,11 @@ setTimeout(fitToView, _位置なし ? 3000 : 120);
 // 位置を持たない玉があるときはゆらさない（既に計算が回っているので、
 // 二重に回さないため）。
 const MAP_INTRO_ALPHA = 0.10;
+// 【2026-11-09】ジャンルを指定して来て、もうそのジャンルを開いていたら、ゆらさない。
+// 開くのを早めたため、寄ったあとに玉がゆれて、つながるジャンルが画面の外へずれていた（スマホで実測）。
+// 地図のトップから開いたときは、今までどおりゆらす。
 if (!_位置なし) {
-  setTimeout(() => simulation.alpha(MAP_INTRO_ALPHA).restart(), 350);
+  setTimeout(() => { if (window.__grAutoOpenDone) return; simulation.alpha(MAP_INTRO_ALPHA).restart(); }, 350);
 }
 
 // ===== INSTRUMENTS & EFFECTS TAB =====
@@ -27381,6 +27389,17 @@ function _grページの情報を書き換える(id) {
        'href', 住所);
 }
 
+// 【2026-11-09 チョロさんの指示】ジャンルを指定して来た人（Googleのジャンルのページ・「この曲何？」の答え・共有リンク）に、
+// 全ジャンルの地図が数秒動き続ける様子（オーバーで、感染したかのようにドキッとする）を見せない。
+//   ・丸の位置が決まるまで（以前は4〜5秒待っていた）は、地図（#graph）を見えなくしておく
+//   ・位置決めは見えないところで一気に済ませ（simulation.tick をまとめて回す）、すぐにそのジャンルを開く
+//   ・開いた瞬間から地図を見せる。そのジャンルへ「みょい」と寄っていく動きは今までどおり見せる
+// 何かの理由で開けなかったときも、地図を隠したままにしない（下の _grShowMapNow）。
+// ジャンルを指定しない開き方（地図のトップ）は何も変えない。
+function _grShowMapNow() { document.documentElement.classList.remove('gr-arrive'); }
+if (window.__grAutoOpenGenre) { document.documentElement.classList.add('gr-arrive'); setTimeout(_grShowMapNow, 9000); }
+else _grShowMapNow();   // ?genre= に無いジャンルの番号が書いてあったときは、地図をふつうに見せる
+
 if (window.__grAutoOpenGenre) {
   const _grAutoOpenId = window.__grAutoOpenGenre;
   // 住所（?genre=…）から来たのか、サーバーが差し込んだのかを見分ける。
@@ -27412,6 +27431,16 @@ if (window.__grAutoOpenGenre) {
     // 出ない・説明パネルのカードが空になる、といった中途半端な表示に
     // なることがある（2026-08-07、承認直後にこの症状が報告された）。
     // 上限の時間で呼ばれた場合でも、落ち着くまでは少し待ち直す。
+    // 【2026-11-09】待つ代わりに、見えないところで位置決めをまとめて進めてしまう（目安1秒以内）。
+    // 同じ計算を先に済ませるだけなので、決まる位置は待った場合と変わらない。
+    // 0.05で止めると、開いたあとも玉が数百px動き続け、つながるジャンルが画面の外へずれた（スマホで実測）。
+    // 止まるところ（alphaMin）まで進めてから開く。
+    if (simulation.alpha() > simulation.alphaMin()) {
+      const 始 = performance.now();
+      while (simulation.alpha() > simulation.alphaMin() && performance.now() - 始 < 1500) simulation.tick();
+      drawTick();
+      window.__grSettleMs = Math.round(performance.now() - 始);
+    }
     if (simulation.alpha() > 0.05 && _grAutoOpenWaited < 20) {
       _grAutoOpenWaited++;
       setTimeout(_grOpenAutoTarget, 500);
@@ -27425,11 +27454,14 @@ if (window.__grAutoOpenGenre) {
         setTimeout(_grOpenAutoTarget, 500);
       } else {
         console.warn('[自動オープン] ジャンルが見つかりませんでした:', _grAutoOpenId);
+        _grShowMapNow();
       }
       return;
     }
     _grAutoOpened = true;
+    window.__grAutoOpenDone = true;
     target.dispatch('click');
+    _grShowMapNow();   // 開いた瞬間から見せる（寄っていく動きはここから始まる）
     if (window.__grReviewToken) {
       // パネルの中身が描画されるのを少し待ってから、確認画面を差し込む
       setTimeout(() => _grOpenReviewFromUrl(window.__grReviewToken), 400);
@@ -27441,7 +27473,8 @@ if (window.__grAutoOpenGenre) {
   };
   let _grAutoOpenWaited = 0;
   simulation.on('end.grAutoOpen', _grOpenAutoTarget);
-  setTimeout(_grOpenAutoTarget, 3000);
+  // 【2026-11-09】以前は3秒後（か位置決めの終わり）まで待っていた。いまは画面ができたらすぐ開く。
+  setTimeout(_grOpenAutoTarget, 50);
 }
 
 function grOpenPreview(token) {
