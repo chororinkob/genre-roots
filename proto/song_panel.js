@@ -24,7 +24,7 @@ function setState(s){
   panel.classList.toggle('mic-panel-recording', s === 'recording');
   panel.classList.toggle('mic-panel-processing', s === 'processing');
   var t = { idle: IDLE[mode] || '', recording: '聴き取り中 — もう一度タップでキャンセル',
-            processing: '音紋照合中… 聴き取った音の特徴（音紋＝曲ごとに違う、音の指紋のようなもの）を、曲のデータベースと照らし合わせています。' }[s];
+            processing: '曲を探しています…' }[s];
   if (t !== undefined) $('mic-status').textContent = t;
 }
 function showError(html){ var e = $('mic-error'); e.innerHTML = html; e.classList.add('visible'); }
@@ -64,7 +64,7 @@ function goAnswer(t, a, via){
     location.href = '/proto/answer.html?' + new URLSearchParams(r.p);
   }).catch(function(){
     say.textContent = ''; setState('idle');
-    showError('サーバーや音楽データベースにつながりませんでした。少し待ってから、もう一度試してください。');
+    showError('アクセスできませんでした。少し待ってから、もう一度お試しください。');
   });
 }
 
@@ -82,7 +82,7 @@ $('mic-name-t').addEventListener('input', function(){
 $('mic-name-form').addEventListener('submit', function(e){
   e.preventDefault(); hideError();
   var q = $('mic-name-t').value.trim();
-  if (!q) { showError('曲名か歌手名を入れてください。ひらがなや、うろ覚えでも探せます。'); return; }
+  if (!q) { showError('曲名か歌手名を入れてください。'); return; }
   clearTimeout(timer); nameSearch(q);
 });
 
@@ -129,7 +129,7 @@ $('mic-listen-btn').addEventListener('click', function(){
   if (state === 'processing') return;
   if (state === 'recording') { stopRec(true); return; }
   hideError();
-  if (!navigator.mediaDevices || !window.MediaRecorder) { showError('このブラウザでは、マイクを使えません。「📁 ファイル」か「✏️ 曲名／歌手名」で調べてください。'); return; }
+  if (!navigator.mediaDevices || !window.MediaRecorder) { showError('このブラウザではマイクを使えません。'); return; }
   navigator.mediaDevices.getUserMedia({audio: true}).then(function(s){
     stream = s; maxVol = 0; chunks = [];
     actx = new (window.AudioContext || window.webkitAudioContext)(); an = actx.createAnalyser(); an.fftSize = 512; an.smoothingTimeConstant = 0.78;
@@ -143,12 +143,12 @@ $('mic-listen-btn').addEventListener('click', function(){
     var left = SEC; $('mic-countdown').textContent = left + '秒';
     tick = setInterval(function(){ left--; $('mic-countdown').textContent = left > 0 ? left + '秒' : ''; if (left <= 0) stopRec(false); }, 1000);
   }).catch(function(){
-    showError('マイクを使う許可がありません。ブラウザのアドレス欄の横にある鍵のマークから、マイクを「許可」にしてから、もう一度押してください。');
+    showError('マイクを許可してから、もう一度押してください。');
   });
 });
 function onStop(){
   if (cancelled) { cancelled = false; clearCanvas(); setState('idle'); return; }
-  if (maxVol < 0.015) { clearCanvas(); setState('idle'); showError('音がほとんど聞こえませんでした。曲を流してから、もう一度押してください。'); return; }
+  if (maxVol < 0.015) { clearCanvas(); setState('idle'); showError('音が聞こえませんでした。曲を流してから、もう一度押してください。'); return; }
   var m = mime || (rec && rec.mimeType) || 'audio/webm';
   var ext = m.indexOf('mp4') >= 0 ? 'mp4' : m.indexOf('ogg') >= 0 ? 'ogg' : 'webm';
   var fd = new FormData(); fd.append('audio', new Blob(chunks, {type: m}), 'recording.' + ext); fd.append('source', 'mic');
@@ -170,24 +170,28 @@ function identify(fd){
     clearCanvas();
     if (d.error) { setState('idle'); showError(esc(d.error)); return; }
     if (!d.found) {
-      var why = d.second === 'limit'
-        ? '曲を特定できませんでした。1つ目の照合先（音紋照合S）では見つからず、2つ目の照合先（音紋照合A）は、今日使える回数の上限に達していたため使えませんでした。明日になれば、また2つ目の照合先も使えます。'
-        : d.second === 'error'
-        ? '曲を特定できませんでした。1つ目の照合先（音紋照合S）では見つからず、2つ目の照合先（音紋照合A）にはつながりませんでした。'
-        : '曲を特定できませんでした。2つの照合先（音紋照合S・音紋照合A）のどちらにも、この音に合う曲が見つかりませんでした。';
+      // お客さんには理由（照合先・回数の上限など）を書かない（2026-11-08 チョロさんの方針）
       setState('idle');
-      showError(why + ' あまり知られていない曲や、まわりの音が大きいときは、聴き取れないことがあります。曲名が分かっていれば、上の「✏️ 曲名／歌手名」で調べてください。');
+      showError('曲を特定できませんでした。もう一度近づけて聴かせるか、曲名で探してください。');
       return;
     }
-    $('mic-status').textContent = '曲が分かりました：「' + d.title + '」（' + d.artist + '）。このあと、この曲のジャンルを調べます…';
+    $('mic-status').textContent = '「' + d.title + '」（' + d.artist + '）';
     var go = function(){ goAnswer(d.title, d.artist, 'mic'); };
     if (window.GRSong) go(); else { var w = setInterval(function(){ if (window.GRSong) { clearInterval(w); go(); } }, 200); }
   }).catch(function(){
     clearCanvas(); setState('idle');
-    showError('サーバーに届きませんでした。通信が切れていないか確かめて、もう一度押してください。');
+    showError('アクセスできませんでした。少し待ってから、もう一度お試しください。');
   });
 }
 
+// 【2026-11-08】検索から来た人に「ほかの調べ方もある」と気づいてもらう：開いて少ししたら、選んでいない2つのボタンが順に小さく跳ねる（1回だけ・文字は足さない）
+setTimeout(function(){
+  if (state !== 'idle' || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var k = 0;
+  document.querySelectorAll('.mic-mode-btn[aria-selected="false"]').forEach(function(b){
+    setTimeout(function(){ b.classList.add('nudge'); setTimeout(function(){ b.classList.remove('nudge'); }, 700); }, k++ * 350);
+  });
+}, 1200);
 // 地図から「曲名で調べる」で来たとき（?q=言葉）は、その言葉で候補を出す
 var P0 = new URLSearchParams(location.search);
 if (mode === 'name' && P0.get('q')) { $('mic-name-t').value = P0.get('q'); nameSearch(P0.get('q')); }

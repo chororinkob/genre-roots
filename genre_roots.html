@@ -1615,7 +1615,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v136.4</span>
+  <span id="version-info">v136.5</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -27840,6 +27840,10 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 #mic-log-area.visible { display: block; }
 .mic-log-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; color: #555; margin-bottom: 7px; }
 .mic-log-line { font-family: ui-monospace, 'Cascadia Mono', monospace; font-size: 10.5px; color: #666; line-height: 1.7; }
+/* 【v2.56 2026-11-08】題名の下は文ではなく、分かることを4つの札で見せる（文字は読まれない前提。チョロさんの方針） */
+#mic-panel-sub.gets { display: flex; justify-content: center; flex-wrap: wrap; gap: 5px; margin-bottom: 14px; }
+#mic-panel-sub.gets span { font-size: 11px; font-weight: 700; color: #e8e8f0; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.16); border-radius: 999px; padding: 2px 10px; line-height: 1.5; }
+#mic-panel-sub.gets span:last-child { color: #ffb3c1; border-color: rgba(233,69,96,0.5); background: rgba(233,69,96,0.12); }
 #mic-panel-version { position: absolute; bottom: 8px; right: 12px; font-size: 10px; color: #333; pointer-events: none; }
 
 /* === 「この曲なんてジャンル？」履歴 === */
@@ -27883,9 +27887,9 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 <div id="mic-overlay">
   <div id="mic-panel" data-mode="listen">
     <button id="mic-panel-close" onclick="closeMicPanel()">✕</button>
-    <div id="mic-panel-version">v2.55</div>
-    <div id="mic-panel-title">🎵 この曲なんてジャンル？</div>
-    <div id="mic-panel-sub">3つの方法のうち、どれか1つで調べられます</div>
+    <div id="mic-panel-version">v2.56</div>
+    <div id="mic-panel-title">🎵 この曲何？</div>
+    <div id="mic-panel-sub" class="gets" aria-label="曲名・歌手・ジャンル・動画が分かります"><span>曲名</span><span>歌手</span><span>ジャンル</span><span>▶ 動画</span></div>
     <div id="mic-modes" role="tablist" aria-label="調べ方">
       <button class="mic-mode-btn" role="tab" aria-selected="true" data-mode="listen" onclick="micSetMode('listen')"><span class="ic">🎤</span><span>聴かせる</span></button>
       <button class="mic-mode-btn" role="tab" aria-selected="false" data-mode="file" onclick="micSetMode('file')"><span class="ic">📁</span><span>ファイル</span></button>
@@ -27987,7 +27991,7 @@ function micSetState(s) {
   const statusMap = {
     idle: micMode === 'listen' ? 'マイクを押すと、20秒聴いて曲を当てます' : '',
     recording: '聴き取り中 — もう一度タップでキャンセル',
-    processing: '音紋照合中… 聴き取った音の特徴（音紋＝曲ごとに違う、音の指紋のようなもの）を、1つ目の照合先（音紋照合S）で曲のデータベースと照らし合わせています。見つからなければ、2つ目の照合先（音紋照合A）でも探します。',
+    processing: '曲を探しています…',
     result: '見つかりました！'
   };
   document.getElementById('mic-status').textContent = statusMap[s] || '';
@@ -28001,7 +28005,7 @@ async function micToggleListen() {
   try {
     micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
   } catch (err) {
-    micShowError('マイクへのアクセスが許可されていません。\nブラウザのアドレスバー横の鍵マークから許可してください。');
+    micShowError('マイクを許可してから、もう一度押してください。');
     return;
   }
   micAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -28055,7 +28059,7 @@ async function micSendAudio() {
     micClearCanvas();
     document.getElementById('mic-countdown').textContent = '';
     micSetState('idle');
-    micShowError('音が検出できませんでした。\n音楽を再生してからもう一度お試しください。');
+    micShowError('音が聞こえませんでした。曲を流してから、もう一度押してください。');
     return;
   }
   const mime = micUsedMime || (micMediaRec && micMediaRec.mimeType) || 'audio/webm';
@@ -28118,7 +28122,7 @@ function micGoAnswer(t, a, via) {
     const target = node.filter(n => n.id === r.p.g);
     if (!target.empty()) target.dispatch('click');
     GRBand.put(window, r.p);
-  }).catch(() => { say.textContent = ''; micShowError('サーバーや音楽データベースにつながりませんでした。少し待ってから、もう一度試してください。'); if (via === 'mic') micSetState('idle'); });
+  }).catch(() => { say.textContent = ''; micShowError('アクセスできませんでした。少し待ってから、もう一度お試しください。'); if (via === 'mic') micSetState('idle'); });
 }
 document.addEventListener('input', e => {
   if (e.target && e.target.id === 'mic-name-t') {
@@ -28155,13 +28159,8 @@ async function micDoRecognize(formData) {
     document.getElementById('mic-countdown').textContent = '';
     if (d.error) { micShowError(d.error); micSetState('idle'); return; }
     if (!d.found) {
-      const second = d.second;
-      const why = second === 'limit'
-        ? '曲を特定できませんでした。1つ目の照合先（音紋照合S）では見つからず、2つ目の照合先（音紋照合A）は、今日使える回数の上限に達していたため使えませんでした。明日になれば、また2つ目の照合先も使えます。'
-        : second === 'error'
-        ? '曲を特定できませんでした。1つ目の照合先（音紋照合S）では見つからず、2つ目の照合先（音紋照合A）にはつながりませんでした。'
-        : '曲を特定できませんでした。2つの照合先（音紋照合S・音紋照合A）のどちらにも、この音に合う曲が見つかりませんでした。';
-      micShowError(why + ' あまり知られていない曲や、まわりの音が大きいときは、聴き取れないことがあります。曲名が分かっていれば、上の「✏️ 曲名／歌手名」を選んで、曲名を入れて調べてください。');
+      // 【v2.56】お客さんには理由（2つの照合先のどちらで駄目だったか・回数の上限など）を書かない（チョロさんの方針）。理由は d.second に残る
+      micShowError('曲を特定できませんでした。もう一度近づけて聴かせるか、曲名で探してください。');
       micSetState('idle');
       return;
     }
@@ -28172,7 +28171,7 @@ async function micDoRecognize(formData) {
   } catch (err) {
     cancelAnimationFrame(micAnimId);
     micClearCanvas();
-    micShowError('サーバーに届きませんでした。通信が切れていないか確かめて、もう一度押してください。');
+    micShowError('アクセスできませんでした。少し待ってから、もう一度お試しください。');
     micSetState('idle');
     return;
   }

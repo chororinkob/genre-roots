@@ -394,7 +394,7 @@ function judge(t, a, say){
     var rep = findRep(t, a);
     if (rep) return {ok: true, p: {t: rep[0], a: rep[1], g: rep[2], src: 'rep'}};
     var done = 0, res = {};
-    var show = function(){ say('「' + t + '」のジャンルを、世界の音楽データベースに問い合わせています…（' + ORDER.length + 'か所のうち' + done + 'か所から返事）'); };
+    var show = function(){ say('「' + t + '」のジャンルを調べています…'); };
     show();
     return Promise.all(ORDER.map(function(s){
       return ASK[s](t, a).catch(function(){ return {found: false, err: true}; }).then(function(r){ res[s] = r; done++; show(); });
@@ -402,8 +402,8 @@ function judge(t, a, say){
       var d = decide(res);
       if (!d) {
         var any = ORDER.some(function(s){ return res[s].found; });
-        return {ok: false, msg: any ? '「' + t + '」は見つかりましたが、どこにもジャンルが書かれていませんでした（または、音楽ジャンルルーツ辞典にまだ無いジャンルでした）。'
-                                    : 'どの音楽データベースにも「' + t + '」（' + a + '）が見つかりませんでした。曲名・歌手名の書き方を変えて試してください。'};
+        // 【2026-11-08】お客さん向けの文は短く（理由の内訳は書かない）
+        return {ok: false, msg: any ? '「' + t + '」のジャンルは見つかりませんでした。' : '「' + t + '」が見つかりませんでした。書き方を変えて試してください。'};
       }
       // 答えには正式な歌手名を出す（「米津」→「米津玄師」）
       var nm = (res['Wikidata'].found && res['Wikidata'].name) || a;

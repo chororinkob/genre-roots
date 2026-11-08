@@ -20,7 +20,7 @@
 import io, json, os
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-VERSION = 'v1.2'   # 入り口ページの版（3ページ共通。パネルの右下に出る）
+VERSION = 'v1.3'   # 入り口ページの版（3ページ共通。パネルの右下に出る）
 # ジャンルの数は地図（genre_roots.html）から数える。地図が変わるたびに tools/gen_stubs.js も同じ数え方で3ページの数字を直す（自動）
 import re
 N = len(re.findall(r'\n  \{id:"', io.open(os.path.join(ROOT, 'genre_roots.html'), encoding='utf-8').read()))
@@ -30,18 +30,18 @@ SITE = 'https://genre-roots.com'
 PAGES = {
     'listen': dict(
         file='song.html',
-        title='音楽を聴かせて曲を当てる｜曲名・歌手・ジャンルが分かる（無料・アプリ不要）— 音楽ジャンルルーツ辞典',
-        desc='流れている音楽をスマホやパソコンに聴かせるだけで、曲名と歌手を当てて、その曲のジャンルまで答えます（無料・アプリ不要）。そのジャンルがどの音楽から生まれたかも、%dジャンルのルーツ地図でたどれます。' % N,
+        title='この曲何？聴かせるだけで曲名・歌手・ジャンルが分かる｜動画も見られる（無料）— 音楽ジャンルルーツ辞典',
+        desc='流れている曲をスマホやパソコンに聴かせるだけで、曲名・歌手・ジャンルが分かり、その曲の動画も見られます。音楽ファイルや曲名からも調べられます（無料・アプリ不要・%dジャンル）。' % N,
     ),
     'file': dict(
         file='song_file.html',
-        title='音楽ファイルから曲名とジャンルを調べる｜mp3・m4aの曲は何？（無料）— 音楽ジャンルルーツ辞典',
-        desc='手元の音楽ファイル（mp3・wav・m4a など）を選ぶだけで、曲名と歌手を当てて、その曲のジャンルまで答えます（無料・登録不要）。ジャンルのルーツは、%dジャンルの地図でたどれます。' % N,
+        title='この曲何？音楽ファイルから曲名・歌手・ジャンルを調べる｜動画も見られる（無料）— 音楽ジャンルルーツ辞典',
+        desc='手元の音楽ファイル（mp3・wav・m4a など）を選ぶだけで、曲名・歌手・ジャンルが分かり、その曲の動画も見られます。曲を聴かせたり、曲名からも調べられます（無料・登録不要・%dジャンル）。' % N,
     ),
     'name': dict(
         file='song_name.html',
-        title='曲名で曲のジャンルを調べる｜この曲は何ジャンル？（無料）— 音楽ジャンルルーツ辞典',
-        desc='曲名か歌手名を入れるだけで、その曲のジャンルが分かります（無料・登録不要）。日本の曲は「歌手ごと」ではなく「曲ごと」に、曲調・メロディーで判定します。ジャンルのルーツは、%dジャンルの地図でたどれます。' % N,
+        title='この曲何ジャンル？曲名・歌手名から調べる｜動画も見られる（無料）— 音楽ジャンルルーツ辞典',
+        desc='曲名か歌手名を入れるだけで、その曲のジャンルが分かり、動画も見られます。うろ覚えやひらがなでも候補から選べます。日本の曲は「歌手ごと」ではなく「曲ごと」に判定。曲を聴かせたり、音楽ファイルからも調べられます（無料・%dジャンル）。' % N,
     ),
 }
 
@@ -80,6 +80,13 @@ a{color:#7eb8f7}
 #mic-panel{background:#16162a;border:1px solid rgba(255,255,255,0.13);border-radius:18px;padding:28px 26px 24px;width:360px;max-width:100%;position:relative;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.6)}
 #mic-panel-title{font-size:15px;font-weight:700;color:#fff;margin-bottom:5px;white-space:nowrap}
 #mic-panel-sub{font-size:14px;font-weight:600;color:#e8e8f0;margin-bottom:10px;line-height:1.5;word-break:keep-all}
+/* 題名の下は文ではなく、分かることを4つの札で見せる（文字は読まれない前提。2026-11-08 チョロさんの方針） */
+#mic-panel-sub.gets{display:flex;justify-content:center;flex-wrap:wrap;gap:5px;margin-bottom:14px}
+#mic-panel-sub.gets span{font-size:11px;font-weight:700;color:#e8e8f0;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.16);border-radius:999px;padding:2px 10px;line-height:1.5}
+#mic-panel-sub.gets span:last-child{color:#ffb3c1;border-color:rgba(233,69,96,0.5);background:rgba(233,69,96,0.12)}
+/* ほかの調べ方に気づいてもらう、1回だけの小さな跳ね（song_panel.js が付け外しする） */
+.mic-mode-btn.nudge{animation:micNudge .7s ease-out}
+@keyframes micNudge{0%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}55%{transform:translateY(0)}75%{transform:translateY(-2px)}}
 #song-page-version{position:absolute;bottom:8px;right:12px;font-size:10px;color:#333;pointer-events:none}
 
 /* 3つのボタン（地図のパネルと同じ立体のボタン。選んだものだけ赤く光る） */
@@ -168,8 +175,8 @@ a{color:#7eb8f7}
   <a class="site" href="/genre_roots.html">音楽ジャンルルーツ辞典</a>
   <div id="mic-panel" data-mode="__MODE__">
     <div id="song-page-version">__VERSION__</div>
-    <h1 id="mic-panel-title">🎵 この曲なんてジャンル？</h1>
-    <p id="mic-panel-sub">3つの方法のうち、どれか1つで調べられます</p>
+    <h1 id="mic-panel-title">🎵 この曲何？</h1>
+    <p id="mic-panel-sub" class="gets" aria-label="曲名・歌手・ジャンル・動画が分かります"><span>曲名</span><span>歌手</span><span>ジャンル</span><span>▶ 動画</span></p>
     <nav id="mic-modes" role="tablist" aria-label="調べ方">
       <a class="mic-mode-btn" role="tab" href="/song.html" data-mode="listen" aria-selected="__SEL_listen__"><span class="ic">🎤</span><span>聴かせる</span></a>
       <a class="mic-mode-btn" role="tab" href="/song_file.html" data-mode="file" aria-selected="__SEL_file__"><span class="ic">📁</span><span>ファイル</span></a>
@@ -224,7 +231,7 @@ def esc(s):
 pages_js = json.dumps({m: {'file': '/' + p['file'], 'title': p['title']} for m, p in PAGES.items()}, ensure_ascii=False)
 for mode, p in PAGES.items():
     url = SITE + '/' + p['file']
-    ld = json.dumps({'@context': 'https://schema.org', '@type': 'WebApplication', 'name': 'この曲なんてジャンル？',
+    ld = json.dumps({'@context': 'https://schema.org', '@type': 'WebApplication', 'name': 'この曲何？',
                      'url': url, 'description': p['desc'], 'applicationCategory': 'MultimediaApplication',
                      'operatingSystem': 'Web', 'inLanguage': 'ja',
                      'offers': {'@type': 'Offer', 'price': '0', 'priceCurrency': 'JPY'},
