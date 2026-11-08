@@ -20,7 +20,7 @@
 import io, json, os
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-VERSION = 'v1.5'   # 入り口ページの版（3ページ共通。パネルの右下に出る）
+VERSION = 'v1.6'   # 入り口ページの版（3ページ共通。パネルの右下に出る）
 # ジャンルの数は地図（genre_roots.html）から数える。地図が変わるたびに tools/gen_stubs.js も同じ数え方で3ページの数字を直す（自動）
 import re
 N = len(re.findall(r'\n  \{id:"', io.open(os.path.join(ROOT, 'genre_roots.html'), encoding='utf-8').read()))
@@ -143,8 +143,13 @@ a{color:#7eb8f7}
 #mic-name-res{display:none;text-align:left}
 #mic-panel[data-mode="name"] #mic-name-res{display:block}
 .mic-panel-processing #mic-name-out{display:none}
-#mic-name-st{font-size:12px;color:#a0a0b8;min-height:1.5em;margin:2px 0 4px}
-#mic-name-st:empty{display:none}
+/* 【2026-11-09 チョロさん】ボタンでパネルの大きさを変えない。曲名のときは、案内の行（#mic-status）を隠し、同じ高さの行（#mic-name-st）に
+   曲名の案内（「2文字以上入れてください。」等）を出す。以前は案内の行が1行ぶん足され、1文字入れたあとは「曲名」を押すたびにパネルが大きくなった */
+#mic-name-st{font-size:12px;color:#a0a0b8;min-height:18px;line-height:18px;margin:0 0 6px}
+#mic-name-st:empty{visibility:hidden}
+#mic-panel[data-mode="name"] #mic-status{display:none}
+.mic-panel-recording #mic-status,.mic-panel-processing #mic-status{display:block!important}
+.mic-panel-processing #mic-name-st{display:none}
 #mic-name-out{max-height:46vh;overflow-y:auto;margin:0 -8px;padding:0 4px}
 #mic-name-out:empty{display:none}
 #mic-name-out .sec{margin-top:10px}
@@ -162,7 +167,7 @@ a{color:#7eb8f7}
 /* 録音中・照合中の波形と案内 */
 #mic-eq-canvas{width:100%;height:40px;display:none;margin-bottom:6px}
 .mic-panel-recording #mic-eq-canvas,.mic-panel-processing #mic-eq-canvas{display:block}
-#mic-status{font-size:12px;color:#888;min-height:18px;margin-bottom:6px}
+#mic-status{font-size:12px;color:#888;min-height:18px;line-height:18px;margin-bottom:6px}
 #mic-status:empty{visibility:hidden}
 .mic-panel-recording #mic-status{color:#e94560}
 #mic-countdown{font-size:26px;font-variant-numeric:tabular-nums;color:#e94560;font-weight:300;display:none;margin-bottom:10px}

@@ -82,7 +82,8 @@ $('mic-name-t').addEventListener('input', function(){
 $('mic-name-form').addEventListener('submit', function(e){
   e.preventDefault(); hideError();
   var q = $('mic-name-t').value.trim();
-  if (!q) { showError('曲名か歌手名を入れてください。'); return; }
+  // 【2026-11-09】空のときは、エラーの欄（行が増えてパネルが大きくなる）ではなく、案内の行に短く出す
+  if (!q) { $('mic-name-st').textContent = '曲名か歌手名を入れてください。'; return; }
   clearTimeout(timer); nameSearch(q);
 });
 
