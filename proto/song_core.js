@@ -28,10 +28,12 @@ function find(wgs){
 // 同じ数のときは、日本の曲45曲のテスト（2026-11-05）で当たりが多かった順に優先する（この並び順）。
 // Last.fm は曲ごとのタグが日本の曲にほぼ付いていない（Lemonでもゼロ）うえ、鍵が要るので、この試作では聞かない。
 // 【2026-11-07】辞典の代表曲は先に findRep で調べるので、外に聞くのは4か所。並びは答えを採る優先順（PRIO と同じ）。
-var ORDER = ['MusicBrainz', 'Discogs', 'Wikidata', 'iTunes', 'Deezer'];
+// 【2026-11-08 チョロさんの決定】Last.fm を先頭に足した（6か所）。理由は PRIO の説明を参照。
+var ORDER = ['Lastfm', 'MusicBrainz', 'Discogs', 'Wikidata', 'iTunes', 'Deezer'];
 // 【2026-11-07 チョロさん】画面・アドレス欄には、使っているデータベースの名前を出さない（まねされないため）。
 // 頭文字の記号だけを出す：M=MusicBrainz・D=Discogs・W=Wikidata・I=iTunes・Z=Deezer（答えのページも同じ記号で書く）。
-var CODE = {MusicBrainz: 'M', Discogs: 'D', Wikidata: 'W', iTunes: 'I', Deezer: 'Z'};
+// L=Last.fm（2026-11-08）
+var CODE = {Lastfm: 'L', MusicBrainz: 'M', Discogs: 'D', Wikidata: 'W', iTunes: 'I', Deezer: 'Z'};
 // Discogsは合言葉（トークン）が要るので、ブラウザから直接ではなく、辞典のサーバーの中継（/genre/discogs）を通す。
 // トークンはサーバーの中だけにあり、このページにも返事にも出てこない（2026-11-07）。
 var API = (location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? 'http://localhost:5000' : 'https://genre-roots-server.onrender.com';
@@ -172,6 +174,15 @@ var ASK = {
       });
     });
   },
+  // 【2026-11-08】Last.fm も鍵（APIキー）が要るので、Discogs と同じく辞典のサーバーの中継（/genre/lastfm）を通す。
+  // 返ってくるのは、音楽ファンが曲（無ければ歌手）に付けた札（タグ）の名前だけ。
+  'Lastfm': function(t, a){
+    if (!a) return Promise.resolve({found: false});
+    return getJ(API + '/genre/lastfm?' + new URLSearchParams({t: t, a: a})).then(function(d){
+      if (!d.found) return {found: false, err: !!d.error};
+      return {found: true, vote: oneVote(d.tags || []), raw: d.tags || [], by: d.by === 'artist' ? '歌手' : '曲'};
+    });
+  },
   'Discogs': function(t, a){
     return getJ(API + '/genre/discogs?' + new URLSearchParams({t: t, a: a})).then(function(d){
       if (!d.found) return {found: false, err: !!d.error};
@@ -196,8 +207,12 @@ var ASK = {
     }).then(function(rs){
       if (!rs.length) return {found: false};
       var raw = [];
+      // 【2026-11-08 直し】Deezer は日本の画面向けに、一般のポップス（Pop）を「ポップス」と日本語で返す。
+      // 読み替え表（EXTRA）では「ポップス」を J-POP にしているため、マイケル・ジャクソンやビートルズまで J-POP になっていた。
+      // 曲名にも歌手名にも日本の文字（ひらがな・カタカナ・漢字）が無い曲は、「ポップス」を一般のポップス（Pop）として数える。
+      var jp = /[\u3040-\u30ff\u3400-\u9fff]/.test(t + a);
       return Promise.all(rs.slice(0, 3).map(function(r){ return jsonp('https://api.deezer.com/album/' + r.album.id); })).then(function(al){
-        al.forEach(function(x){ ((x.genres || {}).data || []).forEach(function(g){ raw.push(g.name); }); });
+        al.forEach(function(x){ ((x.genres || {}).data || []).forEach(function(g){ raw.push(!jp && g.name === 'ポップス' ? 'Pop' : g.name); }); });
         return {found: true, vote: oneVote(raw), raw: raw};
       });
     });
@@ -210,7 +225,10 @@ var ASK = {
 // 多数決だと、細かいジャンル（バイキングメタル）が、大まかな答え2つ（ヘヴィメタル）に負けてしまっていた。
 // 辞典の代表曲は、ここに来る前に別に調べて、入っていればそれで答える（findRep）。
 // 【2026-11-07】Discogsを2番目に入れた（59曲で、MusicBrainzが外した細かいジャンル＝オペラ・サンバ・バイキングメタル・テキサスブルース・フナナ等をDiscogsが当てた）。
-var PRIO = ['MusicBrainz', 'Discogs', 'Wikidata', 'iTunes', 'Deezer'];
+// 【2026-11-08 チョロさんの決定】Last.fm を先頭に入れた。海外の曲40曲のテストで、Last.fm 単独28曲正解（ほかの最高は Discogs の20曲）、
+// 全体の答えは今までの順番の18曲 → Last.fm 先頭で30曲。日本の曲35曲でも8曲 → 10曲で、悪くならなかった。
+// 最後に足しても前の4つが先に答えてしまい、正解は1曲も増えなかったので、先頭でないと意味がない。
+var PRIO = ['Lastfm', 'MusicBrainz', 'Discogs', 'Wikidata', 'iTunes', 'Deezer'];
 function decide(res){
   for (var i = 0; i < PRIO.length; i++) { var r = res[PRIO[i]]; if (r && r.vote) return {id: r.vote, by: PRIO[i]}; }
   return null;

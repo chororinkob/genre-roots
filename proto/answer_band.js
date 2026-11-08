@@ -58,7 +58,7 @@ var CSS = [
   '#gr-ans .why{display:none;font-size:12px;color:#d0d0e2;margin:10px 0 0;padding:10px 12px;border-radius:9px;background:rgba(0,0,0,.3);line-height:1.7}',
   '#gr-ans.why-open .why{display:block}',
   '#gr-ans .why p{margin:0 0 6px}',
-  // 【2026-11-08】6つのデータベースを同じ並びで見せる。説明（と曲数）を横長に1行、その下に答え（チョロさんの指示：右横だと見にくい・縦に長くなる）
+  // 【2026-11-08】7つ（Last.fm を足した）のデータベースを同じ並びで見せる。説明（と曲数）を横長に1行、その下に答え（チョロさんの指示：右横だと見にくい・縦に長くなる）
   '#gr-ans .why .srcs{margin:2px 0 6px}',
   '#gr-ans .why .src{padding:5px 2px;border-top:1px solid rgba(255,255,255,.08)}',
   '#gr-ans .why .src .d{font-size:11px;color:#a0a0b8;line-height:1.5}',
@@ -81,13 +81,15 @@ var ICON_MIC = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strok
 //   D・W は、曲の数の公式な数字が見つからなかったので書かない。
 var SRC = [
   ['R', '音楽ジャンルルーツ辞典（歌手ではなく1曲ずつ、曲調で判定）', '約1万2,500曲'],
+  // L = Last.fm（2026-11-08に足した）。曲の数の公式な数字が見つからなかったので書かない。
+  ['L', '音楽ファンが聴いた曲に、自由にジャンルの札を付けていくデータベース', ''],
   ['M', '音楽ファンが投票でジャンルを付けていく、世界最大級の音楽データベース', '約4,000万曲'],
   ['D', 'レコード・CDの目録として作られた、世界中の盤を集めたデータベース', ''],
   ['W', 'ウィキペディアと同じ仲間の、だれでも編集できる知識のデータベース', ''],
   ['I', '大手の音楽配信ストアの売り場の分類', '1億曲以上'],
   ['Z', 'もう1つの音楽配信ストアの売り場の分類', '1億2,000万曲以上']
 ];
-// 6つを同じ並びで出す。use = 採った答えの記号、ans = 記号ごとの答えの文（無いものは「ー」＝そこまで調べていない）
+// 7つを同じ並びで出す。use = 採った答えの記号、ans = 記号ごとの答えの文（無いものは「ー」＝そこまで調べていない）
 function srcList(use, ans){
   return '<div class="srcs">' + SRC.map(function(s){
     var a = ans[s[0]], on = s[0] === use;
@@ -97,7 +99,7 @@ function srcList(use, ans){
 }
 function whyHtml(p){
   var g = p.g, gn = esc(disp(g));
-  var HEAD = '<p>6つのデータベースを上から順に見て、最初にジャンルが分かったものを答えにしています。</p>';
+  var HEAD = '<p>7つのデータベースを上から順に見て、最初にジャンルが分かったものを答えにしています。</p>';
   if (p.src === 'db') {
     return HEAD + srcList('R', {R: '「' + gn + '」'}) +
       (p.en === '1' ? '<p class="note">歌っているのは演歌の歌手ですが、この曲は曲調で判定して「' + gn + '」にしています。</p>' : '');
