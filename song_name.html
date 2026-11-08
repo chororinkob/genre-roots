@@ -41,6 +41,8 @@ a{color:#7eb8f7}
 #mic-panel-sub.gets .w { margin-left: -3px; color: #e8e8f0; }
 /* ほかの調べ方に気づいてもらう、1回だけの小さな跳ね（song_panel.js が付け外しする） */
 .mic-mode-btn.nudge{animation:micNudge .7s ease-out}
+/* 選んでいる赤いボタンは、光る動きを止めずに一緒に跳ねさせる（2026-11-09） */
+.mic-mode-btn[aria-selected="true"].nudge{animation:micNudge .7s ease-out,micModeGlow 2.4s ease-in-out infinite}
 @keyframes micNudge{0%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}55%{transform:translateY(0)}75%{transform:translateY(-2px)}}
 #song-page-version{position:absolute;bottom:8px;right:12px;font-size:10px;color:#333;pointer-events:none}
 
@@ -134,7 +136,7 @@ a{color:#7eb8f7}
 <main class="stage">
   <a class="site" href="/genre_roots.html">音楽ジャンルルーツ辞典</a>
   <div id="mic-panel" data-mode="name">
-    <div id="song-page-version">v1.6</div>
+    <div id="song-page-version">v1.7</div>
     <h1 id="mic-panel-title">🎵 この曲何？</h1>
     <p id="mic-panel-sub" class="gets" aria-label="曲名・歌手・ジャンルが分かり、動画も見られます"><span class="g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>曲名</span><span class="g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>歌手</span><span class="g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12V4a1 1 0 0 1 1-1h8l9 9-9 9z"/><circle cx="7.5" cy="7.5" r="1.3"/></svg>ジャンル</span><span class="g"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l13-7.5z" fill="currentColor"/></svg>動画</span><span class="w">がわかる</span></p>
     <nav id="mic-modes" role="tablist" aria-label="調べ方">
@@ -164,7 +166,6 @@ a{color:#7eb8f7}
       <div class="mic-pane mic-pane-name">
         <form id="mic-name-form">
           <input id="mic-name-t" type="search" placeholder="例：Lemon または 米津" autocomplete="off" aria-label="曲名か歌手名">
-          <button type="submit">探す</button>
         </form>
       </div>
     </div>

@@ -185,12 +185,13 @@ function identify(fd){
   });
 }
 
-// 【2026-11-08】検索から来た人に「ほかの調べ方もある」と気づいてもらう：開いて少ししたら、選んでいない2つのボタンが順に小さく跳ねる（1回だけ・文字は足さない）
+// 【2026-11-08】検索から来た人に「ほかの調べ方もある」と気づいてもらう：開いて少ししたら、ボタンが順に小さく跳ねる（1回だけ・文字は足さない）
+// 【2026-11-09 チョロさん】選んでいる赤いボタンも含めて、3つとも左から順にピョン・ピョン・ピョンと跳ねる（押せることが伝わるように）
 setTimeout(function(){
   if (state !== 'idle' || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   var k = 0;
-  document.querySelectorAll('.mic-mode-btn[aria-selected="false"]').forEach(function(b){
-    setTimeout(function(){ b.classList.add('nudge'); setTimeout(function(){ b.classList.remove('nudge'); }, 700); }, k++ * 350);
+  document.querySelectorAll('.mic-mode-btn').forEach(function(b){
+    setTimeout(function(){ b.classList.add('nudge'); setTimeout(function(){ b.classList.remove('nudge'); }, 700); }, k++ * 260);
   });
 }, 1200);
 // 地図から「曲名で調べる」で来たとき（?q=言葉）は、その言葉で候補を出す

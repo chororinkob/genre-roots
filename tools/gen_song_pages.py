@@ -20,7 +20,7 @@
 import io, json, os
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-VERSION = 'v1.6'   # 入り口ページの版（3ページ共通。パネルの右下に出る）
+VERSION = 'v1.7'   # 入り口ページの版（3ページ共通。パネルの右下に出る）
 # ジャンルの数は地図（genre_roots.html）から数える。地図が変わるたびに tools/gen_stubs.js も同じ数え方で3ページの数字を直す（自動）
 import re
 N = len(re.findall(r'\n  \{id:"', io.open(os.path.join(ROOT, 'genre_roots.html'), encoding='utf-8').read()))
@@ -88,6 +88,8 @@ a{color:#7eb8f7}
 #mic-panel-sub.gets .w { margin-left: -3px; color: #e8e8f0; }
 /* ほかの調べ方に気づいてもらう、1回だけの小さな跳ね（song_panel.js が付け外しする） */
 .mic-mode-btn.nudge{animation:micNudge .7s ease-out}
+/* 選んでいる赤いボタンは、光る動きを止めずに一緒に跳ねさせる（2026-11-09） */
+.mic-mode-btn[aria-selected="true"].nudge{animation:micNudge .7s ease-out,micModeGlow 2.4s ease-in-out infinite}
 @keyframes micNudge{0%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}55%{transform:translateY(0)}75%{transform:translateY(-2px)}}
 #song-page-version{position:absolute;bottom:8px;right:12px;font-size:10px;color:#333;pointer-events:none}
 
@@ -211,7 +213,6 @@ a{color:#7eb8f7}
       <div class="mic-pane mic-pane-name">
         <form id="mic-name-form">
           <input id="mic-name-t" type="search" placeholder="例：Lemon または 米津" autocomplete="off" aria-label="曲名か歌手名">
-          <button type="submit">探す</button>
         </form>
       </div>
     </div>

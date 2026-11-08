@@ -1482,29 +1482,25 @@ svg { width: 100vw; height: 100vh; }
   /* 本文の地の色。ここが説明の下敷きになる */
   #sp-body { background: rgba(9, 10, 18, 0.74); }
 
-  /* 折りたたんだ状態。ジャンル名・別名・発祥時期までを残して、
-     その下（動画・代表曲・説明）を隠す。空いたところにルーツマップが出る。 */
-  #side-panel.sp-peek {
-    bottom: auto !important; height: auto;
-    border-radius: 0 0 14px 14px;
-    overflow: visible;
-    /* タブの左右は透けているので、そこを押したらマップに届くようにする
-       （見えないのに指を吸い取る板が残らないように） */
-    pointer-events: none;
-  }
+  /* 【2026-11-09 チョロさん「窓のブラインドのように」】説明は、指に合わせてそのまま上下する。
+     いちばん下に▲のつまみがぶら下がっていて、上げきる（つまみが見出しの帯のすぐ下まで来る）と止まり、▼に変わる。
+     この「上げきった」状態が sp-peek。説明は上へ流れて見えなくなり、透明な余白の向こうにルーツマップが見える。
+     余白のところを触ったらマップに届くよう、パネルは指を受けない（見出しの帯とつまみだけ受ける）。
+     ▼を下へ引っ張ると、いちばん下（修正依頼）のところから説明が下りてくる。 */
+  #side-panel.sp-peek { pointer-events: none; }
   #side-panel.sp-peek #sp-header,
   #side-panel.sp-peek #sp-grip { pointer-events: auto; }
-  #side-panel.sp-peek #sp-body { display: none; }
 
   /* つまみ。見出しの帯のすぐ下に、文字の幅ぶんだけのタブとして置く。
      真ん中ぞろえ。動画や本文と重ならないよう、流れの中に置いている
      （貼り付かせると、めくったときに動画の上に乗ってしまう）。 */
   #sp-grip {
-    /* 見出しの帯のすぐ下に貼り付ける。流れの中に置くと、説明を
-       めくったときに画面の外へ出てしまい、押せなくなる。 */
-    position: sticky; top: var(--sp-head-h, 150px); z-index: 4;
+    /* 【2026-11-09】説明のいちばん下（修正依頼の下）にぶら下げる。文字は出さず、三角だけ。
+       指でつかんで上下に動かす（押しただけでは何も起きない）。 */
+    position: relative; z-index: 4;
     display: flex; align-items: center; justify-content: center; gap: 6px;
-    width: fit-content; margin: 0 auto; padding: 3px 16px 4px;
+    width: 64px; margin: 0 auto; padding: 6px 0 7px;
+    touch-action: none; user-select: none; -webkit-user-select: none;
     /* 色はそのジャンルのカテゴリ色（見出しと同じ色）を使う。
        画面に無い色を持ってくるとギトギトになるので、いま出ている色で
        濃さだけ上げる。ジャンルごとに色が変わる。
@@ -1526,7 +1522,7 @@ svg { width: 100vw; height: 100vh; }
      この2つはブラウザが絵を描き直さずに済ませられるので、
      ずっと動かしていても地図の滑らかさに響かない。
      大きさや色（filter・box-shadow）は毎回描き直しが要るので使わない。 */
-  .sp-grip-mark { font-size: 8px; color: rgb(var(--al-lit, 200,200,210)); line-height: 1;
+  .sp-grip-mark { font-size: 11px; color: rgb(var(--al-lit, 200,200,210)); line-height: 1;
     will-change: transform, opacity;
     animation: sp-grip-pulse 1.8s ease-in-out infinite; }
   @keyframes sp-grip-pulse {
@@ -1548,17 +1544,12 @@ svg { width: 100vw; height: 100vh; }
     line-height: 1.4; white-space: nowrap; }
   #sp-grip:focus-visible { outline: 2px solid #4f8ef7; outline-offset: -2px; }
 
-  /* 折りたたんだときは貼り付ける必要がない（めくる中身が無い） */
-  #side-panel.sp-peek #sp-grip { position: static; }
 
   /* 【2026-11-08】説明のいちばん下から、さらに上へめくると、ルーツマップが出る（チョロさんの指示）。
      本文の下に、透明の余白（画面1つ分）を足しておく。めくると本文が上へ流れて、後ろのマップが見えてくる。
      余白の最後までめくり切ったら、つまみを押したのと同じように畳む（マップを指で動かせるようにするため）。 */
-  #sp-lift-space { display: block; height: calc(100vh - var(--header-h, 44px) - var(--sp-head-h, 150px) - 30px);
-    text-align: center; padding-top: 18px; pointer-events: none; }
-  #sp-lift-space span { display: inline-block; font-size: 11px; font-weight: 700; color: rgb(var(--al-lit, 220,220,230));
-    background: rgba(14, 16, 26, 0.85); border-radius: 999px; padding: 3px 12px; }
-  #side-panel.sp-peek #sp-lift-space { display: none; }
+  /* 余白の高さは、上げきったときにつまみが見出しの帯のすぐ下で止まるよう、JSが測って決める（余白を合わせる） */
+  #sp-lift-space { display: block; height: calc(100vh - var(--header-h, 44px) - var(--sp-head-h, 150px) - 30px); pointer-events: none; }
 
   /* 知名度の「？」を開いている間だけ、見出しの帯をつまみより手前に出す。
      つまみ(#sp-grip)は z-index 4、帯(#sp-header)は 1 なので、そのままだと
@@ -1573,7 +1564,8 @@ svg { width: 100vw; height: 100vh; }
      top を 0 以外にすると、貼り付き位置がそのぶん下へ押し下げられ、
      パネルの上に要らない余白ができたうえ、本文が帯の下へ潜り込んで
      動画と重なってしまう。0 にしておくこと。 */
-  #sp-header { background-color: rgba(9,10,18,0.80) !important; top: 0; }
+  /* 【2026-11-09】説明をブラインドのように上げると、本文が帯の後ろへ流れ込む。透けて文字が重なって見えたので、濃くした（0.80→0.97） */
+  #sp-header { background-color: rgba(9,10,18,0.97) !important; top: 0; }
   #side-panel.sp-visible {
     display: block !important; top: var(--header-h, 44px) !important;
   }
@@ -1618,7 +1610,7 @@ html.gr-arrive #graph{visibility:hidden}</style>
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v137.4</span>
+  <span id="version-info">v137.5</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -1741,9 +1733,8 @@ html.gr-arrive #graph{visibility:hidden}</style>
   <!-- スマホ用のつまみ。見出しの帯の下に、文字の幅ぶんだけのタブとして出す。
        押すと、ここから下（動画・代表曲・説明）を折りたたんで、
        下のルーツマップを見せる。パソコンでは出さない。 -->
-  <div id="sp-grip" role="button" tabindex="0" aria-label="説明を折りたたむ・広げる">
+  <div id="sp-grip" aria-label="説明を上下に動かすつまみ">
     <span class="sp-grip-mark">▲</span>
-    <span class="sp-grip-text">上げてルーツマップを見る</span>
   </div>
   <div id="sp-body">
     <div id="sp-yt-wrap" style="margin-bottom:6px;">
@@ -22766,80 +22757,82 @@ function つまみの高さを合わせる() {
   dt.style.top = Math.round(上 + 帯h + タブh + 10) + 'px';
 }
 
-function パネルを畳む(畳む) {
-  panel.classList.toggle('sp-peek', !!畳む);
-  // 説明を読んでいる間は、左端のつまみを引っ込める（読むのに邪魔なので）。
-  // 折りたたんでマップを見ているときは出す。
-  const dt = document.getElementById('drawer-tab');
-  // 説明を読んでいる間は、矢印だけの細いつまみにする（消さない）。
-  // 折りたたんでマップを見ているときは、元の大きさに戻す。
-  if (dt) dt.classList.toggle('slim', !畳む);
-  // 見出しの帯に重ならないよう、高さも合わせ直す
-  requestAnimationFrame(つまみの高さを合わせる);
-  const 文 = document.querySelector('.sp-grip-text');
-  const 印 = document.querySelector('.sp-grip-mark');
-  // 折りたたむと下にルーツマップが出るので、そのまま言葉にする
-  if (文) 文.textContent = 畳む ? '下げて説明を見る' : '上げてルーツマップを見る';
-  if (印) 印.textContent = 畳む ? '▼' : '▲';
-  if (畳む) panel.scrollTop = 0;
-  // 【2026-11-08】広げたときは説明の頭から。いちばん下のまま広がると、すぐまた「めくり切った」と見なされて畳まれてしまうため
-  else { panel.scrollTop = 0; パネルを広げた時刻 = Date.now(); }
+// 【2026-11-09 チョロさん】窓のブラインドのように動かす。
+//   ・説明はふつうにめくれる。いちばん下に▲のつまみがぶら下がっている
+//   ・上げきると、つまみが見出しの帯のすぐ下で止まり、▼に変わる（＝sp-peek。後ろのルーツマップを触れる）
+//   ・▼をつかんで下へ引っ張ると、いちばん下（修正依頼）のところから説明が下りてくる
+//   ・つまみを押しただけでは何も起きない（以前の「押すと切り替わり、説明の頭まで一気に戻る」はやめた）
+//   ・「上げてルーツマップを見る」「下げて説明を見る」「このまま上げると…」の文字はすべてやめた
+function 余白を合わせる() {
+  const 余白 = document.getElementById('sp-lift-space');
+  if (!余白 || !isMobile()) return;
+  const 帯 = document.getElementById('sp-header');
+  const タブ = document.getElementById('sp-grip');
+  const 帯h = 帯 ? 帯.getBoundingClientRect().height : 0;
+  const タブh = タブ ? タブ.offsetHeight : 0;
+  if (panel.clientHeight > 0) 余白.style.height = Math.max(0, Math.round(panel.clientHeight - 帯h - タブh)) + 'px';
 }
-let パネルを広げた時刻 = 0;
+function 上げきった状態を合わせる() {
+  const 上 = isMobile() && panel.classList.contains('sp-visible') && panel.scrollTop > 0 &&
+             panel.scrollTop >= panel.scrollHeight - panel.clientHeight - 2;
+  if (上 === panel.classList.contains('sp-peek')) return;
+  panel.classList.toggle('sp-peek', 上);
+  // 説明を読んでいる間は、左端のつまみを矢印だけの細い形にする（消さない）。上げきってマップを見ているときは元の大きさ。
+  const dt = document.getElementById('drawer-tab');
+  if (dt) dt.classList.toggle('slim', !上);
+  requestAnimationFrame(つまみの高さを合わせる);
+  const 印 = document.querySelector('.sp-grip-mark');
+  if (印) 印.textContent = 上 ? '▼' : '▲';
+}
+// ほかの所から呼ばれる入口（開くときは説明の頭から＝false、上げきった形にする＝true）
+function パネルを畳む(畳む) {
+  余白を合わせる();
+  panel.scrollTop = 畳む ? panel.scrollHeight : 0;
+  上げきった状態を合わせる();
+}
 
 (function つまみの操作() {
   const grip = document.getElementById('sp-grip');
   if (!grip) return;
-  grip.addEventListener('click', () => パネルを畳む(!panel.classList.contains('sp-peek')));
-  grip.addEventListener('keydown', e => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      パネルを畳む(!panel.classList.contains('sp-peek'));
-    }
-  });
-  // 上下にはらう
-  let 始y = null;
-  grip.addEventListener('touchstart', e => {
-    始y = e.touches[0] ? e.touches[0].clientY : null;
-  }, { passive: true });
-  grip.addEventListener('touchmove', e => {
-    if (始y === null || !e.touches[0]) return;
-    const 差 = e.touches[0].clientY - 始y;
-    if (Math.abs(差) < 26) return;
-    パネルを畳む(差 < 0);      // 上へはらえば折りたたむ、下へはらえば広げる
-    始y = null;
-  }, { passive: true });
-  grip.addEventListener('touchend', () => { 始y = null; }, { passive: true });
-
-  // 見出しの帯でも上下にはらえるようにする。タブは流れの中に置いてあるので、
-  // 下まで読み進めると画面から出てしまう。帯はいつも見えているので、
-  // そこからでも折りたためるようにしておく。
-  const 帯 = document.getElementById('sp-header');
-  if (帯) {
-    let y2 = null;
-    帯.addEventListener('touchstart', e => {
-      y2 = e.touches[0] ? e.touches[0].clientY : null;
-    }, { passive: true });
-    帯.addEventListener('touchmove', e => {
-      if (y2 === null || !e.touches[0]) return;
-      const 差 = e.touches[0].clientY - y2;
-      if (Math.abs(差) < 30) return;
-      パネルを畳む(差 < 0);
-      y2 = null;
-    }, { passive: true });
-    帯.addEventListener('touchend', () => { y2 = null; }, { passive: true });
-  }
-
-  // 【2026-11-08】説明のいちばん下から、さらに上へめくり切ったら畳む（スマホだけ。CSSの #sp-lift-space を参照）
+  // つまみは説明のいちばん下（本文のすぐ後ろ）、その下に透明な余白。どちらもパネルの中で、本文より後ろに並べる
   const 余白 = document.createElement('div');
   余白.id = 'sp-lift-space';
-  余白.innerHTML = '<span>▲ このまま上げると、ルーツマップが出ます</span>';
+  panel.appendChild(grip);
   panel.appendChild(余白);
-  panel.addEventListener('scroll', () => {
-    if (!isMobile() || panel.classList.contains('sp-peek') || !panel.classList.contains('sp-visible')) return;
-    if (Date.now() - パネルを広げた時刻 < 700) return;   // 広げた直後の動きでは畳まない
-    if (panel.scrollTop > 0 && panel.scrollTop + panel.clientHeight >= panel.scrollHeight - 4) パネルを畳む(true);
-  }, { passive: true });
+  // つまみをつかんで、指に合わせて説明を上下させる（押しただけでは動かない）。
+  // 離したときに勢いがあれば、少しだけ滑らせてから止める（ブラインドを引いたときのように）。
+  let 始y = null, 始s = 0, 記録 = [], 惰性 = 0;
+  grip.addEventListener('pointerdown', e => {
+    if (!isMobile()) return;
+    cancelAnimationFrame(惰性);
+    始y = e.clientY; 始s = panel.scrollTop; 記録 = [[e.clientY, performance.now()]];
+    try { grip.setPointerCapture(e.pointerId); } catch (_) {}
+    e.preventDefault();
+  });
+  grip.addEventListener('pointermove', e => {
+    if (始y === null) return;
+    panel.scrollTop = 始s - (e.clientY - 始y);
+    記録.push([e.clientY, performance.now()]); if (記録.length > 6) 記録.shift();
+  });
+  const 離す = () => {
+    if (始y === null) return;
+    始y = null;
+    const a = 記録[0], b = 記録[記録.length - 1];
+    let v = (a && b && b[1] > a[1]) ? (b[0] - a[0]) / (b[1] - a[1]) : 0;   // 1ミリ秒あたりの動き（下向きが＋）
+    if (Math.abs(v) < 0.2) return;
+    let 前 = performance.now();
+    const 滑る = now => {
+      const dt = now - 前; 前 = now;
+      panel.scrollTop -= v * dt;
+      v *= Math.pow(0.994, dt);
+      if (Math.abs(v) > 0.03) 惰性 = requestAnimationFrame(滑る);
+    };
+    惰性 = requestAnimationFrame(滑る);
+  };
+  grip.addEventListener('pointerup', 離す);
+  grip.addEventListener('pointercancel', 離す);
+  panel.addEventListener('scroll', 上げきった状態を合わせる, { passive: true });
+  window.addEventListener('resize', () => { if (panel.classList.contains('sp-visible')) { 余白を合わせる(); 上げきった状態を合わせる(); } });
 })();
 
 function openPanel() {
@@ -22851,6 +22844,8 @@ function openPanel() {
       panel.classList.add('sp-visible');
       帯の高さを測る();
       つまみの高さを合わせる();
+      余白を合わせる();
+      setTimeout(余白を合わせる, 350);   // すべり込み（0.28秒）が終わってからの高さで、もう一度
     });
   }
   else { panel.style.display = 'block'; }
@@ -27930,7 +27925,7 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 <div id="mic-overlay">
   <div id="mic-panel" data-mode="listen">
     <button id="mic-panel-close" onclick="closeMicPanel()">✕</button>
-    <div id="mic-panel-version">v2.62</div>
+    <div id="mic-panel-version">v2.63</div>
     <div id="mic-panel-title">🎵 この曲何？</div>
     <div id="mic-panel-sub" class="gets" aria-label="曲名・歌手・ジャンルが分かり、動画も見られます"><span class="g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>曲名</span><span class="g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>歌手</span><span class="g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12V4a1 1 0 0 1 1-1h8l9 9-9 9z"/><circle cx="7.5" cy="7.5" r="1.3"/></svg>ジャンル</span><span class="g"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l13-7.5z" fill="currentColor"/></svg>動画</span><span class="w">がわかる</span></div>
     <div id="mic-modes" role="tablist" aria-label="調べ方">
@@ -27965,7 +27960,6 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
     <div class="mic-pane mic-pane-name">
       <form id="mic-name-form" onsubmit="micNameSubmit(event)">
         <input id="mic-name-t" type="search" placeholder="例：Lemon または 米津" autocomplete="off">
-        <button type="submit">探す</button>
       </form>
     </div>
     </div>
