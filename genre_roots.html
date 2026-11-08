@@ -1605,7 +1605,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v136.2</span>
+  <span id="version-info">v136.3</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -27676,9 +27676,19 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 @keyframes micModeGlow { 0%,100% { filter: brightness(1); } 50% { filter: brightness(1.15) drop-shadow(0 0 6px rgba(255,120,150,0.6)); } }
 @media (prefers-reduced-motion: reduce) { .mic-mode-btn[aria-selected="true"] { animation: none; } }
 .mic-mode-btn:focus-visible { outline: 2px solid #fff; outline-offset: 1px; }
-/* 幅360px以下の狭いスマホでは「曲名か歌手名」が入りきらず切れるので、このボタンだけ「曲名か｜歌手名」の切れ目で2行にする（2026-11-08。パソコン・普通のスマホは変えない） */
-.mic-nbr { display: none; }
-@media (max-width: 360px) { .mic-mode-btn { font-size: 12.5px; padding: 8px 3px; line-height: 1.3; } .mic-nbr { display: inline; } }
+/* 【v2.54 2026-11-08】3つ目のボタンは「曲名／歌手名」（どちらか一方でよい、と分かるように）。
+   v2.53の「曲名か歌手名」は狭いスマホで2行に折れて、このボタンだけ段違いになった（チョロさんの指摘）。
+   ・幅は文字の長さに合わせる（flex: 1 1 auto）。パソコンは今までどおり横1行。
+   ・スマホ（幅440px以下）は横1行に入りきらないので、3つとも「絵の下に文字」の同じ2段にそろえる。
+   入り口ページ（song.html など。tools/gen_song_pages.py）も同じ形。 */
+.mic-mode-btn { flex: 1 1 auto; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 10px 6px; }
+@media (max-width: 440px) {
+  #mic-modes { gap: 7px; }
+  .mic-mode-btn { flex-direction: column; gap: 1px; padding: 8px 6px 7px; font-size: 12.5px; line-height: 1.3; }
+  .mic-mode-btn .ic { font-size: 17px; line-height: 1.2; }
+  /* 「3つの方法のうち、どれか1つで調べられます」を1行に収める。入らない幅でも「、」の所でだけ折れる（keep-all。「調べ／られます」のような折れ方をさせない） */
+  #mic-panel-sub { font-size: min(14px, calc((100vw - 76px) / 21)); word-break: keep-all; }
+}
 /* 【v2.49】3つの中身を同じ1マスに重ねて置き、選んでいないものは「見えないけれど場所は取る」にする。
    こうすると、いちばん背の高い中身に合わせて土台の大きさが決まり、ボタンを押してもパネルの大きさが変わらない（チョロさんの指摘）。 */
 .mic-panes { display: grid; }
@@ -27849,13 +27859,13 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 <div id="mic-overlay">
   <div id="mic-panel" data-mode="listen">
     <button id="mic-panel-close" onclick="closeMicPanel()">✕</button>
-    <div id="mic-panel-version">v2.53</div>
+    <div id="mic-panel-version">v2.54</div>
     <div id="mic-panel-title">🎵 この曲なんてジャンル？</div>
     <div id="mic-panel-sub">3つの方法のうち、どれか1つで調べられます</div>
     <div id="mic-modes" role="tablist" aria-label="調べ方">
-      <button class="mic-mode-btn" role="tab" aria-selected="true" data-mode="listen" onclick="micSetMode('listen')">🎤 聴かせる</button>
-      <button class="mic-mode-btn" role="tab" aria-selected="false" data-mode="file" onclick="micSetMode('file')">📁 ファイル</button>
-      <button class="mic-mode-btn" role="tab" aria-selected="false" data-mode="name" onclick="micSetMode('name')">✏️ 曲名か<br class="mic-nbr">歌手名</button>
+      <button class="mic-mode-btn" role="tab" aria-selected="true" data-mode="listen" onclick="micSetMode('listen')"><span class="ic">🎤</span><span>聴かせる</span></button>
+      <button class="mic-mode-btn" role="tab" aria-selected="false" data-mode="file" onclick="micSetMode('file')"><span class="ic">📁</span><span>ファイル</span></button>
+      <button class="mic-mode-btn" role="tab" aria-selected="false" data-mode="name" onclick="micSetMode('name')"><span class="ic">✏️</span><span>曲名／歌手名</span></button>
     </div>
     <div class="mic-panes">
     <div class="mic-pane mic-pane-listen">
@@ -27883,7 +27893,7 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
     </div>
     <div class="mic-pane mic-pane-name">
       <form id="mic-name-form" onsubmit="micNameSubmit(event)">
-        <input id="mic-name-t" type="search" placeholder="曲名か歌手名（例：Lemon　または　米津玄師）" autocomplete="off">
+        <input id="mic-name-t" type="search" placeholder="例：Lemon または 米津玄師" autocomplete="off">
         <button type="submit">探す</button>
       </form>
     </div>
@@ -28127,7 +28137,7 @@ async function micDoRecognize(formData) {
         : second === 'error'
         ? '曲を特定できませんでした。1つ目の照合先（音紋照合S）では見つからず、2つ目の照合先（音紋照合A）にはつながりませんでした。'
         : '曲を特定できませんでした。2つの照合先（音紋照合S・音紋照合A）のどちらにも、この音に合う曲が見つかりませんでした。';
-      micShowError(why + ' あまり知られていない曲や、まわりの音が大きいときは、聴き取れないことがあります。曲名が分かっていれば、上の「✏️ 曲名」を選んで、曲名を入れて調べてください。');
+      micShowError(why + ' あまり知られていない曲や、まわりの音が大きいときは、聴き取れないことがあります。曲名が分かっていれば、上の「✏️ 曲名／歌手名」を選んで、曲名を入れて調べてください。');
       micSetState('idle');
       return;
     }

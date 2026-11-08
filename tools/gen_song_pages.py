@@ -1,0 +1,238 @@
+# -*- coding: utf-8 -*-
+"""「この曲なんてジャンル？」の入り口ページ3つを、1つのひな形から作る道具（2026-11-08 初版）
+
+  song.html       … 🎤 聴かせる（マイクで20秒聴いて曲を当てる）
+  song_file.html  … 📁 ファイル（手元の音楽ファイルで曲を当てる）
+  song_name.html  … ✏️ 曲名／歌手名（文字で探す）
+
+【なぜ1つのひな形から作るか】
+チョロさんの指示（2026-11-08）：3つは「全く同じ形」にして、ページが変わったようには見えず、
+タブを切り替えているように見せる。見た目は地図の中の「この曲なんてジャンル？」のパネルとほとんど同じにする。
+3つを手で別々に直すと、すぐ形がずれるので、このひな形だけを直して、3つを作り直す。
+
+【使い方】  python tools/gen_song_pages.py
+  ・3つのページを作り直す。ページの中身（見た目・文）を直すときは、このファイルを直してから実行する。
+  ・動き（録音・ファイル・候補の検索・タブの切り替え）は proto/song_panel.js（3ページ共通）。
+  ・ジャンルの数（「595ジャンル」）は proto/genres.json の数。tools/gen_stubs.js も地図が変わるたびに数を合わせる。
+
+【検索（Search Console）】3つとも、それぞれ別のページとして検索に出す（sitemap.xml に載せる。gen_stubs.js が書く）。
+"""
+import io, json, os
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+VERSION = 'v1.0'   # 入り口ページの版（3ページ共通。パネルの右下に出る）
+N = len(json.load(io.open(os.path.join(ROOT, 'proto', 'genres.json'), encoding='utf-8')))
+SITE = 'https://genre-roots.com'
+
+# ページごとに違うのは、ここだけ（題名・説明文・最初に選ばれているボタン）
+PAGES = {
+    'listen': dict(
+        file='song.html',
+        title='音楽を聴かせて曲を当てる｜曲名・歌手・ジャンルが分かる（無料・アプリ不要）— 音楽ジャンルルーツ辞典',
+        desc='流れている音楽をスマホやパソコンに聴かせるだけで、曲名と歌手を当てて、その曲のジャンルまで答えます（無料・アプリ不要）。答えは%dジャンルのルーツ地図に出るので、そのジャンルがどの音楽から生まれたかもたどれます。' % N,
+    ),
+    'file': dict(
+        file='song_file.html',
+        title='音楽ファイルから曲名とジャンルを調べる｜mp3・m4aの曲は何？（無料）— 音楽ジャンルルーツ辞典',
+        desc='手元の音楽ファイル（mp3・wav・m4a など）を選ぶだけで、曲名と歌手を当てて、その曲のジャンルまで答えます（無料・登録不要）。答えは%dジャンルのルーツ地図に出ます。' % N,
+    ),
+    'name': dict(
+        file='song_name.html',
+        title='曲名で曲のジャンルを調べる｜この曲は何ジャンル？（無料）— 音楽ジャンルルーツ辞典',
+        desc='曲名か歌手名を入れるだけで、その曲のジャンルが分かります（無料・登録不要）。日本の曲は「歌手ごと」ではなく「曲ごと」に、曲調・メロディーで判定します。答えは%dジャンルのルーツ地図に出ます。' % N,
+    ),
+}
+
+TEMPLATE = r'''<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>__TITLE__</title>
+<meta name="description" content="__DESC__">
+<link rel="canonical" href="__URL__">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="音楽ジャンルルーツ辞典">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="__TITLE__">
+<meta property="og:description" content="__DESC__">
+<meta property="og:url" content="__URL__">
+<meta property="og:image" content="https://genre-roots.com/ogp.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#1a1a2e">
+<script type="application/ld+json">__LD__</script>
+<!-- このページは tools/gen_song_pages.py で作っています。直接直さず、ひな形を直して作り直してください。 -->
+<style>
+/* 地図の中の「この曲なんてジャンル？」のパネル（genre_roots.html の #mic-panel）と同じ見た目にする（2026-11-08 チョロさんの指示） */
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:#1a1a2e}
+body{background:#1a1a2e;color:#e8e8f0;font-family:"Segoe UI","Hiragino Kaku Gothic ProN","Hiragino Sans",Meiryo,sans-serif;line-height:1.6}
+a{color:#7eb8f7}
+/* 1画面に収める：パネルを画面の真ん中に置く。上に辞典の名前、下に短い注釈だけ */
+.stage{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:16px}
+.site{font-size:13px;font-weight:700;color:#a0a0b8;text-decoration:none;letter-spacing:.04em}
+.site:hover{color:#fff}
+.foot{font-size:12px;color:#8f8fa8;text-align:center}
+.foot a{color:#a0a0b8}
+
+#mic-panel{background:#16162a;border:1px solid rgba(255,255,255,0.13);border-radius:18px;padding:28px 26px 24px;width:360px;max-width:100%;position:relative;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.6)}
+#mic-panel-title{font-size:15px;font-weight:700;color:#fff;margin-bottom:5px;white-space:nowrap}
+#mic-panel-sub{font-size:14px;font-weight:600;color:#e8e8f0;margin-bottom:10px;line-height:1.5;word-break:keep-all}
+#song-page-version{position:absolute;bottom:8px;right:12px;font-size:10px;color:#333;pointer-events:none}
+
+/* 3つのボタン（地図のパネルと同じ立体のボタン。選んだものだけ赤く光る） */
+#mic-modes{display:flex;gap:8px;margin:0 0 20px;padding-bottom:4px}
+.mic-mode-btn{flex:1 1 auto;display:flex;align-items:center;justify-content:center;gap:4px;padding:10px 6px;font-size:13.5px;font-weight:700;color:#f0f0f8;text-decoration:none;background:linear-gradient(180deg,#4a4a6a 0%,#33334d 100%);border:1px solid #5c5c80;border-bottom-color:#22223a;border-radius:10px;cursor:pointer;white-space:nowrap;box-shadow:inset 0 1px 0 rgba(255,255,255,0.22),0 4px 0 #151526,0 6px 10px rgba(0,0,0,0.45);text-shadow:0 1px 0 rgba(0,0,0,0.4);transform:translateY(0);transition:transform .08s,box-shadow .08s,background .15s;-webkit-tap-highlight-color:transparent}
+.mic-mode-btn:hover{background:linear-gradient(180deg,#56567a 0%,#3c3c5a 100%)}
+.mic-mode-btn:active{transform:translateY(3px);box-shadow:inset 0 1px 0 rgba(255,255,255,0.15),0 1px 0 #151526,0 2px 4px rgba(0,0,0,0.4)}
+.mic-mode-btn[aria-selected="true"],.mic-mode-btn[aria-selected="true"]:hover,.mic-mode-btn[aria-selected="true"]:active{background:radial-gradient(75% 85% at 50% 55%,#c22d48 0%,#e0405c 45%,#ff6f8a 85%,#ff9aae 100%);border-color:#ffb3c1;border-bottom-color:#ffb3c1;color:#fff;text-shadow:0 0 6px rgba(255,220,228,0.9),0 1px 1px rgba(90,0,20,0.6);transform:translateY(0);box-shadow:inset 0 0 12px 3px rgba(110,10,35,0.75),inset 0 2px 3px rgba(80,0,20,0.6),0 4px 0 #6e1426,0 0 16px 4px rgba(255,90,125,0.55),0 0 32px 8px rgba(255,90,125,0.25);animation:micModeGlow 2.4s ease-in-out infinite}
+@keyframes micModeGlow{0%,100%{filter:brightness(1)}50%{filter:brightness(1.15) drop-shadow(0 0 6px rgba(255,120,150,0.6))}}
+@media (prefers-reduced-motion:reduce){.mic-mode-btn[aria-selected="true"]{animation:none}}
+.mic-mode-btn:focus-visible{outline:2px solid #fff;outline-offset:1px}
+/* スマホ：横1行に入りきらないので、3つとも「絵の下に文字」の同じ2段にそろえる（1つだけ段違いにならないように） */
+@media (max-width:440px){
+  #mic-panel{padding:24px 18px 22px}
+  #mic-modes{gap:7px}
+  .mic-mode-btn{flex-direction:column;gap:1px;padding:8px 6px 7px;font-size:12.5px;line-height:1.3}
+  .mic-mode-btn .ic{font-size:17px;line-height:1.2}
+  /* 「3つの方法のうち、どれか1つで調べられます」を1行に収める。入らない幅でも「、」の所でだけ折れる（keep-all） */
+  #mic-panel-sub{font-size:min(14px,calc((100vw - 70px) / 21))}
+}
+
+/* 3つの中身を同じ1マスに重ねて置く（ボタンを押してもパネルの大きさが変わらない。地図のパネルと同じ） */
+.mic-panes{display:grid}
+.mic-pane{grid-area:1/1;align-self:center;visibility:hidden}
+#mic-panel[data-mode="listen"] .mic-pane-listen,#mic-panel[data-mode="file"] .mic-pane-file,#mic-panel[data-mode="name"] .mic-pane-name{visibility:visible}
+.mic-panel-recording #mic-modes,.mic-panel-processing #mic-modes{visibility:hidden}
+.mic-panel-processing .mic-pane-name,.mic-panel-processing .mic-pane-file{visibility:hidden!important}
+
+.mic-btn-zone{position:relative;width:110px;height:110px;margin:0 auto 10px;display:flex;align-items:center;justify-content:center}
+.mic-ring{position:absolute;inset:0;border-radius:50%;border:1.5px solid rgba(233,69,96,0.5);opacity:0;pointer-events:none}
+.mic-panel-recording .mic-ring-1{animation:mic-expand 1.8s ease-out infinite}
+.mic-panel-recording .mic-ring-2{animation:mic-expand 1.8s ease-out .6s infinite}
+.mic-panel-recording .mic-ring-3{animation:mic-expand 1.8s ease-out 1.2s infinite}
+@keyframes mic-expand{0%{transform:scale(1);opacity:.7}100%{transform:scale(2.4);opacity:0}}
+.mic-listen-btn{position:relative;z-index:1;width:110px;height:110px;border-radius:50%;border:2px solid rgba(255,255,255,0.1);background:#1a1a2e;color:#888;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .25s,border-color .25s,color .25s;outline:none}
+.mic-listen-btn:hover{border-color:rgba(255,255,255,0.2);color:#eee}
+.mic-listen-btn:focus-visible{border-color:#fff}
+.mic-panel-recording .mic-listen-btn{background:#e94560;border-color:#e94560;color:#fff}
+.mic-panel-processing .mic-listen-btn{background:#141428;color:#444;cursor:default;pointer-events:none}
+.mic-listen-btn svg{width:38px;height:38px}
+
+.mic-file-label{display:block;padding:26px 12px;background:#1a1a2e;border:1px dashed rgba(255,255,255,0.15);border-radius:8px;color:#999;font-size:13px;cursor:pointer}
+.mic-file-label:hover{border-color:rgba(255,255,255,0.3);color:#ccc}
+.mic-file-note{font-size:11px;color:#777;margin-top:8px}
+#mic-name-form{display:flex;flex-direction:column;gap:8px;margin-bottom:6px}
+#mic-name-form input{width:100%;padding:10px 11px;font:inherit;font-size:16px;color:#eee;background:#1a1a2e;border:1px solid rgba(255,255,255,0.15);border-radius:8px;outline:none}
+#mic-name-form input:focus{border-color:rgba(233,69,96,0.7)}
+#mic-name-form button{padding:10px;font:inherit;font-size:14px;font-weight:700;color:#fff;background:#e94560;border:none;border-radius:8px;cursor:pointer}
+#mic-name-form button:hover{background:#ff5470}
+
+/* 曲名・歌手名の候補（パネルの中に出す。地図のパネルと同じ） */
+#mic-name-res{display:none;text-align:left}
+#mic-panel[data-mode="name"] #mic-name-res{display:block}
+.mic-panel-processing #mic-name-out{display:none}
+#mic-name-st{font-size:12px;color:#a0a0b8;min-height:1.5em;margin:2px 0 4px}
+#mic-name-st:empty{display:none}
+#mic-name-out{max-height:46vh;overflow-y:auto;margin:0 -8px;padding:0 4px}
+#mic-name-out:empty{display:none}
+#mic-name-out .sec{margin-top:10px}
+#mic-name-out .sec h3{font-size:13px;color:#d8b25e;margin:0 0 4px 4px}
+#mic-name-out .sec h3 small{color:#8f8fa8;font-weight:400;font-size:11px;margin-left:6px}
+#mic-name-out .row{display:flex;gap:9px;align-items:center;padding:6px;border-radius:8px;cursor:pointer;border:1px solid transparent;line-height:1.5}
+#mic-name-out .row:hover,#mic-name-out .row:focus{background:#2a2a4a;border-color:rgba(126,184,247,.35);outline:none}
+#mic-name-out .row img,#mic-name-out .row .noimg{width:38px;height:38px;border-radius:6px;flex:none;background:#2c2c48;object-fit:cover}
+#mic-name-out .row.artist .noimg{border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px}
+#mic-name-out .row .tx{min-width:0;flex:1}
+#mic-name-out .row .t{font-weight:700;font-size:13.5px;color:#eee;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#mic-name-out .row .a{font-size:11.5px;color:#8f8fa8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#mic-name-out .badge{flex:none;max-width:40%;font-size:10px;font-weight:700;padding:1px 7px;border-radius:999px;background:rgba(216,178,94,.18);color:#d8b25e;border:1px solid rgba(216,178,94,.4);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* 録音中・照合中の波形と案内 */
+#mic-eq-canvas{width:100%;height:40px;display:none;margin-bottom:6px}
+.mic-panel-recording #mic-eq-canvas,.mic-panel-processing #mic-eq-canvas{display:block}
+#mic-status{font-size:12px;color:#888;min-height:18px;margin-bottom:6px}
+#mic-status:empty{visibility:hidden}
+.mic-panel-recording #mic-status{color:#e94560}
+#mic-countdown{font-size:26px;font-variant-numeric:tabular-nums;color:#e94560;font-weight:300;display:none;margin-bottom:10px}
+.mic-panel-recording #mic-countdown,.mic-panel-processing #mic-countdown{display:block;min-height:32px}
+#mic-error{display:none;font-size:12px;color:#f87171;margin-top:8px;white-space:pre-line;text-align:left}
+#mic-error.visible{display:block}
+#mic-error a{color:#7eb8f7}
+</style>
+</head>
+<body>
+<main class="stage">
+  <a class="site" href="/genre_roots.html">音楽ジャンルルーツ辞典</a>
+  <div id="mic-panel" data-mode="__MODE__">
+    <div id="song-page-version">__VERSION__</div>
+    <h1 id="mic-panel-title">🎵 この曲なんてジャンル？</h1>
+    <p id="mic-panel-sub">3つの方法のうち、どれか1つで調べられます</p>
+    <nav id="mic-modes" role="tablist" aria-label="調べ方">
+      <a class="mic-mode-btn" role="tab" href="/song.html" data-mode="listen" aria-selected="__SEL_listen__"><span class="ic">🎤</span><span>聴かせる</span></a>
+      <a class="mic-mode-btn" role="tab" href="/song_file.html" data-mode="file" aria-selected="__SEL_file__"><span class="ic">📁</span><span>ファイル</span></a>
+      <a class="mic-mode-btn" role="tab" href="/song_name.html" data-mode="name" aria-selected="__SEL_name__"><span class="ic">✏️</span><span>曲名／歌手名</span></a>
+    </nav>
+    <div class="mic-panes">
+      <div class="mic-pane mic-pane-listen">
+        <div class="mic-btn-zone">
+          <div class="mic-ring mic-ring-1"></div><div class="mic-ring mic-ring-2"></div><div class="mic-ring mic-ring-3"></div>
+          <button class="mic-listen-btn" id="mic-listen-btn" type="button" aria-label="マイクで聴かせる">
+            <svg viewBox="0 0 52 52" fill="none" aria-hidden="true">
+              <rect x="18" y="5" width="16" height="26" rx="8" fill="currentColor"/>
+              <path d="M11 25c0 8.284 6.716 15 15 15s15-6.716 15-15" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+              <line x1="26" y1="40" x2="26" y2="47" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+              <line x1="18" y1="47" x2="34" y2="47" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="mic-pane mic-pane-file">
+        <label class="mic-file-label" for="micAudioFile">📁 音楽ファイルを選ぶ</label>
+        <input type="file" id="micAudioFile" accept=".mp3,.wav,.ogg,.m4a,.webm,.aac,.flac,audio/*" style="display:none">
+        <div class="mic-file-note">mp3・wav・m4a などの音楽ファイル</div>
+      </div>
+      <div class="mic-pane mic-pane-name">
+        <form id="mic-name-form">
+          <input id="mic-name-t" type="search" placeholder="例：Lemon または 米津玄師" autocomplete="off" aria-label="曲名か歌手名">
+          <button type="submit">探す</button>
+        </form>
+      </div>
+    </div>
+    <div id="mic-name-res"><div id="mic-name-st"></div><div id="mic-name-out"></div></div>
+    <canvas id="mic-eq-canvas"></canvas>
+    <div id="mic-status"></div>
+    <div id="mic-countdown"></div>
+    <div id="mic-error"></div>
+  </div>
+  <p class="foot">答えは、<a href="/genre_roots.html">__N__ジャンルのルーツ地図</a>に出ます</p>
+</main>
+<script>window.SONG_PAGES = __PAGES_JS__;</script>
+<script src="/proto/song_core.js" defer></script>
+<script src="/proto/song_panel.js" defer></script>
+</body>
+</html>
+'''
+
+
+def esc(s):
+    return s.replace('&', '&amp;').replace('"', '&quot;').replace('<', '&lt;').replace('>', '&gt;')
+
+
+pages_js = json.dumps({m: {'file': '/' + p['file'], 'title': p['title']} for m, p in PAGES.items()}, ensure_ascii=False)
+for mode, p in PAGES.items():
+    url = SITE + '/' + p['file']
+    ld = json.dumps({'@context': 'https://schema.org', '@type': 'WebApplication', 'name': 'この曲なんてジャンル？',
+                     'url': url, 'description': p['desc'], 'applicationCategory': 'MultimediaApplication',
+                     'operatingSystem': 'Web', 'inLanguage': 'ja',
+                     'offers': {'@type': 'Offer', 'price': '0', 'priceCurrency': 'JPY'},
+                     'isPartOf': {'@type': 'WebSite', 'name': '音楽ジャンルルーツ辞典', 'url': SITE + '/'}}, ensure_ascii=False)
+    html = TEMPLATE
+    for k, v in {'__TITLE__': esc(p['title']), '__DESC__': esc(p['desc']), '__URL__': url, '__LD__': ld.replace('</', '<\\/'),
+                 '__MODE__': mode, '__VERSION__': VERSION, '__N__': str(N), '__PAGES_JS__': pages_js}.items():
+        html = html.replace(k, v)
+    for m in PAGES:
+        html = html.replace('__SEL_%s__' % m, 'true' if m == mode else 'false')
+    import re; assert not re.search(r'__[A-Z]', html), re.findall(r'__[A-Z_a-z]+__', html)
+    io.open(os.path.join(ROOT, p['file']), 'w', encoding='utf-8', newline='\n').write(html)
+    print('wrote', p['file'], len(html))

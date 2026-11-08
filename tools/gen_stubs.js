@@ -105,8 +105,9 @@ ${node.roots_story ? '<h2>成り立ち</h2><p>' + esc(String(node.roots_story)) 
 ${tracks ? '<h2>代表曲</h2><ul>' + tracks + '</ul>' : ''}
 ${rlinks ? '<h2>ルーツ（影響を受けたジャンル）</h2><p>' + rlinks + '</p>' : ''}
 ${ilinks ? '<h2>影響を与えたジャンル</h2><p>' + ilinks + '</p>' : ''}
-<p><a href="/song.html">曲のジャンルを調べる（この曲なんてジャンル？）</a> — 流れている曲を聴かせるだけで、曲名・歌手・ジャンルをAIが判定します。</p>
-<p><a href="/song_name.html">曲名で曲のジャンルを調べる</a> — 曲名と歌手名を入れるだけ。日本の曲は歌手ごとではなく、曲ごとに判定します。</p>
+<p><a href="/song.html">曲を聴かせてジャンルを調べる（この曲なんてジャンル？）</a> — 流れている曲を聴かせるだけで、曲名・歌手を当てて、ジャンルを答えます。</p>
+<p><a href="/song_file.html">音楽ファイルからジャンルを調べる</a> — 手元の音楽ファイル（mp3・m4a など）を選ぶだけ。</p>
+<p><a href="/song_name.html">曲名で曲のジャンルを調べる</a> — 曲名か歌手名を入れるだけ。日本の曲は歌手ごとではなく、曲ごとに判定します。</p>
 <p>地図で${esc(名読み)}のルーツをたどるには、JavaScriptを有効にして <a href="/genre_roots.html?genre=${encodeURIComponent(id)}">音楽ジャンルルーツ辞典</a> を開いてください。</p>
 </div></noscript>
 </body>
@@ -127,8 +128,10 @@ for (const n of NODES) {
 
 // 【2026-11-04】song.html の「○○ジャンル」の数を、地図のジャンル数に合わせる（手で直すと古いまま残るため。
 // 2026-11-03に「589ジャンル」のまま6ジャンル古くなっていたのが見つかった）。
-{
-  const sp = path.join(OUT, 'song.html');
+// 【2026-11-08】入り口ページは3つ（聴かせる・ファイル・曲名）になったので、3つとも合わせる（ひな形は tools/gen_song_pages.py）
+for (const f of ['song.html', 'song_file.html', 'song_name.html']) {
+  const sp = path.join(OUT, f);
+  if (!fs.existsSync(sp)) continue;
   const s0 = fs.readFileSync(sp, 'utf8');
   const s1 = s0.replace(/\d+ジャンル/g, NODES.length + 'ジャンル');
   if (s1 !== s0) fs.writeFileSync(sp, s1, 'utf8');
@@ -150,6 +153,8 @@ sm += '\n' + url(SITE + '/docs/changes.html', TODAY, '0.3', 'weekly');
 sm += '\n' + url(SITE + '/song.html', TODAY, '0.8', 'monthly');
 // 【2026-11-06】曲名で調べるページ（song_name.html）も検索に出すページなので載せる（チョロさんの指示で公開）
 sm += '\n' + url(SITE + '/song_name.html', TODAY, '0.8', 'monthly');
+// 【2026-11-08】音楽ファイルで調べるページ（song_file.html）も、検索に出す3つ目の入り口として載せる（チョロさんの提案）
+sm += '\n' + url(SITE + '/song_file.html', TODAY, '0.8', 'monthly');
 for (const n of NODES) sm += '\n' + url(SITE + '/genre/' + encodeURIComponent(n.id) + '.html', TODAY, '0.8', 'weekly');
 sm += '\n</urlset>\n';
 fs.writeFileSync(path.join(OUT, 'sitemap.xml'), sm, 'utf8');

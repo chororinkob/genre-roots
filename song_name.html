@@ -2,124 +2,168 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>曲名で曲のジャンルを調べる｜この曲は何ジャンル？（無料）— 音楽ジャンルルーツ辞典</title>
-<meta name="description" content="曲名と歌手名を入れるだけで、その曲のジャンルが分かります（無料・登録不要）。日本の曲は「歌手ごと」ではなく「曲ごと」に、曲調・メロディーで判定。演歌・歌謡曲・ムード歌謡・J-POP・J-ROCK・アニソンなど約4,200曲を収録し、ほかの曲も、辞典の代表曲（約8,600曲）や音楽データベースから答えます。">
+<meta name="description" content="曲名か歌手名を入れるだけで、その曲のジャンルが分かります（無料・登録不要）。日本の曲は「歌手ごと」ではなく「曲ごと」に、曲調・メロディーで判定します。答えは595ジャンルのルーツ地図に出ます。">
 <link rel="canonical" href="https://genre-roots.com/song_name.html">
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="音楽ジャンルルーツ辞典">
+<meta property="og:locale" content="ja_JP">
 <meta property="og:title" content="曲名で曲のジャンルを調べる｜この曲は何ジャンル？（無料）— 音楽ジャンルルーツ辞典">
-<meta property="og:description" content="曲名と歌手名を入れるだけで、その曲のジャンルが分かります（無料・登録不要）。日本の曲は「歌手ごと」ではなく「曲ごと」に、曲調・メロディーで判定。演歌・歌謡曲・ムード歌謡・J-POP・J-ROCK・アニソンなど約4,200曲を収録し、ほかの曲も、辞典の代表曲（約8,600曲）や音楽データベースから答えます。">
+<meta property="og:description" content="曲名か歌手名を入れるだけで、その曲のジャンルが分かります（無料・登録不要）。日本の曲は「歌手ごと」ではなく「曲ごと」に、曲調・メロディーで判定します。答えは595ジャンルのルーツ地図に出ます。">
 <meta property="og:url" content="https://genre-roots.com/song_name.html">
-<meta name="twitter:card" content="summary">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "この曲は何ジャンル？曲名から調べるには？", "acceptedAnswer": {"@type": "Answer", "text": "曲名と歌手名を入れて「ジャンルを調べる」を押すだけです。答えは、595ジャンルのルーツ地図の上に、そのジャンルの特徴・成り立ち・代表曲と一緒に表示されます。曲名が分からないときは「曲を聴かせて調べる」を使ってください。"}}, {"@type": "Question", "name": "ほかのサイトとジャンルの答えが違うのはなぜ？", "acceptedAnswer": {"@type": "Answer", "text": "日本の曲は、世間では「歌手ごと」にジャンルを決めることが多く、演歌歌手が歌えば何でも演歌とされがちです。音楽ジャンルルーツ辞典は「曲ごと」に、その曲そのものの曲調・メロディーで判定しています。たとえば石川さゆり「天城越え」は、曲調として演歌ではないため歌謡曲としています。"}}, {"@type": "Question", "name": "演歌と歌謡曲とムード歌謡の違いは？", "acceptedAnswer": {"@type": "Answer", "text": "演歌は、浪曲や民謡につながる演歌特有の節回し・メロディーで決まります。こぶしは歌い手の癖なので、それだけでは演歌になりません。ムード歌謡は、夜・酒・都会・大人の恋を歌う昭和のしっとりした曲です。それ以外の昭和の流行歌が歌謡曲です。"}}]}</script>
+<meta property="og:image" content="https://genre-roots.com/ogp.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#1a1a2e">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "この曲なんてジャンル？", "url": "https://genre-roots.com/song_name.html", "description": "曲名か歌手名を入れるだけで、その曲のジャンルが分かります（無料・登録不要）。日本の曲は「歌手ごと」ではなく「曲ごと」に、曲調・メロディーで判定します。答えは595ジャンルのルーツ地図に出ます。", "applicationCategory": "MultimediaApplication", "operatingSystem": "Web", "inLanguage": "ja", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "JPY"}, "isPartOf": {"@type": "WebSite", "name": "音楽ジャンルルーツ辞典", "url": "https://genre-roots.com/"}}</script>
+<!-- このページは tools/gen_song_pages.py で作っています。直接直さず、ひな形を直して作り直してください。 -->
 <style>
-:root{--bg:#1a1a2e;--panel:#20203a;--line:rgba(255,255,255,.09);--txt:#e8e8f0;--sub:#a0a0b8;--acc:#7eb8f7;--brass:#d8b25e}
+/* 地図の中の「この曲なんてジャンル？」のパネル（genre_roots.html の #mic-panel）と同じ見た目にする（2026-11-08 チョロさんの指示） */
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:"Segoe UI","Hiragino Kaku Gothic ProN",sans-serif;background:var(--bg);color:var(--txt);line-height:1.9;font-size:16px}
-a{color:var(--acc)}
-.proto{background:#f0b429;color:#1a1206;font-size:12px;font-weight:700;padding:4px 10px;text-align:center}
-.wrap{max-width:760px;margin:0 auto;padding:0 20px 80px}
-header{padding:22px 0 14px;border-bottom:1px solid var(--line)}
-header a{font-weight:700;font-size:15px;text-decoration:none;color:var(--txt)}
-.eyebrow{color:var(--brass);font-size:12px;letter-spacing:.18em;margin:36px 0 6px}
-h1{font-family:"Hiragino Mincho ProN","Yu Mincho",serif;font-weight:600;font-size:34px;line-height:1.35}
-.lede{color:var(--sub);margin-top:12px;font-size:15px}
-.tabs{display:flex;gap:8px;margin-top:28px}
-.tab{flex:1;text-align:center;padding:10px;border:1px solid var(--line);border-radius:10px 10px 0 0;color:var(--sub);text-decoration:none;font-size:14px}
-.tab.on{background:var(--panel);color:var(--txt);border-bottom-color:var(--panel);font-weight:700}
-form{background:var(--panel);border:1px solid var(--line);border-top:0;border-radius:0 0 12px 12px;padding:20px}
-label{display:block;font-size:13px;color:var(--sub);margin-top:10px}
-input{width:100%;font:inherit;font-size:17px;padding:10px 12px;border-radius:8px;border:1px solid rgba(255,255,255,.18);background:#14142a;color:var(--txt)}
-button{margin-top:16px;width:100%;font:inherit;font-weight:700;font-size:17px;padding:12px;border:0;border-radius:10px;background:var(--acc);color:#0e1a2c;cursor:pointer}
-.ex{margin-top:14px;font-size:13px;color:var(--sub)}
-.ex a{display:inline-block;margin:4px 6px 0 0;padding:2px 10px;border:1px solid var(--line);border-radius:999px;text-decoration:none;color:var(--txt)}
-#msg{margin-top:16px;font-size:14px;min-height:1.9em}
-#msg.ng{color:#f0b429}
-h2{font-size:18px;margin:40px 0 8px}
-/* 【2026-11-07】あいまい検索の候補の一覧 */
-#st{margin-top:12px;font-size:13px;color:var(--sub);min-height:1.7em}
-.sec{margin-top:16px}
-.sec h3{font-size:15px;color:var(--brass);margin-bottom:6px}
-.sec h3 small{color:var(--sub);font-weight:400;font-size:12px;margin-left:6px}
-.row{display:flex;gap:10px;align-items:center;padding:7px 8px;border-radius:8px;cursor:pointer;border:1px solid transparent;line-height:1.6}
-.row:hover,.row:focus{background:#2a2a4a;border-color:rgba(126,184,247,.35);outline:none}
-.row img,.row .noimg{width:44px;height:44px;border-radius:6px;flex:none;background:#2c2c48;object-fit:cover}
-.row .tx{min-width:0;flex:1}
-.row .t{font-weight:700;font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.row .a{font-size:13px;color:var(--sub);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.badge{flex:none;font-size:11px;font-weight:700;padding:1px 8px;border-radius:999px;background:rgba(216,178,94,.18);color:var(--brass);border:1px solid rgba(216,178,94,.4)}
-.row.artist .noimg{border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px}
-@media (max-width:480px){.badge{font-size:10px;padding:1px 6px;max-width:42%;white-space:normal;text-align:center}}
-p.s{font-size:14.5px;color:var(--sub)}
+html{background:#1a1a2e}
+body{background:#1a1a2e;color:#e8e8f0;font-family:"Segoe UI","Hiragino Kaku Gothic ProN","Hiragino Sans",Meiryo,sans-serif;line-height:1.6}
+a{color:#7eb8f7}
+/* 1画面に収める：パネルを画面の真ん中に置く。上に辞典の名前、下に短い注釈だけ */
+.stage{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:16px}
+.site{font-size:13px;font-weight:700;color:#a0a0b8;text-decoration:none;letter-spacing:.04em}
+.site:hover{color:#fff}
+.foot{font-size:12px;color:#8f8fa8;text-align:center}
+.foot a{color:#a0a0b8}
+
+#mic-panel{background:#16162a;border:1px solid rgba(255,255,255,0.13);border-radius:18px;padding:28px 26px 24px;width:360px;max-width:100%;position:relative;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.6)}
+#mic-panel-title{font-size:15px;font-weight:700;color:#fff;margin-bottom:5px;white-space:nowrap}
+#mic-panel-sub{font-size:14px;font-weight:600;color:#e8e8f0;margin-bottom:10px;line-height:1.5;word-break:keep-all}
+#song-page-version{position:absolute;bottom:8px;right:12px;font-size:10px;color:#333;pointer-events:none}
+
+/* 3つのボタン（地図のパネルと同じ立体のボタン。選んだものだけ赤く光る） */
+#mic-modes{display:flex;gap:8px;margin:0 0 20px;padding-bottom:4px}
+.mic-mode-btn{flex:1 1 auto;display:flex;align-items:center;justify-content:center;gap:4px;padding:10px 6px;font-size:13.5px;font-weight:700;color:#f0f0f8;text-decoration:none;background:linear-gradient(180deg,#4a4a6a 0%,#33334d 100%);border:1px solid #5c5c80;border-bottom-color:#22223a;border-radius:10px;cursor:pointer;white-space:nowrap;box-shadow:inset 0 1px 0 rgba(255,255,255,0.22),0 4px 0 #151526,0 6px 10px rgba(0,0,0,0.45);text-shadow:0 1px 0 rgba(0,0,0,0.4);transform:translateY(0);transition:transform .08s,box-shadow .08s,background .15s;-webkit-tap-highlight-color:transparent}
+.mic-mode-btn:hover{background:linear-gradient(180deg,#56567a 0%,#3c3c5a 100%)}
+.mic-mode-btn:active{transform:translateY(3px);box-shadow:inset 0 1px 0 rgba(255,255,255,0.15),0 1px 0 #151526,0 2px 4px rgba(0,0,0,0.4)}
+.mic-mode-btn[aria-selected="true"],.mic-mode-btn[aria-selected="true"]:hover,.mic-mode-btn[aria-selected="true"]:active{background:radial-gradient(75% 85% at 50% 55%,#c22d48 0%,#e0405c 45%,#ff6f8a 85%,#ff9aae 100%);border-color:#ffb3c1;border-bottom-color:#ffb3c1;color:#fff;text-shadow:0 0 6px rgba(255,220,228,0.9),0 1px 1px rgba(90,0,20,0.6);transform:translateY(0);box-shadow:inset 0 0 12px 3px rgba(110,10,35,0.75),inset 0 2px 3px rgba(80,0,20,0.6),0 4px 0 #6e1426,0 0 16px 4px rgba(255,90,125,0.55),0 0 32px 8px rgba(255,90,125,0.25);animation:micModeGlow 2.4s ease-in-out infinite}
+@keyframes micModeGlow{0%,100%{filter:brightness(1)}50%{filter:brightness(1.15) drop-shadow(0 0 6px rgba(255,120,150,0.6))}}
+@media (prefers-reduced-motion:reduce){.mic-mode-btn[aria-selected="true"]{animation:none}}
+.mic-mode-btn:focus-visible{outline:2px solid #fff;outline-offset:1px}
+/* スマホ：横1行に入りきらないので、3つとも「絵の下に文字」の同じ2段にそろえる（1つだけ段違いにならないように） */
+@media (max-width:440px){
+  #mic-panel{padding:24px 18px 22px}
+  #mic-modes{gap:7px}
+  .mic-mode-btn{flex-direction:column;gap:1px;padding:8px 6px 7px;font-size:12.5px;line-height:1.3}
+  .mic-mode-btn .ic{font-size:17px;line-height:1.2}
+  /* 「3つの方法のうち、どれか1つで調べられます」を1行に収める。入らない幅でも「、」の所でだけ折れる（keep-all） */
+  #mic-panel-sub{font-size:min(14px,calc((100vw - 70px) / 21))}
+}
+
+/* 3つの中身を同じ1マスに重ねて置く（ボタンを押してもパネルの大きさが変わらない。地図のパネルと同じ） */
+.mic-panes{display:grid}
+.mic-pane{grid-area:1/1;align-self:center;visibility:hidden}
+#mic-panel[data-mode="listen"] .mic-pane-listen,#mic-panel[data-mode="file"] .mic-pane-file,#mic-panel[data-mode="name"] .mic-pane-name{visibility:visible}
+.mic-panel-recording #mic-modes,.mic-panel-processing #mic-modes{visibility:hidden}
+.mic-panel-processing .mic-pane-name,.mic-panel-processing .mic-pane-file{visibility:hidden!important}
+
+.mic-btn-zone{position:relative;width:110px;height:110px;margin:0 auto 10px;display:flex;align-items:center;justify-content:center}
+.mic-ring{position:absolute;inset:0;border-radius:50%;border:1.5px solid rgba(233,69,96,0.5);opacity:0;pointer-events:none}
+.mic-panel-recording .mic-ring-1{animation:mic-expand 1.8s ease-out infinite}
+.mic-panel-recording .mic-ring-2{animation:mic-expand 1.8s ease-out .6s infinite}
+.mic-panel-recording .mic-ring-3{animation:mic-expand 1.8s ease-out 1.2s infinite}
+@keyframes mic-expand{0%{transform:scale(1);opacity:.7}100%{transform:scale(2.4);opacity:0}}
+.mic-listen-btn{position:relative;z-index:1;width:110px;height:110px;border-radius:50%;border:2px solid rgba(255,255,255,0.1);background:#1a1a2e;color:#888;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .25s,border-color .25s,color .25s;outline:none}
+.mic-listen-btn:hover{border-color:rgba(255,255,255,0.2);color:#eee}
+.mic-listen-btn:focus-visible{border-color:#fff}
+.mic-panel-recording .mic-listen-btn{background:#e94560;border-color:#e94560;color:#fff}
+.mic-panel-processing .mic-listen-btn{background:#141428;color:#444;cursor:default;pointer-events:none}
+.mic-listen-btn svg{width:38px;height:38px}
+
+.mic-file-label{display:block;padding:26px 12px;background:#1a1a2e;border:1px dashed rgba(255,255,255,0.15);border-radius:8px;color:#999;font-size:13px;cursor:pointer}
+.mic-file-label:hover{border-color:rgba(255,255,255,0.3);color:#ccc}
+.mic-file-note{font-size:11px;color:#777;margin-top:8px}
+#mic-name-form{display:flex;flex-direction:column;gap:8px;margin-bottom:6px}
+#mic-name-form input{width:100%;padding:10px 11px;font:inherit;font-size:16px;color:#eee;background:#1a1a2e;border:1px solid rgba(255,255,255,0.15);border-radius:8px;outline:none}
+#mic-name-form input:focus{border-color:rgba(233,69,96,0.7)}
+#mic-name-form button{padding:10px;font:inherit;font-size:14px;font-weight:700;color:#fff;background:#e94560;border:none;border-radius:8px;cursor:pointer}
+#mic-name-form button:hover{background:#ff5470}
+
+/* 曲名・歌手名の候補（パネルの中に出す。地図のパネルと同じ） */
+#mic-name-res{display:none;text-align:left}
+#mic-panel[data-mode="name"] #mic-name-res{display:block}
+.mic-panel-processing #mic-name-out{display:none}
+#mic-name-st{font-size:12px;color:#a0a0b8;min-height:1.5em;margin:2px 0 4px}
+#mic-name-st:empty{display:none}
+#mic-name-out{max-height:46vh;overflow-y:auto;margin:0 -8px;padding:0 4px}
+#mic-name-out:empty{display:none}
+#mic-name-out .sec{margin-top:10px}
+#mic-name-out .sec h3{font-size:13px;color:#d8b25e;margin:0 0 4px 4px}
+#mic-name-out .sec h3 small{color:#8f8fa8;font-weight:400;font-size:11px;margin-left:6px}
+#mic-name-out .row{display:flex;gap:9px;align-items:center;padding:6px;border-radius:8px;cursor:pointer;border:1px solid transparent;line-height:1.5}
+#mic-name-out .row:hover,#mic-name-out .row:focus{background:#2a2a4a;border-color:rgba(126,184,247,.35);outline:none}
+#mic-name-out .row img,#mic-name-out .row .noimg{width:38px;height:38px;border-radius:6px;flex:none;background:#2c2c48;object-fit:cover}
+#mic-name-out .row.artist .noimg{border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px}
+#mic-name-out .row .tx{min-width:0;flex:1}
+#mic-name-out .row .t{font-weight:700;font-size:13.5px;color:#eee;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#mic-name-out .row .a{font-size:11.5px;color:#8f8fa8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#mic-name-out .badge{flex:none;max-width:40%;font-size:10px;font-weight:700;padding:1px 7px;border-radius:999px;background:rgba(216,178,94,.18);color:#d8b25e;border:1px solid rgba(216,178,94,.4);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* 録音中・照合中の波形と案内 */
+#mic-eq-canvas{width:100%;height:40px;display:none;margin-bottom:6px}
+.mic-panel-recording #mic-eq-canvas,.mic-panel-processing #mic-eq-canvas{display:block}
+#mic-status{font-size:12px;color:#888;min-height:18px;margin-bottom:6px}
+#mic-status:empty{visibility:hidden}
+.mic-panel-recording #mic-status{color:#e94560}
+#mic-countdown{font-size:26px;font-variant-numeric:tabular-nums;color:#e94560;font-weight:300;display:none;margin-bottom:10px}
+.mic-panel-recording #mic-countdown,.mic-panel-processing #mic-countdown{display:block;min-height:32px}
+#mic-error{display:none;font-size:12px;color:#f87171;margin-top:8px;white-space:pre-line;text-align:left}
+#mic-error.visible{display:block}
+#mic-error a{color:#7eb8f7}
 </style>
 </head>
 <body>
-<div class="wrap">
-<header><a href="/genre_roots.html">音楽ジャンルルーツ辞典</a></header>
-<p class="eyebrow">SONG TO GENRE</p>
-<h1>この曲なんてジャンル？<br>曲のジャンルを調べる</h1>
-<p class="lede">曲名でも歌手名でも、うろ覚えでも、ひらがなでも大丈夫。打つと候補が出るので、曲を選ぶだけ。答えは、595ジャンルのルーツ地図の上に出ます。</p>
-
-<div class="tabs">
-  <a class="tab on" href="song_name.html">✏️ 曲名で調べる</a>
-  <a class="tab" href="/song.html">🎵 曲を聴かせて調べる</a>
-</div>
-<form id="f">
-  <label for="q">曲名・歌手名</label><input id="q" type="search" autocomplete="off" placeholder="例：Lemon　または　米津玄師">
-  <input id="t" type="hidden"><input id="a" type="hidden">
-  <button type="submit">探す</button>
-  <div class="ex">試す：<a href="#">Lemon</a><a href="#">米津</a><a href="#">こころこおらせて</a><a href="#">北酒場</a><a href="#">Nirvana</a></div>
-  <div id="st"></div>
-  <div id="out"></div>
-  <div id="msg"></div>
-</form>
-</div>
-<script src="/proto/song_core.js"></script>
-<script>
-// 送信：候補から曲を選んだ（t が入っている）ときだけジャンルを調べる。入っていなければ候補を探す。
-// 調べる処理そのものは共通部品（song_core.js の GRSong.judge）。地図のマイクパネルも同じものを使う。
-var VIA0 = new URLSearchParams(location.search).get('via') || '';
-document.getElementById('f').onsubmit = function(e){
-  e.preventDefault();
-  if (!document.getElementById('t').value.trim()) { srRun(document.getElementById('q').value); return; }
-  var t = document.getElementById('t').value.trim(), a = document.getElementById('a').value.trim();
-  var m = document.getElementById('msg'); m.className = ''; m.textContent = '「' + t + '」のジャンルを調べています…';
-  GRSong.judge(t, a, function(x){ m.textContent = x; }).then(function(r){
-    if (!r.ok) { m.className = 'ng'; m.textContent = r.msg; return; }
-    if (VIA0) r.p.via = VIA0;
-    location.href = '/proto/answer.html?' + new URLSearchParams(r.p);
-  });
-};
-// 【2026-11-07】マイク（mic.html）で聴き取った曲名・歌手名を受け取ったときは、入力欄に入れて自動で調べ始める。
-// via=mic を答えのページまで引き継ぎ、「マイクで聴き取った曲」と分かるようにする。
-var P0 = new URLSearchParams(location.search), VIA = P0.get('via') || '';
-if (P0.get('t') && P0.get('auto') === '1') {
-  document.getElementById('t').value = P0.get('t');
-  document.getElementById('a').value = P0.get('a') || '';
-  document.getElementById('q').value = P0.get('t') + (P0.get('a') ? ' ' + P0.get('a') : '');
-  var tries = 0;
-  (function go(){
-    GRSong.ready.then(function(){ document.getElementById('f').requestSubmit(); });
-  })();
-}
-</script>
-<script>
-// ───────── 【2026-11-07】あいまい検索（【2026-11-08】処理は共通部品 song_core.js に移した。地図のマイクパネルと同じもの） ─────────
-// 欄は1つ。曲名でも歌手名でも、ひらがなでも、1文字違いでもよい。打ち終わって0.6秒待ってから探す。
-var st = document.getElementById('st'), out = document.getElementById('out'), qEl = document.getElementById('q'), timer = null;
-function onSong(t, a){
-  document.getElementById('t').value = t; document.getElementById('a').value = a;
-  out.innerHTML = ''; st.textContent = '';
-  document.getElementById('f').requestSubmit();
-}
-function srRun(q){ GRSong.search(q, out, st, onSong); }
-qEl.addEventListener('input', function(){
-  document.getElementById('t').value = ''; document.getElementById('a').value = ''; document.getElementById('msg').textContent = '';
-  clearTimeout(timer); timer = setTimeout(function(){ srRun(qEl.value); }, 600);
-});
-document.querySelectorAll('.ex a').forEach(function(x){ x.onclick = function(e){ e.preventDefault(); qEl.value = x.textContent; document.getElementById('t').value = ''; srRun(qEl.value); }; });
-// 地図から来たとき（?q=）は、入れた言葉で候補を出す
-if (P0.get('q') && !P0.get('t')) { qEl.value = P0.get('q'); srRun(qEl.value); }
-</script>
+<main class="stage">
+  <a class="site" href="/genre_roots.html">音楽ジャンルルーツ辞典</a>
+  <div id="mic-panel" data-mode="name">
+    <div id="song-page-version">v1.0</div>
+    <h1 id="mic-panel-title">🎵 この曲なんてジャンル？</h1>
+    <p id="mic-panel-sub">3つの方法のうち、どれか1つで調べられます</p>
+    <nav id="mic-modes" role="tablist" aria-label="調べ方">
+      <a class="mic-mode-btn" role="tab" href="/song.html" data-mode="listen" aria-selected="false"><span class="ic">🎤</span><span>聴かせる</span></a>
+      <a class="mic-mode-btn" role="tab" href="/song_file.html" data-mode="file" aria-selected="false"><span class="ic">📁</span><span>ファイル</span></a>
+      <a class="mic-mode-btn" role="tab" href="/song_name.html" data-mode="name" aria-selected="true"><span class="ic">✏️</span><span>曲名／歌手名</span></a>
+    </nav>
+    <div class="mic-panes">
+      <div class="mic-pane mic-pane-listen">
+        <div class="mic-btn-zone">
+          <div class="mic-ring mic-ring-1"></div><div class="mic-ring mic-ring-2"></div><div class="mic-ring mic-ring-3"></div>
+          <button class="mic-listen-btn" id="mic-listen-btn" type="button" aria-label="マイクで聴かせる">
+            <svg viewBox="0 0 52 52" fill="none" aria-hidden="true">
+              <rect x="18" y="5" width="16" height="26" rx="8" fill="currentColor"/>
+              <path d="M11 25c0 8.284 6.716 15 15 15s15-6.716 15-15" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+              <line x1="26" y1="40" x2="26" y2="47" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+              <line x1="18" y1="47" x2="34" y2="47" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="mic-pane mic-pane-file">
+        <label class="mic-file-label" for="micAudioFile">📁 音楽ファイルを選ぶ</label>
+        <input type="file" id="micAudioFile" accept=".mp3,.wav,.ogg,.m4a,.webm,.aac,.flac,audio/*" style="display:none">
+        <div class="mic-file-note">mp3・wav・m4a などの音楽ファイル</div>
+      </div>
+      <div class="mic-pane mic-pane-name">
+        <form id="mic-name-form">
+          <input id="mic-name-t" type="search" placeholder="例：Lemon または 米津玄師" autocomplete="off" aria-label="曲名か歌手名">
+          <button type="submit">探す</button>
+        </form>
+      </div>
+    </div>
+    <div id="mic-name-res"><div id="mic-name-st"></div><div id="mic-name-out"></div></div>
+    <canvas id="mic-eq-canvas"></canvas>
+    <div id="mic-status"></div>
+    <div id="mic-countdown"></div>
+    <div id="mic-error"></div>
+  </div>
+  <p class="foot">答えは、<a href="/genre_roots.html">595ジャンルのルーツ地図</a>に出ます</p>
+</main>
+<script>window.SONG_PAGES = {"listen": {"file": "/song.html", "title": "音楽を聴かせて曲を当てる｜曲名・歌手・ジャンルが分かる（無料・アプリ不要）— 音楽ジャンルルーツ辞典"}, "file": {"file": "/song_file.html", "title": "音楽ファイルから曲名とジャンルを調べる｜mp3・m4aの曲は何？（無料）— 音楽ジャンルルーツ辞典"}, "name": {"file": "/song_name.html", "title": "曲名で曲のジャンルを調べる｜この曲は何ジャンル？（無料）— 音楽ジャンルルーツ辞典"}};</script>
+<script src="/proto/song_core.js" defer></script>
+<script src="/proto/song_panel.js" defer></script>
 </body>
 </html>
