@@ -1615,7 +1615,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v136.8</span>
+  <span id="version-info">v136.9</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -28752,11 +28752,11 @@ document.getElementById('mic-overlay').addEventListener('click', function(e) {
     // ※ m-full は使わない。1047行で「スマホでは消す」指定になっているため。
     // 音符の前の空白は入れない。空白があると「この曲」の真ん中が
     // その分だけ右へずれる（実際にずれていた）。左右のあきはCSSで付ける。
+    // 【2026-11-08 チョロさん】パネルの題名と同じ「この曲何？」に変えた。短くなったので2段に折らず1行（パソコン・スマホとも）。
     btn.innerHTML = '<span class="mic-btn-icon">🎵</span>'
-                  + '<span class="mic-btn-l1">この曲</span>'
-                  + '<span class="mic-btn-l2">なんてジャンル？</span>';
-    btn.title = 'この曲なんてジャンル？';
-    btn.setAttribute('aria-label', 'この曲なんてジャンル？');
+                  + '<span class="mic-btn-l1">この曲何？</span>';
+    btn.title = 'この曲何？';
+    btn.setAttribute('aria-label', 'この曲何？');
 
     var histToggle = document.createElement('button');
     histToggle.id = 'mic-history-toggle';
