@@ -77,7 +77,7 @@ function nameSearch(q){
 }
 $('mic-name-t').addEventListener('input', function(){
   clearTimeout(timer); var q = this.value; hideError();
-  timer = setTimeout(function(){ nameSearch(q); }, 600);
+  timer = setTimeout(function(){ nameSearch(q); }, 800);
 });
 $('mic-name-form').addEventListener('submit', function(e){
   e.preventDefault(); hideError();

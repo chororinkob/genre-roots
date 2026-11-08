@@ -331,7 +331,10 @@ function search(q, out, st, onSong){
     if (loc.length) html += '<div class="sec"><h3>音楽ジャンルルーツ辞典で判定済みの曲<small>' + loc.length + '件</small></h3>' + loc.map(function(s){ return songRow(s, true); }).join('') + '</div>';
     out.innerHTML = html + '<div class="sec gr-rm"></div>';
     st.textContent = 'ほかの音楽データベースからも探しています…';
-    Promise.all([remoteSongs(q), remoteArtists(q)]).then(function(r){
+    // 【2026-11-08】外の音楽データベースは、短い時間に何度も聞くと、しばらく返事をしなくなる（1分に20回ほどが目安）。
+    // 返事がなかったときは、3秒待ってから1回だけ聞き直す。
+    var askBoth = function(){ return Promise.all([remoteSongs(q), remoteArtists(q)]); };
+    askBoth().catch(function(){ return new Promise(function(ok){ setTimeout(ok, 3000); }).then(function(){ if (my !== seq) throw 'old'; return askBoth(); }); }).then(function(r){
       if (my !== seq) return;
       var all = r[0], songs = all.slice(0, 15), k = nz(q);
       // 人の候補：歌手の検索結果に、曲の検索結果に出てきた歌手（名前に入れた言葉を含む人）を足す。
@@ -355,7 +358,9 @@ function search(q, out, st, onSong){
     }).catch(function(e){
       if (my !== seq) return;
       var rm = out.querySelector('.gr-rm'); if (rm) rm.remove();
-      st.textContent = e === 403 || e === 429 ? '外の音楽データベースへの問い合わせが混み合っています。1分ほど待ってから、もう一度入れてください。' : '外の音楽データベースにつながりませんでした。少し待ってから、もう一度入れてください。';
+      // 【2026-11-08】辞典の中の候補は出せているときは、そう分かるように書く（チョロさんの指摘：エラーなのか、候補が出たのか分からない）
+      st.textContent = (loc.length ? '下に出ているのは、音楽ジャンルルーツ辞典の中で見つかった曲です。ほかの候補は、' : 'ほかの候補は、') +
+        '外の音楽データベースから返事がなかったため出せませんでした。続けて何度も探すと、しばらく止められることがあります。1分ほど待ってから、もう一度入れてください。';
     });
   });
 }

@@ -276,6 +276,7 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 /* 右上の角に固定する。並びから外すことで、見出しの行が
    パネルの右端いっぱいまで使えるようになり、知名度を右端に寄せられる */
 #sp-grip { display: none; }   /* スマホでだけ出す（下の @media で表示） */
+#sp-lift-space { display: none; }   /* 説明の下の透明な余白。スマホでだけ出す（下の @media で表示。2026-11-08） */
 #sp-close { position: absolute; top: 13px; right: 14px; z-index: 2; }
 #sp-close { width: 22px; height: 22px; flex: 0 0 auto; padding: 0;
   background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.18);
@@ -1550,6 +1551,15 @@ svg { width: 100vw; height: 100vh; }
   /* 折りたたんだときは貼り付ける必要がない（めくる中身が無い） */
   #side-panel.sp-peek #sp-grip { position: static; }
 
+  /* 【2026-11-08】説明のいちばん下から、さらに上へめくると、ルーツマップが出る（チョロさんの指示）。
+     本文の下に、透明の余白（画面1つ分）を足しておく。めくると本文が上へ流れて、後ろのマップが見えてくる。
+     余白の最後までめくり切ったら、つまみを押したのと同じように畳む（マップを指で動かせるようにするため）。 */
+  #sp-lift-space { display: block; height: calc(100vh - var(--header-h, 44px) - var(--sp-head-h, 150px) - 30px);
+    text-align: center; padding-top: 18px; pointer-events: none; }
+  #sp-lift-space span { display: inline-block; font-size: 11px; font-weight: 700; color: rgb(var(--al-lit, 220,220,230));
+    background: rgba(14, 16, 26, 0.85); border-radius: 999px; padding: 3px 12px; }
+  #side-panel.sp-peek #sp-lift-space { display: none; }
+
   /* 知名度の「？」を開いている間だけ、見出しの帯をつまみより手前に出す。
      つまみ(#sp-grip)は z-index 4、帯(#sp-header)は 1 なので、そのままだと
      「上げてルーツマップを見る」のつまみが手前に来て、知名度の内訳の表を
@@ -1605,7 +1615,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v136.3</span>
+  <span id="version-info">v136.4</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -22766,7 +22776,10 @@ function パネルを畳む(畳む) {
   if (文) 文.textContent = 畳む ? '下げて説明を見る' : '上げてルーツマップを見る';
   if (印) 印.textContent = 畳む ? '▼' : '▲';
   if (畳む) panel.scrollTop = 0;
+  // 【2026-11-08】広げたときは説明の頭から。いちばん下のまま広がると、すぐまた「めくり切った」と見なされて畳まれてしまうため
+  else { panel.scrollTop = 0; パネルを広げた時刻 = Date.now(); }
 }
+let パネルを広げた時刻 = 0;
 
 (function つまみの操作() {
   const grip = document.getElementById('sp-grip');
@@ -22810,6 +22823,17 @@ function パネルを畳む(畳む) {
     }, { passive: true });
     帯.addEventListener('touchend', () => { y2 = null; }, { passive: true });
   }
+
+  // 【2026-11-08】説明のいちばん下から、さらに上へめくり切ったら畳む（スマホだけ。CSSの #sp-lift-space を参照）
+  const 余白 = document.createElement('div');
+  余白.id = 'sp-lift-space';
+  余白.innerHTML = '<span>▲ このまま上げると、ルーツマップが出ます</span>';
+  panel.appendChild(余白);
+  panel.addEventListener('scroll', () => {
+    if (!isMobile() || panel.classList.contains('sp-peek') || !panel.classList.contains('sp-visible')) return;
+    if (Date.now() - パネルを広げた時刻 < 700) return;   // 広げた直後の動きでは畳まない
+    if (panel.scrollTop > 0 && panel.scrollTop + panel.clientHeight >= panel.scrollHeight - 4) パネルを畳む(true);
+  }, { passive: true });
 })();
 
 function openPanel() {
@@ -27859,7 +27883,7 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 <div id="mic-overlay">
   <div id="mic-panel" data-mode="listen">
     <button id="mic-panel-close" onclick="closeMicPanel()">✕</button>
-    <div id="mic-panel-version">v2.54</div>
+    <div id="mic-panel-version">v2.55</div>
     <div id="mic-panel-title">🎵 この曲なんてジャンル？</div>
     <div id="mic-panel-sub">3つの方法のうち、どれか1つで調べられます</div>
     <div id="mic-modes" role="tablist" aria-label="調べ方">
@@ -27893,7 +27917,7 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
     </div>
     <div class="mic-pane mic-pane-name">
       <form id="mic-name-form" onsubmit="micNameSubmit(event)">
-        <input id="mic-name-t" type="search" placeholder="例：Lemon または 米津玄師" autocomplete="off">
+        <input id="mic-name-t" type="search" placeholder="例：Lemon または 米津" autocomplete="off">
         <button type="submit">探す</button>
       </form>
     </div>
@@ -28100,7 +28124,7 @@ document.addEventListener('input', e => {
   if (e.target && e.target.id === 'mic-name-t') {
     clearTimeout(micNameTimer);
     const q = e.target.value;
-    micNameTimer = setTimeout(() => micNameSearch(q), 600);
+    micNameTimer = setTimeout(() => micNameSearch(q), 800);
   }
 });
 let micMode = 'listen';

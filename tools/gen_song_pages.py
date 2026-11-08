@@ -20,8 +20,10 @@
 import io, json, os
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-VERSION = 'v1.0'   # 入り口ページの版（3ページ共通。パネルの右下に出る）
-N = len(json.load(io.open(os.path.join(ROOT, 'proto', 'genres.json'), encoding='utf-8')))
+VERSION = 'v1.1'   # 入り口ページの版（3ページ共通。パネルの右下に出る）
+# ジャンルの数は地図（genre_roots.html）から数える。地図が変わるたびに tools/gen_stubs.js も同じ数え方で3ページの数字を直す（自動）
+import re
+N = len(re.findall(r'\n  \{id:"', io.open(os.path.join(ROOT, 'genre_roots.html'), encoding='utf-8').read()))
 SITE = 'https://genre-roots.com'
 
 # ページごとに違うのは、ここだけ（題名・説明文・最初に選ばれているボタン）
@@ -29,17 +31,17 @@ PAGES = {
     'listen': dict(
         file='song.html',
         title='音楽を聴かせて曲を当てる｜曲名・歌手・ジャンルが分かる（無料・アプリ不要）— 音楽ジャンルルーツ辞典',
-        desc='流れている音楽をスマホやパソコンに聴かせるだけで、曲名と歌手を当てて、その曲のジャンルまで答えます（無料・アプリ不要）。答えは%dジャンルのルーツ地図に出るので、そのジャンルがどの音楽から生まれたかもたどれます。' % N,
+        desc='流れている音楽をスマホやパソコンに聴かせるだけで、曲名と歌手を当てて、その曲のジャンルまで答えます（無料・アプリ不要）。そのジャンルがどの音楽から生まれたかも、%dジャンルのルーツ地図でたどれます。' % N,
     ),
     'file': dict(
         file='song_file.html',
         title='音楽ファイルから曲名とジャンルを調べる｜mp3・m4aの曲は何？（無料）— 音楽ジャンルルーツ辞典',
-        desc='手元の音楽ファイル（mp3・wav・m4a など）を選ぶだけで、曲名と歌手を当てて、その曲のジャンルまで答えます（無料・登録不要）。答えは%dジャンルのルーツ地図に出ます。' % N,
+        desc='手元の音楽ファイル（mp3・wav・m4a など）を選ぶだけで、曲名と歌手を当てて、その曲のジャンルまで答えます（無料・登録不要）。ジャンルのルーツは、%dジャンルの地図でたどれます。' % N,
     ),
     'name': dict(
         file='song_name.html',
         title='曲名で曲のジャンルを調べる｜この曲は何ジャンル？（無料）— 音楽ジャンルルーツ辞典',
-        desc='曲名か歌手名を入れるだけで、その曲のジャンルが分かります（無料・登録不要）。日本の曲は「歌手ごと」ではなく「曲ごと」に、曲調・メロディーで判定します。答えは%dジャンルのルーツ地図に出ます。' % N,
+        desc='曲名か歌手名を入れるだけで、その曲のジャンルが分かります（無料・登録不要）。日本の曲は「歌手ごと」ではなく「曲ごと」に、曲調・メロディーで判定します。ジャンルのルーツは、%dジャンルの地図でたどれます。' % N,
     ),
 }
 
@@ -72,7 +74,7 @@ a{color:#7eb8f7}
 .stage{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:16px}
 .site{font-size:13px;font-weight:700;color:#a0a0b8;text-decoration:none;letter-spacing:.04em}
 .site:hover{color:#fff}
-.foot{font-size:12px;color:#8f8fa8;text-align:center}
+.foot{font-size:12px;color:#8f8fa8;text-align:center;word-break:keep-all}
 .foot a{color:#a0a0b8}
 
 #mic-panel{background:#16162a;border:1px solid rgba(255,255,255,0.13);border-radius:18px;padding:28px 26px 24px;width:360px;max-width:100%;position:relative;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.6)}
@@ -194,7 +196,7 @@ a{color:#7eb8f7}
       </div>
       <div class="mic-pane mic-pane-name">
         <form id="mic-name-form">
-          <input id="mic-name-t" type="search" placeholder="例：Lemon または 米津玄師" autocomplete="off" aria-label="曲名か歌手名">
+          <input id="mic-name-t" type="search" placeholder="例：Lemon または 米津" autocomplete="off" aria-label="曲名か歌手名">
           <button type="submit">探す</button>
         </form>
       </div>
@@ -205,7 +207,7 @@ a{color:#7eb8f7}
     <div id="mic-countdown"></div>
     <div id="mic-error"></div>
   </div>
-  <p class="foot">答えは、<a href="/genre_roots.html">__N__ジャンルのルーツ地図</a>に出ます</p>
+  <p class="foot">ジャンルのルーツは、<a href="/genre_roots.html">__N__ジャンルの地図</a>でたどれます</p>
 </main>
 <script>window.SONG_PAGES = __PAGES_JS__;</script>
 <script src="/proto/song_core.js" defer></script>
