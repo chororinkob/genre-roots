@@ -1615,7 +1615,7 @@ svg { width: 100vw; height: 100vh; }
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v136.5</span>
+  <span id="version-info">v136.6</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -27840,10 +27840,7 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 #mic-log-area.visible { display: block; }
 .mic-log-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; color: #555; margin-bottom: 7px; }
 .mic-log-line { font-family: ui-monospace, 'Cascadia Mono', monospace; font-size: 10.5px; color: #666; line-height: 1.7; }
-/* 【v2.56 2026-11-08】題名の下は文ではなく、分かることを4つの札で見せる（文字は読まれない前提。チョロさんの方針） */
-#mic-panel-sub.gets { display: flex; justify-content: center; flex-wrap: wrap; gap: 5px; margin-bottom: 14px; }
-#mic-panel-sub.gets span { font-size: 11px; font-weight: 700; color: #e8e8f0; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.16); border-radius: 999px; padding: 2px 10px; line-height: 1.5; }
-#mic-panel-sub.gets span:last-child { color: #ffb3c1; border-color: rgba(233,69,96,0.5); background: rgba(233,69,96,0.12); }
+/* 【v2.57 2026-11-08】題名の下は「何が分かるか（結果）」を文で言い切る。v2.56の4つの札は、押せるボタン（入力）に見えて結果だと伝わらなかった（チョロさんの指摘） */
 #mic-panel-version { position: absolute; bottom: 8px; right: 12px; font-size: 10px; color: #333; pointer-events: none; }
 
 /* === 「この曲なんてジャンル？」履歴 === */
@@ -27887,9 +27884,9 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 <div id="mic-overlay">
   <div id="mic-panel" data-mode="listen">
     <button id="mic-panel-close" onclick="closeMicPanel()">✕</button>
-    <div id="mic-panel-version">v2.56</div>
+    <div id="mic-panel-version">v2.57</div>
     <div id="mic-panel-title">🎵 この曲何？</div>
-    <div id="mic-panel-sub" class="gets" aria-label="曲名・歌手・ジャンル・動画が分かります"><span>曲名</span><span>歌手</span><span>ジャンル</span><span>▶ 動画</span></div>
+    <div id="mic-panel-sub">曲名・歌手・ジャンルが分かり、動画も見られます</div>
     <div id="mic-modes" role="tablist" aria-label="調べ方">
       <button class="mic-mode-btn" role="tab" aria-selected="true" data-mode="listen" onclick="micSetMode('listen')"><span class="ic">🎤</span><span>聴かせる</span></button>
       <button class="mic-mode-btn" role="tab" aria-selected="false" data-mode="file" onclick="micSetMode('file')"><span class="ic">📁</span><span>ファイル</span></button>

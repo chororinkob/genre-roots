@@ -20,7 +20,7 @@
 import io, json, os
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-VERSION = 'v1.3'   # 入り口ページの版（3ページ共通。パネルの右下に出る）
+VERSION = 'v1.4'   # 入り口ページの版（3ページ共通。パネルの右下に出る）
 # ジャンルの数は地図（genre_roots.html）から数える。地図が変わるたびに tools/gen_stubs.js も同じ数え方で3ページの数字を直す（自動）
 import re
 N = len(re.findall(r'\n  \{id:"', io.open(os.path.join(ROOT, 'genre_roots.html'), encoding='utf-8').read()))
@@ -80,10 +80,7 @@ a{color:#7eb8f7}
 #mic-panel{background:#16162a;border:1px solid rgba(255,255,255,0.13);border-radius:18px;padding:28px 26px 24px;width:360px;max-width:100%;position:relative;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.6)}
 #mic-panel-title{font-size:15px;font-weight:700;color:#fff;margin-bottom:5px;white-space:nowrap}
 #mic-panel-sub{font-size:14px;font-weight:600;color:#e8e8f0;margin-bottom:10px;line-height:1.5;word-break:keep-all}
-/* 題名の下は文ではなく、分かることを4つの札で見せる（文字は読まれない前提。2026-11-08 チョロさんの方針） */
-#mic-panel-sub.gets{display:flex;justify-content:center;flex-wrap:wrap;gap:5px;margin-bottom:14px}
-#mic-panel-sub.gets span{font-size:11px;font-weight:700;color:#e8e8f0;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.16);border-radius:999px;padding:2px 10px;line-height:1.5}
-#mic-panel-sub.gets span:last-child{color:#ffb3c1;border-color:rgba(233,69,96,0.5);background:rgba(233,69,96,0.12)}
+/* 題名の下は「何が分かるか（結果）」を文で言い切る。4つの札にしたら押せるボタン（入力）に見えて伝わらなかった（2026-11-08 チョロさんの指摘） */
 /* ほかの調べ方に気づいてもらう、1回だけの小さな跳ね（song_panel.js が付け外しする） */
 .mic-mode-btn.nudge{animation:micNudge .7s ease-out}
 @keyframes micNudge{0%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}55%{transform:translateY(0)}75%{transform:translateY(-2px)}}
@@ -176,7 +173,7 @@ a{color:#7eb8f7}
   <div id="mic-panel" data-mode="__MODE__">
     <div id="song-page-version">__VERSION__</div>
     <h1 id="mic-panel-title">🎵 この曲何？</h1>
-    <p id="mic-panel-sub" class="gets" aria-label="曲名・歌手・ジャンル・動画が分かります"><span>曲名</span><span>歌手</span><span>ジャンル</span><span>▶ 動画</span></p>
+    <p id="mic-panel-sub">曲名・歌手・ジャンルが分かり、動画も見られます</p>
     <nav id="mic-modes" role="tablist" aria-label="調べ方">
       <a class="mic-mode-btn" role="tab" href="/song.html" data-mode="listen" aria-selected="__SEL_listen__"><span class="ic">🎤</span><span>聴かせる</span></a>
       <a class="mic-mode-btn" role="tab" href="/song_file.html" data-mode="file" aria-selected="__SEL_file__"><span class="ic">📁</span><span>ファイル</span></a>
