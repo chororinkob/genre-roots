@@ -375,6 +375,14 @@ function songRow(s, mark){
 
 // ───── 候補の一覧を出す（以前の srRun・pick と同じ動き） ─────
 var seq = 0;
+// 【2026-11-08】候補をどこから出したか（Apple／Deezer／どちらもだめ）を、辞典のサーバーの統計に1回知らせる（チョロさんの指示）。
+// 候補の検索はこの端末から直接 Apple・Deezer に聞いていて、サーバーを通らないため、知らせないと記録に残らない。
+// 1文字打つごとに探し直すので、数が増えすぎないよう、ページを開いている間は同じ結果を1回だけ知らせる。失敗しても画面には何も出さない。
+var told = {};
+function tell(how){
+  if (told[how]) return; told[how] = 1;
+  try { fetch(API + '/api/log', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({kind: 'how', how: how}), keepalive: true}).catch(function(){}); } catch (e) {}
+}
 function search(q, out, st, onSong){
   var my = ++seq;
   q = String(q || '').trim();
@@ -394,9 +402,11 @@ function search(q, out, st, onSong){
     var askBoth = function(){ return Promise.all([remoteSongs(q), remoteArtists(q)]); };
     // 【2026-11-08】Appleに断られたら、すぐに Deezer で探す。Deezer もだめなら、3秒待って Apple にもう1回だけ聞く。
     var askZ = function(){ return Promise.all([zSongs(q), zArtists(q)]); };
-    askBoth().catch(function(){ if (my !== seq) throw 'old'; return askZ(); })
-      .catch(function(){ return new Promise(function(ok){ setTimeout(ok, 3000); }).then(function(){ if (my !== seq) throw 'old'; return askBoth(); }); }).then(function(r){
+    var used = 'I';
+    askBoth().catch(function(){ if (my !== seq) throw 'old'; used = 'Z'; return askZ(); })
+      .catch(function(){ return new Promise(function(ok){ setTimeout(ok, 3000); }).then(function(){ if (my !== seq) throw 'old'; used = 'I'; return askBoth(); }); }).then(function(r){
       if (my !== seq) return;
+      tell('cand_' + used);
       var all = r[0], songs = all.slice(0, 15), k = nz(q);
       // 人の候補：歌手の検索結果に、曲の検索結果に出てきた歌手（名前に入れた言葉を含む人）を足す。
       // 歌手の検索は、日本の歌手も英語の綴りで返すことがある（高山厳 → Takayama Gen）。曲の検索に同じ人（同じ番号）が
@@ -421,6 +431,7 @@ function search(q, out, st, onSong){
     }).catch(function(e){
       if (my !== seq) return;
       var rm = out.querySelector('.gr-rm'); if (rm) rm.remove();
+      if (e !== 'old') tell('cand_fail');
       // 【2026-11-08 チョロさん】お客さん向けの文は短く。理由（外の音楽データベースが、続けて聞くとしばらく返事をしなくなる等）は書かない
       st.textContent = 'ほかの候補にアクセスできませんでした。少し待ってから、もう一度お試しください。';
     });
