@@ -107,6 +107,9 @@ function whyHtml(p){
   if (p.src === 'rep') {
     return HEAD + srcList('R', {R: '「' + gn + '」の代表曲'});
   }
+  if (p.src === 'artist') {
+    return HEAD + srcList('R', {R: 'この歌手の曲はすべて「' + gn + '」'});
+  }
   if (p.src === 'vote') {
     var said = {}, ans = {R: '登録なし'};
     (p.v || '').split('|').forEach(function(x){ var k = x.split(':'); if (k[0]) said[k[0]] = k[1]; });

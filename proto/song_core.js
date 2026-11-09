@@ -90,6 +90,15 @@ function findDB(t, a){
   var c = SDB.filter(function(x){ var k = dbNorm(x[0]); return (k === nt || oneOff(k, nt)) && ok(x); });
   return c.length ? c[0] : null;
 }
+// 【2026-11-09 チョロさんの指示】歌手ごとの決まり。ここに書いた歌手の曲は、曲名がどう書かれていても（カタカナ・英語・版の名前つき）、
+// 辞典にない曲でも、このジャンルで答える。外のデータベースには聞かない。
+// YMO は日本で「テクノポップ」と呼ばれてきたが、海外の札はシンセポップになるため。名前は Apple 等に出てくる書き方をそろえて持つ。
+// 共演（「○○ feat. YMO」）は、先頭の歌手だけを見るので対象にしない。
+var ARTIST_RULE = {'yellowmagicorchestra': 'techno_kayo', 'ymo': 'techno_kayo', 'イエローマジックオーケストラ': 'techno_kayo'};
+function artistRule(a){
+  var main = String(a || '').split(/\s*(?:&|＆|,|、|\/|\bfeat\.?|\bft\.|\bfeaturing\b|\bwith\b|×)\s*/i)[0];
+  return ARTIST_RULE[dbNorm(main)] || null;
+}
 function toId(name){
   var k = norm(name); if (!k || !G) return null;
   if (EXTRA[k]) return EXTRA[k];
@@ -364,7 +373,7 @@ function inDict(t, a){
 }
 function songRow(s, mark){
   var d = mark ? null : inDict(s.t, s.a);
-  var g = mark ? s.g : (d && d[2]);
+  var g = mark ? s.g : (artistRule(s.a) || (d && d[2]));
   var sub = s.a + (s.y ? '・' + s.y + '年' : '');
   return '<div class="row song" tabindex="0" data-t="' + esc(s.t) + '" data-a="' + esc(s.a) + '">' +
     (s.img ? '<img src="' + esc(s.img) + '" alt="" loading="lazy">' : '<span class="noimg"></span>') +
@@ -456,6 +465,8 @@ function judge(t, a, say){
   say = say || function(){};
   t = String(t || '').trim(); a = String(a || '').trim();
   return ready.then(function(){
+    var ruled = artistRule(a);
+    if (ruled) return {ok: true, p: {t: coreTitle(t).trim() || t, a: a, g: ruled, src: 'artist'}};
     var hit = findDB(t, a);
     if (hit) {
       var q1 = {t: hit[0], a: hit[1], g: hit[2], src: 'db'};

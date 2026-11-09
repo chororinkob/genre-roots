@@ -14,7 +14,7 @@ html,body{margin:0;padding:0;height:100%;background:#1a1a2e;overflow:hidden}
 <iframe id="app" title="音楽ジャンルルーツ辞典" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen></iframe>
 <script src="/proto/answer_band.js"></script>
 <script>
-// 答えのページ：?t=曲名&a=歌手名&g=ジャンル番号&src=db|rep|vote&v=…&by=…&en=1&via=mic
+// 答えのページ：?t=曲名&a=歌手名&g=ジャンル番号&src=db|rep|vote|artist&v=…&by=…&en=1&via=mic
 // 地図（genre_roots.html）をそのまま枠（iframe）で開き、説明パネルの上に答えの帯を差し込む。
 // 【2026-11-08】帯の中身・動画の探し方・流し方は共通部品（answer_band.js の GRBand.put）に移した。地図のマイクパネルから調べたときも同じものを使う。
 var P = new URLSearchParams(location.search);
