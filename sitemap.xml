@@ -3618,10 +3618,10 @@
   <changefreq>weekly</changefreq>
   <priority>0.8</priority>
  </url>
-  <url>
-    <loc>https://genre-roots.com/genre_roots.html?genre=japanese_folk</loc>
-    <lastmod>2026-11-11</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
+ <url>
+  <loc>https://genre-roots.com/genre/japanese_folk.html</loc>
+  <lastmod>2026-11-10</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.8</priority>
+ </url>
 </urlset>
