@@ -1610,7 +1610,7 @@ html.gr-arrive #graph{visibility:hidden}</style>
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v137.8</span>
+  <span id="version-info">v137.9</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -1926,6 +1926,15 @@ const GR_SRC = (function () {
     return { kind: 'other', host: h.slice(0, 80) };
   } catch (e) { return { kind: 'direct', host: '' }; }
 })();
+
+// 【2026-11-10】「Amazonの本」「Spotifyでもっと聴く」が押されたら統計に知らせる（チョロさんの指示）。
+// 中ボタン（新しいタブで開く）も数える。知らせが届かなくても、リンクはそのまま開く。
+['click', 'auxclick'].forEach(種類 => document.addEventListener(種類, e => {
+  if (e.type === 'auxclick' && e.button !== 1) return;
+  const a = e.target && e.target.closest ? e.target.closest('#sp-spotify-link, #sp-books-row a.sp-book-card') : null;
+  if (!a) return;
+  grLog({ kind: 'out', to: a.id === 'sp-spotify-link' ? 'spotify' : 'amazon', genre: a.dataset.g || '', title: a.dataset.t || '' });
+}, true));
 
 function grLog(中身) {
   try {
@@ -23334,6 +23343,8 @@ node.on("click", (e, d) => {
     // ジャンル名の長さに関係なく必ず1段に収まる。
     spSpotifyLink.innerHTML = '<span class="dot"></span>Spotifyで<span class="cta">もっと聴く</span>';
     spSpotifyLink.title = label + 'を Spotify で聴く';
+    spSpotifyLink.dataset.g = d.id || '';      // 押されたとき統計に知らせる用（2026-11-10）
+    spSpotifyLink.dataset.t = label;
   }
 
   // 【関連書籍を並べる（試作）】2026-09-03
@@ -23353,7 +23364,7 @@ node.on("click", (e, d) => {
         const title = grEsc(b.title || "");
         const img = grEsc(b.img || "");
         return '<a href="https://www.amazon.co.jp/dp/' + asin + '?tag=genreroots-22" '
-          + 'target="_blank" rel="noopener" class="sp-book-card" title="' + title + '">'
+          + 'target="_blank" rel="noopener" class="sp-book-card" title="' + title + '" data-g="' + grEsc(d.id || '') + '" data-t="' + title + '">'
           + '<img src="' + img + '" loading="lazy" alt="' + title + '">'
           + '<span class="cap">' + title + '</span></a>';
       }).join("");
