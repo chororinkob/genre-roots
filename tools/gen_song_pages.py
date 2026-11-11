@@ -20,7 +20,7 @@
 import io, json, os
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-VERSION = 'v1.7'   # 入り口ページの版（3ページ共通。パネルの右下に出る）
+VERSION = 'v1.8'   # 入り口ページの版（3ページ共通。パネルの右下に出る）
 # ジャンルの数は地図（genre_roots.html）から数える。地図が変わるたびに tools/gen_stubs.js も同じ数え方で3ページの数字を直す（自動）
 import re
 N = len(re.findall(r'\n  \{id:"', io.open(os.path.join(ROOT, 'genre_roots.html'), encoding='utf-8').read()))
@@ -41,7 +41,7 @@ PAGES = {
     'name': dict(
         file='song_name.html',
         title='この曲何ジャンル？曲名・歌手名から調べる｜動画も見られる（無料）— 音楽ジャンルルーツ辞典',
-        desc='曲名か歌手名を入れるだけで、その曲のジャンルが分かり、動画も見られます。うろ覚えやひらがなでも候補から選べます。日本の曲は「歌手ごと」ではなく「曲ごと」に判定。曲を聴かせたり、音楽ファイルからも調べられます（無料・%dジャンル）。' % N,
+        desc='曲名か歌手名を入れるだけで、その曲のジャンルが分かり、動画も見られます。うろ覚えやひらがなでも候補から選べます。日本の曲は、曲ごとに判定している場合もあります。曲を聴かせたり、音楽ファイルからも調べられます（無料・%dジャンル）。' % N,
     ),
 }
 
