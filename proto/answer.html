@@ -18,7 +18,7 @@ html,body{margin:0;padding:0;height:100%;background:#1a1a2e;overflow:hidden}
 // 地図（genre_roots.html）をそのまま枠（iframe）で開き、説明パネルの上に答えの帯を差し込む。
 // 【2026-11-08】帯の中身・動画の探し方・流し方は共通部品（answer_band.js の GRBand.put）に移した。地図のマイクパネルから調べたときも同じものを使う。
 var P = new URLSearchParams(location.search);
-var p = {}; ['t', 'a', 'g', 'src', 'v', 'by', 'en', 'via'].forEach(function(k){ if (P.get(k)) p[k] = P.get(k); });
+var p = {}; ['t', 'a', 'g', 's', 'src', 'v', 'by', 'en', 'via'].forEach(function(k){ if (P.get(k)) p[k] = P.get(k); });
 p.t = p.t || 'Lemon'; p.a = p.a || '米津玄師'; p.g = p.g || 'jpop'; p.src = p.src || 'wikidata';
 document.title = p.t + '（' + p.a + '）は何ジャンル？ — 音楽ジャンルルーツ辞典';
 var F = document.getElementById('app');

@@ -371,15 +371,27 @@ function inDict(t, a){
   var f = function(x){ var xa = nz(x[1]); return nz(x[0]) === kt && (xa.indexOf(ka) >= 0 || ka.indexOf(xa) >= 0); };
   return (SDB || []).find(f) || (REP || []).find(f);
 }
+(function(){
+  try {
+    var st = document.createElement('style');
+    st.textContent = '.row .badges{flex:none;max-width:48%;display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:center;gap:2px 2px}' +
+      '.row .badges .badge,#mic-name-out .row .badges .badge{max-width:none;flex:none;overflow:visible;text-overflow:clip}' +
+      '.row .badges .plus{font-style:normal;font-size:10px;font-weight:700;color:#d8b25e;line-height:1}';
+    (document.head || document.documentElement).appendChild(st);
+  } catch(e) {}
+})();
 function songRow(s, mark){
   var d = mark ? null : inDict(s.t, s.a);
   var g = mark ? s.g : (artistRule(s.a) || (d && d[2]));
+  var gs = (!mark && d && d[4]) || [];
   var sub = s.a + (s.y ? '・' + s.y + '年' : '');
   return '<div class="row song" tabindex="0" data-t="' + esc(s.t) + '" data-a="' + esc(s.a) + '">' +
     (s.img ? '<img src="' + esc(s.img) + '" alt="" loading="lazy">' : '<span class="noimg"></span>') +
     '<div class="tx"><div class="t">' + esc(s.t) + '</div><div class="a">' + esc(sub) + '</div></div>' +
     // 【2026-11-08】印はジャンル名だけ（「辞典の判定あり：」は付けない。ジャンル名が出ていること自体が、辞典で判定済みの目印。チョロさんの指摘）
-    (g ? '<span class="badge" title="この辞典の判定">' + esc(gname(g)) + '</span>' : '') + '</div>';
+    // 【2026-11-13】売り方の箱があれば「J-POP ＋ アニソン」のように楕円を「＋」でつないで並べる（幅に収まらなければ折り返す）
+    (g ? (gs.length ? '<span class="badges" title="この辞典の判定">' + [g].concat(gs).map(function(x, i){ return '<span class="badge">' + esc(i ? ({anime_music: 'アニソン', j_pop_idol: 'アイドル', city_pop: 'シティ・ポップ', aor: 'AOR', city_funk: 'シティ・ファンク'}[x] || gname(x)) : gname(x)) + '</span>'; }).join('<i class="plus">＋</i>') + '</span>'
+                    : '<span class="badge" title="この辞典の判定">' + esc(gname(g)) + '</span>') : '') + '</div>';
 }
 
 // ───── 候補の一覧を出す（以前の srRun・pick と同じ動き） ─────
@@ -470,6 +482,8 @@ function judge(t, a, say){
     var hit = findDB(t, a);
     if (hit) {
       var q1 = {t: hit[0], a: hit[1], g: hit[2], src: 'db'};
+      // 【2026-11-13】売り方の箱（アニソン・アイドル・シティ・ポップ等）。音楽性（g）に重ねて付く。住所に載せるので「,」でつなぐ
+      if (hit[4] && hit[4].length) q1.s = hit[4].join(',');
       if ((hit[2] === 'kayokyoku' || hit[2] === 'mood_kayo') && enkaSinger(hit[1])) q1.en = '1';
       return {ok: true, p: q1};
     }

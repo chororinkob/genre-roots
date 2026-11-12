@@ -19,6 +19,11 @@ function sub(id){
   if (jp.test(main)) return en === main ? '' : en;
   return (n.aliases || []).find(function(s){ return jp.test(s); }) || '';
 }
+// 【2026-11-13】売り方の箱（p.s：「anime_music,j_pop_idol」）。音楽性（p.g）に重ねて付く
+// 売り方の箱は、短い日本語の名前で出す（地図の名前は英語のもの・別名が長いものがあるため）
+var SALES_JA = {anime_music: 'アニソン', j_pop_idol: 'アイドル', city_pop: 'シティ・ポップ', aor: 'AOR', city_funk: 'シティ・ファンク'};
+function dispS(id){ return SALES_JA[id] || disp(id); }
+function sales(p){ return String(p.s || '').split(',').filter(function(x){ return x && x !== p.g; }); }
 function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
 function norm(s){ return String(s || '').toLowerCase().replace(/[\s\-_'’.&・()（）「」]/g, ''); }
 
@@ -47,6 +52,13 @@ var CSS = [
   '#gr-ans .gl{min-width:0}',
   '#gr-ans .gl small{display:block;font-size:11px;color:#b8b8d0;letter-spacing:.06em}',
   '#gr-ans .gn{display:block;font-size:27px;font-weight:800;line-height:1.15;color:#fff;text-shadow:0 0 14px color-mix(in srgb,var(--gc) 75%,transparent),0 0 2px var(--gc);word-break:break-word}',
+  /* 【2026-11-13】音楽性＋売り方の箱を楕円で並べる。最初の楕円（音楽性）はジャンルの色で光らせ、あとの楕円は少し小さく。幅に収まらなければ折り返す */
+  '#gr-ans .gl{flex:1 1 auto}',
+  '#gr-ans .gset{display:flex;flex-wrap:wrap;align-items:center;gap:6px 6px;margin-top:3px}',
+  '#gr-ans .gp{display:inline-block;max-width:100%;font-size:20px;font-weight:800;line-height:1.2;color:#fff;padding:3px 12px;border-radius:999px;word-break:break-word;',
+  '  border:1.5px solid color-mix(in srgb,var(--gc) 75%,transparent);background:color-mix(in srgb,var(--gc) 18%,transparent);text-shadow:0 0 10px color-mix(in srgb,var(--gc) 70%,transparent)}',
+  '#gr-ans .gp2{font-size:15px;font-weight:700;padding:3px 11px;border-color:rgba(216,178,94,.6);background:rgba(216,178,94,.14);color:#f3dfae;text-shadow:none}',
+  '#gr-ans .plus{font-style:normal;font-size:16px;font-weight:800;color:#d8b25e;line-height:1}',
   '#gr-ans .gs{display:block;font-size:12.5px;color:color-mix(in srgb,var(--gc) 55%,#fff);margin-top:2px}',
   '#gr-ans .r2{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}',
   '#gr-ans .btn{flex:1 1 auto;display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:34px;border-radius:999px;padding:6px 14px;font:700 12.5px/1.3 inherit;cursor:pointer;white-space:nowrap}',
@@ -76,11 +88,11 @@ var ICON_MIC = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strok
 // 外の音楽データベース。記号（M・D・W・I・Z）は答えの住所にだけ入る。画面には「どんな種類のデータベースか」だけを書く。
 // 並びは、ジャンルの付け方が細かい順（＝答えに採る順番）。
 // 【2026-11-08】それぞれの曲数も書く（分かるものだけ。チョロさんの指示：辞典だけの数を書くと、全体でその数しか使っていないように見える）。
-//   辞典 = 曲ごとの判定4,166曲 ＋ 代表曲8,595曲（重なりを除いて12,586曲・2026-11-08に数えた）
+//   辞典 = 曲ごとの判定31,554曲 ＋ 代表曲8,586曲（重なりを除いて39,919曲・2026-11-13に数えた。以前は4,166曲＋8,595曲＝12,586曲）
 //   M = 公式の統計ページの録音数 40,876,279（2026-11-08）／I = 2022年10月の公式発表「1億曲」／Z = 公式ニュースの「1億2,000万曲以上」
 //   D・W は、曲の数の公式な数字が見つからなかったので書かない。
 var SRC = [
-  ['R', '音楽ジャンルルーツ辞典（曲ごとに判定している場合もあります）', '約1万2,500曲'],
+  ['R', '音楽ジャンルルーツ辞典（曲ごとに判定している場合もあります）', '約4万曲'],
   // L = Last.fm（2026-11-08に足した）。曲の数の公式な数字が見つからなかったので書かない。
   ['L', '音楽ファンが聴いた曲に、自由にジャンルの札を付けていくデータベース', ''],
   ['M', '音楽ファンが投票でジャンルを付けていく、世界最大級の音楽データベース', '約4,000万曲'],
@@ -101,7 +113,8 @@ function whyHtml(p){
   var g = p.g, gn = esc(disp(g));
   var HEAD = '<p>7つのデータベースを上から順に見て、最初にジャンルが分かったものを答えにしています。</p>';
   if (p.src === 'db') {
-    return HEAD + srcList('R', {R: '「' + gn + '」'}) +
+    return HEAD + srcList('R', {R: '「' + gn + '」' + sales(p).map(function(x){ return '＋「' + esc(dispS(x)) + '」'; }).join('')}) +
+      (sales(p).length ? '<p class="note">「＋」の後ろは、曲の売り出し方・使われ方の分類です（アニメの主題歌・挿入歌、アイドルとして売り出された人、など）。音のジャンルに重ねて付けています。</p>' : '') +
       (p.en === '1' ? '<p class="note">歌っているのは演歌の歌手ですが、この曲は曲調で判定して「' + gn + '」にしています。</p>' : '');
   }
   if (p.src === 'rep') {
@@ -155,8 +168,8 @@ function saveHist(w, p){
   try {
     var ls = w.localStorage, K = 'micHistory';
     var h = JSON.parse(ls.getItem(K) || '[]').filter(function(e){ return !(e.p && norm(e.title) === norm(p.t) && norm(e.artist) === norm(p.a)); });
-    var keep = {}; ['t', 'a', 'g', 'src', 'v', 'by', 'en', 'via'].forEach(function(k){ if (p[k]) keep[k] = p[k]; });
-    h.unshift({title: p.t, artist: p.a, genres: [disp(p.g)], g: p.g, p: keep, ts: Date.now()});
+    var keep = {}; ['t', 'a', 'g', 's', 'src', 'v', 'by', 'en', 'via'].forEach(function(k){ if (p[k]) keep[k] = p[k]; });
+    h.unshift({title: p.t, artist: p.a, genres: [disp(p.g)].concat(sales(p).map(dispS)), g: p.g, p: keep, ts: Date.now()});
     ls.setItem(K, JSON.stringify(h.slice(0, 15)));
     if (typeof w.micRenderHistory === 'function') w.micRenderHistory();
   } catch(e) {}
@@ -184,7 +197,12 @@ function put(w, p){
         '<div class="song">「' + esc(p.t) + '」</div>' +
         (p.a ? '<div class="artist">' + esc(p.a) + '</div>' : '') +
         '<div class="ans"><span class="disc" aria-hidden="true"></span><div class="gl"><small>この曲のジャンルは</small>' +
-        '<b class="gn">' + esc(disp(p.g)) + '</b>' + (gs ? '<span class="gs">' + esc(gs) + '</span>' : '') + '</div></div>' +
+        // 【2026-11-13 チョロさんの指示】売り方の箱があれば、音楽性と同じ楕円の枠で「＋」でつないで並べる（「または」ではなく「and」）。
+        //   3つ以上になることもあるので、幅に収まらなければ折り返す（はみ出さない）
+        (sales(p).length
+          ? '<div class="gset"><b class="gn gp">' + esc(disp(p.g)) + '</b>' + sales(p).map(function(x){ return '<i class="plus">＋</i><b class="gp gp2">' + esc(dispS(x)) + '</b>'; }).join('') + '</div>'
+          : '<b class="gn">' + esc(disp(p.g)) + '</b>') +
+        (gs ? '<span class="gs">' + esc(gs) + '</span>' : '') + '</div></div>' +
         '<div class="r2"><button type="button" class="btn qi" aria-expanded="false">なぜ ' + esc(disp(p.g)) + '？ ▾</button>' +
         '<button type="button" class="btn more">' + (p.via === 'mic' ? ICON_MIC + '別の曲を聴かせる' : ICON_SEARCH + '別の曲を調べる') + '</button></div>' +
         '<div class="why">' + whyHtml(p) + '</div>';
