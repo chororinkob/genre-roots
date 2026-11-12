@@ -59,6 +59,8 @@ var CSS = [
   '  border:1.5px solid color-mix(in srgb,var(--gc) 75%,transparent);background:color-mix(in srgb,var(--gc) 18%,transparent);text-shadow:0 0 10px color-mix(in srgb,var(--gc) 70%,transparent)}',
   '#gr-ans .gp2{font-size:15px;font-weight:700;padding:3px 11px;border-color:rgba(216,178,94,.6);background:rgba(216,178,94,.14);color:#f3dfae;text-shadow:none}',
   '#gr-ans .plus{font-style:normal;font-size:16px;font-weight:800;color:#d8b25e;line-height:1}',
+  /* 【2026-11-13 チョロさんの指示】1行に収まらないときは、縦に積む（音楽性の楕円の下に「＋」、その下に次の楕円）。「＋」が行の右端に残って右が空くのを防ぐ */
+  '#gr-ans .gset.stack{display:inline-flex;flex-direction:column;align-items:center;gap:4px}',
   '#gr-ans .gs{display:block;font-size:12.5px;color:color-mix(in srgb,var(--gc) 55%,#fff);margin-top:2px}',
   '#gr-ans .r2{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}',
   '#gr-ans .btn{flex:1 1 auto;display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:34px;border-radius:999px;padding:6px 14px;font:700 12.5px/1.3 inherit;cursor:pointer;white-space:nowrap}',
@@ -220,8 +222,19 @@ function put(w, p){
       box.querySelector('.more').addEventListener('click', function(){
         if (typeof w.openMicPanel === 'function') { w.openMicPanel(); if (p.via !== 'mic' && typeof w.micSetMode === 'function') w.micSetMode('name'); }
       });
+      // 楕円が1行に収まらず折り返したら、縦に積む形に切り替える（パネルの幅が変わったら測り直す）
+      var gset = box.querySelector('.gset');
+      var fit = function(){
+        if (!gset) return;
+        gset.classList.remove('stack');
+        var ps = gset.querySelectorAll('.gp');
+        if (ps.length > 1 && ps[ps.length - 1].offsetTop > ps[0].offsetTop + 4) gset.classList.add('stack');
+      };
       var yw = d.getElementById('sp-yt-wrap');
       body.insertBefore(box, yw && yw.parentNode === body ? yw : body.firstChild);
+      fit();
+      // 測り直すのはパネルの横幅が変わったときだけ（縦に積むと帯の高さが変わるので、帯そのものを見張ると測り直しが繰り返される）
+      try { var lastW = body.clientWidth; if (gset && w.ResizeObserver) new w.ResizeObserver(function(){ if (body.clientWidth !== lastW) { lastW = body.clientWidth; fit(); } }).observe(body); } catch(e) {}
       // 答えが見える位置まで、説明パネルを上へ戻す（下の方を読んでいた場合でも、答えが目に入るように）
       try { var spn = d.getElementById('side-panel'); if (spn) spn.scrollTop = 0; } catch(e) {}
       // 別のジャンルへ移ったら、帯は外す（その曲の答えではなくなるため）
