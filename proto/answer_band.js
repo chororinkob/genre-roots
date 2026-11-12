@@ -207,6 +207,7 @@ function put(w, p, view){
       // 【2026-11-13 チョロさんの指示】ジャンルの名前は1つだけ出す（もう1つの呼び方「ニューミュージック」等は出さない。2つ並ぶと何の説明か分からない）。
       // 楕円はボタンにして、押すとそのジャンルの説明へ移る（曲は流したまま）。いま見ているジャンルの楕円を光らせる
       var all = [p.g].concat(sales(p));
+      var vname = view === p.g ? disp(p.g) : dispS(view);
       var pill = function(x, i){
         return '<button type="button" class="gp' + (i ? ' gp2' : ' gn') + (x === view ? ' on' : '') + '" data-g="' + esc(x) + '"' +
           (x === view ? ' aria-current="true"' : ' title="「' + esc(i ? dispS(x) : disp(x)) + '」の説明を見る"') + '>' + esc(i ? dispS(x) : disp(x)) + '</button>';
@@ -220,7 +221,8 @@ function put(w, p, view){
         (sales(p).length
           ? '<div class="gset">' + all.map(pill).join('<i class="plus">＋</i>') + '</div>'
           : '<b class="gn">' + esc(disp(p.g)) + '</b>') + '</div></div>' +
-        '<div class="r2"><button type="button" class="btn qi" aria-expanded="false">なぜ ' + esc(disp(p.g)) + '？ ▾</button>' +
+        // 【2026-11-13 チョロさんの指摘】「なぜ ○○？」は、いま見ているジャンルの名前にする（シティ・ポップへ移ったら「なぜ シティ・ポップ？」）
+        '<div class="r2"><button type="button" class="btn qi" aria-expanded="false">なぜ ' + esc(vname) + '？ ▾</button>' +
         '<button type="button" class="btn more">' + (p.via === 'mic' ? ICON_MIC + '別の曲を聴かせる' : ICON_SEARCH + '別の曲を調べる') + '</button></div>' +
         '<div class="why">' + whyHtml(p) + '</div>';
       [].forEach.call(box.querySelectorAll('.gset .gp'), function(b){
@@ -234,7 +236,7 @@ function put(w, p, view){
       });
       box.querySelector('.qi').addEventListener('click', function(e){
         e.stopPropagation(); var o = box.classList.toggle('why-open'); this.setAttribute('aria-expanded', o ? 'true' : 'false');
-        this.textContent = o ? '理由を閉じる ▴' : 'なぜ ' + disp(p.g) + '？ ▾';
+        this.textContent = o ? '理由を閉じる ▴' : 'なぜ ' + vname + '？ ▾';
       });
       // 「別の曲を…」は、地図の「この曲なんてジャンル？」のパネルを開く（ページは移らない）
       box.querySelector('.more').addEventListener('click', function(){
