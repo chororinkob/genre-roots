@@ -61,6 +61,8 @@ var CSS = [
   '#gr-ans .plus{font-style:normal;font-size:16px;font-weight:800;color:#d8b25e;line-height:1}',
   /* 【2026-11-13 チョロさんの指示】1行に収まらないときは、縦に積む（音楽性の楕円の下に「＋」、その下に次の楕円）。「＋」が行の右端に残って右が空くのを防ぐ */
   '#gr-ans .gset.stack{display:inline-flex;flex-direction:column;align-items:center;gap:4px}',
+  '#gr-ans .gmain{display:inline-flex;flex-direction:column;align-items:center}',
+  '#gr-ans .gmain .gs{margin-top:1px;text-align:center}',
   '#gr-ans .gs{display:block;font-size:12.5px;color:color-mix(in srgb,var(--gc) 55%,#fff);margin-top:2px}',
   '#gr-ans .r2{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}',
   '#gr-ans .btn{flex:1 1 auto;display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:34px;border-radius:999px;padding:6px 14px;font:700 12.5px/1.3 inherit;cursor:pointer;white-space:nowrap}',
@@ -119,7 +121,7 @@ function whyHtml(p){
 }
 function whyHtml0(p){
   var g = p.g, gn = esc(disp(g));
-  var HEAD = '<p>7つのデータベースを上から順に見て、最初にジャンルが分かったものを答えにしています。</p>';
+  var HEAD = '<p>7つの音楽データベース（2億6,000万曲以上）を上から順に見て、最初にジャンルが分かったものを答えにしています。</p>';
   if (p.src === 'db') {
     return HEAD + srcList('R', {R: '「' + gn + '」' + sales(p).map(function(x){ return '＋「' + esc(dispS(x)) + '」'; }).join('')}) +
       (sales(p).length ? '<p class="note">「＋」の後ろは、曲の売り出し方・使われ方の分類です（アニメの主題歌・挿入歌、アイドルとして売り出された人、など）。音のジャンルに重ねて付けています。</p>' : '') +
@@ -208,9 +210,11 @@ function put(w, p){
         // 【2026-11-13 チョロさんの指示】売り方の箱があれば、音楽性と同じ楕円の枠で「＋」でつないで並べる（「または」ではなく「and」）。
         //   3つ以上になることもあるので、幅に収まらなければ折り返す（はみ出さない）
         (sales(p).length
-          ? '<div class="gset"><b class="gn gp">' + esc(disp(p.g)) + '</b>' + sales(p).map(function(x){ return '<i class="plus">＋</i><b class="gp gp2">' + esc(dispS(x)) + '</b>'; }).join('') + '</div>'
-          : '<b class="gn">' + esc(disp(p.g)) + '</b>') +
-        (gs ? '<span class="gs">' + esc(gs) + '</span>' : '') + '</div></div>' +
+          // 【2026-11-13 チョロさんの指摘】もう1つの呼び方（New Music → ニューミュージック）は、最初の楕円のすぐ下に付ける。
+          //   以前は楕円の並びの一番下に出ていて、縦に積むと最後の楕円（シティ・ポップ等）の説明に見えた
+          ? '<div class="gset"><span class="gmain"><b class="gn gp">' + esc(disp(p.g)) + '</b>' + (gs ? '<span class="gs">' + esc(gs) + '</span>' : '') + '</span>' +
+            sales(p).map(function(x){ return '<i class="plus">＋</i><b class="gp gp2">' + esc(dispS(x)) + '</b>'; }).join('') + '</div>'
+          : '<b class="gn">' + esc(disp(p.g)) + '</b>' + (gs ? '<span class="gs">' + esc(gs) + '</span>' : '')) + '</div></div>' +
         '<div class="r2"><button type="button" class="btn qi" aria-expanded="false">なぜ ' + esc(disp(p.g)) + '？ ▾</button>' +
         '<button type="button" class="btn more">' + (p.via === 'mic' ? ICON_MIC + '別の曲を聴かせる' : ICON_SEARCH + '別の曲を調べる') + '</button></div>' +
         '<div class="why">' + whyHtml(p) + '</div>';
@@ -227,8 +231,8 @@ function put(w, p){
       var fit = function(){
         if (!gset) return;
         gset.classList.remove('stack');
-        var ps = gset.querySelectorAll('.gp');
-        if (ps.length > 1 && ps[ps.length - 1].offsetTop > ps[0].offsetTop + 4) gset.classList.add('stack');
+        var ps = gset.querySelectorAll(':scope > .gmain, :scope > .gp');
+        if (ps.length > 1 && ps[ps.length - 1].offsetTop >= ps[0].offsetTop + ps[0].offsetHeight - 2) gset.classList.add('stack');   // 最後の楕円が、最初の楕円より下の行にある＝折り返した
       };
       var yw = d.getElementById('sp-yt-wrap');
       body.insertBefore(box, yw && yw.parentNode === body ? yw : body.firstChild);
