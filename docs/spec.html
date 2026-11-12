@@ -38,7 +38,7 @@
 <h1>音楽ジャンルルーツ辞典 — 仕様書</h1>
 <h2>この仕様書について</h2>
 <p class="note">この文書は <b>spec_dump.py が実物を読み直して自動で書き出したもの</b>です。手で書き足しても次の書き出しで消えます。決めた理由など人が書くことは <code>docs/decisions.md</code> に書いてください。この文書の末尾にそのまま入ります。</p>
-<p class="note">書き出した日時：<b>2026-11-12 03:32</b></p>
+<p class="note">書き出した日時：<b>2026-11-13 01:53</b></p>
 <h2>いまの版</h2>
 <table>
 <tr><th>項目</th><th>内容</th></tr>
@@ -319,6 +319,7 @@
 <li>鍵はRenderの環境変数（<code>ACRCLOUD_HOST</code>・<code>ACRCLOUD_ACCESS_KEY</code>・<code>ACRCLOUD_ACCESS_SECRET</code>）か、手元の<code>acrcloud_key.txt</code>。画面や応答には出さない。</li>
 </ul>
 <p class="num">3. 日本の曲がローマ字で返ってきたとき（例：舟唄 → Funa-Uta）は、Appleの音楽ストア（iTunes）の日本版で日本語の曲名・歌手名に直す。直すのは、<b>曲の国際番号（ISRC）が「JP」で始まる曲だけ</b>。海外の曲（例：Kendrick Lamar）をカタカナに直してしまう不具合があったため（2026-11-07）。</p>
+<p><b>【2026-11-13 追加】番号が「JP」で始まらない曲でも、同じApple の曲の番号で日本版を一度引き、曲名か歌手名にひらがな・漢字が入っていれば日本語の表記を使う。</b> 個人向けの配信代行を通した最近の日本の曲は番号が JP 以外になることがあり、ローマ字（例：good old days「ゆめがさめたら」→ Yume Ga Sametara）のままジャンルが見つからなかったため。カタカナだけの表記は使わないので、海外の曲がカタカナになることはない（試験：HUMBLE.・Hallelujah は英語のまま）。</p>
 <p class="num">4. 返すもの：<code>{found, title, artist, by, acr}</code>（<code>by</code>はどちらのサービスで分かったか、<code>acr</code>はACRCloudの状態 notfound／limit／error）。</p>
 <p>曲名が分かったら、地図から <code>/song_name.html?t=曲名&amp;a=歌手名&amp;auto=1&amp;via=mic</code> へ移り、下の「曲名から答える」と同じ道でジャンルを答えます（<code>via=mic</code>のときは、答えの見出しが「音を聴き取った結果」、下のリンクが「ほかの曲も聴かせる」になる）。</p>
 <p><b>曲が分からなかったときは、AIに当てずっぽうで答えさせない。</b> 「曲名で調べる」を案内する。</p>
