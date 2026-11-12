@@ -61,8 +61,10 @@ var CSS = [
   '#gr-ans .plus{font-style:normal;font-size:16px;font-weight:800;color:#d8b25e;line-height:1}',
   /* 【2026-11-13 チョロさんの指示】1行に収まらないときは、縦に積む（音楽性の楕円の下に「＋」、その下に次の楕円）。「＋」が行の右端に残って右が空くのを防ぐ */
   '#gr-ans .gset.stack{display:inline-flex;flex-direction:column;align-items:center;gap:4px}',
-  '#gr-ans .gmain{display:inline-flex;flex-direction:column;align-items:center}',
-  '#gr-ans .gmain .gs{margin-top:1px;text-align:center}',
+  '#gr-ans button.gp{font-family:inherit;cursor:pointer;transition:background .15s,box-shadow .15s}',
+  '#gr-ans button.gp:not(.on):hover{background:rgba(255,255,255,.14);box-shadow:0 0 0 2px rgba(216,178,94,.35)}',
+  '#gr-ans button.gp.on{cursor:default;box-shadow:0 0 0 2px color-mix(in srgb,var(--gc) 55%,transparent),0 0 14px color-mix(in srgb,var(--gc) 45%,transparent)}',
+  '#gr-ans button.gp:focus-visible{outline:2px solid #fff;outline-offset:2px}',
   '#gr-ans .gs{display:block;font-size:12.5px;color:color-mix(in srgb,var(--gc) 55%,#fff);margin-top:2px}',
   '#gr-ans .r2{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}',
   '#gr-ans .btn{flex:1 1 auto;display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:34px;border-radius:999px;padding:6px 14px;font:700 12.5px/1.3 inherit;cursor:pointer;white-space:nowrap}',
@@ -185,15 +187,16 @@ function saveHist(w, p){
   } catch(e) {}
 }
 var cur = 0;
-function put(w, p){
+function put(w, p, view){
+  view = view || p.g;
   var my = ++cur, d = w.document, tries = 0;
   var old = d.getElementById('gr-ans'); if (old) old.remove();
   gReady.then(function(){
-    saveHist(w, p);
+    if (view === p.g) saveHist(w, p);   // 楕円を押して別のジャンルへ移ったときは、履歴に足さない
     var timer = setInterval(function(){
       if (my !== cur || ++tries > 120) { clearInterval(timer); return; }    // 60秒であきらめる
       var nd = w._currentNode, body = d.getElementById('sp-body');
-      if (!nd || nd.id !== p.g || !body || !d.querySelector('.yt-music-link')) return;
+      if (!nd || nd.id !== view || !body || !d.querySelector('.yt-music-link')) return;
       clearInterval(timer);
       if (!d.getElementById('gr-ans-css')) { var st = d.createElement('style'); st.id = 'gr-ans-css'; st.textContent = CSS; d.head.appendChild(st); }
       var box = d.createElement('div'); box.id = 'gr-ans';
@@ -201,23 +204,34 @@ function put(w, p){
       var dot = d.querySelector('#sp-body .sp-cat-dot, .sp-cat-dot');
       var gc = dot && getComputedStyle(dot).backgroundColor;
       if (gc && gc !== 'rgba(0, 0, 0, 0)') box.style.setProperty('--gc', gc);
-      var gs = sub(p.g);
+      // 【2026-11-13 チョロさんの指示】ジャンルの名前は1つだけ出す（もう1つの呼び方「ニューミュージック」等は出さない。2つ並ぶと何の説明か分からない）。
+      // 楕円はボタンにして、押すとそのジャンルの説明へ移る（曲は流したまま）。いま見ているジャンルの楕円を光らせる
+      var all = [p.g].concat(sales(p));
+      var pill = function(x, i){
+        return '<button type="button" class="gp' + (i ? ' gp2' : ' gn') + (x === view ? ' on' : '') + '" data-g="' + esc(x) + '"' +
+          (x === view ? ' aria-current="true"' : ' title="「' + esc(i ? dispS(x) : disp(x)) + '」の説明を見る"') + '>' + esc(i ? dispS(x) : disp(x)) + '</button>';
+      };
       box.innerHTML =
         '<div class="eye">' + (p.via === 'mic' ? '聴き取った曲' : '調べた曲') + '</div>' +
         '<div class="song">「' + esc(p.t) + '」</div>' +
         (p.a ? '<div class="artist">' + esc(p.a) + '</div>' : '') +
         '<div class="ans"><span class="disc" aria-hidden="true"></span><div class="gl"><small>この曲のジャンルは</small>' +
-        // 【2026-11-13 チョロさんの指示】売り方の箱があれば、音楽性と同じ楕円の枠で「＋」でつないで並べる（「または」ではなく「and」）。
-        //   3つ以上になることもあるので、幅に収まらなければ折り返す（はみ出さない）
+        // 売り方の箱があれば、楕円を「＋」でつないで並べる（「または」ではなく「and」）。収まらなければ縦に積む
         (sales(p).length
-          // 【2026-11-13 チョロさんの指摘】もう1つの呼び方（New Music → ニューミュージック）は、最初の楕円のすぐ下に付ける。
-          //   以前は楕円の並びの一番下に出ていて、縦に積むと最後の楕円（シティ・ポップ等）の説明に見えた
-          ? '<div class="gset"><span class="gmain"><b class="gn gp">' + esc(disp(p.g)) + '</b>' + (gs ? '<span class="gs">' + esc(gs) + '</span>' : '') + '</span>' +
-            sales(p).map(function(x){ return '<i class="plus">＋</i><b class="gp gp2">' + esc(dispS(x)) + '</b>'; }).join('') + '</div>'
-          : '<b class="gn">' + esc(disp(p.g)) + '</b>' + (gs ? '<span class="gs">' + esc(gs) + '</span>' : '')) + '</div></div>' +
+          ? '<div class="gset">' + all.map(pill).join('<i class="plus">＋</i>') + '</div>'
+          : '<b class="gn">' + esc(disp(p.g)) + '</b>') + '</div></div>' +
         '<div class="r2"><button type="button" class="btn qi" aria-expanded="false">なぜ ' + esc(disp(p.g)) + '？ ▾</button>' +
         '<button type="button" class="btn more">' + (p.via === 'mic' ? ICON_MIC + '別の曲を聴かせる' : ICON_SEARCH + '別の曲を調べる') + '</button></div>' +
         '<div class="why">' + whyHtml(p) + '</div>';
+      [].forEach.call(box.querySelectorAll('.gset .gp'), function(b){
+        b.addEventListener('click', function(e){
+          e.stopPropagation();
+          var x = b.getAttribute('data-g');
+          if (x === view || typeof w.grOpenGenre !== 'function') return;
+          w.grOpenGenre(x);
+          put(w, p, x);
+        });
+      });
       box.querySelector('.qi').addEventListener('click', function(e){
         e.stopPropagation(); var o = box.classList.toggle('why-open'); this.setAttribute('aria-expanded', o ? 'true' : 'false');
         this.textContent = o ? '理由を閉じる ▴' : 'なぜ ' + disp(p.g) + '？ ▾';
@@ -231,7 +245,7 @@ function put(w, p){
       var fit = function(){
         if (!gset) return;
         gset.classList.remove('stack');
-        var ps = gset.querySelectorAll(':scope > .gmain, :scope > .gp');
+        var ps = gset.querySelectorAll(':scope > .gp');
         if (ps.length > 1 && ps[ps.length - 1].offsetTop >= ps[0].offsetTop + ps[0].offsetHeight - 2) gset.classList.add('stack');   // 最後の楕円が、最初の楕円より下の行にある＝折り返した
       };
       var yw = d.getElementById('sp-yt-wrap');
@@ -244,7 +258,7 @@ function put(w, p){
       // 別のジャンルへ移ったら、帯は外す（その曲の答えではなくなるため）
       var watch = setInterval(function(){
         if (!d.getElementById('gr-ans')) { clearInterval(watch); return; }
-        if (!w._currentNode || w._currentNode.id !== p.g) { clearInterval(watch); box.remove(); }
+        if (!w._currentNode || w._currentNode.id !== view) { clearInterval(watch); if (box.parentNode) box.remove(); }
       }, 700);
       findVideo(p.t, p.a).then(function(v){ if (v && my === cur) playHit(w, d, v); });
     }, 500);
