@@ -109,7 +109,13 @@ function srcList(use, ans){
       '<div class="r">' + (a || 'ー') + (on ? '　← これを採用' : '') + '</div></div>';
   }).join('') + '</div>';
 }
+// 【2026-11-13】辞典のデータベース以外で答えたときも、歌手で決まる売り方の箱が付いたら、その説明を添える
 function whyHtml(p){
+  var h = whyHtml0(p);
+  if (p.src !== 'db' && sales(p).length) h += '<p class="note">「＋」の' + sales(p).map(function(x){ return '「' + esc(dispS(x)) + '」'; }).join('') + 'は、歌っている人で決まる売り出し方の分類です（この辞典の判定）。音のジャンルに重ねて付けています。</p>';
+  return h;
+}
+function whyHtml0(p){
   var g = p.g, gn = esc(disp(g));
   var HEAD = '<p>7つのデータベースを上から順に見て、最初にジャンルが分かったものを答えにしています。</p>';
   if (p.src === 'db') {

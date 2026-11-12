@@ -48,6 +48,18 @@ fetch(BASE_DIR + 'rep_index.json').then(function(r){return r.json()}).then(funct
 // 見つからない曲だけ、下の5か所の多数決で答える（チョロさんの決定 2026-11-06）。
 var SDB = null;
 fetch(BASE_DIR + 'song_db.json').then(function(r){return r.json()}).then(function(x){SDB = x});
+// 【2026-11-13】歌手で決まる売り方の箱（アイドルとして売り出された人・シティ・ファンクの人）。{歌手の鍵: ['j_pop_idol', ...]}。
+// データベースに無い曲（アルバムの曲など）を外のデータベースで答えたときも、その歌手なら箱を付ける（例：久保田利伸「流星のサドル」→ J-POP ＋ シティ・ファンク）。
+// 読めなくても答えは出す（箱が付かないだけ）
+var ASALES = {};
+fetch(BASE_DIR + 'artist_sales.json').then(function(r){return r.json()}).then(function(x){ ASALES = x || {}; }).catch(function(){});
+function akey(s){ return String(s || '').toLowerCase().replace(/[^\p{L}\p{N}]/gu, ''); }
+function addBoxes(p){
+  var have = String(p.s || '').split(',').filter(Boolean);
+  var names = [p.a].concat(String(p.a || '').split(/\s*(?:&|＆|,|、|\/|feat\.?|ft\.|featuring|with|×)\s*/i));
+  names.forEach(function(n){ (ASALES[akey(n)] || []).forEach(function(b){ if (have.indexOf(b) < 0 && b !== p.g) have.push(b); }); });
+  if (have.length) p.s = have.join(','); return p;
+}
 // 演歌も歌う歌手（データベースに演歌の曲が1曲でもある歌手）。この人の曲を歌謡曲・ムード歌謡と答えるときは、
 // 「歌手で決めず、曲調で判定した」という注意書きを答えに添える（チョロさんの指示 2026-11-06）。
 function enkaSinger(name){
@@ -478,20 +490,20 @@ function judge(t, a, say){
   t = String(t || '').trim(); a = String(a || '').trim();
   return ready.then(function(){
     var ruled = artistRule(a);
-    if (ruled) return {ok: true, p: {t: coreTitle(t).trim() || t, a: a, g: ruled, src: 'artist'}};
+    if (ruled) return {ok: true, p: addBoxes({t: coreTitle(t).trim() || t, a: a, g: ruled, src: 'artist'})};
     var hit = findDB(t, a);
     if (hit) {
       var q1 = {t: hit[0], a: hit[1], g: hit[2], src: 'db'};
       // 【2026-11-13】売り方の箱（アニソン・アイドル・シティ・ポップ等）。音楽性（g）に重ねて付く。住所に載せるので「,」でつなぐ
       if (hit[4] && hit[4].length) q1.s = hit[4].join(',');
       if ((hit[2] === 'kayokyoku' || hit[2] === 'mood_kayo') && enkaSinger(hit[1])) q1.en = '1';
-      return {ok: true, p: q1};
+      return {ok: true, p: addBoxes(q1)};
     }
     // 曲名の後ろの版の名前「(Re-Recorded)」「 - replica -」と、歌手名の共演者「& ○○」「feat. ○○」を外して探す
     t = coreTitle(t).trim() || t;
     a = String(a).split(/\s*(?:&|＆|,|、|\/|\bfeat\.?|\bft\.|\bfeaturing\b|\bwith\b|×)\s*/i)[0].trim() || a;
     var rep = findRep(t, a);
-    if (rep) return {ok: true, p: {t: rep[0], a: rep[1], g: rep[2], src: 'rep'}};
+    if (rep) return {ok: true, p: addBoxes({t: rep[0], a: rep[1], g: rep[2], src: 'rep'})};
     var done = 0, res = {};
     var show = function(){ say('「' + t + '」のジャンルを調べています…'); };
     show();
@@ -507,7 +519,7 @@ function judge(t, a, say){
       // 答えには正式な歌手名を出す（「米津」→「米津玄師」）
       var nm = (res['Wikidata'].found && res['Wikidata'].name) || a;
       var votes = ORDER.map(function(s){ var r = res[s]; return CODE[s] + ':' + (r.err ? 'err' : !r.found ? 'none' : (r.vote || 'nogenre')); }).join('|');
-      return {ok: true, p: {t: t, a: nm, g: d.id, src: 'vote', v: votes, by: CODE[d.by]}};
+      return {ok: true, p: addBoxes({t: t, a: nm, g: d.id, src: 'vote', v: votes, by: CODE[d.by]})};
     });
   });
 }
