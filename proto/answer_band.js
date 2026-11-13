@@ -80,6 +80,15 @@ var CSS = [
   '#gr-ans .gsub.style{background:rgba(216,178,94,.08);border:1px dashed rgba(216,178,94,.55)}',
   '#gr-ans .glab{display:block;font-size:9.5px;font-weight:800;letter-spacing:.16em;color:color-mix(in srgb,var(--gc) 55%,#fff);margin:0 0 5px 2px}',
   '#gr-ans .gsub.style .glab{color:#d8b25e}',
+  /* 【2026-11-13 v2.79 チョロさんの指示】MAIN／STYLE の見出しに説明の吹き出し。パソコンはカーソルを乗せると、スマホは見出しを押すと出る。
+     「？」のマークは置かず、見出しの下の細い点線だけを目印にする */
+  '#gr-ans .gsub{position:relative}',
+  '#gr-ans .glab{display:inline-block;cursor:help;border-bottom:1px dotted currentColor;padding-bottom:1px;outline:none}',
+  '#gr-ans .gtip{display:none;position:absolute;left:6px;right:6px;top:24px;z-index:5;padding:7px 10px;border-radius:9px;background:#10101f;',
+  '  border:1px solid rgba(255,255,255,.22);box-shadow:0 6px 18px rgba(0,0,0,.5);font-size:11.5px;font-weight:400;letter-spacing:0;line-height:1.65;color:#ececf6}',
+  '#gr-ans .gsub.style .gtip{border-color:rgba(216,178,94,.6)}',
+  '@media (hover:hover){#gr-ans .glab:hover + .gtip{display:block}}',
+  '#gr-ans .glab:focus-visible + .gtip,#gr-ans .gsub.tip .gtip{display:block}',
   '#gr-ans .glab small{font-size:9px;font-weight:400;letter-spacing:.02em;color:#9a9ab8;margin-left:6px}',
   '#gr-ans .gvals{display:flex;flex-wrap:wrap;gap:6px;min-width:0}',
   '#gr-ans .gvals .gp{max-width:100%;white-space:normal;overflow-wrap:anywhere}',
@@ -247,8 +256,8 @@ function put(w, p, view){
         //   前は「J-POP ＋ アイドル」と「＋」でつないでいたが、どれが音楽性でどれが売り出し方か、ひと目で分からなかった
         '<div class="ans"><div class="gl">' +
         '<div class="gbox"><span class="gbox-t">' + ICON_NOTE + 'ジャンル</span>' +
-        '<div class="gsub main"><span class="glab">MAIN</span><div class="gvals">' + pill(p.g, 0) + '</div></div>' +
-        (sales(p).length ? '<div class="gsub style"><span class="glab">STYLE</span><div class="gvals">' + sales(p).map(function(x){ return pill(x, 1); }).join('') + '</div></div>' : '') +
+        '<div class="gsub main"><span class="glab" tabindex="0" role="button" aria-label="MAIN の説明">MAIN</span><span class="gtip" role="tooltip">曲そのものの音楽性で決まるジャンルです。1曲に必ず1つだけ付きます。</span><div class="gvals">' + pill(p.g, 0) + '</div></div>' +
+        (sales(p).length ? '<div class="gsub style"><span class="glab" tabindex="0" role="button" aria-label="STYLE の説明">STYLE</span><span class="gtip" role="tooltip">アイドル・アニメの主題歌・クリスマスの曲のように、売り出し方や使われ方で決まるジャンルです。メインと重なって付き、1曲にいくつでも付きます。</span><div class="gvals">' + sales(p).map(function(x){ return pill(x, 1); }).join('') + '</div></div>' : '') +
         '</div></div></div>' +
         // 【2026-11-13 チョロさんの指摘】「なぜ ○○？」は、いま見ているジャンルの名前にする（シティ・ポップへ移ったら「なぜ シティ・ポップ？」）
         '<div class="r2"><button type="button" class="btn qi" aria-expanded="false">なぜ ' + esc(vname) + '？ ▾</button>' +
@@ -263,6 +272,15 @@ function put(w, p, view){
           put(w, p, x);
         });
       });
+      // 見出しを押すと説明を出す・もう一度押すと消す（スマホ用。パソコンはカーソルを乗せるだけで出る）。ほかの所を押したら消す
+      [].forEach.call(box.querySelectorAll('.gsub .glab'), function(l){
+        l.addEventListener('click', function(e){
+          e.stopPropagation(); var g = l.parentNode, on = !g.classList.contains('tip');
+          [].forEach.call(box.querySelectorAll('.gsub.tip'), function(x){ x.classList.remove('tip'); });
+          if (on) g.classList.add('tip');
+        });
+      });
+      box.addEventListener('click', function(){ [].forEach.call(box.querySelectorAll('.gsub.tip'), function(x){ x.classList.remove('tip'); }); });
       box.querySelector('.qi').addEventListener('click', function(e){
         e.stopPropagation(); var o = box.classList.toggle('why-open'); this.setAttribute('aria-expanded', o ? 'true' : 'false');
         this.textContent = o ? '理由を閉じる ▴' : 'なぜ ' + vname + '？ ▾';
