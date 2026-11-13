@@ -21,7 +21,7 @@ function sub(id){
 }
 // 【2026-11-13】売り方の箱（p.s：「anime_music,j_pop_idol」）。音楽性（p.g）に重ねて付く
 // 売り方の箱は、短い日本語の名前で出す（地図の名前は英語のもの・別名が長いものがあるため）
-var SALES_JA = {anime_music: 'アニソン', j_pop_idol: 'アイドル', city_pop: 'シティ・ポップ', aor: 'AOR', city_funk: 'シティ・ファンク'};
+var SALES_JA = {anime_music: 'アニソン', j_pop_idol: 'アイドル', city_pop: 'シティ・ポップ', aor: 'AOR', city_funk: 'シティ・ファンク', vgm: 'ゲーム音楽', film_score: '映画音楽', musical_theatre: 'ミュージカル', opera: 'オペラ', operetta: 'オペレッタ', bollywood: 'ボリウッド', cyberpunk_music: 'サイバーパンク', christmas_music: 'クリスマス音楽', ccm: 'CCM', adult_contemporary: 'アダルト・コンテンポラリー', urban_contemporary: 'アーバン・コンテンポラリー', quiet_storm: 'クワイエット・ストーム', classic_rock: 'クラシック・ロック', yacht_rock: 'ヨット・ロック', doujin_music: '同人音楽'};
 function dispS(id){ return SALES_JA[id] || disp(id); }
 function sales(p){ return String(p.s || '').split(',').filter(function(x){ return x && x !== p.g; }); }
 function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
@@ -40,11 +40,12 @@ var CSS = [
   '@keyframes grAnsGlow{0%,100%{box-shadow:0 6px 22px rgba(0,0,0,.35)}50%{box-shadow:0 0 0 3px color-mix(in srgb,var(--gc) 60%,transparent),0 0 28px color-mix(in srgb,var(--gc) 55%,transparent)}}',
   '#gr-ans .eye{font-size:11px;letter-spacing:.12em;color:#b8b8d0;display:flex;align-items:center;gap:6px}',
   '#gr-ans .eye::before{content:"";width:14px;height:2px;border-radius:2px;background:var(--gc)}',
+  '#gr-ans .eye,#gr-ans .song,#gr-ans .artist{padding-right:50px}',
   '#gr-ans .song{margin-top:6px;font-size:16.5px;font-weight:700;color:#fff;line-height:1.35;word-break:break-word}',
   '#gr-ans .artist{font-size:13px;color:#b8b8d0;margin-top:2px}',
   '#gr-ans .ans{display:flex;align-items:center;gap:12px;margin-top:10px;padding-top:10px;border-top:1px dashed rgba(255,255,255,.14)}',
   /* レコード盤：溝の輪と、真ん中のラベルをジャンルの色で塗る。ゆっくり回す */
-  '#gr-ans .disc{flex:none;width:48px;height:48px;border-radius:50%;position:relative;',
+  '#gr-ans .disc{flex:none;width:40px;height:40px;border-radius:50%;position:absolute;top:12px;right:14px;',   /* v2.74：右上へ移した（前は答えの左にあって横幅を取っていた） */
   '  background:radial-gradient(circle,var(--gc) 0 22%,#111 23% 26%,#1c1c1c 27% 40%,#2a2a2a 41% 42%,#181818 43% 58%,#2a2a2a 59% 60%,#151515 61% 100%);',
   '  box-shadow:0 0 0 1px rgba(255,255,255,.12),0 0 18px color-mix(in srgb,var(--gc) 45%,transparent);animation:grDisc 6s linear infinite}',
   '#gr-ans .disc::after{content:"";position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 20deg,transparent 0 40deg,rgba(255,255,255,.16) 55deg,transparent 70deg 220deg,rgba(255,255,255,.1) 235deg,transparent 250deg)}',
@@ -63,12 +64,23 @@ var CSS = [
   '#gr-ans .gset.stack{display:inline-flex;flex-direction:column;align-items:center;gap:4px}',
   /* 【2026-11-13 チョロさんの決定】ジャンルは2種類。「メイン」（音楽性・1曲に1つ）と「スタイル」（売り出し方・使われ方・いくつでも重なる）。
      どちらもジャンルだと分かるように、2段を「ジャンル」の枠で囲む（枠の上の線に「ジャンル」の見出しを乗せる） */
-  '#gr-ans .gbox{position:relative;margin-top:10px;border:1px solid color-mix(in srgb,var(--gc) 45%,rgba(255,255,255,.2));border-radius:12px;padding:14px 10px 10px;display:grid;grid-template-columns:auto 1fr;gap:8px 10px;align-items:center}',
-  '#gr-ans .gbox-t{position:absolute;top:0;left:12px;transform:translateY(-50%);padding:0 6px;background:#1e1e37;font-size:11.5px;font-weight:700;letter-spacing:.12em;color:#d8d8ec}',
-  '#gr-ans .glab{font-size:11.5px;font-weight:700;letter-spacing:.06em;color:#b8b8d0;white-space:nowrap}',
-  '#gr-ans .glab small{display:block;font-size:9.5px;font-weight:400;letter-spacing:0;color:#8f8fae;margin-top:1px}',
+  /* 【2026-11-13 v2.74 チョロさんの指示】「ジャンル」の見出しは枠の上の線の真ん中に、四角い地を見せずリボン形で乗せる。
+     中は「MAIN（音楽性・1つ）」と「STYLE（売り出し方・いくつでも）」の2つの枠に分け、色を少し変えて、どこからどこまでかを分かるようにする。
+     見出しは英語の小さな字にして横幅を取らない（札が枠の幅いっぱいを使えるように）。長い名前は札の中で折り返し、枠からはみ出さない */
+  '#gr-ans .gbox{position:relative;margin-top:16px;border:1px solid color-mix(in srgb,var(--gc) 40%,rgba(255,255,255,.18));border-radius:14px;padding:18px 9px 9px;display:flex;flex-direction:column;gap:8px}',
+  '#gr-ans .gbox-t{position:absolute;top:0;left:50%;transform:translate(-50%,-50%);display:inline-flex;align-items:center;gap:5px;padding:3px 12px 3px 10px;border-radius:999px;white-space:nowrap;',
+  '  background:linear-gradient(135deg,color-mix(in srgb,var(--gc) 70%,#1a1a30),color-mix(in srgb,var(--gc) 35%,#1a1a30));border:1px solid color-mix(in srgb,var(--gc) 80%,#fff);',
+  '  box-shadow:0 2px 10px rgba(0,0,0,.4),0 0 12px color-mix(in srgb,var(--gc) 40%,transparent);font-size:11.5px;font-weight:800;letter-spacing:.14em;color:#fff}',
+  '#gr-ans .gbox-t svg{width:12px;height:12px;flex:none}',
+  '#gr-ans .gsub{border-radius:10px;padding:6px 8px 8px;min-width:0}',
+  '#gr-ans .gsub.main{background:color-mix(in srgb,var(--gc) 13%,transparent);border:1px solid color-mix(in srgb,var(--gc) 45%,transparent)}',
+  '#gr-ans .gsub.style{background:rgba(216,178,94,.08);border:1px dashed rgba(216,178,94,.55)}',
+  '#gr-ans .glab{display:block;font-size:9.5px;font-weight:800;letter-spacing:.16em;color:color-mix(in srgb,var(--gc) 55%,#fff);margin:0 0 5px 2px}',
+  '#gr-ans .gsub.style .glab{color:#d8b25e}',
+  '#gr-ans .glab small{font-size:9px;font-weight:400;letter-spacing:.02em;color:#9a9ab8;margin-left:6px}',
   '#gr-ans .gvals{display:flex;flex-wrap:wrap;gap:6px;min-width:0}',
-  '#gr-ans .gvals .gp2{white-space:nowrap;font-size:14px;padding:3px 9px}',   /* 札の中では折り返さない（「シティ・ポップ」が2行に割れていた）。入らなければ札ごと次の行へ */
+  '#gr-ans .gvals .gp{max-width:100%;white-space:normal;overflow-wrap:anywhere}',
+  '#gr-ans .gvals .gp2{font-size:14px;padding:3px 10px}',
   '#gr-ans button.gp{font-family:inherit;cursor:pointer;transition:background .15s,box-shadow .15s}',
   '#gr-ans button.gp:not(.on):hover{background:rgba(255,255,255,.14);box-shadow:0 0 0 2px rgba(216,178,94,.35)}',
   '#gr-ans button.gp.on{cursor:default;box-shadow:0 0 0 2px color-mix(in srgb,var(--gc) 55%,transparent),0 0 14px color-mix(in srgb,var(--gc) 45%,transparent)}',
@@ -96,6 +108,7 @@ var CSS = [
   '@media (prefers-reduced-motion:reduce){#gr-ans,#gr-ans .disc{animation:none}}',
   '.yt-music-link.gr-hit{outline:2px solid #7eb8f7;outline-offset:1px;border-radius:4px}'
 ].join('\n');
+var ICON_NOTE = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3v10.55A4 4 0 1 0 14 17V7h4V3h-6z"/></svg>';
 var ICON_SEARCH = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>';
 var ICON_MIC = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></svg>';
 
@@ -226,10 +239,11 @@ function put(w, p, view){
         (p.a ? '<div class="artist">' + esc(p.a) + '</div>' : '') +
         // 【2026-11-13 チョロさんの決定】「ジャンル」の枠の中に、メイン（必ず1つ）とスタイル（0〜いくつでも）を段に分けて出す。
         //   前は「J-POP ＋ アイドル」と「＋」でつないでいたが、どれが音楽性でどれが売り出し方か、ひと目で分からなかった
-        '<div class="ans"><span class="disc" aria-hidden="true"></span><div class="gl">' +
-        '<div class="gbox"><span class="gbox-t">ジャンル</span>' +
-        '<span class="glab">メイン</span><div class="gvals">' + pill(p.g, 0) + '</div>' +
-        (sales(p).length ? '<span class="glab">スタイル</span><div class="gvals">' + sales(p).map(function(x){ return pill(x, 1); }).join('') + '</div>' : '') +
+        '<span class="disc" aria-hidden="true"></span>' +
+        '<div class="ans"><div class="gl">' +
+        '<div class="gbox"><span class="gbox-t">' + ICON_NOTE + 'ジャンル</span>' +
+        '<div class="gsub main"><span class="glab">MAIN</span><div class="gvals">' + pill(p.g, 0) + '</div></div>' +
+        (sales(p).length ? '<div class="gsub style"><span class="glab">STYLE</span><div class="gvals">' + sales(p).map(function(x){ return pill(x, 1); }).join('') + '</div></div>' : '') +
         '</div></div></div>' +
         // 【2026-11-13 チョロさんの指摘】「なぜ ○○？」は、いま見ているジャンルの名前にする（シティ・ポップへ移ったら「なぜ シティ・ポップ？」）
         '<div class="r2"><button type="button" class="btn qi" aria-expanded="false">なぜ ' + esc(vname) + '？ ▾</button>' +

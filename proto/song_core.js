@@ -395,14 +395,16 @@ function inDict(t, a){
 function songRow(s, mark){
   var d = mark ? null : inDict(s.t, s.a);
   var g = mark ? s.g : (artistRule(s.a) || (d && d[2]));
-  var gs = (!mark && d && d[4]) || [];
+  // 【2026-11-13 チョロさんの指摘】「辞典で判定済みの曲」の段（mark）でも、スタイル（売り出し方）を出す。前はメインしか出ず、下の段と食い違っていた
+  var dd = d || inDict(s.t, s.a);
+  var gs = (dd && dd[4]) || [];
   var sub = s.a + (s.y ? '・' + s.y + '年' : '');
   return '<div class="row song" tabindex="0" data-t="' + esc(s.t) + '" data-a="' + esc(s.a) + '">' +
     (s.img ? '<img src="' + esc(s.img) + '" alt="" loading="lazy">' : '<span class="noimg"></span>') +
     '<div class="tx"><div class="t">' + esc(s.t) + '</div><div class="a">' + esc(sub) + '</div></div>' +
     // 【2026-11-08】印はジャンル名だけ（「辞典の判定あり：」は付けない。ジャンル名が出ていること自体が、辞典で判定済みの目印。チョロさんの指摘）
     // 【2026-11-13】売り方の箱があれば「J-POP ＋ アニソン」のように楕円を「＋」でつないで並べる（幅に収まらなければ折り返す）
-    (g ? (gs.length ? '<span class="badges" title="この辞典の判定">' + [g].concat(gs).map(function(x, i){ return '<span class="badge">' + esc(i ? ({anime_music: 'アニソン', j_pop_idol: 'アイドル', city_pop: 'シティ・ポップ', aor: 'AOR', city_funk: 'シティ・ファンク'}[x] || gname(x)) : gname(x)) + '</span>'; }).join('<i class="plus">＋</i>') + '</span>'
+    (g ? (gs.length ? '<span class="badges" title="この辞典の判定">' + [g].concat(gs).map(function(x, i){ return '<span class="badge">' + esc(i ? ({anime_music: 'アニソン', j_pop_idol: 'アイドル', city_pop: 'シティ・ポップ', aor: 'AOR', city_funk: 'シティ・ファンク', vgm: 'ゲーム音楽', film_score: '映画音楽', musical_theatre: 'ミュージカル', opera: 'オペラ', operetta: 'オペレッタ', bollywood: 'ボリウッド', cyberpunk_music: 'サイバーパンク', christmas_music: 'クリスマス音楽', ccm: 'CCM', adult_contemporary: 'アダルト・コンテンポラリー', urban_contemporary: 'アーバン・コンテンポラリー', quiet_storm: 'クワイエット・ストーム', classic_rock: 'クラシック・ロック', yacht_rock: 'ヨット・ロック', doujin_music: '同人音楽'}[x] || gname(x)) : gname(x)) + '</span>'; }).join('<i class="plus">＋</i>') + '</span>'
                     : '<span class="badge" title="この辞典の判定">' + esc(gname(g)) + '</span>') : '') + '</div>';
 }
 
