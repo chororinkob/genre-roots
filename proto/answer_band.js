@@ -43,7 +43,7 @@ var CSS = [
   /* v2.76（チョロさんの指示）：レコード盤は曲名・歌手名の左に置き、そこから名前が続く形にする */
   '#gr-ans .head{display:flex;align-items:center;gap:12px;margin-top:6px}',
   '#gr-ans .head .nm{min-width:0;flex:1 1 auto}',
-  '#gr-ans .head .song{margin-top:0}',
+  '#gr-ans .head .song{margin-top:0;text-indent:-.5em}',   /* v2.78：かぎかっこ「の左半分の空きを詰めて、曲名と歌手名の頭をそろえる（曲名が右にずれて見えた。チョロさんの指摘） */
   '#gr-ans .song{margin-top:6px;font-size:16.5px;font-weight:700;color:#fff;line-height:1.35;word-break:break-word}',
   '#gr-ans .artist{font-size:13px;color:#b8b8d0;margin-top:2px}',
   '#gr-ans .ans{display:flex;align-items:center;gap:12px;margin-top:10px;padding-top:10px;border-top:1px dashed rgba(255,255,255,.14)}',

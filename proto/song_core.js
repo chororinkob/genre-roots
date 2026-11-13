@@ -345,6 +345,37 @@ function ask(url){
     .catch(function(e){ delete CACHE[url]; throw e; });
 }
 var IT = 'https://itunes.apple.com/search?country=JP&lang=ja_jp&media=music';
+// 【2026-11-13 チョロさんの指摘】曲の候補を、日本語版ウィキペディアの曲の記事からも出す。
+//   配信ストア（Apple・Deezer）に無い曲（例：0点チャンピオン）は、ジャンルの調べ先にウィキペディアを足しても、候補に出ないので調べられなかった。
+//   記事の分類に「○○の楽曲」「○○年のシングル」がある記事だけを曲とみなし、「○○の楽曲」の○○を歌手名にする
+//   レコード会社の分類（「ポニーキャニオンの楽曲」など）は歌手ではないので外す
+var WP_NOT_ARTIST = /キャニオン|ビクター|コロムビア|コロンビア|ソニー|東芝|徳間|キングレコード|ワーナー|ユニバーサル|エイベックス|avex|EMI|BMG|テイチク|クラウン|バップ|ランティス|ジェネオン|フォーライフ|トイズファクトリー|ビーイング|アミューズ|日本コロムビア|事務所|レコード|レーベル|エンタテインメント|エンターテインメント|ミュージック|映画|アニメ|テレビ|番組|ドラマ|ゲーム|CM|日本|年代|楽曲$/;
+function wpSongs(q){
+  var W = 'https://ja.wikipedia.org/w/api.php?origin=*&format=json&formatversion=2&';
+  return getJ(W + 'action=query&generator=search&gsrnamespace=0&gsrlimit=10&prop=categories&cllimit=max&clshow=!hidden&gsrsearch=' + encodeURIComponent(q)).then(function(d){
+    var k = nz(q), out = [];
+    ((d.query || {}).pages || []).sort(function(x, y){ return (x.index || 0) - (y.index || 0); }).forEach(function(pg){
+      var cats = (pg.categories || []).map(function(c){ return String(c.title).replace(/^Category:/, ''); });
+      var songCats = cats.filter(function(c){ return /の楽曲$|年のシングル$|年の楽曲$/.test(c); });
+      if (!songCats.length) return;
+      var t = String(pg.title).replace(/\s*[（(][^）)]*[）)]\s*$/, ''), nt = nz(t);
+      if (!(nt === k || nt.indexOf(k) >= 0 || (nt.length >= 2 && k.indexOf(nt) >= 0))) return;
+      var ac = cats.map(function(c){ var m = c.match(/^(.+)の楽曲$/); return m && !WP_NOT_ARTIST.test(m[1]) ? m[1] : null; }).filter(Boolean)[0];
+      var ym = cats.join(' ').match(/(\d{4})年の(?:シングル|楽曲)/);
+      // 歌手の分類が無い記事（レコード会社の分類だけ）は、曲名がぴったり同じときだけ、あとで情報の欄の「Artist」を読む
+      if (!ac && nt !== k) return;
+      out.push({t: t, a: ac ? ac.replace(/\s*[（(][^）)]*[）)]\s*$/, '') : '', y: ym ? ym[1] : '', src: 'P', page: pg.title});
+    });
+    return Promise.all(out.map(function(s){
+      if (s.a) return s;
+      return getJ(W + 'action=parse&prop=wikitext&section=0&page=' + encodeURIComponent(s.page)).then(function(x){
+        var m = (((x.parse || {}).wikitext) || '').match(/\|\s*(?:Artist|アーティスト|歌手)\s*=\s*([^\n]*)/i);
+        if (m) s.a = m[1].replace(/<ref[\s\S]*?(?:<\/ref>|\/>)/g, '').replace(/\[\[([^\]|]*)\|([^\]]*)\]\]/g, '$2').replace(/\[\[([^\]]*)\]\]/g, '$1').replace(/\{\{[^}]*\}\}/g, '').replace(/'''?/g, '').trim();
+        return s;
+      }).catch(function(){ return s; });
+    })).then(function(xs){ return xs.filter(function(s){ return s.a; }); });
+  });
+}
 function remoteSongs(q){
   return ask(IT + '&entity=song&limit=40&term=' + encodeURIComponent(q)).then(function(d){
     var seen = {}, out = [];
@@ -473,11 +504,21 @@ function search(q, out, st, onSong){
     // 【2026-11-08】Appleに断られたら、すぐに Deezer で探す。Deezer もだめなら、3秒待って Apple にもう1回だけ聞く。
     var askZ = function(){ return Promise.all([zSongs(q), zArtists(q)]); };
     var used = 'I';
+    var wpP = wpSongs(q).catch(function(){ return []; });
     askBoth().catch(function(){ if (my !== seq) throw 'old'; used = 'Z'; return askZ(); })
-      .catch(function(){ return new Promise(function(ok){ setTimeout(ok, 3000); }).then(function(){ if (my !== seq) throw 'old'; used = 'I'; return askBoth(); }); }).then(function(r){
+      .catch(function(){ return new Promise(function(ok){ setTimeout(ok, 3000); }).then(function(){ if (my !== seq) throw 'old'; used = 'I'; return askBoth(); }); })
+      .then(function(r){ return wpP.then(function(wps){ r.wp = wps; return r; }); }).then(function(r){
       if (my !== seq) return;
       tell('cand_' + used);
       var all = r[0], songs = all.slice(0, 15), k = nz(q);
+      // ウィキペディアの曲の記事から見つけた曲を、配信ストアの候補の後ろに足す（同じ曲・辞典の段にある曲は足さない）
+      var have = {}; songs.concat(loc).forEach(function(s){ have[nz(s.t) + '|' + nz(s.a)] = 1; });
+      //   曲名がぴったり同じものは、配信ストアの「曲名がぴったり同じ曲」のすぐ後ろに入れる（一番下だと見つけにくい。チョロさんの指摘）
+      var nEx = 0; songs.forEach(function(s, i){ if (nz(s.t) === k && i === nEx) nEx++; });
+      (r.wp || []).forEach(function(s){
+        var key = nz(s.t) + '|' + nz(s.a); if (have[key] || songs.length >= 20) return; have[key] = 1;
+        if (nz(s.t) === k) songs.splice(nEx++, 0, s); else songs.push(s);
+      });
       // 人の候補：歌手の検索結果に、曲の検索結果に出てきた歌手（名前に入れた言葉を含む人）を足す。
       // 歌手の検索は、日本の歌手も英語の綴りで返すことがある（高山厳 → Takayama Gen）。曲の検索に同じ人（同じ番号）が
       // 日本語名で出ていれば、その名前に置き換える。
