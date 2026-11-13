@@ -40,12 +40,15 @@ var CSS = [
   '@keyframes grAnsGlow{0%,100%{box-shadow:0 6px 22px rgba(0,0,0,.35)}50%{box-shadow:0 0 0 3px color-mix(in srgb,var(--gc) 60%,transparent),0 0 28px color-mix(in srgb,var(--gc) 55%,transparent)}}',
   '#gr-ans .eye{font-size:11px;letter-spacing:.12em;color:#b8b8d0;display:flex;align-items:center;gap:6px}',
   '#gr-ans .eye::before{content:"";width:14px;height:2px;border-radius:2px;background:var(--gc)}',
-  '#gr-ans .eye,#gr-ans .song,#gr-ans .artist{padding-right:50px}',
+  /* v2.76（チョロさんの指示）：レコード盤は曲名・歌手名の左に置き、そこから名前が続く形にする */
+  '#gr-ans .head{display:flex;align-items:center;gap:12px;margin-top:6px}',
+  '#gr-ans .head .nm{min-width:0;flex:1 1 auto}',
+  '#gr-ans .head .song{margin-top:0}',
   '#gr-ans .song{margin-top:6px;font-size:16.5px;font-weight:700;color:#fff;line-height:1.35;word-break:break-word}',
   '#gr-ans .artist{font-size:13px;color:#b8b8d0;margin-top:2px}',
   '#gr-ans .ans{display:flex;align-items:center;gap:12px;margin-top:10px;padding-top:10px;border-top:1px dashed rgba(255,255,255,.14)}',
   /* レコード盤：溝の輪と、真ん中のラベルをジャンルの色で塗る。ゆっくり回す */
-  '#gr-ans .disc{flex:none;width:40px;height:40px;border-radius:50%;position:absolute;top:12px;right:14px;',   /* v2.74：右上へ移した（前は答えの左にあって横幅を取っていた） */
+  '#gr-ans .disc{flex:none;width:40px;height:40px;border-radius:50%;position:relative;',   /* v2.76：曲名・歌手名の左へ（v2.74は右上、その前は答えの左にあって横幅を取っていた） */
   '  background:radial-gradient(circle,var(--gc) 0 22%,#111 23% 26%,#1c1c1c 27% 40%,#2a2a2a 41% 42%,#181818 43% 58%,#2a2a2a 59% 60%,#151515 61% 100%);',
   '  box-shadow:0 0 0 1px rgba(255,255,255,.12),0 0 18px color-mix(in srgb,var(--gc) 45%,transparent);animation:grDisc 6s linear infinite}',
   '#gr-ans .disc::after{content:"";position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 20deg,transparent 0 40deg,rgba(255,255,255,.16) 55deg,transparent 70deg 220deg,rgba(255,255,255,.1) 235deg,transparent 250deg)}',
@@ -237,11 +240,11 @@ function put(w, p, view){
       };
       box.innerHTML =
         '<div class="eye">' + (p.via === 'mic' ? '聴き取った曲' : '調べた曲') + '</div>' +
+        '<div class="head"><span class="disc" aria-hidden="true"></span><div class="nm">' +
         '<div class="song">「' + esc(p.t) + '」</div>' +
-        (p.a ? '<div class="artist">' + esc(p.a) + '</div>' : '') +
+        (p.a ? '<div class="artist">' + esc(p.a) + '</div>' : '') + '</div></div>' +
         // 【2026-11-13 チョロさんの決定】「ジャンル」の枠の中に、メイン（必ず1つ）とスタイル（0〜いくつでも）を段に分けて出す。
         //   前は「J-POP ＋ アイドル」と「＋」でつないでいたが、どれが音楽性でどれが売り出し方か、ひと目で分からなかった
-        '<span class="disc" aria-hidden="true"></span>' +
         '<div class="ans"><div class="gl">' +
         '<div class="gbox"><span class="gbox-t">' + ICON_NOTE + 'ジャンル</span>' +
         '<div class="gsub main"><span class="glab">MAIN</span><div class="gvals">' + pill(p.g, 0) + '</div></div>' +
