@@ -28142,7 +28142,7 @@ document.getElementById('gr-name').addEventListener('keydown', e => {
 <div id="mic-overlay">
   <div id="mic-panel" data-mode="listen">
     <button id="mic-panel-close" onclick="closeMicPanel()">✕</button>
-    <div id="mic-panel-version">v2.76</div>
+    <div id="mic-panel-version">v2.77</div>
     <div id="mic-panel-title">🎵 この曲何？</div>
     <div id="mic-panel-sub" class="gets" aria-label="曲名・歌手・ジャンルが分かり、動画も見られます"><span class="g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>曲名</span><span class="g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>歌手</span><span class="g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12V4a1 1 0 0 1 1-1h8l9 9-9 9z"/><circle cx="7.5" cy="7.5" r="1.3"/></svg>ジャンル</span><span class="g"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l13-7.5z" fill="currentColor"/></svg>動画</span><span class="w">がわかる</span></div>
     <div id="mic-modes" role="tablist" aria-label="調べ方">
@@ -28354,7 +28354,10 @@ let _grSongLoading = null;
 function grSongLoad() {
   if (_grSongLoading) return _grSongLoading;
   const add = src => new Promise((ok, ng) => { const sc = document.createElement('script'); sc.src = src; sc.onload = ok; sc.onerror = ng; document.head.appendChild(sc); });
-  _grSongLoading = Promise.all([add('/proto/song_core.js'), add('/proto/answer_band.js')]).then(() => window.GRSong.ready)
+  // 【2026-11-13 v2.77】部品のファイル名の後ろに、マイクのパネルの版を付ける（?v=v2.77）。付けないと、ブラウザが前の部品を
+  //   最大10分ほど覚えたまま使い、版の表示は新しいのに帯は古い形のまま出ていた（レコード盤の位置を直したのに右上のままだった。チョロさんの指摘）
+  const _v = '?v=' + encodeURIComponent(((document.getElementById('mic-panel-version') || {}).textContent || '').trim());
+  _grSongLoading = Promise.all([add('/proto/song_core.js' + _v), add('/proto/answer_band.js' + _v)]).then(() => window.GRSong.ready)
     .catch(e => { _grSongLoading = null; throw e; });
   return _grSongLoading;
 }
