@@ -84,9 +84,12 @@ var CSS = [
      「？」のマークは置かず、見出しの下の細い点線だけを目印にする */
   '#gr-ans .gsub{position:relative}',
   '#gr-ans .glab{display:inline-block;cursor:help;border-bottom:1px dotted currentColor;padding-bottom:1px;outline:none}',
-  '#gr-ans .gtip{display:none;position:absolute;left:6px;right:6px;top:24px;z-index:5;padding:7px 10px;border-radius:9px;background:#10101f;',
+  /* v2.80（チョロさんの指摘）：吹き出しは見出しの右から出す（下に出すとカーソルと重なって字が読めなかった）。幅をせまくして縦に長く。左向きの小さな三角を付ける */
+  '#gr-ans .gtip{display:none;position:absolute;left:60px;right:6px;top:2px;z-index:5;padding:7px 10px;border-radius:9px;background:#10101f;',
   '  border:1px solid rgba(255,255,255,.22);box-shadow:0 6px 18px rgba(0,0,0,.5);font-size:11.5px;font-weight:400;letter-spacing:0;line-height:1.65;color:#ececf6}',
   '#gr-ans .gsub.style .gtip{border-color:rgba(216,178,94,.6)}',
+  '#gr-ans .gtip::before{content:"";position:absolute;left:-6px;top:9px;width:10px;height:10px;background:#10101f;border-left:1px solid rgba(255,255,255,.22);border-bottom:1px solid rgba(255,255,255,.22);transform:rotate(45deg)}',
+  '#gr-ans .gsub.style .gtip::before{border-color:rgba(216,178,94,.6)}',
   '@media (hover:hover){#gr-ans .glab:hover + .gtip{display:block}}',
   '#gr-ans .glab:focus-visible + .gtip,#gr-ans .gsub.tip .gtip{display:block}',
   '#gr-ans .glab small{font-size:9px;font-weight:400;letter-spacing:.02em;color:#9a9ab8;margin-left:6px}',
