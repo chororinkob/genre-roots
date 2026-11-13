@@ -61,6 +61,14 @@ var CSS = [
   '#gr-ans .plus{font-style:normal;font-size:16px;font-weight:800;color:#d8b25e;line-height:1}',
   /* 【2026-11-13 チョロさんの指示】1行に収まらないときは、縦に積む（音楽性の楕円の下に「＋」、その下に次の楕円）。「＋」が行の右端に残って右が空くのを防ぐ */
   '#gr-ans .gset.stack{display:inline-flex;flex-direction:column;align-items:center;gap:4px}',
+  /* 【2026-11-13 チョロさんの決定】ジャンルは2種類。「メイン」（音楽性・1曲に1つ）と「スタイル」（売り出し方・使われ方・いくつでも重なる）。
+     どちらもジャンルだと分かるように、2段を「ジャンル」の枠で囲む（枠の上の線に「ジャンル」の見出しを乗せる） */
+  '#gr-ans .gbox{position:relative;margin-top:10px;border:1px solid color-mix(in srgb,var(--gc) 45%,rgba(255,255,255,.2));border-radius:12px;padding:14px 10px 10px;display:grid;grid-template-columns:auto 1fr;gap:8px 10px;align-items:center}',
+  '#gr-ans .gbox-t{position:absolute;top:0;left:12px;transform:translateY(-50%);padding:0 6px;background:#1e1e37;font-size:11.5px;font-weight:700;letter-spacing:.12em;color:#d8d8ec}',
+  '#gr-ans .glab{font-size:11.5px;font-weight:700;letter-spacing:.06em;color:#b8b8d0;white-space:nowrap}',
+  '#gr-ans .glab small{display:block;font-size:9.5px;font-weight:400;letter-spacing:0;color:#8f8fae;margin-top:1px}',
+  '#gr-ans .gvals{display:flex;flex-wrap:wrap;gap:6px;min-width:0}',
+  '#gr-ans .gvals .gp2{white-space:nowrap;font-size:14px;padding:3px 9px}',   /* 札の中では折り返さない（「シティ・ポップ」が2行に割れていた）。入らなければ札ごと次の行へ */
   '#gr-ans button.gp{font-family:inherit;cursor:pointer;transition:background .15s,box-shadow .15s}',
   '#gr-ans button.gp:not(.on):hover{background:rgba(255,255,255,.14);box-shadow:0 0 0 2px rgba(216,178,94,.35)}',
   '#gr-ans button.gp.on{cursor:default;box-shadow:0 0 0 2px color-mix(in srgb,var(--gc) 55%,transparent),0 0 14px color-mix(in srgb,var(--gc) 45%,transparent)}',
@@ -118,15 +126,15 @@ function srcList(use, ans){
 // 【2026-11-13】辞典のデータベース以外で答えたときも、歌手で決まる売り方の箱が付いたら、その説明を添える
 function whyHtml(p){
   var h = whyHtml0(p);
-  if (p.src !== 'db' && sales(p).length) h += '<p class="note">「＋」の' + sales(p).map(function(x){ return '「' + esc(dispS(x)) + '」'; }).join('') + 'は、歌っている人で決まる売り出し方の分類です（この辞典の判定）。音のジャンルに重ねて付けています。</p>';
+  if (p.src !== 'db' && sales(p).length) h += '<p class="note">スタイルの' + sales(p).map(function(x){ return '「' + esc(dispS(x)) + '」'; }).join('') + 'は、歌っている人で決まる売り出し方のジャンルです（この辞典の判定）。メインのジャンルに重ねて付けています。</p>';
   return h;
 }
 function whyHtml0(p){
   var g = p.g, gn = esc(disp(g));
   var HEAD = '<p>7つの音楽データベース（2億6,000万曲以上）を上から順に見て、最初にジャンルが分かったものを答えにしています。</p>';
   if (p.src === 'db') {
-    return HEAD + srcList('R', {R: '「' + gn + '」' + sales(p).map(function(x){ return '＋「' + esc(dispS(x)) + '」'; }).join('')}) +
-      (sales(p).length ? '<p class="note">「＋」の後ろは、曲の売り出し方・使われ方の分類です（アニメの主題歌・挿入歌、アイドルとして売り出された人、など）。音のジャンルに重ねて付けています。</p>' : '') +
+    return HEAD + srcList('R', {R: 'メイン「' + gn + '」' + (sales(p).length ? '・スタイル' + sales(p).map(function(x){ return '「' + esc(dispS(x)) + '」'; }).join('') : '')}) +
+      (sales(p).length ? '<p class="note">ジャンルは2種類です。メインは音楽性のジャンルで、1曲に1つだけです。スタイルは、曲の売り出し方・使われ方のジャンル（アニメの主題歌・挿入歌、アイドルとして売り出された人、など）で、いくつでも重ねて付きます。</p>' : '') +
       (p.en === '1' ? '<p class="note">歌っているのは演歌の歌手ですが、この曲は曲調で判定して「' + gn + '」にしています。</p>' : '');
   }
   if (p.src === 'rep') {
@@ -216,16 +224,18 @@ function put(w, p, view){
         '<div class="eye">' + (p.via === 'mic' ? '聴き取った曲' : '調べた曲') + '</div>' +
         '<div class="song">「' + esc(p.t) + '」</div>' +
         (p.a ? '<div class="artist">' + esc(p.a) + '</div>' : '') +
-        '<div class="ans"><span class="disc" aria-hidden="true"></span><div class="gl"><small>この曲のジャンルは</small>' +
-        // 売り方の箱があれば、楕円を「＋」でつないで並べる（「または」ではなく「and」）。収まらなければ縦に積む
-        (sales(p).length
-          ? '<div class="gset">' + all.map(pill).join('<i class="plus">＋</i>') + '</div>'
-          : '<b class="gn">' + esc(disp(p.g)) + '</b>') + '</div></div>' +
+        // 【2026-11-13 チョロさんの決定】「ジャンル」の枠の中に、メイン（必ず1つ）とスタイル（0〜いくつでも）を段に分けて出す。
+        //   前は「J-POP ＋ アイドル」と「＋」でつないでいたが、どれが音楽性でどれが売り出し方か、ひと目で分からなかった
+        '<div class="ans"><span class="disc" aria-hidden="true"></span><div class="gl">' +
+        '<div class="gbox"><span class="gbox-t">ジャンル</span>' +
+        '<span class="glab">メイン</span><div class="gvals">' + pill(p.g, 0) + '</div>' +
+        (sales(p).length ? '<span class="glab">スタイル</span><div class="gvals">' + sales(p).map(function(x){ return pill(x, 1); }).join('') + '</div>' : '') +
+        '</div></div></div>' +
         // 【2026-11-13 チョロさんの指摘】「なぜ ○○？」は、いま見ているジャンルの名前にする（シティ・ポップへ移ったら「なぜ シティ・ポップ？」）
         '<div class="r2"><button type="button" class="btn qi" aria-expanded="false">なぜ ' + esc(vname) + '？ ▾</button>' +
         '<button type="button" class="btn more">' + (p.via === 'mic' ? ICON_MIC + '別の曲を聴かせる' : ICON_SEARCH + '別の曲を調べる') + '</button></div>' +
         '<div class="why">' + whyHtml(p) + '</div>';
-      [].forEach.call(box.querySelectorAll('.gset .gp'), function(b){
+      [].forEach.call(box.querySelectorAll('.gbox .gp'), function(b){
         b.addEventListener('click', function(e){
           e.stopPropagation();
           var x = b.getAttribute('data-g');
@@ -243,7 +253,7 @@ function put(w, p, view){
         if (typeof w.openMicPanel === 'function') { w.openMicPanel(); if (p.via !== 'mic' && typeof w.micSetMode === 'function') w.micSetMode('name'); }
       });
       // 楕円が1行に収まらず折り返したら、縦に積む形に切り替える（パネルの幅が変わったら測り直す）
-      var gset = box.querySelector('.gset');
+      var gset = null;   // 【2026-11-13】「＋」でつなぐ並べ方をやめたので、縦に積む切り替えは使わない
       var fit = function(){
         if (!gset) return;
         gset.classList.remove('stack');
