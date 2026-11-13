@@ -24882,6 +24882,10 @@ panel.addEventListener('click', (e) => {
   }
 });
 svg.on("click", () => {
+  // 【2026-11-13 チョロさんの指示】スマホで説明パネルを開いているときは、地図の何も無い所をさわっても全体の地図に戻さない。
+  //   パネルを上下にすべらせるときに指が外れて地図にさわると、全体の地図に戻ってしまい、説明に戻るのが大変だった。
+  //   全体の地図に戻るのは、題名「音楽ジャンルルーツ辞典」を押したとき（_grResetToOverview）と、パネルの×だけ
+  if (isMobile() && panel.classList.contains("sp-visible")) return;
   attachMap();
   closePanel();
   stopHighlightFlash();
