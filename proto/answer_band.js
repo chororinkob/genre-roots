@@ -21,7 +21,7 @@ function sub(id){
 }
 // 【2026-11-13】売り方の箱（p.s：「anime_music,j_pop_idol」）。音楽性（p.g）に重ねて付く
 // 売り方の箱は、短い日本語の名前で出す（地図の名前は英語のもの・別名が長いものがあるため）
-var SALES_JA = {anime_music: 'アニソン', j_pop_idol: 'アイドル', city_pop: 'シティ・ポップ', aor: 'AOR', city_funk: 'シティ・ファンク', vgm: 'ゲーム音楽', film_score: '映画音楽', musical_theatre: 'ミュージカル', opera: 'オペラ', operetta: 'オペレッタ', bollywood: 'ボリウッド', cyberpunk_music: 'サイバーパンク', christmas_music: 'クリスマス音楽', ccm: 'CCM', adult_contemporary: 'アダルト・コンテンポラリー', urban_contemporary: 'アーバン・コンテンポラリー', quiet_storm: 'クワイエット・ストーム', classic_rock: 'クラシック・ロック', yacht_rock: 'ヨット・ロック', doujin_music: '同人音楽'};
+var SALES_JA = {anime_music: 'アニソン', j_pop_idol: 'アイドル', city_pop: 'シティ・ポップ', aor: 'AOR', vgm: 'ゲーム音楽', film_score: '映画音楽', musical_theatre: 'ミュージカル', opera: 'オペラ', operetta: 'オペレッタ', bollywood: 'ボリウッド', cyberpunk_music: 'サイバーパンク', christmas_music: 'クリスマス音楽', ccm: 'CCM', adult_contemporary: 'アダルト・コンテンポラリー', urban_contemporary: 'アーバン・コンテンポラリー', quiet_storm: 'クワイエット・ストーム', classic_rock: 'クラシック・ロック', yacht_rock: 'ヨット・ロック', doujin_music: '同人音楽'};
 function dispS(id){ return SALES_JA[id] || disp(id); }
 function sales(p){ return String(p.s || '').split(',').filter(function(x){ return x && x !== p.g; }); }
 function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }

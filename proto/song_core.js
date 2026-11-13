@@ -470,7 +470,7 @@ function songRow(s, mark){
     '<div class="tx"><div class="t">' + esc(s.t) + '</div><div class="a">' + esc(sub) + '</div></div>' +
     // 【2026-11-08】印はジャンル名だけ（「辞典の判定あり：」は付けない。ジャンル名が出ていること自体が、辞典で判定済みの目印。チョロさんの指摘）
     // 【2026-11-13】売り方の箱があれば「J-POP ＋ アニソン」のように楕円を「＋」でつないで並べる（幅に収まらなければ折り返す）
-    (g ? (gs.length ? '<span class="badges" title="この辞典の判定">' + [g].concat(gs).map(function(x, i){ return '<span class="badge">' + esc(i ? ({anime_music: 'アニソン', j_pop_idol: 'アイドル', city_pop: 'シティ・ポップ', aor: 'AOR', city_funk: 'シティ・ファンク', vgm: 'ゲーム音楽', film_score: '映画音楽', musical_theatre: 'ミュージカル', opera: 'オペラ', operetta: 'オペレッタ', bollywood: 'ボリウッド', cyberpunk_music: 'サイバーパンク', christmas_music: 'クリスマス音楽', ccm: 'CCM', adult_contemporary: 'アダルト・コンテンポラリー', urban_contemporary: 'アーバン・コンテンポラリー', quiet_storm: 'クワイエット・ストーム', classic_rock: 'クラシック・ロック', yacht_rock: 'ヨット・ロック', doujin_music: '同人音楽'}[x] || gname(x)) : gname(x)) + '</span>'; }).join('<i class="plus">＋</i>') + '</span>'
+    (g ? (gs.length ? '<span class="badges" title="この辞典の判定">' + [g].concat(gs).map(function(x, i){ return '<span class="badge">' + esc(i ? ({anime_music: 'アニソン', j_pop_idol: 'アイドル', city_pop: 'シティ・ポップ', aor: 'AOR', vgm: 'ゲーム音楽', film_score: '映画音楽', musical_theatre: 'ミュージカル', opera: 'オペラ', operetta: 'オペレッタ', bollywood: 'ボリウッド', cyberpunk_music: 'サイバーパンク', christmas_music: 'クリスマス音楽', ccm: 'CCM', adult_contemporary: 'アダルト・コンテンポラリー', urban_contemporary: 'アーバン・コンテンポラリー', quiet_storm: 'クワイエット・ストーム', classic_rock: 'クラシック・ロック', yacht_rock: 'ヨット・ロック', doujin_music: '同人音楽'}[x] || gname(x)) : gname(x)) + '</span>'; }).join('<i class="plus">＋</i>') + '</span>'
                     : '<span class="badge" title="この辞典の判定">' + esc(gname(g)) + '</span>') : '') + '</div>';
 }
 

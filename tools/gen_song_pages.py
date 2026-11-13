@@ -20,7 +20,7 @@
 import io, json, os
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-VERSION = 'v2.2'   # 入り口ページの版（3ページ共通。パネルの右下に出る）
+VERSION = 'v2.3'   # 入り口ページの版（3ページ共通。パネルの右下に出る）
 # ジャンルの数は地図（genre_roots.html）から数える。地図が変わるたびに tools/gen_stubs.js も同じ数え方で3ページの数字を直す（自動）
 import re
 N = len(re.findall(r'\n  \{id:"', io.open(os.path.join(ROOT, 'genre_roots.html'), encoding='utf-8').read()))
