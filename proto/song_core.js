@@ -38,7 +38,7 @@ var CODE = {Lastfm: 'L', MusicBrainz: 'M', Discogs: 'D', Wikidata: 'W', iTunes: 
 // トークンはサーバーの中だけにあり、このページにも返事にも出てこない（2026-11-07）。
 var API = (location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? 'http://localhost:5000' : 'https://genre-roots-server.onrender.com';
 // 外の取り先が使う呼び名 → 辞典のジャンル（辞典の名前・別名で引けないものだけ）
-var EXTRA = {'演歌':'enka','歌謡曲':'kayokyoku','ムード歌謡':'mood_kayo','ポップス':'jpop','japanesepop':'jpop','jballad':'j_ballad','jrock':'j_rock',
+var EXTRA = {'演歌':'enka','歌謡曲':'kayokyoku','ムード歌謡':'mood_kayo','ポップス':'jpop','japanesepop':'jpop','jballad':'jpop','jrock':'j_rock',
   // Discogsの呼び名（2026-11-07）
   'kayōkyoku':'kayokyoku','kayokyoku':'kayokyoku','anison':'anime_music','bossanova':'bossa_nova'};
 var REP = null;
