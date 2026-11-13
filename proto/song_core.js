@@ -29,11 +29,12 @@ function find(wgs){
 // Last.fm は曲ごとのタグが日本の曲にほぼ付いていない（Lemonでもゼロ）うえ、鍵が要るので、この試作では聞かない。
 // 【2026-11-07】辞典の代表曲は先に findRep で調べるので、外に聞くのは4か所。並びは答えを採る優先順（PRIO と同じ）。
 // 【2026-11-08 チョロさんの決定】Last.fm を先頭に足した（6か所）。理由は PRIO の説明を参照。
-var ORDER = ['Lastfm', 'MusicBrainz', 'Discogs', 'Wikidata', 'iTunes', 'Deezer'];
+// 【2026-11-13 チョロさんの決定】日本語版ウィキペディアの曲の記事（情報の欄の「ジャンル」）を足した（8か所）。画面に名前は出さない（記号は P）
+var ORDER = ['Wikipedia', 'Lastfm', 'MusicBrainz', 'Discogs', 'Wikidata', 'iTunes', 'Deezer'];
 // 【2026-11-07 チョロさん】画面・アドレス欄には、使っているデータベースの名前を出さない（まねされないため）。
 // 頭文字の記号だけを出す：M=MusicBrainz・D=Discogs・W=Wikidata・I=iTunes・Z=Deezer（答えのページも同じ記号で書く）。
 // L=Last.fm（2026-11-08）
-var CODE = {Lastfm: 'L', MusicBrainz: 'M', Discogs: 'D', Wikidata: 'W', iTunes: 'I', Deezer: 'Z'};
+var CODE = {Wikipedia: 'P', Lastfm: 'L', MusicBrainz: 'M', Discogs: 'D', Wikidata: 'W', iTunes: 'I', Deezer: 'Z'};
 // Discogsは合言葉（トークン）が要るので、ブラウザから直接ではなく、辞典のサーバーの中継（/genre/discogs）を通す。
 // トークンはサーバーの中だけにあり、このページにも返事にも出てこない（2026-11-07）。
 var API = (location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? 'http://localhost:5000' : 'https://genre-roots-server.onrender.com';
@@ -149,6 +150,36 @@ function wait(ms){ return new Promise(function(ok){ setTimeout(ok, ms); }); }
 
 // 各取り先：{found: 曲が見つかったか, vote: 辞典のジャンル番号 or null, raw: 取り先の言い方, name: 正式な歌手名}
 var ASK = {
+  // 【2026-11-13 チョロさんの指示】日本語版ウィキペディアの曲の記事。日本の曲は記事のほとんどにジャンル欄がある
+  //   （データベースを作るときに数えた37,446件。約半分は「J-POP」だが、無いよりはよい＝チョロさん）。Wikidata は日本の曲にジャンルが入っていないことが多い。
+  //   1. 曲名＋歌手名で記事を探す → 2. 記事の題名（「（曲）」などの付け足しを除く）が曲名と同じで、記事の頭の部分に歌手名がある記事だけ使う
+  //   → 3. 情報の欄の「ジャンル」の行を読み、リンク・注釈を外して、言葉ごとに分ける
+  'Wikipedia': function(t, a){
+    if (!a) return Promise.resolve({found: false});
+    var W = 'https://ja.wikipedia.org/w/api.php?origin=*&format=json&formatversion=2&';
+    var nt = norm(t), na = norm(a);
+    return getJ(W + 'action=query&list=search&srlimit=5&srnamespace=0&srsearch=' + encodeURIComponent(t + ' ' + a)).then(function(d){
+      var cands = ((d.query || {}).search || []).map(function(x){ return x.title; }).filter(function(ti){
+        var core = norm(ti.replace(/\s*[（(][^）)]*[）)]\s*$/, ''));
+        return core === nt || (nt.length >= 4 && core.indexOf(nt) === 0);
+      }).slice(0, 2);
+      var tryOne = function(i){
+        if (i >= cands.length) return {found: false};
+        return getJ(W + 'action=parse&prop=wikitext&section=0&page=' + encodeURIComponent(cands[i])).then(function(x){
+          var wt = ((x.parse || {}).wikitext) || '';
+          if (!na || norm(wt).indexOf(na) < 0) return tryOne(i + 1);   // 歌手名が出てこない記事は、同じ題名の別の曲
+          // 曲の情報の欄は、項目名が英語（「| Genre = 」）のことが多い（日本語版の「Infobox Single」）。両方読む
+          var m = wt.match(/\|\s*(?:ジャンル|Genre)\s*=\s*([^\n]*)/i);
+          if (!m) return {found: true, vote: null, raw: []};
+          var g = m[1].replace(/<ref[^>]*\/>/g, '').replace(/<ref[\s\S]*?<\/ref>/g, '').replace(/<!--[\s\S]*?-->/g, '')
+            .replace(/\[\[([^\]|]*)\|([^\]]*)\]\]/g, '$2').replace(/\[\[([^\]]*)\]\]/g, '$1').replace(/\{\{[^|}]*\|?/g, '').replace(/\}\}/g, '');
+          var raw = g.split(/<br\s*\/?>|[、,，\/／|｜\n]/).map(function(y){ return y.replace(/[（(][^）)]*[）)]/g, '').trim(); }).filter(Boolean);
+          return {found: true, vote: oneVote(raw), raw: raw, by: '曲'};
+        });
+      };
+      return tryOne(0);
+    });
+  },
   '辞典': function(t, a){
     var h = (REP || []).find(function(x){ return same(t, a, x[0], x[1]); });
     return Promise.resolve(h ? {found: true, vote: h[2], raw: [], name: h[1]} : {found: false});
@@ -250,8 +281,12 @@ var ASK = {
 // 全体の答えは今までの順番の18曲 → Last.fm 先頭で30曲。日本の曲35曲でも8曲 → 10曲で、悪くならなかった。
 // 最後に足しても前の4つが先に答えてしまい、正解は1曲も増えなかったので、先頭でないと意味がない。
 var PRIO = ['Lastfm', 'MusicBrainz', 'Discogs', 'Wikidata', 'iTunes', 'Deezer'];
-function decide(res){
-  for (var i = 0; i < PRIO.length; i++) { var r = res[PRIO[i]]; if (r && r.vote) return {id: r.vote, by: PRIO[i]}; }
+// 【2026-11-13】ウィキペディアは、日本の曲（曲名か歌手名に日本の文字がある）では最初に見る。海外の曲は、日本語版の記事のジャンルが
+//   大まかなこと（「ロック」「ポップ」）が多く、Last.fm の細かい答え（40曲のテストで一番当たった）を上書きしないよう、Last.fm の次に見る
+var PRIO_JP = ['Wikipedia'].concat(PRIO), PRIO_EN = ['Lastfm', 'Wikipedia'].concat(PRIO.slice(1));
+function decide(res, jp){
+  var P = jp ? PRIO_JP : PRIO_EN;
+  for (var i = 0; i < P.length; i++) { var r = res[P[i]]; if (r && r.vote) return {id: r.vote, by: P[i]}; }
   return null;
 }
 // 【2026-11-07 チョロさんの決定】辞典の代表曲に入っている曲は、外に聞かずに、辞典が登録したジャンルで答える。
@@ -512,7 +547,7 @@ function judge(t, a, say){
     return Promise.all(ORDER.map(function(s){
       return ASK[s](t, a).catch(function(){ return {found: false, err: true}; }).then(function(r){ res[s] = r; done++; show(); });
     })).then(function(){
-      var d = decide(res);
+      var d = decide(res, /[぀-ヿ㐀-鿿]/.test(t + a));
       if (!d) {
         var any = ORDER.some(function(s){ return res[s].found; });
         // 【2026-11-08】お客さん向けの文は短く（理由の内訳は書かない）
