@@ -1,31 +1,23 @@
 {
- "実行日": "2026-11-09 09:50",
- "件数": 3,
+ "実行日": "2026-11-14 13:07",
+ "件数": 2,
  "内容": [
   {
-   "種類": "同じ曲の別の動画に差し替え",
-   "ジャンル": "Boogie-Woogie",
-   "id": "boogie_woogie",
-   "曲名": "Down the Road Apiece (Amos Milburn)",
-   "消えた動画": "kLR7E5z1ZrA",
-   "新しい動画": "etMg_XVRCos"
+   "種類": "予備の削除",
+   "ジャンル": "Chicha",
+   "id": "chicha",
+   "曲名": "Elsa (Los Destellos)",
+   "消えた動画": "gtVlxkLoHGo",
+   "新しい動画": "5WmckGCocto"
   },
   {
    "種類": "同じ曲の別の動画に差し替え",
-   "ジャンル": "Tejano",
-   "id": "tejano",
-   "曲名": "Bidi Bidi Bom Bom (Selena)",
-   "消えた動画": "gWv7GzHI_6w",
-   "新しい動画": "RKGbjJarMeA"
-  },
-  {
-   "種類": "メイン動画の選び直し",
-   "ジャンル": "Tejano",
-   "id": "tejano",
-   "曲名": "Amor Prohibido (Selena)",
-   "消えた動画": "dvfZ95ueOcQ, IpdGyN7BcMM",
-   "新しい動画": "dvfZ95ueOcQ, RKGbjJarMeA"
+   "ジャンル": "Minimalism",
+   "id": "minimalism_classical",
+   "曲名": "Music for 18 Musicians (Steve Reich and Musicians)",
+   "消えた動画": "1oOmUi4HGt0",
+   "新しい動画": "A1HuEungk8Q"
   }
  ],
- "コミットの題名": "feat: 同じ曲の別の動画に差し替え2件・メイン動画の選び直し1件 を追加 (2026年11月9日)"
+ "コミットの題名": "feat: 予備の削除1件・同じ曲の別の動画に差し替え1件 を追加 (2026年11月14日)"
 }
