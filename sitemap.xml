@@ -235,18 +235,6 @@
   <priority>0.8</priority>
  </url>
  <url>
-  <loc>https://genre-roots.com/genre/horror_ambient.html</loc>
-  <lastmod>2026-11-16</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.8</priority>
- </url>
- <url>
-  <loc>https://genre-roots.com/genre/underwater_ambient.html</loc>
-  <lastmod>2026-11-16</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.8</priority>
- </url>
- <url>
   <loc>https://genre-roots.com/genre/chicago_house.html</loc>
   <lastmod>2026-11-16</lastmod>
   <changefreq>weekly</changefreq>
@@ -355,12 +343,6 @@
   <priority>0.8</priority>
  </url>
  <url>
-  <loc>https://genre-roots.com/genre/intelligent_techno.html</loc>
-  <lastmod>2026-11-16</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.8</priority>
- </url>
- <url>
   <loc>https://genre-roots.com/genre/schranz.html</loc>
   <lastmod>2026-11-16</lastmod>
   <changefreq>weekly</changefreq>
@@ -404,12 +386,6 @@
  </url>
  <url>
   <loc>https://genre-roots.com/genre/euphoric_trance.html</loc>
-  <lastmod>2026-11-16</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.8</priority>
- </url>
- <url>
-  <loc>https://genre-roots.com/genre/nrg_trance.html</loc>
   <lastmod>2026-11-16</lastmod>
   <changefreq>weekly</changefreq>
   <priority>0.8</priority>
@@ -553,18 +529,6 @@
   <priority>0.8</priority>
  </url>
  <url>
-  <loc>https://genre-roots.com/genre/deep_dubstep.html</loc>
-  <lastmod>2026-11-16</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.8</priority>
- </url>
- <url>
-  <loc>https://genre-roots.com/genre/wobble_bass.html</loc>
-  <lastmod>2026-11-16</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.8</priority>
- </url>
- <url>
   <loc>https://genre-roots.com/genre/post_dubstep.html</loc>
   <lastmod>2026-11-16</lastmod>
   <changefreq>weekly</changefreq>
@@ -619,36 +583,6 @@
   <priority>0.8</priority>
  </url>
  <url>
-  <loc>https://genre-roots.com/genre/festival_edm.html</loc>
-  <lastmod>2026-11-16</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.8</priority>
- </url>
- <url>
-  <loc>https://genre-roots.com/genre/melodic_edm.html</loc>
-  <lastmod>2026-11-16</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.8</priority>
- </url>
- <url>
-  <loc>https://genre-roots.com/genre/dark_edm.html</loc>
-  <lastmod>2026-11-16</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.8</priority>
- </url>
- <url>
-  <loc>https://genre-roots.com/genre/heavy_edm.html</loc>
-  <lastmod>2026-11-16</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.8</priority>
- </url>
- <url>
-  <loc>https://genre-roots.com/genre/pop_edm.html</loc>
-  <lastmod>2026-11-16</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.8</priority>
- </url>
- <url>
   <loc>https://genre-roots.com/genre/edm_trap.html</loc>
   <lastmod>2026-11-16</lastmod>
   <changefreq>weekly</changefreq>
@@ -656,12 +590,6 @@
  </url>
  <url>
   <loc>https://genre-roots.com/genre/synthwave.html</loc>
-  <lastmod>2026-11-16</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.8</priority>
- </url>
- <url>
-  <loc>https://genre-roots.com/genre/retrowave.html</loc>
   <lastmod>2026-11-16</lastmod>
   <changefreq>weekly</changefreq>
   <priority>0.8</priority>
@@ -1441,12 +1369,6 @@
   <priority>0.8</priority>
  </url>
  <url>
-  <loc>https://genre-roots.com/genre/uk_trap.html</loc>
-  <lastmod>2026-11-16</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.8</priority>
- </url>
- <url>
   <loc>https://genre-roots.com/genre/mahraganat.html</loc>
   <lastmod>2026-11-16</lastmod>
   <changefreq>weekly</changefreq>
@@ -2095,42 +2017,6 @@
   <priority>0.8</priority>
  </url>
  <url>
-  <loc>https://genre-roots.com/genre/hard_psy.html</loc>
-  <lastmod>2026-11-16</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.8</priority>
- </url>
- <url>
-  <loc>https://genre-roots.com/genre/piep_kicks.html</loc>
-  <lastmod>2026-11-16</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.8</priority>
- </url>
- <url>
-  <loc>https://genre-roots.com/genre/melodic_speedcore.html</loc>
-  <lastmod>2026-11-16</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.8</priority>
- </url>
- <url>
-  <loc>https://genre-roots.com/genre/atmospheric_speedcore.html</loc>
-  <lastmod>2026-11-16</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.8</priority>
- </url>
- <url>
-  <loc>https://genre-roots.com/genre/speednoise.html</loc>
-  <lastmod>2026-11-16</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.8</priority>
- </url>
- <url>
-  <loc>https://genre-roots.com/genre/suizidcore.html</loc>
-  <lastmod>2026-11-16</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.8</priority>
- </url>
- <url>
   <loc>https://genre-roots.com/genre/darkcore_dnb.html</loc>
   <lastmod>2026-11-16</lastmod>
   <changefreq>weekly</changefreq>
@@ -2450,12 +2336,6 @@
  </url>
  <url>
   <loc>https://genre-roots.com/genre/mento.html</loc>
-  <lastmod>2026-11-16</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.8</priority>
- </url>
- <url>
-  <loc>https://genre-roots.com/genre/dub_reggae.html</loc>
   <lastmod>2026-11-16</lastmod>
   <changefreq>weekly</changefreq>
   <priority>0.8</priority>
@@ -2971,12 +2851,6 @@
   <priority>0.8</priority>
  </url>
  <url>
-  <loc>https://genre-roots.com/genre/k_rnb.html</loc>
-  <lastmod>2026-11-16</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.8</priority>
- </url>
- <url>
   <loc>https://genre-roots.com/genre/swing_jazz.html</loc>
   <lastmod>2026-11-16</lastmod>
   <changefreq>weekly</changefreq>
@@ -3206,12 +3080,6 @@
  </url>
  <url>
   <loc>https://genre-roots.com/genre/latin_pop.html</loc>
-  <lastmod>2026-11-16</lastmod>
-  <changefreq>weekly</changefreq>
-  <priority>0.8</priority>
- </url>
- <url>
-  <loc>https://genre-roots.com/genre/j_fusion.html</loc>
   <lastmod>2026-11-16</lastmod>
   <changefreq>weekly</changefreq>
   <priority>0.8</priority>

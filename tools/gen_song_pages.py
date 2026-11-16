@@ -13,7 +13,7 @@
 【使い方】  python tools/gen_song_pages.py
   ・3つのページを作り直す。ページの中身（見た目・文）を直すときは、このファイルを直してから実行する。
   ・動き（録音・ファイル・候補の検索・タブの切り替え）は proto/song_panel.js（3ページ共通）。
-  ・ジャンルの数（「595ジャンル」）は proto/genres.json の数。tools/gen_stubs.js も地図が変わるたびに数を合わせる。
+  ・ジャンルの数（「573ジャンル」）は proto/genres.json の数。tools/gen_stubs.js も地図が変わるたびに数を合わせる。
 
 【検索（Search Console）】3つとも、それぞれ別のページとして検索に出す（sitemap.xml に載せる。gen_stubs.js が書く）。
 """
