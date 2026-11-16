@@ -38,16 +38,16 @@
 <h1>音楽ジャンルルーツ辞典 — 仕様書</h1>
 <h2>この仕様書について</h2>
 <p class="note">この文書は <b>spec_dump.py が実物を読み直して自動で書き出したもの</b>です。手で書き足しても次の書き出しで消えます。決めた理由など人が書くことは <code>docs/decisions.md</code> に書いてください。この文書の末尾にそのまま入ります。</p>
-<p class="note">書き出した日時：<b>2026-11-14 12:45</b></p>
+<p class="note">書き出した日時：<b>2026-11-16 22:25</b></p>
 <h2>いまの版</h2>
 <table>
 <tr><th>項目</th><th>内容</th></tr>
-<tr><td>地図（genre_roots.html）</td><td>v141.2</td></tr>
+<tr><td>地図（genre_roots.html）</td><td>v141.5</td></tr>
 <tr><td>サーバー（genre_adder.py）</td><td>v3.21</td></tr>
-<tr><td>ジャンル数</td><td>595</td></tr>
-<tr><td>ジャンル間のつながり</td><td>1,881</td></tr>
+<tr><td>ジャンル数</td><td>573</td></tr>
+<tr><td>ジャンル間のつながり</td><td>1,840</td></tr>
 <tr><td>用語集の語数</td><td>7,973</td></tr>
-<tr><td>知名度のデータ</td><td>595 件（2026-08-25 取得）</td></tr>
+<tr><td>知名度のデータ</td><td>573 件（2026-08-25 取得）</td></tr>
 </table>
 <h2>置き場所（消えたときに戻せるように）</h2>
 <table>
@@ -562,6 +562,41 @@
 <p>一本化したいというチョロさんの判断です。</p>
 <p>作るのは10項目（id／label／cat／era／desc／roots_story／rep_tracks／links／</p>
 <p>aliases／popularity）です。</p>
+<h4>ジャンル名として認める決まり（2026-11-16 チョロさんの決定・新規登録と既存の見直しで共通）</h4>
+<p><b>辞典がジャンル名を作ってはいけない。</b> 世の中のどこかで、ジャンルとして一般に認められている</p>
+<p>呼び名だけを載せる。「暗いEDM」「日本の〇〇」のような、説明の言葉を名前にしたものは載せない。</p>
+<p><b>物差し（どちらか1つに載っていれば認める）：</b></p>
+<table>
+<tr><th>物差し</th><th>何を見るか</th><th>調べ方</th></tr>
+<tr><td>ウィキペディア（どの言語でもよい）</td><td>自分の記事・転送・大きな記事の中の節</td><td>英・日・独・蘭・仏の各版で、ジャンル名と別名、書き方の揺れ（空白なし・ハイフン付き）を探す。ウィキデータで「音楽のジャンル」として載っているか、何語の記事があるかも見る</td></tr>
+<tr><td>MusicBrainz（無料の音楽データベース）</td><td>公式の「ジャンルとして認める名前」の名簿（2026-11-15時点で2,227件。議論して認めたものだけが載る）</td><td><code>https://musicbrainz.org/ws/2/genre/all?fmt=json&amp;limit=100&amp;offset=N</code> を取って名前を照らし合わせる</td></tr>
+</table>
+<ul>
+<li>どちらにも無ければ「辞典が作った名前」とみなす。</li>
+<li>ウィキペディアが辞典の別のジャンルと<b>同じ記事へ案内している</b>呼び名（例：Retrowave→Synthwave）は、別ジャンルとして立てず、同じジャンルにまとめる。</li>
+<li>名前が無くても、<b>同じ音楽に決まった別の呼び名があれば、名前を変えて残す</b>（チョロさんの案。例：City Pop Modern は、日本語版ウィキペディアに記事がある「ネオ・シティ・ポップ」に改めた）。名前を変えるときは、その呼び名が指す音楽と辞典の曲が合っているかを記事で確かめる（NRG Trance は Hard NRG に変える予定だったが、記事の Hard NRG は英国のハード・ハウス系の別の音楽で、曲が合わなかったため、ハード・トランスにまとめた）。</li>
+</ul>
+<p><b>2026-11-16の見直しの結果（知名度の表で「自分の記事なし」だった89ジャンル）：</b></p>
+<table>
+<tr><th>結果</th><th>件数</th><th>中身</th></tr>
+<tr><td>名前を変えて残す</td><td>2</td><td>City Pop Modern → <b>Neo City Pop</b>（ネオ・シティ・ポップ）／J-Eurobeat → <b>J-Euro</b>（ジェイ・ユーロ。ウィキペディアのユーロビートの記事の「J-Euro」の節・MusicBrainz「j-euro」）</td></tr>
+<tr><td>辞典の近いジャンルにまとめる</td><td>13</td><td>NRG Trance→ハード・トランス／Festival EDM→ビッグルーム・ハウス／Horror Ambient→ダーク・アンビエント／J-Fusion→ジャズ・フュージョン／K-R&amp;B→コンテンポラリーR&amp;B／Melodic・Atmospheric Speedcore、Speednoise→スピードコア／Piep Kicks→アップテンポ・ハードコア／Retrowave→シンセウェイヴ／Dub Reggae→ダブ／Intelligent Techno→IDM／Wobble Bass→ダブステップ（Gold Dust だけドラムンベース）</td></tr>
+<tr><td>外す</td><td>9</td><td>Dark EDM・Heavy EDM・Pop EDM・Melodic EDM・Underwater Ambient・Deep Dubstep・UK Trap・Hard-Psy・Suizidcore</td></tr>
+<tr><td>残す（記事の節・別名として載っている、または MusicBrainz に載っている）</td><td>20</td><td>Atmospheric Black Metal・Euphoric Hardstyle・Trap Soul・Skullstep・Uptempo Hardcore など。うち MusicBrainz に無い8件（Afropop・Hawaiian・Contemporary Blues・Harmonica Blues・Dreamcore・Hardcore Rave・Progressive Techno・Subground）は、別の名簿（Discogs のスタイル一覧など）で確かめてから決める（保留）</td></tr>
+<tr><td>問題なし（どこかの言語版に自分の記事がある）</td><td>43</td><td>AOR・ムード歌謡（日本語版）など</td></tr>
+</table>
+<p>結果、595ジャンル → <b>573ジャンル</b>（地図 v141.5）。調べた道具と一覧のページは</p>
+<p><code>audio_genre_test/work/genre_audit/</code>（wiki_check.py・variant_check.py・MusicBrainz の名簿 mb_genres.txt）。</p>
+<p><b>外す・まとめるときの手順（J-バラード・シティ・ファンクと同じ。道具は <code>audio_genre_test/work/genre_cleanup/</code>）：</b></p>
+<p class="num">1. 代表曲は、曲ごとに合う移し先（辞典にすでにあるジャンル）を決めて移す。動画は元のジャンルで使っていたものをそのまま使う。移し先に同じ曲がすでにある曲、合う移し先が無い曲は移さない（今回：同じ曲1・移し先なし7＝UK Trap のうちドリルでない UK ラップの曲）。</p>
+<p class="num">2. 移し先の並びは仕様「代表曲の並び順」どおり（メイン動画の曲が先頭、2番目以降は知名度の順。知名度の順はクローディアの判断）。メイン動画は選び直す。知名度の表の「YouTubeの最大再生回数」も直す。</p>
+<p class="num">3. 外すジャンルの点・関係の線・数・知名度・位置・雰囲気・用語集の欄を消す（apply.py）。消したあと、そのジャンルの識別名が残っていないか・線が1本も無くなるジャンルが出ないか・JSとして読めるかを自動で点検する。</p>
+<p class="num">4. 曲名検索の一覧（<code>proto/rep_index.json</code>）の付け替えと、ジャンルの一覧（<code>proto/genres.json</code>）からの削除（proto_update.py）。</p>
+<p class="num">5. <code>node tools/gen_stubs.js</code> でジャンル別ページとサイトマップを作り直し、外したジャンルのページは<b>外した理由と近いジャンルへのリンクだけのお知らせ</b>（noindex）にする。<b>自動で別ページへ飛ばす転送はしない</b>（2026-11-15 チョロさん「転送は詐欺っぽい」）。文は「ウィキペディアや音楽ジャンルの名簿（MusicBrainz）で調べた結果、ジャンル名として一般的には使われていないことが分かったため、辞典から外しました」（notice_pages.py）。</p>
+<p class="num">6. ジャンル数の表示（地図の説明文の「〇〇ジャンル」・入り口ページ）を合わせる。</p>
+<p class="num">7. Google への見直し申請：名前を変えたページと曲を受け取ったページは「申請済み」の印を外して申請し直す。外したページ（noindex）は、見直し申請・登録申請の一覧から外す（gsc_update.py）。</p>
+<p><b>新規登録での扱い：</b> 新しいジャンルを登録する前に、同じ物差し（ウィキペディアのどれかの言語版か MusicBrainz の名簿）でジャンル名を確かめ、どちらにも無ければ登録しない。</p>
+<p><b>【まだ作っていない】</b> 新規登録のプログラム（genre_adder.py の「事前」の段）に、この照合を自動で入れる作業はこれから。それまでは、登録する前にクローディアが照合する。</p>
 <h4>全体の順番</h4>
 <table>
 <tr><th>段</th><th>誰が</th><th>何を</th></tr>
