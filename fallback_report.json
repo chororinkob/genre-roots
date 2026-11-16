@@ -1,23 +1,23 @@
 {
- "実行日": "2026-11-14 13:07",
+ "実行日": "2026-11-16 20:19",
  "件数": 2,
  "内容": [
   {
-   "種類": "予備の削除",
-   "ジャンル": "Chicha",
-   "id": "chicha",
-   "曲名": "Elsa (Los Destellos)",
-   "消えた動画": "gtVlxkLoHGo",
-   "新しい動画": "5WmckGCocto"
+   "種類": "代表曲の繰り上げ",
+   "ジャンル": "Suizidcore",
+   "id": "suizidcore",
+   "曲名": "Despair (Unknown Artist)",
+   "消えた動画": "mxhNqGF6d14",
+   "新しい動画": "PzJ-Wa3MkRQ"
   },
   {
-   "種類": "同じ曲の別の動画に差し替え",
-   "ジャンル": "Minimalism",
-   "id": "minimalism_classical",
-   "曲名": "Music for 18 Musicians (Steve Reich and Musicians)",
-   "消えた動画": "1oOmUi4HGt0",
-   "新しい動画": "A1HuEungk8Q"
+   "種類": "メイン動画の選び直し",
+   "ジャンル": "Suizidcore",
+   "id": "suizidcore",
+   "曲名": "Mass Suicide (Hecatonchires)",
+   "消えた動画": "mxhNqGF6d14, aerL_x-kOMw",
+   "新しい動画": "aerL_x-kOMw, qahZYFDAQug"
   }
  ],
- "コミットの題名": "feat: 予備の削除1件・同じ曲の別の動画に差し替え1件 を追加 (2026年11月14日)"
+ "コミットの題名": "feat: 代表曲の繰り上げ1件・メイン動画の選び直し1件 を追加 (2026年11月16日)"
 }
