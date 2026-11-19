@@ -169,6 +169,15 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 @supports not ((-webkit-background-clip: text) or (background-clip: text)) {
   #sp-tag .sp-name { color: #fff; }
 }
+/* 【スタイルの札】2026-11-20 チョロさん。名前のすぐ右に「（スタイル）」を
+   知名度と同じくらい小さく添える。名前と札は1行に並べ、札は折り返さない。
+   右上の閉じるボタンの分の空きは、名前ではなくこの行で取る */
+#sp-tag .sp-name-row { display: flex; align-items: baseline; flex-wrap: nowrap;
+  gap: 3px; padding-right: 30px; min-width: 0; }
+#sp-tag .sp-name-row .sp-name { display: inline; padding-right: 0; min-width: 0; }
+#sp-tag .sp-style { flex: 0 0 auto; white-space: nowrap; font-size: 9px; font-weight: 600;
+  letter-spacing: .06em; color: rgba(var(--al-lit), .72); border-bottom: none; cursor: help; }
+.sp-style-note { font-size: 10.5px; color: #9a9ab0; margin: 0 0 5px; line-height: 1.5; }
 /* ジャンル名の下の一筆。塗りはカテゴリ色。
    高さを縦につぶしても形が崩れないよう viewBox は横に伸ばして使う */
 /* 文字に重なるところまで上げる。手で引いた傍線のように、名前の下端へ
@@ -1610,7 +1619,7 @@ html.gr-arrive #graph{visibility:hidden}</style>
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v146.6</span>
+  <span id="version-info">v146.7</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -12445,6 +12454,21 @@ NODES.forEach(n => {
 const FAME_DATE = "2026-08-25";
 // 表示を止めたいときは、ここを false にするだけで元の画面に戻る
 const FAME_UI = true;
+// 【スタイルのジャンル】2026-11-20 チョロさん
+// 音そのものではなく、作品・題材・売り方・場所・使い道で付いた呼び名のジャンル。
+// 代表曲がほかの音楽ジャンルと重なってよい（サザンが湘南サウンドにもJ-ROCKにもいる、など）。
+// パネルの名前の右に「（スタイル）」を小さく出し、代表曲の一番上にただし書きを置く。
+// 一覧はサーバーの genre_adder.py の _売り方のジャンル と同じものにすること（logic.md「売り方のジャンル」）。
+const GR_STYLE_IDS = new Set([
+  'anime_music', 'vgm', 'film_score', 'musical_theatre', 'opera', 'operetta', 'bollywood',
+  'cyberpunk_music', 'christmas_music', 'ccm',
+  'aor', 'adult_contemporary', 'urban_contemporary', 'quiet_storm', 'classic_rock',
+  'yacht_rock', 'city_pop', 'j_pop_idol', 'doujin_music',
+  'shonan_sound', 'beat_rock', 'gacha_pop', 'a_pop', 'akishibu_kei',
+  'japanese_metal', 'japanese_hardcore', 'japanese_reggae', 'japanese_ska',
+  'shoka',
+]);
+const GR_STYLE_TIP = 'スタイルのジャンルです。音そのものではなく、作品・題材・売り方・場所・使い道などで付いた呼び名です。この辞典では、代表曲がほかの音楽ジャンルと重なってもよいことにしています（2026年11月時点の扱い）。';
 const FAME = {
   a_cappella: [4,62,317940,794555235,"A cappella",true],
   abstract_hip_hop: [2,0,67695,18136280,"Progressive rap",false],
@@ -25891,7 +25915,12 @@ node.on("click", (e, d) => {
       + catHtml
       + `</span>`;
   }
-  spTag.innerHTML = `<span class="sp-name">${grEsc(name)}</span>`
+  // スタイルのジャンルは、名前のすぐ右に「（スタイル）」を小さく添える（2026-11-20）。
+  // 名前は文字に色のグラデーションを乗せていて中の要素まで透明になるため、名前の外に置く。
+  const styleHtml = GR_STYLE_IDS.has(d.id)
+    ? `<span class="gloss-term sp-style" tabindex="0">（スタイル）<span class="gloss-tip">${grEsc(GR_STYLE_TIP)}</span></span>`
+    : '';
+  spTag.innerHTML = `<span class="sp-name-row"><span class="sp-name">${grEsc(name)}</span>${styleHtml}</span>`
     + `<span class="sp-rule-row">` + GR_BRUSH + (fm || '') + `</span>` + (alias.length
     ? `<span class="sp-alias" data-field="aliases"><span class="sp-alias-cap">別名</span>` +
       alias.map(a => `<span class="sp-alias-chip">${grEsc(a)}</span>`).join("") +
@@ -25923,6 +25952,10 @@ node.on("click", (e, d) => {
     // 見出しが変わる曲の手前に見出しの行を差し込む。曲の並び・番号（data-track-idx）・
     // 再生の仕組みは一切変えない。見出しは曲名で結び付けるので、並びが変わっても外れない。
     // rep_groups を持たないジャンル（今はAOR以外のすべて）は、これまでとまったく同じ表示。
+    // スタイルのジャンルは、1曲目の上にただし書きを1行置く（2026-11-20 チョロさん）
+    if (GR_STYLE_IDS.has(d.id)) {
+      tracksHtml += `<div class="sp-style-note">スタイルジャンルのため、他のジャンルと重なっている曲があります</div>`;
+    }
     const 見出し = {};
     (d.rep_groups || []).forEach(g => (g.items || []).forEach(t => { 見出し[t] = g.cat; }));
     let 前の見出し = null;
