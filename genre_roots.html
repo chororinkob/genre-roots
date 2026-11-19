@@ -175,9 +175,22 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 #sp-tag .sp-name-row { display: flex; align-items: baseline; flex-wrap: nowrap;
   gap: 3px; padding-right: 30px; min-width: 0; }
 #sp-tag .sp-name-row .sp-name { display: inline; padding-right: 0; min-width: 0; }
+/* 説明があると分かるように、用語説明と同じ点線の下線を付ける（2026-11-20） */
 #sp-tag .sp-style { flex: 0 0 auto; white-space: nowrap; font-size: 9px; font-weight: 600;
-  letter-spacing: .06em; color: rgba(var(--al-lit), .72); border-bottom: none; cursor: help; }
-.sp-style-note { font-size: 10.5px; color: #9a9ab0; margin: 0 0 5px; line-height: 1.5; }
+  letter-spacing: .06em; color: rgba(var(--al-lit), .78);
+  border-bottom: 1px dotted rgba(var(--al-lit), .7); cursor: help; }
+/* 代表曲の一番上のただし書き。1行に収める。カテゴリ色の細い帯と、
+   2つの丸が重なった印（＝重なり）で、文を読まなくても意味が伝わるようにする */
+.sp-style-note { display: flex; align-items: center; gap: 6px; white-space: nowrap;
+  overflow: hidden; text-overflow: ellipsis;
+  font-size: 9.5px; letter-spacing: 0; color: rgba(var(--al-lit), .85);
+  margin: 0 0 6px; padding: 3px 8px 3px 7px; border-radius: 4px;
+  background: linear-gradient(90deg, rgba(var(--al), .22), rgba(var(--al), 0) 85%);
+  border-left: 2px solid rgba(var(--al-lit), .65); }
+/* 幅の狭いスマホ（320px）でも1行に入るよう、そこだけ字を少し小さくする */
+@media (max-width: 340px) { .sp-style-note { font-size: 9px; letter-spacing: 0; gap: 4px; padding-right: 4px; } }
+.sp-style-note svg { flex: 0 0 auto; width: 15px; height: 10px; }
+.sp-style-note svg circle { fill: none; stroke: rgba(var(--al-lit), .9); stroke-width: 1.2; }
 /* ジャンル名の下の一筆。塗りはカテゴリ色。
    高さを縦につぶしても形が崩れないよう viewBox は横に伸ばして使う */
 /* 文字に重なるところまで上げる。手で引いた傍線のように、名前の下端へ
@@ -1619,7 +1632,7 @@ html.gr-arrive #graph{visibility:hidden}</style>
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v146.9</span>
+  <span id="version-info">v147.0</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -12516,7 +12529,7 @@ const GR_STYLE_IDS = new Set([
   'japanese_metal', 'japanese_hardcore', 'japanese_reggae', 'japanese_ska',
   'shoka',
 ]);
-const GR_STYLE_TIP = 'スタイルのジャンルです。音そのものではなく、作品・題材・売り方・場所・使い道などで付いた呼び名です。この辞典では、代表曲がほかの音楽ジャンルと重なってもよいことにしています（2026年11月時点の扱い）。';
+const GR_STYLE_TIP = 'スタイルのジャンルです。音そのものではなく、作品・題材・売り方・場所・使い道などで付いた呼び名です。この辞典では、代表曲が音楽性のジャンルと重なってもよいことにしています（2026年11月時点の扱い）。';
 const FAME = {
   a_cappella: [4,62,317940,794555235,"A cappella",true],
   a_pop: [2,1,3114,701346568,"A-POP",true],
@@ -23666,6 +23679,20 @@ function _positionGlossTip(termEl) {
   const termRect = termEl.getBoundingClientRect();
   const tipRect = tip.getBoundingClientRect();
   const margin = 8;
+  // 「（スタイル）」の札は、カーソル（矢印）で説明が隠れないように、札の右側に出す。
+  // 右に入りきらないとき（パソコンでは説明パネルが画面の右端にある）は、
+  // 札の右下へ、カーソルの大きさぶん下げて出す（2026-11-20 チョロさん）。
+  if (termEl.classList.contains('sp-style')) {
+    let l = termRect.right + 14, t = termRect.top - 4;
+    if (l + tipRect.width > window.innerWidth - margin) {
+      l = Math.max(margin, Math.min(termRect.left + 18, window.innerWidth - tipRect.width - margin));
+      t = termRect.bottom + 30;
+    }
+    t = Math.max(margin, Math.min(t, window.innerHeight - tipRect.height - margin));
+    tip.style.left = l + 'px';
+    tip.style.top = t + 'px';
+    return;
+  }
   let left = termRect.left + termRect.width / 2 - tipRect.width / 2;
   left = Math.max(margin, Math.min(left, window.innerWidth - tipRect.width - margin));
   let top = termRect.top - tipRect.height - 8;
@@ -26068,7 +26095,7 @@ node.on("click", (e, d) => {
     // rep_groups を持たないジャンル（今はAOR以外のすべて）は、これまでとまったく同じ表示。
     // スタイルのジャンルは、1曲目の上にただし書きを1行置く（2026-11-20 チョロさん）
     if (GR_STYLE_IDS.has(d.id)) {
-      tracksHtml += `<div class="sp-style-note">スタイルジャンルのため、他のジャンルと重なっている曲があります</div>`;
+      tracksHtml += `<div class="sp-style-note"><svg viewBox="0 0 15 10" aria-hidden="true"><circle cx="5" cy="5" r="4"/><circle cx="10" cy="5" r="4"/></svg>スタイルのため、他ジャンルと重なる曲があります</div>`;
     }
     const 見出し = {};
     (d.rep_groups || []).forEach(g => (g.items || []).forEach(t => { 見出し[t] = g.cat; }));
