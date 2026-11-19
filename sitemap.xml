@@ -3660,10 +3660,10 @@
   <changefreq>weekly</changefreq>
   <priority>0.8</priority>
  </url>
-  <url>
-    <loc>https://genre-roots.com/genre_roots.html?genre=japanese_metal</loc>
-    <lastmod>2026-11-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
+ <url>
+  <loc>https://genre-roots.com/genre/japanese_metal.html</loc>
+  <lastmod>2026-11-19</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.8</priority>
+ </url>
 </urlset>
