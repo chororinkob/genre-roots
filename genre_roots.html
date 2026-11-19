@@ -1632,7 +1632,7 @@ html.gr-arrive #graph{visibility:hidden}</style>
 <div id="header">
   <button id="mobile-menu-btn">☰</button>
   <h1><span class="m-full">音楽ジャンルルーツ辞典</span><span class="m-short" style="display:none">ジャンル辞典</span></h1>
-  <span id="version-info">v147.0</span>
+  <span id="version-info">v147.1</span>
   <!-- 【2段目をひとかたまりにする】2026-08-31
        件数・日付と著作権を別々に置いていたら、画面の狭い端末でこの2つの
        あいだで折り返し、ヘッダーが3段になっていた（iPhoneで発生。
@@ -12528,6 +12528,7 @@ const GR_STYLE_IDS = new Set([
   'shonan_sound', 'beat_rock', 'gacha_pop', 'a_pop', 'akishibu_kei',
   'japanese_metal', 'japanese_hardcore', 'japanese_reggae', 'japanese_ska',
   'shoka',
+  'visual_kei', 'nagoya_kei',   // 2026-11-20 見た目（化粧・髪型・衣装）で決まる
 ]);
 const GR_STYLE_TIP = 'スタイルのジャンルです。音そのものではなく、作品・題材・売り方・場所・使い道などで付いた呼び名です。この辞典では、代表曲が音楽性のジャンルと重なってもよいことにしています（2026年11月時点の扱い）。';
 const FAME = {
