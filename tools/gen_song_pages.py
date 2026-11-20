@@ -23,7 +23,10 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 VERSION = 'v2.4'   # 入り口ページの版（3ページ共通。パネルの右下に出る）
 # ジャンルの数は地図（genre_roots.html）から数える。地図が変わるたびに tools/gen_stubs.js も同じ数え方で3ページの数字を直す（自動）
 import re
-N = len(re.findall(r'\n  \{id:"', io.open(os.path.join(ROOT, 'genre_roots.html'), encoding='utf-8').read()))
+# 【2026-11-20】前は「改行＋空白2つ＋{id:」で数えていて、字下げの違うジャンルを数え漏らした（620件を607件と数えた）。地図の NODES をそのまま数える
+import subprocess as _sp
+_JS = r"const h=require('fs').readFileSync(process.argv[1],'utf8');let NODES;eval(h.match(/const NODES = \[[\s\S]*?\n\];/)[0].replace('const NODES','NODES'));console.log(NODES.length)"
+N = int(_sp.run(['node', '-e', _JS, os.path.join(ROOT, 'genre_roots.html')], capture_output=True, text=True, check=True).stdout.strip())   # 地図の NODES をそのまま数える
 SITE = 'https://genre-roots.com'
 
 # ページごとに違うのは、ここだけ（題名・説明文・最初に選ばれているボタン）
