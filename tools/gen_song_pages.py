@@ -20,7 +20,7 @@
 import io, json, os
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-VERSION = 'v2.4'   # 入り口ページの版（3ページ共通。パネルの右下に出る）
+VERSION = 'v2.5'   # 入り口ページの版（3ページ共通。パネルの右下に出る）
 # ジャンルの数は地図（genre_roots.html）から数える。地図が変わるたびに tools/gen_stubs.js も同じ数え方で3ページの数字を直す（自動）
 import re
 # 【2026-11-20】前は「改行＋空白2つ＋{id:」で数えていて、字下げの違うジャンルを数え漏らした（620件を607件と数えた）。地図の NODES をそのまま数える
