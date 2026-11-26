@@ -3,5 +3,8 @@
 # 押さないと辿り着けない住所なので、これが無いと見つけてもらえない。
 User-agent: *
 Allow: /
+# 2026-11-27：/api/ はページではなく、地図の中のプログラムが別のサーバー(genre-roots-server.onrender.com)へ記録を送る
+# ときの宛先の一部。Googleがプログラムの文字を拾って genre-roots.com/api/log を開きに来て「404」と報告したため、見に来ないよう止める。
+Disallow: /api/
 
 Sitemap: https://genre-roots.com/sitemap.xml
