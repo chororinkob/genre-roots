@@ -221,7 +221,20 @@
 <tr><td>登録確認画面 admin_preview.html</td><td>v3.21</td><td>公開済み</td></tr>
 </table>
 
-<h2>🔶 進行中・次にやること <span class="h2-count">27件</span></h2>
+<h2>🔶 進行中・次にやること <span class="h2-count">28件</span></h2>
+
+<div class="item">
+  <div class="item-head">
+    <span class="status doing">次にやること（2026-11-28）</span>
+    <span class="item-title">カテゴリー・地域の見直しのあとに残ったこと</span>
+  </div>
+  <div class="item-body">
+    ①<b>Genspark のホーム画面が新しくなった（ワークスペース 6.0）</b>：ふつうのチャットの入力欄が textarea から別の作りに変わり、<code>run_one.py standard</code> が入力欄を見つけられずに止まる（送信前に止まるので無料枠は減らない）。無料チャットでの新規ジャンル登録の手順2で使うので、次の新規登録までに直す。ファクトチェック専用のチャットは前のまま動く。<br>
+    ②<code>run_one.py factcheck</code> は、ファクトチェックの形（検証1 など）でない答えだと終わりに気づかず待ち続ける。今回は履歴（「チャット履歴」ボタン）から読んだ。ファクトチェック以外の依頼を送るときの終わりの見分け方を足す。<br>
+    ③修正依頼（ジャンルの修正更新）は、まだ地域（region）を直す項目として扱わない（地域は今は直しの確認と set_meta.py で直す）。必要になったら足す。<br>
+    ④サイビエントの地域は確かさが低い（いまのウィキペディアに場所が無く、古い版の情報欄の最初の「ゴア」→南アジア）。
+  </div>
+</div>
 
 <div class="item">
   <div class="item-head">
@@ -1568,6 +1581,16 @@
 <details class="donebox">
   <summary>片づいた作業を見る（新しい順）</summary>
   <div class="done-list">
+
+    <div class="done-day">2026-11-28</div>
+    <div class="done-item">カテゴリーを「音楽の種類」だけにし、全621ジャンルに「生まれた地域」を付けた（地図 v152.4・サーバー v3.27）
+      <div class="dim">チョロさんの指示：日本のジャンルが東アジア系・ロック系・パンク系などに散らばって探しにくい。地域のカテゴリー10個をやめ、伝統音楽系・大衆音楽系・レゲエ/スカ系を新設（33個）。
+      凡例に紙のタブ「音楽の種類｜生まれた地域」、説明パネルに「時期・地域・カテゴリ」の1行。地域は辞典の文で最初に挙がる場所。文に場所の無い22件はウィキペディアと Genspark で確かめた（7件を直した）。
+      新規登録でもAIが地域を付け、書き忘れはプログラムが本文の地名から補う。ファクトチェックの直しでは、生まれた場所・音楽の種類の誤りがあれば地域・カテゴリも直し（set_meta.py）、
+      finish_genre.py の確認（meta_check.py）が食い違いを止め、代表ジャンルの年代が変われば凡例を自動で並べ直す（fix_category_order.py）。前からあった並びのずれ4か所もこれで直した（フォーク系が4番目へ）。
+      検証：33カテゴリー・11地域・全621件のパネル（パソコン・スマホの幅）、直しの確認の7通り、すべて合格。</div></div>
+    <div class="done-item">Search Console の404（genre-roots.com/api/log）を直した：robots.txt で /api/ を見に来ないようにした
+      <div class="dim">地図のプログラムの中の記録の宛先「/api/log」をGoogleが拾って開きに来ていただけで、サイトの不具合ではなかった。noindex の8件は外したジャンルのページで意図どおり。</div></div>
 
     <div class="done-day">2026-11-16</div>
     <div class="done-item">ウィキペディアにも MusicBrainz にも無い呼び名を整理した：名前を変える2件・まとめる13件・外す9件（595→573ジャンル・地図 v141.5）

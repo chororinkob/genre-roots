@@ -38,12 +38,12 @@
 <h1>音楽ジャンルルーツ辞典 — 仕様書</h1>
 <h2>この仕様書について</h2>
 <p class="note">この文書は <b>spec_dump.py が実物を読み直して自動で書き出したもの</b>です。手で書き足しても次の書き出しで消えます。決めた理由など人が書くことは <code>docs/decisions.md</code> に書いてください。この文書の末尾にそのまま入ります。</p>
-<p class="note">書き出した日時：<b>2026-11-27 20:07</b></p>
+<p class="note">書き出した日時：<b>2026-11-28 02:55</b></p>
 <h2>いまの版</h2>
 <table>
 <tr><th>項目</th><th>内容</th></tr>
-<tr><td>地図（genre_roots.html）</td><td>v152.3</td></tr>
-<tr><td>サーバー（genre_adder.py）</td><td>v3.26</td></tr>
+<tr><td>地図（genre_roots.html）</td><td>v152.4</td></tr>
+<tr><td>サーバー（genre_adder.py）</td><td>v3.27</td></tr>
 <tr><td>ジャンル数</td><td>621</td></tr>
 <tr><td>ジャンル間のつながり</td><td>2,098</td></tr>
 <tr><td>用語集の語数</td><td>9,995</td></tr>
@@ -101,7 +101,7 @@
 <tr><td>4 点</td><td>11〜13点</td></tr>
 </table>
 <h2>ジャンルが持っている項目</h2>
-<p class="note">aliases、asin、books、cat、desc、era、id、img、label、pin、rep_tracks、roots_story、suno、title、yt_mix、yt_tracks</p>
+<p class="note">aliases、asin、books、cat、desc、era、id、img、label、pin、region、rep_tracks、roots_story、suno、title、yt_mix、yt_tracks</p>
 <h2>つながりの採点軸</h2>
 <table>
 <tr><th>記号</th><th>意味</th></tr>
@@ -111,7 +111,7 @@
 <tr><td>v</td><td>歌唱法</td></tr>
 <tr><td>c</td><td>文化背景</td></tr>
 </table>
-<h2>カテゴリ（38種類）</h2>
+<h2>カテゴリ（33種類）</h2>
 <table>
 <tr><th>記号</th><th>名前</th><th>色</th></tr>
 <tr><td>soul_cat</td><td>R&amp;B/ソウル系</td><td>#E040FB</td></tr>
@@ -137,21 +137,16 @@
 <tr><td>country_cat</td><td>カントリー系</td><td>#8D6E63</td></tr>
 <tr><td>folk_cat</td><td>フォーク系</td><td>#BCAAA4</td></tr>
 <tr><td>punk_cat</td><td>パンク系</td><td>#FFEB3B</td></tr>
-<tr><td>iberian</td><td>イベリア系</td><td>#FFCA28</td></tr>
-<tr><td>balkan</td><td>バルカン・東欧系</td><td>#FF7043</td></tr>
-<tr><td>oceania</td><td>オセアニア系</td><td>#26C6DA</td></tr>
 <tr><td>latin</td><td>ラテン系</td><td>#E91E63</td></tr>
-<tr><td>african</td><td>アフリカ系</td><td>#FF8F00</td></tr>
-<tr><td>middle_east</td><td>中東/アラブ系</td><td>#BF360C</td></tr>
-<tr><td>south_asian</td><td>南アジア系</td><td>#311B92</td></tr>
-<tr><td>east_asian</td><td>東アジア系</td><td>#827717</td></tr>
-<tr><td>southeast_asian</td><td>東南アジア系</td><td>#43A047</td></tr>
-<tr><td>caribbean</td><td>カリブ系</td><td>#00BFA5</td></tr>
+<tr><td>african</td><td>アフロ系</td><td>#FF8F00</td></tr>
 <tr><td>pop</td><td>ポップス系</td><td>#7CB342</td></tr>
 <tr><td>jazz_sub</td><td>ジャズ系</td><td>#CFB53B</td></tr>
 <tr><td>classical_sub</td><td>クラシック系</td><td>#78909C</td></tr>
 <tr><td>blues_sub</td><td>ブルース系</td><td>#4FC3F7</td></tr>
 <tr><td>sacred</td><td>宗教/ゴスペル系</td><td>#C9A66B</td></tr>
+<tr><td>trad_cat</td><td>伝統音楽系</td><td>#827717</td></tr>
+<tr><td>popular_cat</td><td>大衆音楽系</td><td>#BF360C</td></tr>
+<tr><td>reggae_cat</td><td>レゲエ/スカ系</td><td>#00BFA5</td></tr>
 </table>
 <h2>サーバーの入口（61個）</h2>
 <table>
@@ -866,6 +861,40 @@
 <p>承認待ちのまま残ります（下の「管理画面」を参照）。</p>
 <h4>カテゴリー（地図の凡例）の決まり（2026-10-11）</h4>
 <p>地図の左にある「カテゴリ」の一覧（凡例）の、並び・線・足し方の決まり。</p>
+<p><b>【2026-11-27〜28 改定・いまの決まり（この下の古い記述より優先）】チョロさんの指示：カテゴリーは「音楽の種類」だけにし、地域は別の項目「生まれた地域」で表す。</b></p>
+<ul>
+<li><b>地域のカテゴリーをやめた。</b> 線の下の10個（イベリア・ラテン・カリブ・アフリカ・中東/アラブ・バルカン/東欧・南アジア・東アジア・東南アジア・オセアニア）の中身165ジャンルを、音楽の種類に分け直した。</li>
+<li>新設3：<b>伝統音楽系</b>（<code>trad_cat</code>、42。雅楽・能・箏曲・民謡・ラーガ・ガムラン・フラメンコ等）／<b>大衆音楽系</b>（<code>popular_cat</code>、26。演歌・歌謡曲・童謡・唱歌・トロット・ファド・ランチェラ・MPB等。「歌謡曲」というジャンルがあるので、名前は「大衆音楽系」）／<b>レゲエ/スカ系</b>（<code>reggae_cat</code>、9）。</li>
+<li>残す2：<b>ラテン系</b>（<code>latin</code>。リズムの型を持つ音楽の種類として。カリプソ・ソカ・ズーク・コンパも入る）／<b>アフロ系</b>（<code>african</code> の表示名を「アフリカ系」から変更）。</li>
+<li>ほかは今あるカテゴリーへ（ポップス系20・ジャズ系5・ハウス系3〈アマピアノ等〉・ロック系3・ヒップホップ系3・フォーク系2・宗教系2・DnB系1）。振り分けの根拠は辞典の説明文の最初の文。道具 <code>rep_track_tools/write_dict/apply_category_type_split.py</code>。</li>
+<li>カテゴリーは33個。<b>凡例の線は無くした</b>（線の下＝地域、という区切りが無くなったため）。</li>
+<li><b>並び：</b> 先頭に固定＝宗教/ゴスペル系・クラシック系・伝統音楽系（<code>PINNED_TOP</code>）。あとは代表ジャンル（<code>FLAGSHIP</code>）の誕生年代の古い順。</li>
+</ul>
+<p>新しい代表ジャンル：大衆音楽系＝歌謡曲（kayokyoku）、レゲエ/スカ系＝レゲエ、ラテン系＝ラテン・ポップ、アフロ系＝アフロビート。</p>
+<p><b>年代の数字が読めない代表ジャンル（folk の「trad」など）は、いちばん古い扱い</b>（地図の一覧と同じ）。点検はこれまで不合格にしていたが、そろえた。この結果フォーク系は4番目。</p>
+<ul>
+<li><b>生まれた地域（<code>region</code>）：</b> 全ジャンルに11の地域のどれかを付ける。japan（日本）／east_asia（東アジア）／southeast_asia（東南アジア）／south_asia（南アジア）／mena（中東・北アフリカ）／africa（アフリカ）／europe（ヨーロッパ）／north_america（北アメリカ）／latin_america（中南米・カリブ）／oceania（オセアニア）／world（世界各地＝インターネット上など特定の場所が無いもの）。</li>
+<li>書き方：地図のジャンルの見出し行の <code>era:&quot;…&quot;</code> のすぐ後ろに <code>region:&quot;japan&quot;,</code>。</li>
+<li>決め方：辞典の成り立ち・説明文で<b>最初に名前が挙がる生まれた場所</b>。規則は <code>music_genre_finder/region_rules.py</code>（新規登録・直しの確認・一括の下書き <code>region_draft.js</code> が同じ規則を使う）。地名の無い・複数あるもの（約210件）はクローディアが文を読んで決め、</li>
+</ul>
+<p>辞典に場所が書いていない22件は英語版ウィキペディアの情報欄（Cultural origins）と Genspark（ファクトチェック専用チャット、1回）で確かめた（7件を直した。サイビエントは確かさが低い）。道具 <code>region_final.py</code>・<code>apply_region.py</code>・<code>region_wiki_check.py</code>。</p>
+<ul>
+<li>内訳（2026-11-28）：ヨーロッパ229・北アメリカ192・日本75・中南米・カリブ51・アフリカ30・東アジア10・南アジア9・中東・北アフリカ9・世界各地9・東南アジア4・オセアニア3。</li>
+<li><b>画面：</b> 凡例の上に紙のタブ「音楽の種類｜生まれた地域」。選んだタブは下の枠と地続きで手前に出る。地域の行（<code>legend-region</code>、<code>data-cat=&quot;rg:地域&quot;</code>）を押すと、その地域のジャンルが光り、中の一覧が開く（丸の色はカテゴリーのまま）。</li>
+</ul>
+<p>説明パネルの見出しの下は1行で「時期 1600s ・ 地域 日本 ・ ● 伝統音楽系」。2段にしないため、時期はかっこ書きを外して短くする（<code>grEraShort</code>：1970s-1980s→1970〜80s、19th century→19世紀、1950年代後半〜1960年代前半→1950〜60年代）。全文は title。入りきらないときは時期だけを「…」で縮める（全621件でパソコン・スマホとも、縮むのはユーカラ1件だけ）。</p>
+<ul>
+<li><b>新規登録：</b> 生成AIに <code>region</code> も11個から選ばせる。書き忘れ・一覧に無い値なら、<code>region_rules.py</code> で本文の地名から補う（genre_adder v3.27）。カテゴリーは従来どおり33個から選ぶ。</li>
+<li><b>ファクトチェックの直しのあと（2026-11-28 チョロさんの指示）：</b> 文章だけでなく、年代・地域・カテゴリー・並びも直す。</li>
+<li>手順書（<code>factcheck-bot/新規ジャンルの直し手順.md</code> の 4b）：Genspark が生まれた場所の誤りを指摘したら <code>set_meta.py &lt;gid&gt; region=…</code>、音楽の種類の誤りなら <code>set_meta.py &lt;gid&gt; cat=…</code>（根拠は Genspark の答えだけ）。</li>
+<li><code>finish_genre.py</code> が <code>meta_check.py</code> を通す：直したことで文から読める生まれた場所が変わったのに地域が古いまま／一覧に無いカテゴリー／地域が無い、なら「確認NG」で止める（場所の書き方が変わっただけなら <code>--region-ok</code>）。</li>
+</ul>
+<p>代表ジャンルの年代が変わったら <code>fix_category_order.py</code> が凡例を自動で並べ直し、<code>check_categories.py</code> の合格を確かめる。カテゴリーの中のジャンルの並びは、地図が年代から自動で並べる。</p>
+<ul>
+<li>検証 <code>factcheck-bot/test_meta_check.py</code>（7通り：変更なし／場所が変わり地域が古い→止まる／地域を直す→通る／--region-ok／一覧に無いカテゴリー→止まる／代表ジャンルの年代が変わる→並べ直して合格／地域なし→止まる）。全部合格。</li>
+<li><b>点検 <code>check_categories.py</code>：</b> 5か所の一致・線が無い・年代順に加え、凡例の地域の行とサーバーの <code>REGIONS</code> が同じか、全ジャンルに一覧の中の地域があるか、も見る。</li>
+<li>検証：<code>test_category_type_split.py</code>（33カテゴリーすべてで一覧が開く）・<code>test_region_ui.py</code>（11地域でデータ・一覧・光った丸の数が一致、全621件のパネルの1行、幅1500と400）。地図 v152.4。</li>
+</ul>
 <p><b>並びと線の意味。</b> 凡例には1本の線があり、<b>線の上は「歴史の古い順」、線の下は「地域の音楽だけ」</b>。</p>
 <p>線の下は、最初の版（2026-07-03）から「地域の音楽をそろえる場所」として作られていた（仕様書に書かれていなかった当たり前の前提）。</p>
 <table>
